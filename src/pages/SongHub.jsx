@@ -52,6 +52,20 @@ const TOOLS = [
     path: (id) => `/pitch?id=${id}`,
     color: "primary",
   },
+  {
+    icon: MessageSquare,
+    label: "TikTok Optimizer",
+    description: "Best 3-second hook, sound niche, hashtag strategy, and 5 viral video concepts.",
+    path: (id) => `/tiktok?id=${id}`,
+    color: "chart5",
+  },
+  {
+    icon: Calendar,
+    label: "Release Countdown",
+    description: "Enter your release date and get a day-by-day content calendar counting down to drop day.",
+    path: (id) => `/countdown?id=${id}`,
+    color: "chart3",
+  },
 ];
 
 const COLOR_MAP = {

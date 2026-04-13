@@ -1,0 +1,54 @@
+{
+  "name": "ScoreSnapshot",
+  "type": "object",
+  "properties": {
+    "song_id": {
+      "type": "string",
+      "description": "Reference to SongAnalysis id"
+    },
+    "song_title": {
+      "type": "string"
+    },
+    "artist_name": {
+      "type": "string"
+    },
+    "overall_score": {
+      "type": "number"
+    },
+    "spotify_score": {
+      "type": "number"
+    },
+    "apple_music_score": {
+      "type": "number"
+    },
+    "youtube_score": {
+      "type": "number"
+    },
+    "tiktok_score": {
+      "type": "number"
+    },
+    "hook_strength": {
+      "type": "number"
+    },
+    "production_quality": {
+      "type": "number"
+    },
+    "replay_value": {
+      "type": "number"
+    },
+    "snapshot_date": {
+      "type": "string",
+      "description": "ISO date string of when snapshot was taken"
+    },
+    "note": {
+      "type": "string",
+      "description": "Optional note about this snapshot"
+    }
+  },
+  "required": [
+    "song_id",
+    "song_title",
+    "overall_score",
+    "snapshot_date"
+  ]
+}

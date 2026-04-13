@@ -1,0 +1,58 @@
+{
+  "name": "Contact",
+  "type": "object",
+  "properties": {
+    "name": {
+      "type": "string"
+    },
+    "email": {
+      "type": "string"
+    },
+    "role": {
+      "type": "string",
+      "enum": [
+        "Curator",
+        "Playlist Manager",
+        "Blogger",
+        "A&R",
+        "Music Supervisor",
+        "Journalist",
+        "Other"
+      ]
+    },
+    "platform": {
+      "type": "string",
+      "description": "e.g. Spotify, Apple Music, YouTube, Blog"
+    },
+    "genres": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Genres this contact covers"
+    },
+    "relationship_status": {
+      "type": "string",
+      "enum": [
+        "Cold",
+        "Pitched",
+        "Responded",
+        "Connected",
+        "Pass"
+      ]
+    },
+    "notes": {
+      "type": "string"
+    },
+    "website": {
+      "type": "string"
+    },
+    "last_pitched_date": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "name",
+    "role"
+  ]
+}

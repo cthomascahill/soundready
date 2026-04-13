@@ -15,6 +15,10 @@ import SongHub from './pages/SongHub';
 import ReleasePlan from './pages/ReleasePlan';
 import PitchPackage from './pages/PitchPackage';
 import Settings from './pages/Settings';
+import GrowthTracker from './pages/GrowthTracker';
+import Countdown from './pages/Countdown';
+import Contacts from './pages/Contacts';
+import TikTokOptimizer from './pages/TikTokOptimizer';
 
 const AuthenticatedApp = () => {
   const { isLoadingAuth, isLoadingPublicSettings, authError, navigateToLogin } = useAuth();
@@ -53,6 +57,10 @@ const AuthenticatedApp = () => {
         <Route path="/captions" element={<ReleasePlan />} />
         <Route path="/pitch" element={<PitchPackage />} />
         <Route path="/settings" element={<Settings />} />
+        <Route path="/growth" element={<GrowthTracker />} />
+        <Route path="/countdown" element={<Countdown />} />
+        <Route path="/contacts" element={<Contacts />} />
+        <Route path="/tiktok" element={<TikTokOptimizer />} />
         <Route path="*" element={<PageNotFound />} />
       </Route>
     </Routes>

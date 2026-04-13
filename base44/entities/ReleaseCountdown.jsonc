@@ -1,0 +1,53 @@
+{
+  "name": "ReleaseCountdown",
+  "type": "object",
+  "properties": {
+    "song_id": {
+      "type": "string"
+    },
+    "song_title": {
+      "type": "string"
+    },
+    "artist_name": {
+      "type": "string"
+    },
+    "release_date": {
+      "type": "string",
+      "description": "ISO date string for release day"
+    },
+    "checklist": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "day_label": {
+            "type": "string"
+          },
+          "date": {
+            "type": "string"
+          },
+          "task": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "platforms": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "completed": {
+            "type": "boolean"
+          }
+        }
+      }
+    }
+  },
+  "required": [
+    "song_id",
+    "song_title",
+    "release_date"
+  ]
+}

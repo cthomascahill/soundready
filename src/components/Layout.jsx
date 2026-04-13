@@ -1,5 +1,5 @@
 import { Outlet, Link, useLocation } from "react-router-dom";
-import { LayoutDashboard, Upload, History, ImagePlay, Settings } from "lucide-react";
+import { LayoutDashboard, Upload, History, ImagePlay, Settings, TrendingUp, Calendar, Users } from "lucide-react";
 
 
 export default function Layout() {
@@ -8,6 +8,9 @@ export default function Layout() {
   const navItems = [
     { path: "/", label: "Dashboard", icon: LayoutDashboard },
     { path: "/upload", label: "Upload", icon: Upload },
+    { path: "/growth", label: "Growth", icon: TrendingUp },
+    { path: "/contacts", label: "Contacts", icon: Users },
+    { path: "/countdown", label: "Countdown", icon: Calendar },
     { path: "/marketing", label: "Marketing", icon: ImagePlay },
     { path: "/history", label: "History", icon: History },
   ];
