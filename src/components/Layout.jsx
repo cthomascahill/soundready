@@ -4,62 +4,71 @@ import { base44 } from "@/api/base44Client";
 import {
   LayoutDashboard, Upload, History, ImagePlay, Settings, TrendingUp,
   Calendar, Users, Palette, BarChart2, Zap, MessageSquare,
-  ChevronRight, LogOut, Menu, X, Radio } from
-"lucide-react";
+  ChevronRight, LogOut, Menu, X, CalendarDays
+} from "lucide-react";
 
 const NAV_GROUPS = [
-{
-  label: "Overview",
-  items: [
-  { path: "/", label: "Dashboard", icon: LayoutDashboard },
-  { path: "/upload", label: "Analyze Track", icon: Upload },
-  { path: "/history", label: "My Library", icon: History }]
-
-},
-{
-  label: "Grow",
-  items: [
-  { path: "/growth", label: "Growth Tracker", icon: TrendingUp },
-  { path: "/competitors", label: "Competitor Intel", icon: BarChart2 },
-  { path: "/contacts", label: "Curator CRM", icon: Users }]
-
-},
-{
-  label: "Release",
-  items: [
-  { path: "/countdown", label: "Release Countdown", icon: Calendar },
-  { path: "/tiktok", label: "TikTok Optimizer", icon: Zap }]
-
-},
-{
-  label: "Create",
-  items: [
-  { path: "/marketing", label: "Marketing Assets", icon: ImagePlay },
-  { path: "/moodboard", label: "Mood Board", icon: Palette }]
-
-},
-{
-  label: "Network",
-  items: [
-  { path: "/collabs", label: "Collab Finder", icon: MessageSquare },
-  { path: "/hooks", label: "Hook Finder", icon: Zap }]
-
-}];
-
+  {
+    label: "Overview",
+    items: [
+      { path: "/", label: "Dashboard", icon: LayoutDashboard },
+      { path: "/upload", label: "Analyze Track", icon: Upload },
+      { path: "/history", label: "My Library", icon: History },
+    ],
+  },
+  {
+    label: "Grow",
+    items: [
+      { path: "/growth", label: "Growth Tracker", icon: TrendingUp },
+      { path: "/competitors", label: "Competitor Intel", icon: BarChart2 },
+      { path: "/contacts", label: "Curator CRM", icon: Users },
+    ],
+  },
+  {
+    label: "Release",
+    items: [
+      { path: "/countdown", label: "Release Countdown", icon: Calendar },
+      { path: "/tiktok", label: "TikTok Optimizer", icon: Zap },
+    ],
+  },
+  {
+    label: "Create",
+    items: [
+      { path: "/marketing", label: "Marketing Assets", icon: ImagePlay },
+      { path: "/moodboard", label: "Mood Board", icon: Palette },
+    ],
+  },
+  {
+    label: "Network",
+    items: [
+      { path: "/collabs", label: "Collab Finder", icon: MessageSquare },
+      { path: "/hooks", label: "Hook Finder", icon: Zap },
+    ],
+  },
+  {
+    label: "Publish",
+    items: [
+      { path: "/calendar", label: "Content Calendar", icon: CalendarDays },
+    ],
+  },
+];
 
 function NavItem({ path, label, icon: Icon, active, onClick }) {
   return (
-    <Link to={path} onClick={onClick}
-    className={`flex items-center gap-3 px-3 py-2 rounded-lg text-sm font-medium transition-all group ${
-    active ?
-    "bg-primary/15 text-primary" :
-    "text-muted-foreground hover:text-foreground hover:bg-white/5"}`
-    }>
+    <Link
+      to={path}
+      onClick={onClick}
+      className={`flex items-center gap-3 px-3 py-2 rounded-lg text-sm font-medium transition-all group ${
+        active
+          ? "bg-primary/15 text-primary"
+          : "text-muted-foreground hover:text-foreground hover:bg-white/5"
+      }`}
+    >
       <Icon className={`h-4 w-4 shrink-0 ${active ? "text-primary" : "text-muted-foreground group-hover:text-foreground"}`} />
       <span>{label}</span>
       {active && <ChevronRight className="h-3 w-3 ml-auto text-primary/60" />}
-    </Link>);
-
+    </Link>
+  );
 }
 
 function Sidebar({ onClose }) {
@@ -69,39 +78,40 @@ function Sidebar({ onClose }) {
   return (
     <div className="flex flex-col h-full">
       {/* Logo */}
-      <div className="flex items-center justify-between px-4 py-5 border-b border-border/50">
-        <Link to="/" onClick={onClose} className="flex items-center gap-2.5 group">
-          <div className="h-8 w-8 rounded-lg bg-primary flex items-center justify-center">
-            <Radio className="h-4 w-4 text-white" />
-          </div>
-          <span className="font-heading font-bold text-base tracking-tight">SoundScore</span>
+      <div className="flex items-center justify-between px-4 py-4 border-b border-border/50">
+        <Link to="/" onClick={onClose} className="flex items-center">
+          <img
+            src="https://media.base44.com/images/public/69dcf0ecc907e43a438a626b/35e40cce1_Soundreadylogowithvibrantsoundwave1.png"
+            alt="Sound Ready"
+            className="h-10 w-auto object-contain"
+          />
         </Link>
-        {onClose &&
-        <button onClick={onClose} className="h-10 w-auto" src="https://media.base44.com/images/public/69dcf0ecc907e43a438a626b/2fcbf226e_SoundReady_logo_with_vibrant_sound_wave.png">
-            <X className="h-5 w-5" />
+        {onClose && (
+          <button onClick={onClose}>
+            <X className="h-5 w-5 text-muted-foreground" />
           </button>
-        }
+        )}
       </div>
 
       {/* Nav */}
       <nav className="flex-1 overflow-y-auto px-3 py-4 space-y-6">
-        {NAV_GROUPS.map((group) =>
-        <div key={group.label}>
+        {NAV_GROUPS.map((group) => (
+          <div key={group.label}>
             <p className="text-[10px] font-semibold text-muted-foreground/50 uppercase tracking-widest px-3 mb-1.5">
               {group.label}
             </p>
             <div className="space-y-0.5">
-              {group.items.map((item) =>
-            <NavItem
-              key={item.path}
-              {...item}
-              active={location.pathname === item.path}
-              onClick={onClose} />
-
-            )}
+              {group.items.map((item) => (
+                <NavItem
+                  key={item.path}
+                  {...item}
+                  active={location.pathname === item.path}
+                  onClick={onClose}
+                />
+              ))}
             </div>
           </div>
-        )}
+        ))}
       </nav>
 
       {/* Footer */}
@@ -109,13 +119,14 @@ function Sidebar({ onClose }) {
         <NavItem path="/settings" label="Settings" icon={Settings} active={location.pathname === "/settings"} onClick={onClose} />
         <button
           onClick={handleLogout}
-          className="flex items-center gap-3 px-3 py-2 rounded-lg text-sm font-medium text-muted-foreground hover:text-foreground hover:bg-white/5 transition-all w-full">
+          className="flex items-center gap-3 px-3 py-2 rounded-lg text-sm font-medium text-muted-foreground hover:text-foreground hover:bg-white/5 transition-all w-full"
+        >
           <LogOut className="h-4 w-4 shrink-0" />
           <span>Sign Out</span>
         </button>
       </div>
-    </div>);
-
+    </div>
+  );
 }
 
 export default function Layout() {
@@ -129,14 +140,14 @@ export default function Layout() {
       </aside>
 
       {/* Mobile overlay */}
-      {mobileOpen &&
-      <div className="fixed inset-0 z-50 lg:hidden">
+      {mobileOpen && (
+        <div className="fixed inset-0 z-50 lg:hidden">
           <div className="absolute inset-0 bg-black/60 backdrop-blur-sm" onClick={() => setMobileOpen(false)} />
           <aside className="absolute left-0 top-0 bottom-0 w-64 bg-sidebar border-r border-border/50 z-10">
             <Sidebar onClose={() => setMobileOpen(false)} />
           </aside>
         </div>
-      }
+      )}
 
       {/* Main */}
       <div className="flex-1 flex flex-col min-w-0">
@@ -145,18 +156,17 @@ export default function Layout() {
           <button onClick={() => setMobileOpen(true)} className="text-muted-foreground hover:text-foreground">
             <Menu className="h-5 w-5" />
           </button>
-          <div className="flex items-center gap-2">
-            <div className="h-6 w-6 rounded-md bg-primary flex items-center justify-center">
-              <Radio className="h-3.5 w-3.5 text-white" />
-            </div>
-            <span className="font-heading font-bold text-sm">SoundScore</span>
-          </div>
+          <img
+            src="https://media.base44.com/images/public/69dcf0ecc907e43a438a626b/35e40cce1_Soundreadylogowithvibrantsoundwave1.png"
+            alt="Sound Ready"
+            className="h-8 w-auto object-contain"
+          />
         </header>
 
         <main className="flex-1 px-4 sm:px-6 lg:px-8 py-8 max-w-6xl w-full mx-auto">
           <Outlet />
         </main>
       </div>
-    </div>);
-
+    </div>
+  );
 }
