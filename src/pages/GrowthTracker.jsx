@@ -6,7 +6,7 @@ import {
   LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip,
   ResponsiveContainer, Legend, ReferenceLine
 } from "recharts";
-import { TrendingUp, TrendingDown, Plus, Music, Loader2, AlertTriangle } from "lucide-react";
+import { TrendingUp, TrendingDown, Plus, Music, Loader2, AlertTriangle, Sparkles, ChevronDown, ChevronUp } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import moment from "moment";
 
@@ -17,6 +17,137 @@ const SCORE_LINES = [
   { key: "hook_strength", label: "Hook", color: "hsl(var(--chart-4))" },
   { key: "production_quality", label: "Production", color: "hsl(var(--accent))" },
 ];
+
+function AIInsightPanel({ song, snapshots }) {
+  const [insight, setInsight] = useState(null);
+  const [loading, setLoading] = useState(false);
+  const [open, setOpen] = useState(false);
+
+  const generate = async () => {
+    setLoading(true);
+    setOpen(true);
+    const sorted = [...snapshots].sort((a, b) => a.snapshot_date.localeCompare(b.snapshot_date));
+    const history = sorted.map((s) => `${s.snapshot_date?.slice(0, 10)}: Overall=${s.overall_score}, Spotify=${s.spotify_score}, TikTok=${s.tiktok_score}, Hook=${s.hook_strength}, Production=${s.production_quality}${s.note ? ` (note: ${s.note})` : ""}`).join("\n");
+    const first = sorted[0];
+    const last = sorted[sorted.length - 1];
+    const delta = last && first ? last.overall_score - first.overall_score : 0;
+
+    const res = await base44.integrations.Core.InvokeLLM({
+      prompt: `You are a music industry data analyst and strategist. Analyze this artist's SoundScore growth data and provide sharp, actionable insights.
+
+Song: "${song.title}" by ${song.artist_name}
+Genre: ${song.genre} | Mood: ${song.mood} | Energy: ${song.energy_level}
+Current Scores — Overall: ${song.overall_score}, Spotify: ${song.spotify_score}, TikTok: ${song.tiktok_score}, Hook: ${song.hook_strength}, Production: ${song.production_quality}
+
+Snapshot History (${snapshots.length} data points):
+${history || "No snapshots yet"}
+
+Overall trend: ${delta > 0 ? `+${delta} points improvement` : delta < 0 ? `${delta} points decline` : "stable"}
+
+Provide:
+1. A one-sentence verdict on their trajectory
+2. The #1 thing driving their score (positive or negative)
+3. One proactive warning if any metric looks concerning
+4. Two specific optimization strategies based on their actual numbers
+5. A "Focus Score" — which single metric to improve first and why`,
+      response_json_schema: {
+        type: "object",
+        properties: {
+          verdict: { type: "string" },
+          primary_driver: { type: "string" },
+          warning: { type: "string", description: "null if no warning" },
+          strategies: { type: "array", items: { type: "string" } },
+          focus_metric: { type: "string" },
+          focus_reason: { type: "string" }
+        }
+      }
+    });
+    setInsight(res);
+    setLoading(false);
+  };
+
+  return (
+    <div className="rounded-2xl bg-card border border-border p-6 space-y-4">
+      <div className="flex items-center gap-3">
+        <div className="h-10 w-10 rounded-xl bg-primary/10 flex items-center justify-center">
+          <Sparkles className="h-5 w-5 text-primary" />
+        </div>
+        <div>
+          <h2 className="font-heading font-semibold text-lg">AI Growth Insights</h2>
+          <p className="text-xs text-muted-foreground">Trend analysis + optimization strategy</p>
+        </div>
+      </div>
+
+      {!insight && !loading && (
+        <div className="text-center py-6 space-y-3">
+          <p className="text-sm text-muted-foreground">Analyze your score history for actionable insights, flags, and strategies.</p>
+          <Button onClick={generate} variant="outline" className="gap-2">
+            <Sparkles className="h-4 w-4" />Generate AI Analysis
+          </Button>
+        </div>
+      )}
+
+      {loading && (
+        <div className="flex items-center justify-center gap-3 py-8">
+          <Loader2 className="h-5 w-5 text-primary animate-spin" />
+          <span className="text-sm text-muted-foreground">Analyzing your growth data...</span>
+        </div>
+      )}
+
+      {insight && !loading && (
+        <div className="space-y-4">
+          {/* Verdict */}
+          <div className="rounded-xl bg-primary/5 border border-primary/20 px-4 py-3">
+            <p className="text-sm font-medium">{insight.verdict}</p>
+          </div>
+
+          {/* Warning */}
+          {insight.warning && insight.warning !== "null" && (
+            <div className="flex items-start gap-2 rounded-xl bg-destructive/10 border border-destructive/20 px-4 py-3">
+              <AlertTriangle className="h-4 w-4 text-destructive shrink-0 mt-0.5" />
+              <p className="text-sm text-destructive">{insight.warning}</p>
+            </div>
+          )}
+
+          {/* Focus metric */}
+          <div className="flex items-start gap-3 rounded-xl bg-accent/5 border border-accent/20 px-4 py-3">
+            <div className="h-8 w-8 rounded-lg bg-accent/10 flex items-center justify-center shrink-0">
+              <TrendingUp className="h-4 w-4 text-accent" />
+            </div>
+            <div>
+              <p className="text-xs text-accent font-semibold uppercase tracking-wide mb-0.5">Focus Metric</p>
+              <p className="text-sm font-medium">{insight.focus_metric}</p>
+              <p className="text-xs text-muted-foreground mt-0.5">{insight.focus_reason}</p>
+            </div>
+          </div>
+
+          {/* Primary driver */}
+          <div>
+            <p className="text-xs text-muted-foreground uppercase tracking-widest font-medium mb-2">Primary Driver</p>
+            <p className="text-sm">{insight.primary_driver}</p>
+          </div>
+
+          {/* Strategies */}
+          <div>
+            <p className="text-xs text-muted-foreground uppercase tracking-widest font-medium mb-2">Optimization Strategies</p>
+            <ul className="space-y-2">
+              {(insight.strategies || []).map((s, i) => (
+                <li key={i} className="flex items-start gap-2 text-sm">
+                  <span className="text-primary font-bold shrink-0">{i + 1}.</span>
+                  <span>{s}</span>
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          <Button variant="ghost" size="sm" onClick={generate} className="gap-1.5 text-muted-foreground">
+            <Sparkles className="h-3.5 w-3.5" />Refresh Analysis
+          </Button>
+        </div>
+      )}
+    </div>
+  );
+}
 
 const CustomTooltip = ({ active, payload, label }) => {
   if (!active || !payload?.length) return null;
@@ -195,6 +326,11 @@ export default function GrowthTracker() {
           </ResponsiveContainer>
         )}
       </motion.div>
+
+      {/* AI Insights */}
+      {selectedSong && snapshots.length > 0 && (
+        <AIInsightPanel song={selectedSong} snapshots={snapshots} />
+      )}
 
       {/* Snapshot list */}
       {snapshots.length > 0 && (
