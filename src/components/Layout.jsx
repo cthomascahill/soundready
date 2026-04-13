@@ -4,7 +4,7 @@ import { base44 } from "@/api/base44Client";
 import {
   LayoutDashboard, Upload, History, ImagePlay, Settings, TrendingUp,
   Calendar, Users, Palette, BarChart2, Zap, MessageSquare,
-  ChevronRight, LogOut, Menu, X, Radio
+  ChevronRight, LogOut, Menu, X
 } from "lucide-react";
 
 const NAV_GROUPS = [
@@ -70,11 +70,8 @@ function Sidebar({ onClose }) {
     <div className="flex flex-col h-full">
       {/* Logo */}
       <div className="flex items-center justify-between px-4 py-5 border-b border-border/50">
-        <Link to="/" onClick={onClose} className="flex items-center gap-2.5 group">
-          <div className="h-8 w-8 rounded-lg bg-primary flex items-center justify-center">
-            <Radio className="h-4 w-4 text-white" />
-          </div>
-          <span className="font-heading font-bold text-base tracking-tight">SoundScore</span>
+        <Link to="/" onClick={onClose} className="flex items-center group">
+          <img src="https://media.base44.com/images/public/69dcf0ecc907e43a438a626b/c6ea839a4_soundready_logo.jpg" alt="SoundReady" className="h-10 w-auto" />
         </Link>
         {onClose && (
           <button onClick={onClose} className="text-muted-foreground hover:text-foreground lg:hidden">
@@ -145,11 +142,8 @@ export default function Layout() {
           <button onClick={() => setMobileOpen(true)} className="text-muted-foreground hover:text-foreground">
             <Menu className="h-5 w-5" />
           </button>
-          <div className="flex items-center gap-2">
-            <div className="h-6 w-6 rounded-md bg-primary flex items-center justify-center">
-              <Radio className="h-3.5 w-3.5 text-white" />
-            </div>
-            <span className="font-heading font-bold text-sm">SoundScore</span>
+          <div className="flex items-center">
+            <img src="https://media.base44.com/images/public/69dcf0ecc907e43a438a626b/c6ea839a4_soundready_logo.jpg" alt="SoundReady" className="h-8 w-auto" />
           </div>
         </header>
 
