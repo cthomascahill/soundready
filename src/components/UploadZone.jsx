@@ -21,12 +21,16 @@ export default function UploadZone({ onFileSelect, file, onClear }) {
     setIsDragging(false);
   };
 
+  const ALLOWED = ["audio/mpeg", "audio/mp3", "audio/aac", "audio/x-m4a", "audio/mp4", "audio/ogg"];
+
   const handleDrop = (e) => {
     e.preventDefault();
     setIsDragging(false);
     const droppedFile = e.dataTransfer.files[0];
-    if (droppedFile && droppedFile.type.startsWith("audio/")) {
+    if (droppedFile && ALLOWED.includes(droppedFile.type)) {
       onFileSelect(droppedFile);
+    } else if (droppedFile) {
+      alert("Only MP3, AAC, and M4A files are supported. WAV and FLAC are not.");
     }
   };
 
@@ -53,7 +57,7 @@ export default function UploadZone({ onFileSelect, file, onClear }) {
       <input
         ref={inputRef}
         type="file"
-        accept="audio/*"
+        accept=".mp3,.aac,.m4a,.ogg"
         onChange={handleChange}
         className="hidden"
       />
@@ -104,7 +108,7 @@ export default function UploadZone({ onFileSelect, file, onClear }) {
                   Drop your track here
                 </p>
                 <p className="text-sm text-muted-foreground mt-1">
-                  MP3, WAV, FLAC, AAC — up to 50MB
+                  MP3, AAC, M4A — up to 50MB (WAV not supported)
                 </p>
               </div>
               <div className="px-4 py-2 rounded-lg bg-primary/10 text-primary text-sm font-medium">

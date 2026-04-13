@@ -17,7 +17,9 @@ export default function Home() {
   const [genre, setGenre] = useState("");
   const [isAnalyzing, setIsAnalyzing] = useState(false);
 
-  const canSubmit = file && title.trim() && artistName.trim();
+  const ALLOWED_TYPES = ["audio/mpeg", "audio/mp3", "audio/aac", "audio/x-m4a", "audio/mp4", "audio/ogg"];
+  const fileTypeOk = !file || ALLOWED_TYPES.includes(file.type);
+  const canSubmit = file && fileTypeOk && title.trim() && artistName.trim();
 
   const handleAnalyze = async () => {
     if (!canSubmit) return;
