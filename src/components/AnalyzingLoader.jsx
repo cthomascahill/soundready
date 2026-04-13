@@ -17,10 +17,10 @@ export default function AnalyzingLoader({ onCancel }) {
   useEffect(() => {
     const interval = setInterval(() => {
       setStep((s) => (s < steps.length - 1 ? s + 1 : s));
-    }, 3000);
+    }, 600);
 
-    // After 40s, show "taking longer than expected"
-    const slowTimer = setTimeout(() => setSlow(true), 40000);
+    // After 10s, show "taking longer than expected"
+    const slowTimer = setTimeout(() => setSlow(true), 10000);
 
     return () => {
       clearInterval(interval);

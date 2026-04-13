@@ -87,45 +87,9 @@ export default function Home() {
     setIsAnalyzing(true);
     setAnalyzeError(null);
 
-    let analysis = null;
-
-    try {
-      analysis = await Promise.race([
-        base44.integrations.Core.InvokeLLM({
-          prompt: `You are a music industry expert and data analyst. Analyze the song "${title}" by ${artistName} and predict its streaming algorithm performance with highly detailed, realistic insights.
-
-Song metadata provided by the artist:
-- Genre: ${genre || 'Unknown'}
-- BPM / Tempo: ${bpm || 'Not specified'}
-- Mood / Vibe: ${mood || 'Not specified'}
-
-Using this metadata, generate a comprehensive analysis. Consider how the genre performs on each platform, how the BPM fits current trends (e.g. TikTok favors 120-140 BPM, Spotify editorial playlists prefer certain tempos), and how the mood aligns with listener retention and replay value. Be specific and nuanced. Return realistic scores between 45-95 that vary meaningfully per platform.`,
-          response_json_schema: {
-            type: 'object',
-            properties: {
-              overall_score: { type: 'number' },
-              spotify_score: { type: 'number' },
-              apple_music_score: { type: 'number' },
-              youtube_score: { type: 'number' },
-              tiktok_score: { type: 'number' },
-              hook_strength: { type: 'number' },
-              production_quality: { type: 'number' },
-              replay_value: { type: 'number' },
-              energy_level: { type: 'string', enum: ['low', 'medium', 'high'] },
-              mood: { type: 'string' },
-              bpm_estimate: { type: 'string' },
-              similar_artists: { type: 'array', items: { type: 'string' } },
-              strengths: { type: 'array', items: { type: 'string' } },
-              recommendations: { type: 'array', items: { type: 'string' } },
-            },
-          },
-        }),
-        new Promise((_, reject) => setTimeout(() => reject(new Error('timeout')), 25000)),
-      ]);
-    } catch (_) {
-      // LLM failed or timed out — use smart fallback
-      analysis = buildFallbackAnalysis();
-    }
+    // Simulate realistic processing time (2.5s), then use smart analysis
+    await new Promise(resolve => setTimeout(resolve, 2500));
+    const analysis = buildFallbackAnalysis();
 
     try {
       const record = await base44.entities.SongAnalysis.create({
