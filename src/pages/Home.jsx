@@ -26,46 +26,38 @@ export default function Home() {
     setAnalyzeError(null);
 
     try {
-      console.log('Step 1: Uploading file...');
-      const { file_url } = await base44.integrations.Core.UploadFile({ file });
-      console.log('Step 1 done, file_url:', file_url);
+      // Run file upload and LLM analysis in parallel
+      const [{ file_url }, analysis] = await Promise.all([
+        base44.integrations.Core.UploadFile({ file }),
+        base44.integrations.Core.InvokeLLM({
+          prompt: `Analyze the song "${title}" by ${artistName} (genre: ${genre || "Unknown"}) for streaming algorithm performance. Provide scores 0-100 for each platform and metric, 5 similar artists, 3 strengths, 3 recommendations, energy level, mood, BPM estimate.`,
+          response_json_schema: {
+            type: "object",
+            properties: {
+              overall_score: { type: "number" },
+              spotify_score: { type: "number" },
+              apple_music_score: { type: "number" },
+              youtube_score: { type: "number" },
+              tiktok_score: { type: "number" },
+              similar_artists: { type: "array", items: { type: "string" } },
+              strengths: { type: "array", items: { type: "string" } },
+              recommendations: { type: "array", items: { type: "string" } },
+              energy_level: { type: "string", enum: ["low", "medium", "high"] },
+              mood: { type: "string" },
+              bpm_estimate: { type: "string" },
+              hook_strength: { type: "number" },
+              production_quality: { type: "number" },
+              replay_value: { type: "number" },
+            },
+          },
+        }),
+      ]);
 
-      console.log('Step 2: Creating record...');
       const record = await base44.entities.SongAnalysis.create({
         title,
         artist_name: artistName,
         genre: genre || "Unknown",
         file_url,
-        status: "analyzing",
-      });
-      console.log('Step 2 done, record id:', record.id);
-
-      console.log('Step 3: Calling LLM...');
-      const analysis = await base44.integrations.Core.InvokeLLM({
-        prompt: `Analyze the song "${title}" by ${artistName} (genre: ${genre || "Unknown"}) for streaming algorithm performance. Return scores 0-100 for each platform and metric, 5 similar artists, 3 strengths, 3 recommendations, energy level, mood, BPM estimate.`,
-        response_json_schema: {
-          type: "object",
-          properties: {
-            overall_score: { type: "number" },
-            spotify_score: { type: "number" },
-            apple_music_score: { type: "number" },
-            youtube_score: { type: "number" },
-            tiktok_score: { type: "number" },
-            similar_artists: { type: "array", items: { type: "string" } },
-            strengths: { type: "array", items: { type: "string" } },
-            recommendations: { type: "array", items: { type: "string" } },
-            energy_level: { type: "string", enum: ["low", "medium", "high"] },
-            mood: { type: "string" },
-            bpm_estimate: { type: "string" },
-            hook_strength: { type: "number" },
-            production_quality: { type: "number" },
-            replay_value: { type: "number" },
-          },
-        },
-      });
-
-      console.log('Step 3 done, analysis:', analysis);
-      await base44.entities.SongAnalysis.update(record.id, {
         ...analysis,
         status: "complete",
       });
