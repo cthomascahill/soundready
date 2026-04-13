@@ -15,6 +15,8 @@ import SongHub from './pages/SongHub';
 import ReleasePlan from './pages/ReleasePlan';
 import PitchPackage from './pages/PitchPackage';
 import Settings from './pages/Settings';
+import MoodBoard from './pages/MoodBoard';
+import CollabFinder from './pages/CollabFinder';
 import GrowthTracker from './pages/GrowthTracker';
 import Countdown from './pages/Countdown';
 import Contacts from './pages/Contacts';
@@ -61,6 +63,8 @@ const AuthenticatedApp = () => {
         <Route path="/countdown" element={<Countdown />} />
         <Route path="/contacts" element={<Contacts />} />
         <Route path="/tiktok" element={<TikTokOptimizer />} />
+        <Route path="/moodboard" element={<MoodBoard />} />
+        <Route path="/collabs" element={<CollabFinder />} />
         <Route path="*" element={<PageNotFound />} />
       </Route>
     </Routes>

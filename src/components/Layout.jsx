@@ -1,5 +1,5 @@
 import { Outlet, Link, useLocation } from "react-router-dom";
-import { LayoutDashboard, Upload, History, ImagePlay, Settings, TrendingUp, Calendar, Users } from "lucide-react";
+import { LayoutDashboard, Upload, History, ImagePlay, Settings, TrendingUp, Calendar, Users, Palette } from "lucide-react";
 
 
 export default function Layout() {
@@ -13,6 +13,8 @@ export default function Layout() {
     { path: "/countdown", label: "Countdown", icon: Calendar },
     { path: "/marketing", label: "Marketing", icon: ImagePlay },
     { path: "/history", label: "History", icon: History },
+    { path: "/moodboard", label: "Mood Board", icon: Palette },
+    { path: "/collabs", label: "Collabs", icon: Users },
   ];
 
   return (

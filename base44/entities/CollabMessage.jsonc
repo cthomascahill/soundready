@@ -1,0 +1,37 @@
+{
+  "name": "CollabMessage",
+  "type": "object",
+  "properties": {
+    "from_user_id": {
+      "type": "string"
+    },
+    "from_user_name": {
+      "type": "string"
+    },
+    "to_user_id": {
+      "type": "string"
+    },
+    "to_user_email": {
+      "type": "string"
+    },
+    "subject": {
+      "type": "string"
+    },
+    "message": {
+      "type": "string"
+    },
+    "song_title": {
+      "type": "string",
+      "description": "The song this collab request relates to"
+    },
+    "read": {
+      "type": "boolean",
+      "default": false
+    }
+  },
+  "required": [
+    "from_user_id",
+    "to_user_id",
+    "message"
+  ]
+}
