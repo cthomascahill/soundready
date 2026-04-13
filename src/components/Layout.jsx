@@ -1,5 +1,6 @@
 import { Outlet, Link, useLocation } from "react-router-dom";
-import { LayoutDashboard, Upload, History, ImagePlay } from "lucide-react";
+import { LayoutDashboard, Upload, History, ImagePlay, Settings } from "lucide-react";
+
 
 export default function Layout() {
   const location = useLocation();
@@ -41,6 +42,17 @@ export default function Layout() {
                 </Link>
               );
             })}
+            <Link
+              to="/settings"
+              className={`flex items-center gap-2 px-3 py-2 rounded-lg text-sm font-medium transition-all ml-1 ${
+                location.pathname === "/settings"
+                  ? "bg-primary/15 text-primary"
+                  : "text-muted-foreground hover:text-foreground hover:bg-secondary"
+              }`}
+            >
+              <Settings className="h-4 w-4" />
+              <span className="hidden sm:inline">Settings</span>
+            </Link>
           </nav>
         </div>
       </header>

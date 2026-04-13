@@ -14,6 +14,7 @@ import MarketingAssets from './pages/MarketingAssets';
 import SongHub from './pages/SongHub';
 import ReleasePlan from './pages/ReleasePlan';
 import PitchPackage from './pages/PitchPackage';
+import Settings from './pages/Settings';
 
 const AuthenticatedApp = () => {
   const { isLoadingAuth, isLoadingPublicSettings, authError, navigateToLogin } = useAuth();
@@ -51,6 +52,7 @@ const AuthenticatedApp = () => {
         <Route path="/release" element={<ReleasePlan />} />
         <Route path="/captions" element={<ReleasePlan />} />
         <Route path="/pitch" element={<PitchPackage />} />
+        <Route path="/settings" element={<Settings />} />
         <Route path="*" element={<PageNotFound />} />
       </Route>
     </Routes>
