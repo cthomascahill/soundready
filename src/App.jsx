@@ -22,6 +22,7 @@ import Countdown from './pages/Countdown';
 import Contacts from './pages/Contacts';
 import TikTokOptimizer from './pages/TikTokOptimizer';
 import CompetitorTracker from './pages/CompetitorTracker';
+import HookFinder from './pages/HookFinder';
 
 const AuthenticatedApp = () => {
   const { isLoadingAuth, isLoadingPublicSettings, authError, navigateToLogin } = useAuth();
@@ -67,6 +68,7 @@ const AuthenticatedApp = () => {
         <Route path="/moodboard" element={<MoodBoard />} />
         <Route path="/collabs" element={<CollabFinder />} />
         <Route path="/competitors" element={<CompetitorTracker />} />
+        <Route path="/hooks" element={<HookFinder />} />
         <Route path="*" element={<PageNotFound />} />
       </Route>
     </Routes>
