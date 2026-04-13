@@ -3,13 +3,15 @@ import { createClientFromRequest } from 'npm:@base44/sdk@0.8.25';
 Deno.serve(async (req) => {
   try {
     const base44 = createClientFromRequest(req);
-    const user = await base44.auth.me();
-    if (!user) return Response.json({ error: 'Unauthorized' }, { status: 401 });
 
     const { title, artist_name, genre } = await req.json();
 
+    if (!title || !artist_name) {
+      return Response.json({ error: 'title and artist_name are required' }, { status: 400 });
+    }
+
     const analysis = await base44.asServiceRole.integrations.Core.InvokeLLM({
-      prompt: `You are a music industry data analyst. Analyze the song "${title}" by ${artist_name} (genre: ${genre || 'Unknown'}) and predict its streaming algorithm performance. Base your scores on genre trends, typical artist positioning, and platform algorithm preferences.`,
+      prompt: `You are a music industry data analyst. Analyze the song "${title}" by ${artist_name} (genre: ${genre || 'Unknown'}) and predict its streaming algorithm performance. Base your scores on genre trends, typical artist positioning, and platform algorithm preferences. Return realistic scores between 40-95.`,
       response_json_schema: {
         type: 'object',
         properties: {

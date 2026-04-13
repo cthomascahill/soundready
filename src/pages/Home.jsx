@@ -24,46 +24,53 @@ export default function Home() {
     if (!canSubmit) return;
     setIsAnalyzing(true);
     setAnalyzeError(null);
-    console.log('Starting analysis for:', title, artistName);
 
     try {
-      // Step 1: Run LLM analysis via backend function (with 60s timeout)
-      const timeout = new Promise((_, reject) =>
-        setTimeout(() => reject(new Error('Analysis timed out after 60 seconds. Please try again.')), 60000)
-      );
-      const response = await Promise.race([
-        base44.functions.invoke('analyzeSong', {
-          title,
-          artist_name: artistName,
-          genre: genre || 'Unknown',
-        }),
-        timeout
-      ]);
-      console.log('Analysis response:', response);
-      const analysis = response.data;
+      // Step 1: LLM analysis via backend function
+      const res = await base44.functions.invoke('analyzeSong', {
+        title,
+        artist_name: artistName,
+        genre: genre || 'Unknown',
+      });
 
-      if (analysis.error) throw new Error(analysis.error);
+      const analysis = res.data;
+      if (!analysis || analysis.error) throw new Error(analysis?.error || 'No analysis returned');
 
-      // Step 2: Save record
+      // Step 2: Save to DB
       const record = await base44.entities.SongAnalysis.create({
         title,
         artist_name: artistName,
         genre: genre || 'Unknown',
-        ...analysis,
+        overall_score: analysis.overall_score,
+        spotify_score: analysis.spotify_score,
+        apple_music_score: analysis.apple_music_score,
+        youtube_score: analysis.youtube_score,
+        tiktok_score: analysis.tiktok_score,
+        hook_strength: analysis.hook_strength,
+        production_quality: analysis.production_quality,
+        replay_value: analysis.replay_value,
+        energy_level: analysis.energy_level,
+        mood: analysis.mood,
+        bpm_estimate: analysis.bpm_estimate,
+        similar_artists: analysis.similar_artists,
+        strengths: analysis.strengths,
+        recommendations: analysis.recommendations,
         status: 'complete',
       });
 
-      // Step 3: Navigate immediately, upload file in background
+      // Step 3: Navigate right away
       navigate(`/song?id=${record.id}`);
 
-      base44.integrations.Core.UploadFile({ file }).then(({ file_url }) => {
-        base44.entities.SongAnalysis.update(record.id, { file_url });
-      }).catch(() => {});
+      // Step 4: Upload file in background
+      if (file) {
+        base44.integrations.Core.UploadFile({ file })
+          .then(({ file_url }) => base44.entities.SongAnalysis.update(record.id, { file_url }))
+          .catch(() => {});
+      }
 
     } catch (err) {
-      console.error('ANALYZE ERROR:', err);
       setIsAnalyzing(false);
-      setAnalyzeError(err?.message || String(err) || 'Analysis failed. Please try again.');
+      setAnalyzeError(err?.message || 'Analysis failed. Please try again.');
     }
   };
 
