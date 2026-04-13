@@ -53,8 +53,9 @@ export default function Home() {
       }).catch(() => {});
 
     } catch (err) {
+      console.error('ANALYZE ERROR:', err);
       setIsAnalyzing(false);
-      setAnalyzeError(err?.message || 'Analysis failed. Please try again.');
+      setAnalyzeError(err?.message || String(err) || 'Analysis failed. Please try again.');
     }
   };
 
