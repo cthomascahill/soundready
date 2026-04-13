@@ -10,6 +10,7 @@ import moment from "moment";
 import SpotifyComparison from "../components/SpotifyComparison";
 import YouTubeStats from "../components/YouTubeStats";
 import ExportReportPDF from "../components/ExportReportPDF";
+import LaunchReportCards from "../components/LaunchReportCards";
 
 const TOOLS = [
   {
@@ -218,6 +219,9 @@ export default function SongHub() {
           <YouTubeStats analysis={analysis} />
         </div>
       )}
+
+      {/* Launch Report */}
+      <LaunchReportCards analysis={analysis} />
 
       {/* Mood tags */}
       {(analysis.mood || analysis.energy_level || analysis.bpm_estimate) && (

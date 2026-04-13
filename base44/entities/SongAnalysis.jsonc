@@ -14,6 +14,10 @@
       "type": "string",
       "description": "Primary genre"
     },
+    "song_description": {
+      "type": "string",
+      "description": "Artist-provided description of the song"
+    },
     "file_url": {
       "type": "string",
       "description": "URL to the uploaded song file"
@@ -87,6 +91,26 @@
     "replay_value": {
       "type": "number",
       "description": "Replay value score 0-100"
+    },
+    "algorithm_outlook": {
+      "type": "string",
+      "description": "AI narrative on streaming algorithm potential"
+    },
+    "strongest_moments": {
+      "type": "string",
+      "description": "AI description of the song's strongest moments"
+    },
+    "content_ideas": {
+      "type": "string",
+      "description": "AI-generated content ideas for social media"
+    },
+    "release_recommendations": {
+      "type": "string",
+      "description": "AI release strategy recommendations"
+    },
+    "playlist_pitch": {
+      "type": "string",
+      "description": "AI-generated playlist pitch copy"
     },
     "status": {
       "type": "string",
