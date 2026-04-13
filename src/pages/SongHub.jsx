@@ -7,6 +7,7 @@ import {
   ChevronRight, Music, ArrowLeft, Star, Loader2
 } from "lucide-react";
 import moment from "moment";
+import SpotifyComparison from "../components/SpotifyComparison";
 
 const TOOLS = [
   {
@@ -190,6 +191,11 @@ export default function SongHub() {
           })}
         </div>
       </div>
+
+      {/* Spotify Live Comparison */}
+      {analysis.status === "complete" && (
+        <SpotifyComparison analysis={analysis} />
+      )}
 
       {/* Mood tags */}
       {(analysis.mood || analysis.energy_level || analysis.bpm_estimate) && (
