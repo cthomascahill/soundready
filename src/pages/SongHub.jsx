@@ -8,6 +8,7 @@ import {
 } from "lucide-react";
 import moment from "moment";
 import SpotifyComparison from "../components/SpotifyComparison";
+import YouTubeStats from "../components/YouTubeStats";
 
 const TOOLS = [
   {
@@ -206,9 +207,12 @@ export default function SongHub() {
         </div>
       </div>
 
-      {/* Spotify Live Comparison */}
+      {/* Platform Stats Grid */}
       {analysis.status === "complete" && (
-        <SpotifyComparison analysis={analysis} />
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+          <SpotifyComparison analysis={analysis} />
+          <YouTubeStats analysis={analysis} />
+        </div>
       )}
 
       {/* Mood tags */}
