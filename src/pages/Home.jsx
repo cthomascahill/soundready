@@ -15,6 +15,8 @@ export default function Home() {
   const [title, setTitle] = useState("");
   const [artistName, setArtistName] = useState("");
   const [genre, setGenre] = useState("");
+  const [bpm, setBpm] = useState("");
+  const [mood, setMood] = useState("");
   const [isAnalyzing, setIsAnalyzing] = useState(false);
   const [analyzeError, setAnalyzeError] = useState(null);
 
@@ -28,7 +30,14 @@ export default function Home() {
     try {
       // Step 1: LLM analysis directly
       const analysis = await base44.integrations.Core.InvokeLLM({
-        prompt: `You are a music industry data analyst. Analyze the song "${title}" by ${artistName} (genre: ${genre || 'Unknown'}) and predict its streaming algorithm performance. Base scores on genre trends, typical artist positioning, and platform algorithm preferences. Return realistic scores between 40-95.`,
+        prompt: `You are a music industry expert and data analyst. Analyze the song "${title}" by ${artistName} and predict its streaming algorithm performance with highly detailed, realistic insights.
+
+Song metadata provided by the artist:
+- Genre: ${genre || 'Unknown'}
+- BPM / Tempo: ${bpm || 'Not specified'}
+- Mood / Vibe: ${mood || 'Not specified'}
+
+Using this metadata, generate a comprehensive analysis. Consider how the genre performs on each platform, how the BPM fits current trends (e.g. TikTok favors 120-140 BPM, Spotify editorial playlists prefer certain tempos), and how the mood aligns with listener retention and replay value. Be specific and nuanced. Return realistic scores between 45-95 that vary meaningfully per platform.`,
         response_json_schema: {
           type: 'object',
           properties: {
@@ -160,6 +169,27 @@ export default function Home() {
             onChange={(e) => setGenre(e.target.value)}
             className="bg-card border-border h-11"
           />
+        </div>
+
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <div className="space-y-2">
+            <Label className="text-sm font-medium">BPM / Tempo</Label>
+            <Input
+              placeholder="e.g. 128, ~95, slow"
+              value={bpm}
+              onChange={(e) => setBpm(e.target.value)}
+              className="bg-card border-border h-11"
+            />
+          </div>
+          <div className="space-y-2">
+            <Label className="text-sm font-medium">Mood / Vibe</Label>
+            <Input
+              placeholder="e.g. dark, euphoric, chill, aggressive"
+              value={mood}
+              onChange={(e) => setMood(e.target.value)}
+              className="bg-card border-border h-11"
+            />
+          </div>
         </div>
 
         <Button
