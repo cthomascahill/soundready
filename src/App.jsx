@@ -21,6 +21,7 @@ import GrowthTracker from './pages/GrowthTracker';
 import Countdown from './pages/Countdown';
 import Contacts from './pages/Contacts';
 import TikTokOptimizer from './pages/TikTokOptimizer';
+import CompetitorTracker from './pages/CompetitorTracker';
 
 const AuthenticatedApp = () => {
   const { isLoadingAuth, isLoadingPublicSettings, authError, navigateToLogin } = useAuth();
@@ -65,6 +66,7 @@ const AuthenticatedApp = () => {
         <Route path="/tiktok" element={<TikTokOptimizer />} />
         <Route path="/moodboard" element={<MoodBoard />} />
         <Route path="/collabs" element={<CollabFinder />} />
+        <Route path="/competitors" element={<CompetitorTracker />} />
         <Route path="*" element={<PageNotFound />} />
       </Route>
     </Routes>

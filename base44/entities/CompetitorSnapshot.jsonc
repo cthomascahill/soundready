@@ -1,0 +1,35 @@
+{
+  "name": "CompetitorSnapshot",
+  "type": "object",
+  "properties": {
+    "competitor_id": {
+      "type": "string"
+    },
+    "competitor_name": {
+      "type": "string"
+    },
+    "snapshot_date": {
+      "type": "string",
+      "description": "ISO date"
+    },
+    "spotify_popularity": {
+      "type": "number"
+    },
+    "spotify_followers": {
+      "type": "number"
+    },
+    "yt_subscribers": {
+      "type": "number"
+    },
+    "yt_views": {
+      "type": "number"
+    },
+    "yt_video_count": {
+      "type": "number"
+    }
+  },
+  "required": [
+    "competitor_id",
+    "snapshot_date"
+  ]
+}

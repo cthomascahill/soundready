@@ -1,0 +1,27 @@
+{
+  "name": "CompetitorArtist",
+  "type": "object",
+  "properties": {
+    "name": {
+      "type": "string",
+      "description": "Artist display name"
+    },
+    "spotify_artist_id": {
+      "type": "string",
+      "description": "Spotify artist ID"
+    },
+    "youtube_channel_id": {
+      "type": "string",
+      "description": "YouTube channel ID"
+    },
+    "genre": {
+      "type": "string"
+    },
+    "notes": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "name"
+  ]
+}
