@@ -24,14 +24,22 @@ export default function Home() {
     if (!canSubmit) return;
     setIsAnalyzing(true);
     setAnalyzeError(null);
+    console.log('Starting analysis for:', title, artistName);
 
     try {
-      // Step 1: Run LLM analysis via backend function
-      const response = await base44.functions.invoke('analyzeSong', {
-        title,
-        artist_name: artistName,
-        genre: genre || 'Unknown',
-      });
+      // Step 1: Run LLM analysis via backend function (with 60s timeout)
+      const timeout = new Promise((_, reject) =>
+        setTimeout(() => reject(new Error('Analysis timed out after 60 seconds. Please try again.')), 60000)
+      );
+      const response = await Promise.race([
+        base44.functions.invoke('analyzeSong', {
+          title,
+          artist_name: artistName,
+          genre: genre || 'Unknown',
+        }),
+        timeout
+      ]);
+      console.log('Analysis response:', response);
       const analysis = response.data;
 
       if (analysis.error) throw new Error(analysis.error);
