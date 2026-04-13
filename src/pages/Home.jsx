@@ -26,15 +26,29 @@ export default function Home() {
     setAnalyzeError(null);
 
     try {
-      // Step 1: LLM analysis via backend function
-      const res = await base44.functions.invoke('analyzeSong', {
-        title,
-        artist_name: artistName,
-        genre: genre || 'Unknown',
+      // Step 1: LLM analysis directly
+      const analysis = await base44.integrations.Core.InvokeLLM({
+        prompt: `You are a music industry data analyst. Analyze the song "${title}" by ${artistName} (genre: ${genre || 'Unknown'}) and predict its streaming algorithm performance. Base scores on genre trends, typical artist positioning, and platform algorithm preferences. Return realistic scores between 40-95.`,
+        response_json_schema: {
+          type: 'object',
+          properties: {
+            overall_score: { type: 'number' },
+            spotify_score: { type: 'number' },
+            apple_music_score: { type: 'number' },
+            youtube_score: { type: 'number' },
+            tiktok_score: { type: 'number' },
+            hook_strength: { type: 'number' },
+            production_quality: { type: 'number' },
+            replay_value: { type: 'number' },
+            energy_level: { type: 'string', enum: ['low', 'medium', 'high'] },
+            mood: { type: 'string' },
+            bpm_estimate: { type: 'string' },
+            similar_artists: { type: 'array', items: { type: 'string' } },
+            strengths: { type: 'array', items: { type: 'string' } },
+            recommendations: { type: 'array', items: { type: 'string' } },
+          },
+        },
       });
-
-      const analysis = res.data;
-      if (!analysis || analysis.error) throw new Error(analysis?.error || 'No analysis returned');
 
       // Step 2: Save to DB
       const record = await base44.entities.SongAnalysis.create({
