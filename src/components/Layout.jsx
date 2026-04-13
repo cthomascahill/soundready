@@ -1,11 +1,12 @@
 import { Outlet, Link, useLocation } from "react-router-dom";
-import { Music, BarChart3, Upload, History } from "lucide-react";
+import { LayoutDashboard, Upload, History } from "lucide-react";
 
 export default function Layout() {
   const location = useLocation();
   
   const navItems = [
-    { path: "/", label: "Upload", icon: Upload },
+    { path: "/", label: "Dashboard", icon: LayoutDashboard },
+    { path: "/upload", label: "Upload", icon: Upload },
     { path: "/history", label: "History", icon: History },
   ];
 
@@ -16,7 +17,7 @@ export default function Layout() {
         <div className="max-w-6xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between">
           <Link to="/" className="flex items-center gap-3 group">
             <div className="h-9 w-9 rounded-lg bg-primary/20 flex items-center justify-center group-hover:bg-primary/30 transition-colors">
-              <BarChart3 className="h-5 w-5 text-primary" />
+              <LayoutDashboard className="h-5 w-5 text-primary" />
             </div>
             <span className="font-heading font-bold text-lg tracking-tight">SoundScore</span>
           </Link>
