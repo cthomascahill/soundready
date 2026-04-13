@@ -9,6 +9,7 @@ import {
 import moment from "moment";
 import SpotifyComparison from "../components/SpotifyComparison";
 import YouTubeStats from "../components/YouTubeStats";
+import ExportReportPDF from "../components/ExportReportPDF";
 
 const TOOLS = [
   {
@@ -130,6 +131,9 @@ export default function SongHub() {
           <ArrowLeft className="h-4 w-4" />
         </Link>
         <span className="text-sm text-muted-foreground">Dashboard</span>
+        <div className="ml-auto">
+          <ExportReportPDF analysis={analysis} />
+        </div>
       </motion.div>
 
       {/* Hero */}
