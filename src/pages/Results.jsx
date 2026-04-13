@@ -9,6 +9,7 @@ import PlatformScores from "../components/PlatformScores";
 import SimilarArtists from "../components/SimilarArtists";
 import SongAttributes from "../components/SongAttributes";
 import Recommendations from "../components/Recommendations";
+import MasteringPanel from "../components/MasteringPanel";
 
 export default function Results() {
   const [analysis, setAnalysis] = useState(null);
@@ -106,6 +107,11 @@ export default function Results() {
           strengths={analysis.strengths}
           recommendations={analysis.recommendations}
         />
+      </div>
+
+      {/* Mastering - full width below grid */}
+      <div className="mt-6">
+        <MasteringPanel analysis={analysis} />
       </div>
     </div>
   );
