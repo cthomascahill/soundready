@@ -21,41 +21,60 @@ const SCORE_LINES = [
 function AIInsightPanel({ song, snapshots }) {
   const [insight, setInsight] = useState(null);
   const [loading, setLoading] = useState(false);
-  const [open, setOpen] = useState(false);
+
+  // Auto-generate when we have enough snapshot data
+  useEffect(() => {
+    if (snapshots.length >= 2 && !insight) generate();
+  }, [snapshots.length]);
 
   const generate = async () => {
     setLoading(true);
-    setOpen(true);
     const sorted = [...snapshots].sort((a, b) => a.snapshot_date.localeCompare(b.snapshot_date));
-    const history = sorted.map((s) => `${s.snapshot_date?.slice(0, 10)}: Overall=${s.overall_score}, Spotify=${s.spotify_score}, TikTok=${s.tiktok_score}, Hook=${s.hook_strength}, Production=${s.production_quality}${s.note ? ` (note: ${s.note})` : ""}`).join("\n");
+    const history = sorted.map((s) =>
+      `${s.snapshot_date?.slice(0, 10)}: Overall=${s.overall_score}, Spotify=${s.spotify_score}, TikTok=${s.tiktok_score}, Hook=${s.hook_strength}, Production=${s.production_quality}${s.note ? ` (note: ${s.note})` : ""}`
+    ).join("\n");
     const first = sorted[0];
     const last = sorted[sorted.length - 1];
     const delta = last && first ? last.overall_score - first.overall_score : 0;
 
+    // Spotify trend
+    const spotifyFirst = sorted[0]?.spotify_score;
+    const spotifyLast = sorted[sorted.length - 1]?.spotify_score;
+    const spotifyDelta = spotifyFirst != null && spotifyLast != null ? spotifyLast - spotifyFirst : null;
+
+    // Flag divergence: SoundScore going up but Spotify going down (or vice versa)
+    const divergence = delta > 3 && spotifyDelta != null && spotifyDelta < -3
+      ? "WARNING: Overall SoundScore is improving but Spotify score is declining — possible genre mismatch or release timing issue."
+      : delta < -3 && spotifyDelta != null && spotifyDelta > 3
+      ? "OPPORTUNITY: Spotify momentum is building despite lower overall score — double down on Spotify-specific strategies."
+      : null;
+
     const res = await base44.integrations.Core.InvokeLLM({
-      prompt: `You are a music industry data analyst and strategist. Analyze this artist's SoundScore growth data and provide sharp, actionable insights.
+      prompt: `You are a music industry data analyst and growth strategist. Analyze this artist's SoundScore and Spotify trend data with precision.
 
 Song: "${song.title}" by ${song.artist_name}
 Genre: ${song.genre} | Mood: ${song.mood} | Energy: ${song.energy_level}
 Current Scores — Overall: ${song.overall_score}, Spotify: ${song.spotify_score}, TikTok: ${song.tiktok_score}, Hook: ${song.hook_strength}, Production: ${song.production_quality}
 
 Snapshot History (${snapshots.length} data points):
-${history || "No snapshots yet"}
+${history || "No historical snapshots — analyze current scores only."}
 
-Overall trend: ${delta > 0 ? `+${delta} points improvement` : delta < 0 ? `${delta} points decline` : "stable"}
+Overall trend: ${delta > 0 ? `+${delta.toFixed(1)} pts improvement` : delta < 0 ? `${delta.toFixed(1)} pts decline` : "stable (no snapshots)"}
+Spotify score trend: ${spotifyDelta !== null ? (spotifyDelta > 0 ? `+${spotifyDelta.toFixed(1)} pts` : `${spotifyDelta.toFixed(1)} pts`) : "N/A"}
+${divergence ? `\nDivergence detected: ${divergence}` : ""}
 
-Provide:
-1. A one-sentence verdict on their trajectory
-2. The #1 thing driving their score (positive or negative)
-3. One proactive warning if any metric looks concerning
-4. Two specific optimization strategies based on their actual numbers
-5. A "Focus Score" — which single metric to improve first and why`,
+Provide a sharp, data-driven analysis:
+1. One-sentence verdict on trajectory
+2. The single biggest thing driving their score RIGHT NOW
+3. One proactive warning or risk flag (be specific to the numbers, not generic)
+4. Two concrete optimization strategies (reference specific scores)
+5. Focus metric: which one to improve first and exactly how`,
       response_json_schema: {
         type: "object",
         properties: {
           verdict: { type: "string" },
           primary_driver: { type: "string" },
-          warning: { type: "string", description: "null if no warning" },
+          warning: { type: "string", description: "Specific warning, or empty string if none" },
           strategies: { type: "array", items: { type: "string" } },
           focus_metric: { type: "string" },
           focus_reason: { type: "string" }
@@ -80,7 +99,11 @@ Provide:
 
       {!insight && !loading && (
         <div className="text-center py-6 space-y-3">
-          <p className="text-sm text-muted-foreground">Analyze your score history for actionable insights, flags, and strategies.</p>
+          <p className="text-sm text-muted-foreground">
+            {snapshots.length < 2
+              ? "Instant AI analysis based on your current scores. Take more snapshots over time for trend-based insights."
+              : "Analyzing your score history for insights..."}
+          </p>
           <Button onClick={generate} variant="outline" className="gap-2">
             <Sparkles className="h-4 w-4" />Generate AI Analysis
           </Button>
@@ -102,7 +125,7 @@ Provide:
           </div>
 
           {/* Warning */}
-          {insight.warning && insight.warning !== "null" && (
+          {insight.warning && insight.warning !== "null" && insight.warning !== "" && (
             <div className="flex items-start gap-2 rounded-xl bg-destructive/10 border border-destructive/20 px-4 py-3">
               <AlertTriangle className="h-4 w-4 text-destructive shrink-0 mt-0.5" />
               <p className="text-sm text-destructive">{insight.warning}</p>
@@ -327,8 +350,8 @@ export default function GrowthTracker() {
         )}
       </motion.div>
 
-      {/* AI Insights */}
-      {selectedSong && snapshots.length > 0 && (
+      {/* AI Insights — always show for selected song */}
+      {selectedSong && (
         <AIInsightPanel song={selectedSong} snapshots={snapshots} />
       )}
 
