@@ -10,6 +10,7 @@ import Dashboard from './pages/Dashboard';
 import Home from './pages/Home';
 import Results from './pages/Results';
 import History from './pages/History';
+import MarketingAssets from './pages/MarketingAssets';
 
 const AuthenticatedApp = () => {
   const { isLoadingAuth, isLoadingPublicSettings, authError, navigateToLogin } = useAuth();
@@ -42,6 +43,7 @@ const AuthenticatedApp = () => {
         <Route path="/upload" element={<Home />} />
         <Route path="/results" element={<Results />} />
         <Route path="/history" element={<History />} />
+        <Route path="/marketing" element={<MarketingAssets />} />
         <Route path="*" element={<PageNotFound />} />
       </Route>
     </Routes>
