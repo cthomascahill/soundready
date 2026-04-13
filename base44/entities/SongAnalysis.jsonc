@@ -1,0 +1,107 @@
+{
+  "name": "SongAnalysis",
+  "type": "object",
+  "properties": {
+    "title": {
+      "type": "string",
+      "description": "Song title"
+    },
+    "artist_name": {
+      "type": "string",
+      "description": "Artist name"
+    },
+    "genre": {
+      "type": "string",
+      "description": "Primary genre"
+    },
+    "file_url": {
+      "type": "string",
+      "description": "URL to the uploaded song file"
+    },
+    "overall_score": {
+      "type": "number",
+      "description": "Overall algorithm performance score 0-100"
+    },
+    "spotify_score": {
+      "type": "number",
+      "description": "Spotify algorithm score 0-100"
+    },
+    "apple_music_score": {
+      "type": "number",
+      "description": "Apple Music algorithm score 0-100"
+    },
+    "youtube_score": {
+      "type": "number",
+      "description": "YouTube algorithm score 0-100"
+    },
+    "tiktok_score": {
+      "type": "number",
+      "description": "TikTok algorithm score 0-100"
+    },
+    "similar_artists": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "List of similar artists"
+    },
+    "strengths": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Song strengths"
+    },
+    "recommendations": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Improvement recommendations"
+    },
+    "energy_level": {
+      "type": "string",
+      "enum": [
+        "low",
+        "medium",
+        "high"
+      ],
+      "description": "Energy level of the track"
+    },
+    "mood": {
+      "type": "string",
+      "description": "Detected mood of the track"
+    },
+    "bpm_estimate": {
+      "type": "string",
+      "description": "Estimated BPM range"
+    },
+    "hook_strength": {
+      "type": "number",
+      "description": "Hook/catchiness score 0-100"
+    },
+    "production_quality": {
+      "type": "number",
+      "description": "Production quality score 0-100"
+    },
+    "replay_value": {
+      "type": "number",
+      "description": "Replay value score 0-100"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "uploading",
+        "analyzing",
+        "complete",
+        "error"
+      ],
+      "description": "Analysis status"
+    }
+  },
+  "required": [
+    "title",
+    "artist_name",
+    "status"
+  ]
+}
