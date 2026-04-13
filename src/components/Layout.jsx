@@ -4,7 +4,7 @@ import { base44 } from "@/api/base44Client";
 import {
   LayoutDashboard, Upload, History, ImagePlay, Settings, TrendingUp,
   Calendar, Users, Palette, BarChart2, Zap, MessageSquare,
-  ChevronRight, LogOut, Menu, X
+  ChevronRight, LogOut, Menu, X, CalendarDays
 } from "lucide-react";
 
 const NAV_GROUPS = [
@@ -43,6 +43,12 @@ const NAV_GROUPS = [
     items: [
       { path: "/collabs", label: "Collab Finder", icon: MessageSquare },
       { path: "/hooks", label: "Hook Finder", icon: Zap },
+    ],
+  },
+  {
+    label: "Publish",
+    items: [
+      { path: "/calendar", label: "Content Calendar", icon: CalendarDays },
     ],
   },
 ];

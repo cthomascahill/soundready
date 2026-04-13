@@ -1,0 +1,79 @@
+{
+  "name": "ScheduledPost",
+  "type": "object",
+  "properties": {
+    "track_id": {
+      "type": "string"
+    },
+    "track_title": {
+      "type": "string"
+    },
+    "artist_name": {
+      "type": "string"
+    },
+    "hook_label": {
+      "type": "string"
+    },
+    "hook_start_sec": {
+      "type": "number"
+    },
+    "hook_end_sec": {
+      "type": "number"
+    },
+    "hook_score": {
+      "type": "number"
+    },
+    "platform": {
+      "type": "string",
+      "enum": [
+        "TikTok",
+        "Instagram",
+        "Both"
+      ]
+    },
+    "scheduled_date": {
+      "type": "string",
+      "description": "ISO date YYYY-MM-DD"
+    },
+    "scheduled_time": {
+      "type": "string",
+      "description": "HH:MM 24hr"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "draft",
+        "scheduled",
+        "posted"
+      ],
+      "default": "draft"
+    },
+    "caption": {
+      "type": "string"
+    },
+    "hashtags": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "tiktok_concept_title": {
+      "type": "string"
+    },
+    "tiktok_concept_description": {
+      "type": "string"
+    },
+    "file_url": {
+      "type": "string"
+    },
+    "notes": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "track_title",
+    "platform",
+    "scheduled_date",
+    "status"
+  ]
+}

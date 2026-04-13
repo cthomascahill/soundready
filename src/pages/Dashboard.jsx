@@ -120,7 +120,7 @@ export default function Dashboard() {
         <div>
           <p className="text-xs text-muted-foreground uppercase tracking-widest font-medium mb-1">Dashboard</p>
           <h1 className="font-heading text-3xl font-bold">
-            {totalSongs === 0 ? "Welcome to SoundScore" : "Your Artist Hub"}
+            {totalSongs === 0 ? "Welcome to Sound Ready" : "Your Artist Hub"}
           </h1>
           {totalSongs > 0 && (
             <p className="text-muted-foreground mt-1 text-sm">

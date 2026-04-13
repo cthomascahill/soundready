@@ -23,6 +23,7 @@ import Contacts from './pages/Contacts';
 import TikTokOptimizer from './pages/TikTokOptimizer';
 import CompetitorTracker from './pages/CompetitorTracker';
 import HookFinder from './pages/HookFinder';
+import ContentCalendar from './pages/ContentCalendar';
 
 const AuthenticatedApp = () => {
   const { isLoadingAuth, isLoadingPublicSettings, authError, navigateToLogin } = useAuth();
@@ -69,6 +70,7 @@ const AuthenticatedApp = () => {
         <Route path="/collabs" element={<CollabFinder />} />
         <Route path="/competitors" element={<CompetitorTracker />} />
         <Route path="/hooks" element={<HookFinder />} />
+        <Route path="/calendar" element={<ContentCalendar />} />
         <Route path="*" element={<PageNotFound />} />
       </Route>
     </Routes>
