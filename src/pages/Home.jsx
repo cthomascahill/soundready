@@ -18,7 +18,7 @@ export default function Home() {
   const [isAnalyzing, setIsAnalyzing] = useState(false);
   const [analyzeError, setAnalyzeError] = useState(null);
 
-  const canSubmit = file && title.trim() && artistName.trim();
+  const canSubmit = title.trim() && artistName.trim();
 
   const handleAnalyze = async () => {
     if (!canSubmit) return;
