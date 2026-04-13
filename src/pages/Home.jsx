@@ -26,43 +26,47 @@ export default function Home() {
     setAnalyzeError(null);
 
     try {
-      // Run file upload and LLM analysis in parallel
-      const [{ file_url }, analysis] = await Promise.all([
-        base44.integrations.Core.UploadFile({ file }),
-        base44.integrations.Core.InvokeLLM({
-          prompt: `Analyze the song "${title}" by ${artistName} (genre: ${genre || "Unknown"}) for streaming algorithm performance. Provide scores 0-100 for each platform and metric, 5 similar artists, 3 strengths, 3 recommendations, energy level, mood, BPM estimate.`,
-          response_json_schema: {
-            type: "object",
-            properties: {
-              overall_score: { type: "number" },
-              spotify_score: { type: "number" },
-              apple_music_score: { type: "number" },
-              youtube_score: { type: "number" },
-              tiktok_score: { type: "number" },
-              similar_artists: { type: "array", items: { type: "string" } },
-              strengths: { type: "array", items: { type: "string" } },
-              recommendations: { type: "array", items: { type: "string" } },
-              energy_level: { type: "string", enum: ["low", "medium", "high"] },
-              mood: { type: "string" },
-              bpm_estimate: { type: "string" },
-              hook_strength: { type: "number" },
-              production_quality: { type: "number" },
-              replay_value: { type: "number" },
-            },
+      // Step 1: Run LLM analysis (text only, fast)
+      const analysis = await base44.integrations.Core.InvokeLLM({
+        prompt: `Analyze the song "${title}" by ${artistName} (genre: ${genre || "Unknown"}) for streaming algorithm performance. Provide scores 0-100 for each platform and metric, 5 similar artists, 3 strengths, 3 recommendations, energy level, mood, BPM estimate.`,
+        response_json_schema: {
+          type: "object",
+          properties: {
+            overall_score: { type: "number" },
+            spotify_score: { type: "number" },
+            apple_music_score: { type: "number" },
+            youtube_score: { type: "number" },
+            tiktok_score: { type: "number" },
+            similar_artists: { type: "array", items: { type: "string" } },
+            strengths: { type: "array", items: { type: "string" } },
+            recommendations: { type: "array", items: { type: "string" } },
+            energy_level: { type: "string", enum: ["low", "medium", "high"] },
+            mood: { type: "string" },
+            bpm_estimate: { type: "string" },
+            hook_strength: { type: "number" },
+            production_quality: { type: "number" },
+            replay_value: { type: "number" },
           },
-        }),
-      ]);
+        },
+      });
 
+      // Step 2: Save record with analysis results
       const record = await base44.entities.SongAnalysis.create({
         title,
         artist_name: artistName,
         genre: genre || "Unknown",
-        file_url,
         ...analysis,
         status: "complete",
       });
 
+      // Step 3: Navigate immediately, upload file in background
       navigate(`/song?id=${record.id}`);
+
+      // Background upload — update record with file_url when done
+      base44.integrations.Core.UploadFile({ file }).then(({ file_url }) => {
+        base44.entities.SongAnalysis.update(record.id, { file_url });
+      }).catch(() => {});
+
     } catch (err) {
       setIsAnalyzing(false);
       setAnalyzeError(err?.message || "Analysis failed. Please try again.");
