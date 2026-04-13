@@ -120,7 +120,7 @@ export default function History() {
                     <Trash2 className="h-4 w-4" />
                   </Button>
                   {analysis.status === "complete" && (
-                    <Link to={`/results?id=${analysis.id}`}>
+                    <Link to={`/song?id=${analysis.id}`}>
                       <Button variant="ghost" size="icon" className="h-8 w-8 text-muted-foreground hover:text-primary">
                         <ChevronRight className="h-5 w-5" />
                       </Button>

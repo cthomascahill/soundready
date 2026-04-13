@@ -273,7 +273,7 @@ export default function Dashboard() {
             </div>
             <div className="space-y-3">
               {recentSongs.map((a, i) => (
-                <Link key={a.id} to={`/results?id=${a.id}`}>
+                <Link key={a.id} to={`/song?id=${a.id}`}>
                   <motion.div
                     initial={{ opacity: 0, x: -10 }}
                     animate={{ opacity: 1, x: 0 }}

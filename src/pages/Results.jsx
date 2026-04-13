@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { base44 } from "@/api/base44Client";
 import { motion } from "framer-motion";
-import { ArrowLeft, Music, Share2, Upload } from "lucide-react";
+import { ArrowLeft, LayoutDashboard } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import ScoreRing from "../components/ScoreRing";
 import PlatformScores from "../components/PlatformScores";
@@ -10,6 +10,8 @@ import SimilarArtists from "../components/SimilarArtists";
 import SongAttributes from "../components/SongAttributes";
 import Recommendations from "../components/Recommendations";
 import MasteringPanel from "../components/MasteringPanel";
+import BestClipFinder from "../components/BestClipFinder";
+import VideoIdeas from "../components/VideoIdeas";
 
 export default function Results() {
   const [analysis, setAnalysis] = useState(null);
@@ -69,10 +71,10 @@ export default function Results() {
             </p>
           </div>
         </div>
-        <Link to="/">
+        <Link to={`/song?id=${analysis.id}`}>
           <Button variant="outline" size="sm" className="gap-2">
-            <Upload className="h-4 w-4" />
-            Analyze Another
+            <LayoutDashboard className="h-4 w-4" />
+            Song Hub
           </Button>
         </Link>
       </motion.div>
@@ -112,6 +114,12 @@ export default function Results() {
       {/* Mastering - full width below grid */}
       <div className="mt-6">
         <MasteringPanel analysis={analysis} />
+      </div>
+
+      {/* Best Clip + Video Ideas */}
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mt-6">
+        <BestClipFinder analysis={analysis} />
+        <VideoIdeas analysis={analysis} />
       </div>
     </div>
   );

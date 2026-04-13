@@ -11,6 +11,9 @@ import Home from './pages/Home';
 import Results from './pages/Results';
 import History from './pages/History';
 import MarketingAssets from './pages/MarketingAssets';
+import SongHub from './pages/SongHub';
+import ReleasePlan from './pages/ReleasePlan';
+import PitchPackage from './pages/PitchPackage';
 
 const AuthenticatedApp = () => {
   const { isLoadingAuth, isLoadingPublicSettings, authError, navigateToLogin } = useAuth();
@@ -44,6 +47,10 @@ const AuthenticatedApp = () => {
         <Route path="/results" element={<Results />} />
         <Route path="/history" element={<History />} />
         <Route path="/marketing" element={<MarketingAssets />} />
+        <Route path="/song" element={<SongHub />} />
+        <Route path="/release" element={<ReleasePlan />} />
+        <Route path="/captions" element={<ReleasePlan />} />
+        <Route path="/pitch" element={<PitchPackage />} />
         <Route path="*" element={<PageNotFound />} />
       </Route>
     </Routes>

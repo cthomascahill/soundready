@@ -80,7 +80,7 @@ Be specific and actionable in your recommendations. Reference real artists that 
       status: "complete",
     });
 
-    navigate(`/results?id=${record.id}`);
+    navigate(`/song?id=${record.id}`);
   };
 
   if (isAnalyzing) {

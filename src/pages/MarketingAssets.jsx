@@ -380,9 +380,15 @@ export default function MarketingAssets() {
   const tiktokRef = useRef(null);
 
   useEffect(() => {
+    const urlParams = new URLSearchParams(window.location.search);
+    const paramId = urlParams.get("id");
     base44.entities.SongAnalysis.filter({ status: "complete" }, "-created_date", 50).then((items) => {
       setAnalyses(items);
-      if (items.length > 0) setSelectedId(items[0].id);
+      if (paramId && items.find((a) => a.id === paramId)) {
+        setSelectedId(paramId);
+      } else if (items.length > 0) {
+        setSelectedId(items[0].id);
+      }
     });
   }, []);
 
