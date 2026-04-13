@@ -7,6 +7,7 @@ import { Button } from "@/components/ui/button";
 import { ArrowRight, Sparkles } from "lucide-react";
 import { motion } from "framer-motion";
 import UploadZone from "../components/UploadZone";
+import { convertToUploadableAudio } from "../utils/audioConverter";
 import AnalyzingLoader from "../components/AnalyzingLoader";
 
 export default function Home() {
@@ -17,16 +18,15 @@ export default function Home() {
   const [genre, setGenre] = useState("");
   const [isAnalyzing, setIsAnalyzing] = useState(false);
 
-  const ALLOWED_TYPES = ["audio/mpeg", "audio/mp3", "audio/aac", "audio/x-m4a", "audio/mp4", "audio/ogg"];
-  const fileTypeOk = !file || ALLOWED_TYPES.includes(file.type);
-  const canSubmit = file && fileTypeOk && title.trim() && artistName.trim();
+  const canSubmit = file && title.trim() && artistName.trim();
 
   const handleAnalyze = async () => {
     if (!canSubmit) return;
     setIsAnalyzing(true);
 
-    // Upload the file
-    const { file_url } = await base44.integrations.Core.UploadFile({ file });
+    // Convert WAV → webm if needed, then upload
+    const uploadableFile = await convertToUploadableAudio(file);
+    const { file_url } = await base44.integrations.Core.UploadFile({ file: uploadableFile });
 
     // Create initial record
     const record = await base44.entities.SongAnalysis.create({

@@ -1,5 +1,6 @@
 import { useState, useRef, useCallback } from "react";
 import { base44 } from "@/api/base44Client";
+import { convertToUploadableAudio } from "../utils/audioConverter";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   Upload, Play, Pause, Zap, TrendingUp, Clock, Music, Loader2,
@@ -207,17 +208,11 @@ export default function HookFinder() {
     if (!title) setTitle(f.name.replace(/\.[^/.]+$/, ""));
   };
 
-  const ALLOWED_TYPES = ["audio/mpeg", "audio/mp3", "audio/aac", "audio/x-m4a", "audio/mp4", "audio/ogg"];
-
   const handleDrop = useCallback((e) => {
     e.preventDefault();
     setDragOver(false);
     const f = e.dataTransfer.files[0];
-    if (f && ALLOWED_TYPES.includes(f.type)) {
-      handleFile(f);
-    } else if (f) {
-      alert("Only MP3, AAC, and M4A are supported. WAV and FLAC are not accepted.");
-    }
+    if (f?.type.startsWith("audio/") || /\.(wav|mp3|aac|m4a|ogg|flac)$/i.test(f?.name || "")) handleFile(f);
   }, [title]);
 
   const analyze = async () => {
@@ -226,7 +221,8 @@ export default function HookFinder() {
 
     let uploadedUrl = fileUrl;
     if (file) {
-      const res = await base44.integrations.Core.UploadFile({ file });
+      const uploadableFile = await convertToUploadableAudio(file);
+      const res = await base44.integrations.Core.UploadFile({ file: uploadableFile });
       uploadedUrl = res.file_url;
     }
 
@@ -317,7 +313,7 @@ Focus on: energy shifts, melodic hooks, bass drops, vocal moments, unexpected tr
               dragOver ? "border-primary bg-primary/5" :
               file ? "border-accent bg-accent/5" : "border-border hover:border-primary/50 hover:bg-white/2"
             }`}>
-            <input ref={inputRef} type="file" accept=".mp3,.aac,.m4a,.ogg" className="hidden" onChange={(e) => handleFile(e.target.files[0])} />
+            <input ref={inputRef} type="file" accept="audio/*" className="hidden" onChange={(e) => handleFile(e.target.files[0])} />
             {file ? (
               <>
                 <Music className="h-8 w-8 text-accent" />
