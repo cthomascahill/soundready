@@ -37,38 +37,24 @@ export default function Home() {
       });
 
       const analysis = await base44.integrations.Core.InvokeLLM({
-        prompt: `You are a music industry algorithm expert who analyzes songs for their potential performance on streaming platforms and social media algorithms.
-
-Analyze this song with the following details:
-- Title: "${title}"
-- Artist: "${artistName}"
-- Genre: "${genre || "Not specified"}"
-
-Based on current music algorithm trends (Spotify, Apple Music, YouTube, TikTok), provide a comprehensive analysis. Consider factors like:
-- How well the genre/style performs on each platform
-- Current trends in music algorithms
-- What makes songs go viral or get picked up by recommendation engines
-- Production quality indicators for the genre
-- Hook potential and replay value
-
-Be specific and actionable in your recommendations. Reference real artists that are similar in sound/style.`,
+        prompt: `Analyze the song "${title}" by ${artistName} (genre: ${genre || "Unknown"}) for streaming algorithm performance. Return scores 0-100 for each platform and metric, 5 similar artists, 3 strengths, 3 recommendations, energy level, mood, BPM estimate.`,
         response_json_schema: {
           type: "object",
           properties: {
-            overall_score: { type: "number", description: "Overall algorithm performance score 0-100" },
-            spotify_score: { type: "number", description: "Spotify algorithm score 0-100" },
-            apple_music_score: { type: "number", description: "Apple Music algorithm score 0-100" },
-            youtube_score: { type: "number", description: "YouTube algorithm score 0-100" },
-            tiktok_score: { type: "number", description: "TikTok algorithm score 0-100" },
-            similar_artists: { type: "array", items: { type: "string" }, description: "5-7 similar artists" },
-            strengths: { type: "array", items: { type: "string" }, description: "3-5 specific strengths of the song" },
-            recommendations: { type: "array", items: { type: "string" }, description: "3-5 specific actionable recommendations to improve algorithm performance" },
+            overall_score: { type: "number" },
+            spotify_score: { type: "number" },
+            apple_music_score: { type: "number" },
+            youtube_score: { type: "number" },
+            tiktok_score: { type: "number" },
+            similar_artists: { type: "array", items: { type: "string" } },
+            strengths: { type: "array", items: { type: "string" } },
+            recommendations: { type: "array", items: { type: "string" } },
             energy_level: { type: "string", enum: ["low", "medium", "high"] },
-            mood: { type: "string", description: "One or two word mood descriptor" },
-            bpm_estimate: { type: "string", description: "Estimated BPM range as a string like '120-130'" },
-            hook_strength: { type: "number", description: "Hook/catchiness score 0-100" },
-            production_quality: { type: "number", description: "Production quality score 0-100" },
-            replay_value: { type: "number", description: "Replay value score 0-100" },
+            mood: { type: "string" },
+            bpm_estimate: { type: "string" },
+            hook_strength: { type: "number" },
+            production_quality: { type: "number" },
+            replay_value: { type: "number" },
           },
         },
       });
