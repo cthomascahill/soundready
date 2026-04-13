@@ -4,7 +4,7 @@ import { base44 } from "@/api/base44Client";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
-import { ArrowRight, Sparkles } from "lucide-react";
+import { ArrowRight, Sparkles, AlertCircle } from "lucide-react";
 import { motion } from "framer-motion";
 import UploadZone from "../components/UploadZone";
 import AnalyzingLoader from "../components/AnalyzingLoader";
@@ -16,27 +16,28 @@ export default function Home() {
   const [artistName, setArtistName] = useState("");
   const [genre, setGenre] = useState("");
   const [isAnalyzing, setIsAnalyzing] = useState(false);
+  const [analyzeError, setAnalyzeError] = useState(null);
 
   const canSubmit = file && title.trim() && artistName.trim();
 
   const handleAnalyze = async () => {
     if (!canSubmit) return;
     setIsAnalyzing(true);
+    setAnalyzeError(null);
 
-    const { file_url } = await base44.integrations.Core.UploadFile({ file });
+    try {
+      const { file_url } = await base44.integrations.Core.UploadFile({ file });
 
-    // Create initial record
-    const record = await base44.entities.SongAnalysis.create({
-      title,
-      artist_name: artistName,
-      genre: genre || "Unknown",
-      file_url,
-      status: "analyzing",
-    });
+      const record = await base44.entities.SongAnalysis.create({
+        title,
+        artist_name: artistName,
+        genre: genre || "Unknown",
+        file_url,
+        status: "analyzing",
+      });
 
-    // Use AI to analyze the song
-    const analysis = await base44.integrations.Core.InvokeLLM({
-      prompt: `You are a music industry algorithm expert who analyzes songs for their potential performance on streaming platforms and social media algorithms.
+      const analysis = await base44.integrations.Core.InvokeLLM({
+        prompt: `You are a music industry algorithm expert who analyzes songs for their potential performance on streaming platforms and social media algorithms.
 
 Analyze this song with the following details:
 - Title: "${title}"
@@ -51,35 +52,37 @@ Based on current music algorithm trends (Spotify, Apple Music, YouTube, TikTok),
 - Hook potential and replay value
 
 Be specific and actionable in your recommendations. Reference real artists that are similar in sound/style.`,
-      response_json_schema: {
-        type: "object",
-        properties: {
-          overall_score: { type: "number", description: "Overall algorithm performance score 0-100" },
-          spotify_score: { type: "number", description: "Spotify algorithm score 0-100" },
-          apple_music_score: { type: "number", description: "Apple Music algorithm score 0-100" },
-          youtube_score: { type: "number", description: "YouTube algorithm score 0-100" },
-          tiktok_score: { type: "number", description: "TikTok algorithm score 0-100" },
-          similar_artists: { type: "array", items: { type: "string" }, description: "5-7 similar artists" },
-          strengths: { type: "array", items: { type: "string" }, description: "3-5 specific strengths of the song" },
-          recommendations: { type: "array", items: { type: "string" }, description: "3-5 specific actionable recommendations to improve algorithm performance" },
-          energy_level: { type: "string", enum: ["low", "medium", "high"] },
-          mood: { type: "string", description: "One or two word mood descriptor" },
-          bpm_estimate: { type: "string", description: "Estimated BPM range as a string like '120-130'" },
-          hook_strength: { type: "number", description: "Hook/catchiness score 0-100" },
-          production_quality: { type: "number", description: "Production quality score 0-100" },
-          replay_value: { type: "number", description: "Replay value score 0-100" },
+        response_json_schema: {
+          type: "object",
+          properties: {
+            overall_score: { type: "number", description: "Overall algorithm performance score 0-100" },
+            spotify_score: { type: "number", description: "Spotify algorithm score 0-100" },
+            apple_music_score: { type: "number", description: "Apple Music algorithm score 0-100" },
+            youtube_score: { type: "number", description: "YouTube algorithm score 0-100" },
+            tiktok_score: { type: "number", description: "TikTok algorithm score 0-100" },
+            similar_artists: { type: "array", items: { type: "string" }, description: "5-7 similar artists" },
+            strengths: { type: "array", items: { type: "string" }, description: "3-5 specific strengths of the song" },
+            recommendations: { type: "array", items: { type: "string" }, description: "3-5 specific actionable recommendations to improve algorithm performance" },
+            energy_level: { type: "string", enum: ["low", "medium", "high"] },
+            mood: { type: "string", description: "One or two word mood descriptor" },
+            bpm_estimate: { type: "string", description: "Estimated BPM range as a string like '120-130'" },
+            hook_strength: { type: "number", description: "Hook/catchiness score 0-100" },
+            production_quality: { type: "number", description: "Production quality score 0-100" },
+            replay_value: { type: "number", description: "Replay value score 0-100" },
+          },
         },
-      },
-      file_urls: [file_url],
-    });
+      });
 
-    // Update the record with analysis results
-    await base44.entities.SongAnalysis.update(record.id, {
-      ...analysis,
-      status: "complete",
-    });
+      await base44.entities.SongAnalysis.update(record.id, {
+        ...analysis,
+        status: "complete",
+      });
 
-    navigate(`/song?id=${record.id}`);
+      navigate(`/song?id=${record.id}`);
+    } catch (err) {
+      setIsAnalyzing(false);
+      setAnalyzeError(err?.message || "Analysis failed. Please try again.");
+    }
   };
 
   if (isAnalyzing) {
@@ -88,7 +91,6 @@ Be specific and actionable in your recommendations. Reference real artists that 
 
   return (
     <div className="max-w-2xl mx-auto">
-      {/* Hero section */}
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
@@ -111,13 +113,19 @@ Be specific and actionable in your recommendations. Reference real artists that 
         </p>
       </motion.div>
 
-      {/* Upload form */}
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.1 }}
         className="space-y-6"
       >
+        {analyzeError && (
+          <div className="flex items-start gap-2 rounded-xl bg-destructive/10 border border-destructive/20 p-4">
+            <AlertCircle className="h-4 w-4 text-destructive shrink-0 mt-0.5" />
+            <p className="text-sm text-destructive">{analyzeError}</p>
+          </div>
+        )}
+
         <UploadZone file={file} onFileSelect={setFile} onClear={() => setFile(null)} />
 
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
