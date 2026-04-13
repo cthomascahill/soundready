@@ -86,7 +86,7 @@ Be specific and actionable in your recommendations. Reference real artists that 
   };
 
   if (isAnalyzing) {
-    return <AnalyzingLoader />;
+    return <AnalyzingLoader onCancel={() => { setIsAnalyzing(false); setAnalyzeError("Analysis cancelled. Please try again."); }} />;
   }
 
   return (

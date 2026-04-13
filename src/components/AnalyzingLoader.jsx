@@ -1,6 +1,7 @@
 import { motion } from "framer-motion";
-import { Music, Waves, BarChart3, Brain } from "lucide-react";
+import { Music, Waves, BarChart3, Brain, Clock } from "lucide-react";
 import { useState, useEffect } from "react";
+import { Button } from "@/components/ui/button";
 
 const steps = [
   { icon: Music, label: "Uploading track..." },
@@ -9,14 +10,22 @@ const steps = [
   { icon: BarChart3, label: "Generating performance scores..." },
 ];
 
-export default function AnalyzingLoader() {
+export default function AnalyzingLoader({ onCancel }) {
   const [step, setStep] = useState(0);
+  const [slow, setSlow] = useState(false);
 
   useEffect(() => {
     const interval = setInterval(() => {
       setStep((s) => (s < steps.length - 1 ? s + 1 : s));
     }, 3000);
-    return () => clearInterval(interval);
+
+    // After 40s, show "taking longer than expected"
+    const slowTimer = setTimeout(() => setSlow(true), 40000);
+
+    return () => {
+      clearInterval(interval);
+      clearTimeout(slowTimer);
+    };
   }, []);
 
   return (
@@ -74,6 +83,24 @@ export default function AnalyzingLoader() {
           </motion.div>
         ))}
       </div>
+
+      {slow && (
+        <motion.div
+          initial={{ opacity: 0, y: 8 }}
+          animate={{ opacity: 1, y: 0 }}
+          className="flex flex-col items-center gap-3 text-center"
+        >
+          <div className="flex items-center gap-2 text-sm text-muted-foreground">
+            <Clock className="h-4 w-4" />
+            <span>Taking longer than usual — AI is still working...</span>
+          </div>
+          {onCancel && (
+            <Button variant="outline" size="sm" onClick={onCancel}>
+              Cancel & Try Again
+            </Button>
+          )}
+        </motion.div>
+      )}
     </div>
   );
 }
