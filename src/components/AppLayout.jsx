@@ -1,30 +1,61 @@
 import { useState, useRef, useEffect } from "react";
 import { Outlet, Link, useLocation } from "react-router-dom";
 import { base44 } from "@/api/base44Client";
-import { History, LogOut, BarChart2, CalendarDays, LineChart, Music2, DollarSign, FileText, Send, Mic2, MapPin, BookOpen, ChevronDown, Home, Info, Wand2, Link2, TrendingUp } from "lucide-react";
+import {
+  History, LogOut, BarChart2, CalendarDays, LineChart, Music2, DollarSign,
+  FileText, Send, Mic2, MapPin, BookOpen, ChevronDown, Home, Info, Wand2,
+  Link2, TrendingUp, Zap
+} from "lucide-react";
 
 const PRIMARY_NAV = [
-  { to: "/", icon: Home, label: "Plan" },
+  { to: "/", icon: Zap, label: "Plan" },
   { to: "/history", icon: History, label: "Library" },
   { to: "/analytics", icon: LineChart, label: "Analytics" },
   { to: "/spotify", icon: Music2, label: "Spotify" },
-  { to: "/playlist-pitcher", icon: Mic2, label: "Pitch" },
 ];
 
-const MORE_NAV = [
-  { to: "/gig-finder", icon: MapPin, label: "Gig Finder" },
-  { to: "/distribution", icon: Send, label: "Distribution" },
-  { to: "/budget", icon: DollarSign, label: "Budget" },
-  { to: "/pitch-deck", icon: FileText, label: "Pitch Deck" },
-  { to: "/calendar", icon: CalendarDays, label: "Calendar" },
-  { to: "/streaming", icon: BarChart2, label: "Stats" },
-  { to: "/algorithm-guide", icon: BookOpen, label: "Algorithm Guide" },
-  { to: "/mastering", icon: Wand2, label: "AI Mastering" },
-  { to: "/link-in-bio", icon: Link2, label: "Link-in-Bio" },
-  { to: "/royalties", icon: TrendingUp, label: "Royalties" },
-  { to: "/press-kit", icon: FileText, label: "Press Kit" },
-  { to: "/about", icon: Info, label: "About" },
+const MORE_SECTIONS = [
+  {
+    heading: "Create",
+    items: [
+      { to: "/mastering", icon: Wand2, label: "AI Mastering" },
+      { to: "/link-in-bio", icon: Link2, label: "Link-in-Bio" },
+      { to: "/press-kit", icon: FileText, label: "Press Kit" },
+    ],
+  },
+  {
+    heading: "Release",
+    items: [
+      { to: "/distribution", icon: Send, label: "Distribution" },
+      { to: "/calendar", icon: CalendarDays, label: "Release Calendar" },
+      { to: "/streaming", icon: BarChart2, label: "Streaming Stats" },
+    ],
+  },
+  {
+    heading: "Promote",
+    items: [
+      { to: "/playlist-pitcher", icon: Mic2, label: "Playlist Pitcher" },
+      { to: "/gig-finder", icon: MapPin, label: "Gig Finder" },
+      { to: "/pitch-deck", icon: FileText, label: "Pitch Deck" },
+    ],
+  },
+  {
+    heading: "Money",
+    items: [
+      { to: "/royalties", icon: TrendingUp, label: "Royalty Dashboard" },
+      { to: "/budget", icon: DollarSign, label: "Budget Tracker" },
+    ],
+  },
+  {
+    heading: "Learn",
+    items: [
+      { to: "/algorithm-guide", icon: BookOpen, label: "Algorithm Guide" },
+      { to: "/about", icon: Info, label: "About SoundReady" },
+    ],
+  },
 ];
+
+const ALL_MORE_ITEMS = MORE_SECTIONS.flatMap((s) => s.items);
 
 export default function AppLayout() {
   const location = useLocation();
@@ -32,13 +63,15 @@ export default function AppLayout() {
   const dropdownRef = useRef(null);
 
   useEffect(() => {
-    const handle = (e) => { if (dropdownRef.current && !dropdownRef.current.contains(e.target)) setMoreOpen(false); };
+    const handle = (e) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(e.target)) setMoreOpen(false);
+    };
     document.addEventListener("mousedown", handle);
     return () => document.removeEventListener("mousedown", handle);
   }, []);
 
   const isActive = (path) => location.pathname === path;
-  const moreIsActive = MORE_NAV.some((n) => isActive(n.to));
+  const moreIsActive = ALL_MORE_ITEMS.some((n) => isActive(n.to));
 
   return (
     <div className="min-h-screen bg-background font-body">
@@ -59,27 +92,36 @@ export default function AppLayout() {
 
             {/* More dropdown */}
             <div className="relative" ref={dropdownRef}>
-              <button onClick={() => setMoreOpen((v) => !v)}
+              <button
+                onClick={() => setMoreOpen((v) => !v)}
                 className={`h-9 px-3 rounded-lg flex items-center gap-1.5 text-sm transition-colors ${moreIsActive || moreOpen ? "bg-primary/10 text-primary" : "text-muted-foreground hover:text-foreground hover:bg-secondary"}`}>
-                <span className="hidden sm:inline text-sm">More</span>
+                <span className="hidden sm:inline text-sm">Tools</span>
                 <ChevronDown className={`h-3.5 w-3.5 transition-transform ${moreOpen ? "rotate-180" : ""}`} />
               </button>
 
               {moreOpen && (
-                <div className="absolute right-0 top-11 w-52 bg-card border border-border rounded-xl shadow-xl overflow-hidden z-50">
-                  {MORE_NAV.map(({ to, icon: Icon, label }) => (
-                    <Link key={to} to={to} onClick={() => setMoreOpen(false)}
-                      className={`flex items-center gap-3 px-4 py-2.5 text-sm transition-colors ${isActive(to) ? "bg-primary/10 text-primary" : "text-foreground hover:bg-secondary"}`}>
-                      <Icon className="h-4 w-4 text-muted-foreground" />
-                      {label}
-                    </Link>
+                <div className="absolute right-0 top-11 w-64 bg-card border border-border rounded-xl shadow-2xl overflow-hidden z-50 py-2">
+                  {MORE_SECTIONS.map((section, si) => (
+                    <div key={section.heading}>
+                      {si > 0 && <div className="mx-3 my-1.5 border-t border-border/60" />}
+                      <p className="px-4 pt-1.5 pb-0.5 text-[10px] uppercase tracking-widest font-semibold text-muted-foreground/60">
+                        {section.heading}
+                      </p>
+                      {section.items.map(({ to, icon: Icon, label }) => (
+                        <Link key={to} to={to} onClick={() => setMoreOpen(false)}
+                          className={`flex items-center gap-3 px-4 py-2 text-sm transition-colors rounded-lg mx-1 ${isActive(to) ? "bg-primary/10 text-primary" : "text-foreground hover:bg-secondary"}`}>
+                          <Icon className={`h-4 w-4 shrink-0 ${isActive(to) ? "text-primary" : "text-muted-foreground"}`} />
+                          {label}
+                        </Link>
+                      ))}
+                    </div>
                   ))}
                 </div>
               )}
             </div>
 
             <button onClick={() => base44.auth.logout()}
-              className="h-9 px-3 rounded-lg flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground hover:bg-secondary transition-colors">
+              className="h-9 px-3 rounded-lg flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground hover:bg-secondary transition-colors ml-1">
               <LogOut className="h-4 w-4" />
             </button>
           </div>
