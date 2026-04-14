@@ -53,6 +53,7 @@ const MORE_SECTIONS = [
     items: [
       { to: "/royalties", icon: TrendingUp, label: "Royalty Dashboard" },
       { to: "/budget", icon: DollarSign, label: "Budget Tracker" },
+      { to: "/tax-estimator", icon: FileText, label: "Tax Estimator" },
     ],
   },
   {

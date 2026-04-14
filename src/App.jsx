@@ -31,6 +31,7 @@ import VenueContracts from './pages/VenueContracts';
 import Community from './pages/Community';
 import TourFinance from './pages/TourFinance';
 import TourPlanner from './pages/TourPlanner';
+import TaxEstimator from './pages/TaxEstimator';
 
 const AuthenticatedApp = () => {
   const { isLoadingAuth, isLoadingPublicSettings, authError, navigateToLogin } = useAuth();
@@ -75,6 +76,7 @@ const AuthenticatedApp = () => {
         <Route path="/contracts" element={<VenueContracts />} />
         <Route path="/tour-finance" element={<TourFinance />} />
         <Route path="/tour-planner" element={<TourPlanner />} />
+        <Route path="/tax-estimator" element={<TaxEstimator />} />
         <Route path="/community" element={<Community />} />
         <Route path="*" element={<PageNotFound />} />
       </Route>
