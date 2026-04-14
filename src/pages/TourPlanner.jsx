@@ -14,6 +14,7 @@ import HotelEstimator from "@/components/tourplanner/HotelEstimator";
 import TourAnalyticsDashboard from "@/components/tourplanner/TourAnalyticsDashboard";
 import ExportTourPDF from "@/components/tourplanner/ExportTourPDF";
 import TourRouteMap from "@/components/tourplanner/TourRouteMap";
+import VenuePinningPanel from "@/components/tourplanner/VenuePinningPanel";
 
 // ─── Category config ─────────────────────────────────────────────────────────
 const CATEGORIES = {
@@ -259,6 +260,8 @@ export default function TourPlanner() {
   const [routeData, setRouteData] = useState({}); // key: "fromCity|toCity" -> { distanceMiles, durationHours }
   const [routeLoading, setRouteLoading] = useState({}); // same key -> bool
   const [expenses, setExpenses] = useState([]);
+  const [pinnedVenues, setPinnedVenues] = useState([]);
+  const [homeBase, setHomeBase] = useState(null);
 
   useEffect(() => {
     Promise.all([
@@ -366,6 +369,50 @@ export default function TourPlanner() {
 
   const today = moment().format("YYYY-MM-DD");
 
+  const handlePinVenue = (venue) => {
+    if (!pinnedVenues.find((v) => v.city === venue.city && v.state === venue.state)) {
+      setPinnedVenues((prev) => [...prev, venue]);
+    }
+  };
+
+  const handleRemovePin = (venue) => {
+    setPinnedVenues((prev) => prev.filter((v) => !(v.city === venue.city && v.state === venue.state)));
+    if (homeBase?.city === venue.city && homeBase?.state === venue.state) {
+      setHomeBase(null);
+    }
+  };
+
+  const handleSetHomeBase = (venue) => {
+    setHomeBase(venue);
+  };
+
+  // Calculate efficient routing suggestions
+  const suggestedRoutes = homeBase && pinnedVenues.length > 1
+    ? pinnedVenues
+        .map((v) => {
+          const distance = Math.round(
+            3959 *
+              (2 *
+                Math.asin(
+                  Math.sqrt(
+                    Math.sin(((homeBase.coords[0] - v.coords[0]) * Math.PI) / 180 / 2) ** 2 +
+                      Math.cos((homeBase.coords[0] * Math.PI) / 180) *
+                        Math.cos((v.coords[0] * Math.PI) / 180) *
+                        Math.sin(((homeBase.coords[1] - v.coords[1]) * Math.PI) / 180 / 2) ** 2
+                  )
+                ))
+          );
+          return { venue: v, distance };
+        })
+        .sort((a, b) => a.distance - b.distance)
+        .slice(0, 5)
+        .map((item, idx) => ({
+          route: [homeBase.city, item.venue.city, homeBase.city],
+          totalDistance: item.distance * 2,
+          estimatedSavings: Math.round(item.distance * 2 * 0.15), // Estimate at $0.15/mi
+        }))
+    : [];
+
   return (
     <div className="min-h-screen bg-background px-4 py-10">
       {modal && (
@@ -437,8 +484,27 @@ export default function TourPlanner() {
           </button>
         </div>
 
-        {/* Tour route map with conflict detection */}
-        <TourRouteMap venues={venues} routeData={routeData} travelGapsByDate={travelGapsByDate} />
+        {/* Venue pinning panel */}
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+          <div className="lg:col-span-2">
+            {/* Tour route map with conflict detection */}
+            <TourRouteMap
+              venues={venues}
+              routeData={routeData}
+              travelGapsByDate={travelGapsByDate}
+              pinnedVenues={pinnedVenues}
+              homeBase={homeBase}
+            />
+          </div>
+          <VenuePinningPanel
+            pinnedVenues={pinnedVenues}
+            homeBase={homeBase}
+            onPinVenue={handlePinVenue}
+            onRemovePin={handleRemovePin}
+            onSetHomeBase={handleSetHomeBase}
+            suggestedVenues={suggestedRoutes}
+          />
+        </div>
 
         {/* Travel warnings panel */}
         {Object.values(travelGapsByDate).some(({ from, to }) => {

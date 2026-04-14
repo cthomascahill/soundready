@@ -1,8 +1,9 @@
 import { useMemo } from "react";
-import { MapContainer, TileLayer, Marker, Popup, Polyline } from "react-leaflet";
-import { AlertTriangle, Calendar, Navigation } from "lucide-react";
+import { MapContainer, TileLayer, Marker, Popup, Polyline, Circle } from "react-leaflet";
+import { AlertTriangle, Calendar, Navigation, MapPin, Home } from "lucide-react";
 import moment from "moment";
 import L from "leaflet";
+import { divIcon } from "leaflet";
 
 // Fix default marker icons
 delete L.Icon.Default.prototype._getIconUrl;
@@ -12,7 +13,7 @@ L.Icon.Default.mergeOptions({
   shadowUrl: "https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-shadow.png",
 });
 
-export default function TourRouteMap({ venues, routeData, travelGapsByDate }) {
+export default function TourRouteMap({ venues, routeData, travelGapsByDate, pinnedVenues = [], homeBase = null }) {
   const mapData = useMemo(() => {
     if (!venues.length) return null;
 
@@ -99,6 +100,47 @@ export default function TourRouteMap({ venues, routeData, travelGapsByDate }) {
           {mapData.coords.length > 1 && (
             <Polyline positions={mapData.coords} color="hsl(var(--primary))" weight={2} opacity={0.7} />
           )}
+
+          {/* Home base marker */}
+          {homeBase && homeBase.coords && (
+            <Marker
+              position={homeBase.coords}
+              icon={divIcon({
+                html: '<div style="background: hsl(var(--primary)); width: 32px; height: 32px; border-radius: 50%; border: 3px solid white; display: flex; align-items: center; justify-content: center; box-shadow: 0 2px 8px rgba(0,0,0,0.3);"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="white" width="18" height="18"><path d="M12 2L3 9v11a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V9l-9-7z"/></svg></div>',
+                className: "home-base-marker",
+                iconSize: [32, 32],
+                iconAnchor: [16, 16],
+              })}
+            >
+              <Popup>
+                <div className="text-xs space-y-1 p-2">
+                  <p className="font-bold">Home Base</p>
+                  <p className="text-muted-foreground">{homeBase.city}, {homeBase.state}</p>
+                </div>
+              </Popup>
+            </Marker>
+          )}
+
+          {/* Pinned venue markers */}
+          {pinnedVenues.map((v) => (
+            <Marker
+              key={`pinned-${v.city}-${v.state}`}
+              position={v.coords}
+              icon={divIcon({
+                html: '<div style="background: hsl(var(--accent)); width: 28px; height: 28px; border-radius: 50%; border: 2px solid white; display: flex; align-items: center; justify-content: center; box-shadow: 0 2px 6px rgba(0,0,0,0.2);"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="white" width="14" height="14"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 3c1.66 0 3 1.34 3 3s-1.34 3-3 3-3-1.34-3-3 1.34-3 3-3zm0 14.2c-2.5 0-4.71-1.28-6-3.22.03-1.99 4-3.08 6-3.08 1.99 0 5.97 1.09 6 3.08-1.29 1.94-3.5 3.22-6 3.22z"/></svg></div>',
+                className: "pinned-venue-marker",
+                iconSize: [28, 28],
+                iconAnchor: [14, 14],
+              })}
+            >
+              <Popup>
+                <div className="text-xs space-y-1 p-2">
+                  <p className="font-bold">{v.city}, {v.state}</p>
+                  <p className="text-muted-foreground">Pinned venue</p>
+                </div>
+              </Popup>
+            </Marker>
+          ))}
 
           {/* Venue markers */}
           {mapData.sorted.map((v, idx) => (
