@@ -68,7 +68,7 @@ const AuthenticatedApp = () => {
       {/* Protected routes */}
       <Route element={<AppLayout />}>
         <Route path="/dashboard" element={<Dashboard />} />
-        <Route path="/release-plan" element={<Results />} />
+        <Route path="/release-plan" element={<Dashboard />} />
         <Route path="/results" element={<Results />} /> 
         <Route path="/history" element={<History />} />
         <Route path="/streaming" element={<StreamingDashboard />} />
