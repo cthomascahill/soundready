@@ -11,6 +11,8 @@ import ContentVideoIdeas from "../components/report/ContentVideoIdeas";
 import ReleaseRecommendations from "../components/report/ReleaseRecommendations";
 import PlaylistPitch from "../components/report/PlaylistPitch";
 import SocialCaptions from "../components/report/SocialCaptions";
+import WaveformVisual from "../components/report/WaveformVisual";
+import ScoreDisplay from "../components/report/ScoreDisplay";
 
 export default function Results() {
   const { state } = useLocation();
@@ -54,6 +56,12 @@ export default function Results() {
           <h1 className="font-heading text-4xl font-bold">{song.title}</h1>
           <p className="text-muted-foreground">{song.artist} · {song.genre} · {song.mood} · {song.energy} Energy</p>
         </motion.div>
+
+        {/* Score */}
+        <ScoreDisplay genre={song.genre} energy={song.energy} />
+
+        {/* Waveform */}
+        <WaveformVisual title={song.title} artist={song.artist} genre={song.genre} energy={song.energy} />
 
         {/* Sections */}
         <AlgorithmOutlook data={report.algorithm_outlook} />

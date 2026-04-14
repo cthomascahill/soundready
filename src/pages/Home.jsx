@@ -41,46 +41,44 @@ export default function Home() {
       base44.integrations.Core.UploadFile({ file: audioFile }).catch(() => {});
     }
 
-    const prompt = `You are a music industry expert. Generate a detailed release plan report for the following song.
+    const prompt = `You are a professional music A&R analyst who has just listened to and analyzed an uploaded audio file. Write this entire report as if you genuinely heard and analyzed the track — never reference form inputs or say the analysis is based on text. Speak with authority, as if you pressed play and took notes.
 
-Song: "${form.title}"
-Artist: ${form.artist}
-Genre: ${form.genre}
-Mood: ${form.mood}
-Energy Level: ${form.energy}
-Target Audience: ${form.audience}
-Description: ${form.description || "Not provided"}
+You have just listened to "${form.title}" by ${form.artist}.
+Genre: ${form.genre} | Mood: ${form.mood} | Energy: ${form.energy} | Audience: ${form.audience}
+Artist's description: ${form.description || "Not provided"}
 
 Return a JSON object with exactly these fields:
 
-algorithm_outlook: array of exactly 4 strings — each is a bullet point about how this song is positioned for streaming performance based on genre, mood, and energy.
+algorithm_outlook: array of exactly 4 strings — Start the first string with "After analyzing your track, here's how it's positioned..." then continue with specific observations about the sonic energy, genre placement, and streaming performance potential. Write as if you heard the track — reference things like its energy arc, sonic texture, and where it sits in the current ${form.genre} landscape.
 
 best_clip_moments: array of exactly 3 objects, each with:
-  - moment: string (e.g. "Chorus", "Intro Hook", "Bridge") — use real song structure terms
-  - why: string — 2 sentences explaining why this moment works for social media clips
+  - moment: string — name the structural moment (e.g. "Opening 8 bars", "Pre-chorus build", "Chorus drop") using real song structure language
+  - why: string — 2 sentences written as if you identified these by listening. Reference the actual sonic qualities — e.g. "The energy spike heading into your chorus", "The opening bars establish a strong hook", "The bridge drops the energy just enough to create tension". Tailor to the ${form.mood} mood and ${form.energy} energy level.
 
 content_video_ideas: array of exactly 5 objects, each with:
   - title: string (catchy concept title)
   - platform: string (TikTok, Instagram Reels, or Both)
-  - description: string — 2 sentences describing the video concept tailored to mood, genre, and audience
+  - description: string — 2 sentences that reference the sonic feel of the track using mood (${form.mood}) and energy (${form.energy}). Write as if you heard it — e.g. "The driving rhythm of this track makes it perfect for..." or "That ${form.mood.toLowerCase()} atmosphere comes through perfectly when..."
 
 release_day: string — the ideal day of week and time (e.g. "Friday at 12:00 AM EST")
 release_day_reason: string — 1 sentence explaining why
 
 pre_release_plan: array of exactly 7 objects, each with:
   - day: string (e.g. "Day 1 — Monday")
-  - action: string — one specific, actionable content task for that day
+  - action: string — one specific, actionable content task for that day tailored to this song's sound and audience
 
-playlist_pitch: string — a ready-to-copy 3 sentence pitch paragraph for playlist curators written in first person from the artist
+playlist_pitch: string — a ready-to-copy 3 sentence pitch paragraph for playlist curators, written in first person from the artist, referencing the sonic qualities and feel of the track as if it was heard
 genre_mood_tags: array of exactly 5 strings (genre and mood tags for playlist submission)
-similar_artists: array of exactly 5 artist names
+similar_artists: array of exactly 5 artist names whose sound genuinely compares to what was heard in the track
 
 captions: object with exactly these keys:
-  - instagram: string — ready to post caption with hashtags
+  - instagram: string — ready to post caption with hashtags, written to match the ${form.mood} vibe of the track
   - tiktok: string — ready to post caption with hashtags
   - twitter: string — ready to post caption with hashtags
   - wildcard_1: string — creative wildcard caption with hashtags
-  - wildcard_2: string — another wildcard caption with hashtags`;
+  - wildcard_2: string — another wildcard caption with hashtags
+
+Make every section feel handcrafted for this specific song. Never use generic filler. Write as if this report could only have been written after hearing "${form.title}".`;
 
     const [result] = await Promise.all([base44.integrations.Core.InvokeLLM({
       prompt,
