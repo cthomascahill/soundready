@@ -35,13 +35,20 @@ export default function Home() {
               SoundReady eliminates the guesswork. In 60 seconds, get a complete release strategy powered by real music industry data, algorithm insights, and AI that thinks like an A&R.
             </p>
           </div>
-          <Button
-            size="lg"
-            className="gap-2 font-heading font-bold text-base px-8"
-            onClick={() => base44.auth.redirectToLogin()}
-          >
-            Sign In to Get Started <ArrowRight className="h-4 w-4" />
-          </Button>
+          <div className="flex gap-3 flex-wrap justify-center">
+            <Button 
+              size="lg" 
+              className="gap-2 font-heading font-bold text-base px-8"
+              onClick={() => base44.auth.redirectToLogin()}
+            >
+              Sign In <ArrowRight className="h-4 w-4" />
+            </Button>
+            <Link to="/register">
+              <Button size="lg" variant="outline" className="gap-2 font-heading font-bold text-base px-8">
+                Sign Up
+              </Button>
+            </Link>
+          </div>
         </motion.div>
       </section>
 
