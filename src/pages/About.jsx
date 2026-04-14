@@ -124,6 +124,14 @@ const FEATURES = [
     title: "Press Kit Generator",
     desc: "Auto-generate a professional EPK (Electronic Press Kit) with artist bio, streaming stats, song descriptions, and curated press quotes — ready to email to press and promoters.",
   },
+  {
+    icon: BarChart2,
+    color: "text-red-400",
+    bg: "bg-red-500/10",
+    border: "border-red-500/20",
+    title: "Streaming Stats",
+    desc: "Track real-time streaming performance per release — total streams, saves, playlist adds, skip rate, and AI-generated projections vs actuals.",
+  },
 ];
 
 const WHO_ITS_FOR = [
