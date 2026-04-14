@@ -102,7 +102,7 @@ export default function AppLayout() {
 
             {/* Category dropdowns */}
             {CATEGORY_DROPDOWNS.map(({ label: catLabel, items }) => (
-              <div key={catLabel} className="relative" ref={dropdownRef}>
+              <div key={catLabel} className="relative">
                 <button
                   onClick={() => setOpenDropdown(openDropdown === catLabel ? null : catLabel)}
                   className={`h-9 px-3 rounded-lg flex items-center gap-1.5 text-sm transition-colors ${dropdownIsActive({ items }) || openDropdown === catLabel ? "bg-primary/10 text-primary" : "text-muted-foreground hover:text-foreground hover:bg-secondary"}`}>
