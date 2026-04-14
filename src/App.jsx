@@ -17,6 +17,9 @@ import BudgetTracker from './pages/BudgetTracker';
 import PitchDeck from './pages/PitchDeck';
 import SpotifyConnect from './pages/SpotifyConnect';
 import About from './pages/About';
+import PlaylistPitcher from './pages/PlaylistPitcher';
+import GigFinder from './pages/GigFinder';
+import AlgorithmGuide from './pages/AlgorithmGuide';
 
 const AuthenticatedApp = () => {
   const { isLoadingAuth, isLoadingPublicSettings, authError, navigateToLogin } = useAuth();
@@ -48,6 +51,9 @@ const AuthenticatedApp = () => {
         <Route path="/pitch-deck" element={<PitchDeck />} />
         <Route path="/spotify" element={<SpotifyConnect />} />
         <Route path="/about" element={<About />} />
+        <Route path="/playlist-pitcher" element={<PlaylistPitcher />} />
+        <Route path="/gig-finder" element={<GigFinder />} />
+        <Route path="/algorithm-guide" element={<AlgorithmGuide />} />
         <Route path="*" element={<PageNotFound />} />
       </Route>
     </Routes>

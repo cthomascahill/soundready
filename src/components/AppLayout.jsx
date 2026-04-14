@@ -1,59 +1,79 @@
+import { useState, useRef, useEffect } from "react";
 import { Outlet, Link, useLocation } from "react-router-dom";
 import { base44 } from "@/api/base44Client";
-import { History, LogOut, BarChart2, CalendarDays, LineChart, Music2, DollarSign, FileText, Send } from "lucide-react";
+import { History, LogOut, BarChart2, CalendarDays, LineChart, Music2, DollarSign, FileText, Send, Mic2, MapPin, BookOpen, ChevronDown, Home, Info } from "lucide-react";
+
+const PRIMARY_NAV = [
+  { to: "/", icon: Home, label: "Plan" },
+  { to: "/history", icon: History, label: "Library" },
+  { to: "/analytics", icon: LineChart, label: "Analytics" },
+  { to: "/spotify", icon: Music2, label: "Spotify" },
+  { to: "/playlist-pitcher", icon: Mic2, label: "Pitch" },
+];
+
+const MORE_NAV = [
+  { to: "/gig-finder", icon: MapPin, label: "Gig Finder" },
+  { to: "/distribution", icon: Send, label: "Distribution" },
+  { to: "/budget", icon: DollarSign, label: "Budget" },
+  { to: "/pitch-deck", icon: FileText, label: "Pitch Deck" },
+  { to: "/calendar", icon: CalendarDays, label: "Calendar" },
+  { to: "/streaming", icon: BarChart2, label: "Stats" },
+  { to: "/algorithm-guide", icon: BookOpen, label: "Algorithm Guide" },
+  { to: "/about", icon: Info, label: "About" },
+];
 
 export default function AppLayout() {
   const location = useLocation();
+  const [moreOpen, setMoreOpen] = useState(false);
+  const dropdownRef = useRef(null);
+
+  useEffect(() => {
+    const handle = (e) => { if (dropdownRef.current && !dropdownRef.current.contains(e.target)) setMoreOpen(false); };
+    document.addEventListener("mousedown", handle);
+    return () => document.removeEventListener("mousedown", handle);
+  }, []);
+
+  const isActive = (path) => location.pathname === path;
+  const moreIsActive = MORE_NAV.some((n) => isActive(n.to));
 
   return (
     <div className="min-h-screen bg-background font-body">
-      {/* Top nav */}
       <header className="sticky top-0 z-40 border-b border-border/50 bg-background/90 backdrop-blur-xl">
-        <div className="max-w-3xl mx-auto px-4 h-14 flex items-center justify-between">
-          <Link to="/about" className="font-heading font-bold text-lg text-foreground flex items-center gap-1.5">
+        <div className="max-w-5xl mx-auto px-4 h-14 flex items-center justify-between">
+          <Link to="/about" className="font-heading font-bold text-lg text-foreground flex items-center gap-1.5 shrink-0">
             <span className="text-primary">Sound</span>Ready
           </Link>
-          <div className="flex items-center gap-1">
-            <Link to="/history"
-              className={`h-9 px-3 rounded-lg flex items-center gap-2 text-sm transition-colors ${location.pathname === "/history" ? "bg-primary/10 text-primary" : "text-muted-foreground hover:text-foreground hover:bg-secondary"}`}>
-              <History className="h-4 w-4" />
-              <span className="hidden sm:inline">Library</span>
-            </Link>
-            <Link to="/streaming"
-              className={`h-9 px-3 rounded-lg flex items-center gap-2 text-sm transition-colors ${location.pathname === "/streaming" ? "bg-primary/10 text-primary" : "text-muted-foreground hover:text-foreground hover:bg-secondary"}`}>
-              <BarChart2 className="h-4 w-4" />
-              <span className="hidden sm:inline">Stats</span>
-            </Link>
-            <Link to="/calendar"
-              className={`h-9 px-3 rounded-lg flex items-center gap-2 text-sm transition-colors ${location.pathname === "/calendar" ? "bg-primary/10 text-primary" : "text-muted-foreground hover:text-foreground hover:bg-secondary"}`}>
-              <CalendarDays className="h-4 w-4" />
-              <span className="hidden sm:inline">Calendar</span>
-            </Link>
-            <Link to="/analytics"
-              className={`h-9 px-3 rounded-lg flex items-center gap-2 text-sm transition-colors ${location.pathname === "/analytics" ? "bg-primary/10 text-primary" : "text-muted-foreground hover:text-foreground hover:bg-secondary"}`}>
-              <LineChart className="h-4 w-4" />
-              <span className="hidden sm:inline">Analytics</span>
-            </Link>
-            <Link to="/distribution"
-              className={`h-9 px-3 rounded-lg flex items-center gap-2 text-sm transition-colors ${location.pathname === "/distribution" ? "bg-primary/10 text-primary" : "text-muted-foreground hover:text-foreground hover:bg-secondary"}`}>
-              <Send className="h-4 w-4" />
-              <span className="hidden sm:inline">Distro</span>
-            </Link>
-            <Link to="/budget"
-              className={`h-9 px-3 rounded-lg flex items-center gap-2 text-sm transition-colors ${location.pathname === "/budget" ? "bg-primary/10 text-primary" : "text-muted-foreground hover:text-foreground hover:bg-secondary"}`}>
-              <DollarSign className="h-4 w-4" />
-              <span className="hidden sm:inline">Budget</span>
-            </Link>
-            <Link to="/pitch-deck"
-              className={`h-9 px-3 rounded-lg flex items-center gap-2 text-sm transition-colors ${location.pathname === "/pitch-deck" ? "bg-primary/10 text-primary" : "text-muted-foreground hover:text-foreground hover:bg-secondary"}`}>
-              <FileText className="h-4 w-4" />
-              <span className="hidden sm:inline">Pitch</span>
-            </Link>
-            <Link to="/spotify"
-              className={`h-9 px-3 rounded-lg flex items-center gap-2 text-sm transition-colors ${location.pathname === "/spotify" ? "bg-primary/10 text-primary" : "text-muted-foreground hover:text-foreground hover:bg-secondary"}`}>
-              <Music2 className="h-4 w-4" />
-              <span className="hidden sm:inline">Spotify</span>
-            </Link>
+
+          <div className="flex items-center gap-0.5">
+            {PRIMARY_NAV.map(({ to, icon: Icon, label }) => (
+              <Link key={to} to={to}
+                className={`h-9 px-3 rounded-lg flex items-center gap-2 text-sm transition-colors ${isActive(to) ? "bg-primary/10 text-primary" : "text-muted-foreground hover:text-foreground hover:bg-secondary"}`}>
+                <Icon className="h-4 w-4" />
+                <span className="hidden md:inline">{label}</span>
+              </Link>
+            ))}
+
+            {/* More dropdown */}
+            <div className="relative" ref={dropdownRef}>
+              <button onClick={() => setMoreOpen((v) => !v)}
+                className={`h-9 px-3 rounded-lg flex items-center gap-1.5 text-sm transition-colors ${moreIsActive || moreOpen ? "bg-primary/10 text-primary" : "text-muted-foreground hover:text-foreground hover:bg-secondary"}`}>
+                <span className="hidden sm:inline text-sm">More</span>
+                <ChevronDown className={`h-3.5 w-3.5 transition-transform ${moreOpen ? "rotate-180" : ""}`} />
+              </button>
+
+              {moreOpen && (
+                <div className="absolute right-0 top-11 w-52 bg-card border border-border rounded-xl shadow-xl overflow-hidden z-50">
+                  {MORE_NAV.map(({ to, icon: Icon, label }) => (
+                    <Link key={to} to={to} onClick={() => setMoreOpen(false)}
+                      className={`flex items-center gap-3 px-4 py-2.5 text-sm transition-colors ${isActive(to) ? "bg-primary/10 text-primary" : "text-foreground hover:bg-secondary"}`}>
+                      <Icon className="h-4 w-4 text-muted-foreground" />
+                      {label}
+                    </Link>
+                  ))}
+                </div>
+              )}
+            </div>
+
             <button onClick={() => base44.auth.logout()}
               className="h-9 px-3 rounded-lg flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground hover:bg-secondary transition-colors">
               <LogOut className="h-4 w-4" />
