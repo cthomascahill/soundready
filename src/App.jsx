@@ -5,7 +5,8 @@ import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import PageNotFound from './lib/PageNotFound';
 import { AuthProvider, useAuth } from '@/lib/AuthContext';
 import UserNotRegisteredError from '@/components/UserNotRegisteredError';
-import Home from './pages/Home';
+import LoginPage from './pages/Home';
+import Dashboard from './pages/Dashboard';
 import Results from './pages/Results';
 import History from './pages/History';
 import StreamingDashboard from './pages/StreamingDashboard';
@@ -61,10 +62,14 @@ const AuthenticatedApp = () => {
 
   return (
     <Routes>
+      {/* Public routes */}
+      <Route path="/" element={<LoginPage />} />
+
+      {/* Protected routes */}
       <Route element={<AppLayout />}>
-        <Route path="/" element={<About />} />
-        <Route path="/release-plan" element={<Home />} />
-        <Route path="/results" element={<Results />} />
+        <Route path="/dashboard" element={<Dashboard />} />
+        <Route path="/release-plan" element={<Results />} />
+        <Route path="/results" element={<Results />} /> 
         <Route path="/history" element={<History />} />
         <Route path="/streaming" element={<StreamingDashboard />} />
         <Route path="/calendar" element={<ReleaseCalendar />} />

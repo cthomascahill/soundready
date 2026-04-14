@@ -87,7 +87,7 @@ export default function AppLayout() {
     <div className="min-h-screen bg-background font-body">
       <header className="sticky top-0 z-40 border-b border-border/50 bg-background/90 backdrop-blur-xl">
         <div className="max-w-6xl mx-auto px-4 h-14 flex items-center justify-between">
-          <Link to="/" className="font-heading font-bold text-lg text-foreground flex items-center gap-1.5 shrink-0">
+          <Link to="/dashboard" className="font-heading font-bold text-lg text-foreground flex items-center gap-1.5 shrink-0">
             <span className="text-primary">Sound</span>Ready
           </Link>
 
