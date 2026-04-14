@@ -1,7 +1,7 @@
 import { useState, useRef, useEffect } from "react";
 import { Outlet, Link, useLocation } from "react-router-dom";
 import { base44 } from "@/api/base44Client";
-import { History, LogOut, BarChart2, CalendarDays, LineChart, Music2, DollarSign, FileText, Send, Mic2, MapPin, BookOpen, ChevronDown, Home, Info } from "lucide-react";
+import { History, LogOut, BarChart2, CalendarDays, LineChart, Music2, DollarSign, FileText, Send, Mic2, MapPin, BookOpen, ChevronDown, Home, Info, Wand2 } from "lucide-react";
 
 const PRIMARY_NAV = [
   { to: "/", icon: Home, label: "Plan" },
@@ -19,6 +19,7 @@ const MORE_NAV = [
   { to: "/calendar", icon: CalendarDays, label: "Calendar" },
   { to: "/streaming", icon: BarChart2, label: "Stats" },
   { to: "/algorithm-guide", icon: BookOpen, label: "Algorithm Guide" },
+  { to: "/mastering", icon: Wand2, label: "AI Mastering" },
   { to: "/about", icon: Info, label: "About" },
 ];
 
