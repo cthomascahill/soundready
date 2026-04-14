@@ -8,53 +8,70 @@ import {
 } from "lucide-react";
 
 const PRIMARY_NAV = [
-  { to: "/", icon: Zap, label: "Plan" },
-  { to: "/history", icon: History, label: "Library" },
+  { to: "/", icon: Zap, label: "Release Plan" },
+  { to: "/streaming", icon: BarChart2, label: "Performance" },
   { to: "/analytics", icon: LineChart, label: "Analytics" },
-  { to: "/spotify", icon: Music2, label: "Spotify" },
 ];
 
 const MORE_SECTIONS = [
   {
-    heading: "Music Production",
+    heading: "Release Tools",
     items: [
-      { to: "/mastering", icon: Wand2, label: "AI Mastering" },
-      { to: "/pitch-deck", icon: FileText, label: "Pitch Deck" },
-    ],
-  },
-  {
-    heading: "Release Management",
-    items: [
+      { to: "/history", icon: History, label: "Song Library" },
       { to: "/distribution", icon: Send, label: "Distribution" },
       { to: "/calendar", icon: CalendarDays, label: "Release Calendar" },
-      { to: "/streaming", icon: BarChart2, label: "Streaming Stats" },
+      { to: "/budget", icon: DollarSign, label: "Budget Tracker" },
     ],
   },
   {
-    heading: "Promotion & Growth",
+    heading: "Production & Mastering",
     items: [
+      { to: "/mastering", icon: Wand2, label: "AI Mastering" },
+      { to: "/mixing-feedback", icon: Wand2, label: "Mixing Feedback" },
+      { to: "/spotify", icon: Music2, label: "Spotify Intelligence" },
+    ],
+  },
+  {
+    heading: "Promotion",
+    items: [
+      { to: "/pitch-deck", icon: FileText, label: "Pitch Deck" },
       { to: "/playlist-pitcher", icon: Mic2, label: "Playlist Pitcher" },
-      { to: "/gig-finder", icon: MapPin, label: "Gig Finder" },
       { to: "/link-in-bio", icon: Link2, label: "Link-in-Bio" },
       { to: "/press-kit", icon: FileText, label: "Press Kit" },
+      { to: "/scheduler", icon: CalendarDays, label: "Content Scheduler" },
+      { to: "/sync-pitcher", icon: Mic2, label: "Sync Licensing" },
     ],
   },
   {
     heading: "Touring",
     items: [
-      { to: "/venues", icon: Building2, label: "Venue Tracker" },
+      { to: "/gig-finder", icon: MapPin, label: "Gig Finder" },
       { to: "/tour-opportunities", icon: Music2, label: "Tour Opportunities" },
-      { to: "/contracts", icon: ScrollText, label: "Contracts" },
+      { to: "/venues", icon: Building2, label: "Venue Tracker" },
       { to: "/tour-planner", icon: CalendarRange, label: "Tour Planner" },
       { to: "/tour-finance", icon: DollarSign, label: "Tour Finance" },
+      { to: "/contracts", icon: ScrollText, label: "Contracts" },
     ],
   },
   {
-    heading: "Financial",
+    heading: "Revenue & Rights",
     items: [
-      { to: "/royalties", icon: TrendingUp, label: "Royalty Dashboard" },
-      { to: "/budget", icon: DollarSign, label: "Budget Tracker" },
+      { to: "/royalties", icon: TrendingUp, label: "Royalties" },
+      { to: "/rights", icon: FileText, label: "Rights Manager" },
+      { to: "/merch", icon: ShoppingBag, label: "Merch Store" },
       { to: "/tax-estimator", icon: FileText, label: "Tax Estimator" },
+    ],
+  },
+  {
+    heading: "Community & Growth",
+    items: [
+      { to: "/tiktok-creators", icon: Music2, label: "TikTok Creators" },
+      { to: "/collabs", icon: Users, label: "Collab Finder" },
+      { to: "/email-campaigns", icon: Mail, label: "Email Campaigns" },
+      { to: "/presaves", icon: TrendingUp, label: "Pre-Save Tracker" },
+      { to: "/performance-tracker", icon: BarChart2, label: "Performance Tracker" },
+      { to: "/newsletter", icon: Mail, label: "Newsletter Builder" },
+      { to: "/video-generator", icon: FileText, label: "Video Generator" },
     ],
   },
   {
@@ -62,34 +79,6 @@ const MORE_SECTIONS = [
     items: [
       { to: "/algorithm-guide", icon: BookOpen, label: "Algorithm Guide" },
       { to: "/community", icon: Users, label: "Community" },
-      { to: "/about", icon: Info, label: "About" },
-    ],
-  },
-  {
-    heading: "Growth & Community",
-    items: [
-      { to: "/tiktok-creators", icon: Music2, label: "TikTok Creators" },
-      { to: "/collabs", icon: Users, label: "Collab Finder" },
-      { to: "/email-campaigns", icon: Mail, label: "Email Campaigns" },
-      { to: "/presaves", icon: TrendingUp, label: "Pre-Save Tracker" },
-    ],
-  },
-  {
-    heading: "Products & Content",
-    items: [
-      { to: "/merch", icon: ShoppingBag, label: "Merch Store" },
-      { to: "/video-generator", icon: FileText, label: "Video Generator" },
-      { to: "/mixing-feedback", icon: Wand2, label: "Mixing Feedback" },
-      { to: "/newsletter", icon: Mail, label: "Newsletter Builder" },
-    ],
-  },
-  {
-    heading: "Advanced Tools",
-    items: [
-      { to: "/performance-tracker", icon: BarChart2, label: "Performance Tracker" },
-      { to: "/rights", icon: FileText, label: "Rights Manager" },
-      { to: "/scheduler", icon: CalendarDays, label: "Content Scheduler" },
-      { to: "/sync-pitcher", icon: Mic2, label: "Sync Licensing" },
     ],
   },
 ];
