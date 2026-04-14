@@ -63,7 +63,7 @@ const AuthenticatedApp = () => {
   return (
     <Routes>
       {/* Public routes */}
-      <Route path="/" element={<LoginPage />} />
+      <Route path="/" element={<About />} />
 
       {/* Protected routes */}
       <Route element={<AppLayout />}>
