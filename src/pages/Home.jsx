@@ -1,6 +1,7 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { base44 } from "@/api/base44Client";
+import { useAuth } from "@/lib/AuthContext";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -17,17 +18,30 @@ const AUDIENCES = ["Gen Z", "Millennials", "Everyone"];
 
 export default function Home() {
   const navigate = useNavigate();
+  const { user } = useAuth();
   const [loading, setLoading] = useState(false);
   const [audioFile, setAudioFile] = useState(null);
   const [form, setForm] = useState({
     title: "",
-    artist: "",
-    genre: "",
+    artist: user?.artist_name || "",
+    genre: user?.genres?.[0] || "",
     mood: "",
     energy: "",
     description: "",
-    audience: "",
+    audience: user?.target_audience || "",
   });
+
+  useEffect(() => {
+    if (user?.artist_name && !form.artist) {
+      setForm((f) => ({ ...f, artist: user.artist_name }));
+    }
+    if (user?.genres?.[0] && !form.genre) {
+      setForm((f) => ({ ...f, genre: user.genres[0] }));
+    }
+    if (user?.target_audience && !form.audience) {
+      setForm((f) => ({ ...f, audience: user.target_audience }));
+    }
+  }, [user]);
 
   const set = (k) => (e) => setForm((f) => ({ ...f, [k]: e.target.value }));
   const canSubmit = form.title && form.artist && form.genre && form.mood && form.energy && form.audience;
@@ -41,14 +55,17 @@ export default function Home() {
       base44.integrations.Core.UploadFile({ file: audioFile }).catch(() => {});
     }
 
+    const artistContext = user?.bio ? `Artist Bio: ${user.bio}\n` : "";
+    const genreContext = user?.sub_genres?.length ? `Sub-genres: ${user.sub_genres.join(", ")}\n` : "";
+
     const prompt = `You are a senior music industry consultant with 20 years of experience working with independent artists, major labels, and streaming platforms. You have deep knowledge of Spotify, Apple Music, and TikTok algorithms, current playlist curation trends, viral content strategy, and music marketing. You have personally helped independent artists get millions of streams without label backing.
 
 A musician has just finished a song and needs your expert guidance before releasing it. They have provided you with the following information:
 
 Song Title: ${form.title}
 Artist Name: ${form.artist}
-Genre: ${form.genre}
-Mood: ${form.mood}
+${artistContext}Genre: ${form.genre}
+${genreContext}Mood: ${form.mood}
 Energy Level: ${form.energy}
 Song Description: ${form.description || "Not provided"}
 Target Audience: ${form.audience}

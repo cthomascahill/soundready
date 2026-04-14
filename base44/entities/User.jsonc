@@ -1,0 +1,72 @@
+{
+  "name": "User",
+  "type": "object",
+  "properties": {
+    "role": {
+      "type": "string",
+      "description": "The role of the user in the app",
+      "enum": [
+        "admin",
+        "user"
+      ]
+    },
+    "artist_name": {
+      "type": "string",
+      "description": "The artist's stage name"
+    },
+    "bio": {
+      "type": "string",
+      "description": "Artist bio or description"
+    },
+    "genres": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Primary music genres"
+    },
+    "sub_genres": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Sub-genres or specific styles"
+    },
+    "target_audience": {
+      "type": "string",
+      "description": "Primary target audience demographic"
+    },
+    "social_links": {
+      "type": "object",
+      "properties": {
+        "spotify": {
+          "type": "string"
+        },
+        "instagram": {
+          "type": "string"
+        },
+        "tiktok": {
+          "type": "string"
+        },
+        "twitter": {
+          "type": "string"
+        },
+        "youtube": {
+          "type": "string"
+        },
+        "soundcloud": {
+          "type": "string"
+        }
+      },
+      "description": "Social media profile links"
+    },
+    "onboarding_completed": {
+      "type": "boolean",
+      "default": false,
+      "description": "Whether the user has completed initial onboarding"
+    }
+  },
+  "required": [
+    "role"
+  ]
+}
