@@ -16,15 +16,14 @@ const PRIMARY_NAV = [
 
 const MORE_SECTIONS = [
   {
-    heading: "Create",
+    heading: "Music Production",
     items: [
       { to: "/mastering", icon: Wand2, label: "AI Mastering" },
-      { to: "/link-in-bio", icon: Link2, label: "Link-in-Bio" },
-      { to: "/press-kit", icon: FileText, label: "Press Kit" },
+      { to: "/pitch-deck", icon: FileText, label: "Pitch Deck" },
     ],
   },
   {
-    heading: "Release",
+    heading: "Release Management",
     items: [
       { to: "/distribution", icon: Send, label: "Distribution" },
       { to: "/calendar", icon: CalendarDays, label: "Release Calendar" },
@@ -32,26 +31,13 @@ const MORE_SECTIONS = [
     ],
   },
   {
-    heading: "Promote",
+    heading: "Promotion & Growth",
     items: [
       { to: "/playlist-pitcher", icon: Mic2, label: "Playlist Pitcher" },
       { to: "/gig-finder", icon: MapPin, label: "Gig Finder" },
-      { to: "/pitch-deck", icon: FileText, label: "Pitch Deck" },
+      { to: "/link-in-bio", icon: Link2, label: "Link-in-Bio" },
+      { to: "/press-kit", icon: FileText, label: "Press Kit" },
     ],
-  },
-  {
-    heading: "Money",
-    items: [
-      { to: "/royalties", icon: TrendingUp, label: "Royalty Dashboard" },
-      { to: "/budget", icon: DollarSign, label: "Budget Tracker" },
-    ],
-  },
-  {
-  heading: "Learn",
-  items: [
-    { to: "/algorithm-guide", icon: BookOpen, label: "Algorithm Guide" },
-    { to: "/about", icon: Info, label: "About SoundReady" },
-  ],
   },
   {
     heading: "Touring",
@@ -63,19 +49,21 @@ const MORE_SECTIONS = [
     ],
   },
   {
-    heading: "Community",
+    heading: "Financial",
     items: [
-      { to: "/community", icon: Users, label: "Community Chat" },
+      { to: "/royalties", icon: TrendingUp, label: "Royalty Dashboard" },
+      { to: "/budget", icon: DollarSign, label: "Budget Tracker" },
     ],
   },
   {
-  heading: "Account",
-  items: [
-    { to: "/pricing", icon: CreditCard, label: "Pricing" },
-    { to: "/profile", icon: UserCircle, label: "My Profile" },
-  ],
+    heading: "Resources",
+    items: [
+      { to: "/algorithm-guide", icon: BookOpen, label: "Algorithm Guide" },
+      { to: "/community", icon: Users, label: "Community" },
+      { to: "/about", icon: Info, label: "About" },
+    ],
   },
-  ];
+];
 
 const ALL_MORE_ITEMS = MORE_SECTIONS.flatMap((s) => s.items);
 
