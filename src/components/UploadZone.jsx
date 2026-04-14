@@ -1,31 +1,15 @@
 import { useState, useRef } from "react";
-import { Upload, Music, X } from "lucide-react";
-import { motion, AnimatePresence } from "framer-motion";
+import { Upload, Music, X, CheckCircle2 } from "lucide-react";
 
-export default function UploadZone({ onFileSelect, file, onClear }) {
+export default function UploadZone({ file, onFileSelect, onClear }) {
   const [isDragging, setIsDragging] = useState(false);
   const inputRef = useRef(null);
-
-  const handleDrag = (e) => {
-    e.preventDefault();
-    e.stopPropagation();
-  };
-
-  const handleDragIn = (e) => {
-    e.preventDefault();
-    setIsDragging(true);
-  };
-
-  const handleDragOut = (e) => {
-    e.preventDefault();
-    setIsDragging(false);
-  };
 
   const handleDrop = (e) => {
     e.preventDefault();
     setIsDragging(false);
-    const droppedFile = e.dataTransfer.files[0];
-    if (droppedFile) onFileSelect(droppedFile);
+    const dropped = e.dataTransfer.files[0];
+    if (dropped) onFileSelect(dropped);
   };
 
   const handleChange = (e) => {
@@ -35,82 +19,44 @@ export default function UploadZone({ onFileSelect, file, onClear }) {
 
   return (
     <div
-      onDragOver={handleDrag}
-      onDragEnter={handleDragIn}
-      onDragLeave={handleDragOut}
+      onDragOver={(e) => { e.preventDefault(); setIsDragging(true); }}
+      onDragLeave={() => setIsDragging(false)}
       onDrop={handleDrop}
       onClick={() => !file && inputRef.current?.click()}
-      className={`relative rounded-2xl border-2 border-dashed transition-all duration-300 cursor-pointer overflow-hidden ${
-        isDragging
-          ? "border-primary bg-primary/10 scale-[1.02]"
-          : file
-          ? "border-primary/30 bg-primary/5"
-          : "border-border hover:border-primary/40 hover:bg-secondary/50"
-      }`}
+      className={`relative rounded-xl border-2 border-dashed transition-all duration-200 cursor-pointer
+        ${isDragging ? "border-primary bg-primary/10 scale-[1.01]" : file ? "border-primary/40 bg-primary/5 cursor-default" : "border-border hover:border-primary/40 hover:bg-secondary/40"}`}
     >
-      <input
-        ref={inputRef}
-        type="file"
-        accept="audio/*"
-        onChange={handleChange}
-        className="hidden"
-      />
+      <input ref={inputRef} type="file" accept=".mp3,.wav,.aac,.flac,audio/*" onChange={handleChange} className="hidden" />
 
-      <div className="p-8 sm:p-12 flex flex-col items-center text-center">
-        <AnimatePresence mode="wait">
-          {file ? (
-            <motion.div
-              key="file"
-              initial={{ opacity: 0, scale: 0.9 }}
-              animate={{ opacity: 1, scale: 1 }}
-              exit={{ opacity: 0, scale: 0.9 }}
-              className="flex flex-col items-center gap-4"
-            >
-              <div className="h-16 w-16 rounded-2xl bg-primary/20 flex items-center justify-center">
-                <Music className="h-8 w-8 text-primary" />
-              </div>
-              <div>
-                <p className="font-heading font-semibold text-foreground">{file.name}</p>
-                <p className="text-sm text-muted-foreground mt-1">
-                  {(file.size / (1024 * 1024)).toFixed(1)} MB
-                </p>
+      <div className="px-6 py-7 flex flex-col items-center text-center gap-3">
+        {file ? (
+          <>
+            <div className="flex items-center gap-3">
+              <CheckCircle2 className="h-6 w-6 text-primary shrink-0" />
+              <div className="text-left">
+                <p className="text-sm font-medium text-foreground">{file.name}</p>
+                <p className="text-xs text-muted-foreground">{(file.size / (1024 * 1024)).toFixed(1)} MB</p>
               </div>
               <button
-                onClick={(e) => {
-                  e.stopPropagation();
-                  onClear();
-                }}
-                className="flex items-center gap-1.5 text-sm text-muted-foreground hover:text-destructive transition-colors"
+                onClick={(e) => { e.stopPropagation(); onClear(); }}
+                className="ml-2 text-muted-foreground hover:text-destructive transition-colors"
               >
-                <X className="h-3.5 w-3.5" />
-                Remove
+                <X className="h-4 w-4" />
               </button>
-            </motion.div>
-          ) : (
-            <motion.div
-              key="empty"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              className="flex flex-col items-center gap-4"
-            >
-              <div className="h-16 w-16 rounded-2xl bg-secondary flex items-center justify-center">
-                <Upload className="h-8 w-8 text-muted-foreground" />
-              </div>
-              <div>
-                <p className="font-heading font-semibold text-foreground">
-                  Drop your track here
-                </p>
-                <p className="text-sm text-muted-foreground mt-1">
-                  MP3, WAV, AAC, FLAC — up to 50MB
-                </p>
-              </div>
-              <div className="px-4 py-2 rounded-lg bg-primary/10 text-primary text-sm font-medium">
-                Browse files
-              </div>
-            </motion.div>
-          )}
-        </AnimatePresence>
+            </div>
+          </>
+        ) : (
+          <>
+            <div className="h-12 w-12 rounded-xl bg-secondary flex items-center justify-center">
+              <Upload className="h-5 w-5 text-muted-foreground" />
+            </div>
+            <div>
+              <p className="font-heading font-semibold text-sm">Drop your track here</p>
+              <p className="text-xs text-muted-foreground mt-1">MP3, WAV, AAC, FLAC — up to 50MB</p>
+            </div>
+            <span className="px-3 py-1.5 rounded-lg bg-secondary text-xs text-muted-foreground font-medium">Browse files</span>
+          </>
+        )}
       </div>
     </div>
   );

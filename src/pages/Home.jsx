@@ -5,8 +5,10 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
-import { Loader2, Zap } from "lucide-react";
-import { motion } from "framer-motion";
+import { Zap } from "lucide-react";
+import { motion, AnimatePresence } from "framer-motion";
+import UploadZone from "../components/UploadZone";
+import GeneratingLoader from "../components/GeneratingLoader";
 
 const GENRES = ["Hip Hop", "Pop", "R&B", "Country", "Rock", "EDM", "Latin", "Indie", "Other"];
 const MOODS = ["Happy", "Melancholic", "Hype", "Romantic", "Dark", "Inspirational", "Chill"];
@@ -16,6 +18,7 @@ const AUDIENCES = ["Gen Z", "Millennials", "Everyone"];
 export default function Home() {
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
+  const [audioFile, setAudioFile] = useState(null);
   const [form, setForm] = useState({
     title: "",
     artist: "",
@@ -32,6 +35,11 @@ export default function Home() {
   const handleSubmit = async () => {
     if (!canSubmit) return;
     setLoading(true);
+
+    // Upload audio file in background (not analyzed)
+    if (audioFile) {
+      base44.integrations.Core.UploadFile({ file: audioFile }).catch(() => {});
+    }
 
     const prompt = `You are a music industry expert. Generate a detailed release plan report for the following song.
 
@@ -74,7 +82,7 @@ captions: object with exactly these keys:
   - wildcard_1: string — creative wildcard caption with hashtags
   - wildcard_2: string — another wildcard caption with hashtags`;
 
-    const result = await base44.integrations.Core.InvokeLLM({
+    const [result] = await Promise.all([base44.integrations.Core.InvokeLLM({
       prompt,
       response_json_schema: {
         type: "object",
@@ -122,13 +130,15 @@ captions: object with exactly these keys:
           },
         },
       },
-    });
+    }), new Promise((res) => setTimeout(res, 8000))]);
 
     navigate("/results", { state: { report: result, song: form } });
     setLoading(false);
   };
 
   return (
+    <>
+      <AnimatePresence>{loading && <GeneratingLoader />}</AnimatePresence>
     <div className="min-h-screen bg-background flex flex-col items-center justify-start px-4 py-16">
       <motion.div
         initial={{ opacity: 0, y: 24 }}
@@ -150,6 +160,9 @@ captions: object with exactly these keys:
 
         {/* Form */}
         <div className="rounded-2xl bg-card border border-border p-8 space-y-6">
+          {/* Audio upload */}
+          <UploadZone file={audioFile} onFileSelect={setAudioFile} onClear={() => setAudioFile(null)} />
+
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
             <div className="space-y-2">
               <Label>Song Title</Label>
@@ -213,17 +226,11 @@ captions: object with exactly these keys:
             disabled={!canSubmit || loading}
             className="w-full h-12 text-base font-heading font-semibold"
           >
-            {loading ? (
-              <>
-                <Loader2 className="h-5 w-5 animate-spin mr-2" />
-                Generating your plan...
-              </>
-            ) : (
-              "Generate My Release Plan"
-            )}
+            Generate My Release Plan
           </Button>
         </div>
       </motion.div>
     </div>
+    </>
   );
 }
