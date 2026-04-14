@@ -1,5 +1,7 @@
+import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
+import { base44 } from "@/api/base44Client";
 import { Zap, BarChart2, Music2, DollarSign, FileText, Users, CheckCircle2, ArrowRight, Mic2, MapPin, BookOpen, Wand2, Link2, TrendingUp, Lightbulb, Rocket, Target, Send, CalendarDays, Newspaper } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
@@ -142,6 +144,12 @@ const WHO_ITS_FOR = [
 ];
 
 export default function About() {
+  const [isAuth, setIsAuth] = useState(false);
+
+  useEffect(() => {
+    base44.auth.isAuthenticated().then(setIsAuth);
+  }, []);
+
   return (
     <div className="min-h-screen bg-background">
       {/* Hero */}
@@ -161,7 +169,11 @@ export default function About() {
             </p>
           </div>
           <div className="flex items-center justify-center gap-3 flex-wrap pt-4">
-            <Link to="/release-plan"><Button size="lg" className="gap-2 font-heading font-bold text-base px-8">Generate Release Plan <ArrowRight className="h-4 w-4" /></Button></Link>
+            {isAuth ? (
+              <Link to="/release-plan"><Button size="lg" className="gap-2 font-heading font-bold text-base px-8">Generate Release Plan <ArrowRight className="h-4 w-4" /></Button></Link>
+            ) : (
+              <Button size="lg" className="gap-2 font-heading font-bold text-base px-8" onClick={() => base44.auth.redirectToLogin()}>Sign In <ArrowRight className="h-4 w-4" /></Button>
+            )}
           </div>
         </motion.div>
       </section>
