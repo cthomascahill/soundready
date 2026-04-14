@@ -4,7 +4,7 @@ import { base44 } from "@/api/base44Client";
 import {
   History, LogOut, BarChart2, CalendarDays, LineChart, Music2, DollarSign,
   FileText, Send, Mic2, MapPin, BookOpen, ChevronDown, Home, Info, Wand2,
-  Link2, TrendingUp, Zap
+  Link2, TrendingUp, Zap, CreditCard, UserCircle
 } from "lucide-react";
 
 const PRIMARY_NAV = [
@@ -47,13 +47,20 @@ const MORE_SECTIONS = [
     ],
   },
   {
-    heading: "Learn",
-    items: [
-      { to: "/algorithm-guide", icon: BookOpen, label: "Algorithm Guide" },
-      { to: "/about", icon: Info, label: "About SoundReady" },
-    ],
+  heading: "Learn",
+  items: [
+    { to: "/algorithm-guide", icon: BookOpen, label: "Algorithm Guide" },
+    { to: "/about", icon: Info, label: "About SoundReady" },
+  ],
   },
-];
+  {
+  heading: "Account",
+  items: [
+    { to: "/pricing", icon: CreditCard, label: "Pricing" },
+    { to: "/profile", icon: UserCircle, label: "My Profile" },
+  ],
+  },
+  ];
 
 const ALL_MORE_ITEMS = MORE_SECTIONS.flatMap((s) => s.items);
 
@@ -120,10 +127,10 @@ export default function AppLayout() {
               )}
             </div>
 
-            <button onClick={() => base44.auth.logout()}
-              className="h-9 px-3 rounded-lg flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground hover:bg-secondary transition-colors ml-1">
-              <LogOut className="h-4 w-4" />
-            </button>
+            <Link to="/profile"
+              className={`h-9 px-3 rounded-lg flex items-center gap-2 text-sm transition-colors ml-1 ${isActive("/profile") ? "bg-primary/10 text-primary" : "text-muted-foreground hover:text-foreground hover:bg-secondary"}`}>
+              <UserCircle className="h-4 w-4" />
+            </Link>
           </div>
         </div>
       </header>

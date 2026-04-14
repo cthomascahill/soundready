@@ -24,6 +24,8 @@ import RoyaltyDashboard from './pages/RoyaltyDashboard';
 import PressKit from './pages/PressKit';
 import GigFinder from './pages/GigFinder';
 import AlgorithmGuide from './pages/AlgorithmGuide';
+import Pricing from './pages/Pricing';
+import Profile from './pages/Profile';
 
 const AuthenticatedApp = () => {
   const { isLoadingAuth, isLoadingPublicSettings, authError, navigateToLogin } = useAuth();
@@ -62,6 +64,8 @@ const AuthenticatedApp = () => {
         <Route path="/link-in-bio" element={<LinkInBio />} />
         <Route path="/royalties" element={<RoyaltyDashboard />} />
         <Route path="/press-kit" element={<PressKit />} />
+        <Route path="/pricing" element={<Pricing />} />
+        <Route path="/profile" element={<Profile />} />
         <Route path="*" element={<PageNotFound />} />
       </Route>
     </Routes>
