@@ -1,6 +1,6 @@
 import { Outlet, Link, useLocation } from "react-router-dom";
 import { base44 } from "@/api/base44Client";
-import { History, LogOut, BarChart2, CalendarDays } from "lucide-react";
+import { History, LogOut, BarChart2, CalendarDays, LineChart } from "lucide-react";
 
 export default function AppLayout() {
   const location = useLocation();
@@ -28,6 +28,11 @@ export default function AppLayout() {
               className={`h-9 px-3 rounded-lg flex items-center gap-2 text-sm transition-colors ${location.pathname === "/calendar" ? "bg-primary/10 text-primary" : "text-muted-foreground hover:text-foreground hover:bg-secondary"}`}>
               <CalendarDays className="h-4 w-4" />
               <span className="hidden sm:inline">Calendar</span>
+            </Link>
+            <Link to="/analytics"
+              className={`h-9 px-3 rounded-lg flex items-center gap-2 text-sm transition-colors ${location.pathname === "/analytics" ? "bg-primary/10 text-primary" : "text-muted-foreground hover:text-foreground hover:bg-secondary"}`}>
+              <LineChart className="h-4 w-4" />
+              <span className="hidden sm:inline">Analytics</span>
             </Link>
             <button onClick={() => base44.auth.logout()}
               className="h-9 px-3 rounded-lg flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground hover:bg-secondary transition-colors">

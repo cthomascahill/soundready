@@ -11,6 +11,7 @@ import History from './pages/History';
 import StreamingDashboard from './pages/StreamingDashboard';
 import ReleaseCalendar from './pages/ReleaseCalendar';
 import AppLayout from './components/AppLayout';
+import Analytics from './pages/Analytics';
 
 const AuthenticatedApp = () => {
   const { isLoadingAuth, isLoadingPublicSettings, authError, navigateToLogin } = useAuth();
@@ -36,6 +37,7 @@ const AuthenticatedApp = () => {
         <Route path="/history" element={<History />} />
         <Route path="/streaming" element={<StreamingDashboard />} />
         <Route path="/calendar" element={<ReleaseCalendar />} />
+        <Route path="/analytics" element={<Analytics />} />
         <Route path="*" element={<PageNotFound />} />
       </Route>
     </Routes>

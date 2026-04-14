@@ -1,5 +1,5 @@
 import { useLocation, useNavigate } from "react-router-dom";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { base44 } from "@/api/base44Client";
 import { motion } from "framer-motion";
 import AlgorithmOutlook from "../components/report/AlgorithmOutlook";
@@ -20,13 +20,20 @@ import VisualIdentity from "../components/report/VisualIdentity";
 import MoneyMoves from "../components/report/MoneyMoves";
 import SocialAssetGenerator from "../components/report/SocialAssetGenerator";
 import StickyActionBar from "../components/report/StickyActionBar";
+import CollabPanel from "../components/collab/CollabPanel";
+import CommentThread from "../components/collab/CommentThread";
 
 export default function Results() {
   const { state } = useLocation();
   const navigate = useNavigate();
   const [saving, setSaving] = useState(false);
   const [saved, setSaved] = useState(false);
-  const [pdfRef, setPdfRef] = useState(null);
+  const [savedId, setSavedId] = useState(null);
+  const [currentUser, setCurrentUser] = useState(null);
+
+  useEffect(() => {
+    base44.auth.me().then(setCurrentUser).catch(() => {});
+  }, []);
 
   if (!state?.report) {
     navigate("/");
@@ -38,7 +45,7 @@ export default function Results() {
   const handleSave = async () => {
     if (saved || saving) return;
     setSaving(true);
-    await base44.entities.SongAnalysis.create({
+    const record = await base44.entities.SongAnalysis.create({
       title: song.title,
       artist_name: song.artist,
       genre: song.genre,
@@ -52,6 +59,7 @@ export default function Results() {
       similar_artists: report.similar_artists,
       status: "complete",
     });
+    setSavedId(record.id);
     setSaved(true);
     setSaving(false);
   };
@@ -101,6 +109,10 @@ export default function Results() {
         <MoneyMoves song={song} />
         <SocialAssetGenerator song={song} />
         <CollabSuggestions song={song} similarArtists={report.similar_artists} />
+
+        {/* Collaboration section */}
+        <CollabPanel songAnalysisId={savedId} songTitle={song.title} currentUser={currentUser} />
+        <CommentThread songAnalysisId={savedId} songTitle={song.title} currentUser={currentUser} />
 
         {/* Hidden PDF button trigger */}
         <div className="hidden">

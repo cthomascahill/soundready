@@ -1,0 +1,36 @@
+{
+  "name": "ReportComment",
+  "type": "object",
+  "properties": {
+    "song_analysis_id": {
+      "type": "string",
+      "description": "ID of the SongAnalysis this comment belongs to"
+    },
+    "song_title": {
+      "type": "string"
+    },
+    "author_email": {
+      "type": "string"
+    },
+    "author_name": {
+      "type": "string"
+    },
+    "section": {
+      "type": "string",
+      "description": "Which section of the report this comment is on (e.g. Algorithm Outlook, Social Assets)"
+    },
+    "body": {
+      "type": "string",
+      "description": "The comment text"
+    },
+    "resolved": {
+      "type": "boolean",
+      "default": false
+    }
+  },
+  "required": [
+    "song_analysis_id",
+    "body",
+    "author_email"
+  ]
+}

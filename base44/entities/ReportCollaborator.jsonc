@@ -1,0 +1,48 @@
+{
+  "name": "ReportCollaborator",
+  "type": "object",
+  "properties": {
+    "song_analysis_id": {
+      "type": "string",
+      "description": "ID of the shared SongAnalysis"
+    },
+    "song_title": {
+      "type": "string"
+    },
+    "invited_by_email": {
+      "type": "string"
+    },
+    "invited_by_name": {
+      "type": "string"
+    },
+    "collaborator_email": {
+      "type": "string",
+      "description": "Email of the invited collaborator"
+    },
+    "collaborator_name": {
+      "type": "string"
+    },
+    "role": {
+      "type": "string",
+      "enum": [
+        "viewer",
+        "editor"
+      ],
+      "default": "viewer",
+      "description": "viewer = read-only, editor = can comment and edit"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "pending",
+        "accepted"
+      ],
+      "default": "pending"
+    }
+  },
+  "required": [
+    "song_analysis_id",
+    "collaborator_email",
+    "invited_by_email"
+  ]
+}
