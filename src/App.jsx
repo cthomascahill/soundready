@@ -5,7 +5,6 @@ import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import PageNotFound from './lib/PageNotFound';
 import { AuthProvider, useAuth } from '@/lib/AuthContext';
 import UserNotRegisteredError from '@/components/UserNotRegisteredError';
-import OnboardingWizard from '@/components/OnboardingWizard';
 import Home from './pages/Home';
 import Results from './pages/Results';
 import History from './pages/History';
@@ -58,10 +57,6 @@ const AuthenticatedApp = () => {
   if (authError) {
     if (authError.type === 'user_not_registered') return <UserNotRegisteredError />;
     if (authError.type === 'auth_required') { navigateToLogin(); return null; }
-  }
-
-  if (user && !user.onboarding_completed) {
-    return <OnboardingWizard user={user} onComplete={() => window.location.reload()} />;
   }
 
   return (
