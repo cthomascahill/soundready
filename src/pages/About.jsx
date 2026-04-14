@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
 import { base44 } from "@/api/base44Client";
-import { Zap, BarChart2, Music2, DollarSign, FileText, Users, CheckCircle2, ArrowRight, Mic2, MapPin, BookOpen, Wand2, Link2, TrendingUp, Lightbulb, Rocket, Target, Send, CalendarDays, Newspaper } from "lucide-react";
+import { Zap, BarChart2, Music2, DollarSign, FileText, Users, CheckCircle2, ArrowRight, Mic2, MapPin, BookOpen, Wand2, Link2, TrendingUp, Lightbulb, Rocket, Target, Send, CalendarDays, Newspaper, Check } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
 const FEATURES = [
@@ -266,6 +266,60 @@ export default function About() {
               <p className="font-heading text-4xl sm:text-5xl font-black text-primary">1</p>
               <p className="text-sm text-muted-foreground">Unified platform</p>
             </motion.div>
+          </div>
+        </div>
+      </section>
+
+      {/* Pricing preview */}
+      <section className="px-4 py-24 border-t border-border">
+        <div className="max-w-6xl mx-auto space-y-10">
+          <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="text-center space-y-3">
+            <p className="text-xs text-primary uppercase tracking-wider font-bold">Transparent Pricing</p>
+            <h2 className="font-heading text-4xl font-bold">Choose your plan.</h2>
+            <p className="text-muted-foreground">Start free. Upgrade when you're ready.</p>
+          </motion.div>
+
+          {/* Plan cards */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+            {[
+              { name: "Free", price: "$0", features: ["1 analysis/month", "Algorithm Outlook", "Playlist Pitch"], cta: "Get Started" },
+              { name: "Starter", price: "$9.99/mo", features: ["3 analyses/month", "Full reports", "PDF download", "Save 10 reports"], cta: "Start Starter" },
+              { name: "Pro", price: "$24.99/mo", features: ["Unlimited analyses", "Everything in Starter", "Curator CRM", "Release Planner"], cta: "Go Pro", highlighted: true },
+              { name: "Label", price: "$79.99/mo", features: ["Everything in Pro", "10 artist profiles", "Team access", "Dedicated support"], cta: "Contact Sales" },
+            ].map((plan, i) => (
+              <motion.div key={plan.name}
+                initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}
+                transition={{ delay: i * 0.08 }}
+                className={`relative rounded-2xl border p-5 flex flex-col ${plan.highlighted ? "bg-card ring-2 ring-primary/40 shadow-lg" : "bg-card border-border"}`}
+              >
+                {plan.highlighted && (
+                  <div className="absolute -top-3 left-1/2 -translate-x-1/2 px-3 py-1 rounded-full bg-primary text-primary-foreground text-xs font-bold">
+                    Most Popular
+                  </div>
+                )}
+                <p className="font-heading font-bold text-lg mb-1">{plan.name}</p>
+                <p className="text-2xl font-black mb-4">{plan.price}</p>
+                <div className="space-y-1.5 flex-1 mb-4">
+                  {plan.features.map(f => (
+                    <div key={f} className="flex items-start gap-2">
+                      <Check className="h-3.5 w-3.5 text-primary shrink-0 mt-0.5" />
+                      <span className="text-xs text-foreground">{f}</span>
+                    </div>
+                  ))}
+                </div>
+                <Button size="sm" variant={plan.highlighted ? "default" : "outline"} className="w-full text-xs font-semibold">
+                  {plan.cta}
+                </Button>
+              </motion.div>
+            ))}
+          </div>
+
+          <div className="text-center pt-4">
+            <Link to="/pricing">
+              <Button variant="outline" className="gap-2">
+                View Full Pricing <ArrowRight className="h-4 w-4" />
+              </Button>
+            </Link>
           </div>
         </div>
       </section>
