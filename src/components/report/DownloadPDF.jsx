@@ -9,7 +9,7 @@ function addWrappedText(doc, text, x, y, maxWidth, lineHeight) {
   return y + lines.length * lineHeight;
 }
 
-export default function DownloadPDF({ report = {}, song = {} }) {
+export default function DownloadPDF({ report = {}, song = {}, triggerId }) {
   const [loading, setLoading] = useState(false);
 
   const generate = () => {
@@ -220,6 +220,7 @@ export default function DownloadPDF({ report = {}, song = {} }) {
 
   return (
     <Button
+      id={triggerId}
       size="lg"
       variant="outline"
       onClick={generate}

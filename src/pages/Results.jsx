@@ -2,9 +2,6 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { useState } from "react";
 import { base44 } from "@/api/base44Client";
 import { motion } from "framer-motion";
-import { Button } from "@/components/ui/button";
-import { RotateCcw, BookmarkCheck, Loader2 } from "lucide-react";
-import ReportSection from "../components/ReportSection";
 import AlgorithmOutlook from "../components/report/AlgorithmOutlook";
 import BestClipMoments from "../components/report/BestClipMoments";
 import ContentVideoIdeas from "../components/report/ContentVideoIdeas";
@@ -16,12 +13,19 @@ import CollabSuggestions from "../components/report/CollabSuggestions";
 import WaveformVisual from "../components/report/WaveformVisual";
 import ScoreDisplay from "../components/report/ScoreDisplay";
 import DownloadPDF from "../components/report/DownloadPDF";
+import SimilarArtistsRadar from "../components/report/SimilarArtistsRadar";
+import ReleaseChecklist from "../components/report/ReleaseChecklist";
+import TikTokScripts from "../components/report/TikTokScripts";
+import VisualIdentity from "../components/report/VisualIdentity";
+import MoneyMoves from "../components/report/MoneyMoves";
+import StickyActionBar from "../components/report/StickyActionBar";
 
 export default function Results() {
   const { state } = useLocation();
   const navigate = useNavigate();
   const [saving, setSaving] = useState(false);
   const [saved, setSaved] = useState(false);
+  const [pdfRef, setPdfRef] = useState(null);
 
   if (!state?.report) {
     navigate("/");
@@ -31,13 +35,14 @@ export default function Results() {
   const { report, song } = state;
 
   const handleSave = async () => {
+    if (saved || saving) return;
     setSaving(true);
     await base44.entities.SongAnalysis.create({
       title: song.title,
       artist_name: song.artist,
       genre: song.genre,
       mood: song.mood,
-      energy_level: song.energy.toLowerCase(),
+      energy_level: song.energy?.toLowerCase(),
       song_description: song.description,
       algorithm_outlook: report.algorithm_outlook?.join("\n"),
       content_ideas: report.content_video_ideas?.map((v) => `${v.title} (${v.platform}): ${v.description}`).join("\n\n"),
@@ -50,24 +55,29 @@ export default function Results() {
     setSaving(false);
   };
 
+  const handleDownloadPDF = () => {
+    // Trigger the DownloadPDF component programmatically via a hidden ref click
+    document.getElementById("pdf-trigger-btn")?.click();
+  };
+
   return (
-    <div className="min-h-screen bg-background px-4 py-12">
-      <div className="max-w-3xl mx-auto space-y-8">
+    <div className="min-h-screen bg-background px-4 py-12 pb-32">
+      <div className="max-w-3xl mx-auto space-y-5">
         {/* Header */}
-        <motion.div initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }} className="text-center space-y-2">
+        <motion.div initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }} className="text-center space-y-2 pb-2">
           <p className="text-xs text-primary uppercase tracking-widest font-medium">Release Plan Ready</p>
           <h1 className="font-heading text-4xl font-bold">{song.title}</h1>
           <p className="text-muted-foreground">{song.artist} · {song.genre} · {song.mood} · {song.energy} Energy</p>
         </motion.div>
 
-        {/* Score */}
-        <ScoreDisplay genre={song.genre} energy={song.energy} />
+        {/* Score — upgraded */}
+        <ScoreDisplay genre={song.genre} energy={song.energy} song={song} />
 
         {/* Waveform */}
         <WaveformVisual title={song.title} artist={song.artist} genre={song.genre} energy={song.energy} />
 
-        {/* Sections */}
-        <AlgorithmOutlook data={report.algorithm_outlook} />
+        {/* All sections */}
+        <AlgorithmOutlook data={report.algorithm_outlook} song={song} />
         <BestClipMoments data={report.best_clip_moments} />
         <ContentVideoIdeas data={report.content_video_ideas} />
         <ReleaseRecommendations
@@ -79,44 +89,30 @@ export default function Results() {
           pitch={report.playlist_pitch}
           tags={report.genre_mood_tags}
           artists={report.similar_artists}
+          song={song}
         />
         <SocialCaptions captions={report.captions} />
         <SocialPreview captions={report.captions} song={song} />
+        <SimilarArtistsRadar artists={report.similar_artists} song={song} />
+        <ReleaseChecklist song={song} />
+        <TikTokScripts song={song} />
+        <VisualIdentity song={song} />
+        <MoneyMoves song={song} />
         <CollabSuggestions song={song} similarArtists={report.similar_artists} />
 
-        {/* Actions */}
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 0.4 }}
-          className="flex flex-col sm:flex-row gap-3 pt-4"
-        >
-          <Button
-            size="lg"
-            onClick={handleSave}
-            disabled={saving || saved}
-            className="flex-1 h-12 font-heading font-semibold"
-          >
-            {saving ? (
-              <><Loader2 className="h-4 w-4 animate-spin mr-2" />Saving...</>
-            ) : saved ? (
-              <><BookmarkCheck className="h-4 w-4 mr-2" />Saved to Library</>
-            ) : (
-              <><BookmarkCheck className="h-4 w-4 mr-2" />Save to Library</>
-            )}
-          </Button>
-          <DownloadPDF report={report} song={song} />
-          <Button
-            size="lg"
-            variant="outline"
-            onClick={() => navigate("/")}
-            className="flex-1 h-12 font-heading font-semibold"
-          >
-            <RotateCcw className="h-4 w-4 mr-2" />
-            Start Over
-          </Button>
-        </motion.div>
+        {/* Hidden PDF button trigger */}
+        <div className="hidden">
+          <DownloadPDF report={report} song={song} triggerId="pdf-trigger-btn" />
+        </div>
       </div>
+
+      {/* Sticky action bar */}
+      <StickyActionBar
+        onSave={handleSave}
+        onDownloadPDF={handleDownloadPDF}
+        saving={saving}
+        saved={saved}
+      />
     </div>
   );
 }
