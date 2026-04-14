@@ -4,11 +4,12 @@ import { motion, AnimatePresence } from "framer-motion";
 import {
   ChevronLeft, ChevronRight, Plus, Mic2, Hotel, Car, Plane,
   Music2, Megaphone, ShoppingBag, Utensils, CircleDot, X, Check,
-  GripVertical, MapPin, DollarSign, ArrowRight, Clock
+  GripVertical, MapPin, DollarSign, ArrowRight, Clock, AlertTriangle, Navigation
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import moment from "moment";
+import { getDrivingRoute } from "@/lib/routeDistance";
 
 // ─── Category config ─────────────────────────────────────────────────────────
 const CATEGORIES = {
@@ -137,20 +138,45 @@ function ShowBadge({ venue }) {
 }
 
 // ─── Travel gap indicator ─────────────────────────────────────────────────────
-function TravelGap({ from, to }) {
+function TravelGap({ from, to, route, loading }) {
   if (!from || !to) return null;
-  const isSameCity = from.city === to.city;
-  if (isSameCity) return null;
+  if (from.city === to.city) return null;
+
+  // Warn if > 8 hours drive OR > 500 miles
+  const isLong = route && (route.durationHours > 8 || route.distanceMiles > 500);
+  const isVeryLong = route && (route.durationHours > 12 || route.distanceMiles > 800);
+
+  const formatDuration = (h) => {
+    const hrs = Math.floor(h);
+    const mins = Math.round((h - hrs) * 60);
+    return mins > 0 ? `${hrs}h ${mins}m` : `${hrs}h`;
+  };
+
   return (
-    <div className="flex items-center gap-1 rounded-md px-2 py-0.5 bg-orange-500/10 border border-orange-500/20 text-[10px] text-orange-400 truncate">
-      <ArrowRight className="h-2.5 w-2.5 shrink-0" />
-      <span className="truncate">{from.city} → {to.city}</span>
+    <div className={`rounded-md px-2 py-1 border text-[10px] space-y-0.5 ${
+      isVeryLong ? "bg-red-500/10 border-red-500/25 text-red-400" :
+      isLong     ? "bg-yellow-500/10 border-yellow-500/25 text-yellow-400" :
+                   "bg-orange-500/10 border-orange-500/20 text-orange-400"
+    }`}>
+      <div className="flex items-center gap-1 truncate font-medium">
+        {isVeryLong ? <AlertTriangle className="h-2.5 w-2.5 shrink-0" /> : <ArrowRight className="h-2.5 w-2.5 shrink-0" />}
+        <span className="truncate">{from.city} → {to.city}</span>
+      </div>
+      {loading && <div className="text-[9px] opacity-60">Calculating...</div>}
+      {route && !loading && (
+        <div className="flex items-center gap-1 text-[9px] opacity-80">
+          <Navigation className="h-2 w-2 shrink-0" />
+          {route.distanceMiles} mi · {formatDuration(route.durationHours)}
+          {isVeryLong && <span className="font-bold ml-1">⚠ Very long haul</span>}
+          {isLong && !isVeryLong && <span className="font-bold ml-1">Long drive</span>}
+        </div>
+      )}
     </div>
   );
 }
 
 // ─── Day cell ─────────────────────────────────────────────────────────────────
-function DayCell({ dateStr, isCurrentMonth, isToday, shows, travelGap, tasks, onAddTask, onEditTask, onDeleteTask, onToggleDone, onDragOver, onDrop, onDragStart }) {
+function DayCell({ dateStr, isCurrentMonth, isToday, shows, travelGap, travelRoute, travelLoading, tasks, onAddTask, onEditTask, onDeleteTask, onToggleDone, onDragOver, onDrop, onDragStart }) {
   const [dragOver, setDragOver] = useState(false);
 
   const handleDragOver = (e) => {
@@ -194,7 +220,7 @@ function DayCell({ dateStr, isCurrentMonth, isToday, shows, travelGap, tasks, on
       {shows.map(v => <ShowBadge key={v.id} venue={v} />)}
 
       {/* Travel gap */}
-      {travelGap && <TravelGap from={travelGap.from} to={travelGap.to} />}
+      {travelGap && <TravelGap from={travelGap.from} to={travelGap.to} route={travelRoute} loading={travelLoading} />}
 
       {/* Tasks */}
       {tasks.map(task => (
@@ -226,6 +252,8 @@ export default function TourPlanner() {
   const [loading, setLoading] = useState(true);
   const [modal, setModal] = useState(null); // { date, task? }
   const [dragging, setDragging] = useState(null); // task being dragged
+  const [routeData, setRouteData] = useState({}); // key: "fromCity|toCity" -> { distanceMiles, durationHours }
+  const [routeLoading, setRouteLoading] = useState({}); // same key -> bool
 
   useEffect(() => {
     Promise.all([
@@ -265,16 +293,27 @@ export default function TourPlanner() {
   for (let i = 1; i < sortedShowDates.length; i++) {
     const prev = sortedShowDates[i - 1];
     const curr = sortedShowDates[i];
-    // Find days between prev show and current show — mark the day AFTER the prev show
     const dayAfterPrev = moment(prev).add(1, "day").format("YYYY-MM-DD");
-    if (dayAfterPrev !== curr) {
-      const fromVenue = showsByDate[prev][0];
-      const toVenue = showsByDate[curr][0];
-      if (fromVenue.city !== toVenue.city) {
-        travelGapsByDate[dayAfterPrev] = { from: fromVenue, to: toVenue };
-      }
+    const fromVenue = showsByDate[prev][0];
+    const toVenue = showsByDate[curr][0];
+    if (fromVenue.city !== toVenue.city) {
+      travelGapsByDate[dayAfterPrev] = { from: fromVenue, to: toVenue };
     }
   }
+
+  // Fetch driving routes for all unique travel gaps
+  useEffect(() => {
+    const gaps = Object.values(travelGapsByDate);
+    gaps.forEach(({ from, to }) => {
+      const key = `${from.city},${from.state}|${to.city},${to.state}`;
+      if (routeData[key] !== undefined || routeLoading[key]) return;
+      setRouteLoading(prev => ({ ...prev, [key]: true }));
+      getDrivingRoute(from.city, from.state, to.city, to.state).then(result => {
+        setRouteData(prev => ({ ...prev, [key]: result }));
+        setRouteLoading(prev => ({ ...prev, [key]: false }));
+      });
+    });
+  }, [JSON.stringify(Object.keys(travelGapsByDate))]);
 
   // Tasks by date
   const tasksByDate = {};
@@ -381,10 +420,39 @@ export default function TourPlanner() {
           </button>
         </div>
 
+        {/* Travel warnings panel */}
+        {Object.values(travelGapsByDate).some(({ from, to }) => {
+          const key = `${from.city},${from.state}|${to.city},${to.state}`;
+          const r = routeData[key];
+          return r && (r.durationHours > 8 || r.distanceMiles > 500);
+        }) && (
+          <div className="rounded-2xl bg-red-500/5 border border-red-500/20 p-4 space-y-2">
+            <p className="text-xs font-semibold text-red-400 flex items-center gap-2">
+              <AlertTriangle className="h-3.5 w-3.5" />Long-Haul Travel Warnings
+            </p>
+            {Object.entries(travelGapsByDate).map(([date, { from, to }]) => {
+              const key = `${from.city},${from.state}|${to.city},${to.state}`;
+              const r = routeData[key];
+              if (!r || (r.durationHours <= 8 && r.distanceMiles <= 500)) return null;
+              const hrs = Math.floor(r.durationHours);
+              const mins = Math.round((r.durationHours - hrs) * 60);
+              const durStr = mins > 0 ? `${hrs}h ${mins}m` : `${hrs}h`;
+              return (
+                <div key={date} className="flex items-center gap-2 text-xs text-red-300">
+                  <span className="text-muted-foreground w-16 shrink-0">{moment(date).format("MMM D")}</span>
+                  <span>{from.city} → {to.city}</span>
+                  <span className="ml-auto font-semibold">{r.distanceMiles} mi · {durStr}</span>
+                </div>
+              );
+            })}
+          </div>
+        )}
+
         {/* Legend */}
         <div className="flex flex-wrap gap-3 text-xs">
           <span className="flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-primary/10 border border-primary/20 text-primary"><Mic2 className="h-3 w-3" />Confirmed Show</span>
           <span className="flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-orange-500/10 border border-orange-500/20 text-orange-400"><ArrowRight className="h-3 w-3" />Travel Gap</span>
+          <span className="flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-red-500/10 border border-red-500/20 text-red-400"><AlertTriangle className="h-3 w-3" />Long Haul (&gt;8h)</span>
           {Object.entries(CATEGORIES).slice(0, 4).map(([name, cfg]) => {
             const Icon = cfg.icon;
             return <span key={name} className={`flex items-center gap-1.5 px-2.5 py-1 rounded-full ${cfg.bg} ${cfg.border} ${cfg.color}`}><Icon className="h-3 w-3" />{name}</span>;
@@ -406,20 +474,32 @@ export default function TourPlanner() {
             <div className="grid grid-cols-7 gap-1.5 group">
               {days.map(dateStr => (
                 <DayCell
-                  key={dateStr}
-                  dateStr={dateStr}
-                  isCurrentMonth={moment(dateStr).month() === currentMonth.month()}
-                  isToday={dateStr === today}
-                  shows={showsByDate[dateStr] || []}
-                  travelGap={travelGapsByDate[dateStr] || null}
-                  tasks={tasksByDate[dateStr] || []}
-                  onAddTask={(d) => setModal({ date: d })}
-                  onEditTask={(task) => setModal({ date: task.date, task })}
-                  onDeleteTask={handleDelete}
-                  onToggleDone={handleToggleDone}
-                  onDragStart={setDragging}
-                  onDragOver={() => {}}
-                  onDrop={handleDrop}
+                 key={dateStr}
+                 dateStr={dateStr}
+                 isCurrentMonth={moment(dateStr).month() === currentMonth.month()}
+                 isToday={dateStr === today}
+                 shows={showsByDate[dateStr] || []}
+                 travelGap={travelGapsByDate[dateStr] || null}
+                 travelRoute={(() => {
+                   const gap = travelGapsByDate[dateStr];
+                   if (!gap) return null;
+                   const key = `${gap.from.city},${gap.from.state}|${gap.to.city},${gap.to.state}`;
+                   return routeData[key] || null;
+                 })()}
+                 travelLoading={(() => {
+                   const gap = travelGapsByDate[dateStr];
+                   if (!gap) return false;
+                   const key = `${gap.from.city},${gap.from.state}|${gap.to.city},${gap.to.state}`;
+                   return !!routeLoading[key];
+                 })()}
+                 tasks={tasksByDate[dateStr] || []}
+                 onAddTask={(d) => setModal({ date: d })}
+                 onEditTask={(task) => setModal({ date: task.date, task })}
+                 onDeleteTask={handleDelete}
+                 onToggleDone={handleToggleDone}
+                 onDragStart={setDragging}
+                 onDragOver={() => {}}
+                 onDrop={handleDrop}
                 />
               ))}
             </div>
