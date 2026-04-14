@@ -1,6 +1,6 @@
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
-import { Zap, BarChart2, CalendarDays, Music2, DollarSign, FileText, Send, Users, CheckCircle2, ArrowRight } from "lucide-react";
+import { Zap, BarChart2, CalendarDays, Music2, DollarSign, FileText, Send, Users, CheckCircle2, ArrowRight, Mic2, MapPin, BookOpen } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
 const FEATURES = [
@@ -68,6 +68,30 @@ const FEATURES = [
     title: "Collaboration Tools",
     desc: "Invite producers, managers, and band members to view and comment on any report. Leave section-specific feedback and resolve threads together.",
   },
+  {
+    icon: Mic2,
+    color: "text-pink-400",
+    bg: "bg-pink-500/10",
+    border: "border-pink-500/20",
+    title: "Playlist Pitcher",
+    desc: "AI matches your song to 40+ curated independent Spotify playlists by genre and mood, then writes a personalized pitch email to each curator in one click.",
+  },
+  {
+    icon: MapPin,
+    color: "text-orange-400",
+    bg: "bg-orange-500/10",
+    border: "border-orange-500/20",
+    title: "Gig Finder",
+    desc: "Browse 20+ real independent venues across the US filtered by genre, city, and type. Get an AI-written booking inquiry email for any venue instantly.",
+  },
+  {
+    icon: BookOpen,
+    color: "text-chart-5",
+    bg: "bg-chart-5/10",
+    border: "border-chart-5/20",
+    title: "Algorithm Guide",
+    desc: "A full deep-dive guide on how Spotify's algorithm works — covering release timing, engagement signals, playlist strategy, profile optimization, and the 7 biggest mistakes to avoid.",
+  },
 ];
 
 const WHO_ITS_FOR = [
@@ -127,7 +151,7 @@ export default function About() {
         <div className="max-w-5xl mx-auto space-y-10">
           <motion.div initial={{ opacity: 0, y: 16 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="text-center space-y-2">
             <p className="text-xs text-primary uppercase tracking-widest font-medium">Everything in one place</p>
-            <h2 className="font-heading text-3xl font-bold">8 tools. One platform.</h2>
+            <h2 className="font-heading text-3xl font-bold">11 tools. One platform.</h2>
           </motion.div>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
             {FEATURES.map((f, i) => (
