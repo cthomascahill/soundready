@@ -176,41 +176,6 @@ export default function OnboardingWizard({ user, onComplete }) {
 
             {step === 2 && (
               <motion.div
-                key="step-1"
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                exit={{ opacity: 0 }}
-                className="space-y-5"
-              >
-                <div>
-                  <p className="font-heading font-bold text-xl mb-1">Artist Profile</p>
-                  <p className="text-muted-foreground text-sm">Tell us who you are and what you create.</p>
-                </div>
-
-                <div className="space-y-2">
-                  <Label>Artist Name / Stage Name *</Label>
-                  <Input
-                    placeholder="e.g. Maya Lane"
-                    value={form.artist_name}
-                    onChange={set("artist_name")}
-                    className="h-11"
-                  />
-                </div>
-
-                <div className="space-y-2">
-                  <Label>Bio / About You *</Label>
-                  <Textarea
-                    placeholder="Tell us about your music, style, and what makes you unique..."
-                    value={form.bio}
-                    onChange={set("bio")}
-                    className="min-h-24 resize-none"
-                  />
-                </div>
-              </motion.div>
-            )}
-
-            {step === 2 && (
-              <motion.div
                 key="step-2"
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
