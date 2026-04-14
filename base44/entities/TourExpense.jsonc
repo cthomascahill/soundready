@@ -1,0 +1,53 @@
+{
+  "name": "TourExpense",
+  "type": "object",
+  "properties": {
+    "venue_id": {
+      "type": "string",
+      "description": "Reference to Venue entity id"
+    },
+    "venue_name": {
+      "type": "string"
+    },
+    "show_date": {
+      "type": "string",
+      "description": "ISO date of the show"
+    },
+    "category": {
+      "type": "string",
+      "enum": [
+        "Gas",
+        "Lodging",
+        "Food",
+        "Merch Production",
+        "Equipment",
+        "Transportation",
+        "Promotion",
+        "Parking/Tolls",
+        "Other"
+      ],
+      "default": "Other"
+    },
+    "description": {
+      "type": "string"
+    },
+    "amount": {
+      "type": "number"
+    },
+    "paid_by": {
+      "type": "string",
+      "description": "Who paid (e.g. band member name)"
+    },
+    "reimbursed": {
+      "type": "boolean",
+      "default": false
+    },
+    "receipt_url": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "category",
+    "amount"
+  ]
+}

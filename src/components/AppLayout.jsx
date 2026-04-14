@@ -57,6 +57,7 @@ const MORE_SECTIONS = [
     heading: "Touring",
     items: [
       { to: "/venues", icon: Building2, label: "Venue Tracker" },
+      { to: "/tour-finance", icon: DollarSign, label: "Tour Finance" },
     ],
   },
   {
