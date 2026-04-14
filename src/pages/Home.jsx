@@ -49,7 +49,7 @@ Artist's description: ${form.description || "Not provided"}
 
 Return a JSON object with exactly these fields:
 
-algorithm_outlook: array of exactly 4 strings — Start the first string with "After analyzing your track, here's how it's positioned..." then continue with specific observations about the sonic energy, genre placement, and streaming performance potential. Write as if you heard the track — reference things like its energy arc, sonic texture, and where it sits in the current ${form.genre} landscape.
+algorithm_outlook: array of exactly 5 strings — Start the first string with "After listening to this track, here's how it's positioned..." then deliver increasingly specific insights: (1) overall streaming positioning, (2) specific platform best suited and why based on the sonic texture, (3) how the ${form.energy} energy level and ${form.mood} mood align with current trending content, (4) what makes this track algorithm-sticky or what's working against it, (5) a concrete action the artist should take before release to boost performance. Reference sonic details throughout — never generic.
 
 best_clip_moments: array of exactly 3 objects, each with:
   - moment: string — name the structural moment (e.g. "Opening 8 bars", "Pre-chorus build", "Chorus drop") using real song structure language

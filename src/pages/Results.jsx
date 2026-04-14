@@ -11,8 +11,11 @@ import ContentVideoIdeas from "../components/report/ContentVideoIdeas";
 import ReleaseRecommendations from "../components/report/ReleaseRecommendations";
 import PlaylistPitch from "../components/report/PlaylistPitch";
 import SocialCaptions from "../components/report/SocialCaptions";
+import SocialPreview from "../components/report/SocialPreview";
+import CollabSuggestions from "../components/report/CollabSuggestions";
 import WaveformVisual from "../components/report/WaveformVisual";
 import ScoreDisplay from "../components/report/ScoreDisplay";
+import DownloadPDF from "../components/report/DownloadPDF";
 
 export default function Results() {
   const { state } = useLocation();
@@ -78,6 +81,8 @@ export default function Results() {
           artists={report.similar_artists}
         />
         <SocialCaptions captions={report.captions} />
+        <SocialPreview captions={report.captions} song={song} />
+        <CollabSuggestions song={song} similarArtists={report.similar_artists} />
 
         {/* Actions */}
         <motion.div
@@ -100,6 +105,7 @@ export default function Results() {
               <><BookmarkCheck className="h-4 w-4 mr-2" />Save to Library</>
             )}
           </Button>
+          <DownloadPDF report={report} song={song} />
           <Button
             size="lg"
             variant="outline"
