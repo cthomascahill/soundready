@@ -161,8 +161,7 @@ export default function About() {
             </p>
           </div>
           <div className="flex items-center justify-center gap-3 flex-wrap pt-4">
-            <Link to="/"><Button size="lg" className="gap-2 font-heading font-bold text-base px-8">Generate Release Plan <ArrowRight className="h-4 w-4" /></Button></Link>
-            <Link to="/about"><Button size="lg" variant="outline" className="gap-2 font-heading font-semibold">See All Features</Button></Link>
+            <Link to="/release-plan"><Button size="lg" className="gap-2 font-heading font-bold text-base px-8">Generate Release Plan <ArrowRight className="h-4 w-4" /></Button></Link>
           </div>
         </motion.div>
       </section>
@@ -266,7 +265,7 @@ export default function About() {
             <h2 className="font-heading text-5xl font-bold">Your strategy starts here.</h2>
             <p className="text-lg text-muted-foreground">Upload your song. Get your release plan. Execute like a major label.</p>
           </div>
-          <Link to="/"><Button size="lg" className="gap-2 font-heading font-bold text-base px-8">Generate Release Plan Free <Rocket className="h-4 w-4" /></Button></Link>
+          <Link to="/release-plan"><Button size="lg" className="gap-2 font-heading font-bold text-base px-8">Generate Release Plan Free <Rocket className="h-4 w-4" /></Button></Link>
         </motion.div>
       </section>
     </div>

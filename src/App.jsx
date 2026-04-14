@@ -67,7 +67,8 @@ const AuthenticatedApp = () => {
   return (
     <Routes>
       <Route element={<AppLayout />}>
-        <Route path="/" element={<Home />} />
+        <Route path="/" element={<About />} />
+        <Route path="/release-plan" element={<Home />} />
         <Route path="/results" element={<Results />} />
         <Route path="/history" element={<History />} />
         <Route path="/streaming" element={<StreamingDashboard />} />
@@ -77,7 +78,6 @@ const AuthenticatedApp = () => {
         <Route path="/budget" element={<BudgetTracker />} />
         <Route path="/pitch-deck" element={<PitchDeck />} />
         <Route path="/spotify" element={<SpotifyConnect />} />
-        <Route path="/about" element={<About />} />
         <Route path="/playlist-pitcher" element={<PlaylistPitcher />} />
         <Route path="/gig-finder" element={<GigFinder />} />
         <Route path="/algorithm-guide" element={<AlgorithmGuide />} />
