@@ -4,7 +4,7 @@ import { base44 } from "@/api/base44Client";
 import {
   History, LogOut, BarChart2, CalendarDays, LineChart, Music2, DollarSign,
   FileText, Send, Mic2, MapPin, BookOpen, ChevronDown, Home, Info, Wand2,
-  Link2, TrendingUp, Zap, CreditCard, UserCircle, Building2, Users, ScrollText, CalendarRange, Mail
+  Link2, TrendingUp, Zap, CreditCard, UserCircle, Building2, Users, ScrollText, CalendarRange, Mail, ShoppingBag
 } from "lucide-react";
 
 const PRIMARY_NAV = [
@@ -65,9 +65,26 @@ const MORE_SECTIONS = [
     ],
   },
   {
-    heading: "New Tools",
+    heading: "Growth & Community",
     items: [
+      { to: "/tiktok-creators", icon: Music2, label: "TikTok Creators" },
+      { to: "/collabs", icon: Users, label: "Collab Finder" },
+      { to: "/email-campaigns", icon: Mail, label: "Email Campaigns" },
+      { to: "/presaves", icon: TrendingUp, label: "Pre-Save Tracker" },
+    ],
+  },
+  {
+    heading: "Products & Content",
+    items: [
+      { to: "/merch", icon: ShoppingBag, label: "Merch Store" },
+      { to: "/video-generator", icon: FileText, label: "Video Generator" },
+      { to: "/mixing-feedback", icon: Wand2, label: "Mixing Feedback" },
       { to: "/newsletter", icon: Mail, label: "Newsletter Builder" },
+    ],
+  },
+  {
+    heading: "Advanced Tools",
+    items: [
       { to: "/performance-tracker", icon: BarChart2, label: "Performance Tracker" },
       { to: "/rights", icon: FileText, label: "Rights Manager" },
       { to: "/scheduler", icon: CalendarDays, label: "Content Scheduler" },

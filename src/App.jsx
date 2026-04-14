@@ -37,6 +37,13 @@ import PerformanceTracker from './pages/PerformanceTracker.jsx';
 import RightsManager from './pages/RightsManager.jsx';
 import ContentScheduler from './pages/ContentScheduler.jsx';
 import SyncPitcher from './pages/SyncPitcher.jsx';
+import TikTokCreatorOutreach from './pages/TikTokCreatorOutreach.jsx';
+import CollabFinder from './pages/CollabFinder.jsx';
+import EmailCampaigns from './pages/EmailCampaigns.jsx';
+import PreSaveTracker from './pages/PreSaveTracker.jsx';
+import MerchandiseStore from './pages/MerchandiseStore.jsx';
+import SmartMixingFeedback from './pages/SmartMixingFeedback.jsx';
+import AIVideoGenerator from './pages/AIVideoGenerator.jsx';
 
 const AuthenticatedApp = () => {
   const { isLoadingAuth, isLoadingPublicSettings, authError, navigateToLogin } = useAuth();
@@ -87,6 +94,13 @@ const AuthenticatedApp = () => {
         <Route path="/rights" element={<RightsManager />} />
         <Route path="/scheduler" element={<ContentScheduler />} />
         <Route path="/sync-pitcher" element={<SyncPitcher />} />
+        <Route path="/tiktok-creators" element={<TikTokCreatorOutreach />} />
+        <Route path="/collabs" element={<CollabFinder />} />
+        <Route path="/email-campaigns" element={<EmailCampaigns />} />
+        <Route path="/presaves" element={<PreSaveTracker />} />
+        <Route path="/merch" element={<MerchandiseStore />} />
+        <Route path="/mixing-feedback" element={<SmartMixingFeedback />} />
+        <Route path="/video-generator" element={<AIVideoGenerator />} />
         <Route path="/community" element={<Community />} />
         <Route path="*" element={<PageNotFound />} />
       </Route>
