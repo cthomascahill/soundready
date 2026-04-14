@@ -183,37 +183,7 @@ bottom_line: string — one paragraph honest assessment of the song's position a
               </p>
             </motion.div>
 
-            {/* Image carousel/grid */}
-            <div className="relative h-96 mb-20 flex items-center justify-center">
-              <motion.div
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ delay: 0.2 }}
-                className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-4 w-full px-2"
-              >
-                {[
-                   { label: "Analytics", img: "https://images.unsplash.com/photo-1460925895917-adf4e5d0b451?w=300&h=300&fit=crop" },
-                   { label: "Playlists", img: "https://images.unsplash.com/photo-1487180144351-b8472da7d491?w=300&h=300&fit=crop" },
-                   { label: "Tour Planning", img: "https://images.unsplash.com/photo-1470225620780-dba8ba36b745?w=300&h=300&fit=crop" },
-                   { label: "Content Tools", img: "https://images.unsplash.com/photo-1511379938547-c1f69b13d835?w=300&h=300&fit=crop" },
-                   { label: "Royalties", img: "https://images.unsplash.com/photo-1533900298318-6b8da08a523e?w=300&h=300&fit=crop" },
-                ].map((item, i) => (
-                  <motion.div
-                    key={item.label}
-                    initial={{ opacity: 0, y: 20, rotate: -5 }}
-                    animate={{ opacity: 1, y: 0, rotate: 0 }}
-                    transition={{ delay: 0.1 + i * 0.1 }}
-                    whileHover={{ scale: 1.05, rotate: 2 }}
-                    className="rounded-2xl overflow-hidden border border-border shadow-lg hover:shadow-xl transition-all"
-                  >
-                    <img src={item.img} alt={item.label} className="w-full h-32 object-cover" />
-                    <div className="bg-card p-3 text-center">
-                      <p className="text-xs font-medium text-muted-foreground">{item.label}</p>
-                    </div>
-                  </motion.div>
-                ))}
-              </motion.div>
-            </div>
+
           </div>
         </div>
 
