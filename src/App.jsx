@@ -5,81 +5,40 @@ import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import PageNotFound from './lib/PageNotFound';
 import { AuthProvider, useAuth } from '@/lib/AuthContext';
 import UserNotRegisteredError from '@/components/UserNotRegisteredError';
-import Layout from './components/Layout';
-import Dashboard from './pages/Dashboard';
 import Home from './pages/Home';
 import Results from './pages/Results';
 import History from './pages/History';
-import MarketingAssets from './pages/MarketingAssets';
-import SongHub from './pages/SongHub';
-import ReleasePlan from './pages/ReleasePlan';
-import PitchPackage from './pages/PitchPackage';
-import Settings from './pages/Settings';
-import MoodBoard from './pages/MoodBoard';
-import CollabFinder from './pages/CollabFinder';
-import GrowthTracker from './pages/GrowthTracker';
-import Countdown from './pages/Countdown';
-import Contacts from './pages/Contacts';
-import TikTokOptimizer from './pages/TikTokOptimizer';
-import CompetitorTracker from './pages/CompetitorTracker';
-import HookFinder from './pages/HookFinder';
-import ContentCalendar from './pages/ContentCalendar';
+import AppLayout from './components/AppLayout';
 
 const AuthenticatedApp = () => {
   const { isLoadingAuth, isLoadingPublicSettings, authError, navigateToLogin } = useAuth();
 
-  // Show loading spinner while checking app public settings or auth
   if (isLoadingPublicSettings || isLoadingAuth) {
     return (
-      <div className="fixed inset-0 flex items-center justify-center">
-        <div className="w-8 h-8 border-4 border-slate-200 border-t-slate-800 rounded-full animate-spin"></div>
+      <div className="fixed inset-0 flex items-center justify-center bg-background">
+        <div className="w-8 h-8 border-4 border-primary/20 border-t-primary rounded-full animate-spin" />
       </div>
     );
   }
 
-  // Handle authentication errors
   if (authError) {
-    if (authError.type === 'user_not_registered') {
-      return <UserNotRegisteredError />;
-    } else if (authError.type === 'auth_required') {
-      // Redirect to login automatically
-      navigateToLogin();
-      return null;
-    }
+    if (authError.type === 'user_not_registered') return <UserNotRegisteredError />;
+    if (authError.type === 'auth_required') { navigateToLogin(); return null; }
   }
 
-  // Render the main app
   return (
     <Routes>
-      <Route element={<Layout />}>
-        <Route path="/" element={<Dashboard />} />
-        <Route path="/upload" element={<Home />} />
+      <Route element={<AppLayout />}>
+        <Route path="/" element={<Home />} />
         <Route path="/results" element={<Results />} />
         <Route path="/history" element={<History />} />
-        <Route path="/marketing" element={<MarketingAssets />} />
-        <Route path="/song" element={<SongHub />} />
-        <Route path="/release" element={<ReleasePlan />} />
-        <Route path="/captions" element={<ReleasePlan />} />
-        <Route path="/pitch" element={<PitchPackage />} />
-        <Route path="/settings" element={<Settings />} />
-        <Route path="/growth" element={<GrowthTracker />} />
-        <Route path="/countdown" element={<Countdown />} />
-        <Route path="/contacts" element={<Contacts />} />
-        <Route path="/tiktok" element={<TikTokOptimizer />} />
-        <Route path="/moodboard" element={<MoodBoard />} />
-        <Route path="/collabs" element={<CollabFinder />} />
-        <Route path="/competitors" element={<CompetitorTracker />} />
-        <Route path="/hooks" element={<HookFinder />} />
-        <Route path="/calendar" element={<ContentCalendar />} />
         <Route path="*" element={<PageNotFound />} />
       </Route>
     </Routes>
   );
 };
 
-
 function App() {
-
   return (
     <AuthProvider>
       <QueryClientProvider client={queryClientInstance}>
@@ -89,7 +48,7 @@ function App() {
         <Toaster />
       </QueryClientProvider>
     </AuthProvider>
-  )
+  );
 }
 
-export default App
+export default App;

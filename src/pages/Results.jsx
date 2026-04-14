@@ -1,125 +1,107 @@
-import { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
+import { useState } from "react";
 import { base44 } from "@/api/base44Client";
 import { motion } from "framer-motion";
-import { ArrowLeft, LayoutDashboard } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import ScoreRing from "../components/ScoreRing";
-import PlatformScores from "../components/PlatformScores";
-import SimilarArtists from "../components/SimilarArtists";
-import SongAttributes from "../components/SongAttributes";
-import Recommendations from "../components/Recommendations";
-import MasteringPanel from "../components/MasteringPanel";
-import BestClipFinder from "../components/BestClipFinder";
-import VideoIdeas from "../components/VideoIdeas";
+import { RotateCcw, BookmarkCheck, Loader2 } from "lucide-react";
+import ReportSection from "../components/ReportSection";
+import AlgorithmOutlook from "../components/report/AlgorithmOutlook";
+import BestClipMoments from "../components/report/BestClipMoments";
+import ContentVideoIdeas from "../components/report/ContentVideoIdeas";
+import ReleaseRecommendations from "../components/report/ReleaseRecommendations";
+import PlaylistPitch from "../components/report/PlaylistPitch";
+import SocialCaptions from "../components/report/SocialCaptions";
 
 export default function Results() {
-  const [analysis, setAnalysis] = useState(null);
-  const [loading, setLoading] = useState(true);
+  const { state } = useLocation();
+  const navigate = useNavigate();
+  const [saving, setSaving] = useState(false);
+  const [saved, setSaved] = useState(false);
 
-  const urlParams = new URLSearchParams(window.location.search);
-  const id = urlParams.get("id");
-
-  useEffect(() => {
-    const load = async () => {
-      if (!id) return;
-      const items = await base44.entities.SongAnalysis.filter({ id });
-      if (items.length > 0) {
-        setAnalysis(items[0]);
-      }
-      setLoading(false);
-    };
-    load();
-  }, [id]);
-
-  if (loading) {
-    return (
-      <div className="flex items-center justify-center py-20">
-        <div className="w-8 h-8 border-4 border-primary/20 border-t-primary rounded-full animate-spin" />
-      </div>
-    );
+  if (!state?.report) {
+    navigate("/");
+    return null;
   }
 
-  if (!analysis) {
-    return (
-      <div className="text-center py-20">
-        <p className="text-muted-foreground">Analysis not found.</p>
-        <Link to="/" className="text-primary text-sm mt-2 inline-block">Go back</Link>
-      </div>
-    );
-  }
+  const { report, song } = state;
+
+  const handleSave = async () => {
+    setSaving(true);
+    await base44.entities.SongAnalysis.create({
+      title: song.title,
+      artist_name: song.artist,
+      genre: song.genre,
+      mood: song.mood,
+      energy_level: song.energy.toLowerCase(),
+      song_description: song.description,
+      algorithm_outlook: report.algorithm_outlook?.join("\n"),
+      content_ideas: report.content_video_ideas?.map((v) => `${v.title} (${v.platform}): ${v.description}`).join("\n\n"),
+      release_recommendations: `${report.release_day} — ${report.release_day_reason}\n\n` + (report.pre_release_plan || []).map((d) => `${d.day}: ${d.action}`).join("\n"),
+      playlist_pitch: report.playlist_pitch,
+      similar_artists: report.similar_artists,
+      status: "complete",
+    });
+    setSaved(true);
+    setSaving(false);
+  };
 
   return (
-    <div className="max-w-4xl mx-auto">
-      {/* Header */}
-      <motion.div
-        initial={{ opacity: 0, y: -10 }}
-        animate={{ opacity: 1, y: 0 }}
-        className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-8"
-      >
-        <div className="flex items-center gap-4">
-          <Link
-            to="/"
-            className="h-10 w-10 rounded-xl bg-secondary flex items-center justify-center hover:bg-secondary/80 transition-colors"
-          >
-            <ArrowLeft className="h-5 w-5" />
-          </Link>
-          <div>
-            <h1 className="font-heading text-2xl font-bold">{analysis.title}</h1>
-            <p className="text-sm text-muted-foreground">
-              {analysis.artist_name} · {analysis.genre}
-            </p>
-          </div>
-        </div>
-        <Link to={`/song?id=${analysis.id}`}>
-          <Button variant="outline" size="sm" className="gap-2">
-            <LayoutDashboard className="h-4 w-4" />
-            Song Hub
-          </Button>
-        </Link>
-      </motion.div>
+    <div className="min-h-screen bg-background px-4 py-12">
+      <div className="max-w-3xl mx-auto space-y-8">
+        {/* Header */}
+        <motion.div initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }} className="text-center space-y-2">
+          <p className="text-xs text-primary uppercase tracking-widest font-medium">Release Plan Ready</p>
+          <h1 className="font-heading text-4xl font-bold">{song.title}</h1>
+          <p className="text-muted-foreground">{song.artist} · {song.genre} · {song.mood} · {song.energy} Energy</p>
+        </motion.div>
 
-      {/* Overall Score */}
-      <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        className="rounded-2xl bg-card border border-border p-8 mb-6 flex flex-col sm:flex-row items-center gap-8"
-      >
-        <ScoreRing score={analysis.overall_score || 0} size={160} color="primary" />
-        <div className="text-center sm:text-left">
-          <h2 className="font-heading text-xl font-semibold mb-2">Overall Algorithm Score</h2>
-          <p className="text-sm text-muted-foreground max-w-md">
-            {analysis.overall_score >= 80
-              ? "Your track has excellent potential to perform well across streaming algorithms. It aligns strongly with current trends."
-              : analysis.overall_score >= 60
-              ? "Your track has good potential but there are specific areas you can optimize to significantly boost its algorithmic performance."
-              : analysis.overall_score >= 40
-              ? "Your track has some strengths but needs adjustments to better align with platform algorithms. Check the recommendations below."
-              : "Your track may struggle with algorithmic discovery. Consider the recommendations below to improve its reach."}
-          </p>
-        </div>
-      </motion.div>
-
-      {/* Grid layout for results */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        <PlatformScores analysis={analysis} />
-        <SongAttributes analysis={analysis} />
-        <SimilarArtists artists={analysis.similar_artists} />
-        <Recommendations
-          strengths={analysis.strengths}
-          recommendations={analysis.recommendations}
+        {/* Sections */}
+        <AlgorithmOutlook data={report.algorithm_outlook} />
+        <BestClipMoments data={report.best_clip_moments} />
+        <ContentVideoIdeas data={report.content_video_ideas} />
+        <ReleaseRecommendations
+          releaseDay={report.release_day}
+          releaseDayReason={report.release_day_reason}
+          plan={report.pre_release_plan}
         />
-      </div>
+        <PlaylistPitch
+          pitch={report.playlist_pitch}
+          tags={report.genre_mood_tags}
+          artists={report.similar_artists}
+        />
+        <SocialCaptions captions={report.captions} />
 
-      {/* Mastering - full width below grid */}
-      <div className="mt-6">
-        <MasteringPanel analysis={analysis} />
-      </div>
-
-      {/* Best Clip + Video Ideas */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mt-6">
-        <BestClipFinder analysis={analysis} />
-        <VideoIdeas analysis={analysis} />
+        {/* Actions */}
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 0.4 }}
+          className="flex flex-col sm:flex-row gap-3 pt-4"
+        >
+          <Button
+            size="lg"
+            onClick={handleSave}
+            disabled={saving || saved}
+            className="flex-1 h-12 font-heading font-semibold"
+          >
+            {saving ? (
+              <><Loader2 className="h-4 w-4 animate-spin mr-2" />Saving...</>
+            ) : saved ? (
+              <><BookmarkCheck className="h-4 w-4 mr-2" />Saved to Library</>
+            ) : (
+              <><BookmarkCheck className="h-4 w-4 mr-2" />Save to Library</>
+            )}
+          </Button>
+          <Button
+            size="lg"
+            variant="outline"
+            onClick={() => navigate("/")}
+            className="flex-1 h-12 font-heading font-semibold"
+          >
+            <RotateCcw className="h-4 w-4 mr-2" />
+            Start Over
+          </Button>
+        </motion.div>
       </div>
     </div>
   );
