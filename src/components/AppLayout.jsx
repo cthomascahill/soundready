@@ -22,6 +22,7 @@ const CATEGORY_DROPDOWNS = [
       { to: "/mastering", icon: Wand2, label: "AI Mastering" },
       { to: "/scheduler", icon: CalendarDays, label: "Content Scheduler" },
       { to: "/newsletter", icon: Mail, label: "Newsletter Builder" },
+      { to: "/history", icon: History, label: "Song Library" },
     ],
   },
   {
@@ -32,6 +33,9 @@ const CATEGORY_DROPDOWNS = [
       { to: "/sync-pitcher", icon: Mic2, label: "Sync Licensing" },
       { to: "/press-kit", icon: FileText, label: "Press Kit" },
       { to: "/link-in-bio", icon: Link2, label: "Link-in-Bio" },
+      { to: "/tiktok-creators", icon: Music2, label: "TikTok Creators" },
+      { to: "/collabs", icon: Users, label: "Collab Finder" },
+      { to: "/email-campaigns", icon: Mail, label: "Email Campaigns" },
     ],
   },
   {
@@ -45,20 +49,16 @@ const CATEGORY_DROPDOWNS = [
     ],
   },
   {
-    label: "Grow",
+    label: "Finances",
     items: [
       { to: "/royalties", icon: TrendingUp, label: "Royalties" },
       { to: "/rights", icon: FileText, label: "Rights Manager" },
       { to: "/merch", icon: ShoppingBag, label: "Merch Store" },
-      { to: "/tiktok-creators", icon: Music2, label: "TikTok Creators" },
-      { to: "/collabs", icon: Users, label: "Collab Finder" },
-      { to: "/email-campaigns", icon: Mail, label: "Email Campaigns" },
     ],
   },
   {
     label: "Learn",
     items: [
-      { to: "/history", icon: History, label: "Song Library" },
       { to: "/algorithm-guide", icon: BookOpen, label: "Algorithm Guide" },
       { to: "/community", icon: Users, label: "Community" },
     ],
