@@ -47,7 +47,6 @@ const MORE_SECTIONS = [
     items: [
       { to: "/gig-finder", icon: MapPin, label: "Gig Finder" },
       { to: "/tour-opportunities", icon: Music2, label: "Tour Opportunities" },
-      { to: "/venues", icon: Building2, label: "Venue Tracker" },
       { to: "/tour-planner", icon: CalendarRange, label: "Tour Planner" },
       { to: "/tour-finance", icon: DollarSign, label: "Tour Finance" },
       { to: "/contracts", icon: ScrollText, label: "Contracts" },
@@ -68,8 +67,6 @@ const MORE_SECTIONS = [
       { to: "/tiktok-creators", icon: Music2, label: "TikTok Creators" },
       { to: "/collabs", icon: Users, label: "Collab Finder" },
       { to: "/email-campaigns", icon: Mail, label: "Email Campaigns" },
-      { to: "/presaves", icon: TrendingUp, label: "Pre-Save Tracker" },
-      { to: "/performance-tracker", icon: BarChart2, label: "Performance Tracker" },
       { to: "/newsletter", icon: Mail, label: "Newsletter Builder" },
       { to: "/video-generator", icon: FileText, label: "Video Generator" },
     ],
