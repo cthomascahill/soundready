@@ -1,0 +1,61 @@
+{
+  "name": "OpeningSlotPitch",
+  "type": "object",
+  "properties": {
+    "tour_artist": {
+      "type": "string",
+      "description": "Name of the artist whose tour this pitch is for"
+    },
+    "tour_name": {
+      "type": "string",
+      "description": "Name of the tour"
+    },
+    "booking_contact": {
+      "type": "string",
+      "description": "Name of the booking agent/contact"
+    },
+    "email_subject": {
+      "type": "string",
+      "description": "Subject line of the pitch email"
+    },
+    "pitch_body": {
+      "type": "string",
+      "description": "Full text of the pitch email"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "draft",
+        "sent",
+        "responded",
+        "rejected",
+        "booked"
+      ],
+      "default": "draft",
+      "description": "Current status of the pitch"
+    },
+    "response": {
+      "type": "string",
+      "description": "Any response received from booking agent"
+    },
+    "response_date": {
+      "type": "string",
+      "description": "ISO date when response was received"
+    },
+    "follow_up_date": {
+      "type": "string",
+      "description": "ISO date to follow up if no response"
+    },
+    "notes": {
+      "type": "string",
+      "description": "Internal notes about the pitch"
+    }
+  },
+  "required": [
+    "tour_artist",
+    "tour_name",
+    "booking_contact",
+    "email_subject",
+    "pitch_body"
+  ]
+}

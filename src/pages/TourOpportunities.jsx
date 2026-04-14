@@ -1,15 +1,30 @@
 import { useState, useEffect } from "react";
 import { base44 } from "@/api/base44Client";
-import { motion } from "framer-motion";
-import { Search, MapPin, Calendar, Music2, ExternalLink, Loader2 } from "lucide-react";
+import { motion, AnimatePresence } from "framer-motion";
+import { Search, MapPin, Calendar, Music2, ExternalLink, Loader2, Send, CheckCircle2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import OpeningSlotPitchModal from "@/components/tourop/OpeningSlotPitchModal";
 
 export default function TourOpportunities() {
   const [tours, setTours] = useState([]);
+  const [pitches, setPitches] = useState([]);
   const [loading, setLoading] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
   const [filters, setFilters] = useState({ genre: "", location: "" });
+  const [modalOpen, setModalOpen] = useState(false);
+  const [selectedTour, setSelectedTour] = useState(null);
+  const [artistData, setArtistData] = useState(null);
+
+  useEffect(() => {
+    Promise.all([
+      base44.entities.OpeningSlotPitch.list("-created_date", 100),
+      base44.auth.me(),
+    ]).then(([p, user]) => {
+      setPitches(p);
+      setArtistData(user);
+    });
+  }, []);
 
   const handleSearch = async () => {
     if (!searchQuery.trim()) return;
@@ -31,14 +46,60 @@ export default function TourOpportunities() {
     return matchesGenre && matchesLocation;
   });
 
+  const handlePitchCreated = async (pitchData) => {
+    const created = await base44.entities.OpeningSlotPitch.create(pitchData);
+    setPitches((prev) => [created, ...prev]);
+    setModalOpen(false);
+    setSelectedTour(null);
+  };
+
+  const hasPitched = (tour) => {
+    return pitches.some((p) => p.tour_artist === tour.artist_name || p.tour_artist === tour.name);
+  };
+
   return (
     <div className="min-h-screen bg-background px-4 py-10">
+      <AnimatePresence>
+        {modalOpen && selectedTour && (
+          <OpeningSlotPitchModal
+            tour={selectedTour}
+            artistData={artistData}
+            onClose={() => setModalOpen(false)}
+            onPitchCreated={handlePitchCreated}
+          />
+        )}
+      </AnimatePresence>
+
       <div className="max-w-4xl mx-auto space-y-6">
         <motion.div initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }}>
           <p className="text-xs text-primary uppercase tracking-widest font-medium">Touring</p>
           <h1 className="font-heading text-4xl font-bold">Tour Opportunities</h1>
           <p className="text-muted-foreground text-sm mt-2">Find announced tours and request opening slots.</p>
         </motion.div>
+
+        {/* Pitches summary */}
+        {pitches.length > 0 && (
+          <div className="rounded-xl bg-primary/5 border border-primary/20 p-4 space-y-2">
+            <p className="text-xs font-semibold text-primary uppercase tracking-wider">Pitch Tracking</p>
+            <div className="flex flex-wrap gap-2">
+              {pitches.slice(0, 5).map((pitch) => (
+                <div
+                  key={pitch.id}
+                  className="flex items-center gap-1.5 px-3 py-1 rounded-full bg-primary/10 border border-primary/20 text-xs"
+                >
+                  <CheckCircle2 className="h-3 w-3 text-primary" />
+                  <span className="text-primary font-medium">{pitch.tour_artist}</span>
+                  <span className="text-primary/60">({pitch.status})</span>
+                </div>
+              ))}
+              {pitches.length > 5 && (
+                <div className="px-3 py-1 rounded-full bg-primary/10 border border-primary/20 text-xs text-primary font-medium">
+                  +{pitches.length - 5} more
+                </div>
+              )}
+            </div>
+          </div>
+        )}
 
         {/* Search section */}
         <div className="rounded-2xl bg-card border border-border p-6 space-y-4">
@@ -144,9 +205,27 @@ export default function TourOpportunities() {
                 {tour.description && <p className="text-sm text-muted-foreground leading-relaxed">{tour.description}</p>}
 
                 <div className="flex gap-2 pt-2">
-                  <Button variant="outline" size="sm" className="gap-2">
-                    <Music2 className="h-3.5 w-3.5" />
-                    Request to Open
+                  <Button
+                    variant={hasPitched(tour) ? "outline" : "default"}
+                    size="sm"
+                    className="gap-2"
+                    onClick={() => {
+                      setSelectedTour(tour);
+                      setModalOpen(true);
+                    }}
+                    disabled={hasPitched(tour)}
+                  >
+                    {hasPitched(tour) ? (
+                      <>
+                        <CheckCircle2 className="h-3.5 w-3.5" />
+                        Already Pitched
+                      </>
+                    ) : (
+                      <>
+                        <Send className="h-3.5 w-3.5" />
+                        Generate Pitch
+                      </>
+                    )}
                   </Button>
                   {tour.url && (
                     <a href={tour.url} target="_blank" rel="noopener noreferrer">
