@@ -18,6 +18,7 @@ import ReleaseChecklist from "../components/report/ReleaseChecklist";
 import TikTokScripts from "../components/report/TikTokScripts";
 import VisualIdentity from "../components/report/VisualIdentity";
 import MoneyMoves from "../components/report/MoneyMoves";
+import SocialAssetGenerator from "../components/report/SocialAssetGenerator";
 import StickyActionBar from "../components/report/StickyActionBar";
 
 export default function Results() {
@@ -98,6 +99,7 @@ export default function Results() {
         <TikTokScripts song={song} />
         <VisualIdentity song={song} />
         <MoneyMoves song={song} />
+        <SocialAssetGenerator song={song} />
         <CollabSuggestions song={song} similarArtists={report.similar_artists} />
 
         {/* Hidden PDF button trigger */}
