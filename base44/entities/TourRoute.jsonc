@@ -1,0 +1,43 @@
+{
+  "name": "TourRoute",
+  "type": "object",
+  "properties": {
+    "name": {
+      "type": "string",
+      "description": "Tour name, e.g. Summer 2025 Tour"
+    },
+    "start_date": {
+      "type": "string",
+      "description": "ISO date"
+    },
+    "end_date": {
+      "type": "string",
+      "description": "ISO date"
+    },
+    "venue_ids": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Ordered list of Venue IDs on this tour"
+    },
+    "description": {
+      "type": "string"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "Planning",
+        "Active",
+        "Completed"
+      ],
+      "default": "Planning"
+    },
+    "notes": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "name"
+  ]
+}

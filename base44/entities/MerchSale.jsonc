@@ -1,0 +1,63 @@
+{
+  "name": "MerchSale",
+  "type": "object",
+  "properties": {
+    "venue_id": {
+      "type": "string",
+      "description": "Reference to Venue entity id"
+    },
+    "venue_name": {
+      "type": "string"
+    },
+    "show_date": {
+      "type": "string",
+      "description": "ISO date of the show"
+    },
+    "product_name": {
+      "type": "string",
+      "description": "e.g. T-Shirt, Vinyl, Hat"
+    },
+    "category": {
+      "type": "string",
+      "enum": [
+        "T-Shirt",
+        "Hoodie",
+        "Hat",
+        "Vinyl",
+        "CD",
+        "Poster",
+        "Sticker",
+        "Other"
+      ],
+      "default": "T-Shirt"
+    },
+    "quantity_sold": {
+      "type": "number",
+      "default": 1
+    },
+    "unit_price": {
+      "type": "number",
+      "description": "Sale price per unit"
+    },
+    "unit_cost": {
+      "type": "number",
+      "description": "Production cost per unit"
+    },
+    "total_revenue": {
+      "type": "number",
+      "description": "quantity * unit_price"
+    },
+    "total_cost": {
+      "type": "number",
+      "description": "quantity * unit_cost"
+    },
+    "notes": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "product_name",
+    "quantity_sold",
+    "unit_price"
+  ]
+}
