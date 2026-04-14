@@ -1,0 +1,47 @@
+{
+  "name": "CommunityMessage",
+  "type": "object",
+  "properties": {
+    "channel": {
+      "type": "string",
+      "enum": [
+        "general",
+        "releases",
+        "feedback",
+        "collabs",
+        "promotion",
+        "gear"
+      ],
+      "default": "general"
+    },
+    "author_name": {
+      "type": "string"
+    },
+    "author_email": {
+      "type": "string"
+    },
+    "body": {
+      "type": "string"
+    },
+    "reply_to_id": {
+      "type": "string",
+      "description": "ID of parent message if this is a reply"
+    },
+    "reply_to_author": {
+      "type": "string"
+    },
+    "reply_to_body": {
+      "type": "string"
+    },
+    "reactions": {
+      "type": "object",
+      "description": "emoji -> array of user emails"
+    }
+  },
+  "required": [
+    "channel",
+    "body",
+    "author_name",
+    "author_email"
+  ]
+}

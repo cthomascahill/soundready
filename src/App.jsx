@@ -26,6 +26,8 @@ import GigFinder from './pages/GigFinder';
 import AlgorithmGuide from './pages/AlgorithmGuide';
 import Pricing from './pages/Pricing';
 import Profile from './pages/Profile';
+import VenueTracker from './pages/VenueTracker';
+import Community from './pages/Community';
 
 const AuthenticatedApp = () => {
   const { isLoadingAuth, isLoadingPublicSettings, authError, navigateToLogin } = useAuth();
@@ -66,6 +68,8 @@ const AuthenticatedApp = () => {
         <Route path="/press-kit" element={<PressKit />} />
         <Route path="/pricing" element={<Pricing />} />
         <Route path="/profile" element={<Profile />} />
+        <Route path="/venues" element={<VenueTracker />} />
+        <Route path="/community" element={<Community />} />
         <Route path="*" element={<PageNotFound />} />
       </Route>
     </Routes>

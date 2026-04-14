@@ -1,0 +1,132 @@
+{
+  "name": "Venue",
+  "type": "object",
+  "properties": {
+    "name": {
+      "type": "string",
+      "description": "Venue name"
+    },
+    "city": {
+      "type": "string"
+    },
+    "state": {
+      "type": "string"
+    },
+    "country": {
+      "type": "string",
+      "default": "USA"
+    },
+    "capacity": {
+      "type": "number"
+    },
+    "venue_type": {
+      "type": "string",
+      "enum": [
+        "Club",
+        "Bar/Venue",
+        "Concert Hall",
+        "Arts Venue",
+        "Amphitheater",
+        "Festival",
+        "Private Event Space",
+        "Other"
+      ]
+    },
+    "genres": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "booking_contact_name": {
+      "type": "string"
+    },
+    "booking_email": {
+      "type": "string"
+    },
+    "booking_phone": {
+      "type": "string"
+    },
+    "website": {
+      "type": "string"
+    },
+    "instagram": {
+      "type": "string"
+    },
+    "pay_range": {
+      "type": "string",
+      "description": "e.g. $200-$600"
+    },
+    "door_deal": {
+      "type": "boolean",
+      "default": false
+    },
+    "backline_provided": {
+      "type": "boolean",
+      "default": false
+    },
+    "soundcheck_time": {
+      "type": "string",
+      "description": "e.g. 6:00 PM"
+    },
+    "booking_requirements": {
+      "type": "string",
+      "description": "What they require to book (EPK, streaming numbers, etc.)"
+    },
+    "submission_notes": {
+      "type": "string",
+      "description": "Notes about how/when to submit"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "Prospect",
+        "Pitched",
+        "Awaiting Response",
+        "Booked",
+        "Performed",
+        "Passed"
+      ],
+      "default": "Prospect"
+    },
+    "last_contacted_date": {
+      "type": "string",
+      "description": "ISO date"
+    },
+    "performance_date": {
+      "type": "string",
+      "description": "ISO date of last/upcoming performance"
+    },
+    "performance_notes": {
+      "type": "string",
+      "description": "How the show went, draw, what to improve"
+    },
+    "setlist": {
+      "type": "string",
+      "description": "Songs played"
+    },
+    "attendance": {
+      "type": "number"
+    },
+    "payout_received": {
+      "type": "number"
+    },
+    "rating": {
+      "type": "number",
+      "description": "Your rating of the venue 1-5"
+    },
+    "tags": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Custom tags"
+    },
+    "notes": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "name"
+  ]
+}
