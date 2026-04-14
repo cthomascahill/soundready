@@ -5,6 +5,7 @@ import { Plus, Trash2, DollarSign, TrendingUp, TrendingDown, BarChart2, Music } 
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, PieChart, Pie, Cell } from "recharts";
+import PnLStatement from "@/components/budgettracker/PnLStatement";
 
 const EXPENSE_CATEGORIES = ["Studio Time", "Music Video", "Social Ads", "Mixing & Mastering", "Photography", "Graphic Design", "PR & Marketing", "Distribution", "Other"];
 const REVENUE_SOURCES = ["Spotify Streams", "Apple Music", "YouTube", "Sync Licensing", "Live Performance", "Merchandise", "TikTok Creator Fund", "Other"];
@@ -231,6 +232,9 @@ export default function BudgetTracker() {
                     )}
                   </div>
                 )}
+
+                {/* P&L Statement */}
+                <PnLStatement selected={selected} totals={totals} />
 
                 {/* Expense table */}
                 <div className="rounded-xl bg-card border border-border overflow-hidden">
