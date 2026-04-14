@@ -20,6 +20,7 @@ import SpotifyConnect from './pages/SpotifyConnect';
 import About from './pages/About';
 import PlaylistPitcher from './pages/PlaylistPitcher';
 import Mastering from './pages/Mastering';
+import ReleasePlanInput from './pages/ReleasePlanInput';
 import LinkInBio from './pages/LinkInBio';
 import RoyaltyDashboard from './pages/RoyaltyDashboard';
 import PressKit from './pages/PressKit';
@@ -68,7 +69,7 @@ const AuthenticatedApp = () => {
       {/* Protected routes */}
       <Route element={<AppLayout />}>
         <Route path="/dashboard" element={<Dashboard />} />
-        <Route path="/release-plan" element={<Dashboard />} />
+        <Route path="/release-plan" element={<ReleasePlanInput />} />
         <Route path="/results" element={<Results />} /> 
         <Route path="/history" element={<History />} />
         <Route path="/streaming" element={<StreamingDashboard />} />
