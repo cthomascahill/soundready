@@ -35,23 +35,13 @@ export default function Home() {
               SoundReady eliminates the guesswork. In 60 seconds, get a complete release strategy powered by real music industry data, algorithm insights, and AI that thinks like an A&R.
             </p>
           </div>
-          <div className="flex gap-3 flex-wrap justify-center">
-            <Button 
-              size="lg" 
-              className="gap-2 font-heading font-bold text-base px-8"
-              onClick={() => base44.auth.redirectToLogin().catch(e => console.error('Login error:', e))}
-            >
-              Sign In <ArrowRight className="h-4 w-4" />
-            </Button>
-            <Button 
-              size="lg" 
-              variant="outline" 
-              className="gap-2 font-heading font-bold text-base px-8"
-              onClick={() => base44.auth.redirectToRegister("/dashboard").catch(e => console.error('Register error:', e))}
-            >
-              Sign Up
-            </Button>
-          </div>
+          <Button 
+            size="lg" 
+            className="gap-2 font-heading font-bold text-base px-8"
+            onClick={() => base44.auth.redirectToLogin().catch(e => console.error('Login error:', e))}
+          >
+            Sign In <ArrowRight className="h-4 w-4" />
+          </Button>
         </motion.div>
       </section>
 
@@ -146,10 +136,10 @@ export default function Home() {
                   ))}
                 </div>
                 <Button
-                  onClick={() => base44.auth.redirectToRegister("/dashboard").catch(e => console.error('Register error:', e))}
+                  onClick={() => base44.auth.redirectToLogin().catch(e => console.error('Login error:', e))}
                   variant={plan.highlighted ? "default" : "outline"}
                   className="w-full font-heading font-semibold">
-                  Get Started
+                  Sign In
                 </Button>
               </motion.div>
             ))}

@@ -6,7 +6,6 @@ import PageNotFound from './lib/PageNotFound';
 import { AuthProvider, useAuth } from '@/lib/AuthContext';
 import UserNotRegisteredError from '@/components/UserNotRegisteredError';
 import LoginPage from './pages/Home';
-import Register from './pages/Register';
 import Dashboard from './pages/Dashboard';
 import Results from './pages/Results';
 import History from './pages/History';
@@ -65,7 +64,6 @@ const AuthenticatedApp = () => {
     <Routes>
       {/* Public routes */}
       <Route path="/" element={<LoginPage />} />
-      <Route path="/register" element={<Register />} />
 
       {/* Protected routes */}
       <Route element={<AppLayout />}>
