@@ -32,6 +32,11 @@ import Community from './pages/Community';
 import TourFinance from './pages/TourFinance';
 import TourPlanner from './pages/TourPlanner';
 import TaxEstimator from './pages/TaxEstimator';
+import NewsletterBuilder from './pages/NewsletterBuilder.jsx';
+import PerformanceTracker from './pages/PerformanceTracker.jsx';
+import RightsManager from './pages/RightsManager.jsx';
+import ContentScheduler from './pages/ContentScheduler.jsx';
+import SyncPitcher from './pages/SyncPitcher.jsx';
 
 const AuthenticatedApp = () => {
   const { isLoadingAuth, isLoadingPublicSettings, authError, navigateToLogin } = useAuth();
@@ -77,6 +82,11 @@ const AuthenticatedApp = () => {
         <Route path="/tour-finance" element={<TourFinance />} />
         <Route path="/tour-planner" element={<TourPlanner />} />
         <Route path="/tax-estimator" element={<TaxEstimator />} />
+        <Route path="/newsletter" element={<NewsletterBuilder />} />
+        <Route path="/performance-tracker" element={<PerformanceTracker />} />
+        <Route path="/rights" element={<RightsManager />} />
+        <Route path="/scheduler" element={<ContentScheduler />} />
+        <Route path="/sync-pitcher" element={<SyncPitcher />} />
         <Route path="/community" element={<Community />} />
         <Route path="*" element={<PageNotFound />} />
       </Route>

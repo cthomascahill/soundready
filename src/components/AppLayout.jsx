@@ -4,7 +4,7 @@ import { base44 } from "@/api/base44Client";
 import {
   History, LogOut, BarChart2, CalendarDays, LineChart, Music2, DollarSign,
   FileText, Send, Mic2, MapPin, BookOpen, ChevronDown, Home, Info, Wand2,
-  Link2, TrendingUp, Zap, CreditCard, UserCircle, Building2, Users, ScrollText, CalendarRange
+  Link2, TrendingUp, Zap, CreditCard, UserCircle, Building2, Users, ScrollText, CalendarRange, Mail
 } from "lucide-react";
 
 const PRIMARY_NAV = [
@@ -62,6 +62,16 @@ const MORE_SECTIONS = [
       { to: "/algorithm-guide", icon: BookOpen, label: "Algorithm Guide" },
       { to: "/community", icon: Users, label: "Community" },
       { to: "/about", icon: Info, label: "About" },
+    ],
+  },
+  {
+    heading: "New Tools",
+    items: [
+      { to: "/newsletter", icon: Mail, label: "Newsletter Builder" },
+      { to: "/performance-tracker", icon: BarChart2, label: "Performance Tracker" },
+      { to: "/rights", icon: FileText, label: "Rights Manager" },
+      { to: "/scheduler", icon: CalendarDays, label: "Content Scheduler" },
+      { to: "/sync-pitcher", icon: Mic2, label: "Sync Licensing" },
     ],
   },
 ];
