@@ -23,6 +23,7 @@ export default function Dashboard() {
   useEffect(() => {
     base44.entities.SongAnalysis.list("-created_date", 5)
       .then(setRecentPlans)
+      .catch(() => setRecentPlans([]))
       .finally(() => setLoading(false));
   }, []);
 
