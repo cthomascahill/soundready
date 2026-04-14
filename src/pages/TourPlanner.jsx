@@ -10,6 +10,9 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import moment from "moment";
 import { getDrivingRoute } from "@/lib/routeDistance";
+import HotelEstimator from "@/components/tourplanner/HotelEstimator";
+import TourAnalyticsDashboard from "@/components/tourplanner/TourAnalyticsDashboard";
+import ExportTourPDF from "@/components/tourplanner/ExportTourPDF";
 
 // ─── Category config ─────────────────────────────────────────────────────────
 const CATEGORIES = {
@@ -57,11 +60,11 @@ function TaskPill({ task, onEdit, onDelete, onToggleDone, isDragging, dragHandle
 }
 
 // ─── Add/Edit task modal ──────────────────────────────────────────────────────
-function TaskModal({ task, date, venues, onSave, onClose }) {
+function TaskModal({ task, date, prefill, venues, onSave, onClose }) {
   const [form, setForm] = useState(
     task
       ? { ...task }
-      : { date: date || "", title: "", category: "Hotel", status: "Todo", notes: "", cost: "", priority: "Medium", venue_id: "" }
+      : { date: date || "", title: prefill?.title || "", category: prefill?.category || "Hotel", status: "Todo", notes: "", cost: prefill?.cost || "", priority: "Medium", venue_id: "" }
   );
   const set = (k) => (e) => setForm(f => ({ ...f, [k]: e.target?.value ?? e }));
 
@@ -254,16 +257,17 @@ export default function TourPlanner() {
   const [dragging, setDragging] = useState(null); // task being dragged
   const [routeData, setRouteData] = useState({}); // key: "fromCity|toCity" -> { distanceMiles, durationHours }
   const [routeLoading, setRouteLoading] = useState({}); // same key -> bool
+  const [expenses, setExpenses] = useState([]);
 
   useEffect(() => {
     Promise.all([
-      base44.entities.Venue.filter({ status: "Booked" }, "performance_date", 200).catch(() =>
-        base44.entities.Venue.list("performance_date", 200)
-      ),
+      base44.entities.Venue.list("performance_date", 200),
       base44.entities.TourLogisticsTask.list("date", 500),
-    ]).then(([v, t]) => {
-      setVenues(v);
+      base44.entities.TourExpense.list("-created_date", 200).catch(() => []),
+    ]).then(([v, t, e]) => {
+      setVenues(v.filter(x => x.status === "Booked" || x.status === "Performed"));
       setTasks(t);
+      setExpenses(e);
       setLoading(false);
     });
   }, []);
@@ -367,6 +371,7 @@ export default function TourPlanner() {
         <TaskModal
           task={modal.task}
           date={modal.date}
+          prefill={modal.prefill}
           venues={bookedVenues}
           onSave={handleSaveTask}
           onClose={() => setModal(null)}
@@ -381,9 +386,17 @@ export default function TourPlanner() {
             <h1 className="font-heading text-4xl font-bold">Tour Planner</h1>
             <p className="text-muted-foreground text-sm mt-1">Drag tasks between days, track travel gaps, and manage logistics.</p>
           </div>
-          <Button onClick={() => setModal({ date: today })} className="gap-2 shrink-0">
-            <Plus className="h-4 w-4" />Add Task
-          </Button>
+          <div className="flex gap-2 flex-wrap">
+            <ExportTourPDF
+              venues={venues}
+              tasks={tasks}
+              routeData={routeData}
+              travelGapsByDate={travelGapsByDate}
+            />
+            <Button onClick={() => setModal({ date: today })} className="gap-2 shrink-0">
+              <Plus className="h-4 w-4" />Add Task
+            </Button>
+          </div>
         </motion.div>
 
         {/* Stats row */}
@@ -447,6 +460,36 @@ export default function TourPlanner() {
             })}
           </div>
         )}
+
+        {/* Hotel Estimator */}
+        {(() => {
+          // Build travelGaps array with fromDate/toDate for HotelEstimator
+          const gaps = [];
+          for (let i = 1; i < sortedShowDates.length; i++) {
+            const prev = sortedShowDates[i - 1];
+            const curr = sortedShowDates[i];
+            const from = showsByDate[prev][0];
+            const to = showsByDate[curr][0];
+            if (from.city !== to.city) {
+              gaps.push({ fromDate: prev, toDate: curr, from, to });
+            }
+          }
+          return gaps.length > 0 ? (
+            <HotelEstimator
+              travelGaps={gaps}
+              tasks={tasks}
+              onAddTask={(prefill) => setModal({ date: prefill.date, task: null, prefill })}
+            />
+          ) : null;
+        })()}
+
+        {/* Tour Analytics Dashboard */}
+        <TourAnalyticsDashboard
+          venues={venues}
+          tasks={tasks}
+          expenses={expenses}
+          routeData={routeData}
+        />
 
         {/* Legend */}
         <div className="flex flex-wrap gap-3 text-xs">
