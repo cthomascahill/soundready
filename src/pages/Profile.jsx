@@ -1,17 +1,8 @@
 import { useState, useEffect } from "react";
 import { base44 } from "@/api/base44Client";
-import { motion } from "framer-motion";
-import { User, Mail, Music2, MapPin, Instagram, Globe, Save, Check, LogOut, Crown, Star, Zap, Building2, Camera } from "lucide-react";
+import { User, Mail, LogOut, Music2, Save, Check } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Link } from "react-router-dom";
-
-const PLAN_META = {
-  free: { label: "Free", icon: Zap, color: "text-muted-foreground", bg: "bg-secondary" },
-  starter: { label: "Starter", icon: Star, color: "text-chart-5", bg: "bg-chart-5/10" },
-  pro: { label: "Pro", icon: Crown, color: "text-primary", bg: "bg-primary/10" },
-  label: { label: "Label / Manager", icon: Building2, color: "text-purple-400", bg: "bg-purple-500/10" },
-};
 
 const GENRES = ["Hip Hop", "Pop", "R&B", "Country", "Rock", "EDM", "Latin", "Indie", "Other"];
 
@@ -20,40 +11,28 @@ export default function Profile() {
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
   const [saved, setSaved] = useState(false);
-  const [songCount, setSongCount] = useState(0);
   const [form, setForm] = useState({
     artist_name: "",
-    location: "",
-    primary_genre: "",
     bio: "",
-    website: "",
-    instagram: "",
-    spotify_url: "",
-    avatar_url: "",
-    plan: "free",
+    genres: [],
+    target_audience: "",
   });
 
   useEffect(() => {
-    base44.auth.me().then(async (u) => {
-      setUser(u);
-      setForm({
-        artist_name: u.artist_name || "",
-        location: u.location || "",
-        primary_genre: u.primary_genre || "",
-        bio: u.bio || "",
-        website: u.website || "",
-        instagram: u.instagram || "",
-        spotify_url: u.spotify_url || "",
-        avatar_url: u.avatar_url || "",
-        plan: u.plan || "free",
-      });
-      const songs = await base44.entities.SongAnalysis.filter({ status: "complete" }, "-created_date", 100);
-      setSongCount(songs.length);
-      setLoading(false);
-    });
+    base44.auth.me()
+      .then((u) => {
+        setUser(u);
+        setForm({
+          artist_name: u.artist_name || "",
+          bio: u.bio || "",
+          genres: u.genres || [],
+          target_audience: u.target_audience || "",
+        });
+      })
+      .finally(() => setLoading(false));
   }, []);
 
-  const save = async () => {
+  const handleSave = async () => {
     setSaving(true);
     await base44.auth.updateMe(form);
     setSaving(false);
@@ -61,147 +40,142 @@ export default function Profile() {
     setTimeout(() => setSaved(false), 2000);
   };
 
-  const set = (k) => (e) => setForm((f) => ({ ...f, [k]: e.target.value }));
+  const handleInputChange = (field) => (e) => {
+    setForm((f) => ({ ...f, [field]: e.target.value }));
+  };
 
-  if (loading) return (
-    <div className="min-h-screen bg-background flex items-center justify-center">
-      <div className="h-6 w-6 border-2 border-primary/20 border-t-primary rounded-full animate-spin" />
-    </div>
-  );
+  const toggleGenre = (genre) => {
+    setForm((f) => ({
+      ...f,
+      genres: f.genres.includes(genre)
+        ? f.genres.filter((g) => g !== genre)
+        : [...f.genres, genre],
+    }));
+  };
 
-  const plan = PLAN_META[form.plan] || PLAN_META.free;
-  const PlanIcon = plan.icon;
+  if (loading) {
+    return (
+      <div className="min-h-screen bg-background flex items-center justify-center">
+        <div className="h-6 w-6 border-2 border-primary/20 border-t-primary rounded-full animate-spin" />
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen bg-background px-4 py-10">
       <div className="max-w-2xl mx-auto space-y-6">
-        <motion.div initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }}>
+        {/* Header */}
+        <div className="space-y-2">
           <p className="text-xs text-primary uppercase tracking-widest font-medium">Account</p>
-          <h1 className="font-heading text-4xl font-bold">Your Profile</h1>
-        </motion.div>
+          <h1 className="font-heading text-4xl font-bold">Profile</h1>
+        </div>
 
         {/* Identity card */}
-        <div className="rounded-2xl bg-card border border-border p-6 space-y-5">
-          {/* Avatar + name */}
+        <div className="rounded-2xl bg-card border border-border p-6 space-y-3">
           <div className="flex items-center gap-4">
-            <div className="relative">
-              {form.avatar_url ? (
-                <img src={form.avatar_url} alt="avatar" className="h-20 w-20 rounded-2xl object-cover border border-border" />
-              ) : (
-                <div className="h-20 w-20 rounded-2xl bg-secondary border border-border flex items-center justify-center">
-                  <User className="h-8 w-8 text-muted-foreground" />
-                </div>
-              )}
+            <div className="h-16 w-16 rounded-xl bg-primary/10 border border-primary/20 flex items-center justify-center shrink-0">
+              <User className="h-8 w-8 text-primary" />
             </div>
-            <div className="flex-1 min-w-0">
-              <p className="font-heading font-bold text-xl">{user?.full_name || "Your Name"}</p>
+            <div className="min-w-0">
+              <p className="font-heading font-bold text-lg">{user?.full_name || "Guest"}</p>
               <p className="text-sm text-muted-foreground flex items-center gap-1.5 mt-0.5">
-                <Mail className="h-3.5 w-3.5" />{user?.email}
+                <Mail className="h-3.5 w-3.5 shrink-0" />
+                {user?.email}
               </p>
-              <div className={`inline-flex items-center gap-1.5 mt-2 px-2.5 py-1 rounded-full ${plan.bg} text-xs font-semibold`}>
-                <PlanIcon className={`h-3.5 w-3.5 ${plan.color}`} />
-                <span className={plan.color}>{plan.label} Plan</span>
-              </div>
             </div>
-          </div>
-
-          {/* Stats */}
-          <div className="grid grid-cols-3 gap-3">
-            {[
-              { label: "Songs Analyzed", value: songCount },
-              { label: "Plan", value: plan.label },
-              { label: "Member Since", value: user?.created_date ? new Date(user.created_date).getFullYear() : "—" },
-            ].map((s) => (
-              <div key={s.label} className="rounded-xl bg-secondary/40 p-3 text-center">
-                <p className="font-heading font-bold text-xl">{s.value}</p>
-                <p className="text-xs text-muted-foreground mt-0.5">{s.label}</p>
-              </div>
-            ))}
           </div>
         </div>
 
-        {/* Artist profile form */}
-        <div className="rounded-2xl bg-card border border-border p-6 space-y-4">
-          <p className="font-heading font-semibold flex items-center gap-2"><Music2 className="h-4 w-4 text-primary" />Artist Profile</p>
+        {/* Profile form */}
+        <div className="rounded-2xl bg-card border border-border p-6 space-y-5">
+          <p className="font-heading font-semibold flex items-center gap-2">
+            <Music2 className="h-4 w-4 text-primary" />
+            Artist Profile
+          </p>
 
-          <div className="grid grid-cols-2 gap-3">
+          <div className="space-y-3">
             <div className="space-y-1.5">
-              <label className="text-xs text-muted-foreground font-medium">Artist / Stage Name</label>
-              <Input placeholder="e.g. Maya Lane" value={form.artist_name} onChange={set("artist_name")} />
+              <label className="text-xs text-muted-foreground font-medium">Artist Name</label>
+              <Input
+                placeholder="e.g. Maya Lane"
+                value={form.artist_name}
+                onChange={handleInputChange("artist_name")}
+              />
             </div>
+
             <div className="space-y-1.5">
-              <label className="text-xs text-muted-foreground font-medium">Location</label>
-              <Input placeholder="e.g. Atlanta, GA" value={form.location} onChange={set("location")} />
+              <label className="text-xs text-muted-foreground font-medium">Bio</label>
+              <textarea
+                placeholder="Tell us about yourself as an artist..."
+                value={form.bio}
+                onChange={handleInputChange("bio")}
+                rows={3}
+                className="w-full rounded-md border border-input bg-transparent px-3 py-2 text-sm text-foreground focus:outline-none focus:ring-1 focus:ring-ring resize-none"
+              />
             </div>
+
+            <div className="space-y-2">
+              <label className="text-xs text-muted-foreground font-medium">Genres</label>
+              <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
+                {GENRES.map((genre) => (
+                  <button
+                    key={genre}
+                    onClick={() => toggleGenre(genre)}
+                    className={`px-3 py-2 rounded-lg text-sm font-medium transition-all border ${
+                      form.genres.includes(genre)
+                        ? "bg-primary text-primary-foreground border-primary"
+                        : "border-border text-muted-foreground hover:border-primary hover:text-foreground"
+                    }`}
+                  >
+                    {genre}
+                  </button>
+                ))}
+              </div>
+            </div>
+
             <div className="space-y-1.5">
-              <label className="text-xs text-muted-foreground font-medium">Primary Genre</label>
-              <select value={form.primary_genre} onChange={set("primary_genre")}
-                className="w-full h-9 rounded-md border border-input bg-transparent px-3 text-sm text-foreground focus:outline-none focus:ring-1 focus:ring-ring">
-                <option value="">Select genre</option>
-                {GENRES.map((g) => <option key={g}>{g}</option>)}
+              <label className="text-xs text-muted-foreground font-medium">Target Audience</label>
+              <select
+                value={form.target_audience}
+                onChange={handleInputChange("target_audience")}
+                className="w-full h-10 rounded-md border border-input bg-transparent px-3 text-sm text-foreground focus:outline-none focus:ring-1 focus:ring-ring"
+              >
+                <option value="">Select audience</option>
+                <option value="Gen Z">Gen Z</option>
+                <option value="Millennials">Millennials</option>
+                <option value="Gen X">Gen X</option>
+                <option value="Everyone">Everyone</option>
+                <option value="Niche/Underground">Niche/Underground</option>
               </select>
             </div>
-            <div className="space-y-1.5">
-              <label className="text-xs text-muted-foreground font-medium">Avatar Image URL</label>
-              <Input placeholder="https://..." value={form.avatar_url} onChange={set("avatar_url")} />
-            </div>
           </div>
 
-          <div className="space-y-1.5">
-            <label className="text-xs text-muted-foreground font-medium">Bio</label>
-            <textarea value={form.bio} onChange={set("bio")} rows={3} placeholder="Tell us about yourself as an artist..."
-              className="w-full rounded-md border border-input bg-transparent px-3 py-2 text-sm text-foreground focus:outline-none focus:ring-1 focus:ring-ring resize-none" />
-          </div>
-
-          <div className="grid grid-cols-2 gap-3">
-            <div className="space-y-1.5">
-              <label className="text-xs text-muted-foreground font-medium flex items-center gap-1.5"><Globe className="h-3 w-3" />Website</label>
-              <Input placeholder="https://yoursite.com" value={form.website} onChange={set("website")} />
-            </div>
-            <div className="space-y-1.5">
-              <label className="text-xs text-muted-foreground font-medium flex items-center gap-1.5"><Instagram className="h-3 w-3" />Instagram URL</label>
-              <Input placeholder="https://instagram.com/..." value={form.instagram} onChange={set("instagram")} />
-            </div>
-            <div className="space-y-1.5 col-span-2">
-              <label className="text-xs text-muted-foreground font-medium flex items-center gap-1.5"><Music2 className="h-3 w-3" />Spotify Artist URL</label>
-              <Input placeholder="https://open.spotify.com/artist/..." value={form.spotify_url} onChange={set("spotify_url")} />
-            </div>
-          </div>
-
-          <Button onClick={save} disabled={saving} className="gap-2">
-            {saved ? <><Check className="h-4 w-4" />Saved!</> : saving ? "Saving..." : <><Save className="h-4 w-4" />Save Profile</>}
+          <Button onClick={handleSave} disabled={saving} className="gap-2">
+            {saved ? (
+              <>
+                <Check className="h-4 w-4" />
+                Saved!
+              </>
+            ) : saving ? (
+              "Saving..."
+            ) : (
+              <>
+                <Save className="h-4 w-4" />
+                Save Profile
+              </>
+            )}
           </Button>
         </div>
 
-        {/* Plan info */}
-        <div className="rounded-2xl bg-card border border-border p-6 space-y-4">
-          <div className="flex items-center justify-between">
-            <p className="font-heading font-semibold flex items-center gap-2"><Crown className="h-4 w-4 text-primary" />Subscription</p>
-            <Link to="/pricing">
-              <Button size="sm" variant="outline">View Plans</Button>
-            </Link>
-          </div>
-          <div className={`rounded-xl ${plan.bg} border border-border p-4 flex items-center justify-between gap-4`}>
-            <div className="flex items-center gap-3">
-              <PlanIcon className={`h-6 w-6 ${plan.color}`} />
-              <div>
-                <p className="font-semibold">{plan.label}</p>
-                <p className="text-xs text-muted-foreground">
-                  {form.plan === "free" ? "Free forever" : form.plan === "starter" ? "$9.99 / month" : form.plan === "pro" ? "$24.99 / month" : "$79.99 / month"}
-                </p>
-              </div>
-            </div>
-            {form.plan === "free" && (
-              <Link to="/pricing"><Button size="sm" className="shrink-0">Upgrade</Button></Link>
-            )}
-          </div>
-        </div>
-
-        {/* Danger zone */}
-        <div className="rounded-2xl bg-card border border-border p-6 space-y-3">
-          <p className="font-heading font-semibold text-muted-foreground">Account</p>
-          <Button variant="outline" className="gap-2 text-muted-foreground" onClick={() => base44.auth.logout()}>
-            <LogOut className="h-4 w-4" />Log Out
+        {/* Logout */}
+        <div className="rounded-2xl bg-card border border-border p-6">
+          <Button
+            variant="outline"
+            className="gap-2 text-muted-foreground"
+            onClick={() => base44.auth.logout()}
+          >
+            <LogOut className="h-4 w-4" />
+            Log Out
           </Button>
         </div>
       </div>
