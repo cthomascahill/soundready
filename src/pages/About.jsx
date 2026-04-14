@@ -1,6 +1,6 @@
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
-import { Zap, BarChart2, CalendarDays, Music2, DollarSign, FileText, Send, Users, CheckCircle2, ArrowRight, Mic2, MapPin, BookOpen } from "lucide-react";
+import { Zap, BarChart2, CalendarDays, Music2, DollarSign, FileText, Send, Users, CheckCircle2, ArrowRight, Mic2, MapPin, BookOpen, Wand2, Link2, TrendingUp, Newspaper } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
 const FEATURES = [
@@ -92,6 +92,38 @@ const FEATURES = [
     title: "Algorithm Guide",
     desc: "A full deep-dive guide on how Spotify's algorithm works — covering release timing, engagement signals, playlist strategy, profile optimization, and the 7 biggest mistakes to avoid.",
   },
+  {
+    icon: Wand2,
+    color: "text-primary",
+    bg: "bg-primary/10",
+    border: "border-primary/20",
+    title: "AI Mastering",
+    desc: "Upload your track and get a professionally mastered WAV — AI-tuned EQ, multiband compression, peak limiting, and -14 LUFS normalization for streaming.",
+  },
+  {
+    icon: Link2,
+    color: "text-cyan-400",
+    bg: "bg-cyan-500/10",
+    border: "border-cyan-500/20",
+    title: "Link-in-Bio Builder",
+    desc: "Build a custom release landing page with your song streaming links, tour dates, and merch — auto-pulled from your app data. Choose from 6 visual themes.",
+  },
+  {
+    icon: TrendingUp,
+    color: "text-chart-4",
+    bg: "bg-chart-4/10",
+    border: "border-chart-4/20",
+    title: "Royalty Dashboard",
+    desc: "Upload CSV royalty statements from DistroKid, TuneCore, or CD Baby. Visualize total earnings over time, broken down by platform and individual song.",
+  },
+  {
+    icon: Newspaper,
+    color: "text-yellow-400",
+    bg: "bg-yellow-500/10",
+    border: "border-yellow-500/20",
+    title: "Press Kit Generator",
+    desc: "Auto-generate a professional EPK (Electronic Press Kit) with artist bio, streaming stats, song descriptions, and curated press quotes — ready to email to press and promoters.",
+  },
 ];
 
 const WHO_ITS_FOR = [
@@ -151,7 +183,7 @@ export default function About() {
         <div className="max-w-5xl mx-auto space-y-10">
           <motion.div initial={{ opacity: 0, y: 16 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="text-center space-y-2">
             <p className="text-xs text-primary uppercase tracking-widest font-medium">Everything in one place</p>
-            <h2 className="font-heading text-3xl font-bold">11 tools. One platform.</h2>
+            <h2 className="font-heading text-3xl font-bold">16 tools. One platform.</h2>
           </motion.div>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
             {FEATURES.map((f, i) => (

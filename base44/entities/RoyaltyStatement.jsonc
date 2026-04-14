@@ -1,0 +1,65 @@
+{
+  "name": "RoyaltyStatement",
+  "type": "object",
+  "properties": {
+    "distributor": {
+      "type": "string",
+      "enum": [
+        "DistroKid",
+        "TuneCore",
+        "CD Baby",
+        "Amuse",
+        "Other"
+      ],
+      "default": "DistroKid"
+    },
+    "period_label": {
+      "type": "string",
+      "description": "e.g. Jan 2025, Q1 2025"
+    },
+    "period_start": {
+      "type": "string"
+    },
+    "period_end": {
+      "type": "string"
+    },
+    "total_earnings": {
+      "type": "number"
+    },
+    "currency": {
+      "type": "string",
+      "default": "USD"
+    },
+    "rows": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "song_title": {
+            "type": "string"
+          },
+          "platform": {
+            "type": "string"
+          },
+          "streams": {
+            "type": "number"
+          },
+          "earnings": {
+            "type": "number"
+          },
+          "country": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "raw_filename": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "distributor",
+    "period_label",
+    "total_earnings"
+  ]
+}

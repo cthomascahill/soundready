@@ -19,6 +19,9 @@ import SpotifyConnect from './pages/SpotifyConnect';
 import About from './pages/About';
 import PlaylistPitcher from './pages/PlaylistPitcher';
 import Mastering from './pages/Mastering';
+import LinkInBio from './pages/LinkInBio';
+import RoyaltyDashboard from './pages/RoyaltyDashboard';
+import PressKit from './pages/PressKit';
 import GigFinder from './pages/GigFinder';
 import AlgorithmGuide from './pages/AlgorithmGuide';
 
@@ -56,6 +59,9 @@ const AuthenticatedApp = () => {
         <Route path="/gig-finder" element={<GigFinder />} />
         <Route path="/algorithm-guide" element={<AlgorithmGuide />} />
         <Route path="/mastering" element={<Mastering />} />
+        <Route path="/link-in-bio" element={<LinkInBio />} />
+        <Route path="/royalties" element={<RoyaltyDashboard />} />
+        <Route path="/press-kit" element={<PressKit />} />
         <Route path="*" element={<PageNotFound />} />
       </Route>
     </Routes>

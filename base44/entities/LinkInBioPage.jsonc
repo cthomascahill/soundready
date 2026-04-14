@@ -1,0 +1,120 @@
+{
+  "name": "LinkInBioPage",
+  "type": "object",
+  "properties": {
+    "artist_name": {
+      "type": "string"
+    },
+    "tagline": {
+      "type": "string"
+    },
+    "bio": {
+      "type": "string"
+    },
+    "avatar_url": {
+      "type": "string"
+    },
+    "theme": {
+      "type": "string",
+      "enum": [
+        "dark",
+        "neon",
+        "minimal",
+        "sunset",
+        "forest",
+        "ocean"
+      ],
+      "default": "dark"
+    },
+    "song_links": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "title": {
+            "type": "string"
+          },
+          "spotify_url": {
+            "type": "string"
+          },
+          "apple_url": {
+            "type": "string"
+          },
+          "youtube_url": {
+            "type": "string"
+          },
+          "tiktok_url": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "merch_items": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "price": {
+            "type": "string"
+          },
+          "url": {
+            "type": "string"
+          },
+          "image_url": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "tour_dates": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "date": {
+            "type": "string"
+          },
+          "venue": {
+            "type": "string"
+          },
+          "city": {
+            "type": "string"
+          },
+          "ticket_url": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "social_links": {
+      "type": "object",
+      "properties": {
+        "instagram": {
+          "type": "string"
+        },
+        "tiktok": {
+          "type": "string"
+        },
+        "twitter": {
+          "type": "string"
+        },
+        "youtube": {
+          "type": "string"
+        },
+        "spotify": {
+          "type": "string"
+        }
+      }
+    },
+    "slug": {
+      "type": "string",
+      "description": "URL-friendly identifier"
+    }
+  },
+  "required": [
+    "artist_name"
+  ]
+}
