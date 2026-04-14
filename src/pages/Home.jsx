@@ -192,11 +192,11 @@ bottom_line: string — one paragraph honest assessment of the song's position a
                 className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-4 w-full px-2"
               >
                 {[
-                  { label: "Analytics", img: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=300&h=300&fit=crop" },
-                  { label: "Playlists", img: "https://images.unsplash.com/photo-1514525253161-7a46d19cd819?w=300&h=300&fit=crop" },
-                  { label: "Tour Planning", img: "https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?w=300&h=300&fit=crop" },
-                  { label: "Content Tools", img: "https://images.unsplash.com/photo-1516259325514-0a0a7b8f1b5e?w=300&h=300&fit=crop" },
-                  { label: "Royalties", img: "https://images.unsplash.com/photo-1554050857-c6bdb8ec503a?w=300&h=300&fit=crop" },
+                   { label: "Analytics", img: "https://images.unsplash.com/photo-1460925895917-adf4e5d0b451?w=300&h=300&fit=crop" },
+                   { label: "Playlists", img: "https://images.unsplash.com/photo-1487180144351-b8472da7d491?w=300&h=300&fit=crop" },
+                   { label: "Tour Planning", img: "https://images.unsplash.com/photo-1470225620780-dba8ba36b745?w=300&h=300&fit=crop" },
+                   { label: "Content Tools", img: "https://images.unsplash.com/photo-1511379938547-c1f69b13d835?w=300&h=300&fit=crop" },
+                   { label: "Royalties", img: "https://images.unsplash.com/photo-1533900298318-6b8da08a523e?w=300&h=300&fit=crop" },
                 ].map((item, i) => (
                   <motion.div
                     key={item.label}
