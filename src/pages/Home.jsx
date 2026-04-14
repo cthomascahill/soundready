@@ -143,27 +143,72 @@ bottom_line: string — one paragraph honest assessment of the song's position a
   return (
     <>
       <AnimatePresence>{loading && <GeneratingLoader />}</AnimatePresence>
-    <div className="min-h-screen bg-background flex flex-col items-center justify-start px-4 py-16">
-      <motion.div
-        initial={{ opacity: 0, y: 24 }}
-        animate={{ opacity: 1, y: 0 }}
-        className="w-full max-w-2xl"
-      >
-        {/* Header */}
-        <div className="text-center mb-12">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary/10 border border-primary/20 text-primary text-xs font-medium mb-5">
-            <Zap className="h-3 w-3" />
-            AI-Powered Release Planning
+      <div className="min-h-screen bg-background flex flex-col">
+        {/* Hero section with animated grid */}
+        <div className="relative overflow-hidden px-4 py-20 sm:py-32 bg-gradient-to-b from-primary/5 via-background to-background">
+          <div className="max-w-6xl mx-auto">
+            {/* Hero text */}
+            <motion.div
+              initial={{ opacity: 0, y: 24 }}
+              animate={{ opacity: 1, y: 0 }}
+              className="text-center mb-20 space-y-6"
+            >
+              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary/10 border border-primary/20 text-primary text-xs font-medium">
+                <Zap className="h-3 w-3" />
+                AI Release Planning Platform
+              </div>
+              <h1 className="font-heading text-5xl sm:text-7xl font-black tracking-tight leading-tight">
+                Release <span className="text-primary">smarter.</span><br />
+                Grow <span className="text-primary">faster.</span>
+              </h1>
+              <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
+                Get a complete release strategy, song analytics, booking tools, and growth hacks in one platform.
+              </p>
+            </motion.div>
+
+            {/* Image carousel/grid */}
+            <div className="relative h-96 mb-20 flex items-center justify-center">
+              <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ delay: 0.2 }}
+                className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-4 w-full px-2"
+              >
+                {[
+                  { label: "Analytics", img: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=300&h=300&fit=crop" },
+                  { label: "Playlists", img: "https://images.unsplash.com/photo-1514525253161-7a46d19cd819?w=300&h=300&fit=crop" },
+                  { label: "Tour Planning", img: "https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?w=300&h=300&fit=crop" },
+                  { label: "Content Tools", img: "https://images.unsplash.com/photo-1516259325514-0a0a7b8f1b5e?w=300&h=300&fit=crop" },
+                  { label: "Royalties", img: "https://images.unsplash.com/photo-1554050857-c6bdb8ec503a?w=300&h=300&fit=crop" },
+                ].map((item, i) => (
+                  <motion.div
+                    key={item.label}
+                    initial={{ opacity: 0, y: 20, rotate: -5 }}
+                    animate={{ opacity: 1, y: 0, rotate: 0 }}
+                    transition={{ delay: 0.1 + i * 0.1 }}
+                    whileHover={{ scale: 1.05, rotate: 2 }}
+                    className="rounded-2xl overflow-hidden border border-border shadow-lg hover:shadow-xl transition-all"
+                  >
+                    <img src={item.img} alt={item.label} className="w-full h-32 object-cover" />
+                    <div className="bg-card p-3 text-center">
+                      <p className="text-xs font-medium text-muted-foreground">{item.label}</p>
+                    </div>
+                  </motion.div>
+                ))}
+              </motion.div>
+            </div>
           </div>
-          <h1 className="font-heading text-5xl sm:text-6xl font-bold tracking-tight leading-tight mb-4">
-            Your complete<br />
-            <span className="text-primary">release plan.</span>
-          </h1>
-          <p className="text-muted-foreground text-lg">In 60 seconds.</p>
         </div>
 
-        {/* Form */}
-        <div className="rounded-2xl bg-card border border-border p-8 space-y-6">
+        {/* Form section */}
+        <div className="px-4 py-20 bg-background">
+          <motion.div
+            initial={{ opacity: 0, y: 24 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.4 }}
+            className="w-full max-w-2xl mx-auto"
+          >
+            <div className="rounded-2xl bg-card border border-border p-8 space-y-6">
           {/* Audio upload */}
           <UploadZone file={audioFile} onFileSelect={setAudioFile} onClear={() => setAudioFile(null)} />
 
@@ -232,9 +277,10 @@ bottom_line: string — one paragraph honest assessment of the song's position a
           >
             Generate My Release Plan
           </Button>
+            </div>
+          </motion.div>
         </div>
-      </motion.div>
-    </div>
+      </div>
     </>
   );
 }
