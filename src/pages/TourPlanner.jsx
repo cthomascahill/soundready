@@ -57,6 +57,9 @@ function TaskPill({ task, onEdit, onDelete, onToggleDone, isDragging, dragHandle
       <button onClick={() => onEdit(task)} className="shrink-0 text-muted-foreground hover:text-foreground">
         <CircleDot className="h-3 w-3" />
       </button>
+      <button onClick={() => onDelete(task.id)} className="shrink-0 text-muted-foreground hover:text-destructive transition-colors">
+        <X className="h-3 w-3" />
+      </button>
     </div>
   );
 }
