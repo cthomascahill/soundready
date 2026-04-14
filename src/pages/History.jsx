@@ -1,14 +1,41 @@
 import { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { base44 } from "@/api/base44Client";
 import { motion } from "framer-motion";
-import { Loader2, Music, Trash2, Plus } from "lucide-react";
+import { Loader2, Music, Trash2, Plus, ChevronRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import moment from "moment";
 
 export default function History() {
+  const navigate = useNavigate();
   const [analyses, setAnalyses] = useState([]);
   const [loading, setLoading] = useState(true);
+
+  const handleOpen = (a) => {
+    // Reconstruct report and song objects from saved entity fields
+    const report = {
+      algorithm_outlook: a.algorithm_outlook ? a.algorithm_outlook.split("\n") : [],
+      best_clip_moments: [],
+      content_video_ideas: [],
+      release_day: "",
+      release_day_reason: "",
+      pre_release_plan: [],
+      playlist_pitch: a.playlist_pitch || "",
+      genre_mood_tags: [],
+      similar_artists: a.similar_artists || [],
+      captions: {},
+    };
+    const song = {
+      title: a.title,
+      artist: a.artist_name,
+      genre: a.genre,
+      mood: a.mood,
+      energy: a.energy_level ? a.energy_level.charAt(0).toUpperCase() + a.energy_level.slice(1) : "",
+      description: a.song_description || "",
+      audience: "",
+    };
+    navigate("/results", { state: { report, song } });
+  };
 
   useEffect(() => {
     base44.entities.SongAnalysis.list("-created_date", 50)
@@ -57,7 +84,8 @@ export default function History() {
               initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: i * 0.04 }}
-              className="rounded-xl bg-card border border-border p-5 flex items-center justify-between gap-4"
+              onClick={() => handleOpen(a)}
+              className="rounded-xl bg-card border border-border p-5 flex items-center justify-between gap-4 cursor-pointer hover:border-primary/40 hover:bg-card/80 transition-all"
             >
               <div className="flex items-center gap-4 min-w-0">
                 <div className="h-10 w-10 rounded-xl bg-primary/10 flex items-center justify-center shrink-0">
@@ -70,12 +98,15 @@ export default function History() {
                   </p>
                 </div>
               </div>
-              <button
-                onClick={() => handleDelete(a.id)}
-                className="text-muted-foreground hover:text-destructive transition-colors shrink-0"
-              >
-                <Trash2 className="h-4 w-4" />
-              </button>
+              <div className="flex items-center gap-2 shrink-0">
+                <ChevronRight className="h-4 w-4 text-muted-foreground" />
+                <button
+                  onClick={(e) => { e.stopPropagation(); handleDelete(a.id); }}
+                  className="text-muted-foreground hover:text-destructive transition-colors"
+                >
+                  <Trash2 className="h-4 w-4" />
+                </button>
+              </div>
             </motion.div>
           ))}
         </div>
