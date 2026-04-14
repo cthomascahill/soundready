@@ -9,6 +9,7 @@ import ShowCard from "@/components/tourfinance/ShowCard";
 import TaxSummary from "@/components/tourfinance/TaxSummary";
 import TourMapView from "@/components/tourfinance/TourMapView";
 import AddMerchSaleForm from "@/components/tourfinance/AddMerchSaleForm";
+import BudgetForecast from "@/components/tourfinance/BudgetForecast";
 
 const CATEGORIES = ["Gas", "Lodging", "Food", "Merch Production", "Equipment", "Transportation", "Promotion", "Parking/Tolls", "Other"];
 
@@ -208,6 +209,10 @@ export default function TourFinance() {
               <Icon className="h-4 w-4" /><span className="hidden sm:inline">{label}</span>
             </button>
           ))}
+          <button onClick={() => setActiveTab("forecast")}
+            className={`flex-1 flex items-center justify-center gap-2 py-2 px-3 rounded-lg text-sm font-medium transition-colors ${activeTab === "forecast" ? "bg-card text-foreground shadow-sm" : "text-muted-foreground hover:text-foreground"}`}>
+            <TrendingDown className="h-4 w-4" /><span className="hidden sm:inline">Forecast</span>
+          </button>
         </div>
 
         {loading ? (
@@ -268,6 +273,10 @@ export default function TourFinance() {
 
             {activeTab === "tax" && (
               <TaxSummary venues={venues} expenses={expenses} merchSales={merchSales} royalties={royalties} />
+            )}
+
+            {activeTab === "forecast" && (
+              <BudgetForecast venues={venues} expenses={expenses} routeData={{}} />
             )}
           </>
         )}

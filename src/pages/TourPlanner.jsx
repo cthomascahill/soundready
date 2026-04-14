@@ -13,6 +13,7 @@ import { getDrivingRoute } from "@/lib/routeDistance";
 import HotelEstimator from "@/components/tourplanner/HotelEstimator";
 import TourAnalyticsDashboard from "@/components/tourplanner/TourAnalyticsDashboard";
 import ExportTourPDF from "@/components/tourplanner/ExportTourPDF";
+import TourRouteMap from "@/components/tourplanner/TourRouteMap";
 
 // ─── Category config ─────────────────────────────────────────────────────────
 const CATEGORIES = {
@@ -435,6 +436,9 @@ export default function TourPlanner() {
             <ChevronRight className="h-4 w-4" />
           </button>
         </div>
+
+        {/* Tour route map with conflict detection */}
+        <TourRouteMap venues={venues} routeData={routeData} travelGapsByDate={travelGapsByDate} />
 
         {/* Travel warnings panel */}
         {Object.values(travelGapsByDate).some(({ from, to }) => {
