@@ -39,15 +39,18 @@ export default function Home() {
             <Button 
               size="lg" 
               className="gap-2 font-heading font-bold text-base px-8"
-              onClick={() => base44.auth.redirectToLogin()}
+              onClick={() => base44.auth.redirectToLogin().catch(e => console.error('Login error:', e))}
             >
               Sign In <ArrowRight className="h-4 w-4" />
             </Button>
-            <Link to="/register">
-              <Button size="lg" variant="outline" className="gap-2 font-heading font-bold text-base px-8">
-                Sign Up
-              </Button>
-            </Link>
+            <Button 
+              size="lg" 
+              variant="outline" 
+              className="gap-2 font-heading font-bold text-base px-8"
+              onClick={() => base44.auth.redirectToRegister("/dashboard").catch(e => console.error('Register error:', e))}
+            >
+              Sign Up
+            </Button>
           </div>
         </motion.div>
       </section>
@@ -143,7 +146,7 @@ export default function Home() {
                   ))}
                 </div>
                 <Button
-                  onClick={() => base44.auth.redirectToRegister("/dashboard")}
+                  onClick={() => base44.auth.redirectToRegister("/dashboard").catch(e => console.error('Register error:', e))}
                   variant={plan.highlighted ? "default" : "outline"}
                   className="w-full font-heading font-semibold">
                   Get Started
@@ -157,7 +160,7 @@ export default function Home() {
             <Button
               size="lg"
               className="gap-2 font-heading font-bold text-base px-8"
-              onClick={() => base44.auth.redirectToLogin()}
+              onClick={() => base44.auth.redirectToLogin().catch(e => console.error('Login error:', e))}
             >
               Sign In <ArrowRight className="h-4 w-4" />
             </Button>
