@@ -1,0 +1,49 @@
+{
+  "name": "CalendarEvent",
+  "type": "object",
+  "properties": {
+    "song_id": {
+      "type": "string",
+      "description": "Reference to SongAnalysis id (optional)"
+    },
+    "song_title": {
+      "type": "string"
+    },
+    "date": {
+      "type": "string",
+      "description": "ISO date YYYY-MM-DD"
+    },
+    "title": {
+      "type": "string"
+    },
+    "description": {
+      "type": "string"
+    },
+    "type": {
+      "type": "string",
+      "enum": [
+        "release",
+        "pre_release",
+        "content",
+        "pitch",
+        "manual"
+      ],
+      "default": "manual"
+    },
+    "platform": {
+      "type": "string"
+    },
+    "completed": {
+      "type": "boolean",
+      "default": false
+    },
+    "google_event_id": {
+      "type": "string",
+      "description": "Google Calendar event ID if synced"
+    }
+  },
+  "required": [
+    "title",
+    "date"
+  ]
+}

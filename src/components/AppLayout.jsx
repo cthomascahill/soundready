@@ -1,6 +1,6 @@
 import { Outlet, Link, useLocation } from "react-router-dom";
 import { base44 } from "@/api/base44Client";
-import { History, LogOut } from "lucide-react";
+import { History, LogOut, BarChart2, CalendarDays } from "lucide-react";
 
 export default function AppLayout() {
   const location = useLocation();
@@ -14,17 +14,23 @@ export default function AppLayout() {
             <span className="text-primary">Sound</span>Ready
           </Link>
           <div className="flex items-center gap-1">
-            <Link
-              to="/history"
-              className={`h-9 px-3 rounded-lg flex items-center gap-2 text-sm transition-colors ${location.pathname === "/history" ? "bg-primary/10 text-primary" : "text-muted-foreground hover:text-foreground hover:bg-secondary"}`}
-            >
+            <Link to="/history"
+              className={`h-9 px-3 rounded-lg flex items-center gap-2 text-sm transition-colors ${location.pathname === "/history" ? "bg-primary/10 text-primary" : "text-muted-foreground hover:text-foreground hover:bg-secondary"}`}>
               <History className="h-4 w-4" />
               <span className="hidden sm:inline">Library</span>
             </Link>
-            <button
-              onClick={() => base44.auth.logout()}
-              className="h-9 px-3 rounded-lg flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground hover:bg-secondary transition-colors"
-            >
+            <Link to="/streaming"
+              className={`h-9 px-3 rounded-lg flex items-center gap-2 text-sm transition-colors ${location.pathname === "/streaming" ? "bg-primary/10 text-primary" : "text-muted-foreground hover:text-foreground hover:bg-secondary"}`}>
+              <BarChart2 className="h-4 w-4" />
+              <span className="hidden sm:inline">Stats</span>
+            </Link>
+            <Link to="/calendar"
+              className={`h-9 px-3 rounded-lg flex items-center gap-2 text-sm transition-colors ${location.pathname === "/calendar" ? "bg-primary/10 text-primary" : "text-muted-foreground hover:text-foreground hover:bg-secondary"}`}>
+              <CalendarDays className="h-4 w-4" />
+              <span className="hidden sm:inline">Calendar</span>
+            </Link>
+            <button onClick={() => base44.auth.logout()}
+              className="h-9 px-3 rounded-lg flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground hover:bg-secondary transition-colors">
               <LogOut className="h-4 w-4" />
             </button>
           </div>

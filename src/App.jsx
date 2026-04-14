@@ -8,6 +8,8 @@ import UserNotRegisteredError from '@/components/UserNotRegisteredError';
 import Home from './pages/Home';
 import Results from './pages/Results';
 import History from './pages/History';
+import StreamingDashboard from './pages/StreamingDashboard';
+import ReleaseCalendar from './pages/ReleaseCalendar';
 import AppLayout from './components/AppLayout';
 
 const AuthenticatedApp = () => {
@@ -32,6 +34,8 @@ const AuthenticatedApp = () => {
         <Route path="/" element={<Home />} />
         <Route path="/results" element={<Results />} />
         <Route path="/history" element={<History />} />
+        <Route path="/streaming" element={<StreamingDashboard />} />
+        <Route path="/calendar" element={<ReleaseCalendar />} />
         <Route path="*" element={<PageNotFound />} />
       </Route>
     </Routes>
