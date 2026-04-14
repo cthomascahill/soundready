@@ -393,6 +393,9 @@ export default function TourPlanner() {
               routeData={routeData}
               travelGapsByDate={travelGapsByDate}
             />
+            <Button variant="outline" onClick={() => setModal({ date: today, prefill: { category: "Soundcheck" } })} className="gap-2 shrink-0">
+              <Mic2 className="h-4 w-4" />Add Show
+            </Button>
             <Button onClick={() => setModal({ date: today })} className="gap-2 shrink-0">
               <Plus className="h-4 w-4" />Add Task
             </Button>

@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { base44 } from "@/api/base44Client";
 import { motion, AnimatePresence } from "framer-motion";
-import { Plus, DollarSign, TrendingUp, TrendingDown, X, Check, Trash2, ShoppingBag, Map, BarChart2, FileText, Car, Bed, Utensils, Package, Wrench, Megaphone, ParkingSquare, MoreHorizontal } from "lucide-react";
+import { Plus, DollarSign, TrendingUp, TrendingDown, X, Check, Trash2, ShoppingBag, Map, MapPin, BarChart2, FileText, Car, Bed, Utensils, Package, Wrench, Megaphone, ParkingSquare, MoreHorizontal } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import moment from "moment";
@@ -159,7 +159,10 @@ export default function TourFinance() {
             <h1 className="font-heading text-4xl font-bold">Tour Finance</h1>
             <p className="text-muted-foreground text-sm mt-1">Track expenses, merch, and net profit per show.</p>
           </div>
-          <div className="flex gap-2">
+          <div className="flex gap-2 flex-wrap">
+            <Button variant="outline" onClick={() => window.location.href = "/venues"} className="gap-2">
+              <MapPin className="h-4 w-4" />Manage Venues
+            </Button>
             <Button variant="outline" onClick={() => { setShowMerchForm(v => !v); setShowExpenseForm(false); }} className="gap-2">
               <ShoppingBag className="h-4 w-4" />Merch Sale
             </Button>
