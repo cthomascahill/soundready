@@ -1,0 +1,105 @@
+{
+  "name": "DistributionTask",
+  "type": "object",
+  "properties": {
+    "song_id": {
+      "type": "string"
+    },
+    "song_title": {
+      "type": "string"
+    },
+    "artist_name": {
+      "type": "string"
+    },
+    "distributor": {
+      "type": "string",
+      "enum": [
+        "DistroKid",
+        "TuneCore",
+        "CD Baby",
+        "Amuse",
+        "Other"
+      ],
+      "default": "DistroKid"
+    },
+    "release_date": {
+      "type": "string"
+    },
+    "isrc_code": {
+      "type": "string"
+    },
+    "upc_code": {
+      "type": "string"
+    },
+    "pre_save_url": {
+      "type": "string"
+    },
+    "checklist": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "category": {
+            "type": "string"
+          },
+          "task": {
+            "type": "string"
+          },
+          "completed": {
+            "type": "boolean"
+          },
+          "notes": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "metadata": {
+      "type": "object",
+      "properties": {
+        "primary_genre": {
+          "type": "string"
+        },
+        "secondary_genre": {
+          "type": "string"
+        },
+        "explicit": {
+          "type": "boolean"
+        },
+        "language": {
+          "type": "string"
+        },
+        "release_type": {
+          "type": "string"
+        },
+        "label_name": {
+          "type": "string"
+        },
+        "copyright_year": {
+          "type": "string"
+        },
+        "copyright_holder": {
+          "type": "string"
+        }
+      }
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "draft",
+        "in_progress",
+        "submitted",
+        "live"
+      ],
+      "default": "draft"
+    }
+  },
+  "required": [
+    "song_title",
+    "artist_name",
+    "distributor"
+  ]
+}

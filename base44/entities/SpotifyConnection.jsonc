@@ -1,0 +1,40 @@
+{
+  "name": "SpotifyConnection",
+  "type": "object",
+  "properties": {
+    "spotify_artist_id": {
+      "type": "string"
+    },
+    "artist_name": {
+      "type": "string"
+    },
+    "artist_image_url": {
+      "type": "string"
+    },
+    "followers": {
+      "type": "number"
+    },
+    "spotify_url": {
+      "type": "string"
+    },
+    "genres": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "monthly_listeners": {
+      "type": "number"
+    },
+    "popularity": {
+      "type": "number"
+    },
+    "last_synced": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "spotify_artist_id",
+    "artist_name"
+  ]
+}

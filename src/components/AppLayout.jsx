@@ -1,6 +1,6 @@
 import { Outlet, Link, useLocation } from "react-router-dom";
 import { base44 } from "@/api/base44Client";
-import { History, LogOut, BarChart2, CalendarDays, LineChart } from "lucide-react";
+import { History, LogOut, BarChart2, CalendarDays, LineChart, Music2, DollarSign, FileText, Send } from "lucide-react";
 
 export default function AppLayout() {
   const location = useLocation();
@@ -33,6 +33,26 @@ export default function AppLayout() {
               className={`h-9 px-3 rounded-lg flex items-center gap-2 text-sm transition-colors ${location.pathname === "/analytics" ? "bg-primary/10 text-primary" : "text-muted-foreground hover:text-foreground hover:bg-secondary"}`}>
               <LineChart className="h-4 w-4" />
               <span className="hidden sm:inline">Analytics</span>
+            </Link>
+            <Link to="/distribution"
+              className={`h-9 px-3 rounded-lg flex items-center gap-2 text-sm transition-colors ${location.pathname === "/distribution" ? "bg-primary/10 text-primary" : "text-muted-foreground hover:text-foreground hover:bg-secondary"}`}>
+              <Send className="h-4 w-4" />
+              <span className="hidden sm:inline">Distro</span>
+            </Link>
+            <Link to="/budget"
+              className={`h-9 px-3 rounded-lg flex items-center gap-2 text-sm transition-colors ${location.pathname === "/budget" ? "bg-primary/10 text-primary" : "text-muted-foreground hover:text-foreground hover:bg-secondary"}`}>
+              <DollarSign className="h-4 w-4" />
+              <span className="hidden sm:inline">Budget</span>
+            </Link>
+            <Link to="/pitch-deck"
+              className={`h-9 px-3 rounded-lg flex items-center gap-2 text-sm transition-colors ${location.pathname === "/pitch-deck" ? "bg-primary/10 text-primary" : "text-muted-foreground hover:text-foreground hover:bg-secondary"}`}>
+              <FileText className="h-4 w-4" />
+              <span className="hidden sm:inline">Pitch</span>
+            </Link>
+            <Link to="/spotify"
+              className={`h-9 px-3 rounded-lg flex items-center gap-2 text-sm transition-colors ${location.pathname === "/spotify" ? "bg-primary/10 text-primary" : "text-muted-foreground hover:text-foreground hover:bg-secondary"}`}>
+              <Music2 className="h-4 w-4" />
+              <span className="hidden sm:inline">Spotify</span>
             </Link>
             <button onClick={() => base44.auth.logout()}
               className="h-9 px-3 rounded-lg flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground hover:bg-secondary transition-colors">

@@ -1,0 +1,76 @@
+{
+  "name": "BudgetTracker",
+  "type": "object",
+  "properties": {
+    "song_id": {
+      "type": "string"
+    },
+    "song_title": {
+      "type": "string"
+    },
+    "artist_name": {
+      "type": "string"
+    },
+    "expenses": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "category": {
+            "type": "string",
+            "enum": [
+              "Studio Time",
+              "Music Video",
+              "Social Ads",
+              "Mixing & Mastering",
+              "Photography",
+              "Graphic Design",
+              "PR & Marketing",
+              "Distribution",
+              "Other"
+            ]
+          },
+          "description": {
+            "type": "string"
+          },
+          "amount": {
+            "type": "number"
+          },
+          "date": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "revenue_streams": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "source": {
+            "type": "string"
+          },
+          "amount": {
+            "type": "number"
+          },
+          "date": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "notes": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "song_title",
+    "artist_name"
+  ]
+}
