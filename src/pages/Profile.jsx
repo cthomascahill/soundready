@@ -34,12 +34,8 @@ export default function Profile() {
   });
 
   useEffect(() => {
-    Promise.all([
-      base44.auth.me(),
-      base44.entities.SongAnalysis.filter({ status: "complete" }, "-created_date", 100),
-    ]).then(([u, songs]) => {
+    base44.auth.me().then(async (u) => {
       setUser(u);
-      setSongCount(songs.length);
       setForm({
         artist_name: u.artist_name || "",
         location: u.location || "",
@@ -51,6 +47,8 @@ export default function Profile() {
         avatar_url: u.avatar_url || "",
         plan: u.plan || "free",
       });
+      const songs = await base44.entities.SongAnalysis.filter({ status: "complete" }, "-created_date", 100);
+      setSongCount(songs.length);
       setLoading(false);
     });
   }, []);
