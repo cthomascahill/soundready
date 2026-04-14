@@ -1,33 +1,14 @@
-import { useState } from "react";
-import { useNavigate, Link } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { base44 } from "@/api/base44Client";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { motion } from "framer-motion";
-import { Rocket, AlertCircle } from "lucide-react";
+import { Rocket } from "lucide-react";
 
 export default function Register() {
-  const navigate = useNavigate();
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [fullName, setFullName] = useState("");
-  const [error, setError] = useState("");
-  const [loading, setLoading] = useState(false);
-
-  const handleRegister = async (e) => {
-    e.preventDefault();
-    setError("");
-    setLoading(true);
-
-    try {
-      await base44.auth.register(email, password, fullName);
-      navigate("/dashboard");
-    } catch (err) {
-      setError(err.message || "Registration failed. Please try again.");
-    } finally {
-      setLoading(false);
-    }
+  const handleRegister = () => {
+    base44.auth.redirectToRegister("/dashboard");
   };
 
   return (
@@ -49,58 +30,15 @@ export default function Register() {
         </div>
 
         {/* Form */}
-        <form onSubmit={handleRegister} className="rounded-2xl bg-card border border-border p-8 space-y-5">
-          {error && (
-            <div className="rounded-lg bg-destructive/10 border border-destructive/20 p-3 flex gap-2">
-              <AlertCircle className="h-4 w-4 text-destructive shrink-0 mt-0.5" />
-              <p className="text-sm text-destructive">{error}</p>
-            </div>
-          )}
-
-          <div className="space-y-2">
-            <Label>Full Name</Label>
-            <Input
-              type="text"
-              placeholder="Your name"
-              value={fullName}
-              onChange={(e) => setFullName(e.target.value)}
-              required
-              className="h-11"
-            />
-          </div>
-
-          <div className="space-y-2">
-            <Label>Email</Label>
-            <Input
-              type="email"
-              placeholder="you@example.com"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              required
-              className="h-11"
-            />
-          </div>
-
-          <div className="space-y-2">
-            <Label>Password</Label>
-            <Input
-              type="password"
-              placeholder="••••••••"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              required
-              className="h-11"
-            />
-          </div>
-
+        <div className="rounded-2xl bg-card border border-border p-8 space-y-5">
+          <p className="text-sm text-muted-foreground text-center">Create a new account to get started with SoundReady.</p>
           <Button
-            type="submit"
-            disabled={loading || !email || !password || !fullName}
+            onClick={handleRegister}
             className="w-full h-11 text-base font-semibold"
           >
-            {loading ? "Creating account..." : "Sign Up"}
+            Sign Up
           </Button>
-        </form>
+        </div>
 
         {/* Login link */}
         <p className="text-center text-sm text-muted-foreground">
