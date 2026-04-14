@@ -4,7 +4,7 @@ import { base44 } from "@/api/base44Client";
 import {
   History, LogOut, BarChart2, CalendarDays, LineChart, Music2, DollarSign,
   FileText, Send, Mic2, MapPin, BookOpen, ChevronDown, Home, Info, Wand2,
-  Link2, TrendingUp, Zap, CreditCard, UserCircle, Building2, Users, ScrollText
+  Link2, TrendingUp, Zap, CreditCard, UserCircle, Building2, Users, ScrollText, CalendarRange
 } from "lucide-react";
 
 const PRIMARY_NAV = [
@@ -58,6 +58,7 @@ const MORE_SECTIONS = [
     items: [
       { to: "/venues", icon: Building2, label: "Venue Tracker" },
       { to: "/contracts", icon: ScrollText, label: "Contracts" },
+      { to: "/tour-planner", icon: CalendarRange, label: "Tour Planner" },
       { to: "/tour-finance", icon: DollarSign, label: "Tour Finance" },
     ],
   },

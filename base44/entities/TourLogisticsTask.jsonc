@@ -1,0 +1,61 @@
+{
+  "name": "TourLogisticsTask",
+  "type": "object",
+  "properties": {
+    "date": {
+      "type": "string",
+      "description": "ISO date YYYY-MM-DD this task belongs to"
+    },
+    "title": {
+      "type": "string"
+    },
+    "category": {
+      "type": "string",
+      "enum": [
+        "Hotel",
+        "Travel",
+        "Rental Car",
+        "Flight",
+        "Soundcheck",
+        "Promotion",
+        "Merch",
+        "Food",
+        "Other"
+      ],
+      "default": "Other"
+    },
+    "venue_id": {
+      "type": "string",
+      "description": "Optional link to Venue"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "Todo",
+        "In Progress",
+        "Done"
+      ],
+      "default": "Todo"
+    },
+    "notes": {
+      "type": "string"
+    },
+    "cost": {
+      "type": "number"
+    },
+    "priority": {
+      "type": "string",
+      "enum": [
+        "Low",
+        "Medium",
+        "High"
+      ],
+      "default": "Medium"
+    }
+  },
+  "required": [
+    "date",
+    "title",
+    "category"
+  ]
+}
