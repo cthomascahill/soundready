@@ -27,6 +27,7 @@ import AlgorithmGuide from './pages/AlgorithmGuide';
 import Pricing from './pages/Pricing';
 import Profile from './pages/Profile';
 import VenueTracker from './pages/VenueTracker';
+import VenueContracts from './pages/VenueContracts';
 import Community from './pages/Community';
 import TourFinance from './pages/TourFinance';
 
@@ -70,6 +71,7 @@ const AuthenticatedApp = () => {
         <Route path="/pricing" element={<Pricing />} />
         <Route path="/profile" element={<Profile />} />
         <Route path="/venues" element={<VenueTracker />} />
+        <Route path="/contracts" element={<VenueContracts />} />
         <Route path="/tour-finance" element={<TourFinance />} />
         <Route path="/community" element={<Community />} />
         <Route path="*" element={<PageNotFound />} />

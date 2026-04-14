@@ -1,0 +1,90 @@
+{
+  "name": "VenueContract",
+  "type": "object",
+  "properties": {
+    "venue_id": {
+      "type": "string",
+      "description": "Reference to Venue entity id"
+    },
+    "venue_name": {
+      "type": "string"
+    },
+    "artist_name": {
+      "type": "string"
+    },
+    "performance_date": {
+      "type": "string",
+      "description": "ISO date"
+    },
+    "performance_time": {
+      "type": "string",
+      "description": "e.g. 9:00 PM"
+    },
+    "soundcheck_time": {
+      "type": "string"
+    },
+    "set_length_minutes": {
+      "type": "number"
+    },
+    "payout_amount": {
+      "type": "number"
+    },
+    "payout_structure": {
+      "type": "string",
+      "enum": [
+        "Flat Fee",
+        "Door Deal",
+        "Guarantee + % of Door",
+        "Revenue Share"
+      ],
+      "default": "Flat Fee"
+    },
+    "deposit_amount": {
+      "type": "number"
+    },
+    "deposit_paid": {
+      "type": "boolean",
+      "default": false
+    },
+    "technical_rider": {
+      "type": "string",
+      "description": "Full technical rider requirements"
+    },
+    "hospitality_rider": {
+      "type": "string",
+      "description": "Food, drinks, accommodation requests"
+    },
+    "contract_body": {
+      "type": "string",
+      "description": "Full rendered contract text"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "Draft",
+        "Sent",
+        "Signed",
+        "Cancelled"
+      ],
+      "default": "Draft"
+    },
+    "signed_date": {
+      "type": "string"
+    },
+    "signed_by_artist": {
+      "type": "boolean",
+      "default": false
+    },
+    "signed_by_venue": {
+      "type": "boolean",
+      "default": false
+    },
+    "notes": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "venue_name",
+    "artist_name"
+  ]
+}
