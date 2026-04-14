@@ -20,6 +20,7 @@ import VisualIdentity from "../components/report/VisualIdentity";
 import MoneyMoves from "../components/report/MoneyMoves";
 import SocialAssetGenerator from "../components/report/SocialAssetGenerator";
 import StickyActionBar from "../components/report/StickyActionBar";
+import BottomLine from "../components/report/BottomLine";
 import CollabPanel from "../components/collab/CollabPanel";
 import CommentThread from "../components/collab/CommentThread";
 
@@ -109,6 +110,7 @@ export default function Results() {
         <MoneyMoves song={song} />
         <SocialAssetGenerator song={song} />
         <CollabSuggestions song={song} similarArtists={report.similar_artists} />
+        <BottomLine text={report.bottom_line} />
 
         {/* Collaboration section */}
         <CollabPanel songAnalysisId={savedId} songTitle={song.title} currentUser={currentUser} />

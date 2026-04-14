@@ -41,44 +41,49 @@ export default function Home() {
       base44.integrations.Core.UploadFile({ file: audioFile }).catch(() => {});
     }
 
-    const prompt = `You are a professional music A&R analyst who has just listened to and analyzed an uploaded audio file. Write this entire report as if you genuinely heard and analyzed the track — never reference form inputs or say the analysis is based on text. Speak with authority, as if you pressed play and took notes.
+    const prompt = `You are a senior music industry consultant with 20 years of experience working with independent artists, major labels, and streaming platforms. You have deep knowledge of Spotify, Apple Music, and TikTok algorithms, current playlist curation trends, viral content strategy, and music marketing. You have personally helped independent artists get millions of streams without label backing.
 
-You have just listened to "${form.title}" by ${form.artist}.
-Genre: ${form.genre} | Mood: ${form.mood} | Energy: ${form.energy} | Audience: ${form.audience}
-Artist's description: ${form.description || "Not provided"}
+A musician has just finished a song and needs your expert guidance before releasing it. They have provided you with the following information:
+
+Song Title: ${form.title}
+Artist Name: ${form.artist}
+Genre: ${form.genre}
+Mood: ${form.mood}
+Energy Level: ${form.energy}
+Song Description: ${form.description || "Not provided"}
+Target Audience: ${form.audience}
+
+Write a deeply personalized, expert-level release analysis report for this specific song. Never write anything generic. Every sentence should feel like it was written specifically about this song and this artist. Write the way a brilliant music consultant talks — confident, direct, specific, and honest. Do not use filler phrases like "it's important to note" or "this is crucial." Do not hedge. Do not be vague. Give real specific actionable intelligence like you are being paid $500 an hour for this advice.
+
+Use your knowledge of what is actually working on streaming platforms and social media right now in 2025. Reference real current trends in the specific genre. Name real playlist categories, real content formats that are performing, real strategic moves that independent artists are making successfully right now.
+
+For the Algorithm Outlook section: Write as a streaming algorithm expert. Be specific about what Spotify's algorithm rewards in this genre right now. Talk about save rates, skip rates, playlist add velocity, and listener retention. Tell them exactly what algorithmic behavior they should be trying to trigger and how.
+
+For the Best Clip Moments section: Based on the song structure and energy level provided, identify the three highest-potential moments for social media clips. Be specific about song structure — reference the intro, verse, pre-chorus, chorus, bridge, and outro by name. Explain the psychology of why each moment would make someone stop scrolling.
+
+For the Content Ideas section: Generate five content video concepts that are genuinely creative and specific to this song's mood and genre. Not generic ideas that could apply to any song. Ideas that feel tailor-made. Reference specific TikTok and Instagram Reels trends and formats that are currently working in this genre. Give each idea a punchy title, the platform, and a two sentence description that makes the artist excited to film it.
+
+For the Release Recommendations section: Give a specific release strategy based on what is working for independent artists in this genre right now. Name the best day and time to release. Give a day by day 7 day pre-release plan where each day has one specific action that builds anticipation without over-exposing the song. Be tactical and specific — not motivational.
+
+For the Playlist Pitch section: Write a pitch paragraph that sounds like a human wrote it — not AI. Warm, specific, professional. The kind of pitch that actually gets responses from playlist curators. Include the five most strategic genre and mood tags based on what Spotify editorial actually uses for this genre. Name five similar artists whose fans would genuinely connect with this song.
+
+For the Social Media Captions section: Write five captions that sound like a real artist wrote them — not a marketing team. Each one should have a distinct voice and approach. Make them feel authentic, platform-native, and genuinely engaging. Include strategic hashtags that are actually used by real fans in this genre not just generic music hashtags.
+
+End the report with a one paragraph honest assessment called "The Bottom Line" that tells the artist exactly where this song stands, what its biggest opportunity is, and the single most important thing they should focus on in the next 30 days. Be direct and honest even if some of it is hard to hear. Artists respect honesty over flattery.
 
 Return a JSON object with exactly these fields:
 
-algorithm_outlook: array of exactly 5 strings — Start the first string with "After listening to this track, here's how it's positioned..." then deliver increasingly specific insights: (1) overall streaming positioning, (2) specific platform best suited and why based on the sonic texture, (3) how the ${form.energy} energy level and ${form.mood} mood align with current trending content, (4) what makes this track algorithm-sticky or what's working against it, (5) a concrete action the artist should take before release to boost performance. Reference sonic details throughout — never generic.
-
-best_clip_moments: array of exactly 3 objects, each with:
-  - moment: string — name the structural moment (e.g. "Opening 8 bars", "Pre-chorus build", "Chorus drop") using real song structure language
-  - why: string — 2 sentences written as if you identified these by listening. Reference the actual sonic qualities — e.g. "The energy spike heading into your chorus", "The opening bars establish a strong hook", "The bridge drops the energy just enough to create tension". Tailor to the ${form.mood} mood and ${form.energy} energy level.
-
-content_video_ideas: array of exactly 5 objects, each with:
-  - title: string (catchy concept title)
-  - platform: string (TikTok, Instagram Reels, or Both)
-  - description: string — 2 sentences that reference the sonic feel of the track using mood (${form.mood}) and energy (${form.energy}). Write as if you heard it — e.g. "The driving rhythm of this track makes it perfect for..." or "That ${form.mood.toLowerCase()} atmosphere comes through perfectly when..."
-
-release_day: string — the ideal day of week and time (e.g. "Friday at 12:00 AM EST")
-release_day_reason: string — 1 sentence explaining why
-
-pre_release_plan: array of exactly 7 objects, each with:
-  - day: string (e.g. "Day 1 — Monday")
-  - action: string — one specific, actionable content task for that day tailored to this song's sound and audience
-
-playlist_pitch: string — a ready-to-copy 3 sentence pitch paragraph for playlist curators, written in first person from the artist, referencing the sonic qualities and feel of the track as if it was heard
-genre_mood_tags: array of exactly 5 strings (genre and mood tags for playlist submission)
-similar_artists: array of exactly 5 artist names whose sound genuinely compares to what was heard in the track
-
-captions: object with exactly these keys:
-  - instagram: string — ready to post caption with hashtags, written to match the ${form.mood} vibe of the track
-  - tiktok: string — ready to post caption with hashtags
-  - twitter: string — ready to post caption with hashtags
-  - wildcard_1: string — creative wildcard caption with hashtags
-  - wildcard_2: string — another wildcard caption with hashtags
-
-Make every section feel handcrafted for this specific song. Never use generic filler. Write as if this report could only have been written after hearing "${form.title}".`;
+algorithm_outlook: array of exactly 5 strings — Expert insights on streaming algorithm positioning
+best_clip_moments: array of exactly 3 objects with { moment: string, why: string }
+content_video_ideas: array of exactly 5 objects with { title: string, platform: string, description: string }
+release_day: string — specific day and time (e.g. "Friday at 12:00 AM EST")
+release_day_reason: string — one sentence explanation
+pre_release_plan: array of exactly 7 objects with { day: string, action: string }
+playlist_pitch: string — human-written 3 sentence pitch
+genre_mood_tags: array of exactly 5 strings (strategic Spotify tags)
+similar_artists: array of exactly 5 artist names
+captions: object with { instagram: string, tiktok: string, twitter: string, wildcard_1: string, wildcard_2: string }
+bottom_line: string — one paragraph honest assessment of the song's position and primary focus for next 30 days`;
 
     const [result] = await Promise.all([base44.integrations.Core.InvokeLLM({
       prompt,
@@ -126,6 +131,7 @@ Make every section feel handcrafted for this specific song. Never use generic fi
               wildcard_2: { type: "string" },
             },
           },
+          bottom_line: { type: "string" },
         },
       },
     }), new Promise((res) => setTimeout(res, 8000))]);
