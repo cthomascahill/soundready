@@ -36,8 +36,13 @@ export default function Results() {
     base44.auth.me().then(setCurrentUser).catch(() => {});
   }, []);
 
+  useEffect(() => {
+    if (!state?.report) {
+      navigate("/");
+    }
+  }, [state, navigate]);
+
   if (!state?.report) {
-    navigate("/");
     return null;
   }
 
