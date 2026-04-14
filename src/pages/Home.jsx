@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import { ArrowRight, Rocket } from "lucide-react";
+import { ArrowRight, Rocket, Check } from "lucide-react";
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { base44 } from "@/api/base44Client";
@@ -104,21 +104,65 @@ export default function Home() {
         </div>
       </section>
 
-      {/* CTA */}
-      <section className="px-4 py-32 border-t border-border text-center bg-gradient-to-t from-primary/5 via-background to-background">
-        <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="max-w-2xl mx-auto space-y-8">
-          <div className="space-y-4">
-            <h2 className="font-heading text-5xl font-bold">Your strategy starts here.</h2>
-            <p className="text-lg text-muted-foreground">Upload your song. Get your release plan. Execute like a major label.</p>
+      {/* Pricing */}
+      <section className="px-4 py-32 border-t border-border">
+        <div className="max-w-6xl mx-auto space-y-16">
+          <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="text-center space-y-4">
+            <p className="text-xs text-primary uppercase tracking-wider font-bold">Simple Pricing</p>
+            <h2 className="font-heading text-5xl font-bold">Choose your plan.</h2>
+            <p className="text-lg text-muted-foreground max-w-2xl mx-auto">Start free, upgrade when you're ready.</p>
+          </motion.div>
+
+          {/* Plans */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
+            {[
+              { id: "free", name: "Free", price: null, features: ["1 analysis/month", "Algorithm Outlook", "Playlist Pitch"] },
+              { id: "starter", name: "Starter", price: "$9.99/mo", features: ["3 analyses/month", "Full reports", "PDF download", "Save 10 reports"] },
+              { id: "pro", name: "Pro", price: "$24.99/mo", features: ["Unlimited analyses", "Everything in Starter", "Curator CRM", "Priority generation"], highlighted: true },
+              { id: "label", name: "Label", price: "$79.99/mo", features: ["Everything in Pro", "10 artist profiles", "Team access", "Dedicated support"] },
+            ].map((plan, i) => (
+              <motion.div key={plan.id}
+                initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}
+                transition={{ delay: i * 0.1 }}
+                className={`relative rounded-2xl border p-6 flex flex-col ${plan.highlighted ? "bg-card ring-2 ring-primary/40 shadow-lg" : "bg-card border-border"}`}>
+                {plan.highlighted && (
+                  <div className="absolute -top-3 left-1/2 -translate-x-1/2 px-3 py-1 rounded-full bg-primary text-primary-foreground text-xs font-bold">
+                    Most Popular
+                  </div>
+                )}
+                <div className="space-y-4 mb-6">
+                  <h3 className="font-heading font-bold text-xl">{plan.name}</h3>
+                  <div className="text-3xl font-black">{plan.price || "Free"}</div>
+                </div>
+                <div className="space-y-2 flex-1 mb-6">
+                  {plan.features.map(f => (
+                    <div key={f} className="flex items-start gap-2">
+                      <Check className="h-4 w-4 text-primary shrink-0 mt-0.5" />
+                      <span className="text-sm">{f}</span>
+                    </div>
+                  ))}
+                </div>
+                <Button
+                  onClick={() => base44.auth.redirectToRegister("/dashboard")}
+                  variant={plan.highlighted ? "default" : "outline"}
+                  className="w-full font-heading font-semibold">
+                  Get Started
+                </Button>
+              </motion.div>
+            ))}
           </div>
-          <Button
-            size="lg"
-            className="gap-2 font-heading font-bold text-base px-8"
-            onClick={() => base44.auth.redirectToLogin()}
-          >
-            Sign In Free <Rocket className="h-4 w-4" />
-          </Button>
-        </motion.div>
+
+          <div className="text-center space-y-4 pt-8 border-t border-border">
+            <p className="text-muted-foreground">Already have an account?</p>
+            <Button
+              size="lg"
+              className="gap-2 font-heading font-bold text-base px-8"
+              onClick={() => base44.auth.redirectToLogin()}
+            >
+              Sign In <ArrowRight className="h-4 w-4" />
+            </Button>
+          </div>
+        </div>
       </section>
     </div>
   );
