@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { base44 } from "@/api/base44Client";
 import { motion, AnimatePresence } from "framer-motion";
-import { ChevronRight, ChevronLeft, Check, Music2, Users, Link2 } from "lucide-react";
+import { ChevronRight, ChevronLeft, Check, Music2, Users, Link2, Briefcase } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -12,14 +12,22 @@ const SUB_GENRES = ["Lo-fi", "Synthwave", "Phonk", "Cloud Rap", "Drill", "Grime"
 const AUDIENCES = ["Gen Z", "Millennials", "Gen X", "Everyone", "Niche/Underground"];
 
 const STEPS = [
-  { id: 1, title: "Artist Profile", icon: Music2, description: "Tell us about yourself" },
-  { id: 2, title: "Music Preferences", icon: Users, description: "Your genres and style" },
-  { id: 3, title: "Social Links", icon: Link2, description: "Connect your platforms" },
+  { id: 1, title: "Your Role", icon: Briefcase, description: "Choose your profile type" },
+  { id: 2, title: "Profile Info", icon: Music2, description: "Tell us about yourself" },
+  { id: 3, title: "Preferences", icon: Users, description: "Your genres and style" },
+  { id: 4, title: "Social Links", icon: Link2, description: "Connect your platforms" },
+];
+
+const ROLES = [
+  { id: "artist", label: "Artist", description: "Create and release music", icon: Music2 },
+  { id: "manager", label: "Manager", description: "Manage artist careers and tours", icon: Users },
+  { id: "label", label: "Label", description: "Release and promote music", icon: Briefcase },
 ];
 
 export default function OnboardingWizard({ user, onComplete }) {
   const [step, setStep] = useState(1);
   const [loading, setLoading] = useState(false);
+  const [role, setRole] = useState("");
   const [form, setForm] = useState({
     artist_name: user?.artist_name || "",
     bio: user?.bio || "",
@@ -67,8 +75,9 @@ export default function OnboardingWizard({ user, onComplete }) {
   };
 
   const canProceed = () => {
-    if (step === 1) return form.artist_name.trim() && form.bio.trim();
-    if (step === 2) return form.genres.length > 0 && form.target_audience;
+    if (step === 1) return role;
+    if (step === 2) return form.artist_name.trim() && form.bio.trim();
+    if (step === 3) return form.genres.length > 0 && form.target_audience;
     return true;
   };
 
@@ -76,6 +85,7 @@ export default function OnboardingWizard({ user, onComplete }) {
     setLoading(true);
     await base44.auth.updateMe({
       ...form,
+      role,
       onboarding_completed: true,
     });
     setLoading(false);
@@ -130,6 +140,42 @@ export default function OnboardingWizard({ user, onComplete }) {
           <AnimatePresence mode="wait">
             {step === 1 && (
               <motion.div
+                key="step-role"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                className="space-y-5"
+              >
+                <div>
+                  <p className="font-heading font-bold text-xl mb-1">What's Your Role?</p>
+                  <p className="text-muted-foreground text-sm">You can create profiles for multiple roles later.</p>
+                </div>
+
+                <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                  {ROLES.map((r) => {
+                    const Icon = r.icon;
+                    return (
+                      <button
+                        key={r.id}
+                        onClick={() => setRole(r.id)}
+                        className={`p-4 rounded-xl border-2 transition-all text-center space-y-2 ${
+                          role === r.id
+                            ? "border-primary bg-primary/5"
+                            : "border-border hover:border-primary/50"
+                        }`}
+                      >
+                        <Icon className="h-6 w-6 mx-auto text-primary" />
+                        <p className="font-semibold">{r.label}</p>
+                        <p className="text-xs text-muted-foreground">{r.description}</p>
+                      </button>
+                    );
+                  })}
+                </div>
+              </motion.div>
+            )}
+
+            {step === 2 && (
+              <motion.div
                 key="step-1"
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
@@ -172,7 +218,44 @@ export default function OnboardingWizard({ user, onComplete }) {
                 className="space-y-5"
               >
                 <div>
-                  <p className="font-heading font-bold text-xl mb-1">Music Style</p>
+                  <p className="font-heading font-bold text-xl mb-1">
+                    {role === "artist" ? "Artist Profile" : role === "manager" ? "Manager Profile" : "Label Profile"}
+                  </p>
+                  <p className="text-muted-foreground text-sm">Tell us who you are and what you do.</p>
+                </div>
+
+                <div className="space-y-2">
+                  <Label>{role === "artist" ? "Artist Name / Stage Name" : "Company / Organization Name"} *</Label>
+                  <Input
+                    placeholder={role === "artist" ? "e.g. Maya Lane" : "e.g. Dream Records"}
+                    value={form.artist_name}
+                    onChange={set("artist_name")}
+                    className="h-11"
+                  />
+                </div>
+
+                <div className="space-y-2">
+                  <Label>Bio / About You *</Label>
+                  <Textarea
+                    placeholder={role === "artist" ? "Tell us about your music, style, and what makes you unique..." : "Tell us about your organization, focus, and mission..."}
+                    value={form.bio}
+                    onChange={set("bio")}
+                    className="min-h-24 resize-none"
+                  />
+                </div>
+              </motion.div>
+            )}
+
+            {step === 3 && (
+              <motion.div
+                key="step-3"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                className="space-y-5"
+              >
+                <div>
+                  <p className="font-heading font-bold text-xl mb-1">Music Style & Audience</p>
                   <p className="text-muted-foreground text-sm">What genres and audiences resonate with your sound?</p>
                 </div>
 
@@ -232,9 +315,9 @@ export default function OnboardingWizard({ user, onComplete }) {
               </motion.div>
             )}
 
-            {step === 3 && (
+            {step === 4 && (
               <motion.div
-                key="step-3"
+                key="step-4"
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 exit={{ opacity: 0 }}
@@ -298,7 +381,7 @@ export default function OnboardingWizard({ user, onComplete }) {
             ))}
           </div>
 
-          {step === 3 ? (
+          {step === 4 ? (
             <Button
               onClick={handleComplete}
               disabled={loading}
