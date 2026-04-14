@@ -10,7 +10,7 @@ export default function AppLayout() {
       {/* Top nav */}
       <header className="sticky top-0 z-40 border-b border-border/50 bg-background/90 backdrop-blur-xl">
         <div className="max-w-3xl mx-auto px-4 h-14 flex items-center justify-between">
-          <Link to="/" className="font-heading font-bold text-lg text-foreground flex items-center gap-1.5">
+          <Link to="/about" className="font-heading font-bold text-lg text-foreground flex items-center gap-1.5">
             <span className="text-primary">Sound</span>Ready
           </Link>
           <div className="flex items-center gap-1">

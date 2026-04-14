@@ -16,6 +16,7 @@ import Distribution from './pages/Distribution';
 import BudgetTracker from './pages/BudgetTracker';
 import PitchDeck from './pages/PitchDeck';
 import SpotifyConnect from './pages/SpotifyConnect';
+import About from './pages/About';
 
 const AuthenticatedApp = () => {
   const { isLoadingAuth, isLoadingPublicSettings, authError, navigateToLogin } = useAuth();
@@ -46,6 +47,7 @@ const AuthenticatedApp = () => {
         <Route path="/budget" element={<BudgetTracker />} />
         <Route path="/pitch-deck" element={<PitchDeck />} />
         <Route path="/spotify" element={<SpotifyConnect />} />
+        <Route path="/about" element={<About />} />
         <Route path="*" element={<PageNotFound />} />
       </Route>
     </Routes>
