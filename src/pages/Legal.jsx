@@ -1,8 +1,9 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
-import { FileText, Download, Copy, Check, Scale, Music2, Mic2, Users, Receipt, Plus, Trash2 } from "lucide-react";
+import { FileText, Download, Copy, Check, Scale, Music2, Mic2, Users, Receipt, Plus, Trash2, ListChecks, DollarSign, Clock, CheckCircle2, AlertCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { base44 } from "@/api/base44Client";
 import jsPDF from "jspdf";
 
 const TEMPLATES = [
@@ -384,6 +385,13 @@ function generateInvoicePDF(inv, items) {
   doc.save(`invoice_${inv.invoice_number || "001"}.pdf`);
 }
 
+const STATUS_CONFIG = {
+  sent:    { label: "Sent",    color: "text-chart-5",   bg: "bg-chart-5/10",   icon: Clock },
+  paid:    { label: "Paid",    color: "text-primary",   bg: "bg-primary/10",   icon: CheckCircle2 },
+  overdue: { label: "Overdue", color: "text-destructive", bg: "bg-destructive/10", icon: AlertCircle },
+  draft:   { label: "Draft",   color: "text-muted-foreground", bg: "bg-secondary", icon: FileText },
+};
+
 export default function Legal() {
   const [tab, setTab] = useState("contracts");
   const [activeTemplate, setActiveTemplate] = useState(null);
@@ -397,6 +405,21 @@ export default function Legal() {
     to_name: "", to_email: "", tax_rate: "", notes: "",
   });
   const [items, setItems] = useState([{ description: "", qty: "1", rate: "" }]);
+
+  // Saved invoices
+  const [savedInvoices, setSavedInvoices] = useState([]);
+  const [loadingInvoices, setLoadingInvoices] = useState(false);
+
+  useEffect(() => {
+    if (tab === "tracker") loadInvoices();
+  }, [tab]);
+
+  const loadInvoices = async () => {
+    setLoadingInvoices(true);
+    const data = await base44.entities.Invoice.list("-created_date", 50).catch(() => []);
+    setSavedInvoices(data);
+    setLoadingInvoices(false);
+  };
 
   const active = TEMPLATES.find((t) => t.id === activeTemplate);
   const preview = active ? active.generate(fields) : "";
@@ -430,6 +453,7 @@ export default function Legal() {
           {[
             { id: "contracts", label: "Contract Templates", icon: FileText },
             { id: "invoice", label: "Invoice Generator", icon: Receipt },
+            { id: "tracker", label: "My Invoices", icon: ListChecks },
           ].map(({ id, label, icon: Icon }) => (
             <button
               key={id}
@@ -586,8 +610,20 @@ export default function Legal() {
                   <Input placeholder="e.g. Payment due via Venmo @artistname within 30 days" value={inv.notes} onChange={(e) => setInv((v) => ({ ...v, notes: e.target.value }))} />
                 </div>
 
-                <Button onClick={() => generateInvoicePDF(inv, items)} className="w-full gap-2">
-                  <Download className="h-4 w-4" /> Download Invoice PDF
+                <Button onClick={async () => {
+                  generateInvoicePDF(inv, items);
+                  // Save to tracker
+                  const sub = items.reduce((s, item) => s + (parseFloat(item.qty) || 0) * (parseFloat(item.rate) || 0), 0);
+                  const tax = sub * ((parseFloat(inv.tax_rate) || 0) / 100);
+                  await base44.entities.Invoice.create({
+                    ...inv,
+                    items,
+                    subtotal: sub,
+                    total: sub + tax,
+                    status: "sent",
+                  }).catch(() => {});
+                }} className="w-full gap-2">
+                  <Download className="h-4 w-4" /> Download & Save Invoice
                 </Button>
               </div>
 
@@ -625,6 +661,86 @@ export default function Legal() {
                 </div>
               </div>
             </div>
+          </motion.div>
+        )}
+        {/* TRACKER TAB */}
+        {tab === "tracker" && (
+          <motion.div initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} className="space-y-4">
+            {/* Summary */}
+            <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
+              {["sent", "paid", "overdue", "draft"].map((s) => {
+                const cfg = STATUS_CONFIG[s];
+                const count = savedInvoices.filter((i) => i.status === s).length;
+                const total = savedInvoices.filter((i) => i.status === s).reduce((sum, i) => sum + (i.total || 0), 0);
+                const Icon = cfg.icon;
+                return (
+                  <div key={s} className={`rounded-2xl bg-card border border-border p-4 space-y-1`}>
+                    <div className="flex items-center gap-2">
+                      <Icon className={`h-4 w-4 ${cfg.color}`} />
+                      <span className={`text-xs font-semibold ${cfg.color}`}>{cfg.label}</span>
+                    </div>
+                    <p className="font-heading text-xl font-bold">{count}</p>
+                    <p className="text-xs text-muted-foreground">${total.toFixed(2)}</p>
+                  </div>
+                );
+              })}
+            </div>
+
+            {loadingInvoices ? (
+              <div className="flex justify-center py-16"><div className="h-6 w-6 border-2 border-primary/20 border-t-primary rounded-full animate-spin" /></div>
+            ) : savedInvoices.length === 0 ? (
+              <div className="rounded-2xl border border-dashed border-border p-16 text-center space-y-2">
+                <Receipt className="h-10 w-10 text-muted-foreground/30 mx-auto" />
+                <p className="font-heading font-semibold">No invoices yet</p>
+                <p className="text-sm text-muted-foreground">Download an invoice to save it here automatically.</p>
+              </div>
+            ) : (
+              <div className="rounded-2xl bg-card border border-border overflow-hidden">
+                <div className="divide-y divide-border">
+                  {savedInvoices.map((invoice) => {
+                    const cfg = STATUS_CONFIG[invoice.status] || STATUS_CONFIG.sent;
+                    const StatusIcon = cfg.icon;
+                    return (
+                      <div key={invoice.id} className="flex items-center gap-4 px-5 py-4 hover:bg-secondary/20 transition-colors">
+                        <div className={`h-9 w-9 rounded-lg ${cfg.bg} flex items-center justify-center shrink-0`}>
+                          <StatusIcon className={`h-4 w-4 ${cfg.color}`} />
+                        </div>
+                        <div className="flex-1 min-w-0">
+                          <p className="font-semibold text-sm">#{invoice.invoice_number}</p>
+                          <p className="text-xs text-muted-foreground truncate">{invoice.to_name} · {invoice.invoice_date || "No date"}</p>
+                        </div>
+                        <div className="text-right shrink-0">
+                          <p className="font-bold text-sm">${(invoice.total || 0).toFixed(2)}</p>
+                          <p className={`text-xs font-medium ${cfg.color}`}>{cfg.label}</p>
+                        </div>
+                        <select
+                          value={invoice.status}
+                          onChange={async (e) => {
+                            await base44.entities.Invoice.update(invoice.id, { status: e.target.value });
+                            setSavedInvoices((prev) => prev.map((i) => i.id === invoice.id ? { ...i, status: e.target.value } : i));
+                          }}
+                          className="h-8 rounded-lg border border-input bg-card px-2 text-xs text-foreground focus:outline-none focus:ring-1 focus:ring-ring"
+                        >
+                          <option value="sent">Sent</option>
+                          <option value="paid">Paid</option>
+                          <option value="overdue">Overdue</option>
+                          <option value="draft">Draft</option>
+                        </select>
+                        <button
+                          onClick={async () => {
+                            await base44.entities.Invoice.delete(invoice.id);
+                            setSavedInvoices((prev) => prev.filter((i) => i.id !== invoice.id));
+                          }}
+                          className="text-muted-foreground hover:text-destructive transition-colors"
+                        >
+                          <Trash2 className="h-4 w-4" />
+                        </button>
+                      </div>
+                    );
+                  })}
+                </div>
+              </div>
+            )}
           </motion.div>
         )}
       </div>

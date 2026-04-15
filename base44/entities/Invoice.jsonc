@@ -1,0 +1,71 @@
+{
+  "name": "Invoice",
+  "type": "object",
+  "properties": {
+    "invoice_number": {
+      "type": "string"
+    },
+    "invoice_date": {
+      "type": "string"
+    },
+    "due_date": {
+      "type": "string"
+    },
+    "from_name": {
+      "type": "string"
+    },
+    "from_email": {
+      "type": "string"
+    },
+    "to_name": {
+      "type": "string"
+    },
+    "to_email": {
+      "type": "string"
+    },
+    "items": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "description": {
+            "type": "string"
+          },
+          "qty": {
+            "type": "string"
+          },
+          "rate": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "subtotal": {
+      "type": "number"
+    },
+    "tax_rate": {
+      "type": "string"
+    },
+    "total": {
+      "type": "number"
+    },
+    "notes": {
+      "type": "string"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "sent",
+        "paid",
+        "overdue",
+        "draft"
+      ],
+      "default": "sent"
+    }
+  },
+  "required": [
+    "invoice_number",
+    "to_name",
+    "total"
+  ]
+}
