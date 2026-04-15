@@ -45,7 +45,6 @@ const CATEGORY_DROPDOWNS = [
       { to: "/tour-opportunities", icon: Music2, label: "Tour Opportunities" },
       { to: "/tour-planner", icon: CalendarRange, label: "Tour Planner" },
       { to: "/tour-finance", icon: DollarSign, label: "Tour Finance" },
-      { to: "/contracts", icon: ScrollText, label: "Contracts" },
     ],
   },
   {
