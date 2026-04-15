@@ -46,6 +46,7 @@ import SmartMixingFeedback from './pages/SmartMixingFeedback.jsx';
 import AIVideoGenerator from './pages/AIVideoGenerator.jsx';
 import MusicAcademy from './pages/MusicAcademy';
 import Legal from './pages/Legal';
+import InvoiceManager from './pages/InvoiceManager';
 
 const AuthenticatedApp = () => {
   const { user, isLoadingAuth, isLoadingPublicSettings, authError, navigateToLogin } = useAuth();
@@ -107,6 +108,7 @@ const AuthenticatedApp = () => {
         <Route path="/video-generator" element={<AIVideoGenerator />} />
         <Route path="/music-academy" element={<MusicAcademy />} />
         <Route path="/legal" element={<Legal />} />
+        <Route path="/invoices" element={<InvoiceManager />} />
         <Route path="/community" element={<Community />} />
         <Route path="*" element={<PageNotFound />} />
       </Route>

@@ -4,7 +4,7 @@ import { base44 } from "@/api/base44Client";
 import {
   History, LogOut, BarChart2, CalendarDays, LineChart, Music2, DollarSign,
   FileText, Send, Mic2, MapPin, BookOpen, ChevronDown, Home, Info, Wand2,
-  Link2, TrendingUp, Zap, CreditCard, UserCircle, Building2, Users, ScrollText, CalendarRange, Mail, ShoppingBag
+  Link2, TrendingUp, Zap, CreditCard, UserCircle, Building2, Users, ScrollText, CalendarRange, Mail, ShoppingBag, Receipt
 } from "lucide-react";
 
 const PRIMARY_NAV = [
@@ -54,6 +54,7 @@ const CATEGORY_DROPDOWNS = [
       { to: "/rights", icon: FileText, label: "Rights Manager" },
       { to: "/budget", icon: DollarSign, label: "Budget Tracker" },
       { to: "/merch", icon: ShoppingBag, label: "Merch Store" },
+      { to: "/invoices", icon: Receipt, label: "Invoice Manager" },
     ],
   },
   {
