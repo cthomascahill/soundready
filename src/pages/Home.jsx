@@ -110,8 +110,8 @@ export default function Home() {
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
             {[
               { id: "free", name: "Free", price: null, features: ["2 analyses/month", "Algorithm Outlook & scoring", "Social caption generator", "Community access"] },
-              { id: "starter", name: "Starter", price: "$9.99/mo", features: ["5 analyses/month", "Full reports — all 12 sections", "PDF download", "Hook Finder + Budget Tracker"] },
-              { id: "pro", name: "Pro", price: "$24.99/mo", features: ["Unlimited analyses", "AI Mastering (5 credits/mo)", "Curator CRM + Sync Pitcher", "Tour, Merch, Invoice tools"], highlighted: true },
+              { id: "starter", name: "Starter", price: "$9.99/mo", features: ["5 analyses/month", "Full reports + PDF", "Promote & Distribute tools", "Analytics + Budget Tracker"] },
+              { id: "pro", name: "Pro", price: "$24.99/mo", features: ["Unlimited analyses + AI Mastering", "Tour Planner & Finance", "Venue Contracts & Legal Templates", "Music Academy + Algorithm Guide"], highlighted: true },
               { id: "label", name: "Label", price: "$79.99/mo", features: ["Everything in Pro", "10 artist profiles + 5 seats", "White-label PDFs", "Dedicated support & SLA"] },
             ].map((plan, i) => (
               <motion.div key={plan.id}
