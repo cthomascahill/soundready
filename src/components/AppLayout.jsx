@@ -53,6 +53,7 @@ const CATEGORY_DROPDOWNS = [
     items: [
       { to: "/royalties", icon: TrendingUp, label: "Royalties" },
       { to: "/rights", icon: FileText, label: "Rights Manager" },
+      { to: "/budget", icon: DollarSign, label: "Budget Tracker" },
       { to: "/merch", icon: ShoppingBag, label: "Merch Store" },
     ],
   },
@@ -60,6 +61,7 @@ const CATEGORY_DROPDOWNS = [
     label: "Learn",
     items: [
       { to: "/algorithm-guide", icon: BookOpen, label: "Algorithm Guide" },
+      { to: "/music-academy", icon: Mic2, label: "Music Academy" },
       { to: "/community", icon: Users, label: "Community" },
     ],
   },

@@ -44,6 +44,7 @@ import EmailCampaigns from './pages/EmailCampaigns.jsx';
 import MerchandiseStore from './pages/MerchandiseStore.jsx';
 import SmartMixingFeedback from './pages/SmartMixingFeedback.jsx';
 import AIVideoGenerator from './pages/AIVideoGenerator.jsx';
+import MusicAcademy from './pages/MusicAcademy';
 
 const AuthenticatedApp = () => {
   const { user, isLoadingAuth, isLoadingPublicSettings, authError, navigateToLogin } = useAuth();
@@ -103,6 +104,7 @@ const AuthenticatedApp = () => {
         <Route path="/merch" element={<MerchandiseStore />} />
         <Route path="/mixing-feedback" element={<SmartMixingFeedback />} />
         <Route path="/video-generator" element={<AIVideoGenerator />} />
+        <Route path="/music-academy" element={<MusicAcademy />} />
         <Route path="/community" element={<Community />} />
         <Route path="*" element={<PageNotFound />} />
       </Route>
