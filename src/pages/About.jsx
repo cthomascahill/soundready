@@ -331,7 +331,11 @@ export default function About() {
             <h2 className="font-heading text-5xl font-bold">Your strategy starts here.</h2>
             <p className="text-lg text-muted-foreground">Upload your song. Get your release plan. Execute like a major label.</p>
           </div>
-          <Link to="/dashboard"><Button size="lg" className="gap-2 font-heading font-bold text-base px-8">Generate Release Plan Free <Rocket className="h-4 w-4" /></Button></Link>
+          {isAuth ? (
+        <Link to="/release-plan"><Button size="lg" className="gap-2 font-heading font-bold text-base px-8">Generate Release Plan Free <Rocket className="h-4 w-4" /></Button></Link>
+      ) : (
+        <Button size="lg" className="gap-2 font-heading font-bold text-base px-8" onClick={() => base44.auth.redirectToLogin()}>Get Started Free <Rocket className="h-4 w-4" /></Button>
+      )}
         </motion.div>
       </section>
     </div>

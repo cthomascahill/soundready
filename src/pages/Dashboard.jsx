@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { Zap, Plus, History, BarChart2, Music2, DollarSign, FileText } from "lucide-react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { base44 } from "@/api/base44Client";
 import { useAuth } from "@/lib/AuthContext";
@@ -17,15 +17,17 @@ const QUICK_ACTIONS = [
 
 export default function Dashboard() {
   const { user } = useAuth();
+  const navigate = useNavigate();
   const [recentPlans, setRecentPlans] = useState([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    base44.entities.SongAnalysis.list("-created_date", 5)
+    if (!user?.email) return;
+    base44.entities.SongAnalysis.filter({ created_by: user.email }, "-created_date", 5)
       .then(setRecentPlans)
       .catch(() => setRecentPlans([]))
       .finally(() => setLoading(false));
-  }, []);
+  }, [user?.email]);
 
   return (
     <div className="min-h-screen bg-background px-4 py-10">

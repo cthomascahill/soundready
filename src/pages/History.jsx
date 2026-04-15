@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { base44 } from "@/api/base44Client";
+import { useAuth } from "@/lib/AuthContext";
 import { motion } from "framer-motion";
 import { Loader2, Music, Trash2, Plus, ChevronRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -8,6 +9,7 @@ import moment from "moment";
 
 export default function History() {
   const navigate = useNavigate();
+  const { user } = useAuth();
   const [analyses, setAnalyses] = useState([]);
   const [loading, setLoading] = useState(true);
 
@@ -38,9 +40,10 @@ export default function History() {
   };
 
   useEffect(() => {
-    base44.entities.SongAnalysis.list("-created_date", 50)
+    if (!user?.email) return;
+    base44.entities.SongAnalysis.filter({ created_by: user.email }, "-created_date", 50)
       .then((data) => { setAnalyses(data); setLoading(false); });
-  }, []);
+  }, [user?.email]);
 
   const handleDelete = async (id) => {
     await base44.entities.SongAnalysis.delete(id);

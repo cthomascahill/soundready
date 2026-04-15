@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { base44 } from "@/api/base44Client";
+import { useAuth } from "@/lib/AuthContext";
 import { motion } from "framer-motion";
 import {
   BarChart, Bar, LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip,
@@ -77,13 +78,15 @@ const CustomTooltip = ({ active, payload, label }) => {
 };
 
 export default function StreamingDashboard() {
+  const { user } = useAuth();
   const [songs, setSongs] = useState([]);
   const [selected, setSelected] = useState(null);
   const [loading, setLoading] = useState(true);
   const [data, setData] = useState(null);
 
   useEffect(() => {
-    base44.entities.SongAnalysis.filter({ status: "complete" }, "-created_date", 20).then((items) => {
+    if (!user?.email) return;
+    base44.entities.SongAnalysis.filter({ status: "complete", created_by: user.email }, "-created_date", 20).then((items) => {
       setSongs(items);
       if (items.length > 0) {
         setSelected(items[0]);
@@ -91,7 +94,7 @@ export default function StreamingDashboard() {
       }
       setLoading(false);
     });
-  }, []);
+  }, [user?.email]);
 
   const selectSong = (s) => {
     setSelected(s);

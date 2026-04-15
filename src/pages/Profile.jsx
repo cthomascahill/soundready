@@ -1,16 +1,22 @@
 import { useState, useEffect } from "react";
 import { base44 } from "@/api/base44Client";
-import { User, Mail, LogOut, Music2, Save, Check } from "lucide-react";
+import { User, Mail, LogOut, Music2, Save, Check, BarChart2, Zap, Crown } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import moment from "moment";
 
 const GENRES = ["Hip Hop", "Pop", "R&B", "Country", "Rock", "EDM", "Latin", "Indie", "Other"];
+
+const PLAN_LIMITS = { free: 1, starter: 3, pro: Infinity, label: Infinity };
+const PLAN_LABELS = { free: "Free", starter: "Starter", pro: "Pro", label: "Label & Management" };
+const PLAN_COLORS = { free: "text-muted-foreground", starter: "text-chart-5", pro: "text-primary", label: "text-yellow-400" };
 
 export default function Profile() {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
   const [saved, setSaved] = useState(false);
+  const [analysisCount, setAnalysisCount] = useState(0);
   const [form, setForm] = useState({
     artist_name: "",
     bio: "",
@@ -20,7 +26,7 @@ export default function Profile() {
 
   useEffect(() => {
     base44.auth.me()
-      .then((u) => {
+      .then(async (u) => {
         setUser(u);
         setForm({
           artist_name: u.artist_name || "",
@@ -28,6 +34,11 @@ export default function Profile() {
           genres: u.genres || [],
           target_audience: u.target_audience || "",
         });
+        // Count analyses this month
+        const startOfMonth = moment().startOf("month").toISOString();
+        const allAnalyses = await base44.entities.SongAnalysis.filter({ created_by: u.email }, "-created_date", 100).catch(() => []);
+        const thisMonth = allAnalyses.filter(a => a.created_date >= startOfMonth);
+        setAnalysisCount(thisMonth.length);
       })
       .finally(() => setLoading(false));
   }, []);
@@ -53,6 +64,10 @@ export default function Profile() {
     }));
   };
 
+  const plan = user?.plan || "free";
+  const limit = PLAN_LIMITS[plan] ?? 1;
+  const usagePct = limit === Infinity ? 0 : Math.min((analysisCount / limit) * 100, 100);
+
   if (loading) {
     return (
       <div className="min-h-screen bg-background flex items-center justify-center">
@@ -71,18 +86,55 @@ export default function Profile() {
         </div>
 
         {/* Identity card */}
-        <div className="rounded-2xl bg-card border border-border p-6 space-y-3">
+        <div className="rounded-2xl bg-card border border-border p-6 space-y-4">
           <div className="flex items-center gap-4">
             <div className="h-16 w-16 rounded-xl bg-primary/10 border border-primary/20 flex items-center justify-center shrink-0">
               <User className="h-8 w-8 text-primary" />
             </div>
-            <div className="min-w-0">
-              <p className="font-heading font-bold text-lg">{user?.full_name || "Guest"}</p>
+            <div className="min-w-0 flex-1">
+              <p className="font-heading font-bold text-lg">{user?.full_name || "Artist"}</p>
               <p className="text-sm text-muted-foreground flex items-center gap-1.5 mt-0.5">
                 <Mail className="h-3.5 w-3.5 shrink-0" />
                 {user?.email}
               </p>
             </div>
+            <div className={`flex items-center gap-1.5 px-3 py-1.5 rounded-full border text-xs font-bold ${plan === "pro" || plan === "label" ? "bg-primary/10 border-primary/30 text-primary" : "bg-secondary border-border text-muted-foreground"}`}>
+              <Crown className="h-3 w-3" />
+              {PLAN_LABELS[plan] || "Free"}
+            </div>
+          </div>
+        </div>
+
+        {/* Usage stats */}
+        <div className="rounded-2xl bg-card border border-border p-6 space-y-4">
+          <p className="font-heading font-semibold flex items-center gap-2">
+            <BarChart2 className="h-4 w-4 text-primary" />
+            Usage This Month
+          </p>
+          <div className="space-y-3">
+            <div className="flex items-center justify-between text-sm">
+              <span className="text-muted-foreground flex items-center gap-2">
+                <Zap className="h-3.5 w-3.5 text-primary" />
+                Analyses used
+              </span>
+              <span className="font-bold">
+                {analysisCount} / {limit === Infinity ? "Unlimited" : limit}
+              </span>
+            </div>
+            {limit !== Infinity && (
+              <div className="h-2 rounded-full bg-secondary overflow-hidden">
+                <div
+                  className={`h-full rounded-full transition-all ${usagePct >= 100 ? "bg-destructive" : "bg-primary"}`}
+                  style={{ width: `${usagePct}%` }}
+                />
+              </div>
+            )}
+            {limit !== Infinity && usagePct >= 100 && (
+              <p className="text-xs text-destructive">Monthly limit reached. Upgrade to generate more plans.</p>
+            )}
+            {limit !== Infinity && usagePct < 100 && (
+              <p className="text-xs text-muted-foreground">{limit - analysisCount} analyses remaining this month.</p>
+            )}
           </div>
         </div>
 
@@ -152,17 +204,9 @@ export default function Profile() {
 
           <Button onClick={handleSave} disabled={saving} className="gap-2">
             {saved ? (
-              <>
-                <Check className="h-4 w-4" />
-                Saved!
-              </>
-            ) : saving ? (
-              "Saving..."
-            ) : (
-              <>
-                <Save className="h-4 w-4" />
-                Save Profile
-              </>
+              <><Check className="h-4 w-4" />Saved!</>
+            ) : saving ? "Saving..." : (
+              <><Save className="h-4 w-4" />Save Profile</>
             )}
           </Button>
         </div>

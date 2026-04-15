@@ -1,5 +1,6 @@
 import { useState, useEffect, useMemo } from "react";
 import { base44 } from "@/api/base44Client";
+import { useAuth } from "@/lib/AuthContext";
 import { BarChart, Bar, LineChart, Line, XAxis, YAxis, Tooltip, ResponsiveContainer, PieChart, Pie, Cell } from "recharts";
 import { TrendingUp, Music2, BarChart2, DollarSign, Users, Calendar, RefreshCw } from "lucide-react";
 import { motion } from "framer-motion";
@@ -41,15 +42,17 @@ function generateSongMetrics(song) {
 }
 
 export default function Analytics() {
+  const { user } = useAuth();
   const [songs, setSongs] = useState([]);
   const [loading, setLoading] = useState(true);
   const [selectedSongId, setSelectedSongId] = useState("all");
   const [range, setRange] = useState(14);
 
   useEffect(() => {
-    base44.entities.SongAnalysis.filter({ status: "complete" }, "-created_date", 20)
+    if (!user?.email) return;
+    base44.entities.SongAnalysis.filter({ status: "complete", created_by: user.email }, "-created_date", 20)
       .then(setSongs).finally(() => setLoading(false));
-  }, []);
+  }, [user?.email]);
 
   const selectedSong = songs.find((s) => s.id === selectedSongId);
 
