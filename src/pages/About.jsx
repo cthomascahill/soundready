@@ -282,10 +282,10 @@ export default function About() {
           {/* Plan cards */}
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
             {[
-              { name: "Free", price: "$0", features: ["1 analysis/month", "Algorithm Outlook", "Playlist Pitch"], cta: "Get Started" },
-              { name: "Starter", price: "$9.99/mo", features: ["3 analyses/month", "Full reports", "PDF download", "Save 10 reports"], cta: "Start Starter" },
-              { name: "Pro", price: "$24.99/mo", features: ["Unlimited analyses", "Everything in Starter", "Curator CRM", "Release Planner"], cta: "Go Pro", highlighted: true },
-              { name: "Label", price: "$79.99/mo", features: ["Everything in Pro", "10 artist profiles", "Team access", "Dedicated support"], cta: "Contact Sales" },
+              { name: "Free", price: "$0", features: ["2 analyses/month", "Algorithm Outlook & scoring", "Social caption generator", "Community access"], cta: "Get Started" },
+              { name: "Starter", price: "$9.99/mo", features: ["5 analyses/month", "Full reports — all 12 sections", "PDF download", "Hook Finder + Budget Tracker"], cta: "Start Starter" },
+              { name: "Pro", price: "$24.99/mo", features: ["Unlimited analyses", "Everything in Starter", "AI Mastering (5 credits/mo)", "Curator CRM + Sync Pitcher"], cta: "Go Pro", highlighted: true },
+              { name: "Label", price: "$79.99/mo", features: ["Everything in Pro", "10 artist profiles", "5 team seats", "White-label PDFs + dedicated support"], cta: "Contact Sales" },
             ].map((plan, i) => (
               <motion.div key={plan.name}
                 initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}
