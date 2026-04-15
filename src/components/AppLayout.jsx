@@ -58,6 +58,13 @@ const CATEGORY_DROPDOWNS = [
     ],
   },
   {
+    label: "Legal",
+    items: [
+      { to: "/contracts", icon: ScrollText, label: "Venue Contracts" },
+      { to: "/legal", icon: FileText, label: "Legal Templates" },
+    ],
+  },
+  {
     label: "Learn",
     items: [
       { to: "/algorithm-guide", icon: BookOpen, label: "Algorithm Guide" },
