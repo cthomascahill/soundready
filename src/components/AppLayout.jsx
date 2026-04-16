@@ -35,6 +35,7 @@ const CATEGORY_DROPDOWNS = [
       { to: "/link-in-bio", icon: Link2, label: "Link-in-Bio" },
       { to: "/tiktok-creators", icon: Music2, label: "TikTok Creators" },
       { to: "/collabs", icon: Users, label: "Collab Finder" },
+      { to: "/collab-workspace", icon: Users, label: "Collab Workspace" },
       { to: "/email-campaigns", icon: Mail, label: "Email Campaigns" },
     ],
   },

@@ -26,18 +26,27 @@
       "type": "string",
       "enum": [
         "viewer",
-        "editor"
+        "editor",
+        "admin"
       ],
       "default": "viewer",
-      "description": "viewer = read-only, editor = can comment and edit"
+      "description": "viewer = read-only, editor = can comment and edit checklist, admin = full control"
     },
     "status": {
       "type": "string",
       "enum": [
         "pending",
-        "accepted"
+        "accepted",
+        "declined"
       ],
       "default": "pending"
+    },
+    "checklist_progress": {
+      "type": "object",
+      "description": "Map of checklist item id -> boolean (completed)"
+    },
+    "notes": {
+      "type": "string"
     }
   },
   "required": [
