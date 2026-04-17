@@ -69,6 +69,7 @@ const AuthenticatedApp = () => {
     <Routes>
       {/* Public routes */}
       <Route path="/" element={<About />} />
+      <Route path="/pricing" element={<Pricing />} />
 
       {/* Protected routes */}
       <Route element={<AppLayout />}>
@@ -90,7 +91,7 @@ const AuthenticatedApp = () => {
         <Route path="/link-in-bio" element={<LinkInBio />} />
         <Route path="/royalties" element={<RoyaltyDashboard />} />
         <Route path="/press-kit" element={<PressKit />} />
-        <Route path="/pricing" element={<Pricing />} />
+        <Route path="/pricing-account" element={<Pricing />} />
         <Route path="/profile" element={<Profile />} />
         <Route path="/contracts" element={<VenueContracts />} />
         <Route path="/tour-finance" element={<TourFinance />} />
