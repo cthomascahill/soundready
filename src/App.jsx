@@ -62,7 +62,16 @@ const AuthenticatedApp = () => {
 
   if (authError) {
     if (authError.type === 'user_not_registered') return <UserNotRegisteredError />;
-    if (authError.type === 'auth_required') { navigateToLogin(); return null; }
+    if (authError.type === 'auth_required') {
+      // Allow public marketing pages even when app requires auth
+      return (
+        <Routes>
+          <Route path="/" element={<About />} />
+          <Route path="/pricing" element={<Pricing />} />
+          <Route path="*" element={<About />} />
+        </Routes>
+      );
+    }
   }
 
   return (
