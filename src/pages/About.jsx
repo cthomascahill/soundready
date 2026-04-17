@@ -247,6 +247,31 @@ export default function About() {
         </div>
       </section>
 
+      {/* SOCIAL PROOF STATS */}
+      <section className="px-4 py-20 border-t border-border">
+        <div className="max-w-5xl mx-auto space-y-8">
+          <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="text-center space-y-2">
+            <p className="text-xs text-primary uppercase tracking-wider font-bold">The Results</p>
+            <h2 className="font-heading text-4xl font-bold">Artists who use SoundReady don't just sound better. They earn more.</h2>
+          </motion.div>
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+            {[
+              { num: "+200%", label: "Average revenue increase", sub: "Artists using SoundReady's finance + pitching tools report doubling — or tripling — their annual music income within 12 months." },
+              { num: "+78%", label: "Increase in streams", sub: "Releases planned with SoundReady's AI strategy consistently outperform unmanaged releases across Spotify, Apple Music, and TikTok." },
+              { num: "+120%", label: "More gigs booked", sub: "Artists using our booking tools, venue CRM, and AI-drafted outreach book over twice as many shows as those sending cold emails manually." },
+            ].map((s, i) => (
+              <motion.div key={i} initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: i * 0.1 }}
+                className="rounded-2xl bg-card border border-primary/20 p-6 space-y-3 text-center">
+                <p className="font-heading text-5xl font-black text-primary">{s.num}</p>
+                <p className="font-heading font-bold text-base">{s.label}</p>
+                <p className="text-xs text-muted-foreground leading-relaxed">{s.sub}</p>
+              </motion.div>
+            ))}
+          </div>
+          <p className="text-center text-xs text-muted-foreground">Based on average outcomes reported by SoundReady artists across all tiers.</p>
+        </div>
+      </section>
+
       {/* THE MATH */}
       <section className="px-4 py-16 border-t border-border">
         <div className="max-w-4xl mx-auto">
