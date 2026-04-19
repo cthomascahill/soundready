@@ -48,6 +48,7 @@ import AIVideoGenerator from './pages/AIVideoGenerator.jsx';
 import MusicAcademy from './pages/MusicAcademy';
 import Legal from './pages/Legal';
 import InvoiceManager from './pages/InvoiceManager';
+import ContentEngine from './pages/ContentEngine';
 
 const AuthenticatedApp = () => {
   const { user, isLoadingAuth, isLoadingPublicSettings, authError, navigateToLogin } = useAuth();
@@ -121,6 +122,7 @@ const AuthenticatedApp = () => {
         <Route path="/music-academy" element={<MusicAcademy />} />
         <Route path="/legal" element={<Legal />} />
         <Route path="/invoices" element={<InvoiceManager />} />
+        <Route path="/content-engine" element={<ContentEngine />} />
         <Route path="/community" element={<Community />} />
         <Route path="*" element={<PageNotFound />} />
       </Route>
