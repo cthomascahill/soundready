@@ -1,0 +1,39 @@
+{
+  "name": "Whiteboard",
+  "type": "object",
+  "properties": {
+    "name": {
+      "type": "string",
+      "default": "Untitled Board"
+    },
+    "owner_email": {
+      "type": "string"
+    },
+    "collaborators": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "email": {
+            "type": "string"
+          },
+          "role": {
+            "type": "string",
+            "enum": [
+              "editor",
+              "viewer"
+            ]
+          }
+        }
+      }
+    },
+    "share_link_enabled": {
+      "type": "boolean",
+      "default": false
+    }
+  },
+  "required": [
+    "name",
+    "owner_email"
+  ]
+}
