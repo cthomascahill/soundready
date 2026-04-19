@@ -14,10 +14,10 @@ export default function NewsletterBuilder() {
   const [form, setForm] = useState({ subject: "", body: "", scheduled_date: "", notes: "" });
 
   useEffect(() => {
-    base44.entities.Newsletter.list("-created_date", 50).then(data => {
+    base44.auth.me().then(async (u) => {
+      const data = await base44.entities.Newsletter.filter({ created_by: u.email }, "-created_date", 50);
       setNewsletters(data);
-      setLoading(false);
-    });
+    }).finally(() => setLoading(false));
   }, []);
 
   const handleSave = async () => {

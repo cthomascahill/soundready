@@ -69,6 +69,7 @@ const fmt = (n) => n >= 1000 ? `$${(n / 1000).toFixed(1)}k` : `$${n.toFixed(2)}`
 const fmtStreams = (n) => n >= 1000000 ? `${(n / 1000000).toFixed(1)}M` : n >= 1000 ? `${(n / 1000).toFixed(0)}K` : n.toString();
 
 export default function RoyaltyDashboard() {
+  const [user, setUser] = useState(null);
   const [statements, setStatements] = useState([]);
   const [loading, setLoading] = useState(true);
   const [uploading, setUploading] = useState(false);
@@ -78,7 +79,11 @@ export default function RoyaltyDashboard() {
   const fileRef = useRef(null);
 
   useEffect(() => {
-    base44.entities.RoyaltyStatement.list("-created_date", 50).then(setStatements).finally(() => setLoading(false));
+    base44.auth.me().then(async (u) => {
+      setUser(u);
+      const data = await base44.entities.RoyaltyStatement.filter({ created_by: u.email }, "-created_date", 50);
+      setStatements(data);
+    }).finally(() => setLoading(false));
   }, []);
 
   const handleFile = async (file) => {

@@ -51,7 +51,8 @@ export default function Analytics() {
   useEffect(() => {
     if (!user?.email) return;
     base44.entities.SongAnalysis.filter({ status: "complete", created_by: user.email }, "-created_date", 20)
-      .then(setSongs).finally(() => setLoading(false));
+      .then(setSongs)
+      .finally(() => setLoading(false));
   }, [user?.email]);
 
   const selectedSong = songs.find((s) => s.id === selectedSongId);

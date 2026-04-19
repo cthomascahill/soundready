@@ -32,6 +32,7 @@ function CopyBlock({ label, content }) {
 }
 
 export default function PressKit() {
+  const [user, setUser] = useState(null);
   const [songs, setSongs] = useState([]);
   const [loading, setLoading] = useState(true);
   const [generating, setGenerating] = useState(false);
@@ -49,8 +50,11 @@ export default function PressKit() {
   });
 
   useEffect(() => {
-    base44.entities.SongAnalysis.filter({ status: "complete" }, "-created_date", 20)
-      .then(setSongs).finally(() => setLoading(false));
+    base44.auth.me().then(async (u) => {
+      setUser(u);
+      const data = await base44.entities.SongAnalysis.filter({ status: "complete", created_by: u.email }, "-created_date", 20);
+      setSongs(data);
+    }).finally(() => setLoading(false));
   }, []);
 
   const toggleSong = (id) => setForm((f) => ({

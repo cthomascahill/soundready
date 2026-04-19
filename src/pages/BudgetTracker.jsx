@@ -47,6 +47,7 @@ function AddRow({ categories, onAdd, placeholder = "Description" }) {
 }
 
 export default function BudgetTracker() {
+  const [user, setUser] = useState(null);
   const [records, setRecords] = useState([]);
   const [songs, setSongs] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -57,10 +58,15 @@ export default function BudgetTracker() {
   const [saving, setSaving] = useState(false);
 
   useEffect(() => {
-    Promise.all([
-      base44.entities.BudgetTracker.list("-created_date", 20),
-      base44.entities.SongAnalysis.filter({ status: "complete" }, "-created_date", 20),
-    ]).then(([r, s]) => { setRecords(r); setSongs(s); }).finally(() => setLoading(false));
+    base44.auth.me().then(async (u) => {
+      setUser(u);
+      const [r, s] = await Promise.all([
+        base44.entities.BudgetTracker.filter({ created_by: u.email }, "-created_date", 20),
+        base44.entities.SongAnalysis.filter({ status: "complete", created_by: u.email }, "-created_date", 20),
+      ]);
+      setRecords(r);
+      setSongs(s);
+    }).finally(() => setLoading(false));
   }, []);
 
   const selected = records.find((r) => r.id === selectedId);

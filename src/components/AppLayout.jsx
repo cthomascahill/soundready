@@ -18,7 +18,6 @@ const CATEGORY_DROPDOWNS = [
     label: "Create",
     items: [
       { to: "/distribution", icon: Send, label: "Distribution" },
-      { to: "/budget", icon: DollarSign, label: "Budget Tracker" },
       { to: "/mastering", icon: Wand2, label: "AI Mastering" },
       { to: "/scheduler", icon: CalendarDays, label: "Content Scheduler" },
       { to: "/newsletter", icon: Mail, label: "Newsletter Builder" },
