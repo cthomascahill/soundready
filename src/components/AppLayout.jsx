@@ -22,7 +22,6 @@ const CATEGORY_DROPDOWNS = [
       { to: "/content-engine", icon: Film, label: "Content Engine" },
       { to: "/whiteboard", icon: Layout, label: "Whiteboard" },
       { to: "/scheduler", icon: CalendarDays, label: "Content Scheduler" },
-      { to: "/newsletter", icon: Mail, label: "Newsletter Builder" },
       { to: "/history", icon: History, label: "Song Library" },
     ],
   },
@@ -38,6 +37,7 @@ const CATEGORY_DROPDOWNS = [
       { to: "/collabs", icon: Users, label: "Collab Finder" },
       { to: "/collab-workspace", icon: Users, label: "Collab Workspace" },
       { to: "/email-campaigns", icon: Mail, label: "Email Campaigns" },
+      { to: "/newsletter", icon: Mail, label: "Newsletter Builder" },
     ],
   },
   {
@@ -47,6 +47,7 @@ const CATEGORY_DROPDOWNS = [
       { to: "/tour-opportunities", icon: Music2, label: "Tour Opportunities" },
       { to: "/tour-planner", icon: CalendarRange, label: "Tour Planner" },
       { to: "/tour-finance", icon: DollarSign, label: "Tour Finance" },
+      { to: "/soundcheck", icon: Mic2, label: "Soundcheck" },
     ],
   },
   {

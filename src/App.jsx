@@ -49,6 +49,7 @@ import MusicAcademy from './pages/MusicAcademy';
 import Legal from './pages/Legal';
 import InvoiceManager from './pages/InvoiceManager';
 import ContentEngine from './pages/ContentEngine';
+import Soundcheck from './pages/Soundcheck';
 import Whiteboard from './pages/Whiteboard';
 import WhiteboardCanvas from './pages/WhiteboardCanvas';
 
@@ -125,6 +126,7 @@ const AuthenticatedApp = () => {
         <Route path="/legal" element={<Legal />} />
         <Route path="/invoices" element={<InvoiceManager />} />
         <Route path="/content-engine" element={<ContentEngine />} />
+        <Route path="/soundcheck" element={<Soundcheck />} />
         <Route path="/whiteboard" element={<Whiteboard />} />
         <Route path="/whiteboard/:boardId" element={<WhiteboardCanvas />} />
         <Route path="/community" element={<Community />} />
