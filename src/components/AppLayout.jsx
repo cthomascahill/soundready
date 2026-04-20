@@ -6,6 +6,7 @@ import {
   FileText, Send, Mic2, MapPin, BookOpen, ChevronDown, Home, Info, Wand2,
   Link2, TrendingUp, Zap, CreditCard, UserCircle, Building2, Users, ScrollText, CalendarRange, Mail, ShoppingBag, Receipt, Film, Layout
 } from "lucide-react";
+import SoundReadyLogo from "@/components/SoundReadyLogo";
 
 const PRIMARY_NAV = [
   { to: "/release-plan", icon: Zap, label: "Release Plan" },
@@ -99,9 +100,7 @@ export default function AppLayout() {
     <div className="min-h-screen bg-background font-body">
       <header className="sticky top-0 z-40 border-b border-border/50 bg-background/90 backdrop-blur-xl">
         <div className="max-w-6xl mx-auto px-4 h-14 flex items-center justify-between">
-          <Link to="/" className="font-heading font-bold text-lg text-foreground flex items-center gap-1.5 shrink-0">
-            <span className="text-primary">Sound</span>Ready
-          </Link>
+          <Link to="/"><SoundReadyLogo size={28} /></Link>
 
           <div className="flex items-center gap-0.5">
             {PRIMARY_NAV.map(({ to, icon: Icon, label }) => (
