@@ -72,7 +72,7 @@ const CATEGORY_DROPDOWNS = [
     items: [
       { to: "/algorithm-guide", icon: BookOpen, label: "Algorithm Guide" },
       { to: "/music-academy", icon: Mic2, label: "Music Academy" },
-      { to: "/community", icon: Users, label: "Community" },
+
     ],
   },
 ];
