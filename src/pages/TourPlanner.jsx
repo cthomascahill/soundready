@@ -136,12 +136,12 @@ function TaskModal({ task, date, prefill, venues, onSave, onClose }) {
 }
 
 // ─── Show badge inside day ────────────────────────────────────────────────────
-function ShowBadge({ venue }) {
+function ShowBadge({ venue, onClick }) {
   return (
-    <div className="flex items-center gap-1 rounded-md px-2 py-1 bg-primary/15 border border-primary/30 text-[10px] font-semibold text-primary truncate">
+    <button onClick={onClick} className="w-full flex items-center gap-1 rounded-md px-2 py-1 bg-primary/15 border border-primary/30 text-[10px] font-semibold text-primary truncate hover:bg-primary/25 transition-colors text-left">
       <Mic2 className="h-2.5 w-2.5 shrink-0" />
-      <span className="truncate">{venue.name}</span>
-    </div>
+      <span className="truncate flex-1">{venue.name}</span>
+    </button>
   );
 }
 
@@ -184,7 +184,7 @@ function TravelGap({ from, to, route, loading }) {
 }
 
 // ─── Day cell ─────────────────────────────────────────────────────────────────
-function DayCell({ dateStr, isCurrentMonth, isToday, shows, travelGap, travelRoute, travelLoading, tasks, onAddTask, onEditTask, onDeleteTask, onToggleDone, onDragOver, onDrop, onDragStart }) {
+function DayCell({ dateStr, isCurrentMonth, isToday, shows, travelGap, travelRoute, travelLoading, tasks, onAddTask, onEditTask, onDeleteTask, onToggleDone, onDragOver, onDrop, onDragStart, onEditShow }) {
   const [dragOver, setDragOver] = useState(false);
 
   const handleDragOver = (e) => {
@@ -225,7 +225,7 @@ function DayCell({ dateStr, isCurrentMonth, isToday, shows, travelGap, travelRou
       </div>
 
       {/* Shows */}
-      {shows.map(v => <ShowBadge key={v.id} venue={v} />)}
+      {shows.map(v => <ShowBadge key={v.id} venue={v} onClick={() => onEditShow(v)} />)}
 
       {/* Travel gap */}
       {travelGap && <TravelGap from={travelGap.from} to={travelGap.to} route={travelRoute} loading={travelLoading} />}
@@ -248,6 +248,101 @@ function DayCell({ dateStr, isCurrentMonth, isToday, shows, travelGap, travelRou
         className="mt-auto flex items-center gap-1 text-[10px] text-muted-foreground hover:text-primary transition-colors py-0.5">
         <Plus className="h-2.5 w-2.5" />
       </button>
+    </div>
+  );
+}
+
+// ─── Edit Show Modal ─────────────────────────────────────────────────────────
+function EditShowModal({ venue, onSave, onDelete, onClose }) {
+  const [form, setForm] = useState({
+    name: venue.name || "",
+    city: venue.city || "",
+    state: venue.state || "",
+    performance_date: venue.performance_date ? moment(venue.performance_date).format("YYYY-MM-DD") : "",
+    performance_time: venue.performance_time || "",
+    payout_amount: venue.payout_amount || "",
+    payout_structure: venue.payout_structure || "Flat Fee",
+    capacity: venue.capacity || "",
+    notes: venue.notes || "",
+    status: venue.status || "Booked",
+  });
+  const [confirmDelete, setConfirmDelete] = useState(false);
+  const set = (k) => (e) => setForm(f => ({ ...f, [k]: e.target?.value ?? e }));
+
+  return (
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 backdrop-blur-sm" onClick={onClose}>
+      <motion.div initial={{ opacity: 0, scale: 0.96 }} animate={{ opacity: 1, scale: 1 }}
+        className="bg-card border border-border rounded-2xl p-6 w-full max-w-lg space-y-4 shadow-2xl"
+        onClick={e => e.stopPropagation()}>
+        <div className="flex items-center justify-between">
+          <div>
+            <p className="font-heading font-bold text-lg">Edit Show</p>
+            <p className="text-xs text-muted-foreground">{venue.name}</p>
+          </div>
+          <button onClick={onClose}><X className="h-4 w-4 text-muted-foreground" /></button>
+        </div>
+        <div className="space-y-3">
+          <div className="space-y-1.5">
+            <label className="text-xs text-muted-foreground font-medium">Venue Name *</label>
+            <Input value={form.name} onChange={set("name")} placeholder="e.g. The Troubadour" />
+          </div>
+          <div className="grid grid-cols-2 gap-3">
+            <div className="space-y-1.5">
+              <label className="text-xs text-muted-foreground font-medium">City *</label>
+              <Input value={form.city} onChange={set("city")} placeholder="e.g. Los Angeles" />
+            </div>
+            <div className="space-y-1.5">
+              <label className="text-xs text-muted-foreground font-medium">State</label>
+              <Input value={form.state} onChange={set("state")} placeholder="e.g. CA" />
+            </div>
+          </div>
+          <div className="grid grid-cols-2 gap-3">
+            <div className="space-y-1.5">
+              <label className="text-xs text-muted-foreground font-medium">Show Date *</label>
+              <Input type="date" value={form.performance_date} onChange={set("performance_date")} />
+            </div>
+            <div className="space-y-1.5">
+              <label className="text-xs text-muted-foreground font-medium">Show Time</label>
+              <Input value={form.performance_time} onChange={set("performance_time")} placeholder="e.g. 9:00 PM" />
+            </div>
+          </div>
+          <div className="grid grid-cols-2 gap-3">
+            <div className="space-y-1.5">
+              <label className="text-xs text-muted-foreground font-medium">Payout ($)</label>
+              <Input type="number" value={form.payout_amount} onChange={set("payout_amount")} placeholder="0.00" />
+            </div>
+            <div className="space-y-1.5">
+              <label className="text-xs text-muted-foreground font-medium">Status</label>
+              <select value={form.status} onChange={set("status")} className="w-full h-9 rounded-md border border-input bg-transparent px-3 text-sm text-foreground focus:outline-none focus:ring-1 focus:ring-ring">
+                {["Booked", "Performed", "Cancelled"].map(s => <option key={s}>{s}</option>)}
+              </select>
+            </div>
+          </div>
+          <div className="space-y-1.5">
+            <label className="text-xs text-muted-foreground font-medium">Notes</label>
+            <textarea value={form.notes} onChange={set("notes")} rows={2}
+              className="w-full rounded-md border border-input bg-transparent px-3 py-2 text-sm text-foreground focus:outline-none focus:ring-1 focus:ring-ring resize-none" />
+          </div>
+        </div>
+        <div className="flex gap-2 pt-1">
+          <Button
+            onClick={() => onSave(form)}
+            disabled={!form.name || !form.city || !form.performance_date}
+            className="flex-1"
+          >
+            <Check className="h-4 w-4 mr-2" />Save Changes
+          </Button>
+          {confirmDelete ? (
+            <Button variant="destructive" onClick={() => onDelete(venue.id)} className="gap-1">
+              Confirm Delete
+            </Button>
+          ) : (
+            <Button variant="outline" onClick={() => setConfirmDelete(true)} className="text-destructive border-destructive/30 hover:bg-destructive/10 gap-1">
+              <X className="h-4 w-4" />Delete
+            </Button>
+          )}
+        </div>
+      </motion.div>
     </div>
   );
 }
@@ -347,6 +442,7 @@ export default function TourPlanner() {
   const [loading, setLoading] = useState(true);
   const [modal, setModal] = useState(null); // { date, task? }
   const [showModal, setShowModal] = useState(false);
+  const [editingShow, setEditingShow] = useState(null);
   const [dragging, setDragging] = useState(null); // task being dragged
   const [routeData, setRouteData] = useState({}); // key: "fromCity|toCity" -> { distanceMiles, durationHours }
   const [routeLoading, setRouteLoading] = useState({}); // same key -> bool
@@ -444,6 +540,22 @@ export default function TourPlanner() {
     setShowModal(false);
   };
 
+  const handleUpdateShow = async (data) => {
+    const updated = await base44.entities.Venue.update(editingShow.id, {
+      ...data,
+      payout_amount: data.payout_amount ? Number(data.payout_amount) : null,
+      capacity: data.capacity ? Number(data.capacity) : null,
+    });
+    setVenues(prev => prev.map(v => v.id === editingShow.id ? updated : v));
+    setEditingShow(null);
+  };
+
+  const handleDeleteShow = async (id) => {
+    await base44.entities.Venue.delete(id);
+    setVenues(prev => prev.filter(v => v.id !== id));
+    setEditingShow(null);
+  };
+
   const handleToggleDone = async (task) => {
     const newStatus = task.status === "Done" ? "Todo" : "Done";
     const updated = await base44.entities.TourLogisticsTask.update(task.id, { status: newStatus });
@@ -526,6 +638,14 @@ export default function TourPlanner() {
         <AddShowModal
           onSave={handleSaveShow}
           onClose={() => setShowModal(false)}
+        />
+      )}
+      {editingShow && (
+        <EditShowModal
+          venue={editingShow}
+          onSave={handleUpdateShow}
+          onDelete={handleDeleteShow}
+          onClose={() => setEditingShow(null)}
         />
       )}
 
@@ -719,7 +839,8 @@ export default function TourPlanner() {
                  onDragStart={setDragging}
                  onDragOver={() => {}}
                  onDrop={handleDrop}
-                />
+                 onEditShow={setEditingShow}
+                 />
               ))}
             </div>
           </>
