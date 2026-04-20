@@ -20,6 +20,8 @@ async function getSpotifyToken() {
 
 Deno.serve(async (req) => {
   try {
+
+    // this is just a basic auth check - can be replaced
     const base44 = createClientFromRequest(req);
     const user = await base44.auth.me();
     if (!user) return Response.json({ error: "Unauthorized" }, { status: 401 });

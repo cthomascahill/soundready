@@ -1,0 +1,429 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>SoundReady — Firebase Migration Guide</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background: #0a0a0a;
+      color: #e2e2e2;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      font-size: 15px;
+      line-height: 1.7;
+      padding: 48px 20px 80px;
+    }
+
+    .page { max-width: 780px; margin: 0 auto; }
+
+    /* Header */
+    .header { margin-bottom: 48px; }
+    .logo { font-size: 22px; font-weight: 900; letter-spacing: -0.5px; margin-bottom: 20px; }
+    .logo span { color: #3dba6f; }
+    h1 { font-size: 32px; font-weight: 800; line-height: 1.2; color: #f2f2f2; margin-bottom: 10px; }
+    .subtitle { color: #777; font-size: 14px; }
+
+    /* Sections */
+    .section { margin-bottom: 40px; }
+    h2 {
+      font-size: 13px;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: #3dba6f;
+      margin-bottom: 16px;
+    }
+
+    /* Card grid */
+    .card-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+    @media (max-width: 600px) { .card-grid { grid-template-columns: 1fr; } }
+
+    .card {
+      background: #141414;
+      border: 1px solid #1f1f1f;
+      border-radius: 12px;
+      padding: 18px 20px;
+    }
+    .card-title { font-size: 13px; font-weight: 700; color: #f2f2f2; margin-bottom: 6px; }
+    .card-body { font-size: 13px; color: #888; line-height: 1.6; }
+    .card code {
+      background: #1e1e1e;
+      color: #a8d8b0;
+      font-family: 'SF Mono', 'Fira Code', monospace;
+      font-size: 11px;
+      padding: 1px 5px;
+      border-radius: 4px;
+    }
+
+    /* Steps */
+    .steps { display: flex; flex-direction: column; gap: 0; }
+    .step {
+      display: flex;
+      gap: 16px;
+      padding: 20px 0;
+      border-bottom: 1px solid #1a1a1a;
+    }
+    .step:last-child { border-bottom: none; }
+    .step-num {
+      flex-shrink: 0;
+      width: 28px;
+      height: 28px;
+      background: #3dba6f18;
+      border: 1px solid #3dba6f40;
+      color: #3dba6f;
+      font-size: 12px;
+      font-weight: 800;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-top: 1px;
+    }
+    .step-content {}
+    .step-title { font-size: 14px; font-weight: 700; color: #f2f2f2; margin-bottom: 6px; }
+    .step-body { font-size: 13px; color: #888; }
+    .step-body a { color: #3dba6f; text-decoration: none; }
+    .step-body a:hover { text-decoration: underline; }
+
+    /* Code blocks */
+    pre {
+      background: #111;
+      border: 1px solid #1f1f1f;
+      border-radius: 10px;
+      padding: 16px 18px;
+      margin: 10px 0 0;
+      overflow-x: auto;
+      font-family: 'SF Mono', 'Fira Code', 'Cascadia Code', monospace;
+      font-size: 12px;
+      line-height: 1.7;
+      color: #c9d1d9;
+    }
+    pre .comment { color: #555; }
+    pre .key { color: #79c0ff; }
+    pre .val { color: #a5d6ff; }
+    pre .cmd { color: #3dba6f; }
+    pre .flag { color: #e3b341; }
+
+    /* File list */
+    .file-list { display: flex; flex-direction: column; gap: 8px; }
+    .file-row {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      background: #141414;
+      border: 1px solid #1f1f1f;
+      border-radius: 8px;
+      padding: 12px 14px;
+    }
+    .file-badge {
+      flex-shrink: 0;
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      padding: 3px 8px;
+      border-radius: 4px;
+      margin-top: 1px;
+    }
+    .badge-new { background: #3dba6f18; color: #3dba6f; border: 1px solid #3dba6f30; }
+    .badge-modified { background: #e3b34118; color: #e3b341; border: 1px solid #e3b34130; }
+    .file-path { font-family: 'SF Mono', 'Fira Code', monospace; font-size: 12px; color: #a8d8b0; }
+    .file-desc { font-size: 12px; color: #666; margin-top: 2px; }
+
+    /* Notice */
+    .notice {
+      background: #3dba6f0d;
+      border: 1px solid #3dba6f25;
+      border-radius: 10px;
+      padding: 14px 18px;
+      font-size: 13px;
+      color: #888;
+      margin-top: 12px;
+    }
+    .notice strong { color: #3dba6f; }
+
+    /* Divider */
+    hr { border: none; border-top: 1px solid #1a1a1a; margin: 48px 0; }
+  </style>
+</head>
+<body>
+<div class="page">
+
+  <div class="header">
+    <div class="logo"><span>Sound</span>Ready</div>
+    <h1>Firebase Migration Guide</h1>
+    <p class="subtitle">Generated 2026-04-20 &nbsp;·&nbsp; Base44 → Firebase (Firestore + Auth + Cloud Functions)</p>
+  </div>
+
+  <!-- What was built -->
+  <div class="section">
+    <h2>What was built</h2>
+    <div class="card-grid">
+      <div class="card">
+        <div class="card-title">Drop-in Firebase adapter</div>
+        <div class="card-body">
+          <code>src/api/base44Client.js</code> was rewritten as a Firebase adapter that mirrors the exact Base44 SDK interface — <code>.list()</code>, <code>.create()</code>, <code>.update()</code>, <code>.delete()</code>, <code>.filter()</code>, <code>.subscribe()</code>, <code>.auth.*</code>, <code>.functions.invoke()</code>. Zero changes required to any of the 52 existing page files.
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-title">Firebase initializer</div>
+        <div class="card-body">
+          <code>src/api/firebase.js</code> initializes the Firebase app and exports <code>db</code> (Firestore), <code>auth</code> (Firebase Auth), and <code>functions</code> (Cloud Functions). Reads config from <code>VITE_FIREBASE_*</code> environment variables.
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-title">Auth context</div>
+        <div class="card-body">
+          <code>src/lib/AuthContext.jsx</code> rewritten using Firebase's <code>onAuthStateChanged</code>. User profiles are stored in a <code>users/{uid}</code> Firestore document and created automatically on first sign-in.
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-title">Login page</div>
+        <div class="card-body">
+          <code>src/pages/Login.jsx</code> — new login page with Google Sign-In and email/password support. Styled to match the app's dark theme. Handles post-login redirect automatically.
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-title">Cloud Functions</div>
+        <div class="card-body">
+          <code>functions/index.js</code> — all 5 backend functions migrated from Deno/Base44 to Firebase Cloud Functions (Node.js): <code>spotifyTrackLookup</code>, <code>youtubeChannelLookup</code>, <code>fetchCompetitorData</code>, <code>fetchTourOpportunities</code>, <code>analyzeSong</code>, <code>sendWelcomeEmail</code>.
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-title">Firestore security rules</div>
+        <div class="card-body">
+          <code>firestore.rules</code> — per-user data scoped by <code>user_id</code> field. Shared collections (<code>CommunityMessage</code>, <code>ReportCollaborator</code>, <code>ReportComment</code>) are readable/writable by any authenticated user.
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Files changed -->
+  <div class="section">
+    <h2>Files changed</h2>
+    <div class="file-list">
+      <div class="file-row">
+        <span class="file-badge badge-new">New</span>
+        <div>
+          <div class="file-path">src/api/firebase.js</div>
+          <div class="file-desc">Firebase app initialization — Firestore, Auth, Functions</div>
+        </div>
+      </div>
+      <div class="file-row">
+        <span class="file-badge badge-modified">Modified</span>
+        <div>
+          <div class="file-path">src/api/base44Client.js</div>
+          <div class="file-desc">Replaced Base44 SDK with Firebase adapter (same interface)</div>
+        </div>
+      </div>
+      <div class="file-row">
+        <span class="file-badge badge-modified">Modified</span>
+        <div>
+          <div class="file-path">src/lib/AuthContext.jsx</div>
+          <div class="file-desc">Replaced Base44 auth with Firebase onAuthStateChanged</div>
+        </div>
+      </div>
+      <div class="file-row">
+        <span class="file-badge badge-new">New</span>
+        <div>
+          <div class="file-path">src/pages/Login.jsx</div>
+          <div class="file-desc">Login page — Google Sign-In + email/password</div>
+        </div>
+      </div>
+      <div class="file-row">
+        <span class="file-badge badge-modified">Modified</span>
+        <div>
+          <div class="file-path">src/App.jsx</div>
+          <div class="file-desc">Added /login route; protected routes redirect unauthenticated users</div>
+        </div>
+      </div>
+      <div class="file-row">
+        <span class="file-badge badge-modified">Modified</span>
+        <div>
+          <div class="file-path">vite.config.js</div>
+          <div class="file-desc">Removed Base44 plugin; added @ alias manually</div>
+        </div>
+      </div>
+      <div class="file-row">
+        <span class="file-badge badge-new">New</span>
+        <div>
+          <div class="file-path">functions/index.js</div>
+          <div class="file-desc">Firebase Cloud Functions (6 functions)</div>
+        </div>
+      </div>
+      <div class="file-row">
+        <span class="file-badge badge-new">New</span>
+        <div>
+          <div class="file-path">functions/package.json</div>
+          <div class="file-desc">Functions dependencies — firebase-admin, @anthropic-ai/sdk, nodemailer</div>
+        </div>
+      </div>
+      <div class="file-row">
+        <span class="file-badge badge-new">New</span>
+        <div>
+          <div class="file-path">firebase.json &nbsp;·&nbsp; .firebaserc &nbsp;·&nbsp; firestore.rules &nbsp;·&nbsp; firestore.indexes.json &nbsp;·&nbsp; .env.example</div>
+          <div class="file-desc">Firebase project config, security rules, and environment variable template</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <hr />
+
+  <!-- To go live -->
+  <div class="section">
+    <h2>To go live — step by step</h2>
+    <div class="steps">
+
+      <div class="step">
+        <div class="step-num">1</div>
+        <div class="step-content">
+          <div class="step-title">Create a Firebase project</div>
+          <div class="step-body">
+            Go to <a href="https://console.firebase.google.com" target="_blank">console.firebase.google.com</a>, create a new project, and enable <strong>Firestore</strong> and <strong>Authentication</strong>. In Authentication → Sign-in method, enable <strong>Google</strong> and <strong>Email/Password</strong>.
+          </div>
+        </div>
+      </div>
+
+      <div class="step">
+        <div class="step-num">2</div>
+        <div class="step-content">
+          <div class="step-title">Add your Firebase config to .env.local</div>
+          <div class="step-body">
+            In Firebase Console → Project Settings → Your apps → Web app, copy the config object. Create <code>.env.local</code> in the project root:
+            <pre><span class="key">VITE_FIREBASE_API_KEY</span>=<span class="val">AIzaSy...</span>
+<span class="key">VITE_FIREBASE_AUTH_DOMAIN</span>=<span class="val">your-project.firebaseapp.com</span>
+<span class="key">VITE_FIREBASE_PROJECT_ID</span>=<span class="val">your-project-id</span>
+<span class="key">VITE_FIREBASE_STORAGE_BUCKET</span>=<span class="val">your-project.appspot.com</span>
+<span class="key">VITE_FIREBASE_MESSAGING_SENDER_ID</span>=<span class="val">123456789</span>
+<span class="key">VITE_FIREBASE_APP_ID</span>=<span class="val">1:123456789:web:abc123</span></pre>
+          </div>
+        </div>
+      </div>
+
+      <div class="step">
+        <div class="step-num">3</div>
+        <div class="step-content">
+          <div class="step-title">Update .firebaserc with your project ID</div>
+          <div class="step-body">
+            Open <code>.firebaserc</code> and replace <code>YOUR_FIREBASE_PROJECT_ID</code> with your real project ID (same value as <code>VITE_FIREBASE_PROJECT_ID</code>).
+          </div>
+        </div>
+      </div>
+
+      <div class="step">
+        <div class="step-num">4</div>
+        <div class="step-content">
+          <div class="step-title">Install Firebase CLI and Functions dependencies</div>
+          <div class="step-body">
+            <pre><span class="comment"># Install Firebase CLI globally (if not already installed)</span>
+<span class="cmd">npm install -g firebase-tools</span>
+
+<span class="comment"># Log in</span>
+<span class="cmd">firebase login</span>
+
+<span class="comment"># Install Cloud Functions dependencies</span>
+<span class="cmd">cd functions && npm install && cd ..</span></pre>
+          </div>
+        </div>
+      </div>
+
+      <div class="step">
+        <div class="step-num">5</div>
+        <div class="step-content">
+          <div class="step-title">Set Cloud Functions environment secrets</div>
+          <div class="step-body">
+            Each function uses API keys stored as Firebase secrets. Set them with:
+            <pre><span class="comment"># Spotify — https://developer.spotify.com/dashboard</span>
+<span class="cmd">firebase functions:secrets:set SPOTIFY_CLIENT_ID</span>
+<span class="cmd">firebase functions:secrets:set SPOTIFY_CLIENT_SECRET</span>
+
+<span class="comment"># YouTube Data API v3 — https://console.cloud.google.com</span>
+<span class="cmd">firebase functions:secrets:set YOUTUBE_API_KEY</span>
+
+<span class="comment"># Anthropic (AI features) — https://console.anthropic.com</span>
+<span class="cmd">firebase functions:secrets:set ANTHROPIC_API_KEY</span>
+
+<span class="comment"># Email — optional, for welcome emails (Gmail app password or SMTP service)</span>
+<span class="cmd">firebase functions:secrets:set SMTP_USER</span>
+<span class="cmd">firebase functions:secrets:set SMTP_PASS</span></pre>
+          </div>
+        </div>
+      </div>
+
+      <div class="step">
+        <div class="step-num">6</div>
+        <div class="step-content">
+          <div class="step-title">Deploy to Firebase</div>
+          <div class="step-body">
+            <pre><span class="comment"># Deploy everything (Firestore rules + Cloud Functions + Hosting)</span>
+<span class="cmd">npm run build</span>
+<span class="cmd">firebase deploy</span>
+
+<span class="comment"># Or deploy individually</span>
+<span class="cmd">firebase deploy <span class="flag">--only</span> firestore:rules</span>
+<span class="cmd">firebase deploy <span class="flag">--only</span> functions</span>
+<span class="cmd">firebase deploy <span class="flag">--only</span> hosting</span></pre>
+          </div>
+        </div>
+      </div>
+
+      <div class="step">
+        <div class="step-num">7</div>
+        <div class="step-content">
+          <div class="step-title">Migrate existing data from Base44</div>
+          <div class="step-body">
+            Export your data from the Base44 dashboard (Settings → Export). Each entity collection maps 1-to-1 with a Firestore collection of the same name. You'll need to add a <code>user_id</code> field (your Firebase UID) to each document before importing. A simple migration script can do this.
+          </div>
+        </div>
+      </div>
+
+      <div class="step">
+        <div class="step-num">8</div>
+        <div class="step-content">
+          <div class="step-title">Test locally with the Firebase emulator</div>
+          <div class="step-body">
+            For local development without deploying:
+            <pre><span class="comment"># Start all emulators (Auth, Firestore, Functions, Hosting)</span>
+<span class="cmd">firebase emulators:start</span>
+
+<span class="comment"># In another terminal, start the Vite dev server</span>
+<span class="cmd">npm run dev</span></pre>
+            <div class="notice">
+              <strong>Note:</strong> The emulator UI runs at <code>http://localhost:4000</code> — you can browse your Firestore data, manage users, and view function logs there.
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Data model note -->
+  <div class="section">
+    <h2>Data model</h2>
+    <div class="card-grid">
+      <div class="card">
+        <div class="card-title">26 entities → 26 Firestore collections</div>
+        <div class="card-body">Every entity in <code>base44/entities/</code> maps directly to a Firestore collection with the same name. Documents include a <code>user_id</code> field for ownership, plus <code>created_date</code> and <code>updated_date</code> ISO strings on every write.</div>
+      </div>
+      <div class="card">
+        <div class="card-title">User profiles</div>
+        <div class="card-body">Each user's profile (artist name, bio, role, onboarding state, etc.) is stored in <code>users/{uid}</code>. Created automatically on first sign-in. Updated via <code>base44.auth.updateMe()</code> — same API as before.</div>
+      </div>
+      <div class="card">
+        <div class="card-title">Shared collections</div>
+        <div class="card-body"><code>CommunityMessage</code>, <code>ReportCollaborator</code>, and <code>ReportComment</code> are not scoped by user — they're accessible to all authenticated users, matching the original collaborative behavior.</div>
+      </div>
+      <div class="card">
+        <div class="card-title">Filtering &amp; sorting</div>
+        <div class="card-body">All data is fetched per-user with a single Firestore <code>where('user_id', '==', uid)</code> query, then sorted and filtered client-side. This avoids composite index requirements and works out of the box.</div>
+      </div>
+    </div>
+  </div>
+
+</div>
+</body>
+</html>

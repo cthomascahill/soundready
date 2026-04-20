@@ -1,11 +1,12 @@
 import { Toaster } from "@/components/ui/toaster"
 import { QueryClientProvider } from '@tanstack/react-query'
 import { queryClientInstance } from '@/lib/query-client'
-import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-dom';
 import PageNotFound from './lib/PageNotFound';
 import { AuthProvider, useAuth } from '@/lib/AuthContext';
-import UserNotRegisteredError from '@/components/UserNotRegisteredError';
-import LoginPage from './pages/Home';
+import Login from './pages/Login';
+import FirebaseSetupScreen from '@/components/FirebaseSetupScreen';
+import { isFirebaseConfigured } from '@/api/firebase';
 import Dashboard from './pages/Dashboard';
 import Results from './pages/Results';
 import History from './pages/History';
@@ -50,9 +51,9 @@ import Legal from './pages/Legal';
 import InvoiceManager from './pages/InvoiceManager';
 
 const AuthenticatedApp = () => {
-  const { user, isLoadingAuth, isLoadingPublicSettings, authError, navigateToLogin } = useAuth();
+  const { isLoadingAuth, isAuthenticated } = useAuth();
 
-  if (isLoadingPublicSettings || isLoadingAuth) {
+  if (isLoadingAuth) {
     return (
       <div className="fixed inset-0 flex items-center justify-center bg-background">
         <div className="w-8 h-8 border-4 border-primary/20 border-t-primary rounded-full animate-spin" />
@@ -60,28 +61,15 @@ const AuthenticatedApp = () => {
     );
   }
 
-  if (authError) {
-    if (authError.type === 'user_not_registered') return <UserNotRegisteredError />;
-    if (authError.type === 'auth_required') {
-      // Allow public marketing pages even when app requires auth
-      return (
-        <Routes>
-          <Route path="/" element={<About />} />
-          <Route path="/pricing" element={<Pricing />} />
-          <Route path="*" element={<About />} />
-        </Routes>
-      );
-    }
-  }
-
   return (
     <Routes>
       {/* Public routes */}
       <Route path="/" element={<About />} />
       <Route path="/pricing" element={<Pricing />} />
+      <Route path="/login" element={isAuthenticated ? <Navigate to="/dashboard" replace /> : <Login />} />
 
       {/* Protected routes */}
-      <Route element={<AppLayout />}>
+      <Route element={isAuthenticated ? <AppLayout /> : <Navigate to="/login" replace />}>
         <Route path="/dashboard" element={<Dashboard />} />
         <Route path="/release-plan" element={<ReleasePlanInput />} />
         <Route path="/results" element={<Results />} /> 
@@ -129,6 +117,8 @@ const AuthenticatedApp = () => {
 };
 
 function App() {
+  if (!isFirebaseConfigured) return <FirebaseSetupScreen />;
+
   return (
     <AuthProvider>
       <QueryClientProvider client={queryClientInstance}>

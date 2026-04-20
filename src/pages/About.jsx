@@ -75,8 +75,9 @@ export default function About() {
   }, []);
 
   const handleCTA = () => {
+    // ctc - login redirect
     if (isAuth) window.location.href = "/dashboard";
-    else base44.auth.redirectToLogin();
+    else window.location.href = "/login";
   };
 
   return (
