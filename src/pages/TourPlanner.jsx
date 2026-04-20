@@ -252,6 +252,93 @@ function DayCell({ dateStr, isCurrentMonth, isToday, shows, travelGap, travelRou
   );
 }
 
+// ─── Add Show Modal ───────────────────────────────────────────────────────────
+function AddShowModal({ onSave, onClose }) {
+  const [form, setForm] = useState({
+    name: "", city: "", state: "", performance_date: moment().format("YYYY-MM-DD"),
+    performance_time: "", payout_amount: "", payout_structure: "Flat Fee",
+    capacity: "", notes: "", status: "Booked",
+  });
+  const set = (k) => (e) => setForm(f => ({ ...f, [k]: e.target?.value ?? e }));
+
+  return (
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 backdrop-blur-sm" onClick={onClose}>
+      <motion.div initial={{ opacity: 0, scale: 0.96 }} animate={{ opacity: 1, scale: 1 }}
+        className="bg-card border border-border rounded-2xl p-6 w-full max-w-lg space-y-4 shadow-2xl"
+        onClick={e => e.stopPropagation()}>
+        <div className="flex items-center justify-between">
+          <div>
+            <p className="font-heading font-bold text-lg">Add Show</p>
+            <p className="text-xs text-muted-foreground">This will appear on the calendar as a confirmed show.</p>
+          </div>
+          <button onClick={onClose}><X className="h-4 w-4 text-muted-foreground" /></button>
+        </div>
+        <div className="space-y-3">
+          <div className="space-y-1.5">
+            <label className="text-xs text-muted-foreground font-medium">Venue Name *</label>
+            <Input value={form.name} onChange={set("name")} placeholder="e.g. The Troubadour" />
+          </div>
+          <div className="grid grid-cols-2 gap-3">
+            <div className="space-y-1.5">
+              <label className="text-xs text-muted-foreground font-medium">City *</label>
+              <Input value={form.city} onChange={set("city")} placeholder="e.g. Los Angeles" />
+            </div>
+            <div className="space-y-1.5">
+              <label className="text-xs text-muted-foreground font-medium">State</label>
+              <Input value={form.state} onChange={set("state")} placeholder="e.g. CA" />
+            </div>
+          </div>
+          <div className="grid grid-cols-2 gap-3">
+            <div className="space-y-1.5">
+              <label className="text-xs text-muted-foreground font-medium">Show Date *</label>
+              <Input type="date" value={form.performance_date} onChange={set("performance_date")} />
+            </div>
+            <div className="space-y-1.5">
+              <label className="text-xs text-muted-foreground font-medium">Show Time</label>
+              <Input value={form.performance_time} onChange={set("performance_time")} placeholder="e.g. 9:00 PM" />
+            </div>
+          </div>
+          <div className="grid grid-cols-2 gap-3">
+            <div className="space-y-1.5">
+              <label className="text-xs text-muted-foreground font-medium">Payout ($)</label>
+              <Input type="number" value={form.payout_amount} onChange={set("payout_amount")} placeholder="0.00" />
+            </div>
+            <div className="space-y-1.5">
+              <label className="text-xs text-muted-foreground font-medium">Payout Structure</label>
+              <select value={form.payout_structure} onChange={set("payout_structure")} className="w-full h-9 rounded-md border border-input bg-transparent px-3 text-sm text-foreground focus:outline-none focus:ring-1 focus:ring-ring">
+                {["Flat Fee", "Door Deal", "Guarantee + % of Door", "Revenue Share"].map(s => <option key={s}>{s}</option>)}
+              </select>
+            </div>
+          </div>
+          <div className="space-y-1.5">
+            <label className="text-xs text-muted-foreground font-medium">Capacity</label>
+            <Input type="number" value={form.capacity} onChange={set("capacity")} placeholder="e.g. 400" />
+          </div>
+          <div className="space-y-1.5">
+            <label className="text-xs text-muted-foreground font-medium">Notes</label>
+            <textarea value={form.notes} onChange={set("notes")} rows={2}
+              className="w-full rounded-md border border-input bg-transparent px-3 py-2 text-sm text-foreground focus:outline-none focus:ring-1 focus:ring-ring resize-none" />
+          </div>
+        </div>
+        <div className="flex gap-2 pt-1">
+          <Button
+            onClick={() => onSave({
+              ...form,
+              payout_amount: form.payout_amount ? Number(form.payout_amount) : null,
+              capacity: form.capacity ? Number(form.capacity) : null,
+            })}
+            disabled={!form.name || !form.city || !form.performance_date}
+            className="flex-1"
+          >
+            <Mic2 className="h-4 w-4 mr-2" />Add Show
+          </Button>
+          <Button variant="ghost" onClick={onClose}>Cancel</Button>
+        </div>
+      </motion.div>
+    </div>
+  );
+}
+
 // ─── Main page ────────────────────────────────────────────────────────────────
 export default function TourPlanner() {
   const [currentMonth, setCurrentMonth] = useState(moment().startOf("month"));
@@ -259,6 +346,7 @@ export default function TourPlanner() {
   const [tasks, setTasks] = useState([]);
   const [loading, setLoading] = useState(true);
   const [modal, setModal] = useState(null); // { date, task? }
+  const [showModal, setShowModal] = useState(false);
   const [dragging, setDragging] = useState(null); // task being dragged
   const [routeData, setRouteData] = useState({}); // key: "fromCity|toCity" -> { distanceMiles, durationHours }
   const [routeLoading, setRouteLoading] = useState({}); // same key -> bool
@@ -350,6 +438,12 @@ export default function TourPlanner() {
     setTasks(prev => prev.filter(t => t.id !== id));
   };
 
+  const handleSaveShow = async (data) => {
+    const created = await base44.entities.Venue.create(data);
+    setVenues(prev => [...prev, created]);
+    setShowModal(false);
+  };
+
   const handleToggleDone = async (task) => {
     const newStatus = task.status === "Done" ? "Todo" : "Done";
     const updated = await base44.entities.TourLogisticsTask.update(task.id, { status: newStatus });
@@ -428,6 +522,12 @@ export default function TourPlanner() {
           onClose={() => setModal(null)}
         />
       )}
+      {showModal && (
+        <AddShowModal
+          onSave={handleSaveShow}
+          onClose={() => setShowModal(false)}
+        />
+      )}
 
       <div className="max-w-6xl mx-auto space-y-6">
         {/* Header */}
@@ -444,7 +544,7 @@ export default function TourPlanner() {
               routeData={routeData}
               travelGapsByDate={travelGapsByDate}
             />
-            <Button variant="outline" onClick={() => setModal({ date: today, prefill: { category: "Soundcheck" } })} className="gap-2 shrink-0">
+            <Button variant="outline" onClick={() => setShowModal(true)} className="gap-2 shrink-0">
               <Mic2 className="h-4 w-4" />Add Show
             </Button>
             <Button onClick={() => setModal({ date: today })} className="gap-2 shrink-0">
