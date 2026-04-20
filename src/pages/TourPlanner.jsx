@@ -162,7 +162,7 @@ function TravelGap({ from, to, route, loading }) {
 
   return (
     <div className={`rounded-md px-2 py-1 border text-[10px] space-y-0.5 ${
-      isVeryLong ? "bg-red-500/10 border-red-500/25 text-red-400" :
+      isVeryLong ? "bg-yellow-500/10 border-yellow-500/25 text-yellow-400" :
       isLong     ? "bg-yellow-500/10 border-yellow-500/25 text-yellow-400" :
                    "bg-orange-500/10 border-orange-500/20 text-orange-400"
     }`}>
@@ -791,7 +791,7 @@ export default function TourPlanner() {
         <div className="flex flex-wrap gap-3 text-xs">
           <span className="flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-primary/10 border border-primary/20 text-primary"><Mic2 className="h-3 w-3" />Confirmed Show</span>
           <span className="flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-orange-500/10 border border-orange-500/20 text-orange-400"><ArrowRight className="h-3 w-3" />Travel Gap</span>
-          <span className="flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-red-500/10 border border-red-500/20 text-red-400"><AlertTriangle className="h-3 w-3" />Long Haul (&gt;8h)</span>
+          <span className="flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-yellow-500/10 border border-yellow-500/20 text-yellow-400"><AlertTriangle className="h-3 w-3" />Long Haul (&gt;8h)</span>
           {Object.entries(CATEGORIES).slice(0, 4).map(([name, cfg]) => {
             const Icon = cfg.icon;
             return <span key={name} className={`flex items-center gap-1.5 px-2.5 py-1 rounded-full ${cfg.bg} ${cfg.border} ${cfg.color}`}><Icon className="h-3 w-3" />{name}</span>;
