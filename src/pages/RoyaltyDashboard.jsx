@@ -87,7 +87,8 @@ export default function RoyaltyDashboard() {
   }, []);
 
   const handleFile = async (file) => {
-    if (!file || !periodLabel) return;
+    if (!file) return;
+    const label = periodLabel.trim() || file.name.replace(/\.[^/.]+$/, "");
     setUploading(true);
     const text = await file.text();
     const rawRows = parseCSV(text);
@@ -95,7 +96,7 @@ export default function RoyaltyDashboard() {
     const total = rows.reduce((s, r) => s + r.earnings, 0);
     const record = await base44.entities.RoyaltyStatement.create({
       distributor,
-      period_label: periodLabel,
+      period_label: label,
       total_earnings: total,
       rows,
       raw_filename: file.name,
