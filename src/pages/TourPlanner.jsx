@@ -735,8 +735,8 @@ export default function TourPlanner() {
           const r = routeData[key];
           return r && (r.durationHours > 8 || r.distanceMiles > 500);
         }) && (
-          <div className="rounded-2xl bg-red-500/5 border border-red-500/20 p-4 space-y-2">
-            <p className="text-xs font-semibold text-red-400 flex items-center gap-2">
+          <div className="rounded-2xl bg-yellow-500/10 border border-yellow-500/30 p-4 space-y-2">
+            <p className="text-xs font-semibold text-yellow-500 flex items-center gap-2">
               <AlertTriangle className="h-3.5 w-3.5" />Long-Haul Travel Warnings
             </p>
             {Object.entries(travelGapsByDate).map(([date, { from, to }]) => {
@@ -747,7 +747,7 @@ export default function TourPlanner() {
               const mins = Math.round((r.durationHours - hrs) * 60);
               const durStr = mins > 0 ? `${hrs}h ${mins}m` : `${hrs}h`;
               return (
-                <div key={date} className="flex items-center gap-2 text-xs text-red-300">
+                <div key={date} className="flex items-center gap-2 text-xs text-yellow-600">
                   <span className="text-muted-foreground w-16 shrink-0">{moment(date).format("MMM D")}</span>
                   <span>{from.city} → {to.city}</span>
                   <span className="ml-auto font-semibold">{r.distanceMiles} mi · {durStr}</span>
