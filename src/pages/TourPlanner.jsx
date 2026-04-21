@@ -136,12 +136,12 @@ function TaskModal({ task, date, prefill, venues, onSave, onClose }) {
 }
 
 // ─── Show badge inside day ────────────────────────────────────────────────────
-function ShowBadge({ venue }) {
+function ShowBadge({ venue, onClick }) {
   return (
-    <div className="flex items-center gap-1 rounded-md px-2 py-1 bg-primary/15 border border-primary/30 text-[10px] font-semibold text-primary truncate">
+    <button onClick={onClick} className="w-full flex items-center gap-1 rounded-md px-2 py-1 bg-primary/15 border border-primary/30 text-[10px] font-semibold text-primary truncate hover:bg-primary/25 transition-colors text-left">
       <Mic2 className="h-2.5 w-2.5 shrink-0" />
-      <span className="truncate">{venue.name}</span>
-    </div>
+      <span className="truncate flex-1">{venue.name}</span>
+    </button>
   );
 }
 
@@ -162,7 +162,7 @@ function TravelGap({ from, to, route, loading }) {
 
   return (
     <div className={`rounded-md px-2 py-1 border text-[10px] space-y-0.5 ${
-      isVeryLong ? "bg-red-500/10 border-red-500/25 text-red-400" :
+      isVeryLong ? "bg-yellow-500/10 border-yellow-500/25 text-yellow-400" :
       isLong     ? "bg-yellow-500/10 border-yellow-500/25 text-yellow-400" :
                    "bg-orange-500/10 border-orange-500/20 text-orange-400"
     }`}>
@@ -184,7 +184,7 @@ function TravelGap({ from, to, route, loading }) {
 }
 
 // ─── Day cell ─────────────────────────────────────────────────────────────────
-function DayCell({ dateStr, isCurrentMonth, isToday, shows, travelGap, travelRoute, travelLoading, tasks, onAddTask, onEditTask, onDeleteTask, onToggleDone, onDragOver, onDrop, onDragStart }) {
+function DayCell({ dateStr, isCurrentMonth, isToday, shows, travelGap, travelRoute, travelLoading, tasks, onAddTask, onEditTask, onDeleteTask, onToggleDone, onDragOver, onDrop, onDragStart, onEditShow }) {
   const [dragOver, setDragOver] = useState(false);
 
   const handleDragOver = (e) => {
@@ -225,7 +225,7 @@ function DayCell({ dateStr, isCurrentMonth, isToday, shows, travelGap, travelRou
       </div>
 
       {/* Shows */}
-      {shows.map(v => <ShowBadge key={v.id} venue={v} />)}
+      {shows.map(v => <ShowBadge key={v.id} venue={v} onClick={() => onEditShow(v)} />)}
 
       {/* Travel gap */}
       {travelGap && <TravelGap from={travelGap.from} to={travelGap.to} route={travelRoute} loading={travelLoading} />}
@@ -252,6 +252,188 @@ function DayCell({ dateStr, isCurrentMonth, isToday, shows, travelGap, travelRou
   );
 }
 
+// ─── Edit Show Modal ─────────────────────────────────────────────────────────
+function EditShowModal({ venue, onSave, onDelete, onClose }) {
+  const [form, setForm] = useState({
+    name: venue.name || "",
+    city: venue.city || "",
+    state: venue.state || "",
+    performance_date: venue.performance_date ? moment(venue.performance_date).format("YYYY-MM-DD") : "",
+    performance_time: venue.performance_time || "",
+    payout_amount: venue.payout_amount || "",
+    payout_structure: venue.payout_structure || "Flat Fee",
+    capacity: venue.capacity || "",
+    notes: venue.notes || "",
+    status: venue.status || "Booked",
+  });
+  const [confirmDelete, setConfirmDelete] = useState(false);
+  const set = (k) => (e) => setForm(f => ({ ...f, [k]: e.target?.value ?? e }));
+
+  return (
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 backdrop-blur-sm" onClick={onClose}>
+      <motion.div initial={{ opacity: 0, scale: 0.96 }} animate={{ opacity: 1, scale: 1 }}
+        className="bg-card border border-border rounded-2xl p-6 w-full max-w-lg space-y-4 shadow-2xl"
+        onClick={e => e.stopPropagation()}>
+        <div className="flex items-center justify-between">
+          <div>
+            <p className="font-heading font-bold text-lg">Edit Show</p>
+            <p className="text-xs text-muted-foreground">{venue.name}</p>
+          </div>
+          <button onClick={onClose}><X className="h-4 w-4 text-muted-foreground" /></button>
+        </div>
+        <div className="space-y-3">
+          <div className="space-y-1.5">
+            <label className="text-xs text-muted-foreground font-medium">Venue Name *</label>
+            <Input value={form.name} onChange={set("name")} placeholder="e.g. The Troubadour" />
+          </div>
+          <div className="grid grid-cols-2 gap-3">
+            <div className="space-y-1.5">
+              <label className="text-xs text-muted-foreground font-medium">City *</label>
+              <Input value={form.city} onChange={set("city")} placeholder="e.g. Los Angeles" />
+            </div>
+            <div className="space-y-1.5">
+              <label className="text-xs text-muted-foreground font-medium">State</label>
+              <Input value={form.state} onChange={set("state")} placeholder="e.g. CA" />
+            </div>
+          </div>
+          <div className="grid grid-cols-2 gap-3">
+            <div className="space-y-1.5">
+              <label className="text-xs text-muted-foreground font-medium">Show Date *</label>
+              <Input type="date" value={form.performance_date} onChange={set("performance_date")} />
+            </div>
+            <div className="space-y-1.5">
+              <label className="text-xs text-muted-foreground font-medium">Show Time</label>
+              <Input value={form.performance_time} onChange={set("performance_time")} placeholder="e.g. 9:00 PM" />
+            </div>
+          </div>
+          <div className="grid grid-cols-2 gap-3">
+            <div className="space-y-1.5">
+              <label className="text-xs text-muted-foreground font-medium">Payout ($)</label>
+              <Input type="number" value={form.payout_amount} onChange={set("payout_amount")} placeholder="0.00" />
+            </div>
+            <div className="space-y-1.5">
+              <label className="text-xs text-muted-foreground font-medium">Status</label>
+              <select value={form.status} onChange={set("status")} className="w-full h-9 rounded-md border border-input bg-transparent px-3 text-sm text-foreground focus:outline-none focus:ring-1 focus:ring-ring">
+                {["Booked", "Performed", "Cancelled"].map(s => <option key={s}>{s}</option>)}
+              </select>
+            </div>
+          </div>
+          <div className="space-y-1.5">
+            <label className="text-xs text-muted-foreground font-medium">Notes</label>
+            <textarea value={form.notes} onChange={set("notes")} rows={2}
+              className="w-full rounded-md border border-input bg-transparent px-3 py-2 text-sm text-foreground focus:outline-none focus:ring-1 focus:ring-ring resize-none" />
+          </div>
+        </div>
+        <div className="flex gap-2 pt-1">
+          <Button
+            onClick={() => onSave(form)}
+            disabled={!form.name || !form.city || !form.performance_date}
+            className="flex-1"
+          >
+            <Check className="h-4 w-4 mr-2" />Save Changes
+          </Button>
+          {confirmDelete ? (
+            <Button variant="destructive" onClick={() => onDelete(venue.id)} className="gap-1">
+              Confirm Delete
+            </Button>
+          ) : (
+            <Button variant="outline" onClick={() => setConfirmDelete(true)} className="text-destructive border-destructive/30 hover:bg-destructive/10 gap-1">
+              <X className="h-4 w-4" />Delete
+            </Button>
+          )}
+        </div>
+      </motion.div>
+    </div>
+  );
+}
+
+// ─── Add Show Modal ───────────────────────────────────────────────────────────
+function AddShowModal({ onSave, onClose }) {
+  const [form, setForm] = useState({
+    name: "", city: "", state: "", performance_date: moment().format("YYYY-MM-DD"),
+    performance_time: "", payout_amount: "", payout_structure: "Flat Fee",
+    capacity: "", notes: "", status: "Booked",
+  });
+  const set = (k) => (e) => setForm(f => ({ ...f, [k]: e.target?.value ?? e }));
+
+  return (
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 backdrop-blur-sm" onClick={onClose}>
+      <motion.div initial={{ opacity: 0, scale: 0.96 }} animate={{ opacity: 1, scale: 1 }}
+        className="bg-card border border-border rounded-2xl p-6 w-full max-w-lg space-y-4 shadow-2xl"
+        onClick={e => e.stopPropagation()}>
+        <div className="flex items-center justify-between">
+          <div>
+            <p className="font-heading font-bold text-lg">Add Show</p>
+            <p className="text-xs text-muted-foreground">This will appear on the calendar as a confirmed show.</p>
+          </div>
+          <button onClick={onClose}><X className="h-4 w-4 text-muted-foreground" /></button>
+        </div>
+        <div className="space-y-3">
+          <div className="space-y-1.5">
+            <label className="text-xs text-muted-foreground font-medium">Venue Name *</label>
+            <Input value={form.name} onChange={set("name")} placeholder="e.g. The Troubadour" />
+          </div>
+          <div className="grid grid-cols-2 gap-3">
+            <div className="space-y-1.5">
+              <label className="text-xs text-muted-foreground font-medium">City *</label>
+              <Input value={form.city} onChange={set("city")} placeholder="e.g. Los Angeles" />
+            </div>
+            <div className="space-y-1.5">
+              <label className="text-xs text-muted-foreground font-medium">State</label>
+              <Input value={form.state} onChange={set("state")} placeholder="e.g. CA" />
+            </div>
+          </div>
+          <div className="grid grid-cols-2 gap-3">
+            <div className="space-y-1.5">
+              <label className="text-xs text-muted-foreground font-medium">Show Date *</label>
+              <Input type="date" value={form.performance_date} onChange={set("performance_date")} />
+            </div>
+            <div className="space-y-1.5">
+              <label className="text-xs text-muted-foreground font-medium">Show Time</label>
+              <Input value={form.performance_time} onChange={set("performance_time")} placeholder="e.g. 9:00 PM" />
+            </div>
+          </div>
+          <div className="grid grid-cols-2 gap-3">
+            <div className="space-y-1.5">
+              <label className="text-xs text-muted-foreground font-medium">Payout ($)</label>
+              <Input type="number" value={form.payout_amount} onChange={set("payout_amount")} placeholder="0.00" />
+            </div>
+            <div className="space-y-1.5">
+              <label className="text-xs text-muted-foreground font-medium">Payout Structure</label>
+              <select value={form.payout_structure} onChange={set("payout_structure")} className="w-full h-9 rounded-md border border-input bg-transparent px-3 text-sm text-foreground focus:outline-none focus:ring-1 focus:ring-ring">
+                {["Flat Fee", "Door Deal", "Guarantee + % of Door", "Revenue Share"].map(s => <option key={s}>{s}</option>)}
+              </select>
+            </div>
+          </div>
+          <div className="space-y-1.5">
+            <label className="text-xs text-muted-foreground font-medium">Capacity</label>
+            <Input type="number" value={form.capacity} onChange={set("capacity")} placeholder="e.g. 400" />
+          </div>
+          <div className="space-y-1.5">
+            <label className="text-xs text-muted-foreground font-medium">Notes</label>
+            <textarea value={form.notes} onChange={set("notes")} rows={2}
+              className="w-full rounded-md border border-input bg-transparent px-3 py-2 text-sm text-foreground focus:outline-none focus:ring-1 focus:ring-ring resize-none" />
+          </div>
+        </div>
+        <div className="flex gap-2 pt-1">
+          <Button
+            onClick={() => onSave({
+              ...form,
+              payout_amount: form.payout_amount ? Number(form.payout_amount) : null,
+              capacity: form.capacity ? Number(form.capacity) : null,
+            })}
+            disabled={!form.name || !form.city || !form.performance_date}
+            className="flex-1"
+          >
+            <Mic2 className="h-4 w-4 mr-2" />Add Show
+          </Button>
+          <Button variant="ghost" onClick={onClose}>Cancel</Button>
+        </div>
+      </motion.div>
+    </div>
+  );
+}
+
 // ─── Main page ────────────────────────────────────────────────────────────────
 export default function TourPlanner() {
   const [currentMonth, setCurrentMonth] = useState(moment().startOf("month"));
@@ -259,6 +441,8 @@ export default function TourPlanner() {
   const [tasks, setTasks] = useState([]);
   const [loading, setLoading] = useState(true);
   const [modal, setModal] = useState(null); // { date, task? }
+  const [showModal, setShowModal] = useState(false);
+  const [editingShow, setEditingShow] = useState(null);
   const [dragging, setDragging] = useState(null); // task being dragged
   const [routeData, setRouteData] = useState({}); // key: "fromCity|toCity" -> { distanceMiles, durationHours }
   const [routeLoading, setRouteLoading] = useState({}); // same key -> bool
@@ -350,6 +534,28 @@ export default function TourPlanner() {
     setTasks(prev => prev.filter(t => t.id !== id));
   };
 
+  const handleSaveShow = async (data) => {
+    const created = await base44.entities.Venue.create(data);
+    setVenues(prev => [...prev, created]);
+    setShowModal(false);
+  };
+
+  const handleUpdateShow = async (data) => {
+    const updated = await base44.entities.Venue.update(editingShow.id, {
+      ...data,
+      payout_amount: data.payout_amount ? Number(data.payout_amount) : null,
+      capacity: data.capacity ? Number(data.capacity) : null,
+    });
+    setVenues(prev => prev.map(v => v.id === editingShow.id ? updated : v));
+    setEditingShow(null);
+  };
+
+  const handleDeleteShow = async (id) => {
+    await base44.entities.Venue.delete(id);
+    setVenues(prev => prev.filter(v => v.id !== id));
+    setEditingShow(null);
+  };
+
   const handleToggleDone = async (task) => {
     const newStatus = task.status === "Done" ? "Todo" : "Done";
     const updated = await base44.entities.TourLogisticsTask.update(task.id, { status: newStatus });
@@ -428,6 +634,20 @@ export default function TourPlanner() {
           onClose={() => setModal(null)}
         />
       )}
+      {showModal && (
+        <AddShowModal
+          onSave={handleSaveShow}
+          onClose={() => setShowModal(false)}
+        />
+      )}
+      {editingShow && (
+        <EditShowModal
+          venue={editingShow}
+          onSave={handleUpdateShow}
+          onDelete={handleDeleteShow}
+          onClose={() => setEditingShow(null)}
+        />
+      )}
 
       <div className="max-w-6xl mx-auto space-y-6">
         {/* Header */}
@@ -444,7 +664,7 @@ export default function TourPlanner() {
               routeData={routeData}
               travelGapsByDate={travelGapsByDate}
             />
-            <Button variant="outline" onClick={() => setModal({ date: today, prefill: { category: "Soundcheck" } })} className="gap-2 shrink-0">
+            <Button variant="outline" onClick={() => setShowModal(true)} className="gap-2 shrink-0">
               <Mic2 className="h-4 w-4" />Add Show
             </Button>
             <Button onClick={() => setModal({ date: today })} className="gap-2 shrink-0">
@@ -515,8 +735,8 @@ export default function TourPlanner() {
           const r = routeData[key];
           return r && (r.durationHours > 8 || r.distanceMiles > 500);
         }) && (
-          <div className="rounded-2xl bg-red-500/5 border border-red-500/20 p-4 space-y-2">
-            <p className="text-xs font-semibold text-red-400 flex items-center gap-2">
+          <div className="rounded-2xl bg-yellow-500/10 border border-yellow-500/30 p-4 space-y-2">
+            <p className="text-xs font-semibold text-yellow-500 flex items-center gap-2">
               <AlertTriangle className="h-3.5 w-3.5" />Long-Haul Travel Warnings
             </p>
             {Object.entries(travelGapsByDate).map(([date, { from, to }]) => {
@@ -527,7 +747,7 @@ export default function TourPlanner() {
               const mins = Math.round((r.durationHours - hrs) * 60);
               const durStr = mins > 0 ? `${hrs}h ${mins}m` : `${hrs}h`;
               return (
-                <div key={date} className="flex items-center gap-2 text-xs text-red-300">
+                <div key={date} className="flex items-center gap-2 text-xs text-yellow-600">
                   <span className="text-muted-foreground w-16 shrink-0">{moment(date).format("MMM D")}</span>
                   <span>{from.city} → {to.city}</span>
                   <span className="ml-auto font-semibold">{r.distanceMiles} mi · {durStr}</span>
@@ -571,7 +791,7 @@ export default function TourPlanner() {
         <div className="flex flex-wrap gap-3 text-xs">
           <span className="flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-primary/10 border border-primary/20 text-primary"><Mic2 className="h-3 w-3" />Confirmed Show</span>
           <span className="flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-orange-500/10 border border-orange-500/20 text-orange-400"><ArrowRight className="h-3 w-3" />Travel Gap</span>
-          <span className="flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-red-500/10 border border-red-500/20 text-red-400"><AlertTriangle className="h-3 w-3" />Long Haul (&gt;8h)</span>
+          <span className="flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-yellow-500/10 border border-yellow-500/20 text-yellow-400"><AlertTriangle className="h-3 w-3" />Long Haul (&gt;8h)</span>
           {Object.entries(CATEGORIES).slice(0, 4).map(([name, cfg]) => {
             const Icon = cfg.icon;
             return <span key={name} className={`flex items-center gap-1.5 px-2.5 py-1 rounded-full ${cfg.bg} ${cfg.border} ${cfg.color}`}><Icon className="h-3 w-3" />{name}</span>;
@@ -619,7 +839,8 @@ export default function TourPlanner() {
                  onDragStart={setDragging}
                  onDragOver={() => {}}
                  onDrop={handleDrop}
-                />
+                 onEditShow={setEditingShow}
+                 />
               ))}
             </div>
           </>

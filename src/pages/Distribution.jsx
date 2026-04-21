@@ -84,6 +84,7 @@ function ChecklistGroup({ category, tasks, onToggle, onNote }) {
 }
 
 export default function Distribution() {
+  const [user, setUser] = useState(null);
   const [tasks, setTasks] = useState([]);
   const [loading, setLoading] = useState(true);
   const [selected, setSelected] = useState(null);
@@ -93,7 +94,11 @@ export default function Distribution() {
   const [copiedISRC, setCopiedISRC] = useState(false);
 
   useEffect(() => {
-    base44.entities.DistributionTask.list("-created_date", 30).then(setTasks).finally(() => setLoading(false));
+    base44.auth.me().then(async (u) => {
+      setUser(u);
+      const tasks = await base44.entities.DistributionTask.filter({ created_by: u.email }, "-created_date", 30);
+      setTasks(tasks);
+    }).finally(() => setLoading(false));
   }, []);
 
   const createRelease = async () => {

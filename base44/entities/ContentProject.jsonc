@@ -1,0 +1,42 @@
+{
+  "name": "ContentProject",
+  "type": "object",
+  "properties": {
+    "song_filename": {
+      "type": "string"
+    },
+    "song_file_url": {
+      "type": "string"
+    },
+    "vibe": {
+      "type": "string",
+      "enum": [
+        "aggressive",
+        "emotional",
+        "confident",
+        "storytelling"
+      ]
+    },
+    "audio_analysis": {
+      "type": "object"
+    },
+    "clips": {
+      "type": "array",
+      "items": {
+        "type": "object"
+      }
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "generating",
+        "complete"
+      ],
+      "default": "complete"
+    }
+  },
+  "required": [
+    "song_filename",
+    "vibe"
+  ]
+}

@@ -49,6 +49,10 @@ import AIVideoGenerator from './pages/AIVideoGenerator.jsx';
 import MusicAcademy from './pages/MusicAcademy';
 import Legal from './pages/Legal';
 import InvoiceManager from './pages/InvoiceManager';
+import ContentEngine from './pages/ContentEngine';
+import Soundcheck from './pages/Soundcheck';
+import Whiteboard from './pages/Whiteboard';
+import WhiteboardCanvas from './pages/WhiteboardCanvas';
 
 const AuthenticatedApp = () => {
   const { isLoadingAuth, isAuthenticated } = useAuth();
@@ -109,6 +113,10 @@ const AuthenticatedApp = () => {
         <Route path="/music-academy" element={<MusicAcademy />} />
         <Route path="/legal" element={<Legal />} />
         <Route path="/invoices" element={<InvoiceManager />} />
+        <Route path="/content-engine" element={<ContentEngine />} />
+        <Route path="/soundcheck" element={<Soundcheck />} />
+        <Route path="/whiteboard" element={<Whiteboard />} />
+        <Route path="/whiteboard/:boardId" element={<WhiteboardCanvas />} />
         <Route path="/community" element={<Community />} />
         <Route path="*" element={<PageNotFound />} />
       </Route>

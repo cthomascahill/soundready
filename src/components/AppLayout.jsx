@@ -4,8 +4,9 @@ import { base44 } from "@/api/base44Client";
 import {
   History, LogOut, BarChart2, CalendarDays, LineChart, Music2, DollarSign,
   FileText, Send, Mic2, MapPin, BookOpen, ChevronDown, Home, Info, Wand2,
-  Link2, TrendingUp, Zap, CreditCard, UserCircle, Building2, Users, ScrollText, CalendarRange, Mail, ShoppingBag, Receipt
+  Link2, TrendingUp, Zap, CreditCard, UserCircle, Building2, Users, ScrollText, CalendarRange, Mail, ShoppingBag, Receipt, Film, Layout
 } from "lucide-react";
+import SoundReadyLogo from "@/components/SoundReadyLogo";
 
 const PRIMARY_NAV = [
   { to: "/release-plan", icon: Zap, label: "Release Plan" },
@@ -18,10 +19,10 @@ const CATEGORY_DROPDOWNS = [
     label: "Create",
     items: [
       { to: "/distribution", icon: Send, label: "Distribution" },
-      { to: "/budget", icon: DollarSign, label: "Budget Tracker" },
       { to: "/mastering", icon: Wand2, label: "AI Mastering" },
+      { to: "/content-engine", icon: Film, label: "Content Engine" },
+      { to: "/whiteboard", icon: Layout, label: "Whiteboard" },
       { to: "/scheduler", icon: CalendarDays, label: "Content Scheduler" },
-      { to: "/newsletter", icon: Mail, label: "Newsletter Builder" },
       { to: "/history", icon: History, label: "Song Library" },
     ],
   },
@@ -37,6 +38,7 @@ const CATEGORY_DROPDOWNS = [
       { to: "/collabs", icon: Users, label: "Collab Finder" },
       { to: "/collab-workspace", icon: Users, label: "Collab Workspace" },
       { to: "/email-campaigns", icon: Mail, label: "Email Campaigns" },
+      { to: "/newsletter", icon: Mail, label: "Newsletter Builder" },
     ],
   },
   {
@@ -46,6 +48,7 @@ const CATEGORY_DROPDOWNS = [
       { to: "/tour-opportunities", icon: Music2, label: "Tour Opportunities" },
       { to: "/tour-planner", icon: CalendarRange, label: "Tour Planner" },
       { to: "/tour-finance", icon: DollarSign, label: "Tour Finance" },
+      { to: "/soundcheck", icon: Mic2, label: "Soundcheck" },
     ],
   },
   {
@@ -70,7 +73,7 @@ const CATEGORY_DROPDOWNS = [
     items: [
       { to: "/algorithm-guide", icon: BookOpen, label: "Algorithm Guide" },
       { to: "/music-academy", icon: Mic2, label: "Music Academy" },
-      { to: "/community", icon: Users, label: "Community" },
+
     ],
   },
 ];
@@ -97,9 +100,7 @@ export default function AppLayout() {
     <div className="min-h-screen bg-background font-body">
       <header className="sticky top-0 z-40 border-b border-border/50 bg-background/90 backdrop-blur-xl">
         <div className="max-w-6xl mx-auto px-4 h-14 flex items-center justify-between">
-          <Link to="/" className="font-heading font-bold text-lg text-foreground flex items-center gap-1.5 shrink-0">
-            <span className="text-primary">Sound</span>Ready
-          </Link>
+          <Link to="/"><SoundReadyLogo size={28} /></Link>
 
           <div className="flex items-center gap-0.5">
             {PRIMARY_NAV.map(({ to, icon: Icon, label }) => (

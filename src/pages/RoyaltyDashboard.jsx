@@ -12,26 +12,68 @@ const PLATFORM_COLORS = {
 };
 
 const DISTRIBUTOR_COLUMNS = {
-  DistroKid: { song: ["Song/Album", "Title", "Song Title"], platform: ["Store", "Platform", "Service"], streams: ["Streams", "Plays"], earnings: ["Earnings (USD)", "Amount", "Net Revenue", "Earnings"] },
-  TuneCore: { song: ["Title", "Recording", "Song"], platform: ["Store", "Platform"], streams: ["Streams", "Units"], earnings: ["Net Revenue", "Earnings", "Amount (USD)"] },
-  "CD Baby": { song: ["Track Title", "Title"], platform: ["Store", "Platform"], streams: ["Streams", "Downloads"], earnings: ["Net Revenue", "Royalties"] },
-  Other: { song: ["Title", "Song", "Track"], platform: ["Platform", "Store", "Service"], streams: ["Streams", "Plays", "Units"], earnings: ["Earnings", "Revenue", "Amount"] },
+  DistroKid: { song: ["Song/Album", "Title", "Song Title", "song/album", "title"], platform: ["Store", "Platform", "Service", "store"], streams: ["Streams", "Plays", "streams"], earnings: ["Earnings (USD)", "Amount", "Net Revenue", "Earnings", "earnings (usd)", "earnings"] },
+  TuneCore: { song: ["Title", "Recording", "Song", "Track Title", "track title"], platform: ["Store", "Platform", "store"], streams: ["Streams", "Units", "streams"], earnings: ["Net Revenue", "Earnings", "Amount (USD)", "net revenue"] },
+  "CD Baby": { song: ["Track Title", "Title", "Song", "track title"], platform: ["Store", "Platform", "store"], streams: ["Streams", "Downloads", "streams"], earnings: ["Net Revenue", "Royalties", "net revenue"] },
+  Amuse: { song: ["Track", "Title", "Song", "Track Title"], platform: ["Platform", "Store", "Service"], streams: ["Streams", "Plays"], earnings: ["Revenue", "Earnings", "Net Revenue", "Amount"] },
+  Other: { song: ["Title", "Song", "Track", "Song Title", "Track Title", "Recording", "song_title", "track_title"], platform: ["Platform", "Store", "Service", "platform", "store"], streams: ["Streams", "Plays", "Units", "streams", "plays"], earnings: ["Earnings", "Revenue", "Amount", "Net Revenue", "Royalties", "earnings", "revenue", "amount"] },
 };
 
+function parseCSVLine(line, delimiter) {
+  const result = [];
+  let cur = "";
+  let inQuotes = false;
+  for (let i = 0; i < line.length; i++) {
+    const ch = line[i];
+    if (ch === '"') {
+      if (inQuotes && line[i + 1] === '"') { cur += '"'; i++; }
+      else inQuotes = !inQuotes;
+    } else if (ch === delimiter && !inQuotes) {
+      result.push(cur.trim());
+      cur = "";
+    } else {
+      cur += ch;
+    }
+  }
+  result.push(cur.trim());
+  return result;
+}
+
 function parseCSV(text) {
-  const lines = text.trim().split("\n");
-  const headers = lines[0].split(",").map((h) => h.replace(/['"]/g, "").trim());
+  // Normalize line endings
+  const normalized = text.replace(/\r\n/g, "\n").replace(/\r/g, "\n");
+  const lines = normalized.split("\n").filter((l) => l.trim().length > 0);
+  if (lines.length < 2) return [];
+
+  // Auto-detect delimiter (tab vs comma)
+  const firstLine = lines[0];
+  const delimiter = (firstLine.split("\t").length > firstLine.split(",").length) ? "\t" : ",";
+
+  const headers = parseCSVLine(lines[0], delimiter).map((h) => h.replace(/^["']|["']$/g, "").trim());
+  
   return lines.slice(1).map((line) => {
-    const vals = line.split(",").map((v) => v.replace(/['"]/g, "").trim());
+    const vals = parseCSVLine(line, delimiter);
     const obj = {};
-    headers.forEach((h, i) => { obj[h] = vals[i] || ""; });
+    headers.forEach((h, i) => { obj[h] = (vals[i] || "").replace(/^["']|["']$/g, "").trim(); });
     return obj;
-  });
+  }).filter((row) => Object.values(row).some((v) => v !== ""));
 }
 
 function findColumn(row, options) {
+  // Exact match first
   for (const opt of options) {
-    if (row[opt] !== undefined) return opt;
+    if (row[opt] !== undefined && row[opt] !== "") return opt;
+  }
+  // Case-insensitive fallback
+  const keys = Object.keys(row);
+  for (const opt of options) {
+    const found = keys.find((k) => k.toLowerCase() === opt.toLowerCase());
+    if (found && row[found] !== undefined && row[found] !== "") return found;
+  }
+  // Partial match fallback
+  for (const opt of options) {
+    const found = keys.find((k) => k.toLowerCase().includes(opt.toLowerCase()) || opt.toLowerCase().includes(k.toLowerCase()));
+    if (found && row[found] !== undefined && row[found] !== "") return found;
   }
   return null;
 }
@@ -69,32 +111,61 @@ const fmt = (n) => n >= 1000 ? `$${(n / 1000).toFixed(1)}k` : `$${n.toFixed(2)}`
 const fmtStreams = (n) => n >= 1000000 ? `${(n / 1000000).toFixed(1)}M` : n >= 1000 ? `${(n / 1000).toFixed(0)}K` : n.toString();
 
 export default function RoyaltyDashboard() {
+  const [user, setUser] = useState(null);
   const [statements, setStatements] = useState([]);
   const [loading, setLoading] = useState(true);
   const [uploading, setUploading] = useState(false);
   const [showUpload, setShowUpload] = useState(false);
   const [distributor, setDistributor] = useState("DistroKid");
   const [periodLabel, setPeriodLabel] = useState("");
+  const [uploadError, setUploadError] = useState("");
   const fileRef = useRef(null);
 
   useEffect(() => {
-    base44.entities.RoyaltyStatement.list("-created_date", 50).then(setStatements).finally(() => setLoading(false));
+    base44.auth.me().then(async (u) => {
+      setUser(u);
+      const data = await base44.entities.RoyaltyStatement.filter({ created_by: u.email }, "-created_date", 50);
+      setStatements(data);
+    }).finally(() => setLoading(false));
   }, []);
 
   const handleFile = async (file) => {
-    if (!file || !periodLabel) return;
+    if (!file) return;
+    setUploadError("");
+    const label = periodLabel.trim() || file.name.replace(/\.[^/.]+$/, "");
     setUploading(true);
     const text = await file.text();
     const rawRows = parseCSV(text);
+
+    if (rawRows.length === 0) {
+      setUploadError("Could not read any rows from this file. Make sure it's a valid CSV or TSV export.");
+      setUploading(false);
+      return;
+    }
+
     const rows = processRows(rawRows, distributor);
+
+    if (rows.length === 0) {
+      // Try Other as fallback
+      const fallbackRows = processRows(rawRows, "Other");
+      if (fallbackRows.length === 0) {
+        const colNames = Object.keys(rawRows[0] || {}).join(", ");
+        setUploadError(`No recognizable data found. Detected columns: ${colNames || "none"}. Try selecting "Other" as distributor.`);
+        setUploading(false);
+        return;
+      }
+      // Use fallback rows
+      const total = fallbackRows.reduce((s, r) => s + r.earnings, 0);
+      const record = await base44.entities.RoyaltyStatement.create({ distributor, period_label: label, total_earnings: total, rows: fallbackRows, raw_filename: file.name });
+      setStatements((prev) => [record, ...prev]);
+      setShowUpload(false);
+      setPeriodLabel("");
+      setUploading(false);
+      return;
+    }
+
     const total = rows.reduce((s, r) => s + r.earnings, 0);
-    const record = await base44.entities.RoyaltyStatement.create({
-      distributor,
-      period_label: periodLabel,
-      total_earnings: total,
-      rows,
-      raw_filename: file.name,
-    });
+    const record = await base44.entities.RoyaltyStatement.create({ distributor, period_label: label, total_earnings: total, rows, raw_filename: file.name });
     setStatements((prev) => [record, ...prev]);
     setShowUpload(false);
     setPeriodLabel("");
@@ -145,7 +216,7 @@ export default function RoyaltyDashboard() {
             <h1 className="font-heading text-4xl font-bold">Royalty Dashboard</h1>
             <p className="text-muted-foreground">Upload CSV royalty statements from your distributor and visualize earnings by platform and song.</p>
           </div>
-          <Button onClick={() => setShowUpload(true)} className="gap-2"><Upload className="h-4 w-4" />Upload Statement</Button>
+          <Button onClick={() => { setShowUpload(true); setUploadError(""); }} className="gap-2"><Upload className="h-4 w-4" />Upload Statement</Button>
         </motion.div>
 
         {/* Upload modal */}
@@ -185,8 +256,13 @@ export default function RoyaltyDashboard() {
                   Processing CSV...
                 </div>
               )}
+              {uploadError && (
+                <div className="rounded-lg bg-destructive/10 border border-destructive/20 px-3 py-2 text-xs text-destructive">
+                  {uploadError}
+                </div>
+              )}
               <div className="flex gap-2">
-                <Button variant="ghost" onClick={() => setShowUpload(false)}>Cancel</Button>
+                <Button variant="ghost" onClick={() => { setShowUpload(false); setUploadError(""); }}>Cancel</Button>
               </div>
             </motion.div>
           </div>

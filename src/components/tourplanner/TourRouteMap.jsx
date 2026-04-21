@@ -1,6 +1,6 @@
-import { useMemo } from "react";
-import { MapContainer, TileLayer, Marker, Popup, Polyline, Circle } from "react-leaflet";
-import { AlertTriangle, Calendar, Navigation, MapPin, Home } from "lucide-react";
+import { useMemo, useState, useEffect } from "react";
+import { MapContainer, TileLayer, Marker, Popup, Polyline } from "react-leaflet";
+import { AlertTriangle, Calendar, Navigation } from "lucide-react";
 import moment from "moment";
 import L from "leaflet";
 import { divIcon } from "leaflet";
@@ -13,24 +13,50 @@ L.Icon.Default.mergeOptions({
   shadowUrl: "https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-shadow.png",
 });
 
+async function geocodeCity(city, state) {
+  const query = state ? `${city}, ${state}, USA` : `${city}, USA`;
+  const url = `https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(query)}&limit=1`;
+  const res = await fetch(url, { headers: { "Accept-Language": "en" } });
+  const data = await res.json();
+  if (data && data[0]) return [parseFloat(data[0].lat), parseFloat(data[0].lon)];
+  return null;
+}
+
 export default function TourRouteMap({ venues, routeData, travelGapsByDate, pinnedVenues = [], homeBase = null }) {
+  const [coordsCache, setCoordsCache] = useState({});
+
+  const sorted = useMemo(() =>
+    venues
+      .filter(v => v.performance_date && v.city)
+      .sort((a, b) => moment(a.performance_date).diff(moment(b.performance_date))),
+    [venues]
+  );
+
+  // Geocode all cities we don't have coords for yet
+  useEffect(() => {
+    sorted.forEach(v => {
+      const key = `${v.city}|${v.state || ""}`;
+      if (coordsCache[key] !== undefined) return;
+      // Mark as loading so we don't double-fetch
+      setCoordsCache(prev => ({ ...prev, [key]: null }));
+      geocodeCity(v.city, v.state).then(coords => {
+        setCoordsCache(prev => ({ ...prev, [key]: coords }));
+      });
+    });
+  }, [sorted]);
+
   const mapData = useMemo(() => {
-    if (!venues.length) return null;
+    if (!sorted.length) return null;
 
-    const sorted = venues
-      .filter(v => v.performance_date)
-      .sort((a, b) => moment(a.performance_date).diff(moment(b.performance_date)));
+    const venuesWithCoords = sorted.map(v => {
+      const key = `${v.city}|${v.state || ""}`;
+      const coords = coordsCache[key];
+      return coords ? { ...v, _coords: coords } : null;
+    }).filter(Boolean);
 
-    const coords = sorted
-      .map(v => {
-        // Approximate lat/lng from city (simplified - in production use a geocoding service)
-        const cityLat = { "New York": 40.7128, "Los Angeles": 34.0522, "Chicago": 41.8781, "Nashville": 36.1627, "Austin": 30.2672, "Denver": 39.7392, "Seattle": 47.6062, "Atlanta": 33.749 };
-        const cityLng = { "New York": -74.006, "Los Angeles": -118.2437, "Chicago": -87.6298, "Nashville": -86.7816, "Austin": -97.7431, "Denver": -104.9903, "Seattle": -122.3321, "Atlanta": -84.388 };
-        return [cityLat[v.city] || 40, cityLng[v.city] || -74];
-      })
-      .filter(c => c[0]);
+    if (!venuesWithCoords.length) return null;
 
-    const bounds = coords.length > 0 ? [coords[0], coords[coords.length - 1]] : null;
+    const coords = venuesWithCoords.map(v => v._coords);
 
     // Detect scheduling conflicts
     const conflicts = [];
@@ -38,36 +64,34 @@ export default function TourRouteMap({ venues, routeData, travelGapsByDate, pinn
       const curr = sorted[i];
       const next = sorted[i + 1];
       const daysBetween = moment(next.performance_date).diff(moment(curr.performance_date), "days");
-      
       if (daysBetween < 1) {
-        conflicts.push({
-          from: curr.name,
-          to: next.name,
-          issue: "Same day shows in different cities",
-          severity: "critical",
-        });
+        conflicts.push({ from: curr.name, to: next.name, issue: "Same day shows in different cities", severity: "critical" });
       } else if (daysBetween === 1) {
         const key = `${curr.city},${curr.state}|${next.city},${next.state}`;
         const route = routeData[key];
         if (route && route.durationHours > 8) {
-          conflicts.push({
-            from: curr.name,
-            to: next.name,
-            issue: `Long drive (${Math.round(route.durationHours)}h). Only 1 day between shows.`,
-            severity: "warning",
-          });
+          conflicts.push({ from: curr.name, to: next.name, issue: `Long drive (${Math.round(route.durationHours)}h). Only 1 day between shows.`, severity: "warning" });
         }
       }
     }
 
-    return { sorted, coords, bounds, conflicts };
-  }, [venues, routeData]);
+    return { sorted: venuesWithCoords, coords, conflicts };
+  }, [sorted, coordsCache, routeData]);
 
-  if (!mapData || mapData.coords.length === 0) {
+  if (!sorted.length) {
     return (
       <div className="rounded-2xl bg-card border border-border p-8 text-center">
         <Navigation className="h-8 w-8 text-muted-foreground/30 mx-auto mb-2" />
         <p className="text-muted-foreground text-sm">Add venues with performance dates to visualize the tour route.</p>
+      </div>
+    );
+  }
+
+  if (!mapData) {
+    return (
+      <div className="rounded-2xl bg-card border border-border p-8 text-center">
+        <div className="h-6 w-6 border-2 border-primary/20 border-t-primary rounded-full animate-spin mx-auto mb-2" />
+        <p className="text-muted-foreground text-sm">Locating venues on map...</p>
       </div>
     );
   }
@@ -143,8 +167,8 @@ export default function TourRouteMap({ venues, routeData, travelGapsByDate, pinn
           ))}
 
           {/* Venue markers */}
-          {mapData.sorted.map((v, idx) => (
-            <Marker key={v.id} position={[mapData.coords[idx][0], mapData.coords[idx][1]]}>
+          {mapData.sorted.map((v) => (
+            <Marker key={v.id} position={v._coords}>
               <Popup>
                 <div className="text-xs space-y-1 p-2">
                   <p className="font-bold">{v.name}</p>

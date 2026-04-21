@@ -14,10 +14,10 @@ export default function ContentScheduler() {
   const [hashtagInput, setHashtagInput] = useState("");
 
   useEffect(() => {
-    base44.entities.ScheduledPost.list("-scheduled_date", 50).then(data => {
+    base44.auth.me().then(async (u) => {
+      const data = await base44.entities.ScheduledPost.filter({ created_by: u.email }, "-scheduled_date", 50);
       setPosts(data);
-      setLoading(false);
-    });
+    }).finally(() => setLoading(false));
   }, []);
 
   const handleAddPost = async () => {
