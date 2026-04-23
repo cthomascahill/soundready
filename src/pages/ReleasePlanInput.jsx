@@ -4,7 +4,7 @@ import { motion } from "framer-motion";
 import { base44 } from "@/api/base44Client";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Upload, Music2, Sparkles, Activity, CheckCircle2 } from "lucide-react";
+import { Upload, Music2, Sparkles, Activity, CheckCircle2, FileText, Mic2 } from "lucide-react";
 
 export default function ReleasePlanInput() {
   const navigate = useNavigate();
@@ -19,6 +19,7 @@ export default function ReleasePlanInput() {
     description: "",
   });
   const [audioFile, setAudioFile] = useState(null);
+  const [lyrics, setLyrics] = useState("");
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -36,10 +37,29 @@ export default function ReleasePlanInput() {
         analyzeAudio(audioFile),
       ]);
 
+      // If no lyrics pasted, try AssemblyAI transcription
+      let finalLyrics = lyrics.trim();
+      let lyricsSource = finalLyrics ? "pasted" : null;
+
+      if (!finalLyrics) {
+        setAnalysisStep("transcribing");
+        try {
+          const res = await base44.functions.invoke("transcribeAudio", { audio_url: uploadRes.file_url });
+          if (res.data?.transcript) {
+            finalLyrics = res.data.transcript;
+            lyricsSource = "transcribed";
+          }
+        } catch (_) {
+          // proceed without lyrics if transcription fails
+        }
+      }
+
       setAnalysisStep("generating");
 
-      const report = await generateReleasePlan(form, audioAnalysis);
+      const report = await generateReleasePlan(form, audioAnalysis, finalLyrics, lyricsSource);
       report._audioData = audioAnalysis;
+      report._lyrics = finalLyrics;
+      report._lyricsSource = lyricsSource;
 
       navigate("/results", {
         state: {
@@ -62,6 +82,12 @@ export default function ReleasePlanInput() {
     }
   };
 
+  const stepLabel = {
+    analyzing: "Analyzing Audio...",
+    transcribing: "Transcribing Vocals...",
+    generating: "Generating Plan...",
+  };
+
   return (
     <div className="min-h-screen bg-background px-4 py-10">
       <div className="max-w-2xl mx-auto space-y-8">
@@ -77,6 +103,7 @@ export default function ReleasePlanInput() {
           onSubmit={handleSubmit}
           className="rounded-2xl bg-card border border-border p-8 space-y-6"
         >
+          {/* Song Information */}
           <div className="space-y-4">
             <h2 className="font-heading font-bold text-lg">Song Information</h2>
             <Input
@@ -118,6 +145,7 @@ export default function ReleasePlanInput() {
             />
           </div>
 
+          {/* Audio Upload */}
           <div className="space-y-4">
             <h2 className="font-heading font-bold text-lg">Upload Audio</h2>
             <label className="block">
@@ -135,10 +163,29 @@ export default function ReleasePlanInput() {
             </label>
           </div>
 
+          {/* Lyrics Section */}
+          <div className="space-y-3">
+            <div className="flex items-center gap-2">
+              <FileText className="h-4 w-4 text-muted-foreground" />
+              <h2 className="font-heading font-bold text-lg">Lyrics</h2>
+              <span className="text-xs text-muted-foreground ml-1">(optional but recommended)</span>
+            </div>
+            <p className="text-xs text-muted-foreground">
+              Paste your lyrics for deeper analysis. If you skip this, we'll auto-transcribe vocals from your audio using AssemblyAI.
+            </p>
+            <textarea
+              placeholder="Paste your lyrics (optional but recommended for deeper analysis)"
+              value={lyrics}
+              onChange={(e) => setLyrics(e.target.value)}
+              className="w-full h-40 rounded-lg border border-input bg-card px-3 py-2 text-sm text-foreground resize-none focus:outline-none focus:ring-1 focus:ring-ring font-mono"
+            />
+          </div>
+
+          {/* Loading state */}
           {loading && (
             <div className="rounded-xl bg-primary/5 border border-primary/20 p-4 space-y-3">
               <div className="flex items-center gap-3">
-                {analysisStep === "analyzing" ? (
+                {analysisStep === "analyzing" && (
                   <>
                     <Activity className="h-4 w-4 text-primary animate-pulse shrink-0" />
                     <div>
@@ -146,20 +193,34 @@ export default function ReleasePlanInput() {
                       <p className="text-xs text-muted-foreground">Extracting BPM, key, energy, danceability and more</p>
                     </div>
                   </>
-                ) : (
+                )}
+                {analysisStep === "transcribing" && (
+                  <>
+                    <Mic2 className="h-4 w-4 text-chart-5 animate-pulse shrink-0" />
+                    <div>
+                      <p className="text-sm font-semibold text-chart-5">Transcribing vocals…</p>
+                      <p className="text-xs text-muted-foreground">AssemblyAI is reading your lyrics from the audio</p>
+                    </div>
+                  </>
+                )}
+                {analysisStep === "generating" && (
                   <>
                     <Sparkles className="h-4 w-4 text-primary animate-pulse shrink-0" />
                     <div>
                       <p className="text-sm font-semibold text-primary">Generating release plan…</p>
-                      <p className="text-xs text-muted-foreground">AI is interpreting your real audio data</p>
+                      <p className="text-xs text-muted-foreground">A&R analysis in progress — reading your audio and lyrics</p>
                     </div>
                   </>
                 )}
               </div>
               <div className="flex gap-3 text-xs text-muted-foreground">
-                <span className={`flex items-center gap-1 ${analysisStep === "generating" ? "text-primary" : ""}`}>
-                  <CheckCircle2 className={`h-3.5 w-3.5 ${analysisStep === "generating" ? "text-primary" : "text-muted-foreground"}`} />
+                <span className={`flex items-center gap-1 ${["transcribing", "generating"].includes(analysisStep) ? "text-primary" : ""}`}>
+                  <CheckCircle2 className={`h-3.5 w-3.5 ${["transcribing", "generating"].includes(analysisStep) ? "text-primary" : "text-muted-foreground"}`} />
                   Audio analyzed
+                </span>
+                <span className={`flex items-center gap-1 ${analysisStep === "generating" ? "text-chart-5" : analysisStep === "transcribing" ? "text-chart-5 animate-pulse" : "opacity-40"}`}>
+                  <Mic2 className="h-3.5 w-3.5" />
+                  Vocals transcribed
                 </span>
                 <span className={`flex items-center gap-1 ${analysisStep === "generating" ? "text-muted-foreground animate-pulse" : "opacity-40"}`}>
                   <Sparkles className="h-3.5 w-3.5" />
@@ -178,7 +239,7 @@ export default function ReleasePlanInput() {
             {loading ? (
               <>
                 <div className="h-4 w-4 border-2 border-primary-foreground/20 border-t-primary-foreground rounded-full animate-spin" />
-                {analysisStep === "analyzing" ? "Analyzing Audio..." : "Generating Plan..."}
+                {stepLabel[analysisStep] || "Processing..."}
               </>
             ) : (
               <>
@@ -192,8 +253,8 @@ export default function ReleasePlanInput() {
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
           {[
             { icon: Activity, title: "Real Data", desc: "BPM, key, energy from your actual file" },
-            { icon: Sparkles, title: "AI-Powered", desc: "Claude interprets the real numbers" },
-            { icon: Music2, title: "Actionable", desc: "Every insight tied to your audio" },
+            { icon: Mic2, title: "Vocal Analysis", desc: "Auto-transcribes your lyrics if not provided" },
+            { icon: Music2, title: "A&R Report", desc: "Written like a real music industry professional" },
           ].map((item, i) => (
             <div key={i} className="rounded-lg bg-card border border-border p-4 text-center space-y-2">
               <item.icon className="h-6 w-6 text-primary mx-auto" />
@@ -255,32 +316,38 @@ async function analyzeAudio(file) {
   };
 }
 
-async function generateReleasePlan(form, audio) {
-  const userPrompt = `
-REAL AUDIO ANALYSIS DATA (extracted from the actual audio file):
-- BPM: ${audio.bpm ?? "unavailable"}
-- Key: ${audio.key ?? "unavailable"}
+async function generateReleasePlan(form, audio, lyrics, lyricsSource) {
+  const lyricsSection = lyrics
+    ? `LYRICS (${lyricsSource === "transcribed" ? "auto-transcribed from audio" : "provided by artist"}):\n${lyrics}`
+    : "LYRICS: Not available";
+
+  const systemPrompt = `You are a senior A&R representative at a major label with 15 years of experience signing and developing artists. You have just personally listened to this track. You are writing your internal notes on it — honest, specific, human, and direct. You reference real details from the audio data and lyrics provided. You do not write like an AI. You do not use generic phrases like "this track showcases" or "the artist demonstrates" or "overall this is a strong effort." You write like a real person who genuinely heard something and has an opinion about it. Your tone is like a smart music industry friend giving real talk — encouraging where it's deserved, honest where it needs work.`;
+
+  const userPrompt = `${systemPrompt}
+
+AUDIO ANALYSIS DATA:
+- BPM: ${audio.bpm}
+- Key: ${audio.key}
 - Duration: ${audio.duration ? `${audio.duration}s` : "unavailable"}
 - Bitrate: ${audio.bitrate ? `${audio.bitrate} bps` : "unavailable"}
-- Energy (0–1): ${audio.energy?.toFixed(3) ?? "unavailable"}
-- Danceability (0–1): ${audio.danceability?.toFixed(3) ?? "unavailable"}
-- Valence / mood brightness (0–1): ${audio.valence?.toFixed(3) ?? "unavailable"}
-- Loudness: ${audio.loudness ? `${audio.loudness} LUFS` : "unavailable"}
-- Energy profile: ${audio.energyProfile ?? "unavailable"}
-- Song structure: ${audio.songStructure ?? "unavailable"}
-- Waveform (8-section normalized energy): ${JSON.stringify(audio.waveformData)}
-- Top hook moments: ${JSON.stringify(audio.hookMoments)}
+- Energy (0–1): ${audio.energy}
+- Danceability (0–1): ${audio.danceability}
+- Valence / mood brightness (0–1): ${audio.valence}
+- Loudness: ${audio.loudness} LUFS
+- Waveform sections (8-part normalized energy): ${JSON.stringify(audio.waveformData)}
+- Hook moments: ${JSON.stringify(audio.hookMoments)}
+
+${lyricsSection}
 
 ARTIST CONTEXT:
 - Title: ${form.title}
 - Artist: ${form.artist}
 - Genre: ${form.genre || "not specified"}
 - Target release date: ${form.targetReleaseDate || "not specified"}
-- Audience notes: ${form.audienceNotes || "not specified"}
-- Production notes: ${form.description || "none"}
+- Audience: ${form.audienceNotes || "not specified"}
+- Notes: ${form.description || "none"}
 
-You are a music industry expert specializing in Spotify's algorithm and independent artist growth strategy. Use the real audio numbers above to ground every insight — do not guess or generalize. Return a complete release strategy JSON.
-`;
+Write your A&R notes as the JSON structure requested. Be specific, human, and direct. Reference actual numbers from the audio data. If lyrics are provided, quote specific lines. Do not be generic.`;
 
   const report = await base44.integrations.Core.InvokeLLM({
     prompt: userPrompt,
@@ -288,8 +355,14 @@ You are a music industry expert specializing in Spotify's algorithm and independ
     response_json_schema: {
       type: "object",
       properties: {
+        firstImpression: { type: "string" },
+        songIdentity: { type: "string" },
         algorithmScore: { type: "number" },
         algorithmBreakdown: { type: "string" },
+        lyricsAnalysis: { type: "string" },
+        strengths: { type: "array", items: { type: "string" } },
+        weaknesses: { type: "array", items: { type: "string" } },
+        recommendations: { type: "array", items: { type: "string" } },
         releasePlan: {
           type: "object",
           properties: {
@@ -303,14 +376,13 @@ You are a music industry expert specializing in Spotify's algorithm and independ
             },
           },
         },
-        strengths: { type: "array", items: { type: "string" } },
-        weaknesses: { type: "array", items: { type: "string" } },
-        recommendations: { type: "array", items: { type: "string" } },
-        energyProfile: { type: "string" },
-        moodTag: { type: "string" },
         comparableArtists: { type: "array", items: { type: "string" } },
         playlistTargets: { type: "array", items: { type: "string" } },
+        energyProfile: { type: "string" },
+        moodTag: { type: "string" },
         songStructure: { type: "string" },
+        verdict: { type: "string" },
+        // Legacy fields for existing components
         algorithm_outlook: { type: "array", items: { type: "string" } },
         best_clip_moments: {
           type: "array",
@@ -335,11 +407,15 @@ You are a music industry expert specializing in Spotify's algorithm and independ
     },
   });
 
+  // Normalize legacy fields
   if (!report.similar_artists?.length && report.comparableArtists?.length) {
     report.similar_artists = report.comparableArtists;
   }
-  if (!report.algorithm_outlook?.length && report.algorithmBreakdown) {
-    report.algorithm_outlook = [report.algorithmBreakdown, ...(report.strengths || [])];
+  if (!report.algorithm_outlook?.length) {
+    report.algorithm_outlook = [
+      report.algorithmBreakdown,
+      ...(report.strengths || []),
+    ].filter(Boolean);
   }
   if (!report.release_day && report.releasePlan?.idealReleaseDay) {
     report.release_day = report.releasePlan.idealReleaseDay;
@@ -350,6 +426,9 @@ You are a music industry expert specializing in Spotify's algorithm and independ
       day: `Week ${t.week}`,
       action: t.action,
     }));
+  }
+  if (!report.bottom_line && report.verdict) {
+    report.bottom_line = report.verdict;
   }
 
   return report;

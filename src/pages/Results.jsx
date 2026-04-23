@@ -24,6 +24,9 @@ import BottomLine from "../components/report/BottomLine";
 import CollabPanel from "../components/collab/CollabPanel";
 import CommentThread from "../components/collab/CommentThread";
 import RawAudioData from "../components/report/RawAudioData";
+import FirstImpression from "../components/report/FirstImpression";
+import LyricsAnalysis from "../components/report/LyricsAnalysis";
+import Verdict from "../components/report/Verdict";
 
 export default function Results() {
   const { state } = useLocation();
@@ -89,6 +92,16 @@ export default function Results() {
         {/* Real audio data card */}
         <RawAudioData audioData={song.audioData || report._audioData} />
 
+        {/* First Impression — A&R notes */}
+        <FirstImpression text={report.firstImpression} />
+
+        {/* Lyrics Analysis — right after first impression */}
+        <LyricsAnalysis
+          lyricsAnalysis={report.lyricsAnalysis}
+          lyricsText={report._lyrics}
+          lyricsSource={report._lyricsSource}
+        />
+
         {/* Score — upgraded */}
         <ScoreDisplay genre={song.genre} energy={song.energy} song={song} />
 
@@ -120,6 +133,9 @@ export default function Results() {
         <SocialAssetGenerator song={song} />
         <CollabSuggestions song={song} similarArtists={report.similar_artists} />
         <BottomLine text={report.bottom_line} />
+
+        {/* Verdict — closing statement */}
+        <Verdict text={report.verdict} />
 
         {/* Collaboration section */}
         <CollabPanel songAnalysisId={savedId} songTitle={song.title} currentUser={currentUser} />
