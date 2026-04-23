@@ -23,6 +23,7 @@ import StickyActionBar from "../components/report/StickyActionBar";
 import BottomLine from "../components/report/BottomLine";
 import CollabPanel from "../components/collab/CollabPanel";
 import CommentThread from "../components/collab/CommentThread";
+import RawAudioData from "../components/report/RawAudioData";
 
 export default function Results() {
   const { state } = useLocation();
@@ -84,6 +85,9 @@ export default function Results() {
           <h1 className="font-heading text-4xl font-bold">{song.title}</h1>
           <p className="text-muted-foreground">{song.artist} · {song.genre} · {song.mood} · {song.energy} Energy</p>
         </motion.div>
+
+        {/* Real audio data card */}
+        <RawAudioData audioData={song.audioData || report._audioData} />
 
         {/* Score — upgraded */}
         <ScoreDisplay genre={song.genre} energy={song.energy} song={song} />
