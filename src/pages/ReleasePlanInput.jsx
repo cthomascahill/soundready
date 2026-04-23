@@ -61,9 +61,46 @@ export default function ReleasePlanInput() {
       report._lyrics = finalLyrics;
       report._lyricsSource = lyricsSource;
 
+      // Auto-save to song library immediately after analysis completes
+      const energyNum = audioAnalysis.energy || 0;
+      const energyLevel = energyNum > 0.66 ? "high" : energyNum > 0.33 ? "medium" : "low";
+
+      const savedRecord = await base44.entities.SongAnalysis.create({
+        title: form.title,
+        artist_name: form.artist,
+        genre: form.genre || "",
+        mood: audioAnalysis.moodTag || "",
+        energy_level: energyLevel,
+        song_description: form.description || "",
+        file_url: uploadRes.file_url,
+        bpm: audioAnalysis.bpm || null,
+        key: audioAnalysis.key || "",
+        duration: audioAnalysis.duration || null,
+        loudness: audioAnalysis.loudness || null,
+        energy: audioAnalysis.energy || null,
+        danceability: audioAnalysis.danceability || null,
+        valence: audioAnalysis.valence || null,
+        waveform_data: audioAnalysis.waveformData || [],
+        energy_profile: audioAnalysis.energyProfile || "",
+        mood_tag: audioAnalysis.moodTag || "",
+        lyrics: finalLyrics || "",
+        lyrics_source: lyricsSource || "",
+        similar_artists: report.similar_artists || report.comparableArtists || [],
+        algorithm_outlook: (report.algorithm_outlook || []).join("\n"),
+        content_ideas: (report.content_video_ideas || []).map(v => `${v.title} (${v.platform}): ${v.description}`).join("\n\n"),
+        release_recommendations: `${report.release_day || ""} — ${report.release_day_reason || ""}\n\n` + (report.pre_release_plan || []).map(d => `${d.day}: ${d.action}`).join("\n"),
+        playlist_pitch: report.playlist_pitch || "",
+        first_impression: report.firstImpression || "",
+        lyrics_analysis: report.lyricsAnalysis || "",
+        verdict: report.verdict || "",
+        full_report: report,
+        status: "complete",
+      });
+
       navigate("/results", {
         state: {
           report,
+          savedId: savedRecord.id,
           song: {
             title: form.title,
             artist: form.artist,

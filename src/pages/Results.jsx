@@ -26,8 +26,8 @@ export default function Results() {
   const { state } = useLocation();
   const navigate = useNavigate();
   const [saving, setSaving] = useState(false);
-  const [saved, setSaved] = useState(false);
-  const [savedId, setSavedId] = useState(null);
+  const [saved, setSaved] = useState(!!state?.savedId);
+  const [savedId, setSavedId] = useState(state?.savedId || null);
   const [currentUser, setCurrentUser] = useState(null);
 
   useEffect(() => {
@@ -47,20 +47,47 @@ export default function Results() {
   const { report, song } = state;
 
   const handleSave = async () => {
-    if (saved || saving) return;
+    if (saving) return;
     setSaving(true);
+    // If already auto-saved, just mark as saved (no duplicate)
+    if (savedId) {
+      setSaved(true);
+      setSaving(false);
+      return;
+    }
+    // Fallback: manual save if auto-save somehow didn't run
+    const audioData = song.audioData || report._audioData || {};
+    const energyNum = audioData.energy || 0;
+    const energyLevel = energyNum > 0.66 ? "high" : energyNum > 0.33 ? "medium" : "low";
     const record = await base44.entities.SongAnalysis.create({
       title: song.title,
       artist_name: song.artist,
-      genre: song.genre,
-      mood: song.mood,
-      energy_level: song.energy?.toLowerCase(),
-      song_description: song.description,
-      algorithm_outlook: report.algorithm_outlook?.join("\n"),
-      content_ideas: report.content_video_ideas?.map((v) => `${v.title} (${v.platform}): ${v.description}`).join("\n\n"),
-      release_recommendations: `${report.release_day} — ${report.release_day_reason}\n\n` + (report.pre_release_plan || []).map((d) => `${d.day}: ${d.action}`).join("\n"),
-      playlist_pitch: report.playlist_pitch,
-      similar_artists: report.similar_artists,
+      genre: song.genre || "",
+      mood: audioData.moodTag || "",
+      energy_level: energyLevel,
+      song_description: song.description || "",
+      file_url: song.audioUrl || "",
+      bpm: audioData.bpm || null,
+      key: audioData.key || "",
+      duration: audioData.duration || null,
+      loudness: audioData.loudness || null,
+      energy: audioData.energy || null,
+      danceability: audioData.danceability || null,
+      valence: audioData.valence || null,
+      waveform_data: audioData.waveformData || [],
+      energy_profile: audioData.energyProfile || "",
+      mood_tag: audioData.moodTag || "",
+      lyrics: report._lyrics || "",
+      lyrics_source: report._lyricsSource || "",
+      similar_artists: report.similar_artists || [],
+      algorithm_outlook: (report.algorithm_outlook || []).join("\n"),
+      content_ideas: (report.content_video_ideas || []).map((v) => `${v.title} (${v.platform}): ${v.description}`).join("\n\n"),
+      release_recommendations: `${report.release_day || ""} — ${report.release_day_reason || ""}\n\n` + (report.pre_release_plan || []).map((d) => `${d.day}: ${d.action}`).join("\n"),
+      playlist_pitch: report.playlist_pitch || "",
+      first_impression: report.firstImpression || "",
+      lyrics_analysis: report.lyricsAnalysis || "",
+      verdict: report.verdict || "",
+      full_report: report,
       status: "complete",
     });
     setSavedId(record.id);
