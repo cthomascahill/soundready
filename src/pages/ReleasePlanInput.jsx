@@ -280,69 +280,67 @@ async function getAudioDuration(file) {
 }
 
 async function analyzeAudio(file) {
-  // Decode audio using Web Audio API for real amplitude data
+  // Get real duration first (fast, no full decode)
+  const duration = await getAudioDuration(file);
+
+  // Decode audio at a low sample rate to keep processing fast and memory-light
   const arrayBuffer = await file.arrayBuffer();
-  const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-  const audioBuffer = await audioCtx.decodeAudioData(arrayBuffer);
-  await audioCtx.close();
+  const TARGET_SAMPLE_RATE = 8000; // 8kHz is enough for amplitude envelope
+  const offlineCtx = new OfflineAudioContext(1, Math.ceil((duration || 180) * TARGET_SAMPLE_RATE), TARGET_SAMPLE_RATE);
+  const source = offlineCtx.createBufferSource();
 
-  const duration = audioBuffer.duration;
-  const sampleRate = audioBuffer.sampleRate;
+  // Decode at native rate first, then the OfflineAudioContext resamples on render
+  const nativeCtx = new (window.AudioContext || window.webkitAudioContext)();
+  const nativeBuffer = await nativeCtx.decodeAudioData(arrayBuffer);
+  await nativeCtx.close();
 
-  // Mix down to mono
-  const numChannels = audioBuffer.numberOfChannels;
-  const totalSamples = audioBuffer.length;
-  const mono = new Float32Array(totalSamples);
-  for (let ch = 0; ch < numChannels; ch++) {
-    const channelData = audioBuffer.getChannelData(ch);
-    for (let i = 0; i < totalSamples; i++) {
-      mono[i] += channelData[i] / numChannels;
-    }
-  }
+  source.buffer = nativeBuffer;
+  source.connect(offlineCtx.destination);
+  source.start(0);
+  const renderedBuffer = await offlineCtx.startRendering();
 
-  // Compute RMS amplitude in 200 equal windows → normalized waveformData
+  const channelData = renderedBuffer.getChannelData(0);
+  const totalSamples = channelData.length;
+
+  // Compute RMS in 200 windows for real amplitude envelope
   const NUM_POINTS = 200;
-  const windowSize = Math.floor(totalSamples / NUM_POINTS);
-  const waveformData = [];
-  let maxRms = 0;
+  const windowSize = Math.max(1, Math.floor(totalSamples / NUM_POINTS));
   const rmsRaw = [];
+  let maxRms = 0;
+
   for (let i = 0; i < NUM_POINTS; i++) {
     const start = i * windowSize;
     const end = Math.min(start + windowSize, totalSamples);
     let sumSq = 0;
-    for (let j = start; j < end; j++) sumSq += mono[j] * mono[j];
+    for (let j = start; j < end; j++) sumSq += channelData[j] * channelData[j];
     const rms = Math.sqrt(sumSq / (end - start));
     rmsRaw.push(rms);
     if (rms > maxRms) maxRms = rms;
   }
-  for (const rms of rmsRaw) {
-    waveformData.push(maxRms > 0 ? parseFloat((rms / maxRms).toFixed(4)) : 0);
-  }
 
-  // Derive simple metrics from the real audio data
-  const avgAmplitude = rmsRaw.reduce((a, b) => a + b, 0) / rmsRaw.length;
-  const energy = parseFloat(Math.min(1, (avgAmplitude / (maxRms || 1))).toFixed(3));
+  const waveformData = rmsRaw.map(rms =>
+    parseFloat((maxRms > 0 ? rms / maxRms : 0).toFixed(4))
+  );
+
+  // Derive metrics from real data
+  const avgRms = rmsRaw.reduce((a, b) => a + b, 0) / rmsRaw.length;
+  const energy = parseFloat(Math.min(1, maxRms > 0 ? avgRms / maxRms : 0.5).toFixed(3));
   const loudness = parseFloat((-14 - (1 - energy) * 6).toFixed(1));
+  const danceability = parseFloat(Math.min(1, energy * 1.1).toFixed(3));
+  const valence = parseFloat(Math.min(1, 0.3 + energy * 0.7).toFixed(3));
 
-  // BPM and key: deterministic from real file size + duration (no fake randomness)
-  const seed = Math.round(duration * 100) % 1000;
+  const seed = Math.round((duration || 180) * 100) % 1000;
   const bpm = 85 + (seed % 80);
   const keys = ["C Major", "G Major", "D Major", "A Minor", "E Minor", "F Major", "Bb Major", "C Minor"];
   const key = keys[seed % keys.length];
+  const bitrate = duration ? Math.round((file.size * 8) / duration) : null;
 
-  const danceability = parseFloat(Math.min(1, energy * 1.1).toFixed(3));
-  const valence = parseFloat(Math.min(1, 0.3 + energy * 0.7).toFixed(3));
-  const bitrate = Math.round((file.size * 8) / duration);
-
-  // Find hook moments from real amplitude peaks
   const peakIdx = rmsRaw.reduce((maxI, v, i, arr) => v > arr[maxI] ? i : maxI, 0);
-  const peakTime = Math.round((peakIdx / NUM_POINTS) * duration);
-  const hookMoments = [
-    {
-      timestamp: `${Math.floor(peakTime / 60)}:${(peakTime % 60).toString().padStart(2, "0")}`,
-      description: "Loudest moment / energy peak",
-    },
-  ];
+  const peakTime = Math.round((peakIdx / NUM_POINTS) * (duration || 180));
+  const hookMoments = [{
+    timestamp: `${Math.floor(peakTime / 60)}:${(peakTime % 60).toString().padStart(2, "0")}`,
+    description: "Loudest moment / energy peak",
+  }];
 
   return {
     bpm,
@@ -357,7 +355,7 @@ async function analyzeAudio(file) {
     hookMoments,
     energyProfile: energy > 0.7 ? "High intensity throughout" : energy > 0.5 ? "Mid-range energy with dynamic moments" : "Mellow, lower-energy feel",
     moodTag: valence > 0.6 ? "Uplifting" : valence > 0.4 ? "Balanced" : "Melancholic",
-    songStructure: `${Math.floor(duration / 60)}:${Math.round(duration % 60).toString().padStart(2, "0")} runtime`,
+    songStructure: duration ? `${Math.floor(duration / 60)}:${Math.round(duration % 60).toString().padStart(2, "0")} runtime` : "Unknown",
     averageEnergy: energy,
     peakEnergy: parseFloat(Math.min(1, energy + 0.15).toFixed(3)),
   };
