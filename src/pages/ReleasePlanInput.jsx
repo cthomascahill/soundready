@@ -260,7 +260,7 @@ async function generateReleasePlan(form, audio) {
 REAL AUDIO ANALYSIS DATA (extracted from the actual audio file):
 - BPM: ${audio.bpm ?? "unavailable"}
 - Key: ${audio.key ?? "unavailable"}
-- Duration: ${audio.duration ? `${audio.duration.toFixed(1)}s` : "unavailable"}
+- Duration: ${audio.duration ? `${audio.duration}s` : "unavailable"}
 - Bitrate: ${audio.bitrate ? `${audio.bitrate} bps` : "unavailable"}
 - Energy (0–1): ${audio.energy?.toFixed(3) ?? "unavailable"}
 - Danceability (0–1): ${audio.danceability?.toFixed(3) ?? "unavailable"}
@@ -284,7 +284,7 @@ You are a music industry expert specializing in Spotify's algorithm and independ
 
   const report = await base44.integrations.Core.InvokeLLM({
     prompt: userPrompt,
-    model: "gpt_5",
+    model: "claude_sonnet_4_6",
     response_json_schema: {
       type: "object",
       properties: {
