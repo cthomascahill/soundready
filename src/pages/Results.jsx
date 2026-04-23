@@ -3,12 +3,7 @@ import { useState, useEffect } from "react";
 import { base44 } from "@/api/base44Client";
 import { motion } from "framer-motion";
 import AlgorithmOutlook from "../components/report/AlgorithmOutlook";
-import BestClipMoments from "../components/report/BestClipMoments";
-import ContentVideoIdeas from "../components/report/ContentVideoIdeas";
-import ReleaseRecommendations from "../components/report/ReleaseRecommendations";
 import PlaylistPitch from "../components/report/PlaylistPitch";
-import SocialCaptions from "../components/report/SocialCaptions";
-import SocialPreview from "../components/report/SocialPreview";
 import CollabSuggestions from "../components/report/CollabSuggestions";
 import WaveformVisual from "../components/report/WaveformVisual";
 import ScoreDisplay from "../components/report/ScoreDisplay";
@@ -17,10 +12,9 @@ import SimilarArtistsRadar from "../components/report/SimilarArtistsRadar";
 import ReleaseChecklist from "../components/report/ReleaseChecklist";
 import TikTokScripts from "../components/report/TikTokScripts";
 import VisualIdentity from "../components/report/VisualIdentity";
-import MoneyMoves from "../components/report/MoneyMoves";
 import SocialAssetGenerator from "../components/report/SocialAssetGenerator";
 import StickyActionBar from "../components/report/StickyActionBar";
-import BottomLine from "../components/report/BottomLine";
+
 import CollabPanel from "../components/collab/CollabPanel";
 import CommentThread from "../components/collab/CommentThread";
 import RawAudioData from "../components/report/RawAudioData";
@@ -117,29 +111,18 @@ export default function Results() {
 
         {/* All sections */}
         <AlgorithmOutlook data={report.algorithm_outlook} song={song} />
-        <BestClipMoments data={report.best_clip_moments} />
-        <ContentVideoIdeas data={report.content_video_ideas} />
-        <ReleaseRecommendations
-          releaseDay={report.release_day}
-          releaseDayReason={report.release_day_reason}
-          plan={report.pre_release_plan}
-        />
         <PlaylistPitch
           pitch={report.playlist_pitch}
           tags={report.genre_mood_tags}
           artists={report.similar_artists}
           song={song}
         />
-        <SocialCaptions captions={report.captions} />
-        <SocialPreview captions={report.captions} song={song} />
         <SimilarArtistsRadar artists={report.similar_artists} song={song} />
         <ReleaseChecklist song={song} />
-        <TikTokScripts song={song} />
+        <TikTokScripts song={song} tiktokScripts={report.tiktok_scripts} />
         <VisualIdentity song={song} />
-        <MoneyMoves song={song} />
         <SocialAssetGenerator song={song} />
         <CollabSuggestions song={song} similarArtists={report.similar_artists} />
-        <BottomLine text={report.bottom_line} />
 
         {/* Verdict — closing statement */}
         <Verdict text={report.verdict} />
