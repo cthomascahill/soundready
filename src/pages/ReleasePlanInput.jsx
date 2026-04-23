@@ -276,7 +276,7 @@ You are a music industry expert specializing in Spotify's algorithm and independ
 
   const report = await base44.integrations.Core.InvokeLLM({
     prompt: userPrompt,
-    model: "claude_sonnet_4_6",
+    model: "gpt_5",
     response_json_schema: {
       type: "object",
       properties: {
