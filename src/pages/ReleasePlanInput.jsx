@@ -280,19 +280,69 @@ async function getAudioDuration(file) {
 }
 
 async function analyzeAudio(file) {
-  const duration = await getAudioDuration(file);
-  const seed = file.size % 1000;
+  // Decode audio using Web Audio API for real amplitude data
+  const arrayBuffer = await file.arrayBuffer();
+  const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+  const audioBuffer = await audioCtx.decodeAudioData(arrayBuffer);
+  await audioCtx.close();
+
+  const duration = audioBuffer.duration;
+  const sampleRate = audioBuffer.sampleRate;
+
+  // Mix down to mono
+  const numChannels = audioBuffer.numberOfChannels;
+  const totalSamples = audioBuffer.length;
+  const mono = new Float32Array(totalSamples);
+  for (let ch = 0; ch < numChannels; ch++) {
+    const channelData = audioBuffer.getChannelData(ch);
+    for (let i = 0; i < totalSamples; i++) {
+      mono[i] += channelData[i] / numChannels;
+    }
+  }
+
+  // Compute RMS amplitude in 200 equal windows → normalized waveformData
+  const NUM_POINTS = 200;
+  const windowSize = Math.floor(totalSamples / NUM_POINTS);
+  const waveformData = [];
+  let maxRms = 0;
+  const rmsRaw = [];
+  for (let i = 0; i < NUM_POINTS; i++) {
+    const start = i * windowSize;
+    const end = Math.min(start + windowSize, totalSamples);
+    let sumSq = 0;
+    for (let j = start; j < end; j++) sumSq += mono[j] * mono[j];
+    const rms = Math.sqrt(sumSq / (end - start));
+    rmsRaw.push(rms);
+    if (rms > maxRms) maxRms = rms;
+  }
+  for (const rms of rmsRaw) {
+    waveformData.push(maxRms > 0 ? parseFloat((rms / maxRms).toFixed(4)) : 0);
+  }
+
+  // Derive simple metrics from the real audio data
+  const avgAmplitude = rmsRaw.reduce((a, b) => a + b, 0) / rmsRaw.length;
+  const energy = parseFloat(Math.min(1, (avgAmplitude / (maxRms || 1))).toFixed(3));
+  const loudness = parseFloat((-14 - (1 - energy) * 6).toFixed(1));
+
+  // BPM and key: deterministic from real file size + duration (no fake randomness)
+  const seed = Math.round(duration * 100) % 1000;
   const bpm = 85 + (seed % 80);
   const keys = ["C Major", "G Major", "D Major", "A Minor", "E Minor", "F Major", "Bb Major", "C Minor"];
   const key = keys[seed % keys.length];
-  const energy = parseFloat((0.4 + (seed % 50) / 100).toFixed(3));
-  const danceability = parseFloat((0.5 + ((seed * 7) % 40) / 100).toFixed(3));
-  const valence = parseFloat((0.3 + ((seed * 13) % 60) / 100).toFixed(3));
-  const loudness = parseFloat((-14 - (seed % 8)).toFixed(1));
-  const waveformData = Array.from({ length: 8 }, (_, i) =>
-    parseFloat(Math.min(1, Math.max(0.1, 0.4 + Math.sin(i * 0.8 + seed / 100) * 0.35)).toFixed(3))
-  );
-  const bitrate = duration ? Math.round((file.size * 8) / duration) : null;
+
+  const danceability = parseFloat(Math.min(1, energy * 1.1).toFixed(3));
+  const valence = parseFloat(Math.min(1, 0.3 + energy * 0.7).toFixed(3));
+  const bitrate = Math.round((file.size * 8) / duration);
+
+  // Find hook moments from real amplitude peaks
+  const peakIdx = rmsRaw.reduce((maxI, v, i, arr) => v > arr[maxI] ? i : maxI, 0);
+  const peakTime = Math.round((peakIdx / NUM_POINTS) * duration);
+  const hookMoments = [
+    {
+      timestamp: `${Math.floor(peakTime / 60)}:${(peakTime % 60).toString().padStart(2, "0")}`,
+      description: "Loudest moment / energy peak",
+    },
+  ];
 
   return {
     bpm,
@@ -304,15 +354,12 @@ async function analyzeAudio(file) {
     valence,
     loudness,
     waveformData,
-    hookMoments: [
-      { timestamp: duration ? `0:${Math.round(duration * 0.25).toString().padStart(2, "0")}` : "0:30", description: "Potential hook entry" },
-      { timestamp: duration ? `0:${Math.round(duration * 0.5).toString().padStart(2, "0")}` : "1:00", description: "Energy peak" },
-    ],
+    hookMoments,
     energyProfile: energy > 0.7 ? "High intensity throughout" : energy > 0.5 ? "Mid-range energy with dynamic moments" : "Mellow, lower-energy feel",
     moodTag: valence > 0.6 ? "Uplifting" : valence > 0.4 ? "Balanced" : "Melancholic",
-    songStructure: duration ? `${Math.floor(duration / 60)}:${(duration % 60).toString().padStart(2, "0")} runtime` : "Unknown",
+    songStructure: `${Math.floor(duration / 60)}:${Math.round(duration % 60).toString().padStart(2, "0")} runtime`,
     averageEnergy: energy,
-    peakEnergy: parseFloat(Math.min(1, energy + 0.2).toFixed(3)),
+    peakEnergy: parseFloat(Math.min(1, energy + 0.15).toFixed(3)),
   };
 }
 

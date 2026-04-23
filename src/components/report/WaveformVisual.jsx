@@ -1,44 +1,75 @@
-import { useMemo } from "react";
+import { useRef, useState, useEffect, useCallback } from "react";
+import { Play, Pause } from "lucide-react";
 
-// Generates a deterministic-looking waveform from the song title seed
-function seededRandom(seed) {
-  let s = 0;
-  for (let i = 0; i < seed.length; i++) s += seed.charCodeAt(i);
-  return (n) => {
-    s = (s * 9301 + 49297) % 233280;
-    return s / 233280;
-  };
+function formatTime(seconds) {
+  if (!seconds || isNaN(seconds)) return "0:00";
+  const m = Math.floor(seconds / 60);
+  const s = Math.floor(seconds % 60);
+  return `${m}:${s.toString().padStart(2, "0")}`;
 }
 
-export default function WaveformVisual({ title, artist, genre, energy }) {
-  const BAR_COUNT = 80;
+export default function WaveformVisual({ title, artist, genre, audioUrl, waveformData, duration }) {
+  const audioRef = useRef(null);
+  const [playing, setPlaying] = useState(false);
+  const [currentTime, setCurrentTime] = useState(0);
+  const [audioDuration, setAudioDuration] = useState(duration || 0);
+  const animRef = useRef(null);
 
-  const bars = useMemo(() => {
-    const rand = seededRandom(title + artist);
-    const energyBoost = energy === "High" ? 1.3 : energy === "Low" ? 0.7 : 1;
-    return Array.from({ length: BAR_COUNT }, (_, i) => {
-      const base = rand();
-      // Create natural peaks around chorus regions (approx 30% and 65%)
-      const pos = i / BAR_COUNT;
-      const chorBump1 = Math.exp(-Math.pow((pos - 0.3) / 0.06, 2)) * 0.6;
-      const chorBump2 = Math.exp(-Math.pow((pos - 0.65) / 0.05, 2)) * 0.7;
-      const chorBump3 = Math.exp(-Math.pow((pos - 0.82) / 0.04, 2)) * 0.5;
-      const height = Math.min(1, (base * 0.5 + chorBump1 + chorBump2 + chorBump3) * energyBoost);
-      return Math.max(0.08, height);
-    });
-  }, [title, artist, energy]);
+  // Keep duration in sync
+  useEffect(() => {
+    if (duration) setAudioDuration(duration);
+  }, [duration]);
 
-  // Hook regions as % of total width
-  const hooks = [
-    { label: "Hook 1", start: 0.26, end: 0.38 },
-    { label: "Hook 2", start: 0.61, end: 0.72 },
-    { label: "Hook 3", start: 0.78, end: 0.88 },
-  ];
+  const tick = useCallback(() => {
+    if (audioRef.current) {
+      setCurrentTime(audioRef.current.currentTime);
+      if (!audioRef.current.paused) {
+        animRef.current = requestAnimationFrame(tick);
+      }
+    }
+  }, []);
 
-  // Fake duration seeded from title length
-  const minutes = 3 + (title.length % 2);
-  const seconds = String(10 + (title.charCodeAt(0) % 50)).padStart(2, "0");
-  const duration = `${minutes}:${seconds}`;
+  const togglePlay = () => {
+    if (!audioRef.current) return;
+    if (playing) {
+      audioRef.current.pause();
+      cancelAnimationFrame(animRef.current);
+      setPlaying(false);
+    } else {
+      audioRef.current.play();
+      animRef.current = requestAnimationFrame(tick);
+      setPlaying(true);
+    }
+  };
+
+  const handleEnded = () => {
+    setPlaying(false);
+    setCurrentTime(0);
+    cancelAnimationFrame(animRef.current);
+  };
+
+  const handleBarClick = (index, total) => {
+    if (!audioRef.current || !audioDuration) return;
+    const newTime = (index / total) * audioDuration;
+    audioRef.current.currentTime = newTime;
+    setCurrentTime(newTime);
+  };
+
+  useEffect(() => {
+    return () => cancelAnimationFrame(animRef.current);
+  }, []);
+
+  const hasRealData = Array.isArray(waveformData) && waveformData.length >= 10;
+  const BAR_COUNT = hasRealData ? Math.min(waveformData.length, 200) : 120;
+  const playheadFraction = audioDuration > 0 ? currentTime / audioDuration : 0;
+
+  // Sample the waveformData down to BAR_COUNT bars if needed
+  const bars = hasRealData
+    ? Array.from({ length: BAR_COUNT }, (_, i) => {
+        const srcIdx = Math.floor((i / BAR_COUNT) * waveformData.length);
+        return Math.max(0.03, Math.min(1, waveformData[srcIdx]));
+      })
+    : null;
 
   return (
     <div className="rounded-2xl bg-card border border-border p-6 space-y-4">
@@ -46,45 +77,71 @@ export default function WaveformVisual({ title, artist, genre, energy }) {
       <div className="flex items-end justify-between">
         <div>
           <p className="font-heading text-xl font-bold">{title}</p>
-          <p className="text-sm text-muted-foreground">{artist} · {genre}</p>
+          <p className="text-sm text-muted-foreground">{artist}{genre ? ` · ${genre}` : ""}</p>
         </div>
-        <span className="text-sm text-muted-foreground font-mono">{duration}</span>
+        <div className="flex items-center gap-3">
+          {audioUrl && (
+            <button
+              onClick={togglePlay}
+              className="h-8 w-8 rounded-full bg-primary text-primary-foreground flex items-center justify-center hover:bg-primary/80 transition-colors"
+            >
+              {playing ? <Pause className="h-3.5 w-3.5" /> : <Play className="h-3.5 w-3.5 ml-0.5" />}
+            </button>
+          )}
+          <span className="text-sm text-muted-foreground font-mono">
+            {audioUrl ? formatTime(currentTime) : ""}{audioDuration > 0 ? ` / ${formatTime(audioDuration)}` : ""}
+          </span>
+        </div>
       </div>
+
+      {/* Hidden audio element */}
+      {audioUrl && (
+        <audio
+          ref={audioRef}
+          src={audioUrl}
+          onEnded={handleEnded}
+          onLoadedMetadata={(e) => setAudioDuration(e.target.duration)}
+          preload="metadata"
+          className="hidden"
+        />
+      )}
 
       {/* Waveform */}
       <div className="relative h-20">
-        {/* Hook region overlays */}
-        {hooks.map(({ label, start, end }) => (
-          <div
-            key={label}
-            className="absolute top-0 bottom-0 rounded-md bg-primary/10 border border-primary/30 flex items-start pt-1 px-1.5"
-            style={{ left: `${start * 100}%`, width: `${(end - start) * 100}%` }}
-          >
-            <span className="text-[9px] font-semibold text-primary leading-none">{label}</span>
+        {!hasRealData ? (
+          // Flat placeholder while no real data
+          <div className="absolute inset-0 flex items-center">
+            <div className="w-full h-px bg-muted-foreground/20 rounded-full" />
           </div>
-        ))}
-
-        {/* Bars */}
-        <div className="absolute inset-0 flex items-center gap-px">
-          {bars.map((h, i) => {
-            const pos = i / BAR_COUNT;
-            const inHook = hooks.some(({ start, end }) => pos >= start && pos <= end);
-            return (
-              <div
-                key={i}
-                className={`flex-1 rounded-full transition-all ${inHook ? "bg-primary" : "bg-muted-foreground/30"}`}
-                style={{ height: `${h * 100}%` }}
-              />
-            );
-          })}
-        </div>
+        ) : (
+          <div className="absolute inset-0 flex items-center gap-px">
+            {bars.map((h, i) => {
+              const fraction = i / BAR_COUNT;
+              const played = fraction <= playheadFraction;
+              return (
+                <div
+                  key={i}
+                  onClick={() => handleBarClick(i, BAR_COUNT)}
+                  className={`flex-1 rounded-full cursor-pointer transition-colors ${
+                    played ? "bg-primary" : "bg-muted-foreground/25"
+                  }`}
+                  style={{ height: `${h * 100}%` }}
+                />
+              );
+            })}
+          </div>
+        )}
       </div>
 
       {/* Bottom labels */}
       <div className="flex justify-between text-[10px] text-muted-foreground font-mono">
         <span>0:00</span>
-        <span className="text-primary text-xs font-semibold">▶ Audio Analyzed</span>
-        <span>{duration}</span>
+        {hasRealData ? (
+          <span className="text-primary text-xs font-semibold">Real Amplitude Waveform</span>
+        ) : (
+          <span className="text-muted-foreground/50 text-xs italic">Awaiting audio analysis…</span>
+        )}
+        <span>{audioDuration > 0 ? formatTime(audioDuration) : "—"}</span>
       </div>
     </div>
   );

@@ -106,7 +106,14 @@ export default function Results() {
         <ScoreDisplay genre={song.genre} energy={song.energy} song={song} />
 
         {/* Waveform */}
-        <WaveformVisual title={song.title} artist={song.artist} genre={song.genre} energy={song.energy} />
+        <WaveformVisual
+          title={song.title}
+          artist={song.artist}
+          genre={song.genre}
+          audioUrl={song.audioUrl}
+          waveformData={song.audioData?.waveformData || report._audioData?.waveformData}
+          duration={song.audioData?.duration || report._audioData?.duration}
+        />
 
         {/* All sections */}
         <AlgorithmOutlook data={report.algorithm_outlook} song={song} />
