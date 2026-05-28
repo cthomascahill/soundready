@@ -10,7 +10,6 @@ import SoundReadyLogo from "@/components/SoundReadyLogo";
 
 const PRIMARY_NAV = [
   { to: "/release-plan", icon: Zap, label: "Release Plan" },
-  { to: "/streaming", icon: BarChart2, label: "Performance" },
   { to: "/analytics", icon: LineChart, label: "Analytics" },
 ];
 
