@@ -6,7 +6,7 @@ import {
   ArrowRight, Flame, Zap, BarChart2, Music2, DollarSign, FileText, Users,
   CheckCircle2, Mic2, MapPin, BookOpen, Wand2, Link2, TrendingUp, Newspaper,
   Send, CalendarDays, AlertTriangle, Clock, PhoneOff, TrendingDown, Star,
-  Briefcase, Bot, UserCheck, ChevronRight
+  Briefcase, Bot, UserCheck, ChevronRight, X
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
@@ -25,34 +25,61 @@ const TIERS = [
     color: "text-chart-5",
     bg: "bg-chart-5/10",
     border: "border-chart-5/20",
-    name: "DIY",
+    name: "Artist",
     tagline: "You're the manager now.",
     price: "$37/mo",
-    desc: "Every tool a manager uses — in your hands. Playlist pitching, press kits, sync opportunities, booking tools, finance tracking. You do the work. You keep 100%.",
-    items: ["Song analysis & release strategy", "Playlist Pitcher + Curator CRM", "Press Kit & Pitch Deck generator", "Finance tracker + Royalty dashboard", "Booking tools + Gig Finder", "Distribution manager"],
+    desc: "Every tool SoundReady has in your hands. You make the decisions, SoundReady gives you everything you need to make the right ones.",
+    items: [
+      "Full song library & workspace",
+      "AI release strategy & song analysis",
+      "AI mastering",
+      "Playlist pitching & sync licensing",
+      "Gig finder & tour planner",
+      "Finance & royalty tracker",
+      "Legal templates & contract analyzer",
+      "A&R Intelligence & Release Radar",
+      "Fan Intelligence dashboard",
+      "Music academy",
+    ],
+    cta: "Get Started",
   },
   {
-    icon: Bot,
+    icon: Users,
     color: "text-primary",
     bg: "bg-primary/10",
     border: "border-primary/20",
-    name: "AI Manager",
-    tagline: "Your manager works 24/7.",
-    price: "$97/mo",
+    name: "Pro",
+    tagline: "You and your team.",
+    price: "$67/mo",
     badge: "Most Popular",
-    desc: "AI preps everything and hands it to you for approval. Drafted pitches. Flagged opportunities. Built EPKs. Generated P&Ls. Surfaced sync matches. You review and tap send. Feels like a manager handing you things to sign off on.",
-    items: ["Everything in DIY", "AI-drafted pitch emails (approve & send)", "Auto-flagged sync + tour opportunities", "Smart P&L reports built automatically", "AI Mastering + content generation", "One-tap execution on all actions"],
+    desc: "Everything in Artist plus the ability to bring your whole team into one place. Your manager, producer, and publicist all working from the same platform — no more scattered emails and missed updates.",
+    items: [
+      "Everything in Artist",
+      "Invite up to 3 team members",
+      "Collaborative whiteboard & shared workspaces",
+      "Team role assignments (Manager, Producer, Label Rep)",
+      "Priority support",
+    ],
+    cta: "Get Started",
   },
   {
-    icon: UserCheck,
+    icon: Briefcase,
     color: "text-yellow-400",
     bg: "bg-yellow-500/10",
     border: "border-yellow-500/20",
-    name: "SoundReady Rep",
-    tagline: "A real human in your corner.",
-    price: "Custom",
-    desc: "A dedicated SoundReady Rep actively pitches you — tours, sync, press, playlist placement. They manage your P&L. They already know everything about you because your full profile, history, and assets live on the platform.",
-    items: ["Everything in AI Manager", "Dedicated human rep assigned to your account", "Active pitching for tours, sync & press", "Full P&L management", "Boutique management at a fraction of the cost", "Revenue share model — we only win when you win"],
+    name: "Label",
+    tagline: "Run your whole roster.",
+    price: "$97/mo",
+    desc: "Everything in Pro built for indie labels and managers running multiple artists. One login, every artist, every release, every deal — all in one place.",
+    items: [
+      "Everything in Pro",
+      "Unlimited team members",
+      "Unlimited song library",
+      "Multiple artist profiles under one account",
+      "Dedicated onboarding support",
+      "First access to new features",
+    ],
+    cta: "Apply Now",
   },
 ];
 
@@ -69,6 +96,7 @@ const WHAT_WE_DO = [
 
 export default function About() {
   const [isAuth, setIsAuth] = useState(false);
+  const [showLabelModal, setShowLabelModal] = useState(false);
 
   useEffect(() => {
     base44.auth.isAuthenticated().then(setIsAuth);
@@ -152,9 +180,9 @@ export default function About() {
       <section className="px-4 py-24 border-t border-border bg-secondary/20">
         <div className="max-w-5xl mx-auto space-y-14">
           <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="text-center space-y-4">
-            <p className="text-xs text-primary uppercase tracking-wider font-bold">The Replacement</p>
-            <h2 className="font-heading text-4xl sm:text-5xl font-bold">Three ways SoundReady manages you.</h2>
-            <p className="text-lg text-muted-foreground max-w-2xl mx-auto">Whether you want full control, AI assistance, or a real human rep — we have your back.</p>
+            <p className="text-xs text-primary uppercase tracking-wider font-bold">Pricing</p>
+            <h2 className="font-heading text-4xl sm:text-5xl font-bold">Three ways SoundReady works for you.</h2>
+            <p className="text-lg text-muted-foreground max-w-2xl mx-auto">Pay for the size of your operation — not for features. Every tier includes the full platform.</p>
           </motion.div>
 
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-5">
@@ -186,17 +214,41 @@ export default function About() {
                   ))}
                 </div>
                 <Button
-                  className="w-full mt-6 font-semibold"
-                  variant={tier.badge ? "default" : "outline"}
-                  onClick={handleCTA}
+                  className="w-full mt-6 font-semibold bg-primary hover:bg-primary/90 text-primary-foreground"
+                  onClick={tier.cta === "Apply Now" ? () => setShowLabelModal(true) : handleCTA}
                 >
-                  {tier.name === "SoundReady Rep" ? "Apply Now" : "Get Started"}
+                  {tier.cta}
                 </Button>
               </motion.div>
             ))}
           </div>
         </div>
       </section>
+
+      {/* Label Modal */}
+      {showLabelModal && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 px-4" onClick={() => setShowLabelModal(false)}>
+          <motion.div
+            initial={{ opacity: 0, scale: 0.95 }}
+            animate={{ opacity: 1, scale: 1 }}
+            className="bg-card border border-border rounded-2xl p-8 max-w-lg w-full space-y-6 relative"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <button onClick={() => setShowLabelModal(false)} className="absolute top-4 right-4 text-muted-foreground hover:text-foreground">
+              <X className="h-5 w-5" />
+            </button>
+            <div className="space-y-2">
+              <p className="text-xs text-primary uppercase tracking-widest font-bold">Label Plan</p>
+              <h3 className="font-heading text-2xl font-bold">Let's get your roster set up.</h3>
+              <p className="text-muted-foreground text-sm">Book a quick 15-minute call with our team.</p>
+            </div>
+            <div className="rounded-xl bg-secondary/50 border border-border h-48 flex items-center justify-center text-muted-foreground text-sm">
+              {/* Calendly embed placeholder */}
+              Calendly embed coming soon
+            </div>
+          </motion.div>
+        </div>
+      )}
 
       {/* WHAT WE DO */}
       <section className="px-4 py-24 border-t border-border">
