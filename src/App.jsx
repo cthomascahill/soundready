@@ -80,6 +80,7 @@ const AuthenticatedApp = () => {
           <Route path="/" element={<About />} />
           <Route path="/how-it-works" element={<HowItWorks />} />
           <Route path="/pricing" element={<Pricing />} />
+
           <Route path="*" element={<About />} />
         </Routes>
       );
@@ -90,6 +91,7 @@ const AuthenticatedApp = () => {
     <Routes>
       {/* Public routes */}
       <Route path="/" element={<About />} />
+      <Route path="/how-it-works" element={<HowItWorks />} />
       <Route path="/pricing" element={<Pricing />} />
 
       {/* Protected routes */}
