@@ -11,6 +11,10 @@ import Results from './pages/Results';
 import History from './pages/History';
 import SongLibrary from './pages/SongLibrary';
 import SongWorkspace from './pages/SongWorkspace';
+import ARIntelligence from './pages/ARIntelligence';
+import ContractAnalyzer from './pages/ContractAnalyzer';
+import FanIntelligence from './pages/FanIntelligence';
+import ReleaseRadar from './pages/ReleaseRadar';
 import StreamingDashboard from './pages/StreamingDashboard';
 import ReleaseCalendar from './pages/ReleaseCalendar';
 import AppLayout from './components/AppLayout';
@@ -93,6 +97,10 @@ const AuthenticatedApp = () => {
         <Route path="/results" element={<Results />} /> 
         <Route path="/history" element={<SongLibrary />} />
         <Route path="/music/:songId" element={<SongWorkspace />} />
+        <Route path="/ar-intelligence" element={<ARIntelligence />} />
+        <Route path="/contract-analyzer" element={<ContractAnalyzer />} />
+        <Route path="/fan-intelligence" element={<FanIntelligence />} />
+        <Route path="/release-radar" element={<ReleaseRadar />} />
         <Route path="/streaming" element={<StreamingDashboard />} />
         <Route path="/calendar" element={<ReleaseCalendar />} />
         <Route path="/analytics" element={<Analytics />} />

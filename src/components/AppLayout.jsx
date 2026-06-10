@@ -6,7 +6,7 @@ import {
   ChevronDown, UserCircle, Zap,
   Layout, FileText, Mic2, MapPin, CalendarRange,
   TrendingUp, ShoppingBag, Receipt, ScrollText,
-  Send, Wand2, CalendarDays, Film
+  Send, Wand2, CalendarDays, Film, Sparkles, Radio
 } from "lucide-react";
 import SoundReadyLogo from "@/components/SoundReadyLogo";
 
@@ -25,6 +25,8 @@ const TEAM_ITEMS = [
 ];
 
 const CAREER_ITEMS = [
+  { to: "/ar-intelligence", icon: Sparkles, label: "A&R Intelligence" },
+  { to: "/release-radar", icon: Radio, label: "Release Radar" },
   { to: "/playlist-pitcher", icon: Mic2, label: "Playlist Pitching" },
   { to: "/sync-pitcher", icon: Mic2, label: "Sync Licensing" },
   { to: "/gig-finder", icon: MapPin, label: "Gig Finder" },
@@ -38,6 +40,7 @@ const CAREER_ITEMS = [
 ];
 
 const FINANCE_ITEMS = [
+  { to: "/contract-analyzer", icon: FileText, label: "Contract Analyzer" },
   { to: "/royalties", icon: TrendingUp, label: "Royalties" },
   { to: "/budget", icon: DollarSign, label: "Budget Tracker" },
   { to: "/invoices", icon: Receipt, label: "Invoice Manager" },

@@ -4,10 +4,12 @@ import { useAuth } from "@/lib/AuthContext";
 import { BarChart, Bar, LineChart, Line, XAxis, YAxis, Tooltip, ResponsiveContainer, PieChart, Pie, Cell } from "recharts";
 import { TrendingUp, Music2, BarChart2, DollarSign, Users, Calendar, RefreshCw } from "lucide-react";
 import { motion } from "framer-motion";
+import { useNavigate } from "react-router-dom";
 import DateRangeFilter from "../components/analytics/DateRangeFilter";
 import StatCard from "../components/analytics/StatCard";
 import PlatformBreakdown from "../components/analytics/PlatformBreakdown";
 import EngagementChart from "../components/analytics/EngagementChart";
+import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 
 function seedVal(title, key, min, max) {
   let h = 0;
@@ -43,6 +45,7 @@ function generateSongMetrics(song) {
 
 export default function Analytics() {
   const { user } = useAuth();
+  const navigate = useNavigate();
   const [songs, setSongs] = useState([]);
   const [loading, setLoading] = useState(true);
   const [selectedSongId, setSelectedSongId] = useState("all");
@@ -129,6 +132,13 @@ export default function Analytics() {
           <h1 className="font-heading text-4xl font-bold">Analytics</h1>
           <p className="text-muted-foreground">Real-time KPIs across streaming, social assets, and monetization.</p>
         </motion.div>
+
+        <Tabs defaultValue="analytics">
+          <TabsList>
+            <TabsTrigger value="analytics">Analytics</TabsTrigger>
+            <TabsTrigger value="fan-intel" onClick={() => navigate("/fan-intelligence")}>Fan Intelligence ↗</TabsTrigger>
+          </TabsList>
+        </Tabs>
 
         {/* Filters */}
         <div className="flex flex-wrap gap-3 items-center">
