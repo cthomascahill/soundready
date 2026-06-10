@@ -179,7 +179,7 @@ export default function HowItWorks() {
           <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="space-y-5 text-lg text-muted-foreground leading-relaxed">
             <p>The artists getting playlisted, booked, and paid aren't more talented than you. They have better infrastructure — managers, publicists, booking agents, and lawyers reviewing every deal before it gets signed.</p>
             <p className="text-foreground font-semibold text-xl">You have a laptop and a dream.</p>
-            <p>That gap is exactly what SoundReady was built to close. For $37 a month you get every tool, strategy, and system the industry uses to build careers — no manager, no label, no experience required.</p>
+            <p>That gap is exactly what SoundReady was built to close. For $37 a month you get every tool, strategy, and system the industry uses to build careers — whether you're self-managing, have a team, or are building one.</p>
             <p className="text-foreground font-semibold">Just upload your music and let's get to work.</p>
           </motion.div>
         </div>
@@ -255,8 +255,8 @@ export default function HowItWorks() {
               { num: "+78%", sub: "Stream increase for artists using the release strategy and playlist pitching on every release." },
               { num: "+120%", sub: "More shows booked versus artists sending cold emails manually." },
               { num: "10+ hrs", sub: "Saved every week by artists who stop manually managing playlists, outreach, royalties, and release planning." },
-              { num: "25+", sub: "Integrated tools replacing your manager, publicist, booking agent, and accountant." },
-              { num: "$37/mo", sub: "What all of this costs. A manager takes 15–20% of everything you earn — forever." },
+              { num: "25+", sub: "Integrated tools giving every artist the infrastructure of a full professional team." },
+              { num: "$37/mo", sub: "What all of this costs. The traditional management model takes 15–20% of everything you earn — whether deals close or not." },
             ].map((s, i) => (
               <motion.div key={i} initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: i * 0.08 }}
                 className="rounded-2xl bg-card border border-primary/20 p-6 space-y-2 text-center">
@@ -278,8 +278,8 @@ export default function HowItWorks() {
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-5">
             {[
               { level: "The Independent Artist", desc: "You're doing everything yourself and it's exhausting. SoundReady doesn't replace your hustle — it organizes it so every release has a real strategy behind it." },
-              { level: "The Artist With a Manager", desc: "Your manager takes 20% and you still feel like you're doing most of the work. SoundReady gives you full visibility so you're never in the dark and never leaving money on the table." },
-              { level: "The Manager or Indie Label", desc: "You're responsible for multiple artists and the disorganization is costing you. SoundReady's Pro and Label tiers put your entire roster in one place — every artist, every release, every deal." },
+              { level: "The Artist With a Manager", desc: "Your team needs one place to work from. SoundReady gives your manager the tools to move faster, pitch smarter, and keep your whole career organized — so nothing falls through the cracks." },
+              { level: "The Manager or Indie Label", desc: "You're responsible for multiple artists and the disorganization is costing you real opportunities. SoundReady's Pro and Label tiers put your entire roster in one place — every artist, every release, every deal." },
             ].map((w, i) => (
               <motion.div key={i}
                 initial={{ opacity: 0, y: 16 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}
@@ -312,7 +312,7 @@ export default function HowItWorks() {
               ))}
             </div>
             <div className="mt-8 pt-6 border-t border-border text-center">
-              <p className="font-heading font-black text-xl text-primary">All of this. $37 a month. No manager required.</p>
+              <p className="font-heading font-black text-xl text-primary">All of this. $37 a month. The infrastructure your career deserves.</p>
             </div>
           </motion.div>
         </div>

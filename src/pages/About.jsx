@@ -11,12 +11,12 @@ import {
 import { Button } from "@/components/ui/button";
 
 const MANAGER_PAINS = [
-  { icon: DollarSign, text: "Takes 15–20% of everything you earn — forever" },
-  { icon: PhoneOff, text: "Doesn't return your calls for days" },
-  { icon: AlertTriangle, text: "Pitches you to the wrong opportunities" },
-  { icon: Clock, text: "You wait on them for things you could do yourself" },
-  { icon: TrendingDown, text: "Has 12 other artists they care about more" },
-  { icon: FileText, text: "Sends vague 'update' emails that say nothing" },
+  { icon: DollarSign, text: "The traditional model takes 15–20% of everything you earn — whether deals close or not" },
+  { icon: AlertTriangle, text: "Most artists have no system — no strategy, no visibility, no plan" },
+  { icon: Clock, text: "Releases happen without a real strategy and wonder why nothing moves" },
+  { icon: TrendingDown, text: "Opportunities get missed because there's no infrastructure to catch them" },
+  { icon: FileText, text: "Bad contracts get signed because there's no one reviewing the fine print" },
+  { icon: PhoneOff, text: "Teams fall out of sync and releases get disorganized at the worst moment" },
 ];
 
 const TIERS = [
@@ -162,9 +162,9 @@ export default function About() {
             {[
               {
                 headline: "You have a manager.",
-                body: "They take 15–20% of every dollar you earn while your streams stay flat and your career stands still. SoundReady puts the power back in your hands — and keeps the 20% in your pocket.",
-                label: "Take back control.",
-                icon: DollarSign,
+                body: "Your team needs one place to work from. SoundReady gives your manager the tools to move faster, pitch smarter, and keep your whole career organized — so nothing falls through the cracks.",
+                label: "Give your team the edge.",
+                icon: Users,
               },
               {
                 headline: "You don't have a manager.",
@@ -186,6 +186,25 @@ export default function About() {
               </motion.div>
             ))}
           </div>
+        </div>
+      </section>
+
+      {/* MANAGER CALLOUT */}
+      <section className="px-4 py-12 border-t border-border">
+        <div className="max-w-4xl mx-auto">
+          <motion.div initial={{ opacity: 0, y: 16 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}
+            className="rounded-2xl bg-primary/5 border border-primary/20 px-8 py-7 flex flex-col sm:flex-row items-start sm:items-center gap-5">
+            <div className="h-11 w-11 rounded-xl bg-primary/10 border border-primary/20 flex items-center justify-center shrink-0">
+              <Users className="h-5 w-5 text-primary" />
+            </div>
+            <div className="space-y-1 flex-1">
+              <p className="font-heading font-bold text-lg">Already have a manager?</p>
+              <p className="text-sm text-muted-foreground leading-relaxed">SoundReady is built for them too. Invite your team, share your workspace, and give your manager the infrastructure to actually move your career forward — faster than ever.</p>
+            </div>
+            <Button variant="outline" className="shrink-0 font-semibold" onClick={handleCTA}>
+              Invite Your Team
+            </Button>
+          </motion.div>
         </div>
       </section>
 
@@ -299,7 +318,7 @@ export default function About() {
             {[
               { level: "The Unsigned Artist", desc: "You're self-managing and the game feels rigged against you. SoundReady gives you the same tools, strategy, and infrastructure that signed artists get from their labels — from day one." },
               { level: "The Emerging Artist", desc: "You have momentum but your career isn't keeping up with your music. SoundReady organizes everything so every release works as hard as you do." },
-              { level: "The Indie Label or Manager", desc: "You're running multiple artists and need one place where everything lives. Every release, every deal, every artist profile — managed from a single platform." },
+              { level: "The Manager or Indie Label", desc: "You're responsible for multiple artists and the disorganization is costing you real opportunities. SoundReady gives your whole team one place to work — every artist, every release, every deal, from a single platform." },
             ].map((w, i) => (
               <motion.div key={w.level}
                 initial={{ opacity: 0, y: 16 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}
@@ -345,9 +364,9 @@ export default function About() {
         <div className="max-w-4xl mx-auto">
           <div className="grid grid-cols-3 gap-4 sm:gap-8 text-center">
             {[
-              { num: "15–20%", sub: "What a manager takes from every dollar you earn" },
+              { num: "15–20%", sub: "What the traditional management model takes — whether deals close or not" },
               { num: "$37/mo", sub: "Starting price for SoundReady — all tools included" },
-              { num: "25+", sub: "Integrated tools replacing your entire management team" },
+              { num: "25+", sub: "Integrated tools giving every artist the infrastructure of a full professional team" },
             ].map((s, i) => (
               <motion.div key={i} initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: i * 0.1 }} className="space-y-2">
                 <p className="font-heading text-3xl sm:text-5xl font-black text-primary">{s.num}</p>
