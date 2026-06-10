@@ -24,6 +24,7 @@ import BudgetTracker from './pages/BudgetTracker';
 import PitchDeck from './pages/PitchDeck';
 import SpotifyConnect from './pages/SpotifyConnect';
 import About from './pages/About';
+import HowItWorks from './pages/HowItWorks';
 import PlaylistPitcher from './pages/PlaylistPitcher';
 import Mastering from './pages/Mastering';
 import ReleasePlanInput from './pages/ReleasePlanInput';
@@ -77,6 +78,7 @@ const AuthenticatedApp = () => {
       return (
         <Routes>
           <Route path="/" element={<About />} />
+          <Route path="/how-it-works" element={<HowItWorks />} />
           <Route path="/pricing" element={<Pricing />} />
           <Route path="*" element={<About />} />
         </Routes>

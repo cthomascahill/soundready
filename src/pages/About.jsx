@@ -140,9 +140,11 @@ export default function About() {
             <Button size="lg" className="gap-2 font-heading font-bold text-base px-8 h-12" onClick={handleCTA}>
               Start Building My Career <ArrowRight className="h-4 w-4" />
             </Button>
-            <Button size="lg" variant="outline" className="gap-2 font-heading font-bold text-base px-8 h-12" onClick={handleCTA}>
-              See How It Works
-            </Button>
+            <Link to="/how-it-works">
+              <Button size="lg" variant="outline" className="gap-2 font-heading font-bold text-base px-8 h-12">
+                See How It Works
+              </Button>
+            </Link>
           </div>
 
           <p className="text-xs text-muted-foreground">No contracts. No percentage cuts. No free tier — because serious artists deserve serious tools.</p>
