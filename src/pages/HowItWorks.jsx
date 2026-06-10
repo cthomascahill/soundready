@@ -155,10 +155,10 @@ export default function HowItWorks() {
           </motion.div>
           <h1 className="font-heading text-6xl sm:text-8xl font-black tracking-tight leading-[0.9]">
             Most artists are losing.<br />
-            <span className="text-primary">Here's how you win.</span>
+            <span className="text-primary">Here's how to win.</span>
           </h1>
           <p className="text-xl sm:text-2xl text-muted-foreground leading-relaxed max-w-3xl mx-auto">
-            SoundReady gives independent artists the exact same tools, strategy, and infrastructure that signed artists get from their labels. This is how it works — and why it changes everything.
+            SoundReady gives independent artists the same tools, strategy, and infrastructure that signed artists get from their labels. This is how it works — and why it changes everything.
           </p>
           <div className="flex flex-col sm:flex-row items-center justify-center gap-3 pt-2">
             <Button size="lg" className="gap-2 font-heading font-bold text-base px-8 h-12" onClick={handleCTA}>
@@ -177,9 +177,9 @@ export default function HowItWorks() {
             <h2 className="font-heading text-4xl sm:text-5xl font-bold">The music industry is not set up for you to win.</h2>
           </motion.div>
           <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="space-y-5 text-lg text-muted-foreground leading-relaxed">
-            <p>Right now the artists getting playlisted, booked, and paid are not more talented than you. They have better infrastructure. They have managers making calls, publicists sending pitches, booking agents working venues, and lawyers reviewing every deal before it gets signed.</p>
+            <p>The artists getting playlisted, booked, and paid aren't more talented than you. They have better infrastructure — managers, publicists, booking agents, and lawyers reviewing every deal before it gets signed.</p>
             <p className="text-foreground font-semibold text-xl">You have a laptop and a dream.</p>
-            <p>That gap — between what signed artists have and what independent artists have — is exactly what SoundReady was built to close. For $37 a month you get every single tool, strategy, and system that the industry uses to build careers. No manager required. No label required. No experience required.</p>
+            <p>That gap is exactly what SoundReady was built to close. For $37 a month you get every tool, strategy, and system the industry uses to build careers — no manager, no label, no experience required.</p>
             <p className="text-foreground font-semibold">Just upload your music and let's get to work.</p>
           </motion.div>
         </div>
@@ -190,7 +190,7 @@ export default function HowItWorks() {
         <div className="max-w-4xl mx-auto space-y-16">
           <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="text-center space-y-4">
             <p className="text-xs text-primary uppercase tracking-wider font-bold">The Process</p>
-            <h2 className="font-heading text-4xl sm:text-5xl font-bold">Ten steps from uploaded song to growing career.</h2>
+            <h2 className="font-heading text-4xl sm:text-5xl font-bold">Ten steps from uploaded song to a growing career.</h2>
             <p className="text-lg text-muted-foreground max-w-2xl mx-auto">This is exactly what happens when you use SoundReady. Step by step. No fluff.</p>
           </motion.div>
 
@@ -224,9 +224,8 @@ export default function HowItWorks() {
             <h2 className="font-heading text-4xl sm:text-5xl font-bold">Every song gets its own headquarters.</h2>
           </motion.div>
           <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="max-w-3xl mx-auto space-y-5 text-lg text-muted-foreground leading-relaxed">
-            <p>Click any song in your library and it opens a dedicated Song Workspace — a single page where everything about that release lives together. Your analysis. Your mastering status. Your distribution checklist. Your release plan. Your pitching history. All connected. All organized. All in one place.</p>
-            <p>This is what a label does for signed artists — they build an entire operation around each release. SoundReady does it automatically for every song you upload.</p>
-            <p>No more jumping between apps. No more losing track of where you are in the process. No more dropping the ball on a release because things got disorganized. Every song deserves a real release. SoundReady makes sure it gets one.</p>
+            <p>Click any song in your library and it opens a dedicated Song Workspace — a single page where everything about that release lives together. Analysis, mastering status, distribution checklist, release plan, pitching history. All connected. All in one place.</p>
+            <p>This is what a label does for signed artists — they build an entire operation around each release. SoundReady does it automatically for every song you upload. Every song deserves a real release. SoundReady makes sure it gets one.</p>
           </motion.div>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4">
             {WORKSPACE_TABS.map((tab, i) => (
@@ -252,11 +251,12 @@ export default function HowItWorks() {
           </motion.div>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
             {[
-              { num: "+200%", sub: "Average increase in music revenue within 12 months." },
-              { num: "+78%", sub: "Increase in streams for artists using the release strategy and playlist pitching tools on every release." },
+              { num: "+200%", sub: "Average revenue increase within 12 months using SoundReady's finance, pitching, and release tools." },
+              { num: "+78%", sub: "Stream increase for artists using the release strategy and playlist pitching on every release." },
               { num: "+120%", sub: "More shows booked versus artists sending cold emails manually." },
+              { num: "10+ hrs", sub: "Saved every week by artists who stop manually managing playlists, outreach, royalties, and release planning." },
               { num: "25+", sub: "Integrated tools replacing your manager, publicist, booking agent, and accountant." },
-              { num: "$37/mo", sub: "What all of this costs. What a manager takes is 15–20% of everything you earn. Forever." },
+              { num: "$37/mo", sub: "What all of this costs. A manager takes 15–20% of everything you earn — forever." },
             ].map((s, i) => (
               <motion.div key={i} initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: i * 0.08 }}
                 className="rounded-2xl bg-card border border-primary/20 p-6 space-y-2 text-center">
@@ -273,13 +273,13 @@ export default function HowItWorks() {
         <div className="max-w-5xl mx-auto space-y-12">
           <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="text-center space-y-4">
             <p className="text-xs text-primary uppercase tracking-wider font-bold">Who It's For</p>
-            <h2 className="font-heading text-4xl sm:text-5xl font-bold">If you are serious about your music career, SoundReady is for you.</h2>
+            <h2 className="font-heading text-4xl sm:text-5xl font-bold">Serious about your music career? SoundReady is for you.</h2>
           </motion.div>
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-5">
             {[
-              { level: "The Independent Artist", desc: "You are doing everything yourself and it is exhausting. SoundReady does not replace your hustle — it organizes it. Upload your music, get your strategy, execute your plan, and watch what happens when you start releasing like a professional instead of hoping for the best." },
-              { level: "The Artist With a Manager", desc: "Your manager is taking 20% and you still feel like you are doing most of the work. SoundReady gives you full visibility into your own career so you are never in the dark, never waiting on someone else, and never leaving money on the table because a ball got dropped." },
-              { level: "The Manager or Indie Label", desc: "You are responsible for multiple artists and the disorganization is costing you. SoundReady's Pro and Label tiers give you one platform for your entire roster. Every artist, every release, every deal — managed from one login. Your clients will feel the difference immediately." },
+              { level: "The Independent Artist", desc: "You're doing everything yourself and it's exhausting. SoundReady doesn't replace your hustle — it organizes it so every release has a real strategy behind it." },
+              { level: "The Artist With a Manager", desc: "Your manager takes 20% and you still feel like you're doing most of the work. SoundReady gives you full visibility so you're never in the dark and never leaving money on the table." },
+              { level: "The Manager or Indie Label", desc: "You're responsible for multiple artists and the disorganization is costing you. SoundReady's Pro and Label tiers put your entire roster in one place — every artist, every release, every deal." },
             ].map((w, i) => (
               <motion.div key={i}
                 initial={{ opacity: 0, y: 16 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}
@@ -357,8 +357,7 @@ export default function HowItWorks() {
         <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="max-w-3xl mx-auto space-y-8">
           <h2 className="font-heading text-5xl sm:text-6xl font-black leading-[0.95]">
             The artists winning right now<br />
-            have a system.<br />
-            <span className="text-primary">Be one of them.</span>
+            have a system. <span className="text-primary">Be one of them.</span>
           </h2>
           <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
             SoundReady is the last tool your music career will ever need. Upload your first song today and see exactly what your music is capable of.

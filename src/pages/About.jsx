@@ -28,7 +28,7 @@ const TIERS = [
     name: "Artist",
     tagline: "Your career. Your control.",
     price: "$37/mo",
-    desc: "Every tool SoundReady has — in your hands. Upload your songs, get your release strategy, master your tracks, pitch to playlists, book shows, track your money, and protect yourself legally. Everything a manager does. Yours for $37 a month.",
+    desc: "Every tool SoundReady has — in your hands. Upload songs, get your release strategy, master your tracks, pitch playlists, book shows, track your money, and protect yourself legally. Everything a manager does, for $37 a month.",
     items: [
       "Full song library & workspace",
       "AI release strategy & song analysis",
@@ -53,7 +53,7 @@ const TIERS = [
     tagline: "You and your team, finally in sync.",
     price: "$67/mo",
     badge: "Most Popular",
-    desc: "Everything in Artist plus a shared workspace for your whole team. Your manager, producer, and publicist all working from the same platform — seeing the same songs, the same strategy, the same plan. No more missed emails. No more dropped balls.",
+    desc: "Everything in Artist, plus a shared workspace for your whole team. Your manager, producer, and publicist work from the same platform — same songs, same strategy, same plan. No missed emails. No dropped balls.",
     items: [
       "Everything in Artist",
       "Invite up to 3 team members",
@@ -72,7 +72,7 @@ const TIERS = [
     name: "Label",
     tagline: "Your whole roster. One platform.",
     price: "$97/mo",
-    desc: "Everything in Pro built for indie labels and managers running multiple artists. Unlimited songs, unlimited team members, multiple artist profiles — all under one login. The most organized your roster has ever been.",
+    desc: "Everything in Pro, built for indie labels and managers running multiple artists. Unlimited songs, unlimited team members, multiple artist profiles — all under one login.",
     items: [
       "Everything in Pro",
       "Unlimited team members",
@@ -87,18 +87,18 @@ const TIERS = [
 ];
 
 const WHAT_WE_DO = [
-  { icon: Zap, color: "text-primary", title: "Release Strategy", desc: "Upload your song and get a complete AI-powered release plan in 60 seconds. Ideal release timing, 6-week pitching timeline, algorithm outlook, and a step-by-step strategy built around your actual audio data — not guesswork." },
-  { icon: Mic2, color: "text-chart-3", title: "Playlist Pitching", desc: "Pitch your music to 40+ curated playlist opportunities with personalized outreach written around your song's actual sound and mood. More playlist adds means more streams, more followers, and more algorithmic momentum." },
-  { icon: FileText, color: "text-purple-400", title: "Press & EPK", desc: "Generate a full Electronic Press Kit with bio, stats, press quotes, and streaming links in minutes. The same professional presentation that gets artists into festivals, blogs, and editorial features — ready to send instantly." },
-  { icon: MapPin, color: "text-orange-400", title: "Booking & Tours", desc: "Access a database of 200+ venues, generate booking inquiries, plan your tour routing, and track every dollar of tour income and expenses. More shows, better margins, zero spreadsheets." },
-  { icon: DollarSign, color: "text-chart-4", title: "Finance & Royalties", desc: "Upload your royalty statements from every DSP and see exactly what you're earning in one place. Track expenses, send invoices, manage your rights, and finally understand your music business finances." },
-  { icon: Send, color: "text-teal-400", title: "Distribution", desc: "Manage your ISRC codes, metadata, pre-save links, and distributor submissions in one organized checklist. Every release goes out clean, professional, and ready to perform." },
-  { icon: Music2, color: "text-[#1DB954]", title: "Sync Licensing", desc: "Surface sync opportunities for TV, film, games, and commercials. SoundReady matches your music to real opportunities and writes the pitch for you. One sync placement can change your financial year." },
-  { icon: Wand2, color: "text-cyan-400", title: "AI Mastering", desc: "Upload your track and get a professionally mastered WAV back — AI-tuned EQ, multiband compression, peak limiting, and -14 LUFS normalization. Sounds like you paid $200 for it. Costs nothing extra." },
-  { icon: BarChart2, color: "text-chart-5", title: "A&R Intelligence", desc: "Weekly briefings on exactly what's working in your genre right now — what tempos, moods, and release strategies are getting editorial love this week. Make smarter creative decisions before you even finish the song." },
-  { icon: FileText, color: "text-yellow-400", title: "Contract Analyzer", desc: "Upload any deal, sync license, or industry contract. SoundReady reads it like an entertainment lawyer and flags every clause that could hurt you — in plain English. Know exactly what you're signing before you sign it." },
-  { icon: Users, color: "text-pink-400", title: "Fan Intelligence", desc: "Understand where your real fans are, when they listen, and what they want. Use that data to route your tour smarter, run better ads, and make every release decision with real information behind it." },
-  { icon: TrendingUp, color: "text-teal-400", title: "Release Radar", desc: "Track your competition. Know when comparable artists release, what's working for them, and how to time your moves to stand out instead of getting buried. Strategy wins. SoundReady gives you the intel." },
+  { icon: Zap, color: "text-primary", title: "Release Strategy", desc: "Get a complete AI-powered release plan in 60 seconds, built around your actual audio data. Ideal timing, pitching timeline, algorithm outlook — no guesswork." },
+  { icon: Mic2, color: "text-chart-3", title: "Playlist Pitching", desc: "Pitch to 40+ curated playlists with personalized outreach written around your song's sound and mood. More playlist adds means more streams and algorithmic momentum." },
+  { icon: FileText, color: "text-purple-400", title: "Press & EPK", desc: "Generate a full Electronic Press Kit with bio, stats, and streaming links in minutes. The same professional presentation that gets artists into festivals and editorial — ready to send instantly." },
+  { icon: MapPin, color: "text-orange-400", title: "Booking & Tours", desc: "Access 200+ venues, generate booking inquiries, plan your tour routing, and track every dollar of income and expenses. More shows, better margins, zero spreadsheets." },
+  { icon: DollarSign, color: "text-chart-4", title: "Finance & Royalties", desc: "Upload royalty statements from every DSP and see exactly what you're earning in one place. Track expenses, send invoices, and finally understand your music business finances." },
+  { icon: Send, color: "text-teal-400", title: "Distribution", desc: "Manage ISRC codes, metadata, pre-save links, and distributor submissions in one organized checklist. Every release goes out clean, professional, and ready to perform." },
+  { icon: Music2, color: "text-[#1DB954]", title: "Sync Licensing", desc: "Surface sync opportunities for TV, film, games, and commercials — SoundReady writes the pitch for you. One sync placement can change your financial year." },
+  { icon: Wand2, color: "text-cyan-400", title: "AI Mastering", desc: "Upload your track and get a professionally mastered WAV back with -14 LUFS normalization. Sounds like you paid $200 for it. Costs nothing extra." },
+  { icon: BarChart2, color: "text-chart-5", title: "A&R Intelligence", desc: "Weekly briefings on what's working in your genre right now — tempos, moods, and strategies getting editorial love. Make smarter decisions before you finish the song." },
+  { icon: FileText, color: "text-yellow-400", title: "Contract Analyzer", desc: "Upload any deal or contract and SoundReady flags every clause that could hurt you — in plain English. Know exactly what you're signing before you sign it." },
+  { icon: Users, color: "text-pink-400", title: "Fan Intelligence", desc: "Understand where your real fans are, when they listen, and what they want. Use that data to tour smarter and make every release decision with real information." },
+  { icon: TrendingUp, color: "text-teal-400", title: "Release Radar", desc: "Track comparable artists and know exactly when they're moving. Time your releases to stand out instead of getting buried." },
 ];
 
 export default function About() {
@@ -162,13 +162,13 @@ export default function About() {
             {[
               {
                 headline: "You have a manager.",
-                body: "They take 15–20% of every dollar you earn. They move slow, miss opportunities, and leave you wondering what they actually do all day. Meanwhile your streams are flat, your inbox is cold, and your career is standing still. SoundReady puts the power back in your hands — and keeps the 20% in your pocket.",
+                body: "They take 15–20% of every dollar you earn while your streams stay flat and your career stands still. SoundReady puts the power back in your hands — and keeps the 20% in your pocket.",
                 label: "Take back control.",
                 icon: DollarSign,
               },
               {
                 headline: "You don't have a manager.",
-                body: "You're making real music but your career isn't moving. No system, no strategy, no idea where to start. The artists winning right now aren't more talented than you — they're just better organized. SoundReady is the infrastructure that turns a good artist into a growing one.",
+                body: "You're making real music but your career isn't moving. The artists winning right now aren't more talented — they're better organized. SoundReady is the infrastructure that turns a good artist into a growing one.",
                 label: "Start moving forward.",
                 icon: TrendingUp,
               },
@@ -297,9 +297,9 @@ export default function About() {
           </motion.div>
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-5">
             {[
-              { level: "The Unsigned Artist", desc: "You're self-managing and the game feels rigged against you. SoundReady levels the playing field — giving you the exact same professional tools, strategy, and infrastructure that signed artists get from their labels. From day one." },
-              { level: "The Emerging Artist", desc: "You have momentum but your career isn't keeping up with your music. SoundReady organizes everything, automates the strategy, and makes sure every release is working as hard as you are. More streams. More shows. More growth." },
-              { level: "The Indie Label or Manager", desc: "You're running multiple artists and you need one place where everything lives. Every release, every deal, every artist profile — managed from a single platform that keeps your whole roster moving forward at once." },
+              { level: "The Unsigned Artist", desc: "You're self-managing and the game feels rigged against you. SoundReady gives you the same tools, strategy, and infrastructure that signed artists get from their labels — from day one." },
+              { level: "The Emerging Artist", desc: "You have momentum but your career isn't keeping up with your music. SoundReady organizes everything so every release works as hard as you do." },
+              { level: "The Indie Label or Manager", desc: "You're running multiple artists and need one place where everything lives. Every release, every deal, every artist profile — managed from a single platform." },
             ].map((w, i) => (
               <motion.div key={w.level}
                 initial={{ opacity: 0, y: 16 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}
@@ -321,11 +321,12 @@ export default function About() {
             <h2 className="font-heading text-4xl font-bold">This is what happens when artists use SoundReady.</h2>
             <p className="text-lg text-muted-foreground">Not promises. Outcomes.</p>
           </motion.div>
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
             {[
-              { num: "+200%", label: "Average increase in music revenue", sub: "Average increase in music revenue within 12 months of using SoundReady's finance, pitching, and release tools together." },
-              { num: "+78%", label: "Increase in streams", sub: "Increase in streams for artists who use SoundReady's release strategy and playlist pitching tools on every release." },
-              { num: "+120%", label: "More shows booked", sub: "More shows booked by artists using SoundReady's gig finder, EPK builder, and venue outreach tools versus cold emailing manually." },
+              { num: "+200%", label: "Average increase in music revenue", sub: "Average revenue increase within 12 months using SoundReady's finance, pitching, and release tools." },
+              { num: "+78%", label: "Increase in streams", sub: "Stream increase for artists using SoundReady's release strategy and playlist pitching on every release." },
+              { num: "+120%", label: "More shows booked", sub: "More shows booked versus artists sending cold emails manually." },
+              { num: "10+ hrs", label: "Saved every week", sub: "Saved weekly by artists who stop manually managing playlists, venue outreach, royalty tracking, and release planning." },
             ].map((s, i) => (
               <motion.div key={i} initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: i * 0.1 }}
                 className="rounded-2xl bg-card border border-primary/20 p-6 space-y-3 text-center">
@@ -365,7 +366,7 @@ export default function About() {
               Your next release could be your biggest.<br />
               <span className="text-primary">SoundReady makes sure of it.</span>
             </h2>
-            <p className="text-lg text-muted-foreground">The artists winning right now aren't more talented. They're more organized, more strategic, and more consistent. SoundReady gives you everything you need to be all three — starting today.</p>
+            <p className="text-lg text-muted-foreground">The artists winning right now aren't more talented — they're more organized and more strategic. SoundReady gives you everything you need to be both, starting today.</p>
           </div>
           <Button size="lg" className="gap-2 font-heading font-bold text-base px-10 h-13" onClick={handleCTA}>
             Start Building My Career <ArrowRight className="h-4 w-4" />
