@@ -9,6 +9,8 @@ import LoginPage from './pages/Home';
 import Dashboard from './pages/Dashboard';
 import Results from './pages/Results';
 import History from './pages/History';
+import SongLibrary from './pages/SongLibrary';
+import SongWorkspace from './pages/SongWorkspace';
 import StreamingDashboard from './pages/StreamingDashboard';
 import ReleaseCalendar from './pages/ReleaseCalendar';
 import AppLayout from './components/AppLayout';
@@ -89,7 +91,8 @@ const AuthenticatedApp = () => {
         <Route path="/dashboard" element={<Dashboard />} />
         <Route path="/release-plan" element={<ReleasePlanInput />} />
         <Route path="/results" element={<Results />} /> 
-        <Route path="/history" element={<History />} />
+        <Route path="/history" element={<SongLibrary />} />
+        <Route path="/music/:songId" element={<SongWorkspace />} />
         <Route path="/streaming" element={<StreamingDashboard />} />
         <Route path="/calendar" element={<ReleaseCalendar />} />
         <Route path="/analytics" element={<Analytics />} />

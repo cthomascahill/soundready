@@ -1,0 +1,59 @@
+{
+  "name": "ReleasePerformance",
+  "type": "object",
+  "properties": {
+    "song_id": {
+      "type": "string",
+      "description": "Reference to SongAnalysis id"
+    },
+    "song_title": {
+      "type": "string"
+    },
+    "artist_name": {
+      "type": "string"
+    },
+    "release_date": {
+      "type": "string",
+      "description": "ISO date"
+    },
+    "predicted_streams": {
+      "type": "number",
+      "description": "AI prediction from release plan"
+    },
+    "actual_streams": {
+      "type": "number",
+      "description": "Actual streams 30 days later"
+    },
+    "predicted_playlist_adds": {
+      "type": "number"
+    },
+    "actual_playlist_adds": {
+      "type": "number"
+    },
+    "predicted_save_rate": {
+      "type": "number"
+    },
+    "actual_save_rate": {
+      "type": "number"
+    },
+    "accuracy_notes": {
+      "type": "string",
+      "description": "What worked, what didn't"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "pending",
+        "tracked",
+        "analyzed"
+      ],
+      "default": "pending"
+    }
+  },
+  "required": [
+    "song_id",
+    "song_title",
+    "artist_name",
+    "release_date"
+  ]
+}
