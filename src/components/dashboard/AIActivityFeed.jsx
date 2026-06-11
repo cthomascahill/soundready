@@ -81,7 +81,7 @@ export default function AIActivityFeed({ user }) {
   const [activities, setActivities] = useState([]);
   const [loading, setLoading] = useState(true);
 
-  const isAIManager = user?.plan === "ai_manager";
+  const isAIManager = user?.role === "admin" || user?.plan === "ai_manager";
 
   useEffect(() => {
     if (!isAIManager) { setLoading(false); return; }
