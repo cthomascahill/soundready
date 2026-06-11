@@ -122,7 +122,7 @@ export default function WhiteboardCanvas() {
   }
 
   return (
-    <div className="h-screen bg-white flex flex-col overflow-hidden select-none">
+    <div className="h-screen flex flex-col overflow-hidden select-none" style={{ background: "#ffffff" }}>
       <WhiteboardTopBar
         board={board}
         user={user}
