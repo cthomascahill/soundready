@@ -140,7 +140,7 @@ export default function ReleaseRadar() {
 
   useEffect(() => {
     base44.entities.SongAnalysis.filter({ status: "complete" }, "-created_date", 5)
-      .then(setSongs => setMySongs(setSongs || [])).catch(() => {});
+      .then(songs => setMySongs(songs || [])).catch(() => {});
     const cached = localStorage.getItem("release_radar_report");
     if (cached) setReport(JSON.parse(cached));
   }, []);
@@ -166,6 +166,7 @@ export default function ReleaseRadar() {
 
   const generateReport = async () => {
     setReportLoading(true);
+    try {
     const artistList = watchedArtists.map(a => `${a.name}${a.reason ? ` (tracking: ${a.reason})` : ""}`).join(", ");
     const myReleases = mySongs.map(s => `"${s.title}" by ${s.artist_name} (${s.genre || "unknown genre"})`).join(", ");
 
@@ -208,6 +209,9 @@ Also give a specific "Competitive Timing" recommendation — the best timing to 
     setReport(res);
     if (res.perArtistInsights) setArtistInsights(res.perArtistInsights);
     localStorage.setItem("release_radar_report", JSON.stringify(res));
+    } catch (err) {
+      console.error("Report generation error:", err);
+    }
     setReportLoading(false);
   };
 

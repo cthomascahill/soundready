@@ -56,6 +56,7 @@ import InvoiceManager from './pages/InvoiceManager';
 import ContentEngine from './pages/ContentEngine';
 import Soundcheck from './pages/Soundcheck';
 import Whiteboard from './pages/Whiteboard';
+import TeamChat from './pages/TeamChat.jsx';
 import WhiteboardCanvas from './pages/WhiteboardCanvas';
 
 const AuthenticatedApp = () => {
@@ -141,6 +142,7 @@ const AuthenticatedApp = () => {
         <Route path="/content-engine" element={<ContentEngine />} />
         <Route path="/soundcheck" element={<Soundcheck />} />
         <Route path="/whiteboard" element={<Whiteboard />} />
+        <Route path="/team-chat" element={<TeamChat />} />
         <Route path="/whiteboard/:boardId" element={<WhiteboardCanvas />} />
         <Route path="/community" element={<Community />} />
         <Route path="*" element={<PageNotFound />} />

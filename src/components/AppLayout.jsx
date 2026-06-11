@@ -5,7 +5,7 @@ import {
   Home, Music2, Users, Briefcase, DollarSign,
   ChevronDown, UserCircle, Zap,
   Layout, FileText, Mic2, MapPin, CalendarRange,
-  TrendingUp, ShoppingBag, Receipt, ScrollText,
+  TrendingUp, Receipt, ScrollText,
   Send, Wand2, CalendarDays, Film, Sparkles, Radio
 } from "lucide-react";
 import SoundReadyLogo from "@/components/SoundReadyLogo";
@@ -20,8 +20,7 @@ const MUSIC_ITEMS = [
 
 const TEAM_ITEMS = [
   { to: "/whiteboard", icon: Layout, label: "Whiteboard" },
-  { to: "/pitch-deck", icon: FileText, label: "EPK Builder" },
-  { to: "/press-kit", icon: FileText, label: "Press Kit" },
+  { to: "/team-chat", icon: Users, label: "Team Chat" },
 ];
 
 const CAREER_ITEMS = [
@@ -32,20 +31,19 @@ const CAREER_ITEMS = [
   { to: "/gig-finder", icon: MapPin, label: "Gig Finder" },
   { to: "/tour-planner", icon: CalendarRange, label: "Tour Planner" },
   { to: "/tour-opportunities", icon: Briefcase, label: "Tour Opportunities" },
-  { to: "/tour-finance", icon: DollarSign, label: "Tour Finance" },
   { to: "/soundcheck", icon: Mic2, label: "Soundcheck" },
   { to: "/tiktok-creators", icon: Music2, label: "TikTok Creators" },
   { to: "/scheduler", icon: CalendarDays, label: "Content Scheduler" },
-  { to: "/collab-workspace", icon: Users, label: "Collab Workspace" },
+  { to: "/pitch-deck", icon: FileText, label: "EPK Builder" },
+  { to: "/press-kit", icon: FileText, label: "Press Kit" },
 ];
 
 const FINANCE_ITEMS = [
+  { to: "/tour-finance", icon: DollarSign, label: "Tour Finance" },
   { to: "/contract-analyzer", icon: FileText, label: "Contract Analyzer" },
   { to: "/royalties", icon: TrendingUp, label: "Royalties" },
   { to: "/budget", icon: DollarSign, label: "Budget Tracker" },
   { to: "/invoices", icon: Receipt, label: "Invoice Manager" },
-  { to: "/rights", icon: FileText, label: "Rights Manager" },
-  { to: "/merch", icon: ShoppingBag, label: "Merch Store" },
   { to: "/contracts", icon: ScrollText, label: "Venue Contracts" },
   { to: "/legal", icon: FileText, label: "Legal Templates" },
   { to: "/tax-estimator", icon: DollarSign, label: "Tax Estimator" },

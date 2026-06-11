@@ -254,7 +254,12 @@ export default function ARIntelligence() {
     setBriefingLoading(true);
     const res = await base44.integrations.Core.InvokeLLM({
       model: "claude_sonnet_4_6",
-      prompt: `You are a senior A&R executive giving your weekly briefing to an independent artist. The date is ${new Date().toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric', year: 'numeric' })}. Give a specific, opinionated, and actionable weekly briefing on the current music landscape. Cover each of these 4 areas with real opinions — not generic advice. Be direct and specific, like a real industry person talking to an artist they're invested in.`,
+      prompt: `You are a senior A&R executive giving your weekly briefing to an independent artist. The date is ${new Date().toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric', year: 'numeric' })}. Give a specific, opinionated, and actionable weekly briefing covering EXACTLY these 4 areas:
+1. "What's Charting & Why" — what sounds, tempos, moods, and lyrical themes are resonating right now with real algorithmic momentum.
+2. "Pitching Window" — what playlist curators and DSP editorial teams are looking for this week and what genre/mood has an open submission window.
+3. "Algorithm Watch" — specific Spotify/TikTok algorithm behavior patterns artists should exploit or avoid right now.
+4. "Release Timing" — the best and worst days/weeks to release over the next 30 days based on market activity.
+Be direct and opinionated. Reference real genre names and platform behavior. Write like a real industry insider talking to an artist you believe in.`,
       response_json_schema: {
         type: "object",
         properties: {

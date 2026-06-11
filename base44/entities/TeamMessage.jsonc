@@ -1,0 +1,31 @@
+{
+  "name": "TeamMessage",
+  "type": "object",
+  "properties": {
+    "channel": {
+      "type": "string",
+      "default": "general",
+      "description": "Channel name: 'general' or 'dm|||email1|||email2' (sorted)"
+    },
+    "sender_email": {
+      "type": "string"
+    },
+    "sender_name": {
+      "type": "string"
+    },
+    "message": {
+      "type": "string"
+    },
+    "reply_to_id": {
+      "type": "string"
+    },
+    "file_url": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "channel",
+    "sender_email",
+    "message"
+  ]
+}

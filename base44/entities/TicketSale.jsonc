@@ -1,0 +1,34 @@
+{
+  "name": "TicketSale",
+  "type": "object",
+  "properties": {
+    "venue_id": {
+      "type": "string"
+    },
+    "venue_name": {
+      "type": "string"
+    },
+    "show_date": {
+      "type": "string",
+      "description": "ISO date YYYY-MM-DD"
+    },
+    "ticket_price": {
+      "type": "number",
+      "description": "Price per ticket"
+    },
+    "tickets_sold": {
+      "type": "number"
+    },
+    "gross_revenue": {
+      "type": "number",
+      "description": "ticket_price * tickets_sold"
+    },
+    "notes": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "ticket_price",
+    "tickets_sold"
+  ]
+}

@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
-import { ArrowLeft, Share2, Check, Edit3 } from "lucide-react";
+import { base44 } from "@/api/base44Client";
+import { ArrowLeft, Share2, Check, Edit3, UserPlus, Download } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 
@@ -8,6 +9,9 @@ export default function WhiteboardTopBar({ board, user, blockCount, onBoardUpdat
   const [editingName, setEditingName] = useState(false);
   const [name, setName] = useState(board?.name || "Untitled");
   const [copied, setCopied] = useState(false);
+  const [showInvite, setShowInvite] = useState(false);
+  const [inviteEmail, setInviteEmail] = useState("");
+  const [inviteSent, setInviteSent] = useState(false);
 
   const saveName = () => {
     setEditingName(false);
@@ -20,6 +24,25 @@ export default function WhiteboardTopBar({ board, user, blockCount, onBoardUpdat
     navigator.clipboard.writeText(window.location.href);
     setCopied(true);
     setTimeout(() => setCopied(false), 2000);
+  };
+
+  const handleInvite = async () => {
+    if (!inviteEmail.trim()) return;
+    await base44.users.inviteUser(inviteEmail.trim(), "user");
+    setInviteSent(true);
+    setInviteEmail("");
+    setTimeout(() => { setInviteSent(false); setShowInvite(false); }, 2000);
+  };
+
+  const handleExportPDF = () => {
+    const win = window.open("", "_blank");
+    if (!win) return;
+    win.document.write(`<html><head><title>${board?.name || "Whiteboard"}</title><style>body{font-family:sans-serif;background:#fff;padding:40px;color:#111;}</style></head><body>`);
+    win.document.write(`<h1>${board?.name || "Whiteboard"}</h1><p style="color:#888;font-size:13px;">Exported ${new Date().toLocaleDateString()}</p><hr/>`);
+    win.document.write(`<p style="color:#aaa;font-size:12px;">Open the whiteboard and use your browser's Print → Save as PDF to get a full visual snapshot of the canvas.</p>`);
+    win.document.write("</body></html>");
+    win.document.close();
+    win.print();
   };
 
   return (
@@ -65,6 +88,32 @@ export default function WhiteboardTopBar({ board, user, blockCount, onBoardUpdat
             {(user.full_name || user.email || "?")[0].toUpperCase()}
           </div>
         )}
+
+        {showInvite ? (
+          <div className="flex items-center gap-1.5">
+            <Input
+              value={inviteEmail}
+              onChange={e => setInviteEmail(e.target.value)}
+              onKeyDown={e => e.key === "Enter" && handleInvite()}
+              placeholder="Email address..."
+              className="h-7 w-44 bg-white/10 border-white/20 text-white text-xs px-2"
+              autoFocus
+            />
+            <Button size="sm" className="h-7 text-xs px-2" onClick={handleInvite}>
+              {inviteSent ? <Check className="h-3 w-3" /> : "Invite"}
+            </Button>
+            <button onClick={() => setShowInvite(false)} className="text-white/40 hover:text-white text-xs">✕</button>
+          </div>
+        ) : (
+          <Button size="sm" variant="outline" className="h-7 gap-1.5 text-xs bg-white/5 border-white/10 text-white hover:bg-white/10" onClick={() => setShowInvite(true)}>
+            <UserPlus className="h-3 w-3" /> Invite
+          </Button>
+        )}
+
+        <Button size="sm" variant="outline" className="h-7 gap-1.5 text-xs bg-white/5 border-white/10 text-white hover:bg-white/10" onClick={handleExportPDF}>
+          <Download className="h-3 w-3" /> PDF
+        </Button>
+
         <Button
           size="sm"
           variant="outline"
