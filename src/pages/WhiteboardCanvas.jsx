@@ -67,7 +67,7 @@ export default function WhiteboardCanvas() {
       y: Math.round(y),
       width: 320,
       block_type: tool,
-      styles: { bold: false, underline: false, fontSize: "medium", color: "#ffffff" },
+      styles: { bold: false, underline: false, fontSize: "medium", color: "#111111" },
       z_index: blocks.length + 1,
       author_email: user?.email,
     });
@@ -122,7 +122,7 @@ export default function WhiteboardCanvas() {
   }
 
   return (
-    <div className="h-screen bg-[#0a0a0a] flex flex-col overflow-hidden select-none">
+    <div className="h-screen bg-white flex flex-col overflow-hidden select-none">
       <WhiteboardTopBar
         board={board}
         user={user}
@@ -140,7 +140,7 @@ export default function WhiteboardCanvas() {
         <div
           ref={canvasRef}
           className={`flex-1 relative overflow-hidden canvas-bg ${tool !== "select" ? "cursor-crosshair" : isPanning ? "cursor-grabbing" : "cursor-grab"}`}
-          style={{ background: "radial-gradient(ellipse at center, #111111 0%, #0a0a0a 100%)" }}
+          style={{ background: "#ffffff" }}
           onMouseDown={onMouseDown}
           onMouseMove={onMouseMove}
           onMouseUp={onMouseUp}
@@ -149,7 +149,7 @@ export default function WhiteboardCanvas() {
           {/* Dot grid */}
           <div className="absolute inset-0 pointer-events-none canvas-bg"
             style={{
-              backgroundImage: "radial-gradient(circle, rgba(255,255,255,0.07) 1px, transparent 1px)",
+              backgroundImage: "radial-gradient(circle, rgba(0,0,0,0.12) 1px, transparent 1px)",
               backgroundSize: "32px 32px",
               backgroundPosition: `${canvasOffset.x % 32}px ${canvasOffset.y % 32}px`,
             }}
@@ -159,8 +159,8 @@ export default function WhiteboardCanvas() {
           {blocks.length === 0 && (
             <div className="absolute inset-0 flex items-center justify-center pointer-events-none canvas-bg">
               <div className="text-center space-y-2 canvas-bg">
-                <p className="text-white/20 text-xl font-heading">Click to add a text block</p>
-                <p className="text-white/10 text-sm">or select a tool from the left panel</p>
+                <p className="text-black/20 text-xl font-heading">Click to add a text block</p>
+                <p className="text-black/10 text-sm">or select a tool from the left panel</p>
               </div>
             </div>
           )}
