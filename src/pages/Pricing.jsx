@@ -162,7 +162,7 @@ export default function Pricing() {
       {/* Hero */}
       <section className="px-4 pt-20 pb-16 text-center bg-gradient-to-b from-primary/5 via-background to-background">
         <motion.div initial={{ opacity: 0, y: 24 }} animate={{ opacity: 1, y: 0 }} className="max-w-2xl mx-auto space-y-6">
-          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-destructive/10 border border-destructive/30 text-destructive text-xs font-bold tracking-wider uppercase">
+          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/10 border border-primary/30 text-primary text-xs font-bold tracking-wider uppercase">
             <Flame className="h-3.5 w-3.5" />
             Fire Your Manager
           </div>
@@ -263,14 +263,14 @@ export default function Pricing() {
       <section className="px-4 pb-16">
         <div className="max-w-3xl mx-auto">
           <motion.div initial={{ opacity: 0, y: 16 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}
-            className="rounded-2xl bg-primary/5 border border-primary/20 p-8 text-center space-y-4">
+            className="rounded-2xl bg-secondary border border-border p-8 text-center space-y-4">
             <Flame className="h-8 w-8 text-primary mx-auto" />
             <h3 className="font-heading text-2xl font-bold">The math doesn't lie.</h3>
             <div className="grid grid-cols-2 gap-4 text-center max-w-md mx-auto">
-              <div className="rounded-xl bg-destructive/10 border border-destructive/20 p-4 space-y-1">
-                <p className="font-heading text-3xl font-black text-destructive">$7,500+</p>
-                <p className="text-xs text-muted-foreground">What a manager takes on $50K/year income</p>
-              </div>
+              <div className="rounded-xl bg-destructive/10 border border-destructive/25 p-4 space-y-1">
+                     <p className="font-heading text-3xl font-black text-destructive">$7,500+</p>
+                     <p className="text-xs text-muted-foreground">What a manager takes on $50K/year income</p>
+                   </div>
               <div className="rounded-xl bg-primary/10 border border-primary/20 p-4 space-y-1">
                 <p className="font-heading text-3xl font-black text-primary">$444</p>
                 <p className="text-xs text-muted-foreground">SoundReady DIY annual cost — all tools included</p>
