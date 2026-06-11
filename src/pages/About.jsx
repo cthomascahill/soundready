@@ -6,7 +6,7 @@ import {
   ArrowRight, Flame, Zap, BarChart2, Music2, DollarSign, FileText, Users,
   CheckCircle2, Mic2, MapPin, BookOpen, Wand2, Link2, TrendingUp, Newspaper,
   Send, CalendarDays, AlertTriangle, Clock, PhoneOff, TrendingDown, Star,
-  Briefcase, Bot, UserCheck, ChevronRight, X
+  Briefcase, Bot, UserCheck, ChevronRight, X, Sparkles
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
@@ -83,6 +83,30 @@ const TIERS = [
     ],
     cta: "Apply Now",
     subtext: "We'll do a quick 15-min call to get your roster set up correctly. It's worth it.",
+  },
+  {
+    icon: Bot,
+    color: "text-primary",
+    bg: "bg-primary/10",
+    border: "border-primary/30",
+    name: "AI Manager",
+    tagline: "Your career on autopilot.",
+    price: "$200/mo",
+    badge: "Most Powerful",
+    badgeStyle: "bg-primary text-primary-foreground",
+    glow: true,
+    desc: "Everything in Label plus a dedicated AI that works your career around the clock. The moment you upload a song and submit to distribution SoundReady automatically pitches every matching playlist, monitors tour opportunities in your genre, and prepares booking outreach — all ready to send with one tap. This is what having a real team working for you feels like.",
+    items: [
+      "Everything in Label",
+      "Auto-playlist pitching on every release",
+      "Tour & gig opportunity alerts in your genre",
+      "One-tap booking agent outreach",
+      "Auto-generated EPK & press kit on upload",
+      "Weekly AI career digest delivered to your inbox",
+      "Priority support & dedicated onboarding",
+    ],
+    cta: "Get Started",
+    subtext: "We'll set up your AI Manager profile in a 20-minute onboarding call.",
   },
 ];
 
@@ -217,20 +241,24 @@ export default function About() {
             <p className="text-lg text-muted-foreground max-w-2xl mx-auto">Pay for the size of your operation — not for features. Every tier includes the full platform.</p>
           </motion.div>
 
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-5">
+          <div className="grid grid-cols-1 lg:grid-cols-4 gap-5">
             {TIERS.map((tier, i) => (
               <motion.div key={tier.name}
                 initial={{ opacity: 0, y: 24 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}
                 transition={{ delay: i * 0.12 }}
                 className={`relative rounded-2xl border p-6 flex flex-col bg-card ${
-                  tier.badge ? "ring-2 ring-primary/40 shadow-xl" : ""
+                  tier.badge === "Most Powerful" ? "ring-2 ring-primary/60 shadow-2xl shadow-primary/10" :
+                  tier.badge === "Most Popular" ? "ring-2 ring-primary/40 shadow-xl" : ""
                 } ${tier.border}`}>
                 {tier.badge && (
-                  <div className="absolute -top-3 left-1/2 -translate-x-1/2 px-3 py-1 rounded-full bg-primary text-primary-foreground text-xs font-bold whitespace-nowrap">
+                  <div className={`absolute -top-3 left-1/2 -translate-x-1/2 px-3 py-1 rounded-full text-xs font-bold whitespace-nowrap ${tier.badgeStyle || "bg-primary text-primary-foreground"}`}>
                     {tier.badge}
                   </div>
                 )}
-                <div className={`h-11 w-11 rounded-xl ${tier.bg} border ${tier.border} flex items-center justify-center mb-4`}>
+                {tier.glow && (
+                  <div className="absolute inset-0 rounded-2xl bg-primary/5 pointer-events-none" />
+                )}
+                <div className={`h-11 w-11 rounded-xl ${tier.bg} border ${tier.border} flex items-center justify-center mb-4 relative`}>
                   <tier.icon className={`h-5 w-5 ${tier.color}`} />
                 </div>
                 <p className="font-heading font-black text-2xl">{tier.name}</p>
@@ -246,9 +274,10 @@ export default function About() {
                   ))}
                 </div>
                 <Button
-                  className="w-full mt-6 font-semibold bg-primary hover:bg-primary/90 text-primary-foreground"
+                  className={`w-full mt-6 font-semibold ${tier.name === "AI Manager" ? "bg-primary hover:bg-primary/90 text-primary-foreground" : "bg-primary hover:bg-primary/90 text-primary-foreground"}`}
                   onClick={tier.cta === "Apply Now" ? () => setShowLabelModal(true) : handleCTA}
                 >
+                  {tier.name === "AI Manager" && <Sparkles className="h-3.5 w-3.5 mr-1.5" />}
                   {tier.cta}
                 </Button>
                 {tier.subtext && <p className="text-center text-xs text-muted-foreground mt-2">{tier.subtext}</p>}

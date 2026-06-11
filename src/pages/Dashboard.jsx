@@ -9,6 +9,7 @@ import {
   Music2, BarChart2, ChevronRight, ArrowRight,
   Sparkles, Users, Clock, AlertCircle, Shield, Radio
 } from "lucide-react";
+import AIActivityFeed from "@/components/dashboard/AIActivityFeed";
 
 const STATUS_COLORS = {
   complete: "bg-green-500/15 text-green-600 border-green-500/25",
@@ -178,6 +179,9 @@ export default function Dashboard() {
             </Link>
           </div>
         </div>
+
+        {/* AI Activity Feed */}
+        <AIActivityFeed user={user} />
 
         {/* Quick Actions */}
         <section>
