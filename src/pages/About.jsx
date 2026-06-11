@@ -146,7 +146,7 @@ export default function About() {
         <div className="absolute inset-0 bg-gradient-to-b from-primary/8 via-background to-background pointer-events-none" />
         <motion.div initial={{ opacity: 0, y: 32 }} animate={{ opacity: 1, y: 0 }} className="relative max-w-5xl mx-auto space-y-8">
           <motion.div initial={{ opacity: 0, scale: 0.9 }} animate={{ opacity: 1, scale: 1 }} transition={{ delay: 0.1 }}
-            className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-destructive/10 border border-destructive/30 text-destructive text-xs font-bold tracking-wider uppercase">
+            className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/10 border border-primary/30 text-primary text-xs font-bold tracking-wider uppercase">
             <Flame className="h-3.5 w-3.5" />
             The Artist Management Revolution
           </motion.div>
@@ -179,7 +179,7 @@ export default function About() {
       <section className="px-4 py-24 border-t border-border">
         <div className="max-w-5xl mx-auto">
           <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="text-center mb-14 space-y-4">
-            <h2 className="font-heading text-4xl sm:text-5xl font-bold">Two types of artists. One platform that changes everything.</h2>
+            <h2 className="font-heading text-4xl sm:text-5xl font-bold">Two types of artists. One platform that <span className="text-primary">changes everything.</span></h2>
           </motion.div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
@@ -200,9 +200,9 @@ export default function About() {
               <motion.div key={i}
                 initial={{ opacity: 0, y: 16 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}
                 transition={{ delay: i * 0.1 }}
-                className="flex flex-col gap-4 p-7 rounded-xl bg-destructive/5 border border-destructive/15">
-                <div className="h-9 w-9 rounded-lg bg-destructive/10 flex items-center justify-center shrink-0">
-                  <card.icon className="h-4 w-4 text-destructive" />
+                className="flex flex-col gap-4 p-7 rounded-xl bg-secondary border border-border">
+                <div className="h-9 w-9 rounded-lg bg-primary/10 flex items-center justify-center shrink-0">
+                  <card.icon className="h-4 w-4 text-primary" />
                 </div>
                 <p className="font-heading font-bold text-xl">{card.headline}</p>
                 <p className="text-sm leading-relaxed text-muted-foreground">{card.body}</p>
@@ -217,7 +217,7 @@ export default function About() {
       <section className="px-4 py-12 border-t border-border">
         <div className="max-w-4xl mx-auto">
           <motion.div initial={{ opacity: 0, y: 16 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}
-            className="rounded-2xl bg-primary/5 border border-primary/20 px-8 py-7 flex flex-col sm:flex-row items-start sm:items-center gap-5">
+            className="rounded-2xl bg-secondary border border-border px-8 py-7 flex flex-col sm:flex-row items-start sm:items-center gap-5">
             <div className="h-11 w-11 rounded-xl bg-primary/10 border border-primary/20 flex items-center justify-center shrink-0">
               <Users className="h-5 w-5 text-primary" />
             </div>
@@ -407,7 +407,7 @@ export default function About() {
       </section>
 
       {/* CTA */}
-      <section className="px-4 py-32 border-t border-border text-center bg-gradient-to-t from-primary/5 via-background to-background">
+      <section className="px-4 py-32 border-t border-border text-center bg-gradient-to-t from-primary/8 via-background to-background">
         <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="max-w-2xl mx-auto space-y-8">
           <div className="space-y-4">
             <h2 className="font-heading text-5xl sm:text-6xl font-black">

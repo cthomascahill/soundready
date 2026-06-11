@@ -150,7 +150,7 @@ export default function HowItWorks() {
         <div className="absolute inset-0 bg-gradient-to-b from-primary/8 via-background to-background pointer-events-none" />
         <motion.div initial={{ opacity: 0, y: 32 }} animate={{ opacity: 1, y: 0 }} className="relative max-w-4xl mx-auto space-y-8">
           <motion.div initial={{ opacity: 0, scale: 0.9 }} animate={{ opacity: 1, scale: 1 }} transition={{ delay: 0.1 }}
-            className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-destructive/10 border border-destructive/30 text-destructive text-xs font-bold tracking-wider uppercase">
+            className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/10 border border-primary/30 text-primary text-xs font-bold tracking-wider uppercase">
             HOW IT WORKS
           </motion.div>
           <h1 className="font-heading text-6xl sm:text-8xl font-black tracking-tight leading-[0.9]">
@@ -173,7 +173,7 @@ export default function HowItWorks() {
       <section className="px-4 py-24 border-t border-border">
         <div className="max-w-3xl mx-auto space-y-8">
           <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="space-y-4">
-            <p className="text-xs text-destructive uppercase tracking-wider font-bold">The Reality</p>
+            <p className="text-xs text-primary uppercase tracking-wider font-bold">The Reality</p>
             <h2 className="font-heading text-4xl sm:text-5xl font-bold">The music industry is not set up for you to win.</h2>
           </motion.div>
           <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="space-y-5 text-lg text-muted-foreground leading-relaxed">

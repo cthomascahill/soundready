@@ -15,7 +15,7 @@ const STATUS_COLORS = {
   complete: "bg-green-500/15 text-green-600 border-green-500/25",
   analyzing: "bg-primary/10 text-primary border-primary/20",
   uploading: "bg-yellow-500/10 text-yellow-600 border-yellow-500/20",
-  error: "bg-destructive/10 text-destructive border-destructive/20",
+  error: "bg-primary/10 text-primary border-primary/20",
 };
 
 const STATUS_LABELS = {
