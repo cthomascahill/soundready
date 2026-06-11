@@ -42,14 +42,12 @@ import TourPlanner from './pages/TourPlanner';
 import TourOpportunities from './pages/TourOpportunities';
 import TaxEstimator from './pages/TaxEstimator';
 import NewsletterBuilder from './pages/NewsletterBuilder.jsx';
-import RightsManager from './pages/RightsManager.jsx';
 import ContentScheduler from './pages/ContentScheduler.jsx';
 import SyncPitcher from './pages/SyncPitcher.jsx';
 import TikTokCreatorOutreach from './pages/TikTokCreatorOutreach.jsx';
 import CollabFinder from './pages/CollabFinder.jsx';
 
 import EmailCampaigns from './pages/EmailCampaigns.jsx';
-import MerchandiseStore from './pages/MerchandiseStore.jsx';
 import SmartMixingFeedback from './pages/SmartMixingFeedback.jsx';
 import AIVideoGenerator from './pages/AIVideoGenerator.jsx';
 import MusicAcademy from './pages/MusicAcademy';
@@ -127,14 +125,14 @@ const AuthenticatedApp = () => {
         <Route path="/tour-opportunities" element={<TourOpportunities />} />
         <Route path="/tax-estimator" element={<TaxEstimator />} />
         <Route path="/newsletter" element={<NewsletterBuilder />} />
-        <Route path="/rights" element={<RightsManager />} />
+
         <Route path="/scheduler" element={<ContentScheduler />} />
         <Route path="/sync-pitcher" element={<SyncPitcher />} />
         <Route path="/tiktok-creators" element={<TikTokCreatorOutreach />} />
         <Route path="/collabs" element={<CollabFinder />} />
 
         <Route path="/email-campaigns" element={<EmailCampaigns />} />
-        <Route path="/merch" element={<MerchandiseStore />} />
+
         <Route path="/mixing-feedback" element={<SmartMixingFeedback />} />
         <Route path="/video-generator" element={<AIVideoGenerator />} />
         <Route path="/music-academy" element={<MusicAcademy />} />
