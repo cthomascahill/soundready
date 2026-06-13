@@ -41,6 +41,7 @@ export default function DrawingCanvas({ boardId, canvasOffset, activeTool, drawC
   const currentStrokeRef = useRef(null);
   const isDrawing = useRef(false);
   const animFrameRef = useRef(null);
+  const [cursorPos, setCursorPos] = useState(null);
 
   // Load existing strokes
   useEffect(() => {
@@ -147,7 +148,9 @@ export default function DrawingCanvas({ boardId, canvasOffset, activeTool, drawC
     scheduleRender();
   }, [activeTool, canvasOffset]);
 
-  const onMouseMove = useCallback((e) => {
+  const onMouseMoveAll = useCallback((e) => {
+    const rect = canvasRef.current?.getBoundingClientRect();
+    if (rect) setCursorPos({ x: e.clientX - rect.left, y: e.clientY - rect.top });
     if (!isDrawing.current) return;
     e.stopPropagation();
     currentStrokeRef.current = [...(currentStrokeRef.current || []), getPos(e)];
@@ -176,20 +179,54 @@ export default function DrawingCanvas({ boardId, canvasOffset, activeTool, drawC
   }, [activeTool, drawColor, drawWidth, boardId, userEmail]);
 
   const isActive = activeTool === "draw" || activeTool === "eraser";
+  const cursorSize = activeTool === "eraser" ? 28 : drawWidth;
 
   return (
-    <canvas
-      ref={canvasRef}
-      className="absolute inset-0 w-full h-full"
-      style={{
-        pointerEvents: isActive ? "auto" : "none",
-        cursor: "none",
-        zIndex: 10,
-      }}
-      onMouseDown={onMouseDown}
-      onMouseMove={onMouseMove}
-      onMouseUp={onMouseUp}
-      onMouseLeave={onMouseUp}
-    />
+    <>
+      <canvas
+        ref={canvasRef}
+        className="absolute inset-0 w-full h-full"
+        style={{
+          pointerEvents: isActive ? "auto" : "none",
+          cursor: "none",
+          zIndex: 10,
+        }}
+        onMouseDown={onMouseDown}
+        onMouseMove={onMouseMoveAll}
+        onMouseUp={onMouseUp}
+        onMouseLeave={() => { onMouseUp(); setCursorPos(null); }}
+      />
+      {/* Marker cursor preview */}
+      {isActive && cursorPos && (
+        <div
+          className="absolute pointer-events-none"
+          style={{
+            left: cursorPos.x,
+            top: cursorPos.y,
+            transform: "translate(-50%, -50%)",
+            zIndex: 20,
+          }}
+        >
+          {activeTool === "eraser" ? (
+            <div style={{
+              width: cursorSize,
+              height: cursorSize,
+              border: "2px solid #666",
+              borderRadius: "50%",
+              background: "rgba(255,255,255,0.5)",
+            }} />
+          ) : (
+            <div style={{
+              width: cursorSize,
+              height: cursorSize,
+              borderRadius: "50%",
+              background: drawColor,
+              opacity: 0.85,
+              boxShadow: `0 0 0 2px rgba(0,0,0,0.15), 0 0 0 3px white`,
+            }} />
+          )}
+        </div>
+      )}
+    </>
   );
 }
