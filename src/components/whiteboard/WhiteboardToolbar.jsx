@@ -1,10 +1,12 @@
-import { MousePointer2, Type, Heading, List, Bold, Underline, Minus } from "lucide-react";
+import { MousePointer2, Type, Heading, List, Bold, Underline, Pencil, Eraser } from "lucide-react";
 
 const TOOLS = [
   { id: "select", icon: MousePointer2, label: "Select / Pan" },
-  { id: "text", icon: Type, label: "Text" },
-  { id: "heading", icon: Heading, label: "Heading" },
-  { id: "bullet", icon: List, label: "Bullet List" },
+  { id: "draw", icon: Pencil, label: "Draw" },
+  { id: "eraser", icon: Eraser, label: "Eraser" },
+  { id: "text", icon: Type, label: "Text Block" },
+  { id: "heading", icon: Heading, label: "Heading Block" },
+  { id: "bullet", icon: List, label: "Bullet List Block" },
 ];
 
 const FONT_SIZES = [
@@ -13,13 +15,16 @@ const FONT_SIZES = [
   { id: "large", label: "L" },
 ];
 
-const COLORS = ["#ffffff", "#4ade80", "#60a5fa", "#f472b6", "#fb923c", "#facc15", "#a78bfa", "#f87171"];
+const TEXT_COLORS = ["#111111", "#ffffff", "#4ade80", "#60a5fa", "#f472b6", "#fb923c", "#facc15", "#a78bfa", "#f87171"];
+const DRAW_COLORS = ["#111111", "#ef4444", "#4ade80", "#60a5fa", "#f472b6", "#fb923c", "#facc15", "#a78bfa"];
+const DRAW_WIDTHS = [2, 4, 8, 16];
 
-export default function WhiteboardToolbar({ tool, onToolChange, selectedBlock, onStyleChange }) {
+export default function WhiteboardToolbar({ tool, onToolChange, selectedBlock, onStyleChange, drawColor, drawWidth, onDrawColorChange, onDrawWidthChange }) {
   const styles = selectedBlock?.styles || {};
+  const isDrawTool = tool === "draw" || tool === "eraser";
 
   return (
-    <div className="w-14 flex flex-col items-center py-4 gap-1 border-r border-white/5 bg-[#111] shrink-0">
+    <div className="w-14 flex flex-col items-center py-4 gap-1 border-r border-white/5 bg-[#111] shrink-0 overflow-y-auto">
       {/* Tools */}
       <div className="flex flex-col gap-1 w-full px-1.5 pb-3 border-b border-white/5">
         {TOOLS.map(({ id, icon: Icon, label }) => (
@@ -34,10 +39,41 @@ export default function WhiteboardToolbar({ tool, onToolChange, selectedBlock, o
         ))}
       </div>
 
-      {/* Styling — only when block selected */}
-      {selectedBlock && (
+      {/* Draw tool options */}
+      {isDrawTool && tool !== "eraser" && (
         <div className="flex flex-col gap-2 pt-3 w-full px-1.5 items-center">
-          {/* Bold */}
+          <p className="text-[9px] text-white/30 uppercase tracking-wider">Color</p>
+          <div className="flex flex-col gap-1.5 items-center">
+            {DRAW_COLORS.map((c) => (
+              <button
+                key={c}
+                title={c}
+                onClick={() => onDrawColorChange(c)}
+                className={`h-5 w-5 rounded-full transition-all border-2 ${drawColor === c ? "border-white scale-110" : "border-transparent hover:scale-105"}`}
+                style={{ background: c }}
+              />
+            ))}
+          </div>
+          <div className="w-8 h-px bg-white/10 my-1" />
+          <p className="text-[9px] text-white/30 uppercase tracking-wider">Size</p>
+          <div className="flex flex-col gap-1.5 items-center">
+            {DRAW_WIDTHS.map((w) => (
+              <button
+                key={w}
+                title={`${w}px`}
+                onClick={() => onDrawWidthChange(w)}
+                className={`flex items-center justify-center h-8 w-10 rounded-lg transition-all ${drawWidth === w ? "bg-primary/30 border border-primary" : "hover:bg-white/8"}`}
+              >
+                <div className="rounded-full bg-white" style={{ width: Math.min(w * 1.5, 24), height: Math.min(w * 1.5, 24) }} />
+              </button>
+            ))}
+          </div>
+        </div>
+      )}
+
+      {/* Styling — only when text block selected */}
+      {selectedBlock && !isDrawTool && (
+        <div className="flex flex-col gap-2 pt-3 w-full px-1.5 items-center">
           <button
             title="Bold"
             onClick={() => onStyleChange({ bold: !styles.bold })}
@@ -45,8 +81,6 @@ export default function WhiteboardToolbar({ tool, onToolChange, selectedBlock, o
           >
             <Bold className="h-4 w-4" />
           </button>
-
-          {/* Underline */}
           <button
             title="Underline"
             onClick={() => onStyleChange({ underline: !styles.underline })}
@@ -54,8 +88,6 @@ export default function WhiteboardToolbar({ tool, onToolChange, selectedBlock, o
           >
             <Underline className="h-4 w-4" />
           </button>
-
-          {/* Font size */}
           <div className="flex flex-col gap-1 w-full">
             {FONT_SIZES.map((s) => (
               <button
@@ -68,13 +100,9 @@ export default function WhiteboardToolbar({ tool, onToolChange, selectedBlock, o
               </button>
             ))}
           </div>
-
-          {/* Divider */}
           <div className="w-8 h-px bg-white/10 my-1" />
-
-          {/* Colors */}
           <div className="flex flex-col gap-1.5 items-center">
-            {COLORS.map((c) => (
+            {TEXT_COLORS.map((c) => (
               <button
                 key={c}
                 title={c}

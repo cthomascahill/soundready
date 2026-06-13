@@ -4,6 +4,7 @@ import { useParams, Link } from "react-router-dom";
 import WhiteboardBlock from "@/components/whiteboard/WhiteboardBlock";
 import WhiteboardToolbar from "@/components/whiteboard/WhiteboardToolbar";
 import WhiteboardTopBar from "@/components/whiteboard/WhiteboardTopBar";
+import DrawingCanvas from "@/components/whiteboard/DrawingCanvas";
 
 export default function WhiteboardCanvas() {
   const { boardId } = useParams();
@@ -16,7 +17,9 @@ export default function WhiteboardCanvas() {
   const [isPanning, setIsPanning] = useState(false);
   const [panStart, setPanStart] = useState(null);
   const [activeUsers, setActiveUsers] = useState([]);
-  const [tool, setTool] = useState("select"); // select | text | heading | bullet
+  const [tool, setTool] = useState("select"); // select | draw | eraser | text | heading | bullet
+  const [drawColor, setDrawColor] = useState("#111111");
+  const [drawWidth, setDrawWidth] = useState(3);
   const canvasRef = useRef(null);
   const lastSaveRef = useRef({});
 
@@ -93,6 +96,7 @@ export default function WhiteboardCanvas() {
 
   // Pan handling
   const onMouseDown = (e) => {
+    if (tool === "draw" || tool === "eraser") return; // handled by DrawingCanvas
     if (e.target !== canvasRef.current && !e.target.classList.contains("canvas-bg")) return;
     if (tool === "select") {
       setIsPanning(true);
@@ -134,18 +138,37 @@ export default function WhiteboardCanvas() {
       />
 
       <div className="flex flex-1 overflow-hidden">
-        <WhiteboardToolbar tool={tool} onToolChange={setTool} selectedBlock={selectedBlock} onStyleChange={(patch) => selectedBlock && updateBlock(selectedBlock.id, { styles: { ...selectedBlock.styles, ...patch } })} />
+        <WhiteboardToolbar
+          tool={tool}
+          onToolChange={setTool}
+          selectedBlock={selectedBlock}
+          onStyleChange={(patch) => selectedBlock && updateBlock(selectedBlock.id, { styles: { ...selectedBlock.styles, ...patch } })}
+          drawColor={drawColor}
+          drawWidth={drawWidth}
+          onDrawColorChange={setDrawColor}
+          onDrawWidthChange={setDrawWidth}
+        />
 
         {/* Canvas */}
         <div
           ref={canvasRef}
-          className={`flex-1 relative overflow-hidden canvas-bg ${tool !== "select" ? "cursor-crosshair" : isPanning ? "cursor-grabbing" : "cursor-grab"}`}
+          className={`flex-1 relative overflow-hidden canvas-bg ${tool === "draw" ? "cursor-crosshair" : tool === "eraser" ? "cursor-cell" : tool !== "select" ? "cursor-crosshair" : isPanning ? "cursor-grabbing" : "cursor-grab"}`}
           style={{ background: "#ffffff" }}
           onMouseDown={onMouseDown}
           onMouseMove={onMouseMove}
           onMouseUp={onMouseUp}
           onClick={addBlock}
         >
+          {/* Drawing canvas overlay */}
+          <DrawingCanvas
+            boardId={boardId}
+            canvasOffset={canvasOffset}
+            activeTool={tool}
+            drawColor={drawColor}
+            drawWidth={drawWidth}
+            userEmail={user?.email}
+          />
+
           {/* Dot grid */}
           <div className="absolute inset-0 pointer-events-none canvas-bg"
             style={{
