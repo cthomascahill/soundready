@@ -38,15 +38,21 @@ function drawExpoStroke(ctx, points, color, width, opacity = 0.82) {
 export default function DrawingCanvas({ boardId, canvasOffset, activeTool, drawColor, drawWidth, userEmail }) {
   const canvasRef = useRef(null);
   const [strokes, setStrokes] = useState([]);
+  const strokesRef = useRef([]);
   const currentStrokeRef = useRef(null);
   const isDrawing = useRef(false);
   const animFrameRef = useRef(null);
   const [cursorPos, setCursorPos] = useState(null);
 
+  // Keep strokesRef in sync with strokes state
+  useEffect(() => {
+    strokesRef.current = strokes;
+  }, [strokes]);
+
   // Load existing strokes
   useEffect(() => {
     base44.entities.WhiteboardStroke.filter({ board_id: boardId }, "created_date", 500)
-      .then(setStrokes)
+      .then((s) => { setStrokes(s); strokesRef.current = s; })
       .catch(() => {});
   }, [boardId]);
 
@@ -55,15 +61,24 @@ export default function DrawingCanvas({ boardId, canvasOffset, activeTool, drawC
     const unsub = base44.entities.WhiteboardStroke.subscribe((event) => {
       if (event.data?.board_id !== boardId) return;
       if (event.type === "create") {
-        setStrokes((prev) => prev.find((s) => s.id === event.id) ? prev : [...prev, event.data]);
+        setStrokes((prev) => {
+          if (prev.find((s) => s.id === event.id)) return prev;
+          const next = [...prev, event.data];
+          strokesRef.current = next;
+          return next;
+        });
       } else if (event.type === "delete") {
-        setStrokes((prev) => prev.filter((s) => s.id !== event.id));
+        setStrokes((prev) => {
+          const next = prev.filter((s) => s.id !== event.id);
+          strokesRef.current = next;
+          return next;
+        });
       }
     });
     return unsub;
   }, [boardId]);
 
-  // Full re-render whenever strokes/offset changes
+  // Full re-render — always reads from refs so it never goes stale during drawing
   const render = useCallback(() => {
     const canvas = canvasRef.current;
     if (!canvas) return;
@@ -71,12 +86,12 @@ export default function DrawingCanvas({ boardId, canvasOffset, activeTool, drawC
     ctx.clearRect(0, 0, canvas.width, canvas.height);
 
     const allStrokes = currentStrokeRef.current
-      ? [...strokes, {
+      ? [...strokesRef.current, {
           points: currentStrokeRef.current,
           color: activeTool === "eraser" ? "#ffffff" : drawColor,
           width: activeTool === "eraser" ? 28 : drawWidth,
         }]
-      : strokes;
+      : strokesRef.current;
 
     for (const stroke of allStrokes) {
       if (!stroke.points || stroke.points.length < 2) continue;
@@ -104,11 +119,11 @@ export default function DrawingCanvas({ boardId, canvasOffset, activeTool, drawC
         drawExpoStroke(ctx, pts, stroke.color || "#111111", stroke.width || 6, 0.8);
       }
     }
-  }, [strokes, canvasOffset, drawColor, drawWidth, activeTool]);
+  }, [canvasOffset, drawColor, drawWidth, activeTool]);
 
   useEffect(() => {
     render();
-  }, [render]);
+  }, [render, strokes]);
 
   // Resize canvas
   useEffect(() => {
