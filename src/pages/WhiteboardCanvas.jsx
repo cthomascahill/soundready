@@ -58,7 +58,7 @@ export default function WhiteboardCanvas() {
   }, [boardId]);
 
   const addBlock = async (e) => {
-    if (tool === "select" || !canvasRef.current) return;
+    if (tool === "select" || tool === "draw" || tool === "eraser" || !canvasRef.current) return;
     const rect = canvasRef.current.getBoundingClientRect();
     const x = e.clientX - rect.left - canvasOffset.x;
     const y = e.clientY - rect.top - canvasOffset.y;
