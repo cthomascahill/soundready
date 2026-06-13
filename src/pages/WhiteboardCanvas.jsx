@@ -76,7 +76,6 @@ export default function WhiteboardCanvas() {
     });
     setBlocks((prev) => [...prev, newBlock]);
     setSelectedBlockId(newBlock.id);
-    setTool("select");
   };
 
   const updateBlock = useCallback(async (id, patch) => {
