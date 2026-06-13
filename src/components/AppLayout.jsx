@@ -24,6 +24,7 @@ const TEAM_ITEMS = [
 ];
 
 const CAREER_ITEMS = [
+  { to: "/streaming-analyst", icon: TrendingUp, label: "Streaming Analyst" },
   { to: "/ar-intelligence", icon: Sparkles, label: "A&R Intelligence" },
   { to: "/release-radar", icon: Radio, label: "Release Radar" },
   { to: "/playlist-pitcher", icon: Mic2, label: "Playlist Pitching" },
