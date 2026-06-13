@@ -19,7 +19,7 @@ export default function WhiteboardCanvas() {
   const [activeUsers, setActiveUsers] = useState([]);
   const [tool, setTool] = useState("select"); // select | draw | eraser | text | heading | bullet
   const [drawColor, setDrawColor] = useState("#111111");
-  const [drawWidth, setDrawWidth] = useState(3);
+  const [drawWidth, setDrawWidth] = useState(6);
   const canvasRef = useRef(null);
   const lastSaveRef = useRef({});
 
