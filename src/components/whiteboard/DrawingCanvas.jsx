@@ -43,6 +43,13 @@ export default function DrawingCanvas({ boardId, canvasOffset, activeTool, drawC
   const isDrawing = useRef(false);
   const animFrameRef = useRef(null);
   const [cursorPos, setCursorPos] = useState(null);
+  const activeToolRef = useRef(activeTool);
+  const drawColorRef = useRef(drawColor);
+  const drawWidthRef = useRef(drawWidth);
+
+  useEffect(() => { activeToolRef.current = activeTool; }, [activeTool]);
+  useEffect(() => { drawColorRef.current = drawColor; }, [drawColor]);
+  useEffect(() => { drawWidthRef.current = drawWidth; }, [drawWidth]);
 
   // Keep strokesRef in sync with strokes state
   useEffect(() => {
@@ -88,8 +95,8 @@ export default function DrawingCanvas({ boardId, canvasOffset, activeTool, drawC
     const allStrokes = currentStrokeRef.current
       ? [...strokesRef.current, {
           points: currentStrokeRef.current,
-          color: activeTool === "eraser" ? "#ffffff" : drawColor,
-          width: activeTool === "eraser" ? 28 : drawWidth,
+          color: activeToolRef.current === "eraser" ? "#ffffff" : drawColorRef.current,
+          width: activeToolRef.current === "eraser" ? 28 : drawWidthRef.current,
         }]
       : strokesRef.current;
 
@@ -186,8 +193,8 @@ export default function DrawingCanvas({ boardId, canvasOffset, activeTool, drawC
     const saved = await base44.entities.WhiteboardStroke.create({
       board_id: boardId,
       points: stroke,
-      color: activeTool === "eraser" ? "#ffffff" : drawColor,
-      width: activeTool === "eraser" ? 28 : drawWidth,
+      color: activeToolRef.current === "eraser" ? "#ffffff" : drawColorRef.current,
+      width: activeToolRef.current === "eraser" ? 28 : drawWidthRef.current,
       author_email: userEmail,
     });
     setStrokes((prev) => [...prev, saved]);
