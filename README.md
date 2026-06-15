@@ -4,7 +4,6 @@
 
 - this app uses react and pocketbase!
 
-
 CTC:
 
 $ npm run dev 

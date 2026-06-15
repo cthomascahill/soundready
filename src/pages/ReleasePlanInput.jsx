@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
 import { base44 } from "@/api/base44Client";
+import { uploadAudioFile } from "@/api/pocketbase";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Upload, Music2, Sparkles, Activity, CheckCircle2, FileText, Mic2 } from "lucide-react";
@@ -33,7 +34,7 @@ export default function ReleasePlanInput() {
       setAnalysisStep("analyzing");
 
       const [uploadRes, audioAnalysis] = await Promise.all([
-        base44.integrations.Core.UploadFile({ file: audioFile }),
+        uploadAudioFile(audioFile),
         analyzeAudio(audioFile),
       ]);
 
@@ -188,7 +189,7 @@ export default function ReleasePlanInput() {
             <label className="block">
               <input
                 type="file"
-                accept="audio/*"
+                accept=".mp3,.wav,.aac,.m4a,audio/mpeg,audio/wav,audio/x-wav,audio/aac,audio/mp4"
                 onChange={(e) => setAudioFile(e.target.files?.[0] || null)}
                 className="hidden"
               />
