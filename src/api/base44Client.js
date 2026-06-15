@@ -1,27 +1,8 @@
-import { db, auth as firebaseAuth, functions as firebaseFunctions } from './firebase';
-import {
-  collection, getDocs, addDoc, updateDoc, deleteDoc,
-  doc, query, where, onSnapshot, getDoc, Timestamp,
-} from 'firebase/firestore';
-import { signOut } from 'firebase/auth';
-import { httpsCallable } from 'firebase/functions';
+import { pb } from './pocketbase';
 
-// Collections shared across all users (no user_id scoping)
-const SHARED_COLLECTIONS = new Set(['CommunityMessage', 'ReportCollaborator', 'ReportComment']);
-
-const fromTimestamp = (val) => {
-  if (val instanceof Timestamp) return val.toDate().toISOString();
-  return val;
-};
-
-const docToData = (d) => {
-  const raw = d.data();
-  const result = { id: d.id };
-  for (const [k, v] of Object.entries(raw)) {
-    result[k] = fromTimestamp(v);
-  }
-  return result;
-};
+// PascalCase → snake_case collection names (e.g. SongLibrary → song_library)
+const toCollectionName = (name) =>
+  name.replace(/([A-Z])/g, (m, l, offset) => (offset === 0 ? l.toLowerCase() : `_${l.toLowerCase()}`));
 
 const sortDocs = (docs, sortField) => {
   if (!sortField) return docs;
@@ -37,142 +18,75 @@ const sortDocs = (docs, sortField) => {
 };
 
 const makeEntityClient = (collectionName) => {
-  const collRef = collection(db, collectionName);
-  const isShared = SHARED_COLLECTIONS.has(collectionName);
-
-  const baseQuery = () => {
-    const user = firebaseAuth.currentUser;
-    if (!user || isShared) return query(collRef);
-    return query(collRef, where('user_id', '==', user.uid));
-  };
+  const col = toCollectionName(collectionName);
 
   return {
-    list: async (sortField = '-created_date', lim = 50) => {
-      const snapshot = await getDocs(baseQuery());
-      let results = snapshot.docs.map(docToData);
-      if (sortField) results = sortDocs(results, sortField);
-      return lim ? results.slice(0, lim) : results;
+    list: async (sortField = '-created', lim = 200) => {
+      try {
+        const records = await pb.collection(col).getFullList({ requestKey: null });
+        let results = records;
+        if (sortField) results = sortDocs(results, sortField);
+        if (lim) results = results.slice(0, lim);
+        return results;
+      } catch {
+        return [];
+      }
     },
 
     create: async (data) => {
-      const user = firebaseAuth.currentUser;
-      const now = new Date().toISOString();
-      const docData = {
-        ...data,
-        created_date: now,
-        updated_date: now,
-        ...(user && !isShared && { user_id: user.uid }),
-        ...(user && { created_by: user.email }),
-      };
-      const ref = await addDoc(collRef, docData);
-      return { id: ref.id, ...docData };
+      return pb.collection(col).create(data);
     },
 
     update: async (id, data) => {
-      const ref = doc(db, collectionName, id);
-      const patch = { ...data, updated_date: new Date().toISOString() };
-      await updateDoc(ref, patch);
-      const snap = await getDoc(ref);
-      return docToData(snap);
+      return pb.collection(col).update(id, data);
     },
 
     delete: async (id) => {
-      await deleteDoc(doc(db, collectionName, id));
+      return pb.collection(col).delete(id);
     },
 
     filter: async (conditions = {}, sortField, lim) => {
-      const snapshot = await getDocs(baseQuery());
-      let results = snapshot.docs.map(docToData);
+      try {
+        const records = await pb.collection(col).getFullList({ requestKey: null });
+        let results = records;
 
-      for (const [key, value] of Object.entries(conditions)) {
-        if (key === 'created_by') continue; // already scoped by user_id
-        if (key === 'id') {
-          results = results.filter(r => r.id === value);
-        } else {
-          results = results.filter(r => r[key] === value);
+        for (const [key, value] of Object.entries(conditions)) {
+          if (key === 'id') {
+            results = results.filter((r) => r.id === value);
+          } else {
+            results = results.filter((r) => r[key] === value);
+          }
         }
-      }
 
-      if (sortField) results = sortDocs(results, sortField);
-      if (lim) results = results.slice(0, lim);
-      return results;
+        if (sortField) results = sortDocs(results, sortField);
+        if (lim) results = results.slice(0, lim);
+        return results;
+      } catch {
+        return [];
+      }
     },
 
-    // Real-time subscription — fires per-document change events matching Base44's format
     subscribe: (callback) => {
-      return onSnapshot(baseQuery(), (snapshot) => {
-        snapshot.docChanges().forEach((change) => {
-          const data = docToData(change.doc);
-          const typeMap = { added: 'create', modified: 'update', removed: 'delete' };
-          callback({ type: typeMap[change.type], id: data.id, data });
-        });
+      pb.collection(col).subscribe('*', (e) => {
+        const typeMap = { create: 'create', update: 'update', delete: 'delete' };
+        callback({ type: typeMap[e.action], id: e.record.id, data: e.record });
       });
+      return () => pb.collection(col).unsubscribe('*');
     },
   };
 };
 
-// ── Auth ──────────────────────────────────────────────────────────────────────
-
-const getUserProfile = async (firebaseUser) => {
-  const ref = doc(db, 'users', firebaseUser.uid);
-  try {
-    const snap = await getDoc(ref);
-    const profile = snap.exists() ? snap.data() : {};
-    return {
-      id: firebaseUser.uid,
-      email: firebaseUser.email,
-      full_name: profile.full_name ?? firebaseUser.displayName ?? '',
-      ...profile,
-    };
-  } catch {
-    return {
-      id: firebaseUser.uid,
-      email: firebaseUser.email,
-      full_name: firebaseUser.displayName ?? '',
-    };
-  }
-};
-
 const authMethods = {
-  isAuthenticated: () => Promise.resolve(!!firebaseAuth.currentUser),
-
-  me: async () => {
-    const user = firebaseAuth.currentUser;
-    if (!user) throw new Error('Not authenticated');
-    return getUserProfile(user);
-  },
-
-  logout: (redirectUrl) => {
-    signOut(firebaseAuth).then(() => {
-      window.location.href = redirectUrl ?? '/';
-    });
-  },
-
-  redirectToLogin: (redirectUrl) => {
-    if (redirectUrl) sessionStorage.setItem('auth_redirect', redirectUrl);
-    window.location.href = '/login';
-  },
-
-  updateMe: async (data) => {
-    const user = firebaseAuth.currentUser;
-    if (!user) throw new Error('Not authenticated');
-    const ref = doc(db, 'users', user.uid);
-    await updateDoc(ref, { ...data, updated_date: new Date().toISOString() });
-  },
+  isAuthenticated: () => Promise.resolve(true),
+  me: async () => ({ id: 'local', email: 'local@soundready.app', full_name: 'Local User' }),
+  logout: () => {},
+  redirectToLogin: () => {},
+  updateMe: async () => {},
 };
-
-// ── Functions ─────────────────────────────────────────────────────────────────
 
 const functionsMethods = {
-  invoke: async (name, args = {}) => {
-    const fn = httpsCallable(firebaseFunctions, name);
-    const result = await fn(args);
-    // Firebase callable returns { data: <fn-result> } — matches Base44's res.data pattern
-    return result;
-  },
+  invoke: async () => { throw new Error('Cloud functions not available with PocketBase'); },
 };
-
-// ── Export ────────────────────────────────────────────────────────────────────
 
 export const base44 = {
   entities: new Proxy({}, {

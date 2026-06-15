@@ -2,9 +2,13 @@
 
 **About**
 
-View and Edit your app on [Base44.com](http://Base44.com) 
+- this app uses react and pocketbase!
 
--- CTC: when running app locally, use http://localhost:5173/
+
+CTC:
+
+$ npm run dev 
+  - this starts up app @ http://localhost:5173/ and pocketbase admin @ http://127.0.0.1:8090/_/
 
 **Prerequisites:** 
 
