@@ -33,7 +33,6 @@ const CAREER_ITEMS = [
   { to: "/tour-planner", icon: CalendarRange, label: "Tour Planner" },
   { to: "/tour-opportunities", icon: Briefcase, label: "Tour Opportunities" },
   { to: "/soundcheck", icon: Mic2, label: "Soundcheck" },
-  { to: "/tiktok-creators", icon: Music2, label: "TikTok Creators" },
   { to: "/scheduler", icon: CalendarDays, label: "Content Scheduler" },
   { to: "/pitch-deck", icon: FileText, label: "EPK Builder" },
   { to: "/press-kit", icon: FileText, label: "Press Kit" },
