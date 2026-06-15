@@ -78,11 +78,10 @@ const TIERS = [
       "Unlimited team members",
       "Unlimited song library",
       "Multiple artist profiles under one account",
-      "Dedicated onboarding support",
       "First access to new features",
     ],
     cta: "Apply Now",
-    subtext: "We'll do a quick 15-min call to get your roster set up correctly. It's worth it.",
+    subtext: "No contracts. Cancel anytime.",
   },
   {
     icon: Bot,
@@ -106,7 +105,7 @@ const TIERS = [
       "Priority support & dedicated onboarding",
     ],
     cta: "Get Started",
-    subtext: "We'll set up your AI Manager profile in a 20-minute onboarding call.",
+    subtext: "No contracts. Cancel anytime.",
   },
 ];
 
@@ -302,7 +301,7 @@ export default function About() {
             <div className="space-y-2">
               <p className="text-xs text-primary uppercase tracking-widest font-bold">Label Plan</p>
               <h3 className="font-heading text-2xl font-bold">Let's get your roster set up.</h3>
-              <p className="text-muted-foreground text-sm">Book a quick 15-minute call with our team.</p>
+              <p className="text-muted-foreground text-sm">Get in touch and we'll get your roster set up.</p>
             </div>
             <div className="rounded-xl bg-secondary/50 border border-border h-48 flex items-center justify-center text-muted-foreground text-sm">
               {/* Calendly embed placeholder */}

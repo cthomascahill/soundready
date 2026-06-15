@@ -114,7 +114,7 @@ const ALL_TOOLS = [
 const TIERS = [
   { name: "Artist", price: "$37/mo", tagline: "You're the operation. Every tool in your hands.", cta: "Start Building My Career", badge: null },
   { name: "Pro", price: "$67/mo", tagline: "You and your team. Everyone in one place.", cta: "Start Building My Career", badge: "Most Popular" },
-  { name: "Label", price: "$97/mo", tagline: "Your whole roster. One platform.", cta: "Apply Now", badge: null },
+  { name: "Label", price: "$97/mo", tagline: "Your whole roster. One platform.", cta: "Start Building My Career", badge: null },
 ];
 
 export default function HowItWorks() {
