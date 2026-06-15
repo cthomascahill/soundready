@@ -3,12 +3,7 @@ import { useState, useEffect } from "react";
 import { base44 } from "@/api/base44Client";
 import { motion } from "framer-motion";
 import AlgorithmOutlook from "../components/report/AlgorithmOutlook";
-import BestClipMoments from "../components/report/BestClipMoments";
-import ContentVideoIdeas from "../components/report/ContentVideoIdeas";
-import ReleaseRecommendations from "../components/report/ReleaseRecommendations";
 import PlaylistPitch from "../components/report/PlaylistPitch";
-import SocialCaptions from "../components/report/SocialCaptions";
-import SocialPreview from "../components/report/SocialPreview";
 import CollabSuggestions from "../components/report/CollabSuggestions";
 import WaveformVisual from "../components/report/WaveformVisual";
 import ScoreDisplay from "../components/report/ScoreDisplay";
@@ -17,19 +12,22 @@ import SimilarArtistsRadar from "../components/report/SimilarArtistsRadar";
 import ReleaseChecklist from "../components/report/ReleaseChecklist";
 import TikTokScripts from "../components/report/TikTokScripts";
 import VisualIdentity from "../components/report/VisualIdentity";
-import MoneyMoves from "../components/report/MoneyMoves";
 import SocialAssetGenerator from "../components/report/SocialAssetGenerator";
 import StickyActionBar from "../components/report/StickyActionBar";
-import BottomLine from "../components/report/BottomLine";
+
 import CollabPanel from "../components/collab/CollabPanel";
 import CommentThread from "../components/collab/CommentThread";
+import RawAudioData from "../components/report/RawAudioData";
+import FirstImpression from "../components/report/FirstImpression";
+import LyricsAnalysis from "../components/report/LyricsAnalysis";
+import Verdict from "../components/report/Verdict";
 
 export default function Results() {
   const { state } = useLocation();
   const navigate = useNavigate();
   const [saving, setSaving] = useState(false);
-  const [saved, setSaved] = useState(false);
-  const [savedId, setSavedId] = useState(null);
+  const [saved, setSaved] = useState(!!state?.savedId);
+  const [savedId, setSavedId] = useState(state?.savedId || null);
   const [currentUser, setCurrentUser] = useState(null);
 
   useEffect(() => {
@@ -49,20 +47,47 @@ export default function Results() {
   const { report, song } = state;
 
   const handleSave = async () => {
-    if (saved || saving) return;
+    if (saving) return;
     setSaving(true);
+    // If already auto-saved, just mark as saved (no duplicate)
+    if (savedId) {
+      setSaved(true);
+      setSaving(false);
+      return;
+    }
+    // Fallback: manual save if auto-save somehow didn't run
+    const audioData = song.audioData || report._audioData || {};
+    const energyNum = audioData.energy || 0;
+    const energyLevel = energyNum > 0.66 ? "high" : energyNum > 0.33 ? "medium" : "low";
     const record = await base44.entities.SongAnalysis.create({
       title: song.title,
       artist_name: song.artist,
-      genre: song.genre,
-      mood: song.mood,
-      energy_level: song.energy?.toLowerCase(),
-      song_description: song.description,
-      algorithm_outlook: report.algorithm_outlook?.join("\n"),
-      content_ideas: report.content_video_ideas?.map((v) => `${v.title} (${v.platform}): ${v.description}`).join("\n\n"),
-      release_recommendations: `${report.release_day} — ${report.release_day_reason}\n\n` + (report.pre_release_plan || []).map((d) => `${d.day}: ${d.action}`).join("\n"),
-      playlist_pitch: report.playlist_pitch,
-      similar_artists: report.similar_artists,
+      genre: song.genre || "",
+      mood: audioData.moodTag || "",
+      energy_level: energyLevel,
+      song_description: song.description || "",
+      file_url: song.audioUrl || "",
+      bpm: audioData.bpm || null,
+      key: audioData.key || "",
+      duration: audioData.duration || null,
+      loudness: audioData.loudness || null,
+      energy: audioData.energy || null,
+      danceability: audioData.danceability || null,
+      valence: audioData.valence || null,
+      waveform_data: audioData.waveformData || [],
+      energy_profile: audioData.energyProfile || "",
+      mood_tag: audioData.moodTag || "",
+      lyrics: report._lyrics || "",
+      lyrics_source: report._lyricsSource || "",
+      similar_artists: report.similar_artists || [],
+      algorithm_outlook: (report.algorithm_outlook || []).join("\n"),
+      content_ideas: (report.content_video_ideas || []).map((v) => `${v.title} (${v.platform}): ${v.description}`).join("\n\n"),
+      release_recommendations: `${report.release_day || ""} — ${report.release_day_reason || ""}\n\n` + (report.pre_release_plan || []).map((d) => `${d.day}: ${d.action}`).join("\n"),
+      playlist_pitch: report.playlist_pitch || "",
+      first_impression: report.firstImpression || "",
+      lyrics_analysis: report.lyricsAnalysis || "",
+      verdict: report.verdict || "",
+      full_report: report,
       status: "complete",
     });
     setSavedId(record.id);
@@ -85,37 +110,49 @@ export default function Results() {
           <p className="text-muted-foreground">{song.artist} · {song.genre} · {song.mood} · {song.energy} Energy</p>
         </motion.div>
 
+        {/* Real audio data card */}
+        <RawAudioData audioData={song.audioData || report._audioData} />
+
+        {/* First Impression — A&R notes */}
+        <FirstImpression text={report.firstImpression} />
+
+        {/* Lyrics Analysis — right after first impression */}
+        <LyricsAnalysis
+          lyricsAnalysis={report.lyricsAnalysis}
+          lyricsText={report._lyrics}
+          lyricsSource={report._lyricsSource}
+        />
+
         {/* Score — upgraded */}
         <ScoreDisplay genre={song.genre} energy={song.energy} song={song} />
 
         {/* Waveform */}
-        <WaveformVisual title={song.title} artist={song.artist} genre={song.genre} energy={song.energy} />
+        <WaveformVisual
+          title={song.title}
+          artist={song.artist}
+          genre={song.genre}
+          audioUrl={song.audioUrl}
+          waveformData={song.audioData?.waveformData || report._audioData?.waveformData}
+          duration={song.audioData?.duration || report._audioData?.duration}
+        />
 
         {/* All sections */}
         <AlgorithmOutlook data={report.algorithm_outlook} song={song} />
-        <BestClipMoments data={report.best_clip_moments} />
-        <ContentVideoIdeas data={report.content_video_ideas} />
-        <ReleaseRecommendations
-          releaseDay={report.release_day}
-          releaseDayReason={report.release_day_reason}
-          plan={report.pre_release_plan}
-        />
         <PlaylistPitch
           pitch={report.playlist_pitch}
           tags={report.genre_mood_tags}
           artists={report.similar_artists}
           song={song}
         />
-        <SocialCaptions captions={report.captions} />
-        <SocialPreview captions={report.captions} song={song} />
         <SimilarArtistsRadar artists={report.similar_artists} song={song} />
         <ReleaseChecklist song={song} />
-        <TikTokScripts song={song} />
+        <TikTokScripts song={song} tiktokScripts={report.tiktok_scripts} />
         <VisualIdentity song={song} />
-        <MoneyMoves song={song} />
         <SocialAssetGenerator song={song} />
         <CollabSuggestions song={song} similarArtists={report.similar_artists} />
-        <BottomLine text={report.bottom_line} />
+
+        {/* Verdict — closing statement */}
+        <Verdict text={report.verdict} />
 
         {/* Collaboration section */}
         <CollabPanel songAnalysisId={savedId} songTitle={song.title} currentUser={currentUser} />

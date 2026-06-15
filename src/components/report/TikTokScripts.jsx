@@ -1,102 +1,152 @@
 import { useState } from "react";
-import { Video, Copy, Check } from "lucide-react";
+import { Video, Copy, Check, ChevronDown, ChevronUp, Loader2 } from "lucide-react";
+import { base44 } from "@/api/base44Client";
 import ReportCard, { CardHeader } from "./ReportCard";
+import { Button } from "@/components/ui/button";
 
-function buildScripts(song) {
-  const title = song.title || "the track";
-  const artist = song.artist || "the artist";
-  const mood = (song.mood || "emotional").toLowerCase();
-  const genre = song.genre || "music";
-  const energy = (song.energy || "medium").toLowerCase();
-  const desc = song.description || "a song about real life";
-
-  return [
-    {
-      label: "Script 1 — Story Behind the Song",
-      format: "Storytelling Format",
-      color: "border-red-500/30 bg-red-500/5",
-      badge: "bg-red-500/15 text-red-400 border-red-500/25",
-      script: `[ARTIST ON CAMERA — close up, natural lighting, no filter]
-HOOK (0–3s): "This song almost didn't happen. Let me tell you why."
-
-[CUT TO — artist sitting casually, candid]
-MIDDLE (3–18s): "I wrote '${title}' on a night when I felt completely ${mood}. I had this voice memo on my phone — just me and [instrument]. I never intended it to be a real song. ${desc.charAt(0).toUpperCase() + desc.slice(1)}. I kept coming back to it. Something about that ${mood} feeling felt too honest to ignore."
-
-[SONG PLAYS softly in background]
-CTA (18–25s): [TEXT OVERLAY: "${title.toUpperCase()} — OUT EVERYWHERE FRIDAY"]
-"'${title}' is out everywhere Friday. Link in bio. I hope it hits for you the way it hit for me."`,
-    },
-    {
-      label: "Script 2 — The Challenge Concept",
-      format: "Duet / Stitch Challenge",
-      color: "border-purple-500/30 bg-purple-500/5",
-      badge: "bg-purple-500/15 text-purple-400 border-purple-500/25",
-      script: `[ARTIST ON CAMERA — standing, good energy]
-HOOK (0–3s): "Tell me this ${mood} moment doesn't hit. I dare you."
-
-[SONG PLAYS — chorus drop]
-MIDDLE (3–18s): [TEXT OVERLAY: "DUET THIS with your version 👇"]
-"This is the part of '${title}' that made me stop everything I was doing. Every time I hear it I'm back in that moment. Show me where YOU were when you first felt this kind of ${mood}."
-
-[ARTIST reacts to imaginary duets, smiles]
-CTA (18–25s): [TEXT OVERLAY: "STITCH OR DUET 🎵 ${title.toUpperCase()}"]
-"'${title}' drops Friday. Duet this with your reaction — best one gets reposted. Link in bio."`,
-    },
-    {
-      label: "Script 3 — Day in the Life",
-      format: "Lifestyle / Ambient Format",
-      color: "border-chart-5/30 bg-chart-5/5",
-      badge: "bg-chart-5/15 text-chart-5 border-chart-5/25",
-      script: `[MONTAGE — ${energy} energy lifestyle clips, natural moments]
-HOOK (0–3s): [TEXT OVERLAY: "POV: You found the song for this exact feeling."]
-
-[SONG PLAYS — verse into chorus]
-MIDDLE (3–18s): [B-ROLL — artist doing something authentic: driving, cooking, walking, journaling]
-[TEXT OVERLAY: "When you're ${mood} and you need a song that gets it..."]
-[TEXT OVERLAY: "...this is the one."]
-
-[CHORUS HITS — energy peak clip]
-CTA (18–25s): [ARTIST ON CAMERA — direct to lens]
-[TEXT OVERLAY: "'${title}' by ${artist} — Out everywhere Friday ✨ Link in bio"]
-"'${title}' out Friday. This one's for everyone who needed it."`,
-    },
-  ];
-}
-
-function ScriptBlock({ script }) {
+function ScriptAccordionItem({ script, index }) {
+  const [open, setOpen] = useState(false);
   const [copied, setCopied] = useState(false);
-  const copy = () => {
-    navigator.clipboard.writeText(script.script);
+
+  const fullText = `HOOK: ${script.hook}\n\nBODY: ${script.body}\n\nCTA: ${script.cta}`;
+
+  const copy = (e) => {
+    e.stopPropagation();
+    navigator.clipboard.writeText(fullText);
     setCopied(true);
     setTimeout(() => setCopied(false), 2000);
   };
 
   return (
-    <div className={`rounded-xl border p-4 space-y-3 ${script.color}`}>
-      <div className="flex items-center justify-between gap-2 flex-wrap">
-        <div className="space-y-1">
-          <p className="font-heading font-semibold text-sm">{script.label}</p>
-          <span className={`text-[10px] px-2 py-0.5 rounded-full border font-bold ${script.badge}`}>{script.format}</span>
+    <div className="rounded-xl border border-border overflow-hidden">
+      <button
+        onClick={() => setOpen(o => !o)}
+        className="w-full flex items-center justify-between px-4 py-3 bg-card hover:bg-secondary/30 transition-colors text-left gap-3"
+      >
+        <div className="flex items-center gap-3 min-w-0">
+          <span className="text-xs text-muted-foreground font-mono shrink-0 w-5">{index + 1}.</span>
+          <span className="font-heading font-semibold text-sm truncate">{script.format_name}</span>
         </div>
-        <button onClick={copy}
-          className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg border border-border bg-card text-xs text-muted-foreground hover:text-foreground transition-colors shrink-0">
-          {copied ? <><Check className="h-3 w-3 text-primary" />Copied!</> : <><Copy className="h-3 w-3" />Copy Script</>}
-        </button>
-      </div>
-      <pre className="text-xs text-foreground/80 leading-relaxed whitespace-pre-wrap font-body">{script.script}</pre>
+        <div className="flex items-center gap-2 shrink-0">
+          {open && (
+            <button
+              onClick={copy}
+              className="flex items-center gap-1 px-2 py-1 rounded-md border border-border bg-background text-xs text-muted-foreground hover:text-foreground transition-colors"
+            >
+              {copied ? <><Check className="h-3 w-3 text-primary" />Copied</> : <><Copy className="h-3 w-3" />Copy</>}
+            </button>
+          )}
+          {open ? <ChevronUp className="h-4 w-4 text-muted-foreground" /> : <ChevronDown className="h-4 w-4 text-muted-foreground" />}
+        </div>
+      </button>
+
+      {open && (
+        <div className="px-4 pb-4 pt-2 bg-secondary/10 space-y-3 border-t border-border">
+          <div className="space-y-1">
+            <p className="text-[10px] font-bold text-primary uppercase tracking-widest">Hook (0–3s)</p>
+            <p className="text-sm text-foreground leading-relaxed">{script.hook}</p>
+          </div>
+          <div className="space-y-1">
+            <p className="text-[10px] font-bold text-chart-5 uppercase tracking-widest">Body (3–20s)</p>
+            <p className="text-sm text-foreground leading-relaxed whitespace-pre-wrap">{script.body}</p>
+          </div>
+          <div className="space-y-1">
+            <p className="text-[10px] font-bold text-orange-400 uppercase tracking-widest">CTA (final seconds)</p>
+            <p className="text-sm text-foreground leading-relaxed">{script.cta}</p>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
 
-export default function TikTokScripts({ song = {} }) {
-  const scripts = buildScripts(song);
+export default function TikTokScripts({ song = {}, tiktokScripts }) {
+  const [scripts, setScripts] = useState(tiktokScripts || null);
+  const [loading, setLoading] = useState(false);
+
+  const generate = async () => {
+    setLoading(true);
+    const audioData = song.audioData || {};
+    const prompt = `Generate 10 TikTok launch script ideas for this specific song. Each one must be completely different in format and creative angle — no two should feel similar. Use the actual song data, lyrics, and mood to make each idea specific to this track. Generic ideas that could apply to any song are not acceptable.
+
+SONG DATA:
+- Title: ${song.title}
+- Artist: ${song.artist}
+- Genre: ${song.genre || "unknown"}
+- BPM: ${audioData.bpm || "unknown"}
+- Key: ${audioData.key || "unknown"}
+- Energy (0-1): ${audioData.energy || "unknown"}
+- Danceability (0-1): ${audioData.danceability || "unknown"}
+- Valence / mood brightness (0-1): ${audioData.valence || "unknown"}
+- Energy Profile: ${audioData.energyProfile || "unknown"}
+- Mood Tag: ${audioData.moodTag || "unknown"}
+- Description / notes: ${song.description || "none"}
+
+For each script include:
+1. format_name: A creative label that describes the unique angle (e.g. "The Vulnerable Confession", "The Unexpected Transition", "The Producer Breakdown") — draw this from what the song is actually about and how it sounds, not from a generic template
+2. hook: The first 3 seconds — the exact line or action that stops the scroll
+3. body: What happens in the middle 10–20 seconds — be specific about camera angles, text overlays, actions
+4. cta: How it ends — the final moment that drives saves/follows/streams
+
+Return exactly 10 scripts. Make them radically different from each other.`;
+
+    const result = await base44.integrations.Core.InvokeLLM({
+      prompt,
+      model: "claude_sonnet_4_6",
+      response_json_schema: {
+        type: "object",
+        properties: {
+          scripts: {
+            type: "array",
+            items: {
+              type: "object",
+              properties: {
+                format_name: { type: "string" },
+                hook: { type: "string" },
+                body: { type: "string" },
+                cta: { type: "string" },
+              },
+            },
+          },
+        },
+      },
+    });
+    setScripts(result.scripts || []);
+    setLoading(false);
+  };
+
   return (
     <ReportCard borderColor="border-l-red-500">
-      <CardHeader icon={Video} title="TikTok Launch Scripts" iconColor="text-red-400" badge="Section 9" />
-      <p className="text-sm text-muted-foreground -mt-2">Three ready-to-film scripts tailored to your song's mood and genre.</p>
-      <div className="space-y-4">
-        {scripts.map((s, i) => <ScriptBlock key={i} script={s} />)}
-      </div>
+      <CardHeader icon={Video} title="TikTok Launch Scripts" iconColor="text-red-400" badge="10 Ideas" />
+      <p className="text-sm text-muted-foreground -mt-2">10 AI-generated scripts tailored to the actual sound, mood, and energy of this track. Each one is a different creative angle.</p>
+
+      {!scripts && !loading && (
+        <Button onClick={generate} className="w-full gap-2" variant="outline">
+          <Video className="h-4 w-4" />
+          Generate 10 TikTok Scripts
+        </Button>
+      )}
+
+      {loading && (
+        <div className="flex items-center gap-3 py-4 text-sm text-muted-foreground">
+          <Loader2 className="h-4 w-4 animate-spin text-primary" />
+          Claude is writing 10 unique scripts for this track…
+        </div>
+      )}
+
+      {scripts && scripts.length > 0 && (
+        <div className="space-y-2">
+          {scripts.map((s, i) => (
+            <ScriptAccordionItem key={i} script={s} index={i} />
+          ))}
+          <button
+            onClick={generate}
+            className="text-xs text-muted-foreground hover:text-primary transition-colors pt-1"
+          >
+            Regenerate scripts
+          </button>
+        </div>
+      )}
     </ReportCard>
   );
 }

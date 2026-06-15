@@ -10,6 +10,12 @@ import { isFirebaseConfigured } from '@/api/firebase';
 import Dashboard from './pages/Dashboard';
 import Results from './pages/Results';
 import History from './pages/History';
+import SongLibrary from './pages/SongLibrary';
+import SongWorkspace from './pages/SongWorkspace';
+import ARIntelligence from './pages/ARIntelligence';
+import ContractAnalyzer from './pages/ContractAnalyzer';
+import FanIntelligence from './pages/FanIntelligence';
+import ReleaseRadar from './pages/ReleaseRadar';
 import StreamingDashboard from './pages/StreamingDashboard';
 import ReleaseCalendar from './pages/ReleaseCalendar';
 import AppLayout from './components/AppLayout';
@@ -19,6 +25,7 @@ import BudgetTracker from './pages/BudgetTracker';
 import PitchDeck from './pages/PitchDeck';
 import SpotifyConnect from './pages/SpotifyConnect';
 import About from './pages/About';
+import HowItWorks from './pages/HowItWorks';
 import PlaylistPitcher from './pages/PlaylistPitcher';
 import Mastering from './pages/Mastering';
 import ReleasePlanInput from './pages/ReleasePlanInput';
@@ -36,14 +43,13 @@ import TourPlanner from './pages/TourPlanner';
 import TourOpportunities from './pages/TourOpportunities';
 import TaxEstimator from './pages/TaxEstimator';
 import NewsletterBuilder from './pages/NewsletterBuilder.jsx';
-import RightsManager from './pages/RightsManager.jsx';
 import ContentScheduler from './pages/ContentScheduler.jsx';
 import SyncPitcher from './pages/SyncPitcher.jsx';
 import TikTokCreatorOutreach from './pages/TikTokCreatorOutreach.jsx';
 import CollabFinder from './pages/CollabFinder.jsx';
-import CollabWorkspace from './pages/CollabWorkspace.jsx';
+import StreamingAnalyst from './pages/StreamingAnalyst';
+
 import EmailCampaigns from './pages/EmailCampaigns.jsx';
-import MerchandiseStore from './pages/MerchandiseStore.jsx';
 import SmartMixingFeedback from './pages/SmartMixingFeedback.jsx';
 import AIVideoGenerator from './pages/AIVideoGenerator.jsx';
 import MusicAcademy from './pages/MusicAcademy';
@@ -52,6 +58,7 @@ import InvoiceManager from './pages/InvoiceManager';
 import ContentEngine from './pages/ContentEngine';
 import Soundcheck from './pages/Soundcheck';
 import Whiteboard from './pages/Whiteboard';
+import TeamChat from './pages/TeamChat.jsx';
 import WhiteboardCanvas from './pages/WhiteboardCanvas';
 
 const AuthenticatedApp = () => {
@@ -65,10 +72,27 @@ const AuthenticatedApp = () => {
     );
   }
 
+  if (authError) {
+    if (authError.type === 'user_not_registered') return <UserNotRegisteredError />;
+    if (authError.type === 'auth_required') {
+      // Allow public marketing pages even when app requires auth
+      return (
+        <Routes>
+          <Route path="/" element={<About />} />
+          <Route path="/how-it-works" element={<HowItWorks />} />
+          <Route path="/pricing" element={<Pricing />} />
+
+          <Route path="*" element={<About />} />
+        </Routes>
+      );
+    }
+  }
+
   return (
     <Routes>
       {/* Public routes */}
       <Route path="/" element={<About />} />
+      <Route path="/how-it-works" element={<HowItWorks />} />
       <Route path="/pricing" element={<Pricing />} />
       <Route path="/login" element={isAuthenticated ? <Navigate to="/dashboard" replace /> : <Login />} />
 
@@ -77,7 +101,12 @@ const AuthenticatedApp = () => {
         <Route path="/dashboard" element={<Dashboard />} />
         <Route path="/release-plan" element={<ReleasePlanInput />} />
         <Route path="/results" element={<Results />} /> 
-        <Route path="/history" element={<History />} />
+        <Route path="/history" element={<SongLibrary />} />
+        <Route path="/music/:songId" element={<SongWorkspace />} />
+        <Route path="/ar-intelligence" element={<ARIntelligence />} />
+        <Route path="/contract-analyzer" element={<ContractAnalyzer />} />
+        <Route path="/fan-intelligence" element={<FanIntelligence />} />
+        <Route path="/release-radar" element={<ReleaseRadar />} />
         <Route path="/streaming" element={<StreamingDashboard />} />
         <Route path="/calendar" element={<ReleaseCalendar />} />
         <Route path="/analytics" element={<Analytics />} />
@@ -100,14 +129,15 @@ const AuthenticatedApp = () => {
         <Route path="/tour-opportunities" element={<TourOpportunities />} />
         <Route path="/tax-estimator" element={<TaxEstimator />} />
         <Route path="/newsletter" element={<NewsletterBuilder />} />
-        <Route path="/rights" element={<RightsManager />} />
+
         <Route path="/scheduler" element={<ContentScheduler />} />
         <Route path="/sync-pitcher" element={<SyncPitcher />} />
         <Route path="/tiktok-creators" element={<TikTokCreatorOutreach />} />
         <Route path="/collabs" element={<CollabFinder />} />
-        <Route path="/collab-workspace" element={<CollabWorkspace />} />
+        <Route path="/streaming-analyst" element={<StreamingAnalyst />} />
+
         <Route path="/email-campaigns" element={<EmailCampaigns />} />
-        <Route path="/merch" element={<MerchandiseStore />} />
+
         <Route path="/mixing-feedback" element={<SmartMixingFeedback />} />
         <Route path="/video-generator" element={<AIVideoGenerator />} />
         <Route path="/music-academy" element={<MusicAcademy />} />
@@ -116,6 +146,7 @@ const AuthenticatedApp = () => {
         <Route path="/content-engine" element={<ContentEngine />} />
         <Route path="/soundcheck" element={<Soundcheck />} />
         <Route path="/whiteboard" element={<Whiteboard />} />
+        <Route path="/team-chat" element={<TeamChat />} />
         <Route path="/whiteboard/:boardId" element={<WhiteboardCanvas />} />
         <Route path="/community" element={<Community />} />
         <Route path="*" element={<PageNotFound />} />

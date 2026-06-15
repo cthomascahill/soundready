@@ -11,23 +11,11 @@
     "artist_name": {
       "type": "string"
     },
-    "hook_label": {
-      "type": "string"
-    },
-    "hook_start_sec": {
-      "type": "number"
-    },
-    "hook_end_sec": {
-      "type": "number"
-    },
-    "hook_score": {
-      "type": "number"
-    },
     "platform": {
       "type": "string",
       "enum": [
         "TikTok",
-        "Instagram",
+        "Instagram Reels",
         "Both"
       ]
     },
@@ -57,14 +45,9 @@
         "type": "string"
       }
     },
-    "tiktok_concept_title": {
-      "type": "string"
-    },
-    "tiktok_concept_description": {
-      "type": "string"
-    },
     "file_url": {
-      "type": "string"
+      "type": "string",
+      "description": "URL to video file"
     },
     "notes": {
       "type": "string"

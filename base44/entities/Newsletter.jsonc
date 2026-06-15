@@ -1,0 +1,46 @@
+{
+  "name": "Newsletter",
+  "type": "object",
+  "properties": {
+    "subject": {
+      "type": "string",
+      "description": "Email subject line"
+    },
+    "body": {
+      "type": "string",
+      "description": "Email body content"
+    },
+    "song_id": {
+      "type": "string",
+      "description": "Reference to SongAnalysis id (optional)"
+    },
+    "song_title": {
+      "type": "string"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "draft",
+        "scheduled",
+        "sent"
+      ],
+      "default": "draft"
+    },
+    "scheduled_date": {
+      "type": "string",
+      "description": "ISO datetime"
+    },
+    "recipient_count": {
+      "type": "number",
+      "default": 0
+    },
+    "notes": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "subject",
+    "body",
+    "status"
+  ]
+}

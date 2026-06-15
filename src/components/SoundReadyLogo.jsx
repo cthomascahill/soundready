@@ -1,27 +1,39 @@
-export default function SoundReadyLogo({ size = 28 }) {
+export default function SoundReadyLogo({ size = 32 }) {
+  const h = size;
+  const w = size * 1.1;
+
   return (
-    <div className="flex items-center gap-2">
-      <svg width={size} height={size} viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <div className="flex items-center gap-2.5">
+      <svg width={w} height={h} viewBox="0 0 110 100" fill="none" xmlns="http://www.w3.org/2000/svg">
         <defs>
-          <linearGradient id="srPlayGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-            <stop offset="0%" stopColor="#ff4444" />
-            <stop offset="100%" stopColor="#cc0000" />
+          <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stopColor="#2ecc71" />
+            <stop offset="100%" stopColor="#1a9e50" />
           </linearGradient>
-          <linearGradient id="srShineGrad" x1="0%" y1="0%" x2="60%" y2="100%">
-            <stop offset="0%" stopColor="white" stopOpacity="0.45" />
-            <stop offset="100%" stopColor="white" stopOpacity="0" />
+          <linearGradient id="shadowGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stopColor="#0f5e2e" />
+            <stop offset="100%" stopColor="#0a3d1e" />
           </linearGradient>
         </defs>
-        {/* Rounded triangle play button */}
-        <path d="M10 8 L92 50 L10 92 Z" fill="url(#srPlayGrad)" stroke="#880000" strokeWidth="3" strokeLinejoin="round" />
-        {/* Gloss shine */}
-        <path d="M10 8 L92 50 L10 92 Z" fill="url(#srShineGrad)" />
-        {/* Upward arrow */}
-        <path d="M28 63 L52 39 M52 39 L52 51 M52 39 L40 39" stroke="white" strokeWidth="7.5" strokeLinecap="round" strokeLinejoin="round" />
+        {/* Shadow/offset layer */}
+        <path d="M10 92 L70 92 L108 50 L70 8 L10 8 Z" fill="#0a3d1e" transform="translate(3,4)" />
+        {/* Main play-button shape */}
+        <path d="M10 90 L68 90 L106 50 L68 10 L10 10 Z" fill="url(#bgGrad)" />
+        {/* Dark left half overlay for depth */}
+        <path d="M10 90 L38 90 L38 10 L10 10 Z" fill="#1a9e50" opacity="0.5" />
+        {/* White trending-up arrow */}
+        <path
+          d="M22 72 L50 44 L58 60 L78 36 M78 36 L78 50 M78 36 L64 36"
+          stroke="white"
+          strokeWidth="6.5"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          fill="none"
+        />
       </svg>
-      <span className="font-heading font-bold" style={{ fontSize: size * 0.64 }}>
-        <span className="text-primary">Sound</span>
-        <span className="text-foreground">Ready</span>
+
+      <span className="font-heading font-black tracking-tight" style={{ fontSize: size * 0.62 }}>
+        <span className="text-white">sound</span><span className="text-primary">ready</span>
       </span>
     </div>
   );

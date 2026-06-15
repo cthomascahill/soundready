@@ -1,0 +1,62 @@
+{
+  "name": "SongRights",
+  "type": "object",
+  "properties": {
+    "song_id": {
+      "type": "string",
+      "description": "Reference to SongAnalysis id"
+    },
+    "song_title": {
+      "type": "string"
+    },
+    "artist_name": {
+      "type": "string"
+    },
+    "splits": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "person_name": {
+            "type": "string"
+          },
+          "role": {
+            "type": "string",
+            "enum": [
+              "Songwriter",
+              "Producer",
+              "Co-Producer",
+              "Featured Artist",
+              "Publisher"
+            ]
+          },
+          "ownership_percent": {
+            "type": "number",
+            "description": "Percentage ownership (0-100)"
+          },
+          "email": {
+            "type": "string"
+          },
+          "paid": {
+            "type": "boolean",
+            "default": false
+          }
+        }
+      },
+      "description": "List of contributors and their splits"
+    },
+    "total_percent": {
+      "type": "number",
+      "description": "Sum of all splits (should be 100)"
+    },
+    "notes": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "song_id",
+    "song_title",
+    "artist_name",
+    "splits"
+  ]
+}

@@ -4,6 +4,7 @@ import { useParams, Link } from "react-router-dom";
 import WhiteboardBlock from "@/components/whiteboard/WhiteboardBlock";
 import WhiteboardToolbar from "@/components/whiteboard/WhiteboardToolbar";
 import WhiteboardTopBar from "@/components/whiteboard/WhiteboardTopBar";
+import DrawingCanvas from "@/components/whiteboard/DrawingCanvas";
 
 export default function WhiteboardCanvas() {
   const { boardId } = useParams();
@@ -16,7 +17,9 @@ export default function WhiteboardCanvas() {
   const [isPanning, setIsPanning] = useState(false);
   const [panStart, setPanStart] = useState(null);
   const [activeUsers, setActiveUsers] = useState([]);
-  const [tool, setTool] = useState("select"); // select | text | heading | bullet
+  const [tool, setTool] = useState("select"); // select | draw | eraser | text | heading | bullet
+  const [drawColor, setDrawColor] = useState("#111111");
+  const [drawWidth, setDrawWidth] = useState(6);
   const canvasRef = useRef(null);
   const lastSaveRef = useRef({});
 
@@ -55,7 +58,7 @@ export default function WhiteboardCanvas() {
   }, [boardId]);
 
   const addBlock = async (e) => {
-    if (tool === "select" || !canvasRef.current) return;
+    if (tool === "select" || tool === "draw" || tool === "eraser" || !canvasRef.current) return;
     const rect = canvasRef.current.getBoundingClientRect();
     const x = e.clientX - rect.left - canvasOffset.x;
     const y = e.clientY - rect.top - canvasOffset.y;
@@ -67,13 +70,12 @@ export default function WhiteboardCanvas() {
       y: Math.round(y),
       width: 320,
       block_type: tool,
-      styles: { bold: false, underline: false, fontSize: "medium", color: "#ffffff" },
+      styles: { bold: false, underline: false, fontSize: "medium", color: "#111111" },
       z_index: blocks.length + 1,
       author_email: user?.email,
     });
     setBlocks((prev) => [...prev, newBlock]);
     setSelectedBlockId(newBlock.id);
-    setTool("select");
   };
 
   const updateBlock = useCallback(async (id, patch) => {
@@ -93,6 +95,7 @@ export default function WhiteboardCanvas() {
 
   // Pan handling
   const onMouseDown = (e) => {
+    if (tool === "draw" || tool === "eraser") return; // handled by DrawingCanvas
     if (e.target !== canvasRef.current && !e.target.classList.contains("canvas-bg")) return;
     if (tool === "select") {
       setIsPanning(true);
@@ -122,7 +125,7 @@ export default function WhiteboardCanvas() {
   }
 
   return (
-    <div className="h-screen bg-[#0a0a0a] flex flex-col overflow-hidden select-none">
+    <div className="h-screen flex flex-col overflow-hidden select-none" style={{ background: "#ffffff" }}>
       <WhiteboardTopBar
         board={board}
         user={user}
@@ -134,22 +137,41 @@ export default function WhiteboardCanvas() {
       />
 
       <div className="flex flex-1 overflow-hidden">
-        <WhiteboardToolbar tool={tool} onToolChange={setTool} selectedBlock={selectedBlock} onStyleChange={(patch) => selectedBlock && updateBlock(selectedBlock.id, { styles: { ...selectedBlock.styles, ...patch } })} />
+        <WhiteboardToolbar
+          tool={tool}
+          onToolChange={setTool}
+          selectedBlock={selectedBlock}
+          onStyleChange={(patch) => selectedBlock && updateBlock(selectedBlock.id, { styles: { ...selectedBlock.styles, ...patch } })}
+          drawColor={drawColor}
+          drawWidth={drawWidth}
+          onDrawColorChange={setDrawColor}
+          onDrawWidthChange={setDrawWidth}
+        />
 
         {/* Canvas */}
         <div
           ref={canvasRef}
-          className={`flex-1 relative overflow-hidden canvas-bg ${tool !== "select" ? "cursor-crosshair" : isPanning ? "cursor-grabbing" : "cursor-grab"}`}
-          style={{ background: "radial-gradient(ellipse at center, #111111 0%, #0a0a0a 100%)" }}
+          className={`flex-1 relative overflow-hidden canvas-bg ${tool === "draw" ? "cursor-crosshair" : tool === "eraser" ? "cursor-cell" : tool !== "select" ? "cursor-crosshair" : isPanning ? "cursor-grabbing" : "cursor-grab"}`}
+          style={{ background: "#ffffff" }}
           onMouseDown={onMouseDown}
           onMouseMove={onMouseMove}
           onMouseUp={onMouseUp}
           onClick={addBlock}
         >
+          {/* Drawing canvas overlay */}
+          <DrawingCanvas
+            boardId={boardId}
+            canvasOffset={canvasOffset}
+            activeTool={tool}
+            drawColor={drawColor}
+            drawWidth={drawWidth}
+            userEmail={user?.email}
+          />
+
           {/* Dot grid */}
           <div className="absolute inset-0 pointer-events-none canvas-bg"
             style={{
-              backgroundImage: "radial-gradient(circle, rgba(255,255,255,0.07) 1px, transparent 1px)",
+              backgroundImage: "radial-gradient(circle, rgba(0,0,0,0.12) 1px, transparent 1px)",
               backgroundSize: "32px 32px",
               backgroundPosition: `${canvasOffset.x % 32}px ${canvasOffset.y % 32}px`,
             }}
@@ -159,8 +181,8 @@ export default function WhiteboardCanvas() {
           {blocks.length === 0 && (
             <div className="absolute inset-0 flex items-center justify-center pointer-events-none canvas-bg">
               <div className="text-center space-y-2 canvas-bg">
-                <p className="text-white/20 text-xl font-heading">Click to add a text block</p>
-                <p className="text-white/10 text-sm">or select a tool from the left panel</p>
+                <p className="text-black/20 text-xl font-heading">Click to add a text block</p>
+                <p className="text-black/10 text-sm">or select a tool from the left panel</p>
               </div>
             </div>
           )}

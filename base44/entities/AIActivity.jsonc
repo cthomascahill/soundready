@@ -1,0 +1,60 @@
+{
+  "name": "AIActivity",
+  "type": "object",
+  "properties": {
+    "user_id": {
+      "type": "string",
+      "description": "The user this activity belongs to"
+    },
+    "action_type": {
+      "type": "string",
+      "enum": [
+        "playlist_pitch",
+        "tour_opportunity",
+        "epk_generated",
+        "digest_sent",
+        "booking_outreach"
+      ],
+      "description": "Type of AI action taken"
+    },
+    "title": {
+      "type": "string",
+      "description": "Short title of the activity"
+    },
+    "description": {
+      "type": "string",
+      "description": "Full description of what the AI did"
+    },
+    "song_id": {
+      "type": "string",
+      "description": "Related song ID if applicable"
+    },
+    "song_title": {
+      "type": "string"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "pending",
+        "complete",
+        "sent",
+        "ready_to_send",
+        "viewed"
+      ],
+      "default": "complete"
+    },
+    "draft_email": {
+      "type": "string",
+      "description": "Pre-drafted email ready to send"
+    },
+    "metadata": {
+      "type": "object",
+      "description": "Extra data like pitch count, opportunity details, etc."
+    }
+  },
+  "required": [
+    "user_id",
+    "action_type",
+    "title"
+  ]
+}

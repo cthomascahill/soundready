@@ -1,0 +1,78 @@
+{
+  "name": "SyncOpportunity",
+  "type": "object",
+  "properties": {
+    "opportunity_type": {
+      "type": "string",
+      "enum": [
+        "TV",
+        "Film",
+        "Game",
+        "Commercial",
+        "Podcast",
+        "YouTube"
+      ]
+    },
+    "project_name": {
+      "type": "string"
+    },
+    "company": {
+      "type": "string"
+    },
+    "contact_name": {
+      "type": "string"
+    },
+    "contact_email": {
+      "type": "string"
+    },
+    "contact_phone": {
+      "type": "string"
+    },
+    "description": {
+      "type": "string",
+      "description": "Project description and vibe"
+    },
+    "genres_needed": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "mood_needed": {
+      "type": "string"
+    },
+    "budget_range": {
+      "type": "string"
+    },
+    "deadline": {
+      "type": "string",
+      "description": "ISO date"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "prospect",
+        "pitched",
+        "waiting",
+        "accepted",
+        "rejected"
+      ],
+      "default": "prospect"
+    },
+    "song_id": {
+      "type": "string",
+      "description": "Reference to SongAnalysis id if pitched"
+    },
+    "pitch_notes": {
+      "type": "string"
+    },
+    "notes": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "opportunity_type",
+    "project_name",
+    "company"
+  ]
+}
