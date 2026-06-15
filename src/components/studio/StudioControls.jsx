@@ -1,4 +1,5 @@
 import { Input } from "@/components/ui/input";
+import BeatUploader from "@/components/studio/BeatUploader";
 
 const MOODS = ["Hype", "Melancholy", "Aggressive", "Romantic", "Motivational", "Dark", "Playful", "Spiritual", "Nostalgic", "Confident"];
 const KEYS = ["C Major","C Minor","C# Major","C# Minor","D Major","D Minor","Eb Major","Eb Minor","E Major","E Minor","F Major","F Minor","F# Major","F# Minor","G Major","G Minor","Ab Major","Ab Minor","A Major","A Minor","Bb Major","Bb Minor","B Major","B Minor"];
@@ -15,7 +16,7 @@ function bpmLabel(bpm) {
   return "Very Fast";
 }
 
-export default function StudioControls({ params, setParams, inputs, setInputs }) {
+export default function StudioControls({ params, setParams, inputs, setInputs, beatFile, setBeatFile }) {
   const update = (field, val) => setParams(p => ({ ...p, [field]: val }));
   const updateInput = (field, val) => setInputs(i => ({ ...i, [field]: val }));
   const toggleMood = (m) => setParams(p => ({
@@ -86,6 +87,9 @@ export default function StudioControls({ params, setParams, inputs, setInputs })
             </select>
           </div>
         </div>
+
+        {/* Beat Upload */}
+        <BeatUploader beatFile={beatFile} setBeatFile={setBeatFile} />
 
         {/* Moods */}
         <div>

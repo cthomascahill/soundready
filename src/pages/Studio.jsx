@@ -72,6 +72,7 @@ export default function Studio() {
   const [outputBlocks, setOutputBlocks] = useState([]);
   const [loading, setLoading] = useState(false);
   const [activeTool, setActiveTool] = useState(null);
+  const [beatFile, setBeatFile] = useState(null);
   const [ideas, setIdeas] = useState([]);
   const [artistProfile, setArtistProfile] = useState(null);
   const [trackerSongs, setTrackerSongs] = useState([]);
@@ -94,10 +95,11 @@ export default function Studio() {
     setLoading(true);
     setTab("Write");
 
+    const beatContext = beatFile ? `\n- Beat loaded: "${beatFile.name}" — write lyrics that feel made for this beat.` : "";
     const ctx = {
       ...params,
       ...inputs,
-      context: buildPromptContext(params, inputs, artistProfile),
+      context: buildPromptContext(params, inputs, artistProfile) + beatContext,
     };
 
     const promptFn = TOOL_PROMPTS[toolId];
@@ -191,7 +193,7 @@ export default function Studio() {
             {/* Left Panel */}
             <div className="w-full lg:w-[380px] xl:w-[420px] shrink-0 overflow-y-auto space-y-5 pr-1">
               <div className="rounded-2xl border border-zinc-800 bg-zinc-900/70 backdrop-blur-sm p-5">
-                <StudioControls params={params} setParams={setParams} inputs={inputs} setInputs={setInputs} />
+                <StudioControls params={params} setParams={setParams} inputs={inputs} setInputs={setInputs} beatFile={beatFile} setBeatFile={setBeatFile} />
               </div>
               <div className="rounded-2xl border border-zinc-800 bg-zinc-900/70 backdrop-blur-sm p-5">
                 <StudioTools onTool={runTool} loading={loading} activeTool={activeTool} />
