@@ -73,7 +73,6 @@ const TIERS = [
       "Unlimited team members",
       "Unlimited song library",
       "Multiple artist profiles under one account",
-      "Dedicated onboarding support",
       "First access to new features",
     ],
     cta: "Start Building My Career",
@@ -101,7 +100,7 @@ const TIERS = [
       "Priority support & dedicated onboarding",
     ],
     cta: "Get Started",
-    subtext: "We'll set up your AI Manager profile in a 20-minute onboarding call.",
+    subtext: "No contracts. Cancel anytime.",
   },
 ];
 
