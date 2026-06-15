@@ -3,6 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { base44 } from "@/api/base44Client";
 import { useAuth } from "@/lib/AuthContext";
 import { motion } from "framer-motion";
+
 import { Loader2, Music2, Trash2, Plus, ChevronRight, Search } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -24,14 +25,16 @@ const STATUS_LABELS = {
 
 export default function SongLibrary() {
   const navigate = useNavigate();
+  const { user } = useAuth();
   const [analyses, setAnalyses] = useState([]);
   const [loading, setLoading] = useState(true);
   const [search, setSearch] = useState("");
 
   useEffect(() => {
-    base44.entities.SongAnalysis.list("-created_date", 50)
+    if (!user?.id) return;
+    base44.entities.SongAnalysis.filter({ created_by_id: user.id }, "-created_date", 50)
       .then((data) => { setAnalyses(data); setLoading(false); });
-  }, []);
+  }, [user]);
 
   const handleDelete = async (e, id) => {
     e.stopPropagation();

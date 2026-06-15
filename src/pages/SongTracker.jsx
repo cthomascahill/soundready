@@ -1,5 +1,6 @@
 import { useState, useEffect, useRef, useCallback } from "react";
 import { base44 } from "@/api/base44Client";
+import { useAuth } from "@/lib/AuthContext";
 import { DragDropContext, Droppable, Draggable } from "@hello-pangea/dnd";
 import { Plus, GripVertical, Trash2, ChevronDown, Check, Filter } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -173,15 +174,17 @@ const FILTER_OPTIONS = [
 ];
 
 export default function SongTracker() {
+  const { user } = useAuth();
   const [songs, setSongs] = useState([]);
   const [loading, setLoading] = useState(true);
   const [filter, setFilter] = useState("all");
 
   useEffect(() => {
-    base44.entities.PipelineSong.list("sort_order", 200)
+    if (!user?.id) return;
+    base44.entities.PipelineSong.filter({ created_by_id: user.id }, "sort_order", 200)
       .then((data) => { setSongs(data); setLoading(false); })
       .catch(() => setLoading(false));
-  }, []);
+  }, [user]);
 
   const addSong = async () => {
     const newSong = await base44.entities.PipelineSong.create({

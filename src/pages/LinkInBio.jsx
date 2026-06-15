@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { base44 } from "@/api/base44Client";
+import { useAuth } from "@/lib/AuthContext";
 import { motion, AnimatePresence } from "framer-motion";
 import { Plus, Save, Eye, Trash2, ExternalLink, Music, ShoppingBag, MapPin, Instagram, Youtube, Check, Copy, Palette, User, Link } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -162,6 +163,7 @@ function MerchRow({ item, onChange, onRemove }) {
 const BLANK_PAGE = { artist_name: "", tagline: "", bio: "", avatar_url: "", theme: "dark", song_links: [], tour_dates: [], merch_items: [], social_links: { instagram: "", tiktok: "", twitter: "", youtube: "", spotify: "" } };
 
 export default function LinkInBio() {
+  const { user } = useAuth();
   const [pages, setPages] = useState([]);
   const [editing, setEditing] = useState(null);
   const [preview, setPreview] = useState(false);
@@ -173,17 +175,18 @@ export default function LinkInBio() {
   const [tab, setTab] = useState("songs");
 
   useEffect(() => {
+    if (!user?.id) return;
     Promise.all([
-      base44.entities.LinkInBioPage.list("-created_date", 20),
-      base44.entities.SongAnalysis.filter({ status: "complete" }, "-created_date", 20),
-      base44.entities.CalendarEvent.list("-date", 20).catch(() => []),
+      base44.entities.LinkInBioPage.filter({ created_by_id: user.id }, "-created_date", 20),
+      base44.entities.SongAnalysis.filter({ created_by_id: user.id, status: "complete" }, "-created_date", 20),
+      base44.entities.CalendarEvent.filter({ created_by_id: user.id }, "-date", 20).catch(() => []),
     ]).then(([pgs, sgs, cal]) => {
       setPages(pgs);
       setSongs(sgs);
       setCalEvents(cal.filter((e) => e.type === "release" || e.type === "pre_release" || e.type === "manual"));
       setLoading(false);
     });
-  }, []);
+  }, [user]);
 
   const startNew = () => {
     const draft = { ...BLANK_PAGE };

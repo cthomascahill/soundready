@@ -46,11 +46,12 @@ export default function Dashboard() {
   const [stepsLoading, setStepsLoading] = useState(false);
 
   useEffect(() => {
-    base44.entities.SongAnalysis.list("-created_date", 5)
+    if (!user?.id) return;
+    base44.entities.SongAnalysis.filter({ created_by_id: user.id }, "-created_date", 5)
       .then(setRecentSongs)
       .catch(() => setRecentSongs([]))
       .finally(() => setLoading(false));
-  }, []);
+  }, [user]);
 
   useEffect(() => {
     if (loading || recentSongs.length === 0) return;

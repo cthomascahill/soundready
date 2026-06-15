@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { base44 } from "@/api/base44Client";
+import { useAuth } from "@/lib/AuthContext";
 import { motion } from "framer-motion";
 import { Sparkles, RefreshCw, Loader2, TrendingUp, Music2, AlertCircle, Zap } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -246,13 +247,15 @@ Generate 3 opportunity alerts. Each should feel like a genuine tip from someone 
 }
 
 export default function ARIntelligence() {
+  const { user } = useAuth();
   const [songs, setSongs] = useState([]);
   const [briefing, setBriefing] = useState(null);
   const [lastUpdated, setLastUpdated] = useState(null);
   const [briefingLoading, setBriefingLoading] = useState(false);
 
   useEffect(() => {
-    base44.entities.SongAnalysis.filter({ status: "complete" }, "-created_date", 10)
+    if (!user?.id) return;
+    base44.entities.SongAnalysis.filter({ created_by_id: user.id, status: "complete" }, "-created_date", 10)
       .then(setSongs).catch(() => setSongs([]));
     // Load cached briefing from localStorage
     const cached = localStorage.getItem("ar_briefing");

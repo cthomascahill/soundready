@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { base44 } from "@/api/base44Client";
+import { useAuth } from "@/lib/AuthContext";
 import { motion } from "framer-motion";
 import { Mic2, Send, Check, Copy, ChevronDown, ChevronUp, Music } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -124,6 +125,7 @@ const GENRES = ["Hip Hop", "Pop", "R&B", "Indie", "EDM", "Country", "Rock", "Lat
 const MOODS = ["Happy", "Melancholic", "Hype", "Romantic", "Dark", "Inspirational", "Chill"];
 
 export default function PlaylistPitcher() {
+  const { user } = useAuth();
   const [songs, setSongs] = useState([]);
   const [selectedSong, setSelectedSong] = useState(null);
   const [matched, setMatched] = useState([]);
@@ -134,9 +136,10 @@ export default function PlaylistPitcher() {
   const [useManual, setUseManual] = useState(false);
 
   useEffect(() => {
-    base44.entities.SongAnalysis.filter({ status: "complete" }, "-created_date", 20)
+    if (!user?.id) return;
+    base44.entities.SongAnalysis.filter({ created_by_id: user.id, status: "complete" }, "-created_date", 20)
       .then(setSongs).finally(() => setLoading(false));
-  }, []);
+  }, [user]);
 
   const activeSong = useManual ? manualSong : selectedSong;
 
