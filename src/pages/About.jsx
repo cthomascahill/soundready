@@ -121,7 +121,6 @@ const WHAT_WE_DO = [
   { icon: BarChart2, color: "text-chart-5", title: "A&R Intelligence", desc: "Weekly briefings on what's working in your genre right now — tempos, moods, and strategies getting editorial love. Make smarter decisions before you finish the song." },
   { icon: FileText, color: "text-yellow-400", title: "Contract Analyzer", desc: "Upload any deal or contract and SoundReady flags every clause that could hurt you — in plain English. Know exactly what you're signing before you sign it." },
   { icon: Users, color: "text-pink-400", title: "Fan Intelligence", desc: "Understand where your real fans are, when they listen, and what they want. Use that data to tour smarter and make every release decision with real information." },
-  { icon: TrendingUp, color: "text-teal-400", title: "Release Radar", desc: "Track comparable artists and know exactly when they're moving. Time your releases to stand out instead of getting buried." },
 ];
 
 export default function About() {
