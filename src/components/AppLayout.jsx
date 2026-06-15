@@ -6,12 +6,13 @@ import {
   ChevronDown, UserCircle, Zap,
   Layout, FileText, Mic2, MapPin, CalendarRange,
   TrendingUp, Receipt, ScrollText,
-  Send, Wand2, CalendarDays, Film, Sparkles, Radio
+  Send, Wand2, CalendarDays, Film, Sparkles, Radio, ListChecks
 } from "lucide-react";
 import SoundReadyLogo from "@/components/SoundReadyLogo";
 
 const MUSIC_ITEMS = [
   { to: "/history", icon: Music2, label: "Song Library" },
+  { to: "/song-tracker", icon: ListChecks, label: "Song Tracker" },
   { to: "/release-plan", icon: Zap, label: "Upload & Analyze" },
   { to: "/mastering", icon: Wand2, label: "AI Mastering" },
   { to: "/distribution", icon: Send, label: "Distribution" },

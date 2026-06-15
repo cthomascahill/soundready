@@ -47,6 +47,7 @@ import SyncPitcher from './pages/SyncPitcher.jsx';
 import TikTokCreatorOutreach from './pages/TikTokCreatorOutreach.jsx';
 import CollabFinder from './pages/CollabFinder.jsx';
 import StreamingAnalyst from './pages/StreamingAnalyst';
+import SongTracker from './pages/SongTracker';
 
 import EmailCampaigns from './pages/EmailCampaigns.jsx';
 import SmartMixingFeedback from './pages/SmartMixingFeedback.jsx';
@@ -133,6 +134,7 @@ const AuthenticatedApp = () => {
         <Route path="/tiktok-creators" element={<TikTokCreatorOutreach />} />
         <Route path="/collabs" element={<CollabFinder />} />
         <Route path="/streaming-analyst" element={<StreamingAnalyst />} />
+        <Route path="/song-tracker" element={<SongTracker />} />
 
         <Route path="/email-campaigns" element={<EmailCampaigns />} />
 
