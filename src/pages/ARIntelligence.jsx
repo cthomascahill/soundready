@@ -87,9 +87,10 @@ function SongComparison({ song }) {
 
   const runComparison = async () => {
     setLoading(true);
-    const res = await base44.integrations.Core.InvokeLLM({
-      model: "claude_sonnet_4_6",
-      prompt: `You are an A&R executive reviewing how this song's audio metrics compare to what is working in the current music landscape (${new Date().toLocaleDateString('en-US', { month: 'long', year: 'numeric' })}).
+    setAnalysis(null);
+    try {
+      const res = await base44.integrations.Core.InvokeLLM({
+        prompt: `You are an A&R executive reviewing how this song's audio metrics compare to what is working in the current music landscape (${new Date().toLocaleDateString('en-US', { month: 'long', year: 'numeric' })}).
 
 Song: "${song.title}" by ${song.artist_name}
 Genre: ${song.genre || "unknown"}
@@ -101,25 +102,29 @@ Valence: ${song.valence || "unknown"} (0-1 scale)
 Mood: ${song.mood_tag || song.mood || "unknown"}
 
 Write 3 specific comparisons between this song's actual metrics and what is trending right now. Be direct and specific. Reference the actual numbers. Tell the artist what is working in their favor and what might be holding them back. Each comparison should have a label, a verdict (positive/neutral/negative), and a one-sentence explanation.`,
-      response_json_schema: {
-        type: "object",
-        properties: {
-          comparisons: {
-            type: "array",
-            items: {
-              type: "object",
-              properties: {
-                label: { type: "string" },
-                verdict: { type: "string" },
-                explanation: { type: "string" }
+        response_json_schema: {
+          type: "object",
+          properties: {
+            comparisons: {
+              type: "array",
+              items: {
+                type: "object",
+                properties: {
+                  label: { type: "string" },
+                  verdict: { type: "string" },
+                  explanation: { type: "string" }
+                }
               }
             }
           }
         }
-      }
-    });
-    setAnalysis(res);
-    setLoading(false);
+      });
+      setAnalysis(res);
+    } catch (err) {
+      console.error("Comparison error:", err);
+    } finally {
+      setLoading(false);
+    }
   };
 
   const verdictColor = (v) => {
@@ -163,38 +168,43 @@ function OpportunityAlerts({ songs }) {
   const generateAlerts = async () => {
     if (!songs?.length) return;
     setLoading(true);
+    setAlerts(null);
     const songList = songs.slice(0, 5).map(s =>
       `"${s.title}" - genre: ${s.genre || "unknown"}, BPM: ${s.bpm || "?"}, energy: ${s.energy || "?"}, valence: ${s.valence || "?"}, danceability: ${s.danceability || "?"}, mood: ${s.mood_tag || s.mood || "unknown"}`
     ).join("\n");
 
-    const res = await base44.integrations.Core.InvokeLLM({
-      model: "claude_sonnet_4_6",
-      prompt: `You are an A&R executive who just reviewed an independent artist's catalog. Based on the current music landscape in ${new Date().toLocaleDateString('en-US', { month: 'long', year: 'numeric' })}, identify 3 specific pitching or release opportunities for these songs. Reference actual song titles and their audio data. Be specific and actionable — not generic.
+    try {
+      const res = await base44.integrations.Core.InvokeLLM({
+        prompt: `You are an A&R executive who just reviewed an independent artist's catalog. Based on the current music landscape in ${new Date().toLocaleDateString('en-US', { month: 'long', year: 'numeric' })}, identify 3 specific pitching or release opportunities for these songs. Reference actual song titles and their audio data. Be specific and actionable — not generic.
 
 Artist's songs:
 ${songList}
 
 Generate 3 opportunity alerts. Each should feel like a genuine tip from someone who has reviewed the actual music data.`,
-      response_json_schema: {
-        type: "object",
-        properties: {
-          alerts: {
-            type: "array",
-            items: {
-              type: "object",
-              properties: {
-                songTitle: { type: "string" },
-                opportunity: { type: "string" },
-                reason: { type: "string" },
-                action: { type: "string" }
+        response_json_schema: {
+          type: "object",
+          properties: {
+            alerts: {
+              type: "array",
+              items: {
+                type: "object",
+                properties: {
+                  songTitle: { type: "string" },
+                  opportunity: { type: "string" },
+                  reason: { type: "string" },
+                  action: { type: "string" }
+                }
               }
             }
           }
         }
-      }
-    });
-    setAlerts(res);
-    setLoading(false);
+      });
+      setAlerts(res);
+    } catch (err) {
+      console.error("Alerts error:", err);
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -252,37 +262,42 @@ export default function ARIntelligence() {
 
   const generateBriefing = async () => {
     setBriefingLoading(true);
-    const res = await base44.integrations.Core.InvokeLLM({
-      model: "claude_sonnet_4_6",
-      prompt: `You are a senior A&R executive giving your weekly briefing to an independent artist. The date is ${new Date().toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric', year: 'numeric' })}. Give a specific, opinionated, and actionable weekly briefing covering EXACTLY these 4 areas:
+    setBriefing(null);
+    try {
+      const res = await base44.integrations.Core.InvokeLLM({
+        prompt: `You are a senior A&R executive giving your weekly briefing to an independent artist. The date is ${new Date().toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric', year: 'numeric' })}. Give a specific, opinionated, and actionable weekly briefing covering EXACTLY these 4 areas:
 1. "What's Charting & Why" — what sounds, tempos, moods, and lyrical themes are resonating right now with real algorithmic momentum.
 2. "Pitching Window" — what playlist curators and DSP editorial teams are looking for this week and what genre/mood has an open submission window.
 3. "Algorithm Watch" — specific Spotify/TikTok algorithm behavior patterns artists should exploit or avoid right now.
 4. "Release Timing" — the best and worst days/weeks to release over the next 30 days based on market activity.
 Be direct and opinionated. Reference real genre names and platform behavior. Write like a real industry insider talking to an artist you believe in.`,
-      response_json_schema: {
-        type: "object",
-        properties: {
-          sections: {
-            type: "array",
-            items: {
-              type: "object",
-              properties: {
-                title: { type: "string" },
-                insight: { type: "string" },
-                actionable: { type: "string" }
+        response_json_schema: {
+          type: "object",
+          properties: {
+            sections: {
+              type: "array",
+              items: {
+                type: "object",
+                properties: {
+                  title: { type: "string" },
+                  insight: { type: "string" },
+                  actionable: { type: "string" }
+                }
               }
             }
           }
         }
-      }
-    });
-    const dateStr = new Date().toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
-    setBriefing(res);
-    setLastUpdated(dateStr);
-    localStorage.setItem("ar_briefing", JSON.stringify(res));
-    localStorage.setItem("ar_briefing_date", dateStr);
-    setBriefingLoading(false);
+      });
+      const dateStr = new Date().toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+      setBriefing(res);
+      setLastUpdated(dateStr);
+      localStorage.setItem("ar_briefing", JSON.stringify(res));
+      localStorage.setItem("ar_briefing_date", dateStr);
+    } catch (err) {
+      console.error("Briefing error:", err);
+    } finally {
+      setBriefingLoading(false);
+    }
   };
 
   return (
