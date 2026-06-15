@@ -1,0 +1,264 @@
+{
+  "name": "ArtistProfile",
+  "type": "object",
+  "properties": {
+    "stage_name": {
+      "type": "string"
+    },
+    "real_name": {
+      "type": "string"
+    },
+    "genres": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "subgenre_vibe": {
+      "type": "string"
+    },
+    "sounds_like_1": {
+      "type": "string"
+    },
+    "sounds_like_2": {
+      "type": "string"
+    },
+    "sounds_like_3": {
+      "type": "string"
+    },
+    "career_stage": {
+      "type": "string"
+    },
+    "city_state": {
+      "type": "string"
+    },
+    "years_active": {
+      "type": "number"
+    },
+    "songs_released": {
+      "type": "number"
+    },
+    "projects_released": {
+      "type": "number"
+    },
+    "most_recent_release_title": {
+      "type": "string"
+    },
+    "most_recent_release_date": {
+      "type": "string"
+    },
+    "next_release_title": {
+      "type": "string"
+    },
+    "next_release_date": {
+      "type": "string"
+    },
+    "in_studio": {
+      "type": "string"
+    },
+    "release_frequency": {
+      "type": "string"
+    },
+    "writes_own_music": {
+      "type": "string"
+    },
+    "produces_own_music": {
+      "type": "string"
+    },
+    "recording_setup": {
+      "type": "string"
+    },
+    "spotify_monthly_listeners": {
+      "type": "number"
+    },
+    "apple_music_listeners": {
+      "type": "number"
+    },
+    "youtube_total_views": {
+      "type": "number"
+    },
+    "most_streamed_song_title": {
+      "type": "string"
+    },
+    "most_streamed_song_count": {
+      "type": "number"
+    },
+    "spotify_verified": {
+      "type": "string"
+    },
+    "apple_verified": {
+      "type": "string"
+    },
+    "editorial_playlist": {
+      "type": "string"
+    },
+    "editorial_playlist_name": {
+      "type": "string"
+    },
+    "avg_stream_count": {
+      "type": "number"
+    },
+    "tiktok_handle": {
+      "type": "string"
+    },
+    "tiktok_followers": {
+      "type": "number"
+    },
+    "instagram_handle": {
+      "type": "string"
+    },
+    "instagram_followers": {
+      "type": "number"
+    },
+    "youtube_handle": {
+      "type": "string"
+    },
+    "youtube_subscribers": {
+      "type": "number"
+    },
+    "twitter_handle": {
+      "type": "string"
+    },
+    "twitter_followers": {
+      "type": "number"
+    },
+    "facebook_page": {
+      "type": "string"
+    },
+    "facebook_followers": {
+      "type": "number"
+    },
+    "top_traffic_platform": {
+      "type": "string"
+    },
+    "posting_consistency": {
+      "type": "string"
+    },
+    "runs_paid_ads": {
+      "type": "string"
+    },
+    "paid_ads_platforms": {
+      "type": "string"
+    },
+    "performed_live": {
+      "type": "string"
+    },
+    "total_shows": {
+      "type": "number"
+    },
+    "total_tickets_sold": {
+      "type": "number"
+    },
+    "biggest_show_venue": {
+      "type": "string"
+    },
+    "biggest_show_capacity": {
+      "type": "number"
+    },
+    "biggest_show_city": {
+      "type": "string"
+    },
+    "avg_ticket_price": {
+      "type": "number"
+    },
+    "headlines_own_shows": {
+      "type": "string"
+    },
+    "opens_for_artists": {
+      "type": "string"
+    },
+    "been_on_tour": {
+      "type": "string"
+    },
+    "tour_cities": {
+      "type": "number"
+    },
+    "has_booking_agent": {
+      "type": "string"
+    },
+    "booking_agency": {
+      "type": "string"
+    },
+    "seeking_booking_agent": {
+      "type": "string"
+    },
+    "markets_performed": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "touring_setup": {
+      "type": "string"
+    },
+    "avg_show_revenue": {
+      "type": "number"
+    },
+    "has_manager": {
+      "type": "string"
+    },
+    "manager_name": {
+      "type": "string"
+    },
+    "has_attorney": {
+      "type": "string"
+    },
+    "has_publicist": {
+      "type": "string"
+    },
+    "distributor": {
+      "type": "string"
+    },
+    "signed_to_label": {
+      "type": "string"
+    },
+    "label_type": {
+      "type": "string"
+    },
+    "has_publishing_deal": {
+      "type": "string"
+    },
+    "collects_publishing": {
+      "type": "string"
+    },
+    "pro_registration": {
+      "type": "string"
+    },
+    "annual_music_income": {
+      "type": "string"
+    },
+    "primary_goal": {
+      "type": "string"
+    },
+    "biggest_challenge": {
+      "type": "string"
+    },
+    "success_in_12_months": {
+      "type": "string"
+    },
+    "willing_to_invest": {
+      "type": "string"
+    },
+    "hours_per_week": {
+      "type": "number"
+    },
+    "has_release_strategy": {
+      "type": "string"
+    },
+    "interested_in_sync": {
+      "type": "string"
+    },
+    "had_sync_placement": {
+      "type": "string"
+    },
+    "sync_placement_where": {
+      "type": "string"
+    },
+    "music_cleared_for_licensing": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "stage_name"
+  ]
+}
