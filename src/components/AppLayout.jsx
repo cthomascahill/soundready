@@ -6,7 +6,7 @@ import {
   ChevronDown, UserCircle, Zap,
   Layout, FileText, Mic2, MapPin, CalendarRange,
   TrendingUp, Receipt, ScrollText,
-  Send, Wand2, CalendarDays, Film, Sparkles, Radio, ListChecks
+  Send, Wand2, CalendarDays, Film, Sparkles, Radio, ListChecks, Newspaper
 } from "lucide-react";
 import SoundReadyLogo from "@/components/SoundReadyLogo";
 
@@ -28,6 +28,7 @@ const TEAM_ITEMS = [
 const CAREER_ITEMS = [
   { to: "/artist-profile", icon: Sparkles, label: "Artist Profile" },
   { to: "/streaming-analyst", icon: TrendingUp, label: "Streaming Analyst" },
+  { to: "/music-news", icon: Newspaper, label: "Music News" },
   { to: "/ar-intelligence", icon: Sparkles, label: "A&R Intelligence" },
   { to: "/release-radar", icon: Radio, label: "Release Radar" },
   { to: "/playlist-pitcher", icon: Mic2, label: "Playlist Pitching" },

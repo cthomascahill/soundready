@@ -50,6 +50,7 @@ import StreamingAnalyst from './pages/StreamingAnalyst';
 import SongTracker from './pages/SongTracker';
 import ArtistIntake from './pages/ArtistIntake';
 import Studio from './pages/Studio';
+import MusicNews from './pages/MusicNews';
 
 import EmailCampaigns from './pages/EmailCampaigns.jsx';
 import SmartMixingFeedback from './pages/SmartMixingFeedback.jsx';
@@ -139,6 +140,7 @@ const AuthenticatedApp = () => {
         <Route path="/song-tracker" element={<SongTracker />} />
         <Route path="/artist-profile" element={<ArtistIntake />} />
         <Route path="/studio" element={<Studio />} />
+        <Route path="/music-news" element={<MusicNews />} />
 
         <Route path="/email-campaigns" element={<EmailCampaigns />} />
 
