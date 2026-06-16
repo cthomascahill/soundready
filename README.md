@@ -4,6 +4,8 @@
 
 - this app uses react and pocketbase!
 
+- before starting up app, download the pocketbase binary and put it in /pocketbase
+
 CTC:
 
 $ npm run dev 
