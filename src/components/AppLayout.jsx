@@ -13,6 +13,7 @@ import {
 import SoundReadyLogo from "@/components/SoundReadyLogo";
 import CommandPalette from "@/components/CommandPalette";
 import NotificationCenter from "@/components/NotificationCenter";
+import MayaAssistant from "@/components/MayaAssistant";
 
 const MUSIC_ITEMS = [
   { to: "/history", icon: Music2, label: "Song Vault" },
@@ -169,6 +170,7 @@ export default function AppLayout() {
       </main>
 
       <CommandPalette open={cmdOpen} onClose={() => setCmdOpen(false)} />
+      <MayaAssistant />
     </div>
   );
 }
