@@ -7,7 +7,8 @@ import {
   ChevronDown, UserCircle,
   Layout, FileText, Mic2, MapPin, CalendarRange,
   TrendingUp, Receipt, ScrollText,
-  Send, Wand2, Sparkles, ListChecks, Newspaper, Bus, GraduationCap, Paintbrush, Search, Map
+  Send, Wand2, Sparkles, ListChecks, Newspaper, Bus, GraduationCap, Paintbrush, Search, Map,
+  PenLine, Flame, Headphones, Radio, Target
 } from "lucide-react";
 import SoundReadyLogo from "@/components/SoundReadyLogo";
 import CommandPalette from "@/components/CommandPalette";
@@ -17,9 +18,10 @@ const MUSIC_ITEMS = [
   { to: "/history", icon: Music2, label: "Song Vault" },
   { to: "/song-tracker", icon: ListChecks, label: "Song Tracker" },
   { to: "/studio", icon: Sparkles, label: "The Studio" },
+  { to: "/lyric-room", icon: PenLine, label: "Lyric Room" },
+  { to: "/beat-discovery", icon: Headphones, label: "Beat Discovery" },
   { to: "/mastering", icon: Wand2, label: "AI Mastering" },
   { to: "/distribution", icon: Send, label: "Distribution" },
-
 ];
 
 const TEAM_ITEMS = [
@@ -31,6 +33,9 @@ const CAREER_ITEMS = [
   { to: "/artist-profile", icon: Sparkles, label: "Artist Profile" },
   { to: "/branding-studio", icon: Paintbrush, label: "Branding Studio" },
   { to: "/career-roadmap", icon: Map, label: "Career Roadmap" },
+  { to: "/genre-trends", icon: Radio, label: "Genre Trends" },
+  { to: "/challenge-tracker", icon: Target, label: "Challenges & Goals" },
+  { to: "/artist-feed", icon: Flame, label: "Artist Feed" },
   { to: "/ar-intelligence", icon: Sparkles, label: "A&R Intelligence" },
   { to: "/playlist-pitcher", icon: Mic2, label: "Playlist Pitching" },
   { to: "/press-kit", icon: FileText, label: "Press Kit" },

@@ -64,6 +64,11 @@ import TeamChat from './pages/TeamChat.jsx';
 import BrandingStudio from './pages/BrandingStudio.jsx';
 import CareerRoadmap from './pages/CareerRoadmap.jsx';
 import RevenueSplits from './pages/RevenueSplits.jsx';
+import LyricRoom from './pages/LyricRoom.jsx';
+import GenreTrends from './pages/GenreTrends.jsx';
+import ChallengeTracker from './pages/ChallengeTracker.jsx';
+import ArtistFeed from './pages/ArtistFeed.jsx';
+import BeatDiscovery from './pages/BeatDiscovery.jsx';
 import WhiteboardCanvas from './pages/WhiteboardCanvas';
 
 const AuthenticatedApp = () => {
@@ -157,6 +162,11 @@ const AuthenticatedApp = () => {
         <Route path="/branding-studio" element={<BrandingStudio />} />
         <Route path="/career-roadmap" element={<CareerRoadmap />} />
         <Route path="/revenue-splits" element={<RevenueSplits />} />
+        <Route path="/lyric-room" element={<LyricRoom />} />
+        <Route path="/genre-trends" element={<GenreTrends />} />
+        <Route path="/challenge-tracker" element={<ChallengeTracker />} />
+        <Route path="/artist-feed" element={<ArtistFeed />} />
+        <Route path="/beat-discovery" element={<BeatDiscovery />} />
         <Route path="/whiteboard/:boardId" element={<WhiteboardCanvas />} />
         <Route path="/community" element={<Community />} />
         <Route path="*" element={<PageNotFound />} />

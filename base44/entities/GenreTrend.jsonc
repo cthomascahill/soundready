@@ -1,0 +1,39 @@
+{
+  "name": "GenreTrend",
+  "type": "object",
+  "properties": {
+    "genre": {
+      "type": "string"
+    },
+    "top_sounds": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "trending_topics": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "aesthetic_direction": {
+      "type": "string"
+    },
+    "breakout_artists": {
+      "type": "array",
+      "items": {
+        "type": "object"
+      }
+    },
+    "strategic_tip": {
+      "type": "string"
+    },
+    "fetched_at": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "genre"
+  ]
+}

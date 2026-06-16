@@ -1,0 +1,60 @@
+{
+  "name": "Beat",
+  "type": "object",
+  "properties": {
+    "title": {
+      "type": "string"
+    },
+    "producer_name": {
+      "type": "string"
+    },
+    "producer_email": {
+      "type": "string"
+    },
+    "genre": {
+      "type": "string"
+    },
+    "bpm": {
+      "type": "number"
+    },
+    "key": {
+      "type": "string"
+    },
+    "mood_tags": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "file_url": {
+      "type": "string"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "pending",
+        "approved",
+        "featured"
+      ],
+      "default": "pending"
+    },
+    "featured_date": {
+      "type": "string"
+    },
+    "play_count": {
+      "type": "number",
+      "default": 0
+    },
+    "saves": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    }
+  },
+  "required": [
+    "title",
+    "producer_name",
+    "file_url"
+  ]
+}

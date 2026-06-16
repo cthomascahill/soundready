@@ -1,0 +1,30 @@
+{
+  "name": "ArtistGoal",
+  "type": "object",
+  "properties": {
+    "title": {
+      "type": "string"
+    },
+    "target_metric": {
+      "type": "string"
+    },
+    "target_number": {
+      "type": "number"
+    },
+    "current_number": {
+      "type": "number",
+      "default": 0
+    },
+    "deadline": {
+      "type": "string"
+    },
+    "completed": {
+      "type": "boolean",
+      "default": false
+    }
+  },
+  "required": [
+    "title",
+    "target_number"
+  ]
+}

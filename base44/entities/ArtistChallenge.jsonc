@@ -1,0 +1,32 @@
+{
+  "name": "ArtistChallenge",
+  "type": "object",
+  "properties": {
+    "challenge_id": {
+      "type": "string"
+    },
+    "title": {
+      "type": "string"
+    },
+    "completed_steps": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "started_at": {
+      "type": "string"
+    },
+    "badge_earned": {
+      "type": "boolean",
+      "default": false
+    },
+    "badge_earned_at": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "challenge_id",
+    "title"
+  ]
+}

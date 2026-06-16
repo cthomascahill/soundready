@@ -1,0 +1,27 @@
+{
+  "name": "LyricDoc",
+  "type": "object",
+  "properties": {
+    "title": {
+      "type": "string",
+      "default": "Untitled"
+    },
+    "content": {
+      "type": "string",
+      "default": ""
+    },
+    "tags": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "word_count": {
+      "type": "number",
+      "default": 0
+    }
+  },
+  "required": [
+    "title"
+  ]
+}

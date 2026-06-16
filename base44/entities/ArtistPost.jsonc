@@ -1,0 +1,47 @@
+{
+  "name": "ArtistPost",
+  "type": "object",
+  "properties": {
+    "author_id": {
+      "type": "string"
+    },
+    "author_name": {
+      "type": "string"
+    },
+    "author_email": {
+      "type": "string"
+    },
+    "author_genre": {
+      "type": "string"
+    },
+    "text": {
+      "type": "string"
+    },
+    "mood_tag": {
+      "type": "string"
+    },
+    "link": {
+      "type": "string"
+    },
+    "likes": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "reposts": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "comment_count": {
+      "type": "number",
+      "default": 0
+    }
+  },
+  "required": [
+    "author_id",
+    "text"
+  ]
+}
