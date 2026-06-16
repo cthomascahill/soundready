@@ -11,71 +11,55 @@ Deno.serve(async (req) => {
 
     if (!platform) return Response.json({ error: 'platform required' }, { status: 400 });
 
-    // ── Spotify URL scan ──────────────────────────────────────────────────────
+    // ── Spotify URL scan (AI web scrape — no API key needed) ─────────────────
     if (platform === 'spotify') {
       if (!profile_url) return Response.json({ error: 'profile_url required for Spotify' }, { status: 400 });
 
-      const CLIENT_ID = Deno.env.get('SPOTIFY_CLIENT_ID');
-      const CLIENT_SECRET = Deno.env.get('SPOTIFY_CLIENT_SECRET');
+      // Use InvokeLLM with internet context to scrape public Spotify artist data
+      const llmResult = await base44.asServiceRole.integrations.Core.InvokeLLM({
+        prompt: `Look up the Spotify artist profile at this URL: ${profile_url}
+        
+Search the web and return the following publicly available data about this Spotify artist:
+- Artist name
+- Number of followers on Spotify
+- Monthly listeners (if available on their profile page)
+- Genres / music style
+- Their top 5 most popular songs/tracks on Spotify (song title and approximate stream count if available)
+- Popularity score (0-100)
 
-      // Get client credentials token (no user auth needed for public artist data)
-      const tokenRes = await fetch('https://accounts.spotify.com/api/token', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/x-www-form-urlencoded',
-          'Authorization': 'Basic ' + btoa(`${CLIENT_ID}:${CLIENT_SECRET}`),
-        },
-        body: new URLSearchParams({ grant_type: 'client_credentials' }),
+Return ONLY what you can actually find. Do not guess or fabricate numbers. If a field is unknown, return null.`,
+        add_context_from_internet: true,
+        response_json_schema: {
+          type: "object",
+          properties: {
+            artist_name: { type: "string" },
+            followers: { type: "number" },
+            monthly_listeners: { type: "number" },
+            genres: { type: "array", items: { type: "string" } },
+            popularity: { type: "number" },
+            top_tracks: {
+              type: "array",
+              items: {
+                type: "object",
+                properties: {
+                  title: { type: "string" },
+                  streams: { type: "number" }
+                }
+              }
+            }
+          }
+        }
       });
-      const tokenData = await tokenRes.json();
-      if (!tokenData.access_token) {
-        return Response.json({ error: 'Could not authenticate with Spotify API' }, { status: 500 });
-      }
-      const accessToken = tokenData.access_token;
-
-      // Extract artist ID from URL
-      // Handles: open.spotify.com/artist/ARTIST_ID or open.spotify.com/intl-xx/artist/ARTIST_ID
-      const artistMatch = profile_url.match(/spotify\.com(?:\/intl-[a-z]+)?\/artist\/([A-Za-z0-9]+)/);
-      if (!artistMatch) {
-        return Response.json({ error: 'Could not parse Spotify artist URL. Use a link like: open.spotify.com/artist/...' }, { status: 400 });
-      }
-      const artistId = artistMatch[1];
-
-      // Fetch artist profile
-      const artistRes = await fetch(`https://api.spotify.com/v1/artists/${artistId}`, {
-        headers: { Authorization: `Bearer ${accessToken}` },
-      });
-      const artistData = await artistRes.json();
-      if (artistData.error) {
-        return Response.json({ error: `Spotify error: ${artistData.error.message}` }, { status: 400 });
-      }
-
-      // Fetch top tracks
-      const topTracksRes = await fetch(`https://api.spotify.com/v1/artists/${artistId}/top-tracks?market=US`, {
-        headers: { Authorization: `Bearer ${accessToken}` },
-      });
-      const topTracksData = await topTracksRes.json();
-
-      // Fetch related artists
-      const relatedRes = await fetch(`https://api.spotify.com/v1/artists/${artistId}/related-artists`, {
-        headers: { Authorization: `Bearer ${accessToken}` },
-      });
-      const relatedData = await relatedRes.json();
 
       const stats = {
-        followers: artistData.followers?.total || 0,
-        monthly_listeners: null, // Not available via public API
-        genres: artistData.genres || [],
-        popularity: artistData.popularity || 0,
-        top_tracks: topTracksData.tracks?.slice(0, 5).map(t => ({
-          title: t.name,
-          popularity: t.popularity,
-          preview_url: t.preview_url,
-          album_art: t.album?.images?.[0]?.url,
-          album: t.album?.name,
-          spotify_url: t.external_urls?.spotify,
-        })) || [],
-        related_artists: relatedData.artists?.slice(0, 5).map(a => a.name) || [],
+        followers: llmResult.followers || 0,
+        monthly_listeners: llmResult.monthly_listeners || null,
+        genres: llmResult.genres || [],
+        popularity: llmResult.popularity || null,
+        top_tracks: (llmResult.top_tracks || []).slice(0, 5).map(t => ({
+          title: t.title,
+          streams: t.streams || null,
+        })),
       };
 
       const existing = await base44.entities.PlatformConnection.filter(
@@ -87,9 +71,7 @@ Deno.serve(async (req) => {
         connection_type: 'url',
         status: 'connected',
         profile_url,
-        display_name: artistData.name,
-        profile_image_url: artistData.images?.[0]?.url,
-        raw_channel_id: artistId,
+        display_name: llmResult.artist_name || null,
         last_synced: new Date().toISOString(),
         stats,
       };
