@@ -53,10 +53,10 @@ const FINANCE_ITEMS = [
 
 const TOP_NAV = [
   { to: "/dashboard", icon: Home, label: "Home" },
+  { to: "/music-news", icon: Newspaper, label: "News" },
   { label: "Music", icon: Music2, items: MUSIC_ITEMS },
   { label: "Team", icon: Users, items: TEAM_ITEMS },
   { label: "Career", icon: Briefcase, items: CAREER_ITEMS },
-  { to: "/music-news", icon: Newspaper, label: "News" },
   { label: "Tour", icon: Bus, items: TOUR_ITEMS },
   { label: "Finances & Legal", icon: DollarSign, items: FINANCE_ITEMS },
 ];
