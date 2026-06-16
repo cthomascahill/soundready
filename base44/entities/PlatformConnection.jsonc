@@ -1,0 +1,158 @@
+{
+  "name": "PlatformConnection",
+  "type": "object",
+  "properties": {
+    "platform": {
+      "type": "string",
+      "enum": [
+        "spotify",
+        "youtube",
+        "instagram",
+        "soundcloud",
+        "tiktok",
+        "apple_music"
+      ]
+    },
+    "connection_type": {
+      "type": "string",
+      "enum": [
+        "oauth",
+        "url",
+        "manual"
+      ],
+      "description": "How this platform was connected"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "connected",
+        "disconnected",
+        "error"
+      ],
+      "default": "connected"
+    },
+    "last_synced": {
+      "type": "string",
+      "description": "ISO timestamp of last successful sync"
+    },
+    "profile_url": {
+      "type": "string",
+      "description": "Public profile URL for URL-based platforms"
+    },
+    "display_name": {
+      "type": "string"
+    },
+    "profile_image_url": {
+      "type": "string"
+    },
+    "access_token": {
+      "type": "string",
+      "description": "OAuth access token (encrypted)"
+    },
+    "refresh_token": {
+      "type": "string",
+      "description": "OAuth refresh token"
+    },
+    "token_expires_at": {
+      "type": "string",
+      "description": "ISO timestamp when access token expires"
+    },
+    "stats": {
+      "type": "object",
+      "description": "Platform-specific stats blob",
+      "properties": {
+        "followers": {
+          "type": "number"
+        },
+        "monthly_listeners": {
+          "type": "number"
+        },
+        "subscribers": {
+          "type": "number"
+        },
+        "total_views": {
+          "type": "number"
+        },
+        "total_plays": {
+          "type": "number"
+        },
+        "post_count": {
+          "type": "number"
+        },
+        "following": {
+          "type": "number"
+        },
+        "top_tracks": {
+          "type": "array",
+          "items": {
+            "type": "object"
+          }
+        },
+        "top_markets": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "recent_posts": {
+          "type": "array",
+          "items": {
+            "type": "object"
+          }
+        },
+        "tiktok_handle": {
+          "type": "string"
+        },
+        "total_likes": {
+          "type": "number"
+        },
+        "avg_views_per_video": {
+          "type": "number"
+        },
+        "top_video_url": {
+          "type": "string"
+        },
+        "apple_music_url": {
+          "type": "string"
+        },
+        "apple_monthly_listeners": {
+          "type": "number"
+        },
+        "shazam_count": {
+          "type": "number"
+        },
+        "total_shows": {
+          "type": "number"
+        },
+        "biggest_venue_capacity": {
+          "type": "number"
+        },
+        "avg_ticket_price": {
+          "type": "number"
+        },
+        "avg_tickets_sold": {
+          "type": "number"
+        },
+        "email_list_size": {
+          "type": "number"
+        },
+        "merch_revenue_12mo": {
+          "type": "number"
+        },
+        "press_placements": {
+          "type": "number"
+        },
+        "sync_placements": {
+          "type": "number"
+        }
+      }
+    },
+    "raw_channel_id": {
+      "type": "string",
+      "description": "YouTube channel ID or SoundCloud user ID"
+    }
+  },
+  "required": [
+    "platform"
+  ]
+}

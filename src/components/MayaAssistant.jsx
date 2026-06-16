@@ -126,6 +126,73 @@ If their numbers are low, address it directly without sugarcoating. If they have
 Keep responses focused and actionable. Use markdown formatting (bold, bullet points) to make responses scannable. End with a concrete next step when relevant.`;
 }
 
+function buildPlatformDataContext(platformConns) {
+  if (!platformConns || platformConns.length === 0) return "";
+
+  const lines = ["\nLIVE PLATFORM DATA (real numbers, auto-synced):"];
+
+  platformConns.forEach(c => {
+    if (!c.stats) return;
+    const s = c.stats;
+
+    if (c.platform === "spotify") {
+      lines.push(`\nSPOTIFY (${c.connection_type === "oauth" ? "OAuth connected" : "manual"}, last synced ${c.last_synced ? new Date(c.last_synced).toLocaleDateString() : "unknown"}):`);
+      if (s.followers) lines.push(`  - Followers: ${s.followers.toLocaleString()}`);
+      if (s.monthly_listeners) lines.push(`  - Monthly Listeners: ${s.monthly_listeners.toLocaleString()}`);
+      if (s.top_tracks?.length) {
+        lines.push(`  - Top Tracks:`);
+        s.top_tracks.slice(0, 5).forEach(t => {
+          lines.push(`    · "${t.title}"${t.popularity ? ` (popularity: ${t.popularity}/100)` : ""}`);
+        });
+      }
+      if (s.top_markets?.length) lines.push(`  - Top Markets: ${s.top_markets.join(", ")}`);
+      if (c.display_name) lines.push(`  - Profile: ${c.display_name}`);
+    }
+
+    if (c.platform === "youtube") {
+      lines.push(`\nYOUTUBE (auto-pulled from channel, last synced ${c.last_synced ? new Date(c.last_synced).toLocaleDateString() : "unknown"}):`);
+      if (c.display_name) lines.push(`  - Channel: ${c.display_name}`);
+      if (s.subscribers) lines.push(`  - Subscribers: ${s.subscribers.toLocaleString()}`);
+      if (s.total_views) lines.push(`  - Total Views: ${s.total_views.toLocaleString()}`);
+      if (s.top_tracks?.length) {
+        lines.push(`  - Top Videos:`);
+        s.top_tracks.slice(0, 3).forEach(v => {
+          lines.push(`    · "${v.title}" — ${v.views?.toLocaleString() || "?"} views`);
+        });
+      }
+    }
+
+    if (c.platform === "tiktok") {
+      lines.push(`\nTIKTOK (self-reported):`);
+      if (s.tiktok_handle) lines.push(`  - Handle: @${s.tiktok_handle}`);
+      if (s.followers) lines.push(`  - Followers: ${s.followers.toLocaleString()}`);
+      if (s.total_likes) lines.push(`  - Total Likes: ${s.total_likes.toLocaleString()}`);
+      if (s.avg_views_per_video) lines.push(`  - Avg Views/Video: ${s.avg_views_per_video.toLocaleString()}`);
+    }
+
+    if (c.platform === "apple_music") {
+      lines.push(`\nAPPLE MUSIC (self-reported):`);
+      if (s.apple_monthly_listeners) lines.push(`  - Monthly Listeners: ${s.apple_monthly_listeners.toLocaleString()}`);
+      if (s.shazam_count) lines.push(`  - Shazam Count: ${s.shazam_count.toLocaleString()}`);
+    }
+
+    if (c.platform === "self_reported") {
+      lines.push(`\nLIVE / BUSINESS STATS (self-reported):`);
+      if (s.total_shows) lines.push(`  - Total Shows: ${s.total_shows}`);
+      if (s.biggest_venue_capacity) lines.push(`  - Biggest Venue: ${s.biggest_venue_capacity} capacity`);
+      if (s.avg_ticket_price) lines.push(`  - Avg Ticket Price: $${s.avg_ticket_price}`);
+      if (s.avg_tickets_sold) lines.push(`  - Avg Tickets Sold/Show: ${s.avg_tickets_sold}`);
+      if (s.email_list_size) lines.push(`  - Email List: ${s.email_list_size.toLocaleString()}`);
+      if (s.merch_revenue_12mo) lines.push(`  - Merch Revenue (12mo): $${s.merch_revenue_12mo.toLocaleString()}`);
+      if (s.press_placements) lines.push(`  - Press Placements: ${s.press_placements}`);
+      if (s.sync_placements) lines.push(`  - Sync Placements: ${s.sync_placements}`);
+    }
+  });
+
+  lines.push("\nIMPORTANT: Reference these real numbers directly in your advice. Do not ask the artist for stats you already have above.");
+  return lines.join("\n");
+}
+
 async function callMaya(messages, systemPrompt) {
   const history = messages.map(m => `${m.role === "user" ? "Artist" : "Maya"}: ${m.content}`).join("\n\n");
   const lastUser = messages[messages.length - 1]?.content || "";
@@ -170,6 +237,7 @@ export default function MayaAssistant() {
   const [challenges, setChallenges] = useState([]);
   const [goals, setGoals] = useState([]);
   const [savedBeats, setSavedBeats] = useState([]);
+  const [platformConns, setPlatformConns] = useState([]);
   const [profileLoaded, setProfileLoaded] = useState(false);
   const bottomRef = useRef(null);
   const inputRef = useRef(null);
@@ -183,14 +251,18 @@ export default function MayaAssistant() {
       base44.entities.ArtistChallenge.filter({ created_by_id: user.id }, "-created_date", 20).catch(() => []),
       base44.entities.ArtistGoal.filter({ created_by_id: user.id }, "-created_date", 20).catch(() => []),
       base44.entities.Beat.list("-created_date", 50).catch(() => []),
-    ]).then(([profiles, chals, goalList, beats]) => {
+      base44.entities.PlatformConnection.filter({ created_by_id: user.id }, "-created_date", 20).catch(() => []),
+    ]).then(([profiles, chals, goalList, beats, conns]) => {
       const prof = profiles[0] || null;
       const userSavedBeats = beats.filter(b => b.saves?.includes(user.id));
       setProfile(prof);
       setChallenges(chals);
       setGoals(goalList);
       setSavedBeats(userSavedBeats);
-      systemPromptRef.current = buildSystemPrompt(prof, chals, goalList, userSavedBeats);
+      setPlatformConns(conns);
+      const basePrompt = buildSystemPrompt(prof, chals, goalList, userSavedBeats);
+      const platformContext = buildPlatformDataContext(conns);
+      systemPromptRef.current = basePrompt + platformContext;
       setProfileLoaded(true);
     });
   }, [open, profileLoaded, user]);

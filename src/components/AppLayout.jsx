@@ -8,7 +8,7 @@ import {
   Layout, FileText, Mic2, MapPin, CalendarRange,
   TrendingUp, Receipt, ScrollText,
   Send, Wand2, Sparkles, ListChecks, Newspaper, Bus, GraduationCap, Paintbrush, Search, Map,
-  PenLine, Flame, Headphones, Radio, Target
+  PenLine, Flame, Headphones, Radio, Target, Link2
 } from "lucide-react";
 import SoundReadyLogo from "@/components/SoundReadyLogo";
 import CommandPalette from "@/components/CommandPalette";
@@ -32,6 +32,7 @@ const TEAM_ITEMS = [
 
 const CAREER_ITEMS = [
   { to: "/artist-profile", icon: Sparkles, label: "Artist Profile" },
+  { to: "/connect-profiles", icon: Link2, label: "Connect Platforms" },
   { to: "/branding-studio", icon: Paintbrush, label: "Branding Studio" },
   { to: "/career-roadmap", icon: Map, label: "Career Roadmap" },
   { to: "/genre-trends", icon: Radio, label: "Genre Trends" },
