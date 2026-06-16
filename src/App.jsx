@@ -62,6 +62,8 @@ import Soundcheck from './pages/Soundcheck';
 import Whiteboard from './pages/Whiteboard';
 import TeamChat from './pages/TeamChat.jsx';
 import BrandingStudio from './pages/BrandingStudio.jsx';
+import CareerRoadmap from './pages/CareerRoadmap.jsx';
+import RevenueSplits from './pages/RevenueSplits.jsx';
 import WhiteboardCanvas from './pages/WhiteboardCanvas';
 
 const AuthenticatedApp = () => {
@@ -153,6 +155,8 @@ const AuthenticatedApp = () => {
         <Route path="/whiteboard" element={<Whiteboard />} />
         <Route path="/team-chat" element={<TeamChat />} />
         <Route path="/branding-studio" element={<BrandingStudio />} />
+        <Route path="/career-roadmap" element={<CareerRoadmap />} />
+        <Route path="/revenue-splits" element={<RevenueSplits />} />
         <Route path="/whiteboard/:boardId" element={<WhiteboardCanvas />} />
         <Route path="/community" element={<Community />} />
         <Route path="*" element={<PageNotFound />} />

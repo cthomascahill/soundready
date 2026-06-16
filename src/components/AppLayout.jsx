@@ -1,14 +1,17 @@
 import { useState, useRef, useEffect } from "react";
 import { Outlet, Link, useLocation } from "react-router-dom";
 import { base44 } from "@/api/base44Client";
+import { useAuth } from "@/lib/AuthContext";
 import {
   Home, Music2, Users, Briefcase, DollarSign,
   ChevronDown, UserCircle,
   Layout, FileText, Mic2, MapPin, CalendarRange,
   TrendingUp, Receipt, ScrollText,
-  Send, Wand2, Sparkles, ListChecks, Newspaper, Bus, GraduationCap, Paintbrush
+  Send, Wand2, Sparkles, ListChecks, Newspaper, Bus, GraduationCap, Paintbrush, Search, Map
 } from "lucide-react";
 import SoundReadyLogo from "@/components/SoundReadyLogo";
+import CommandPalette from "@/components/CommandPalette";
+import NotificationCenter from "@/components/NotificationCenter";
 
 const MUSIC_ITEMS = [
   { to: "/history", icon: Music2, label: "Song Vault" },
@@ -27,6 +30,7 @@ const TEAM_ITEMS = [
 const CAREER_ITEMS = [
   { to: "/artist-profile", icon: Sparkles, label: "Artist Profile" },
   { to: "/branding-studio", icon: Paintbrush, label: "Branding Studio" },
+  { to: "/career-roadmap", icon: Map, label: "Career Roadmap" },
   { to: "/ar-intelligence", icon: Sparkles, label: "A&R Intelligence" },
   { to: "/playlist-pitcher", icon: Mic2, label: "Playlist Pitching" },
   { to: "/press-kit", icon: FileText, label: "Press Kit" },
@@ -43,6 +47,7 @@ const TOUR_ITEMS = [
 
 const FINANCE_ITEMS = [
   { to: "/tour-finance", icon: DollarSign, label: "Tour Finance" },
+  { to: "/revenue-splits", icon: TrendingUp, label: "Revenue Splits" },
   { to: "/contract-analyzer", icon: FileText, label: "Contract & Legal" },
   { to: "/legal", icon: FileText, label: "Legal Templates" },
   { to: "/royalties", icon: TrendingUp, label: "Royalties" },
@@ -64,8 +69,19 @@ const TOP_NAV = [
 
 export default function AppLayout() {
   const location = useLocation();
+  const { user } = useAuth();
   const [openDropdown, setOpenDropdown] = useState(null);
+  const [cmdOpen, setCmdOpen] = useState(false);
   const dropdownRef = useRef(null);
+
+  // Cmd+K / Ctrl+K listener
+  useEffect(() => {
+    const handle = (e) => {
+      if ((e.metaKey || e.ctrlKey) && e.key === "k") { e.preventDefault(); setCmdOpen(v => !v); }
+    };
+    window.addEventListener("keydown", handle);
+    return () => window.removeEventListener("keydown", handle);
+  }, []);
 
   useEffect(() => {
     const handle = (e) => {
@@ -126,8 +142,17 @@ export default function AppLayout() {
               );
             })}
 
+            {/* Search trigger */}
+            <button onClick={() => setCmdOpen(true)}
+              className="h-9 px-3 rounded-lg flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground hover:bg-secondary transition-colors ml-1">
+              <Search className="h-4 w-4" />
+              <span className="hidden lg:inline text-xs border border-border rounded px-1.5 py-0.5">⌘K</span>
+            </button>
+
+            <NotificationCenter user={user} />
+
             <Link to="/profile"
-              className={`h-9 px-3 rounded-lg flex items-center gap-2 text-sm transition-colors ml-1 ${isActive("/profile") ? "bg-primary/10 text-primary" : "text-muted-foreground hover:text-foreground hover:bg-secondary"}`}>
+              className={`h-9 px-3 rounded-lg flex items-center gap-2 text-sm transition-colors ${isActive("/profile") ? "bg-primary/10 text-primary" : "text-muted-foreground hover:text-foreground hover:bg-secondary"}`}>
               <UserCircle className="h-4 w-4" />
             </Link>
           </div>
@@ -137,6 +162,8 @@ export default function AppLayout() {
       <main>
         <Outlet />
       </main>
+
+      <CommandPalette open={cmdOpen} onClose={() => setCmdOpen(false)} />
     </div>
   );
 }

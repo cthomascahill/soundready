@@ -7,7 +7,7 @@ import { Button } from "@/components/ui/button";
 import {
   FileText, Mic2, MapPin, Wand2,
   Music2, BarChart2, ChevronRight, ArrowRight,
-  Sparkles, AlertCircle, Shield
+  Sparkles, AlertCircle, Shield, Map, TrendingUp
 } from "lucide-react";
 import AIActivityFeed from "@/components/dashboard/AIActivityFeed";
 
@@ -20,6 +20,8 @@ const QUICK_ACTIONS = [
   { label: "Find a Venue", icon: MapPin, to: "/gig-finder", color: "text-orange-400 bg-orange-500/10" },
   { label: "Master a Track", icon: Wand2, to: "/mastering", color: "text-cyan-400 bg-cyan-500/10" },
   { label: "A&R Intel", icon: Sparkles, to: "/ar-intelligence", color: "text-chart-5 bg-chart-5/10" },
+  { label: "Career Roadmap", icon: Map, to: "/career-roadmap", color: "text-teal-400 bg-teal-500/10" },
+  { label: "Revenue Splits", icon: TrendingUp, to: "/revenue-splits", color: "text-yellow-400 bg-yellow-500/10" },
   { label: "Analyze Contract", icon: Shield, to: "/contract-analyzer", color: "text-yellow-400 bg-yellow-500/10" },
   { label: "Tour Planner", icon: BarChart2, to: "/tour-planner", color: "text-pink-400 bg-pink-500/10" },
 ];
