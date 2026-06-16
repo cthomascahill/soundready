@@ -35,7 +35,6 @@ const CAREER_ITEMS = [
   { to: "/career-roadmap", icon: Map, label: "Career Roadmap" },
   { to: "/genre-trends", icon: Radio, label: "Genre Trends" },
   { to: "/challenge-tracker", icon: Target, label: "Challenges & Goals" },
-  { to: "/artist-feed", icon: Flame, label: "Artist Feed" },
   { to: "/ar-intelligence", icon: Sparkles, label: "A&R Intelligence" },
   { to: "/playlist-pitcher", icon: Mic2, label: "Playlist Pitching" },
   { to: "/press-kit", icon: FileText, label: "Press Kit" },
@@ -65,6 +64,7 @@ const FINANCE_ITEMS = [
 const TOP_NAV = [
   { to: "/dashboard", icon: Home, label: "Home" },
   { to: "/music-news", icon: Newspaper, label: "News" },
+  { to: "/artist-feed", icon: Flame, label: "The Wall" },
   { label: "Music", icon: Music2, items: MUSIC_ITEMS },
   { label: "Team", icon: Users, items: TEAM_ITEMS },
   { label: "Career", icon: Briefcase, items: CAREER_ITEMS },
