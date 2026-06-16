@@ -11,10 +11,10 @@ import {
 import SoundReadyLogo from "@/components/SoundReadyLogo";
 
 const MUSIC_ITEMS = [
-  { to: "/history", icon: Music2, label: "Song Library" },
+  { to: "/history", icon: Music2, label: "Song Vault" },
   { to: "/song-tracker", icon: ListChecks, label: "Song Tracker" },
   { to: "/studio", icon: Sparkles, label: "The Studio" },
-  { to: "/release-plan", icon: Zap, label: "Upload & Analyze" },
+
   { to: "/mastering", icon: Wand2, label: "AI Mastering" },
   { to: "/distribution", icon: Send, label: "Distribution" },
   { to: "/content-engine", icon: Film, label: "Content Engine" },

@@ -1,0 +1,19 @@
+{
+  "name": "SongProject",
+  "type": "object",
+  "properties": {
+    "name": {
+      "type": "string"
+    },
+    "description": {
+      "type": "string"
+    },
+    "color": {
+      "type": "string",
+      "default": "#22c55e"
+    }
+  },
+  "required": [
+    "name"
+  ]
+}

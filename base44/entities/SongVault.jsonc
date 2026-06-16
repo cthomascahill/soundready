@@ -1,0 +1,75 @@
+{
+  "name": "SongVault",
+  "type": "object",
+  "properties": {
+    "title": {
+      "type": "string"
+    },
+    "featured_artists": {
+      "type": "string"
+    },
+    "producer": {
+      "type": "string"
+    },
+    "genre": {
+      "type": "string"
+    },
+    "bpm": {
+      "type": "number"
+    },
+    "key": {
+      "type": "string"
+    },
+    "moods": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "Idea",
+        "Demo",
+        "Recorded",
+        "Mixed",
+        "Mastered",
+        "Released"
+      ],
+      "default": "Demo"
+    },
+    "release_date": {
+      "type": "string"
+    },
+    "lyrics": {
+      "type": "string"
+    },
+    "notes": {
+      "type": "string"
+    },
+    "tags": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "file_url": {
+      "type": "string"
+    },
+    "file_name": {
+      "type": "string"
+    },
+    "duration": {
+      "type": "number"
+    },
+    "project_ids": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    }
+  },
+  "required": [
+    "title"
+  ]
+}
