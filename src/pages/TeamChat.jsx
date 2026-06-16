@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef } from "react";
 import { base44 } from "@/api/base44Client";
 import { motion, AnimatePresence } from "framer-motion";
-import { Send, MessageSquare, Users, Plus, Paperclip, ChevronRight, Hash } from "lucide-react";
+import { Send, MessageSquare, UserPlus, Paperclip, Hash, CheckCircle2, AlertCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import moment from "moment";
@@ -34,6 +34,9 @@ export default function TeamChat() {
   const [sending, setSending] = useState(false);
   const [file, setFile] = useState(null);
   const [uploading, setUploading] = useState(false);
+  const [inviteEmail, setInviteEmail] = useState("");
+  const [inviting, setInviting] = useState(false);
+  const [inviteStatus, setInviteStatus] = useState(null); // "success" | "error"
   const fileRef = useRef(null);
   const bottomRef = useRef(null);
 
@@ -69,6 +72,22 @@ export default function TeamChat() {
   useEffect(() => {
     bottomRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages]);
+
+  const invite = async () => {
+    const email = inviteEmail.trim();
+    if (!email) return;
+    setInviting(true);
+    setInviteStatus(null);
+    try {
+      await base44.users.inviteUser(email, "user");
+      setInviteStatus("success");
+      setInviteEmail("");
+    } catch {
+      setInviteStatus("error");
+    }
+    setInviting(false);
+    setTimeout(() => setInviteStatus(null), 4000);
+  };
 
   const send = async () => {
     if (!text.trim() && !file) return;
@@ -113,6 +132,35 @@ export default function TeamChat() {
             </button>
           ))}
         </nav>
+        {/* Invite section */}
+        <div className="p-3 border-t border-border space-y-2">
+          <p className="text-[10px] text-muted-foreground uppercase tracking-widest flex items-center gap-1.5">
+            <UserPlus className="h-3 w-3" /> Invite to Team
+          </p>
+          <div className="flex gap-1.5">
+            <input
+              type="email"
+              placeholder="Email address"
+              value={inviteEmail}
+              onChange={e => setInviteEmail(e.target.value)}
+              onKeyDown={e => e.key === "Enter" && invite()}
+              className="flex-1 min-w-0 h-7 rounded-md border border-input bg-transparent px-2 text-xs placeholder:text-muted-foreground focus:outline-none focus:ring-1 focus:ring-ring"
+            />
+            <button
+              onClick={invite}
+              disabled={inviting || !inviteEmail.trim()}
+              className="h-7 w-7 rounded-md bg-primary/10 border border-primary/30 flex items-center justify-center text-primary hover:bg-primary/20 transition-colors disabled:opacity-40 shrink-0">
+              {inviting ? <div className="h-3 w-3 border border-primary/30 border-t-primary rounded-full animate-spin" /> : <UserPlus className="h-3.5 w-3.5" />}
+            </button>
+          </div>
+          {inviteStatus === "success" && (
+            <p className="text-[10px] text-green-400 flex items-center gap-1"><CheckCircle2 className="h-3 w-3" /> Invite sent!</p>
+          )}
+          {inviteStatus === "error" && (
+            <p className="text-[10px] text-destructive flex items-center gap-1"><AlertCircle className="h-3 w-3" /> Failed to invite.</p>
+          )}
+        </div>
+
         <div className="p-3 border-t border-border">
           {user && (
             <div className="flex items-center gap-2">
