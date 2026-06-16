@@ -11,6 +11,99 @@ Deno.serve(async (req) => {
 
     if (!platform) return Response.json({ error: 'platform required' }, { status: 400 });
 
+    // ── Spotify URL scan ──────────────────────────────────────────────────────
+    if (platform === 'spotify') {
+      if (!profile_url) return Response.json({ error: 'profile_url required for Spotify' }, { status: 400 });
+
+      const CLIENT_ID = Deno.env.get('SPOTIFY_CLIENT_ID');
+      const CLIENT_SECRET = Deno.env.get('SPOTIFY_CLIENT_SECRET');
+
+      // Get client credentials token (no user auth needed for public artist data)
+      const tokenRes = await fetch('https://accounts.spotify.com/api/token', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/x-www-form-urlencoded',
+          'Authorization': 'Basic ' + btoa(`${CLIENT_ID}:${CLIENT_SECRET}`),
+        },
+        body: new URLSearchParams({ grant_type: 'client_credentials' }),
+      });
+      const tokenData = await tokenRes.json();
+      if (!tokenData.access_token) {
+        return Response.json({ error: 'Could not authenticate with Spotify API' }, { status: 500 });
+      }
+      const accessToken = tokenData.access_token;
+
+      // Extract artist ID from URL
+      // Handles: open.spotify.com/artist/ARTIST_ID or open.spotify.com/intl-xx/artist/ARTIST_ID
+      const artistMatch = profile_url.match(/spotify\.com(?:\/intl-[a-z]+)?\/artist\/([A-Za-z0-9]+)/);
+      if (!artistMatch) {
+        return Response.json({ error: 'Could not parse Spotify artist URL. Use a link like: open.spotify.com/artist/...' }, { status: 400 });
+      }
+      const artistId = artistMatch[1];
+
+      // Fetch artist profile
+      const artistRes = await fetch(`https://api.spotify.com/v1/artists/${artistId}`, {
+        headers: { Authorization: `Bearer ${accessToken}` },
+      });
+      const artistData = await artistRes.json();
+      if (artistData.error) {
+        return Response.json({ error: `Spotify error: ${artistData.error.message}` }, { status: 400 });
+      }
+
+      // Fetch top tracks
+      const topTracksRes = await fetch(`https://api.spotify.com/v1/artists/${artistId}/top-tracks?market=US`, {
+        headers: { Authorization: `Bearer ${accessToken}` },
+      });
+      const topTracksData = await topTracksRes.json();
+
+      // Fetch related artists
+      const relatedRes = await fetch(`https://api.spotify.com/v1/artists/${artistId}/related-artists`, {
+        headers: { Authorization: `Bearer ${accessToken}` },
+      });
+      const relatedData = await relatedRes.json();
+
+      const stats = {
+        followers: artistData.followers?.total || 0,
+        monthly_listeners: null, // Not available via public API
+        genres: artistData.genres || [],
+        popularity: artistData.popularity || 0,
+        top_tracks: topTracksData.tracks?.slice(0, 5).map(t => ({
+          title: t.name,
+          popularity: t.popularity,
+          preview_url: t.preview_url,
+          album_art: t.album?.images?.[0]?.url,
+          album: t.album?.name,
+          spotify_url: t.external_urls?.spotify,
+        })) || [],
+        related_artists: relatedData.artists?.slice(0, 5).map(a => a.name) || [],
+      };
+
+      const existing = await base44.entities.PlatformConnection.filter(
+        { created_by_id: user.id, platform: 'spotify' }, '-created_date', 1
+      ).catch(() => []);
+
+      const record = {
+        platform: 'spotify',
+        connection_type: 'url',
+        status: 'connected',
+        profile_url,
+        display_name: artistData.name,
+        profile_image_url: artistData.images?.[0]?.url,
+        raw_channel_id: artistId,
+        last_synced: new Date().toISOString(),
+        stats,
+      };
+
+      let saved;
+      if (existing.length > 0) {
+        saved = await base44.entities.PlatformConnection.update(existing[0].id, record);
+      } else {
+        saved = await base44.entities.PlatformConnection.create(record);
+      }
+
+      return Response.json({ success: true, data: saved });
+    }
+
     // ── YouTube URL sync ──────────────────────────────────────────────────────
     if (platform === 'youtube') {
       if (!profile_url) return Response.json({ error: 'profile_url required for YouTube' }, { status: 400 });
@@ -109,7 +202,7 @@ Deno.serve(async (req) => {
       return Response.json({ success: true, data: saved });
     }
 
-    // ── Spotify OAuth token exchange ──────────────────────────────────────────
+    // ── Spotify OAuth token exchange (legacy, kept for backwards compat) ──────
     if (platform === 'spotify_exchange') {
       const { code, redirect_uri } = body;
       if (!code || !redirect_uri) return Response.json({ error: 'code and redirect_uri required' }, { status: 400 });

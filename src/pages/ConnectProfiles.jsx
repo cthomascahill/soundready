@@ -6,23 +6,9 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import {
   CheckCircle2, AlertCircle, Clock, Link2, RefreshCw,
-  Loader2, Zap, Shield, BarChart2, Music2, Users
+  Loader2, Shield, BarChart2, Zap
 } from "lucide-react";
 
-const SPOTIFY_CLIENT_ID = import.meta.env.VITE_SPOTIFY_CLIENT_ID || "";
-const SPOTIFY_SCOPES = "user-read-private user-read-email user-top-read user-follow-read";
-
-function getSpotifyAuthUrl() {
-  const redirectUri = `${window.location.origin}/connect-profiles`;
-  const params = new URLSearchParams({
-    client_id: SPOTIFY_CLIENT_ID,
-    response_type: "code",
-    redirect_uri: redirectUri,
-    scope: SPOTIFY_SCOPES,
-    show_dialog: "true",
-  });
-  return `https://accounts.spotify.com/authorize?${params}`;
-}
 
 function StatusDot({ status }) {
   if (status === "connected") return <span className="h-2 w-2 rounded-full bg-primary inline-block" />;
@@ -106,8 +92,16 @@ function PlatformCard({ platform, conn, onSynced }) {
           </>}
           {platform.id === "spotify" && <>
             <Stat label="Followers" value={(conn.stats.followers || 0).toLocaleString()} />
-            <Stat label="Top Tracks" value={conn.stats.top_tracks?.length || 0} />
-            {conn.display_name && <p className="col-span-2 text-xs text-muted-foreground">@{conn.display_name}</p>}
+            <Stat label="Monthly Listeners" value={conn.stats.monthly_listeners ? conn.stats.monthly_listeners.toLocaleString() : "—"} />
+            {conn.display_name && <p className="col-span-2 text-xs text-muted-foreground">{conn.display_name}</p>}
+            {conn.stats.top_tracks?.length > 0 && (
+              <div className="col-span-2 space-y-1">
+                <p className="text-[10px] text-muted-foreground">Top Tracks</p>
+                {conn.stats.top_tracks.slice(0, 3).map((t, i) => (
+                  <p key={i} className="text-xs truncate">· {t.title || t.name}</p>
+                ))}
+              </div>
+            )}
           </>}
           {platform.id === "tiktok" && <>
             <Stat label="Followers" value={(conn.stats.followers || 0).toLocaleString()} />
@@ -127,28 +121,6 @@ function PlatformCard({ platform, conn, onSynced }) {
       )}
 
       {/* Actions */}
-      {platform.type === "oauth" && platform.id === "spotify" && (
-        <div className="space-y-2">
-          {!conn ? (
-            <a href={getSpotifyAuthUrl()}>
-              <Button className="w-full gap-2" size="sm">
-                <Zap className="h-3.5 w-3.5" /> Connect Spotify
-              </Button>
-            </a>
-          ) : (
-            <Button variant="outline" size="sm" className="w-full gap-2" disabled={loading} onClick={async () => {
-              setLoading(true);
-              const res = await base44.functions.invoke("syncPlatformData", { platform: "spotify_refresh", connection_id: conn.id }).catch(() => ({ data: {} }));
-              setLoading(false);
-              if (res.data?.data) onSynced(res.data.data);
-            }}>
-              {loading ? <Loader2 className="h-3.5 w-3.5 animate-spin" /> : <RefreshCw className="h-3.5 w-3.5" />}
-              Refresh Spotify Data
-            </Button>
-          )}
-        </div>
-      )}
-
       {platform.type === "url" && (
         <div className="flex gap-2">
           <Input
@@ -247,7 +219,7 @@ function Field({ label, value, onChange, placeholder, type = "text" }) {
 }
 
 const PLATFORMS = [
-  { id: "spotify", name: "Spotify", emoji: "🎵", bg: "bg-green-500/10", type: "oauth" },
+  { id: "spotify", name: "Spotify", emoji: "🎵", bg: "bg-green-500/10", type: "url", urlPlaceholder: "https://open.spotify.com/artist/..." },
   { id: "youtube", name: "YouTube", emoji: "▶️", bg: "bg-red-500/10", type: "url", urlPlaceholder: "https://youtube.com/@yourchannel" },
   { id: "tiktok", name: "TikTok", emoji: "🎵", bg: "bg-zinc-800", type: "manual" },
   { id: "apple_music", name: "Apple Music", emoji: "🍎", bg: "bg-pink-500/10", type: "manual" },
@@ -259,27 +231,6 @@ export default function ConnectProfiles() {
   const { user } = useAuth();
   const [connections, setConnections] = useState({});
   const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    // Handle Spotify OAuth callback
-    const params = new URLSearchParams(window.location.search);
-    const code = params.get("code");
-    if (code && user?.id) {
-      const redirectUri = `${window.location.origin}/connect-profiles`;
-      base44.functions.invoke("syncPlatformData", {
-        platform: "spotify_exchange",
-        code,
-        redirect_uri: redirectUri,
-      }).then(res => {
-        if (res.data?.data) {
-          setConnections(prev => ({ ...prev, spotify: res.data.data }));
-        }
-        window.history.replaceState({}, "", "/connect-profiles");
-      }).catch(() => {
-        window.history.replaceState({}, "", "/connect-profiles");
-      });
-    }
-  }, [user]);
 
   useEffect(() => {
     if (!user?.id) return;
