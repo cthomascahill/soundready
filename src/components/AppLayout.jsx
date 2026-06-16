@@ -6,7 +6,7 @@ import {
   ChevronDown, UserCircle,
   Layout, FileText, Mic2, MapPin, CalendarRange,
   TrendingUp, Receipt, ScrollText,
-  Send, Wand2, Sparkles, ListChecks, Newspaper, Bus, GraduationCap
+  Send, Wand2, Sparkles, ListChecks, Newspaper, Bus, GraduationCap, Paintbrush
 } from "lucide-react";
 import SoundReadyLogo from "@/components/SoundReadyLogo";
 
@@ -26,6 +26,7 @@ const TEAM_ITEMS = [
 
 const CAREER_ITEMS = [
   { to: "/artist-profile", icon: Sparkles, label: "Artist Profile" },
+  { to: "/branding-studio", icon: Paintbrush, label: "Branding Studio" },
   { to: "/ar-intelligence", icon: Sparkles, label: "A&R Intelligence" },
   { to: "/playlist-pitcher", icon: Mic2, label: "Playlist Pitching" },
   { to: "/press-kit", icon: FileText, label: "Press Kit" },

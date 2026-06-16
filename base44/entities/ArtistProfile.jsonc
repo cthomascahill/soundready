@@ -256,6 +256,30 @@
     },
     "music_cleared_for_licensing": {
       "type": "string"
+    },
+    "brand_kit": {
+      "type": "object",
+      "description": "Saved branding assets",
+      "properties": {
+        "logos": {
+          "type": "array",
+          "items": {
+            "type": "object"
+          }
+        },
+        "palettes": {
+          "type": "array",
+          "items": {
+            "type": "object"
+          }
+        },
+        "font_combos": {
+          "type": "array",
+          "items": {
+            "type": "object"
+          }
+        }
+      }
     }
   },
   "required": [

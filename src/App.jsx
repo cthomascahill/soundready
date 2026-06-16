@@ -61,6 +61,7 @@ import InvoiceManager from './pages/InvoiceManager';
 import Soundcheck from './pages/Soundcheck';
 import Whiteboard from './pages/Whiteboard';
 import TeamChat from './pages/TeamChat.jsx';
+import BrandingStudio from './pages/BrandingStudio.jsx';
 import WhiteboardCanvas from './pages/WhiteboardCanvas';
 
 const AuthenticatedApp = () => {
@@ -151,6 +152,7 @@ const AuthenticatedApp = () => {
         <Route path="/soundcheck" element={<Soundcheck />} />
         <Route path="/whiteboard" element={<Whiteboard />} />
         <Route path="/team-chat" element={<TeamChat />} />
+        <Route path="/branding-studio" element={<BrandingStudio />} />
         <Route path="/whiteboard/:boardId" element={<WhiteboardCanvas />} />
         <Route path="/community" element={<Community />} />
         <Route path="*" element={<PageNotFound />} />
