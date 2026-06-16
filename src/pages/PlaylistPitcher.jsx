@@ -1,67 +1,11 @@
 import { useState, useEffect } from "react";
 import { base44 } from "@/api/base44Client";
+import { useAuth } from "@/lib/AuthContext";
 import { motion } from "framer-motion";
-import { Mic2, Send, Check, Copy, ChevronDown, ChevronUp, Zap, ExternalLink, Music, Star } from "lucide-react";
+import { Mic2, Send, Check, Copy, ChevronDown, ChevronUp, Music } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-
-// Curated independent playlist database by genre
-const PLAYLIST_DB = {
-  "Hip Hop": [
-    { name: "Underground Heat", curator: "DJKrispyBeats", followers: "42K", platform: "Spotify", email: "djkrispybeats@gmail.com", genres: ["Hip Hop", "Trap"], mood: ["Hype", "Dark"], submithub: true, note: "Prefers raw, authentic lyricism. No mumble rap." },
-    { name: "Bars & Hooks Weekly", curator: "BarsCurator", followers: "18K", platform: "Spotify", email: "barshooks.playlist@gmail.com", genres: ["Hip Hop", "R&B"], mood: ["Hype", "Melancholic"], submithub: true, note: "Strong hooks are mandatory. Production quality matters." },
-    { name: "Lyrical Flex", curator: "TheRealCurator", followers: "31K", platform: "Spotify", email: "lyricalflexspotify@gmail.com", genres: ["Hip Hop"], mood: ["Hype", "Inspirational"], submithub: false, note: "Independent artists only. Submit with SoundCloud or Spotify link." },
-    { name: "New Wave Hip Hop", curator: "NewWavePlaylists", followers: "67K", platform: "Spotify", email: "newwavehiphop@outlook.com", genres: ["Hip Hop", "Trap", "R&B"], mood: ["Hype", "Dark", "Chill"], submithub: true, note: "Very active. Responds within 3 days." },
-    { name: "Trap Soul Vibes", curator: "TrapSoulCurator", followers: "29K", platform: "Spotify", email: "trapsoulvibes@gmail.com", genres: ["Hip Hop", "R&B"], mood: ["Romantic", "Melancholic"], submithub: true, note: "Melodic rap and emotional trap is preferred." },
-    { name: "Midwest Madness", curator: "MidwestCurates", followers: "12K", platform: "Spotify", email: "midwestmadness.pl@gmail.com", genres: ["Hip Hop"], mood: ["Hype", "Dark"], submithub: false, note: "Niche regional curator. High placement rate." },
-    { name: "Independent Bars", curator: "IndieRapHQ", followers: "55K", platform: "Spotify", email: "indieraphq@gmail.com", genres: ["Hip Hop"], mood: ["Inspirational", "Dark"], submithub: true, note: "No major label artists. Indie only." },
-  ],
-  "Pop": [
-    { name: "Fresh Indie Pop", curator: "IndiePopCurator", followers: "88K", platform: "Spotify", email: "freshindiepopcurator@gmail.com", genres: ["Pop", "Indie"], mood: ["Happy", "Melancholic"], submithub: true, note: "Looking for that euphoric bedroom pop sound." },
-    { name: "Sad Bops", curator: "SadBopsPlaylist", followers: "134K", platform: "Spotify", email: "sadbopsplaylist@gmail.com", genres: ["Pop", "Indie"], mood: ["Melancholic"], submithub: true, note: "High traffic. Be concise in your pitch." },
-    { name: "Alt Pop Rising", curator: "AltPopCurates", followers: "45K", platform: "Spotify", email: "altpoprising@gmail.com", genres: ["Pop"], mood: ["Happy", "Dark"], submithub: false, note: "Experimental and crossover pop welcome." },
-    { name: "Viral Pop Picks", curator: "ViralPicksCurator", followers: "210K", platform: "Spotify", email: "viralpoppicks@outlook.com", genres: ["Pop"], mood: ["Happy", "Hype"], submithub: true, note: "TikTok-connected. Strong hook in first 15 seconds." },
-    { name: "Chill Pop Hits", curator: "ChillPopHQ", followers: "73K", platform: "Spotify", email: "chillpophq@gmail.com", genres: ["Pop", "R&B"], mood: ["Chill", "Romantic"], submithub: true, note: "Slower BPM preferred. Vibe over energy." },
-    { name: "Bedroom Pop Weekly", curator: "BedroomPopCurator", followers: "39K", platform: "Spotify", email: "bedroompopweekly@gmail.com", genres: ["Pop", "Indie"], mood: ["Melancholic", "Chill"], submithub: false, note: "Lo-fi aesthetic welcome. Independent artists only." },
-  ],
-  "R&B": [
-    { name: "Late Night R&B", curator: "LateNightSoul", followers: "96K", platform: "Spotify", email: "latenightrnbplaylist@gmail.com", genres: ["R&B"], mood: ["Romantic", "Melancholic"], submithub: true, note: "Must have soulful vocals and emotional depth." },
-    { name: "Neo-Soul Collective", curator: "NeoSoulCo", followers: "51K", platform: "Spotify", email: "neosoulcollective@gmail.com", genres: ["R&B"], mood: ["Chill", "Romantic"], submithub: false, note: "Live instruments and organic production preferred." },
-    { name: "RnB Sauce Weekly", curator: "RnBSaucepl", followers: "78K", platform: "Spotify", email: "rnbsauceweekly@gmail.com", genres: ["R&B", "Hip Hop"], mood: ["Romantic", "Hype"], submithub: true, note: "Accepts trap-soul and melodic crossovers." },
-    { name: "Smooth & Silky", curator: "SmoothSilkyPL", followers: "43K", platform: "Spotify", email: "smoothsilky.curator@gmail.com", genres: ["R&B"], mood: ["Romantic", "Chill"], submithub: true, note: "Timeless R&B. Production needs to be clean." },
-    { name: "Alt R&B Underground", curator: "AltRnBcurator", followers: "27K", platform: "Spotify", email: "altrnbunderground@gmail.com", genres: ["R&B", "Indie"], mood: ["Dark", "Melancholic"], submithub: false, note: "Experimental and moody R&B only." },
-  ],
-  "Indie": [
-    { name: "Indie Gems Weekly", curator: "IndieGemsCurator", followers: "62K", platform: "Spotify", email: "indiegemsweekly@gmail.com", genres: ["Indie", "Pop"], mood: ["Chill", "Happy"], submithub: true, note: "Accepts indie-pop, folk, and alt-rock crossovers." },
-    { name: "Dreamy Indie", curator: "DreamyIndie", followers: "48K", platform: "Spotify", email: "dreamyindieplaylist@gmail.com", genres: ["Indie"], mood: ["Melancholic", "Chill"], submithub: true, note: "Shoegaze, dream pop, and ambient indie preferred." },
-    { name: "The Indie Underground", curator: "IndieUndergroundPL", followers: "35K", platform: "Spotify", email: "theindieunderground@gmail.com", genres: ["Indie", "Rock"], mood: ["Dark", "Melancholic"], submithub: false, note: "Unsigned and truly independent only." },
-    { name: "Sunday Morning Indie", curator: "SundayIndiePL", followers: "91K", platform: "Spotify", email: "sundaymorningindiepl@gmail.com", genres: ["Indie", "Pop"], mood: ["Chill", "Happy"], submithub: true, note: "High follower count. Great for feel-good indie." },
-  ],
-  "EDM": [
-    { name: "Bass House Rising", curator: "BassHousePL", followers: "57K", platform: "Spotify", email: "basshousecurator@gmail.com", genres: ["EDM"], mood: ["Hype"], submithub: true, note: "High energy bass music only. No exceptions." },
-    { name: "Melodic House Collective", curator: "MelodicHousePL", followers: "83K", platform: "Spotify", email: "melodichousecollective@gmail.com", genres: ["EDM"], mood: ["Happy", "Chill"], submithub: true, note: "Melodic, emotional, progressive house. 124-128 BPM ideal." },
-    { name: "Future Bass Drops", curator: "FutureBassCurator", followers: "44K", platform: "Spotify", email: "futurebassdropspL@gmail.com", genres: ["EDM"], mood: ["Hype", "Happy"], submithub: false, note: "Future bass, trap, and hybrid genres welcome." },
-  ],
-  "Country": [
-    { name: "New Country Picks", curator: "NewCountryCurator", followers: "71K", platform: "Spotify", email: "newcountrypicks@gmail.com", genres: ["Country"], mood: ["Happy", "Melancholic"], submithub: true, note: "Modern country and country-pop welcome." },
-    { name: "Americana Underground", curator: "AmericanaUG", followers: "28K", platform: "Spotify", email: "americanacurator@gmail.com", genres: ["Country", "Indie"], mood: ["Melancholic", "Chill"], submithub: false, note: "Americana, folk, and alt-country only." },
-  ],
-  "Rock": [
-    { name: "Indie Rock Rising", curator: "IndieRockRising", followers: "66K", platform: "Spotify", email: "indierockrisingpl@gmail.com", genres: ["Rock", "Indie"], mood: ["Hype", "Dark"], submithub: true, note: "Guitar-driven indie and alt-rock. Gen Z sound appreciated." },
-    { name: "Alt Rock Anthology", curator: "AltRockAnthology", followers: "49K", platform: "Spotify", email: "altRockAnthology@gmail.com", genres: ["Rock"], mood: ["Dark", "Melancholic"], submithub: true, note: "Grunge, shoegaze, and post-punk accepted." },
-    { name: "New Rock Energy", curator: "NewRockEnergy", followers: "38K", platform: "Spotify", email: "newrockenergy@gmail.com", genres: ["Rock"], mood: ["Hype", "Inspirational"], submithub: false, note: "High energy rock and punk. Live sound preferred." },
-  ],
-  "Latin": [
-    { name: "Latin Vibes Weekly", curator: "LatinVibesCurator", followers: "105K", platform: "Spotify", email: "latinvibesweekly@gmail.com", genres: ["Latin"], mood: ["Happy", "Romantic"], submithub: true, note: "Reggaeton, latin pop, and cumbia all accepted." },
-    { name: "Fuego Latino", curator: "FuegoLatinoPL", followers: "76K", platform: "Spotify", email: "fuegolatinoPL@gmail.com", genres: ["Latin"], mood: ["Hype", "Romantic"], submithub: true, note: "High energy Latin only. Must have dance floor appeal." },
-  ],
-};
-
-const DEFAULT_PLAYLISTS = [
-  { name: "Fresh Finds All Genres", curator: "FreshFindsPL", followers: "122K", platform: "Spotify", email: "freshfindsallgenres@gmail.com", genres: ["All"], mood: ["All"], submithub: true, note: "Accepts all genres. Strong production and hook required." },
-  { name: "Rising Independents", curator: "RisingIndiesPL", followers: "88K", platform: "Spotify", email: "risingindependents@gmail.com", genres: ["All"], mood: ["All"], submithub: true, note: "Indie artists only. Active and responsive curator." },
-  { name: "New This Week", curator: "NewThisWeekPL", followers: "200K", platform: "Spotify", email: "newthisweekplaylist@gmail.com", genres: ["All"], mood: ["All"], submithub: false, note: "High traffic. New releases only, within 2 weeks of drop." },
-];
+import { PLAYLIST_DB, DEFAULT_PLAYLISTS } from "@/lib/playlistDatabase";
 
 function matchScore(playlist, song) {
   let score = 0;
@@ -177,7 +121,11 @@ function PlaylistCard({ playlist, score, song, onPitch, pitched }) {
   );
 }
 
+const GENRES = ["Hip Hop", "Pop", "R&B", "Indie", "EDM", "Country", "Rock", "Latin", "Folk", "Jazz", "Soul", "Gospel", "Reggae", "Metal", "Classical", "Electronic", "Afrobeats", "Singer-Songwriter", "Other"];
+const MOODS = ["Happy", "Melancholic", "Hype", "Romantic", "Dark", "Inspirational", "Chill"];
+
 export default function PlaylistPitcher() {
+  const { user } = useAuth();
   const [songs, setSongs] = useState([]);
   const [selectedSong, setSelectedSong] = useState(null);
   const [matched, setMatched] = useState([]);
@@ -188,9 +136,10 @@ export default function PlaylistPitcher() {
   const [useManual, setUseManual] = useState(false);
 
   useEffect(() => {
-    base44.entities.SongAnalysis.filter({ status: "complete" }, "-created_date", 20)
+    if (!user?.id) return;
+    base44.entities.SongAnalysis.filter({ created_by_id: user.id, status: "complete" }, "-created_date", 20)
       .then(setSongs).finally(() => setLoading(false));
-  }, []);
+  }, [user]);
 
   const activeSong = useManual ? manualSong : selectedSong;
 
@@ -207,8 +156,7 @@ export default function PlaylistPitcher() {
     if (activeSong?.genre) findMatches();
   }, [activeSong]);
 
-  const GENRES = ["Hip Hop", "Pop", "R&B", "Indie", "EDM", "Country", "Rock", "Latin", "Other"];
-  const MOODS = ["Happy", "Melancholic", "Hype", "Romantic", "Dark", "Inspirational", "Chill"];
+  const totalPlaylists = Object.values(PLAYLIST_DB).reduce((acc, arr) => acc + arr.length, 0) + DEFAULT_PLAYLISTS.length;
 
   return (
     <div className="min-h-screen bg-background px-4 py-10">
@@ -219,6 +167,7 @@ export default function PlaylistPitcher() {
           <p className="text-xs text-primary uppercase tracking-widest font-medium">Outreach Engine</p>
           <h1 className="font-heading text-4xl font-bold">Playlist Pitcher</h1>
           <p className="text-muted-foreground">AI matches your song to the right independent Spotify playlists and writes personalized pitches for you.</p>
+          <p className="text-xs text-primary mt-1 font-semibold">{totalPlaylists}+ curated playlists across {Object.keys(PLAYLIST_DB).length} genres</p>
         </motion.div>
 
         {/* Song selector */}

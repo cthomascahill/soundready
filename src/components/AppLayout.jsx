@@ -3,16 +3,17 @@ import { Outlet, Link, useLocation } from "react-router-dom";
 import { base44 } from "@/api/base44Client";
 import {
   Home, Music2, Users, Briefcase, DollarSign,
-  ChevronDown, UserCircle, Zap,
+  ChevronDown, UserCircle,
   Layout, FileText, Mic2, MapPin, CalendarRange,
   TrendingUp, Receipt, ScrollText,
-  Send, Wand2, CalendarDays, Film, Sparkles, Radio
+  Send, Wand2, Film, Sparkles, ListChecks, Newspaper, Bus, GraduationCap
 } from "lucide-react";
 import SoundReadyLogo from "@/components/SoundReadyLogo";
 
 const MUSIC_ITEMS = [
-  { to: "/history", icon: Music2, label: "Song Library" },
-  { to: "/release-plan", icon: Zap, label: "Upload & Analyze" },
+  { to: "/history", icon: Music2, label: "Song Vault" },
+  { to: "/song-tracker", icon: ListChecks, label: "Song Tracker" },
+  { to: "/studio", icon: Sparkles, label: "The Studio" },
   { to: "/mastering", icon: Wand2, label: "AI Mastering" },
   { to: "/distribution", icon: Send, label: "Distribution" },
   { to: "/content-engine", icon: Film, label: "Content Engine" },
@@ -24,37 +25,39 @@ const TEAM_ITEMS = [
 ];
 
 const CAREER_ITEMS = [
-  { to: "/streaming-analyst", icon: TrendingUp, label: "Streaming Analyst" },
+  { to: "/artist-profile", icon: Sparkles, label: "Artist Profile" },
   { to: "/ar-intelligence", icon: Sparkles, label: "A&R Intelligence" },
-  { to: "/release-radar", icon: Radio, label: "Release Radar" },
   { to: "/playlist-pitcher", icon: Mic2, label: "Playlist Pitching" },
-  { to: "/sync-pitcher", icon: Mic2, label: "Sync Licensing" },
-  { to: "/gig-finder", icon: MapPin, label: "Gig Finder" },
+  { to: "/press-kit", icon: FileText, label: "Press Kit" },
+  { to: "/music-academy", icon: GraduationCap, label: "Music Academy" },
+];
+
+const TOUR_ITEMS = [
   { to: "/tour-planner", icon: CalendarRange, label: "Tour Planner" },
   { to: "/tour-opportunities", icon: Briefcase, label: "Tour Opportunities" },
   { to: "/soundcheck", icon: Mic2, label: "Soundcheck" },
-  { to: "/tiktok-creators", icon: Music2, label: "TikTok Creators" },
-  { to: "/scheduler", icon: CalendarDays, label: "Content Scheduler" },
   { to: "/pitch-deck", icon: FileText, label: "EPK Builder" },
-  { to: "/press-kit", icon: FileText, label: "Press Kit" },
+  { to: "/gig-finder", icon: MapPin, label: "Gig Finder" },
 ];
 
 const FINANCE_ITEMS = [
   { to: "/tour-finance", icon: DollarSign, label: "Tour Finance" },
-  { to: "/contract-analyzer", icon: FileText, label: "Contract Analyzer" },
+  { to: "/contract-analyzer", icon: FileText, label: "Contract & Legal" },
+  { to: "/legal", icon: FileText, label: "Legal Templates" },
   { to: "/royalties", icon: TrendingUp, label: "Royalties" },
   { to: "/budget", icon: DollarSign, label: "Budget Tracker" },
   { to: "/invoices", icon: Receipt, label: "Invoice Manager" },
   { to: "/contracts", icon: ScrollText, label: "Venue Contracts" },
-  { to: "/legal", icon: FileText, label: "Legal Templates" },
   { to: "/tax-estimator", icon: DollarSign, label: "Tax Estimator" },
 ];
 
 const TOP_NAV = [
   { to: "/dashboard", icon: Home, label: "Home" },
+  { to: "/music-news", icon: Newspaper, label: "News" },
   { label: "Music", icon: Music2, items: MUSIC_ITEMS },
   { label: "Team", icon: Users, items: TEAM_ITEMS },
   { label: "Career", icon: Briefcase, items: CAREER_ITEMS },
+  { label: "Tour", icon: Bus, items: TOUR_ITEMS },
   { label: "Finances & Legal", icon: DollarSign, items: FINANCE_ITEMS },
 ];
 

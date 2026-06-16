@@ -78,11 +78,10 @@ const TIERS = [
       "Unlimited team members",
       "Unlimited song library",
       "Multiple artist profiles under one account",
-      "Dedicated onboarding support",
       "First access to new features",
     ],
     cta: "Apply Now",
-    subtext: "We'll do a quick 15-min call to get your roster set up correctly. It's worth it.",
+    subtext: "No contracts. Cancel anytime.",
   },
   {
     icon: Bot,
@@ -106,7 +105,7 @@ const TIERS = [
       "Priority support & dedicated onboarding",
     ],
     cta: "Get Started",
-    subtext: "We'll set up your AI Manager profile in a 20-minute onboarding call.",
+    subtext: "No contracts. Cancel anytime.",
   },
 ];
 
@@ -122,7 +121,6 @@ const WHAT_WE_DO = [
   { icon: BarChart2, color: "text-chart-5", title: "A&R Intelligence", desc: "Weekly briefings on what's working in your genre right now — tempos, moods, and strategies getting editorial love. Make smarter decisions before you finish the song." },
   { icon: FileText, color: "text-yellow-400", title: "Contract Analyzer", desc: "Upload any deal or contract and SoundReady flags every clause that could hurt you — in plain English. Know exactly what you're signing before you sign it." },
   { icon: Users, color: "text-pink-400", title: "Fan Intelligence", desc: "Understand where your real fans are, when they listen, and what they want. Use that data to tour smarter and make every release decision with real information." },
-  { icon: TrendingUp, color: "text-teal-400", title: "Release Radar", desc: "Track comparable artists and know exactly when they're moving. Time your releases to stand out instead of getting buried." },
 ];
 
 export default function About() {
@@ -303,7 +301,7 @@ export default function About() {
             <div className="space-y-2">
               <p className="text-xs text-primary uppercase tracking-widest font-bold">Label Plan</p>
               <h3 className="font-heading text-2xl font-bold">Let's get your roster set up.</h3>
-              <p className="text-muted-foreground text-sm">Book a quick 15-minute call with our team.</p>
+              <p className="text-muted-foreground text-sm">Get in touch and we'll get your roster set up.</p>
             </div>
             <div className="rounded-xl bg-secondary/50 border border-border h-48 flex items-center justify-center text-muted-foreground text-sm">
               {/* Calendly embed placeholder */}

@@ -5,9 +5,9 @@ import { base44 } from "@/api/base44Client";
 import { useAuth } from "@/lib/AuthContext";
 import { Button } from "@/components/ui/button";
 import {
-  Zap, FileText, Mic2, MapPin, Wand2, Upload,
+  FileText, Mic2, MapPin, Wand2,
   Music2, BarChart2, ChevronRight, ArrowRight,
-  Sparkles, Users, Clock, AlertCircle, Shield, Radio
+  Sparkles, AlertCircle, Shield, Zap
 } from "lucide-react";
 import AIActivityFeed from "@/components/dashboard/AIActivityFeed";
 
@@ -26,15 +26,14 @@ const STATUS_LABELS = {
 };
 
 const QUICK_ACTIONS = [
-  { label: "Upload Song", icon: Upload, to: "/release-plan", color: "text-primary bg-primary/10" },
+  { label: "Song Vault", icon: Music2, to: "/history", color: "text-primary bg-primary/10" },
   { label: "Create EPK", icon: FileText, to: "/pitch-deck", color: "text-purple-400 bg-purple-500/10" },
   { label: "Pitch to Playlist", icon: Mic2, to: "/playlist-pitcher", color: "text-chart-3 bg-chart-3/10" },
   { label: "Find a Venue", icon: MapPin, to: "/gig-finder", color: "text-orange-400 bg-orange-500/10" },
   { label: "Master a Track", icon: Wand2, to: "/mastering", color: "text-cyan-400 bg-cyan-500/10" },
   { label: "A&R Intel", icon: Sparkles, to: "/ar-intelligence", color: "text-chart-5 bg-chart-5/10" },
   { label: "Analyze Contract", icon: Shield, to: "/contract-analyzer", color: "text-yellow-400 bg-yellow-500/10" },
-  { label: "Fan Intelligence", icon: Users, to: "/fan-intelligence", color: "text-pink-400 bg-pink-500/10" },
-  { label: "Release Radar", icon: Radio, to: "/release-radar", color: "text-teal-400 bg-teal-500/10" },
+  { label: "Tour Planner", icon: BarChart2, to: "/tour-planner", color: "text-pink-400 bg-pink-500/10" },
 ];
 
 export default function Dashboard() {
@@ -46,11 +45,12 @@ export default function Dashboard() {
   const [stepsLoading, setStepsLoading] = useState(false);
 
   useEffect(() => {
-    base44.entities.SongAnalysis.list("-created_date", 5)
+    if (!user?.id) return;
+    base44.entities.SongAnalysis.filter({ created_by_id: user.id }, "-created_date", 5)
       .then(setRecentSongs)
       .catch(() => setRecentSongs([]))
       .finally(() => setLoading(false));
-  }, []);
+  }, [user]);
 
   useEffect(() => {
     if (loading || recentSongs.length === 0) return;

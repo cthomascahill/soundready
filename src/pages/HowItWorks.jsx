@@ -78,7 +78,7 @@ const WORKSPACE_TABS = [
   { title: "Mastering", sell: "Professional mastering in one click. Upload raw. Download radio-ready." },
   { title: "Distribution", sell: "Every release detail tracked and organized. Go live clean, professional, and ready." },
   { title: "Release Plan", sell: "Your 6-week action plan. Check off tasks and stay on track all the way to release day." },
-  { title: "Pitch", sell: "Send personalized pitches to playlists, sync, and TikTok creators directly from your song page." },
+  { title: "Pitch", sell: "Send personalized pitches to playlists and sync opportunities directly from your song page." },
 ];
 
 const ALL_TOOLS = [
@@ -106,7 +106,6 @@ const ALL_TOOLS = [
   "Fan Intelligence Dashboard",
   "Collaborative Team Whiteboard",
   "Team Workspace & Role Assignments",
-  "TikTok Creator Pitching",
   "Music Academy (career A-Z guide)",
   "Distribution Checklist & Metadata Manager",
 ];
@@ -114,7 +113,7 @@ const ALL_TOOLS = [
 const TIERS = [
   { name: "Artist", price: "$37/mo", tagline: "You're the operation. Every tool in your hands.", cta: "Start Building My Career", badge: null },
   { name: "Pro", price: "$67/mo", tagline: "You and your team. Everyone in one place.", cta: "Start Building My Career", badge: "Most Popular" },
-  { name: "Label", price: "$97/mo", tagline: "Your whole roster. One platform.", cta: "Apply Now", badge: null },
+  { name: "Label", price: "$97/mo", tagline: "Your whole roster. One platform.", cta: "Start Building My Career", badge: null },
 ];
 
 export default function HowItWorks() {
