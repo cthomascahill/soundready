@@ -142,7 +142,7 @@ export default function MusicNews() {
         <div className="flex items-center justify-between gap-4">
           <div>
             <p className="text-xs text-primary uppercase tracking-widest font-medium">Daily Feed</p>
-            <h1 className="font-heading text-3xl font-bold">Music News</h1>
+            <h1 className="font-heading text-3xl font-bold">SoundReady News</h1>
             {lastUpdated && (
               <p className="text-xs text-zinc-500 mt-0.5">
                 Last updated: Today at {new Date(lastUpdated).toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })}

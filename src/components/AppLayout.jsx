@@ -27,7 +27,7 @@ const TEAM_ITEMS = [
 
 const CAREER_ITEMS = [
   { to: "/artist-profile", icon: Sparkles, label: "Artist Profile" },
-  { to: "/music-news", icon: Newspaper, label: "Music News" },
+  { to: "/music-news", icon: Newspaper, label: "SoundReady News" },
   { to: "/ar-intelligence", icon: Sparkles, label: "A&R Intelligence" },
   { to: "/playlist-pitcher", icon: Mic2, label: "Playlist Pitching" },
   { to: "/press-kit", icon: FileText, label: "Press Kit" },
