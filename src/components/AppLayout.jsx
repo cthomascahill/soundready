@@ -3,10 +3,10 @@ import { Outlet, Link, useLocation } from "react-router-dom";
 import { base44 } from "@/api/base44Client";
 import {
   Home, Music2, Users, Briefcase, DollarSign,
-  ChevronDown, UserCircle, Zap,
+  ChevronDown, UserCircle,
   Layout, FileText, Mic2, MapPin, CalendarRange,
   TrendingUp, Receipt, ScrollText,
-  Send, Wand2, CalendarDays, Film, Sparkles, Radio, ListChecks, Newspaper
+  Send, Wand2, Film, Sparkles, ListChecks, Newspaper, Bus
 } from "lucide-react";
 import SoundReadyLogo from "@/components/SoundReadyLogo";
 
@@ -30,12 +30,15 @@ const CAREER_ITEMS = [
   { to: "/music-news", icon: Newspaper, label: "Music News" },
   { to: "/ar-intelligence", icon: Sparkles, label: "A&R Intelligence" },
   { to: "/playlist-pitcher", icon: Mic2, label: "Playlist Pitching" },
-  { to: "/gig-finder", icon: MapPin, label: "Gig Finder" },
+  { to: "/press-kit", icon: FileText, label: "Press Kit" },
+];
+
+const TOUR_ITEMS = [
   { to: "/tour-planner", icon: CalendarRange, label: "Tour Planner" },
   { to: "/tour-opportunities", icon: Briefcase, label: "Tour Opportunities" },
   { to: "/soundcheck", icon: Mic2, label: "Soundcheck" },
   { to: "/pitch-deck", icon: FileText, label: "EPK Builder" },
-  { to: "/press-kit", icon: FileText, label: "Press Kit" },
+  { to: "/gig-finder", icon: MapPin, label: "Gig Finder" },
 ];
 
 const FINANCE_ITEMS = [
@@ -54,6 +57,7 @@ const TOP_NAV = [
   { label: "Music", icon: Music2, items: MUSIC_ITEMS },
   { label: "Team", icon: Users, items: TEAM_ITEMS },
   { label: "Career", icon: Briefcase, items: CAREER_ITEMS },
+  { label: "Tour", icon: Bus, items: TOUR_ITEMS },
   { label: "Finances & Legal", icon: DollarSign, items: FINANCE_ITEMS },
 ];
 
