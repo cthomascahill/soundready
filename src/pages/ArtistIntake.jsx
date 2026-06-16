@@ -79,6 +79,9 @@ export default function ArtistIntake() {
     setProfile(record);
     setSaving(false);
     setSaved(true);
+    // Clear Maya suggestions cache so dashboard regenerates with fresh profile data
+    localStorage.removeItem(`maya_suggestions_${user?.id}`);
+    localStorage.removeItem(`maya_suggestions_ts_${user?.id}`);
     setTimeout(() => setSaved(false), 2500);
   };
 
