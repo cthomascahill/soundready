@@ -6,7 +6,7 @@ import {
   ChevronDown, UserCircle,
   Layout, FileText, Mic2, MapPin, CalendarRange,
   TrendingUp, Receipt, ScrollText,
-  Send, Wand2, Film, Sparkles, ListChecks, Newspaper, Bus, GraduationCap
+  Send, Wand2, Sparkles, ListChecks, Newspaper, Bus, GraduationCap
 } from "lucide-react";
 import SoundReadyLogo from "@/components/SoundReadyLogo";
 
@@ -16,7 +16,7 @@ const MUSIC_ITEMS = [
   { to: "/studio", icon: Sparkles, label: "The Studio" },
   { to: "/mastering", icon: Wand2, label: "AI Mastering" },
   { to: "/distribution", icon: Send, label: "Distribution" },
-  { to: "/content-engine", icon: Film, label: "Content Engine" },
+
 ];
 
 const TEAM_ITEMS = [

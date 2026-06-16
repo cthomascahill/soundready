@@ -14,6 +14,7 @@ import AIActivityFeed from "@/components/dashboard/AIActivityFeed";
 
 const QUICK_ACTIONS = [
   { label: "Song Vault", icon: Music2, to: "/history", color: "text-primary bg-primary/10" },
+
   { label: "Create EPK", icon: FileText, to: "/pitch-deck", color: "text-purple-400 bg-purple-500/10" },
   { label: "Pitch to Playlist", icon: Mic2, to: "/playlist-pitcher", color: "text-chart-3 bg-chart-3/10" },
   { label: "Find a Venue", icon: MapPin, to: "/gig-finder", color: "text-orange-400 bg-orange-500/10" },
