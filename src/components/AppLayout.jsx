@@ -6,7 +6,7 @@ import {
   ChevronDown, UserCircle,
   Layout, FileText, Mic2, MapPin, CalendarRange,
   TrendingUp, Receipt, ScrollText,
-  Send, Wand2, Film, Sparkles, ListChecks, Newspaper, Bus
+  Send, Wand2, Film, Sparkles, ListChecks, Newspaper, Bus, GraduationCap
 } from "lucide-react";
 import SoundReadyLogo from "@/components/SoundReadyLogo";
 
@@ -14,7 +14,6 @@ const MUSIC_ITEMS = [
   { to: "/history", icon: Music2, label: "Song Vault" },
   { to: "/song-tracker", icon: ListChecks, label: "Song Tracker" },
   { to: "/studio", icon: Sparkles, label: "The Studio" },
-
   { to: "/mastering", icon: Wand2, label: "AI Mastering" },
   { to: "/distribution", icon: Send, label: "Distribution" },
   { to: "/content-engine", icon: Film, label: "Content Engine" },
@@ -30,6 +29,7 @@ const CAREER_ITEMS = [
   { to: "/ar-intelligence", icon: Sparkles, label: "A&R Intelligence" },
   { to: "/playlist-pitcher", icon: Mic2, label: "Playlist Pitching" },
   { to: "/press-kit", icon: FileText, label: "Press Kit" },
+  { to: "/music-academy", icon: GraduationCap, label: "Music Academy" },
 ];
 
 const TOUR_ITEMS = [
@@ -42,12 +42,12 @@ const TOUR_ITEMS = [
 
 const FINANCE_ITEMS = [
   { to: "/tour-finance", icon: DollarSign, label: "Tour Finance" },
-  { to: "/contract-analyzer", icon: FileText, label: "Contract Analyzer" },
+  { to: "/contract-analyzer", icon: FileText, label: "Contract & Legal" },
+  { to: "/legal", icon: FileText, label: "Legal Templates" },
   { to: "/royalties", icon: TrendingUp, label: "Royalties" },
   { to: "/budget", icon: DollarSign, label: "Budget Tracker" },
   { to: "/invoices", icon: Receipt, label: "Invoice Manager" },
   { to: "/contracts", icon: ScrollText, label: "Venue Contracts" },
-  { to: "/legal", icon: FileText, label: "Legal Templates" },
   { to: "/tax-estimator", icon: DollarSign, label: "Tax Estimator" },
 ];
 
