@@ -7,23 +7,10 @@ import { Button } from "@/components/ui/button";
 import {
   FileText, Mic2, MapPin, Wand2,
   Music2, BarChart2, ChevronRight, ArrowRight,
-  Sparkles, AlertCircle, Shield, Zap
+  Sparkles, AlertCircle, Shield
 } from "lucide-react";
 import AIActivityFeed from "@/components/dashboard/AIActivityFeed";
 
-const STATUS_COLORS = {
-  complete: "bg-green-500/15 text-green-600 border-green-500/25",
-  analyzing: "bg-primary/10 text-primary border-primary/20",
-  uploading: "bg-yellow-500/10 text-yellow-600 border-yellow-500/20",
-  error: "bg-primary/10 text-primary border-primary/20",
-};
-
-const STATUS_LABELS = {
-  complete: "Ready to Release",
-  analyzing: "In Analysis",
-  uploading: "Uploading",
-  error: "Error",
-};
 
 const QUICK_ACTIONS = [
   { label: "Song Vault", icon: Music2, to: "/history", color: "text-primary bg-primary/10" },
@@ -46,7 +33,7 @@ export default function Dashboard() {
 
   useEffect(() => {
     if (!user?.id) return;
-    base44.entities.SongAnalysis.filter({ created_by_id: user.id }, "-created_date", 5)
+    base44.entities.SongVault.filter({ created_by_id: user.id }, "-created_date", 5)
       .then(setRecentSongs)
       .catch(() => setRecentSongs([]))
       .finally(() => setLoading(false));
@@ -55,7 +42,7 @@ export default function Dashboard() {
   useEffect(() => {
     if (loading || recentSongs.length === 0) return;
     setStepsLoading(true);
-    const songList = recentSongs.slice(0, 3).map(s => `"${s.title}" by ${s.artist_name} (status: ${s.status || "complete"})`).join(", ");
+    const songList = recentSongs.slice(0, 3).map(s => `"${s.title}" (status: ${s.status || "Demo"})`).join(", ");
     base44.integrations.Core.InvokeLLM({
       prompt: `You are an artist manager. Based on these recent songs: ${songList}, generate exactly 3 short, specific, actionable next-step nudges for the artist. Each should be 1 sentence, referencing the actual song title. Format as a JSON array of strings. Examples: "You haven't pitched 'Song Title' to playlists yet", "Your EPK hasn't been updated this month — add your latest release stats."`,
       response_json_schema: { type: "object", properties: { steps: { type: "array", items: { type: "string" } } } }
@@ -90,39 +77,33 @@ export default function Dashboard() {
           ) : recentSongs.length === 0 ? (
             <div className="rounded-2xl bg-card border border-dashed border-border p-10 text-center space-y-3">
               <Music2 className="h-10 w-10 text-muted-foreground/30 mx-auto" />
-              <p className="text-muted-foreground">No songs yet. Upload your first track to get started.</p>
-              <Link to="/release-plan"><Button size="sm" className="gap-2"><Zap className="h-4 w-4" />Upload & Analyze</Button></Link>
+              <p className="text-muted-foreground">No songs yet. Add your first track to get started.</p>
+              <Link to="/history"><Button size="sm" className="gap-2"><Music2 className="h-4 w-4" />Go to Song Vault</Button></Link>
             </div>
           ) : (
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-              {recentSongs.slice(0, 3).map((song, i) => (
-                <motion.div key={song.id} initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: i * 0.07 }}
-                  className="rounded-xl bg-card border border-border p-4 space-y-3 hover:border-primary/30 transition-colors">
-                  <div className="flex items-start gap-3">
-                    <div className="h-12 w-12 rounded-lg bg-primary/10 flex items-center justify-center shrink-0">
-                      <Music2 className="h-5 w-5 text-primary" />
-                    </div>
-                    <div className="min-w-0 flex-1">
-                      <p className="font-semibold truncate">{song.title}</p>
-                      <p className="text-xs text-muted-foreground truncate">{song.artist_name} · {song.genre}</p>
-                      <span className={`mt-1 inline-flex text-[10px] font-semibold px-2 py-0.5 rounded-full border ${STATUS_COLORS[song.status] || STATUS_COLORS.complete}`}>
-                        {STATUS_LABELS[song.status] || "Ready to Release"}
-                      </span>
-                    </div>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+            {recentSongs.slice(0, 3).map((song, i) => (
+              <motion.div key={song.id} initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: i * 0.07 }}
+                className="rounded-xl bg-card border border-border p-4 space-y-3 hover:border-primary/30 transition-colors">
+                <div className="flex items-start gap-3">
+                  <div className="h-12 w-12 rounded-lg bg-primary/10 flex items-center justify-center shrink-0">
+                    <Music2 className="h-5 w-5 text-primary" />
                   </div>
-                  <div className="flex gap-2">
-                    <Button size="sm" variant="outline" className="flex-1 text-xs h-7"
-                      onClick={() => navigate(`/music/${song.id}`)}>
-                      Continue
-                    </Button>
-                    <Button size="sm" className="flex-1 text-xs h-7 gap-1"
-                      onClick={() => navigate("/release-plan")}>
-                      <Zap className="h-3 w-3" />Analyze
-                    </Button>
+                  <div className="min-w-0 flex-1">
+                    <p className="font-semibold truncate">{song.title}</p>
+                    <p className="text-xs text-muted-foreground truncate">{[song.producer && `Prod. ${song.producer}`, song.genre].filter(Boolean).join(" · ")}</p>
+                    <span className="mt-1 inline-flex text-[10px] font-semibold px-2 py-0.5 rounded-full border bg-green-500/15 text-green-400 border-green-500/25">
+                      {song.status || "Demo"}
+                    </span>
                   </div>
-                </motion.div>
-              ))}
-            </div>
+                </div>
+                <Button size="sm" variant="outline" className="w-full text-xs h-7"
+                  onClick={() => navigate("/history")}>
+                  View in Vault
+                </Button>
+              </motion.div>
+            ))}
+          </div>
           )}
         </section>
 
