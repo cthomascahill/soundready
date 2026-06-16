@@ -1,0 +1,29 @@
+{
+  "name": "TeamMember",
+  "type": "object",
+  "properties": {
+    "email": {
+      "type": "string",
+      "description": "Email of the team member"
+    },
+    "name": {
+      "type": "string",
+      "description": "Display name"
+    },
+    "role_label": {
+      "type": "string",
+      "description": "Custom role e.g. Manager, Producer, Graphic Designer"
+    },
+    "invited_by": {
+      "type": "string",
+      "description": "Email of the person who invited them"
+    },
+    "avatar_color": {
+      "type": "string",
+      "description": "Hex color for avatar"
+    }
+  },
+  "required": [
+    "email"
+  ]
+}
