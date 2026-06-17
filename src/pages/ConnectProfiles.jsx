@@ -40,10 +40,13 @@ function PlatformCard({ platform, conn, onSynced }) {
   const saveManual = async (stats) => {
     setLoading(true);
     setError("");
+    // Pull display_name out of stats if present (Spotify form includes it)
+    const { display_name, ...cleanStats } = stats;
     const res = await base44.functions.invoke("syncPlatformData", {
       platform: "manual",
       sub_platform: platform.id,
-      manual_stats: stats,
+      manual_stats: cleanStats,
+      display_name: display_name || undefined,
     }).catch(e => ({ data: { error: e.message } }));
     setLoading(false);
     if (res.data?.error) { setError(res.data.error); return; }
@@ -137,7 +140,7 @@ function PlatformCard({ platform, conn, onSynced }) {
       )}
 
       {platform.type === "manual" && (
-        <ManualForm platform={platform} existing={conn?.stats || {}} onSave={saveManual} loading={loading} />
+        <ManualForm platform={platform} existing={conn?.stats || {}} conn={conn} onSave={saveManual} loading={loading} />
       )}
 
       {error && <p className="text-xs text-destructive">{error}</p>}
@@ -154,9 +157,23 @@ function Stat({ label, value }) {
   );
 }
 
-function ManualForm({ platform, existing, onSave, loading }) {
-  const [form, setForm] = useState(existing);
+function ManualForm({ platform, existing, conn, onSave, loading }) {
+  const [form, setForm] = useState({ ...existing, display_name: conn?.display_name || "" });
   const set = (k, v) => setForm(f => ({ ...f, [k]: v }));
+
+  if (platform.id === "spotify") return (
+    <div className="space-y-3">
+      <p className="text-xs text-muted-foreground">Enter your stats from your Spotify for Artists dashboard.</p>
+      <div className="grid grid-cols-2 gap-3">
+        <Field label="Followers" value={form.followers || ""} onChange={v => set("followers", Number(v))} placeholder="1200" type="number" />
+        <Field label="Monthly Listeners" value={form.monthly_listeners || ""} onChange={v => set("monthly_listeners", Number(v))} placeholder="3500" type="number" />
+      </div>
+      <Field label="Artist Name" value={form.display_name || ""} onChange={v => set("display_name", v)} placeholder="Your artist name on Spotify" />
+      <Button size="sm" onClick={() => onSave(form)} disabled={loading} className="gap-2 w-full">
+        {loading ? <Loader2 className="h-3.5 w-3.5 animate-spin" /> : null} Save Spotify Stats
+      </Button>
+    </div>
+  );
 
   if (platform.id === "tiktok") return (
     <div className="space-y-3">
@@ -219,7 +236,7 @@ function Field({ label, value, onChange, placeholder, type = "text" }) {
 }
 
 const PLATFORMS = [
-  { id: "spotify", name: "Spotify", emoji: "🎵", bg: "bg-green-500/10", type: "url", urlPlaceholder: "https://open.spotify.com/artist/..." },
+  { id: "spotify", name: "Spotify", emoji: "🎵", bg: "bg-green-500/10", type: "manual" },
   { id: "youtube", name: "YouTube", emoji: "▶️", bg: "bg-red-500/10", type: "url", urlPlaceholder: "https://youtube.com/@yourchannel" },
   { id: "tiktok", name: "TikTok", emoji: "🎵", bg: "bg-zinc-800", type: "manual" },
   { id: "apple_music", name: "Apple Music", emoji: "🍎", bg: "bg-pink-500/10", type: "manual" },

@@ -7,59 +7,72 @@ Deno.serve(async (req) => {
     if (!user) return Response.json({ error: 'Unauthorized' }, { status: 401 });
 
     const body = await req.json().catch(() => ({}));
-    const { platform, profile_url, manual_stats, connection_id } = body;
+    const { platform, profile_url, manual_stats, display_name } = body;
 
     if (!platform) return Response.json({ error: 'platform required' }, { status: 400 });
 
-    // ── Spotify URL scan (AI web scrape — no API key needed) ─────────────────
+    // ── Spotify via Client Credentials API ───────────────────────────────────
     if (platform === 'spotify') {
-      if (!profile_url) return Response.json({ error: 'profile_url required for Spotify' }, { status: 400 });
+      if (!profile_url) return Response.json({ error: 'profile_url required' }, { status: 400 });
 
-      // Use InvokeLLM with internet context to scrape public Spotify artist data
-      const llmResult = await base44.asServiceRole.integrations.Core.InvokeLLM({
-        prompt: `Look up the Spotify artist profile at this URL: ${profile_url}
-        
-Search the web and return the following publicly available data about this Spotify artist:
-- Artist name
-- Number of followers on Spotify
-- Monthly listeners (if available on their profile page)
-- Genres / music style
-- Their top 5 most popular songs/tracks on Spotify (song title and approximate stream count if available)
-- Popularity score (0-100)
+      const CLIENT_ID = Deno.env.get('SPOTIFY_CLIENT_ID');
+      const CLIENT_SECRET = Deno.env.get('SPOTIFY_CLIENT_SECRET');
+      if (!CLIENT_ID || !CLIENT_SECRET) {
+        return Response.json({ error: 'Spotify credentials not configured' }, { status: 500 });
+      }
 
-Return ONLY what you can actually find. Do not guess or fabricate numbers. If a field is unknown, return null.`,
-        add_context_from_internet: true,
-        response_json_schema: {
-          type: "object",
-          properties: {
-            artist_name: { type: "string" },
-            followers: { type: "number" },
-            monthly_listeners: { type: "number" },
-            genres: { type: "array", items: { type: "string" } },
-            popularity: { type: "number" },
-            top_tracks: {
-              type: "array",
-              items: {
-                type: "object",
-                properties: {
-                  title: { type: "string" },
-                  streams: { type: "number" }
-                }
-              }
-            }
-          }
-        }
+      // Step 1: Get access token via client credentials
+      const tokenRes = await fetch('https://accounts.spotify.com/api/token', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/x-www-form-urlencoded',
+          'Authorization': 'Basic ' + btoa(CLIENT_ID + ':' + CLIENT_SECRET),
+        },
+        body: 'grant_type=client_credentials',
       });
+      const tokenData = await tokenRes.json();
+      if (!tokenData.access_token) {
+        return Response.json({ error: 'Spotify token error: ' + (tokenData.error_description || tokenData.error || 'unknown') }, { status: 500 });
+      }
+
+      const token = tokenData.access_token;
+
+      // Step 2: Extract artist ID from URL
+      const artistMatch = profile_url.match(/spotify\.com(?:\/intl-[a-z]+)?\/artist\/([A-Za-z0-9]+)/);
+      if (!artistMatch) {
+        return Response.json({ error: 'Invalid Spotify URL. Use: open.spotify.com/artist/...' }, { status: 400 });
+      }
+      const artistId = artistMatch[1];
+
+      // Step 3: Fetch artist data + top tracks in parallel
+      const [artistRes, topTracksRes] = await Promise.all([
+        fetch('https://api.spotify.com/v1/artists/' + artistId, {
+          headers: { Authorization: 'Bearer ' + token },
+        }),
+        fetch('https://api.spotify.com/v1/artists/' + artistId + '/top-tracks?market=US', {
+          headers: { Authorization: 'Bearer ' + token },
+        }),
+      ]);
+
+      const artistData = await artistRes.json();
+      const topTracksData = await topTracksRes.json();
+
+      if (artistData.error) {
+        return Response.json({ error: 'Spotify API: ' + artistData.error.message }, { status: 400 });
+      }
 
       const stats = {
-        followers: llmResult.followers || 0,
-        monthly_listeners: llmResult.monthly_listeners || null,
-        genres: llmResult.genres || [],
-        popularity: llmResult.popularity || null,
-        top_tracks: (llmResult.top_tracks || []).slice(0, 5).map(t => ({
-          title: t.title,
-          streams: t.streams || null,
-        })),
+        followers: artistData.followers ? artistData.followers.total : 0,
+        monthly_listeners: null, // Not available via API — must be entered manually
+        popularity: artistData.popularity || 0,
+        genres: artistData.genres || [],
+        top_tracks: (topTracksData.tracks || []).slice(0, 5).map(function(t) {
+          return {
+            title: t.name,
+            popularity: t.popularity,
+            album: t.album ? t.album.name : null,
+          };
+        }),
       };
 
       const existing = await base44.entities.PlatformConnection.filter(
@@ -70,10 +83,12 @@ Return ONLY what you can actually find. Do not guess or fabricate numbers. If a 
         platform: 'spotify',
         connection_type: 'url',
         status: 'connected',
-        profile_url,
-        display_name: llmResult.artist_name || null,
+        profile_url: profile_url,
+        display_name: artistData.name || null,
+        profile_image_url: (artistData.images && artistData.images[0]) ? artistData.images[0].url : null,
+        raw_channel_id: artistId,
         last_synced: new Date().toISOString(),
-        stats,
+        stats: stats,
       };
 
       let saved;
@@ -86,14 +101,13 @@ Return ONLY what you can actually find. Do not guess or fabricate numbers. If a 
       return Response.json({ success: true, data: saved });
     }
 
-    // ── YouTube URL sync ──────────────────────────────────────────────────────
+    // ── YouTube via Data API ──────────────────────────────────────────────────
     if (platform === 'youtube') {
-      if (!profile_url) return Response.json({ error: 'profile_url required for YouTube' }, { status: 400 });
+      if (!profile_url) return Response.json({ error: 'profile_url required' }, { status: 400 });
 
       const YOUTUBE_API_KEY = Deno.env.get('YOUTUBE_API_KEY');
       if (!YOUTUBE_API_KEY) return Response.json({ error: 'YouTube API key not configured' }, { status: 500 });
 
-      // Extract channel ID or handle from URL
       let channelId = null;
       let handle = null;
 
@@ -109,13 +123,12 @@ Return ONLY what you can actually find. Do not guess or fabricate numbers. If a 
         handle = userMatch[1];
       }
 
-      // Resolve handle to channel ID
       if (!channelId && handle) {
         const searchRes = await fetch(
-          `https://www.googleapis.com/youtube/v3/channels?part=snippet,statistics&forHandle=${handle}&key=${YOUTUBE_API_KEY}`
+          'https://www.googleapis.com/youtube/v3/channels?part=snippet,statistics&forHandle=' + handle + '&key=' + YOUTUBE_API_KEY
         );
         const searchData = await searchRes.json();
-        if (searchData.items?.length > 0) {
+        if (searchData.items && searchData.items.length > 0) {
           channelId = searchData.items[0].id;
         }
       }
@@ -125,10 +138,10 @@ Return ONLY what you can actually find. Do not guess or fabricate numbers. If a 
       }
 
       const channelRes = await fetch(
-        `https://www.googleapis.com/youtube/v3/channels?part=snippet,statistics&id=${channelId}&key=${YOUTUBE_API_KEY}`
+        'https://www.googleapis.com/youtube/v3/channels?part=snippet,statistics&id=' + channelId + '&key=' + YOUTUBE_API_KEY
       );
       const channelData = await channelRes.json();
-      const channel = channelData.items?.[0];
+      const channel = channelData.items ? channelData.items[0] : null;
       if (!channel) return Response.json({ error: 'YouTube channel not found' }, { status: 404 });
 
       const stats = {
@@ -137,25 +150,25 @@ Return ONLY what you can actually find. Do not guess or fabricate numbers. If a 
         video_count: parseInt(channel.statistics.videoCount || 0),
       };
 
-      // Get top 5 videos
       const videosRes = await fetch(
-        `https://www.googleapis.com/youtube/v3/search?part=snippet&channelId=${channelId}&order=viewCount&maxResults=5&type=video&key=${YOUTUBE_API_KEY}`
+        'https://www.googleapis.com/youtube/v3/search?part=snippet&channelId=' + channelId + '&order=viewCount&maxResults=5&type=video&key=' + YOUTUBE_API_KEY
       );
       const videosData = await videosRes.json();
-      const videoIds = videosData.items?.map(v => v.id?.videoId).filter(Boolean).join(',');
+      const videoIds = videosData.items ? videosData.items.map(function(v) { return v.id && v.id.videoId; }).filter(Boolean).join(',') : '';
 
       if (videoIds) {
         const videoStatsRes = await fetch(
-          `https://www.googleapis.com/youtube/v3/videos?part=snippet,statistics&id=${videoIds}&key=${YOUTUBE_API_KEY}`
+          'https://www.googleapis.com/youtube/v3/videos?part=snippet,statistics&id=' + videoIds + '&key=' + YOUTUBE_API_KEY
         );
         const videoStatsData = await videoStatsRes.json();
-        stats.top_tracks = videoStatsData.items?.map(v => ({
-          title: v.snippet.title,
-          views: parseInt(v.statistics.viewCount || 0),
-          likes: parseInt(v.statistics.likeCount || 0),
-          url: `https://youtube.com/watch?v=${v.id}`,
-          thumbnail: v.snippet.thumbnails?.medium?.url,
-        })) || [];
+        stats.top_tracks = videoStatsData.items ? videoStatsData.items.map(function(v) {
+          return {
+            title: v.snippet.title,
+            views: parseInt(v.statistics.viewCount || 0),
+            likes: parseInt(v.statistics.likeCount || 0),
+            url: 'https://youtube.com/watch?v=' + v.id,
+          };
+        }) : [];
       }
 
       const existing = await base44.entities.PlatformConnection.filter(
@@ -166,12 +179,12 @@ Return ONLY what you can actually find. Do not guess or fabricate numbers. If a 
         platform: 'youtube',
         connection_type: 'url',
         status: 'connected',
-        profile_url,
+        profile_url: profile_url,
         display_name: channel.snippet.title,
-        profile_image_url: channel.snippet.thumbnails?.medium?.url,
+        profile_image_url: channel.snippet.thumbnails && channel.snippet.thumbnails.medium ? channel.snippet.thumbnails.medium.url : null,
         raw_channel_id: channelId,
         last_synced: new Date().toISOString(),
-        stats,
+        stats: stats,
       };
 
       let saved;
@@ -184,144 +197,10 @@ Return ONLY what you can actually find. Do not guess or fabricate numbers. If a 
       return Response.json({ success: true, data: saved });
     }
 
-    // ── Spotify OAuth token exchange (legacy, kept for backwards compat) ──────
-    if (platform === 'spotify_exchange') {
-      const { code, redirect_uri } = body;
-      if (!code || !redirect_uri) return Response.json({ error: 'code and redirect_uri required' }, { status: 400 });
-
-      const CLIENT_ID = Deno.env.get('SPOTIFY_CLIENT_ID');
-      const CLIENT_SECRET = Deno.env.get('SPOTIFY_CLIENT_SECRET');
-
-      const tokenRes = await fetch('https://accounts.spotify.com/api/token', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/x-www-form-urlencoded',
-          'Authorization': 'Basic ' + btoa(`${CLIENT_ID}:${CLIENT_SECRET}`),
-        },
-        body: new URLSearchParams({ grant_type: 'authorization_code', code, redirect_uri }),
-      });
-      const tokenData = await tokenRes.json();
-      if (!tokenData.access_token) {
-        return Response.json({ error: tokenData.error_description || 'Token exchange failed' }, { status: 400 });
-      }
-
-      const profileRes = await fetch('https://api.spotify.com/v1/me', {
-        headers: { Authorization: `Bearer ${tokenData.access_token}` },
-      });
-      const profileData = await profileRes.json();
-
-      const topTracksRes = await fetch('https://api.spotify.com/v1/me/top/tracks?limit=5&time_range=medium_term', {
-        headers: { Authorization: `Bearer ${tokenData.access_token}` },
-      });
-      const topTracksData = await topTracksRes.json();
-
-      const stats = {
-        followers: profileData.followers?.total || 0,
-        monthly_listeners: profileData.monthly_listeners || null,
-        top_tracks: topTracksData.items?.map(t => ({
-          title: t.name,
-          artist: t.artists?.[0]?.name,
-          popularity: t.popularity,
-          spotify_id: t.id,
-          preview_url: t.preview_url,
-          album_art: t.album?.images?.[0]?.url,
-        })) || [],
-        top_markets: [],
-      };
-
-      const expiresAt = new Date(Date.now() + tokenData.expires_in * 1000).toISOString();
-
-      const existing = await base44.entities.PlatformConnection.filter(
-        { created_by_id: user.id, platform: 'spotify' }, '-created_date', 1
-      ).catch(() => []);
-
-      const record = {
-        platform: 'spotify',
-        connection_type: 'oauth',
-        status: 'connected',
-        display_name: profileData.display_name,
-        profile_image_url: profileData.images?.[0]?.url,
-        access_token: tokenData.access_token,
-        refresh_token: tokenData.refresh_token,
-        token_expires_at: expiresAt,
-        last_synced: new Date().toISOString(),
-        stats,
-      };
-
-      let saved;
-      if (existing.length > 0) {
-        saved = await base44.entities.PlatformConnection.update(existing[0].id, record);
-      } else {
-        saved = await base44.entities.PlatformConnection.create(record);
-      }
-
-      return Response.json({ success: true, data: saved });
-    }
-
-    // ── Spotify refresh using stored token ─────────────────────────────────────
-    if (platform === 'spotify_refresh') {
-      if (!connection_id) return Response.json({ error: 'connection_id required' }, { status: 400 });
-      const CLIENT_ID = Deno.env.get('SPOTIFY_CLIENT_ID');
-      const CLIENT_SECRET = Deno.env.get('SPOTIFY_CLIENT_SECRET');
-
-      const connections = await base44.entities.PlatformConnection.filter(
-        { created_by_id: user.id, platform: 'spotify' }, '-created_date', 1
-      );
-      if (!connections.length) return Response.json({ error: 'No Spotify connection found' }, { status: 404 });
-      const conn = connections[0];
-      if (!conn.refresh_token) return Response.json({ error: 'No refresh token stored' }, { status: 400 });
-
-      const tokenRes = await fetch('https://accounts.spotify.com/api/token', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/x-www-form-urlencoded',
-          'Authorization': 'Basic ' + btoa(`${CLIENT_ID}:${CLIENT_SECRET}`),
-        },
-        body: new URLSearchParams({ grant_type: 'refresh_token', refresh_token: conn.refresh_token }),
-      });
-      const tokenData = await tokenRes.json();
-      if (!tokenData.access_token) return Response.json({ error: 'Refresh failed' }, { status: 400 });
-
-      const accessToken = tokenData.access_token;
-      const expiresAt = new Date(Date.now() + tokenData.expires_in * 1000).toISOString();
-
-      const profileRes = await fetch('https://api.spotify.com/v1/me', {
-        headers: { Authorization: `Bearer ${accessToken}` },
-      });
-      const profileData = await profileRes.json();
-
-      const topTracksRes = await fetch('https://api.spotify.com/v1/me/top/tracks?limit=5&time_range=medium_term', {
-        headers: { Authorization: `Bearer ${accessToken}` },
-      });
-      const topTracksData = await topTracksRes.json();
-
-      const updatedStats = {
-        ...conn.stats,
-        followers: profileData.followers?.total || conn.stats?.followers || 0,
-        top_tracks: topTracksData.items?.map(t => ({
-          title: t.name,
-          artist: t.artists?.[0]?.name,
-          popularity: t.popularity,
-          spotify_id: t.id,
-          album_art: t.album?.images?.[0]?.url,
-        })) || conn.stats?.top_tracks || [],
-      };
-
-      const updated = await base44.entities.PlatformConnection.update(conn.id, {
-        access_token: accessToken,
-        token_expires_at: expiresAt,
-        refresh_token: tokenData.refresh_token || conn.refresh_token,
-        last_synced: new Date().toISOString(),
-        stats: updatedStats,
-      });
-
-      return Response.json({ success: true, data: updated });
-    }
-
-    // ── Manual stats save (TikTok, Apple Music, Self-reported) ──────────────
+    // ── Manual stats (TikTok, Apple Music, Self-reported) ────────────────────
     if (platform === 'manual') {
       const { sub_platform } = body;
-      if (!sub_platform) return Response.json({ error: 'sub_platform required for manual' }, { status: 400 });
+      if (!sub_platform) return Response.json({ error: 'sub_platform required' }, { status: 400 });
 
       const existing = await base44.entities.PlatformConnection.filter(
         { created_by_id: user.id, platform: sub_platform }, '-created_date', 1
@@ -334,6 +213,7 @@ Return ONLY what you can actually find. Do not guess or fabricate numbers. If a 
         last_synced: new Date().toISOString(),
         stats: manual_stats || {},
       };
+      if (display_name) record.display_name = display_name;
 
       let saved;
       if (existing.length > 0) {
