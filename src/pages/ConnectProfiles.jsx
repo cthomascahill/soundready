@@ -6,8 +6,9 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import {
   CheckCircle2, AlertCircle, Clock, Link2, RefreshCw,
-  Loader2, Shield, BarChart2, Zap
+  Loader2, Shield, BarChart2, Zap, ExternalLink, Info
 } from "lucide-react";
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 
 
 function StatusDot({ status }) {
@@ -76,13 +77,28 @@ function PlatformCard({ platform, conn, onSynced }) {
             </p>
           </div>
         </div>
-        <span className={`text-[10px] font-bold px-2 py-0.5 rounded-full border ${
-          platform.type === "oauth" ? "bg-primary/10 text-primary border-primary/20" :
-          platform.type === "url" ? "bg-chart-5/10 text-chart-5 border-chart-5/20" :
-          "bg-secondary text-muted-foreground border-border"
-        }`}>
-          {platform.type === "oauth" ? "OAuth" : platform.type === "url" ? "Auto" : "Manual"}
-        </span>
+        <TooltipProvider>
+          <Tooltip>
+            <TooltipTrigger asChild>
+              <span className={`text-[10px] font-bold px-2 py-0.5 rounded-full border cursor-default flex items-center gap-1 ${
+                platform.type === "oauth" ? "bg-primary/10 text-primary border-primary/20" :
+                platform.type === "url" ? "bg-chart-5/10 text-chart-5 border-chart-5/20" :
+                platform.type === "spotify" ? "bg-secondary text-muted-foreground border-border" :
+                "bg-secondary text-muted-foreground border-border"
+              }`}>
+                {platform.type === "oauth" ? "OAuth" : platform.type === "url" ? "Auto" : "Manual"}
+                {(platform.type === "spotify" || platform.type === "manual") && <Info className="h-2.5 w-2.5" />}
+              </span>
+            </TooltipTrigger>
+            {(platform.type === "spotify" || platform.type === "manual") && (
+              <TooltipContent side="left" className="max-w-[220px] text-xs">
+                {platform.id === "spotify"
+                  ? "Spotify restricts automatic data access — we're working on full OAuth integration."
+                  : "This platform requires manual data entry."}
+              </TooltipContent>
+            )}
+          </Tooltip>
+        </TooltipProvider>
       </div>
 
       {/* Connected preview */}
@@ -139,6 +155,10 @@ function PlatformCard({ platform, conn, onSynced }) {
         </div>
       )}
 
+      {platform.type === "spotify" && (
+        <SpotifyCard conn={conn} onSave={saveManual} loading={loading} />
+      )}
+
       {platform.type === "manual" && (
         <ManualForm platform={platform} existing={conn?.stats || {}} conn={conn} onSave={saveManual} loading={loading} />
       )}
@@ -157,23 +177,111 @@ function Stat({ label, value }) {
   );
 }
 
+function SpotifyCard({ conn, onSave, loading }) {
+  const [urlInput, setUrlInput] = useState(conn?.profile_url || "");
+  const [showManual, setShowManual] = useState(false);
+  const existing = conn?.stats || {};
+  const [form, setForm] = useState({
+    followers: existing.followers || "",
+    monthly_listeners: existing.monthly_listeners || "",
+    display_name: conn?.display_name || "",
+  });
+  const set = (k, v) => setForm(f => ({ ...f, [k]: v }));
+
+  const extractArtistId = (url) => {
+    const m = url.match(/spotify\.com(?:\/intl-[a-z]+)?\/artist\/([A-Za-z0-9]+)/);
+    return m ? m[1] : null;
+  };
+
+  const handleSave = () => {
+    const artistId = extractArtistId(urlInput);
+    onSave({
+      followers: Number(form.followers) || 0,
+      monthly_listeners: Number(form.monthly_listeners) || 0,
+      display_name: form.display_name,
+      spotify_artist_id: artistId || undefined,
+      profile_url: urlInput || undefined,
+    });
+  };
+
+  const isValidUrl = !!extractArtistId(urlInput);
+
+  return (
+    <div className="space-y-4">
+      {/* URL field */}
+      <div className="space-y-1.5">
+        <p className="text-xs text-muted-foreground font-medium flex items-center gap-1.5">
+          Spotify Artist URL
+          <TooltipProvider>
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <Info className="h-3 w-3 text-muted-foreground/60 cursor-default" />
+              </TooltipTrigger>
+              <TooltipContent side="top" className="max-w-[220px] text-xs">
+                Spotify restricts automatic data access — we're working on full OAuth integration.
+              </TooltipContent>
+            </Tooltip>
+          </TooltipProvider>
+        </p>
+        <div className="flex gap-2">
+          <Input
+            placeholder="https://open.spotify.com/artist/..."
+            value={urlInput}
+            onChange={e => setUrlInput(e.target.value)}
+            className={`text-sm h-9 ${urlInput && !isValidUrl ? "border-destructive/50" : urlInput && isValidUrl ? "border-primary/40" : ""}`}
+          />
+        </div>
+        {urlInput && !isValidUrl && (
+          <p className="text-[11px] text-destructive">Paste a valid Spotify artist URL (open.spotify.com/artist/...)</p>
+        )}
+        {isValidUrl && (
+          <p className="text-[11px] text-primary flex items-center gap-1">
+            <CheckCircle2 className="h-3 w-3" /> Artist ID extracted — enter stats below
+          </p>
+        )}
+      </div>
+
+      {/* Open Spotify for Artists deep link */}
+      <a
+        href="https://artists.spotify.com"
+        target="_blank"
+        rel="noopener noreferrer"
+        className="flex items-center gap-2 text-xs text-green-400 hover:text-green-300 transition-colors w-fit"
+      >
+        <ExternalLink className="h-3.5 w-3.5" />
+        Open Spotify for Artists
+        <span className="text-muted-foreground">(look up your numbers)</span>
+      </a>
+
+      {/* Manual stats */}
+      <div className="rounded-xl bg-secondary/30 border border-border p-3 space-y-3">
+        <p className="text-xs text-muted-foreground">Enter your stats from Spotify for Artists:</p>
+        <div className="grid grid-cols-2 gap-3">
+          <div className="space-y-1">
+            <p className="text-[10px] text-muted-foreground font-medium">Followers</p>
+            <Input type="number" value={form.followers} onChange={e => set("followers", e.target.value)} placeholder="1200" className="h-8 text-sm" />
+          </div>
+          <div className="space-y-1">
+            <p className="text-[10px] text-muted-foreground font-medium">Monthly Listeners</p>
+            <Input type="number" value={form.monthly_listeners} onChange={e => set("monthly_listeners", e.target.value)} placeholder="3500" className="h-8 text-sm" />
+          </div>
+          <div className="col-span-2 space-y-1">
+            <p className="text-[10px] text-muted-foreground font-medium">Artist Name on Spotify</p>
+            <Input value={form.display_name} onChange={e => set("display_name", e.target.value)} placeholder="Your artist name" className="h-8 text-sm" />
+          </div>
+        </div>
+        <Button size="sm" onClick={handleSave} disabled={loading} className="gap-2 w-full">
+          {loading ? <Loader2 className="h-3.5 w-3.5 animate-spin" /> : conn ? <RefreshCw className="h-3.5 w-3.5" /> : null}
+          {conn ? "Update Spotify Stats" : "Save Spotify Stats"}
+        </Button>
+      </div>
+    </div>
+  );
+}
+
 function ManualForm({ platform, existing, conn, onSave, loading }) {
   const [form, setForm] = useState({ ...existing, display_name: conn?.display_name || "" });
   const set = (k, v) => setForm(f => ({ ...f, [k]: v }));
-
-  if (platform.id === "spotify") return (
-    <div className="space-y-3">
-      <p className="text-xs text-muted-foreground">Enter your stats from your Spotify for Artists dashboard.</p>
-      <div className="grid grid-cols-2 gap-3">
-        <Field label="Followers" value={form.followers || ""} onChange={v => set("followers", Number(v))} placeholder="1200" type="number" />
-        <Field label="Monthly Listeners" value={form.monthly_listeners || ""} onChange={v => set("monthly_listeners", Number(v))} placeholder="3500" type="number" />
-      </div>
-      <Field label="Artist Name" value={form.display_name || ""} onChange={v => set("display_name", v)} placeholder="Your artist name on Spotify" />
-      <Button size="sm" onClick={() => onSave(form)} disabled={loading} className="gap-2 w-full">
-        {loading ? <Loader2 className="h-3.5 w-3.5 animate-spin" /> : null} Save Spotify Stats
-      </Button>
-    </div>
-  );
 
   if (platform.id === "tiktok") return (
     <div className="space-y-3">
@@ -236,7 +344,7 @@ function Field({ label, value, onChange, placeholder, type = "text" }) {
 }
 
 const PLATFORMS = [
-  { id: "spotify", name: "Spotify", emoji: "🎵", bg: "bg-green-500/10", type: "manual" },
+  { id: "spotify", name: "Spotify", emoji: "🎵", bg: "bg-green-500/10", type: "spotify" },
   { id: "youtube", name: "YouTube", emoji: "▶️", bg: "bg-red-500/10", type: "url", urlPlaceholder: "https://youtube.com/@yourchannel" },
   { id: "tiktok", name: "TikTok", emoji: "🎵", bg: "bg-zinc-800", type: "manual" },
   { id: "apple_music", name: "Apple Music", emoji: "🍎", bg: "bg-pink-500/10", type: "manual" },

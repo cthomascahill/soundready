@@ -98,7 +98,7 @@ export default function NotificationCenter({ user }) {
                   const isUnread = !read.has(item.id);
                   const Icon = cfg.icon;
                   return (
-                    <button key={item.id} onClick={() => markRead(item.id)}
+                    <button key={item.id} onClick={() => { markRead(item.id); if (item.metadata?.link) window.location.href = item.metadata.link; }}
                       className={`w-full flex items-start gap-3 px-4 py-3 text-left hover:bg-secondary/50 transition-colors border-b border-border/50 last:border-0 ${isUnread ? "bg-primary/5" : ""}`}>
                       <div className={`h-8 w-8 rounded-xl ${cfg.bg} flex items-center justify-center shrink-0 mt-0.5`}>
                         <Icon className={`h-4 w-4 ${cfg.color}`} />

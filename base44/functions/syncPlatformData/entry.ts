@@ -206,14 +206,17 @@ Deno.serve(async (req) => {
         { created_by_id: user.id, platform: sub_platform }, '-created_date', 1
       ).catch(() => []);
 
+      const { spotify_artist_id, profile_url: manualProfileUrl, ...cleanStats } = manual_stats || {};
       const record = {
         platform: sub_platform,
         connection_type: 'manual',
         status: 'connected',
         last_synced: new Date().toISOString(),
-        stats: manual_stats || {},
+        stats: cleanStats,
       };
       if (display_name) record.display_name = display_name;
+      if (manualProfileUrl) record.profile_url = manualProfileUrl;
+      if (spotify_artist_id) record.raw_channel_id = spotify_artist_id;
 
       let saved;
       if (existing.length > 0) {
