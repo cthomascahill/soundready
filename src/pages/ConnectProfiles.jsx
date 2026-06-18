@@ -52,7 +52,7 @@ function SpotifyCard({ conn, onUpdated }) {
     base44.functions.invoke("spotifyOAuth", {
       action: "exchange_code",
       code,
-      redirect_uri: window.location.origin + "/connect-profiles",
+      redirect_uri: (window.top.location.origin) + "/connect-profiles",
     }).then(res => {
       setLoading(false);
       if (res.data?.error) { setError(res.data.error); return; }
@@ -68,11 +68,11 @@ function SpotifyCard({ conn, onUpdated }) {
     setError("");
     const res = await base44.functions.invoke("spotifyOAuth", {
       action: "get_auth_url",
-      app_url: window.location.origin,
+      app_url: window.top.location.origin,
     }).catch(e => ({ data: { error: e.message } }));
     setLoading(false);
     if (res.data?.error) { setError(res.data.error); return; }
-    if (res.data?.auth_url) window.location.href = res.data.auth_url;
+    if (res.data?.auth_url) window.top.location.href = res.data.auth_url;
   };
 
   const handleSync = async () => {
