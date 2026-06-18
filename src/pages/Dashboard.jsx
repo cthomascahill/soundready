@@ -10,6 +10,8 @@ import {
   Sparkles, AlertCircle, Shield, Map, TrendingUp
 } from "lucide-react";
 import AIActivityFeed from "@/components/dashboard/AIActivityFeed";
+import MayaSuggestionsEngine from "@/components/maya/MayaSuggestionsEngine";
+import MayaUpgradeCard from "@/components/maya/MayaUpgradeCard";
 
 
 const QUICK_ACTIONS = [
@@ -163,6 +165,15 @@ export default function Dashboard() {
             </Link>
           </div>
         </div>
+
+        {/* Maya Suggestions */}
+        <section className="rounded-2xl border border-border bg-card p-6">
+          {user?.role === "admin" ? (
+            <MayaSuggestionsEngine user={user} />
+          ) : (
+            <MayaUpgradeCard />
+          )}
+        </section>
 
         {/* AI Activity Feed */}
         <AIActivityFeed user={user} />

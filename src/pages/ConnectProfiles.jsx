@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
 import { base44 } from "@/api/base44Client";
 import { useAuth } from "@/lib/AuthContext";
 import { motion } from "framer-motion";
@@ -398,6 +399,18 @@ export default function ConnectProfiles() {
   return (
     <div className="min-h-screen bg-background px-4 py-10">
       <div className="max-w-3xl mx-auto space-y-8">
+
+        {/* Maya upgrade banner for non-admin */}
+        {user?.role !== "admin" && (
+          <div className="rounded-xl border border-primary/20 bg-primary/5 px-4 py-3 flex items-center justify-between gap-4">
+            <p className="text-sm text-muted-foreground">
+              <span className="text-foreground font-medium">Your connected data powers Maya.</span> Upgrade to AI Manager to unlock her.
+            </p>
+            <Link to="/pricing-account" className="text-xs font-semibold text-primary whitespace-nowrap hover:underline">
+              Upgrade →
+            </Link>
+          </div>
+        )}
 
         {/* Header */}
         <motion.div initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }} className="space-y-1">

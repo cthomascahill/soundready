@@ -298,6 +298,9 @@ export default function MayaAssistant() {
   const artistName = profile?.stage_name || user?.full_name || "Artist";
   const showQuickStarts = messages.length === 0;
 
+  // Only render for AI Manager tier (admin role = AI Manager)
+  if (!user || user.role !== "admin") return null;
+
   return (
     <>
       {/* Floating button */}
