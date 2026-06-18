@@ -9,6 +9,77 @@ Deno.serve(async (req) => {
     const body = await req.json().catch(() => ({}));
     const { platform, profile_url, manual_stats, display_name } = body;
 
+    // ── YouTube Sync Now (using stored channel ID) ────────────────────────────
+    if (platform === 'youtube_refresh') {
+      const YOUTUBE_API_KEY = Deno.env.get('YOUTUBE_API_KEY');
+      if (!YOUTUBE_API_KEY) return Response.json({ error: 'YouTube API key not configured' }, { status: 500 });
+
+      const existing = await base44.entities.PlatformConnection.filter(
+        { created_by_id: user.id, platform: 'youtube' }, '-created_date', 1
+      ).catch(() => []);
+      if (!existing[0]) return Response.json({ error: 'No YouTube connection found' }, { status: 404 });
+      const channelId = existing[0].raw_channel_id;
+      if (!channelId) return Response.json({ error: 'No channel ID stored' }, { status: 400 });
+
+      const channelRes = await fetch(
+        'https://www.googleapis.com/youtube/v3/channels?part=snippet,statistics&id=' + channelId + '&key=' + YOUTUBE_API_KEY
+      );
+      const channelData = await channelRes.json();
+      const channel = channelData.items ? channelData.items[0] : null;
+      if (!channel) return Response.json({ error: 'YouTube channel not found' }, { status: 404 });
+
+      const stats = {
+        subscribers: parseInt(channel.statistics.subscriberCount || 0),
+        total_views: parseInt(channel.statistics.viewCount || 0),
+        video_count: parseInt(channel.statistics.videoCount || 0),
+      };
+
+      const [topRes, recentRes] = await Promise.all([
+        fetch('https://www.googleapis.com/youtube/v3/search?part=snippet&channelId=' + channelId + '&order=viewCount&maxResults=5&type=video&key=' + YOUTUBE_API_KEY),
+        fetch('https://www.googleapis.com/youtube/v3/search?part=snippet&channelId=' + channelId + '&order=date&maxResults=3&type=video&key=' + YOUTUBE_API_KEY),
+      ]);
+      const [topData, recentData] = await Promise.all([topRes.json(), recentRes.json()]);
+
+      const topIds = (topData.items || []).map(v => v.id?.videoId).filter(Boolean).join(',');
+      const recentIds = (recentData.items || []).map(v => v.id?.videoId).filter(Boolean).join(',');
+      const allIds = [...new Set([...topIds.split(','), ...recentIds.split(',')].filter(Boolean))].join(',');
+
+      if (allIds) {
+        const allStatsRes = await fetch('https://www.googleapis.com/youtube/v3/videos?part=snippet,statistics&id=' + allIds + '&key=' + YOUTUBE_API_KEY);
+        const allStatsData = await allStatsRes.json();
+        const byId = {};
+        (allStatsData.items || []).forEach(v => { byId[v.id] = v; });
+        stats.top_tracks = topIds.split(',').filter(Boolean).map(id => {
+          const v = byId[id];
+          return v ? { title: v.snippet.title, views: parseInt(v.statistics.viewCount || 0), likes: parseInt(v.statistics.likeCount || 0), url: 'https://youtube.com/watch?v=' + id } : null;
+        }).filter(Boolean);
+        stats.recent_posts = recentIds.split(',').filter(Boolean).map(id => {
+          const v = byId[id];
+          return v ? { title: v.snippet.title, views: parseInt(v.statistics.viewCount || 0), published_at: v.snippet.publishedAt, url: 'https://youtube.com/watch?v=' + id } : null;
+        }).filter(Boolean);
+      }
+
+      const updated = await base44.entities.PlatformConnection.update(existing[0].id, {
+        stats,
+        last_synced: new Date().toISOString(),
+        display_name: channel.snippet.title,
+      });
+      return Response.json({ success: true, data: updated });
+    }
+
+    // ── YouTube Disconnect ────────────────────────────────────────────────────
+    if (platform === 'youtube_disconnect') {
+      const existing = await base44.entities.PlatformConnection.filter(
+        { created_by_id: user.id, platform: 'youtube' }, '-created_date', 1
+      ).catch(() => []);
+      if (existing[0]) {
+        await base44.entities.PlatformConnection.update(existing[0].id, {
+          status: 'disconnected', raw_channel_id: null, stats: null, display_name: null, profile_url: null,
+        });
+      }
+      return Response.json({ success: true });
+    }
+
     if (!platform) return Response.json({ error: 'platform required' }, { status: 400 });
 
     // ── Spotify via Client Credentials API ───────────────────────────────────
@@ -166,6 +237,27 @@ Deno.serve(async (req) => {
             title: v.snippet.title,
             views: parseInt(v.statistics.viewCount || 0),
             likes: parseInt(v.statistics.likeCount || 0),
+            url: 'https://youtube.com/watch?v=' + v.id,
+          };
+        }) : [];
+      }
+
+      // Fetch 3 most recent uploads
+      const recentRes = await fetch(
+        'https://www.googleapis.com/youtube/v3/search?part=snippet&channelId=' + channelId + '&order=date&maxResults=3&type=video&key=' + YOUTUBE_API_KEY
+      );
+      const recentData = await recentRes.json();
+      const recentIds = recentData.items ? recentData.items.map(function(v) { return v.id && v.id.videoId; }).filter(Boolean).join(',') : '';
+      if (recentIds) {
+        const recentStatsRes = await fetch(
+          'https://www.googleapis.com/youtube/v3/videos?part=snippet,statistics&id=' + recentIds + '&key=' + YOUTUBE_API_KEY
+        );
+        const recentStatsData = await recentStatsRes.json();
+        stats.recent_posts = recentStatsData.items ? recentStatsData.items.map(function(v) {
+          return {
+            title: v.snippet.title,
+            views: parseInt(v.statistics.viewCount || 0),
+            published_at: v.snippet.publishedAt,
             url: 'https://youtube.com/watch?v=' + v.id,
           };
         }) : [];

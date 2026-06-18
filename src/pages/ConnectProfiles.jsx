@@ -7,59 +7,307 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import {
   CheckCircle2, AlertCircle, Clock, Link2, RefreshCw,
-  Loader2, Shield, BarChart2, Zap, ExternalLink, Info
+  Loader2, Shield, BarChart2, Zap, ExternalLink, Info,
+  LogOut, Wifi, WifiOff, AlertTriangle
 } from "lucide-react";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 
-
-function StatusDot({ status }) {
-  if (status === "connected") return <span className="h-2 w-2 rounded-full bg-primary inline-block" />;
-  if (status === "stale") return <span className="h-2 w-2 rounded-full bg-yellow-400 inline-block" />;
-  return <span className="h-2 w-2 rounded-full bg-zinc-600 inline-block" />;
+// ── Freshness helpers ─────────────────────────────────────────────────────────
+function getFreshness(last_synced) {
+  if (!last_synced) return { status: "missing", label: "Never synced", color: "bg-zinc-600", textColor: "text-zinc-400" };
+  const ageHours = (Date.now() - new Date(last_synced).getTime()) / (1000 * 60 * 60);
+  if (ageHours < 24) return { status: "live", label: "Live", color: "bg-green-500", textColor: "text-green-400" };
+  if (ageHours < 48) return { status: "syncing", label: "Syncing soon", color: "bg-yellow-400", textColor: "text-yellow-400" };
+  return { status: "stale", label: "Needs refresh", color: "bg-red-500", textColor: "text-red-400" };
 }
 
-function PlatformCard({ platform, conn, onSynced }) {
+function FreshnessBadge({ last_synced }) {
+  const f = getFreshness(last_synced);
+  return (
+    <div className={`flex items-center gap-1.5 text-xs font-medium ${f.textColor}`}>
+      <span className={`h-2 w-2 rounded-full ${f.color} ${f.status === "live" ? "animate-pulse" : ""}`} />
+      {f.label}
+      {last_synced && <span className="text-muted-foreground font-normal">· {new Date(last_synced).toLocaleDateString()}</span>}
+    </div>
+  );
+}
+
+// ── Spotify OAuth Card ────────────────────────────────────────────────────────
+function SpotifyCard({ conn, onUpdated }) {
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
+
+  // Check for OAuth callback code in URL
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    const code = params.get("code");
+    const state = params.get("state");
+    if (!code || !state) return;
+
+    // Clear params from URL
+    window.history.replaceState({}, document.title, window.location.pathname);
+
+    setLoading(true);
+    setError("");
+    base44.functions.invoke("spotifyOAuth", {
+      action: "exchange_code",
+      code,
+      redirect_uri: window.location.origin + "/connect-profiles",
+    }).then(res => {
+      setLoading(false);
+      if (res.data?.error) { setError(res.data.error); return; }
+      if (res.data?.data) onUpdated(res.data.data);
+    }).catch(e => {
+      setLoading(false);
+      setError(e.message);
+    });
+  }, []);
+
+  const handleConnect = async () => {
+    setLoading(true);
+    setError("");
+    const res = await base44.functions.invoke("spotifyOAuth", {
+      action: "get_auth_url",
+      app_url: window.location.origin,
+    }).catch(e => ({ data: { error: e.message } }));
+    setLoading(false);
+    if (res.data?.error) { setError(res.data.error); return; }
+    if (res.data?.auth_url) window.location.href = res.data.auth_url;
+  };
+
+  const handleSync = async () => {
+    setLoading(true);
+    setError("");
+    const res = await base44.functions.invoke("spotifyOAuth", { action: "sync" })
+      .catch(e => ({ data: { error: e.message } }));
+    setLoading(false);
+    if (res.data?.error) {
+      setError(res.data.error);
+      if (res.data.needs_reconnect) onUpdated(null);
+      return;
+    }
+    if (res.data?.data) onUpdated(res.data.data);
+  };
+
+  const handleDisconnect = async () => {
+    setLoading(true);
+    const res = await base44.functions.invoke("spotifyOAuth", { action: "disconnect" })
+      .catch(e => ({ data: { error: e.message } }));
+    setLoading(false);
+    if (res.data?.success) onUpdated(null);
+    else setError(res.data?.error || "Failed to disconnect");
+  };
+
+  const isConnected = conn?.status === "connected" && conn?.connection_type === "oauth";
+  const s = conn?.stats || {};
+
+  return (
+    <div className="space-y-4">
+      {isConnected ? (
+        <>
+          {/* Connected profile */}
+          <div className="flex items-center gap-3 rounded-xl bg-secondary/40 border border-border p-3">
+            {conn.profile_image_url && (
+              <img src={conn.profile_image_url} alt="Spotify profile" className="h-10 w-10 rounded-full object-cover" />
+            )}
+            <div className="flex-1 min-w-0">
+              <p className="font-semibold text-sm truncate">{conn.display_name}</p>
+              <FreshnessBadge last_synced={conn.last_synced} />
+            </div>
+          </div>
+
+          {/* Stats grid */}
+          <div className="grid grid-cols-2 gap-2">
+            <Stat label="Followers" value={(s.followers || 0).toLocaleString()} />
+            <Stat label="Monthly Listeners" value={s.monthly_listeners ? s.monthly_listeners.toLocaleString() : "—"} />
+            {s.popularity !== undefined && <Stat label="Popularity" value={`${s.popularity}/100`} />}
+          </div>
+
+          {/* Top tracks */}
+          {s.top_tracks?.length > 0 && (
+            <div className="space-y-1">
+              <p className="text-[10px] text-muted-foreground font-medium uppercase tracking-wider">Top Tracks</p>
+              {s.top_tracks.slice(0, 5).map((t, i) => (
+                <div key={i} className="flex items-center justify-between text-xs py-0.5">
+                  <span className="truncate text-muted-foreground">{i + 1}. {t.title}</span>
+                  {t.popularity && <span className="text-primary/70 shrink-0 ml-2">{t.popularity}/100</span>}
+                </div>
+              ))}
+            </div>
+          )}
+
+          {/* Actions */}
+          <div className="flex gap-2">
+            <Button size="sm" variant="outline" onClick={handleSync} disabled={loading} className="flex-1 gap-1.5">
+              {loading ? <Loader2 className="h-3.5 w-3.5 animate-spin" /> : <RefreshCw className="h-3.5 w-3.5" />}
+              Sync Now
+            </Button>
+            <Button size="sm" variant="outline" onClick={handleDisconnect} disabled={loading}
+              className="gap-1.5 text-destructive border-destructive/30 hover:bg-destructive/10">
+              <LogOut className="h-3.5 w-3.5" /> Disconnect
+            </Button>
+          </div>
+        </>
+      ) : (
+        <div className="space-y-3">
+          <p className="text-sm text-muted-foreground">Connect your Spotify account to automatically pull followers, top tracks, and more.</p>
+          <Button onClick={handleConnect} disabled={loading} className="gap-2 bg-[#1DB954] hover:bg-[#1aa34a] text-black font-semibold">
+            {loading ? <Loader2 className="h-4 w-4 animate-spin" /> : <span className="text-lg leading-none">♪</span>}
+            {loading ? "Connecting..." : "Connect Spotify"}
+          </Button>
+          <p className="text-xs text-muted-foreground">You'll be redirected to Spotify to approve access. Scopes: read profile, read email, read follows.</p>
+        </div>
+      )}
+      {error && (
+        <div className="flex items-center gap-2 text-xs text-destructive bg-destructive/10 border border-destructive/20 rounded-lg px-3 py-2">
+          <AlertTriangle className="h-3.5 w-3.5 shrink-0" />
+          {error}
+          {error.includes("reconnect") && (
+            <Button size="sm" onClick={handleConnect} disabled={loading} className="ml-auto h-6 text-xs px-2">Reconnect</Button>
+          )}
+        </div>
+      )}
+    </div>
+  );
+}
+
+// ── YouTube Card ──────────────────────────────────────────────────────────────
+function YouTubeCard({ conn, onUpdated }) {
   const [urlInput, setUrlInput] = useState(conn?.profile_url || "");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
 
-  const isStale = conn?.last_synced && ((Date.now() - new Date(conn.last_synced).getTime()) > 30 * 24 * 60 * 60 * 1000);
-  const status = conn ? (isStale ? "stale" : "connected") : "disconnected";
-
-  const syncUrl = async () => {
+  const handleConnect = async () => {
     if (!urlInput.trim()) return;
     setLoading(true);
     setError("");
     const res = await base44.functions.invoke("syncPlatformData", {
-      platform: platform.id,
+      platform: "youtube",
       profile_url: urlInput.trim(),
     }).catch(e => ({ data: { error: e.message } }));
     setLoading(false);
     if (res.data?.error) { setError(res.data.error); return; }
-    onSynced(res.data?.data);
+    onUpdated(res.data?.data);
   };
 
-  const saveManual = async (stats) => {
+  const handleSync = async () => {
     setLoading(true);
     setError("");
-    // Pull display_name out of stats if present (Spotify form includes it)
-    const { display_name, ...cleanStats } = stats;
-    const res = await base44.functions.invoke("syncPlatformData", {
-      platform: "manual",
-      sub_platform: platform.id,
-      manual_stats: cleanStats,
-      display_name: display_name || undefined,
-    }).catch(e => ({ data: { error: e.message } }));
+    const res = await base44.functions.invoke("syncPlatformData", { platform: "youtube_refresh" })
+      .catch(e => ({ data: { error: e.message } }));
     setLoading(false);
     if (res.data?.error) { setError(res.data.error); return; }
-    onSynced(res.data?.data);
+    onUpdated(res.data?.data);
   };
+
+  const handleDisconnect = async () => {
+    setLoading(true);
+    const res = await base44.functions.invoke("syncPlatformData", { platform: "youtube_disconnect" })
+      .catch(e => ({ data: { error: e.message } }));
+    setLoading(false);
+    if (res.data?.success) onUpdated(null);
+    else setError(res.data?.error || "Failed to disconnect");
+  };
+
+  const isConnected = conn?.status === "connected" && conn?.raw_channel_id;
+  const s = conn?.stats || {};
+
+  return (
+    <div className="space-y-4">
+      {isConnected ? (
+        <>
+          <div className="flex items-center gap-3 rounded-xl bg-secondary/40 border border-border p-3">
+            {conn.profile_image_url && (
+              <img src={conn.profile_image_url} alt="YouTube channel" className="h-10 w-10 rounded-full object-cover" />
+            )}
+            <div className="flex-1 min-w-0">
+              <p className="font-semibold text-sm truncate">{conn.display_name}</p>
+              <FreshnessBadge last_synced={conn.last_synced} />
+            </div>
+          </div>
+
+          <div className="grid grid-cols-2 gap-2">
+            <Stat label="Subscribers" value={(s.subscribers || 0).toLocaleString()} />
+            <Stat label="Total Views" value={(s.total_views || 0).toLocaleString()} />
+            {s.video_count && <Stat label="Videos" value={s.video_count.toLocaleString()} />}
+          </div>
+
+          {s.top_tracks?.length > 0 && (
+            <div className="space-y-1">
+              <p className="text-[10px] text-muted-foreground font-medium uppercase tracking-wider">Top Videos</p>
+              {s.top_tracks.slice(0, 5).map((v, i) => (
+                <div key={i} className="flex items-center justify-between text-xs py-0.5 gap-2">
+                  <a href={v.url} target="_blank" rel="noopener noreferrer" className="truncate text-muted-foreground hover:text-foreground transition-colors">
+                    {i + 1}. {v.title}
+                  </a>
+                  <span className="text-primary/70 shrink-0">{(v.views || 0).toLocaleString()} views</span>
+                </div>
+              ))}
+            </div>
+          )}
+
+          {s.recent_posts?.length > 0 && (
+            <div className="space-y-1">
+              <p className="text-[10px] text-muted-foreground font-medium uppercase tracking-wider">Recent Uploads</p>
+              {s.recent_posts.slice(0, 3).map((v, i) => (
+                <div key={i} className="flex items-center justify-between text-xs py-0.5 gap-2">
+                  <a href={v.url} target="_blank" rel="noopener noreferrer" className="truncate text-muted-foreground hover:text-foreground transition-colors">
+                    {v.title}
+                  </a>
+                  <span className="text-muted-foreground/60 shrink-0">
+                    {v.published_at ? new Date(v.published_at).toLocaleDateString() : ""}
+                  </span>
+                </div>
+              ))}
+            </div>
+          )}
+
+          <div className="flex gap-2">
+            <Button size="sm" variant="outline" onClick={handleSync} disabled={loading} className="flex-1 gap-1.5">
+              {loading ? <Loader2 className="h-3.5 w-3.5 animate-spin" /> : <RefreshCw className="h-3.5 w-3.5" />}
+              Sync Now
+            </Button>
+            <Button size="sm" variant="outline" onClick={handleDisconnect} disabled={loading}
+              className="gap-1.5 text-destructive border-destructive/30 hover:bg-destructive/10">
+              <LogOut className="h-3.5 w-3.5" /> Disconnect
+            </Button>
+          </div>
+        </>
+      ) : (
+        <div className="flex gap-2">
+          <Input
+            placeholder="https://youtube.com/@yourchannel"
+            value={urlInput}
+            onChange={e => setUrlInput(e.target.value)}
+            className="text-sm h-9"
+          />
+          <Button size="sm" onClick={handleConnect} disabled={loading || !urlInput.trim()} className="shrink-0 gap-1.5">
+            {loading ? <Loader2 className="h-3.5 w-3.5 animate-spin" /> : <Link2 className="h-3.5 w-3.5" />}
+            Connect
+          </Button>
+        </div>
+      )}
+      {error && <p className="text-xs text-destructive">{error}</p>}
+    </div>
+  );
+}
+
+// ── Generic Platform Card Shell ───────────────────────────────────────────────
+function PlatformCard({ platform, conn, onUpdated }) {
+  const isConnected = conn?.status === "connected";
+  const freshness = getFreshness(conn?.last_synced);
+
+  const borderColor = isConnected
+    ? freshness.status === "live" ? "border-green-500/20"
+      : freshness.status === "syncing" ? "border-yellow-500/20"
+      : "border-red-500/20"
+    : "border-border";
 
   return (
     <motion.div
       initial={{ opacity: 0, y: 6 }}
       animate={{ opacity: 1, y: 0 }}
-      className={`rounded-2xl border bg-card p-5 space-y-4 ${status === "connected" ? "border-primary/20" : status === "stale" ? "border-yellow-500/20" : "border-border"}`}
+      className={`rounded-2xl border bg-card p-5 space-y-4 ${borderColor}`}
     >
       {/* Header */}
       <div className="flex items-center justify-between">
@@ -68,103 +316,153 @@ function PlatformCard({ platform, conn, onSynced }) {
             {platform.emoji}
           </div>
           <div>
-            <p className="font-semibold text-sm flex items-center gap-2">
-              {platform.name}
-              <StatusDot status={status} />
-            </p>
-            <p className="text-xs text-muted-foreground">
-              {status === "connected" ? `Synced ${conn?.last_synced ? new Date(conn.last_synced).toLocaleDateString() : "—"}` :
-               status === "stale" ? "Stale — update recommended" : "Not connected"}
+            <p className="font-semibold text-sm">{platform.name}</p>
+            <p className="text-xs text-muted-foreground mt-0.5">
+              {platform.id === "spotify" ? "OAuth · Auto-synced daily"
+                : platform.id === "youtube" ? "YouTube Data API v3 · Auto-synced daily"
+                : "Manual entry"}
             </p>
           </div>
         </div>
-        <TooltipProvider>
-          <Tooltip>
-            <TooltipTrigger asChild>
-              <span className={`text-[10px] font-bold px-2 py-0.5 rounded-full border cursor-default flex items-center gap-1 ${
-                platform.type === "oauth" ? "bg-primary/10 text-primary border-primary/20" :
-                platform.type === "url" ? "bg-chart-5/10 text-chart-5 border-chart-5/20" :
-                platform.type === "spotify" ? "bg-secondary text-muted-foreground border-border" :
-                "bg-secondary text-muted-foreground border-border"
-              }`}>
-                {platform.type === "oauth" ? "OAuth" : platform.type === "url" ? "Auto" : "Manual"}
-                {(platform.type === "spotify" || platform.type === "manual") && <Info className="h-2.5 w-2.5" />}
-              </span>
-            </TooltipTrigger>
-            {(platform.type === "spotify" || platform.type === "manual") && (
-              <TooltipContent side="left" className="max-w-[220px] text-xs">
-                {platform.id === "spotify"
-                  ? "Spotify restricts automatic data access — we're working on full OAuth integration."
-                  : "This platform requires manual data entry."}
-              </TooltipContent>
-            )}
-          </Tooltip>
-        </TooltipProvider>
+        <span className={`text-[10px] font-bold px-2 py-0.5 rounded-full border ${
+          platform.id === "spotify" ? "bg-primary/10 text-primary border-primary/20"
+          : platform.id === "youtube" ? "bg-red-500/10 text-red-400 border-red-500/20"
+          : "bg-secondary text-muted-foreground border-border"
+        }`}>
+          {platform.id === "spotify" ? "OAuth" : platform.id === "youtube" ? "API" : "Manual"}
+        </span>
       </div>
 
-      {/* Connected preview */}
-      {conn && conn.stats && (
+      {/* Platform-specific content */}
+      {platform.id === "spotify" && <SpotifyCard conn={conn} onUpdated={onUpdated} />}
+      {platform.id === "youtube" && <YouTubeCard conn={conn} onUpdated={onUpdated} />}
+      {(platform.id === "tiktok" || platform.id === "apple_music") && (
+        <ManualForm platform={platform} conn={conn} onUpdated={onUpdated} />
+      )}
+    </motion.div>
+  );
+}
+
+// ── Manual form for TikTok / Apple Music ─────────────────────────────────────
+function ManualForm({ platform, conn, onUpdated }) {
+  const existing = conn?.stats || {};
+  const [form, setForm] = useState({ ...existing });
+  const [loading, setLoading] = useState(false);
+  const set = (k, v) => setForm(f => ({ ...f, [k]: v }));
+
+  const handleSave = async () => {
+    setLoading(true);
+    const res = await base44.functions.invoke("syncPlatformData", {
+      platform: "manual",
+      sub_platform: platform.id,
+      manual_stats: form,
+      display_name: form.display_name,
+    }).catch(e => ({ data: { error: e.message } }));
+    setLoading(false);
+    if (res.data?.data) onUpdated(res.data.data);
+  };
+
+  if (platform.id === "tiktok") return (
+    <div className="space-y-3">
+      {conn && (
         <div className="rounded-xl bg-secondary/40 border border-border p-3 grid grid-cols-2 gap-2">
-          {platform.id === "youtube" && <>
-            <Stat label="Subscribers" value={(conn.stats.subscribers || 0).toLocaleString()} />
-            <Stat label="Total Views" value={(conn.stats.total_views || 0).toLocaleString()} />
-            {conn.display_name && <p className="col-span-2 text-xs text-muted-foreground">{conn.display_name}</p>}
-          </>}
-          {platform.id === "spotify" && <>
-            <Stat label="Followers" value={(conn.stats.followers || 0).toLocaleString()} />
-            <Stat label="Monthly Listeners" value={conn.stats.monthly_listeners ? conn.stats.monthly_listeners.toLocaleString() : "—"} />
-            {conn.display_name && <p className="col-span-2 text-xs text-muted-foreground">{conn.display_name}</p>}
-            {conn.stats.top_tracks?.length > 0 && (
-              <div className="col-span-2 space-y-1">
-                <p className="text-[10px] text-muted-foreground">Top Tracks</p>
-                {conn.stats.top_tracks.slice(0, 3).map((t, i) => (
-                  <p key={i} className="text-xs truncate">· {t.title || t.name}</p>
-                ))}
-              </div>
-            )}
-          </>}
-          {platform.id === "tiktok" && <>
-            <Stat label="Followers" value={(conn.stats.followers || 0).toLocaleString()} />
-            <Stat label="Total Likes" value={(conn.stats.total_likes || 0).toLocaleString()} />
-          </>}
-          {platform.id === "apple_music" && <>
-            <Stat label="Monthly Listeners" value={conn.stats.apple_monthly_listeners ? conn.stats.apple_monthly_listeners.toLocaleString() : "—"} />
-            <Stat label="Shazams" value={conn.stats.shazam_count ? conn.stats.shazam_count.toLocaleString() : "—"} />
-          </>}
-          {platform.id === "self_reported" && <>
-            <Stat label="Total Shows" value={conn.stats.total_shows || "—"} />
-            <Stat label="Email List" value={(conn.stats.email_list_size || 0).toLocaleString()} />
-            <Stat label="Merch Revenue" value={conn.stats.merch_revenue_12mo ? `$${conn.stats.merch_revenue_12mo.toLocaleString()}` : "—"} />
-            <Stat label="Sync Placements" value={conn.stats.sync_placements || "—"} />
-          </>}
+          <Stat label="Followers" value={(existing.followers || 0).toLocaleString()} />
+          <Stat label="Total Likes" value={(existing.total_likes || 0).toLocaleString()} />
+          {conn.last_synced && <p className="col-span-2"><FreshnessBadge last_synced={conn.last_synced} /></p>}
+        </div>
+      )}
+      <div className="grid grid-cols-2 gap-3">
+        <Field label="Handle" value={form.tiktok_handle || ""} onChange={v => set("tiktok_handle", v)} placeholder="@handle" />
+        <Field label="Followers" value={form.followers || ""} onChange={v => set("followers", Number(v))} placeholder="12000" type="number" />
+        <Field label="Total Likes" value={form.total_likes || ""} onChange={v => set("total_likes", Number(v))} placeholder="50000" type="number" />
+        <Field label="Avg Views/Video" value={form.avg_views_per_video || ""} onChange={v => set("avg_views_per_video", Number(v))} placeholder="5000" type="number" />
+      </div>
+      <Button size="sm" onClick={handleSave} disabled={loading} className="gap-2">
+        {loading ? <Loader2 className="h-3.5 w-3.5 animate-spin" /> : null} Save TikTok Stats
+      </Button>
+    </div>
+  );
+
+  if (platform.id === "apple_music") return (
+    <div className="space-y-3">
+      {conn && (
+        <div className="rounded-xl bg-secondary/40 border border-border p-3 grid grid-cols-2 gap-2">
+          <Stat label="Monthly Listeners" value={existing.apple_monthly_listeners ? existing.apple_monthly_listeners.toLocaleString() : "—"} />
+          <Stat label="Shazams" value={existing.shazam_count ? existing.shazam_count.toLocaleString() : "—"} />
+          {conn.last_synced && <p className="col-span-2"><FreshnessBadge last_synced={conn.last_synced} /></p>}
+        </div>
+      )}
+      <div className="grid grid-cols-2 gap-3">
+        <div className="col-span-2">
+          <Field label="Apple Music Profile URL" value={form.apple_music_url || ""} onChange={v => set("apple_music_url", v)} placeholder="https://music.apple.com/..." />
+        </div>
+        <Field label="Monthly Listeners" value={form.apple_monthly_listeners || ""} onChange={v => set("apple_monthly_listeners", Number(v))} placeholder="5000" type="number" />
+        <Field label="Shazam Count" value={form.shazam_count || ""} onChange={v => set("shazam_count", Number(v))} placeholder="1200" type="number" />
+      </div>
+      <Button size="sm" onClick={handleSave} disabled={loading} className="gap-2">
+        {loading ? <Loader2 className="h-3.5 w-3.5 animate-spin" /> : null} Save Apple Music Stats
+      </Button>
+    </div>
+  );
+
+  return null;
+}
+
+// ── Self-Reported Stats Card ──────────────────────────────────────────────────
+function SelfReportedCard({ conn, onUpdated }) {
+  const existing = conn?.stats || {};
+  const [form, setForm] = useState({ ...existing });
+  const [loading, setLoading] = useState(false);
+  const set = (k, v) => setForm(f => ({ ...f, [k]: v }));
+
+  const handleSave = async () => {
+    setLoading(true);
+    const res = await base44.functions.invoke("syncPlatformData", {
+      platform: "manual",
+      sub_platform: "self_reported",
+      manual_stats: form,
+    }).catch(e => ({ data: { error: e.message } }));
+    setLoading(false);
+    if (res.data?.data) onUpdated(res.data.data);
+  };
+
+  return (
+    <motion.div initial={{ opacity: 0, y: 6 }} animate={{ opacity: 1, y: 0 }}
+      className="rounded-2xl border border-border bg-card p-5 space-y-4">
+      <div className="flex items-center justify-between">
+        <div className="flex items-center gap-3">
+          <div className="h-10 w-10 rounded-xl bg-primary/10 flex items-center justify-center text-xl">📊</div>
+          <div>
+            <p className="font-semibold text-sm">Live / Business Stats</p>
+            <p className="text-xs text-muted-foreground mt-0.5">Update monthly for best Maya results</p>
+          </div>
+        </div>
+        <span className="text-[10px] font-bold px-2 py-0.5 rounded-full border bg-secondary text-muted-foreground border-border">Manual</span>
+      </div>
+
+      {conn && (
+        <div className="rounded-xl bg-secondary/40 border border-border p-3 grid grid-cols-2 gap-2">
+          <Stat label="Total Shows" value={existing.total_shows || "—"} />
+          <Stat label="Email List" value={(existing.email_list_size || 0).toLocaleString()} />
+          <Stat label="Merch Revenue" value={existing.merch_revenue_12mo ? `$${existing.merch_revenue_12mo.toLocaleString()}` : "—"} />
+          <Stat label="Sync Placements" value={existing.sync_placements || "—"} />
+          {conn.last_synced && <p className="col-span-2"><FreshnessBadge last_synced={conn.last_synced} /></p>}
         </div>
       )}
 
-      {/* Actions */}
-      {platform.type === "url" && (
-        <div className="flex gap-2">
-          <Input
-            placeholder={platform.urlPlaceholder}
-            value={urlInput}
-            onChange={e => setUrlInput(e.target.value)}
-            className="text-sm h-9"
-          />
-          <Button size="sm" onClick={syncUrl} disabled={loading || !urlInput.trim()} className="shrink-0 gap-1.5">
-            {loading ? <Loader2 className="h-3.5 w-3.5 animate-spin" /> : conn ? <RefreshCw className="h-3.5 w-3.5" /> : <Link2 className="h-3.5 w-3.5" />}
-            {conn ? "Sync" : "Connect"}
-          </Button>
-        </div>
-      )}
-
-      {platform.type === "spotify" && (
-        <SpotifyCard conn={conn} onSave={saveManual} loading={loading} />
-      )}
-
-      {platform.type === "manual" && (
-        <ManualForm platform={platform} existing={conn?.stats || {}} conn={conn} onSave={saveManual} loading={loading} />
-      )}
-
-      {error && <p className="text-xs text-destructive">{error}</p>}
+      <div className="grid grid-cols-2 gap-3">
+        <Field label="Total Shows (lifetime)" value={form.total_shows || ""} onChange={v => set("total_shows", Number(v))} placeholder="45" type="number" />
+        <Field label="Biggest Venue Capacity" value={form.biggest_venue_capacity || ""} onChange={v => set("biggest_venue_capacity", Number(v))} placeholder="500" type="number" />
+        <Field label="Avg Ticket Price ($)" value={form.avg_ticket_price || ""} onChange={v => set("avg_ticket_price", Number(v))} placeholder="20" type="number" />
+        <Field label="Avg Tickets Sold/Show" value={form.avg_tickets_sold || ""} onChange={v => set("avg_tickets_sold", Number(v))} placeholder="200" type="number" />
+        <Field label="Email List Size" value={form.email_list_size || ""} onChange={v => set("email_list_size", Number(v))} placeholder="2500" type="number" />
+        <Field label="Merch Revenue (12mo $)" value={form.merch_revenue_12mo || ""} onChange={v => set("merch_revenue_12mo", Number(v))} placeholder="8000" type="number" />
+        <Field label="Press Placements" value={form.press_placements || ""} onChange={v => set("press_placements", Number(v))} placeholder="5" type="number" />
+        <Field label="Sync Placements" value={form.sync_placements || ""} onChange={v => set("sync_placements", Number(v))} placeholder="2" type="number" />
+      </div>
+      <Button size="sm" onClick={handleSave} disabled={loading} className="gap-2 w-full">
+        {loading ? <Loader2 className="h-3.5 w-3.5 animate-spin" /> : null} Save Self-Reported Stats
+      </Button>
     </motion.div>
   );
 }
@@ -178,163 +476,6 @@ function Stat({ label, value }) {
   );
 }
 
-function SpotifyCard({ conn, onSave, loading }) {
-  const [urlInput, setUrlInput] = useState(conn?.profile_url || "");
-  const [showManual, setShowManual] = useState(false);
-  const existing = conn?.stats || {};
-  const [form, setForm] = useState({
-    followers: existing.followers || "",
-    monthly_listeners: existing.monthly_listeners || "",
-    display_name: conn?.display_name || "",
-  });
-  const set = (k, v) => setForm(f => ({ ...f, [k]: v }));
-
-  const extractArtistId = (url) => {
-    const m = url.match(/spotify\.com(?:\/intl-[a-z]+)?\/artist\/([A-Za-z0-9]+)/);
-    return m ? m[1] : null;
-  };
-
-  const handleSave = () => {
-    const artistId = extractArtistId(urlInput);
-    onSave({
-      followers: Number(form.followers) || 0,
-      monthly_listeners: Number(form.monthly_listeners) || 0,
-      display_name: form.display_name,
-      spotify_artist_id: artistId || undefined,
-      profile_url: urlInput || undefined,
-    });
-  };
-
-  const isValidUrl = !!extractArtistId(urlInput);
-
-  return (
-    <div className="space-y-4">
-      {/* URL field */}
-      <div className="space-y-1.5">
-        <p className="text-xs text-muted-foreground font-medium flex items-center gap-1.5">
-          Spotify Artist URL
-          <TooltipProvider>
-            <Tooltip>
-              <TooltipTrigger asChild>
-                <Info className="h-3 w-3 text-muted-foreground/60 cursor-default" />
-              </TooltipTrigger>
-              <TooltipContent side="top" className="max-w-[220px] text-xs">
-                Spotify restricts automatic data access — we're working on full OAuth integration.
-              </TooltipContent>
-            </Tooltip>
-          </TooltipProvider>
-        </p>
-        <div className="flex gap-2">
-          <Input
-            placeholder="https://open.spotify.com/artist/..."
-            value={urlInput}
-            onChange={e => setUrlInput(e.target.value)}
-            className={`text-sm h-9 ${urlInput && !isValidUrl ? "border-destructive/50" : urlInput && isValidUrl ? "border-primary/40" : ""}`}
-          />
-        </div>
-        {urlInput && !isValidUrl && (
-          <p className="text-[11px] text-destructive">Paste a valid Spotify artist URL (open.spotify.com/artist/...)</p>
-        )}
-        {isValidUrl && (
-          <p className="text-[11px] text-primary flex items-center gap-1">
-            <CheckCircle2 className="h-3 w-3" /> Artist ID extracted — enter stats below
-          </p>
-        )}
-      </div>
-
-      {/* Open Spotify for Artists deep link */}
-      <a
-        href="https://artists.spotify.com"
-        target="_blank"
-        rel="noopener noreferrer"
-        className="flex items-center gap-2 text-xs text-green-400 hover:text-green-300 transition-colors w-fit"
-      >
-        <ExternalLink className="h-3.5 w-3.5" />
-        Open Spotify for Artists
-        <span className="text-muted-foreground">(look up your numbers)</span>
-      </a>
-
-      {/* Manual stats */}
-      <div className="rounded-xl bg-secondary/30 border border-border p-3 space-y-3">
-        <p className="text-xs text-muted-foreground">Enter your stats from Spotify for Artists:</p>
-        <div className="grid grid-cols-2 gap-3">
-          <div className="space-y-1">
-            <p className="text-[10px] text-muted-foreground font-medium">Followers</p>
-            <Input type="number" value={form.followers} onChange={e => set("followers", e.target.value)} placeholder="1200" className="h-8 text-sm" />
-          </div>
-          <div className="space-y-1">
-            <p className="text-[10px] text-muted-foreground font-medium">Monthly Listeners</p>
-            <Input type="number" value={form.monthly_listeners} onChange={e => set("monthly_listeners", e.target.value)} placeholder="3500" className="h-8 text-sm" />
-          </div>
-          <div className="col-span-2 space-y-1">
-            <p className="text-[10px] text-muted-foreground font-medium">Artist Name on Spotify</p>
-            <Input value={form.display_name} onChange={e => set("display_name", e.target.value)} placeholder="Your artist name" className="h-8 text-sm" />
-          </div>
-        </div>
-        <Button size="sm" onClick={handleSave} disabled={loading} className="gap-2 w-full">
-          {loading ? <Loader2 className="h-3.5 w-3.5 animate-spin" /> : conn ? <RefreshCw className="h-3.5 w-3.5" /> : null}
-          {conn ? "Update Spotify Stats" : "Save Spotify Stats"}
-        </Button>
-      </div>
-    </div>
-  );
-}
-
-function ManualForm({ platform, existing, conn, onSave, loading }) {
-  const [form, setForm] = useState({ ...existing, display_name: conn?.display_name || "" });
-  const set = (k, v) => setForm(f => ({ ...f, [k]: v }));
-
-  if (platform.id === "tiktok") return (
-    <div className="space-y-3">
-      <div className="grid grid-cols-2 gap-3">
-        <Field label="Handle" value={form.tiktok_handle || ""} onChange={v => set("tiktok_handle", v)} placeholder="@handle" />
-        <Field label="Followers" value={form.followers || ""} onChange={v => set("followers", Number(v))} placeholder="12000" type="number" />
-        <Field label="Total Likes" value={form.total_likes || ""} onChange={v => set("total_likes", Number(v))} placeholder="50000" type="number" />
-        <Field label="Avg Views/Video" value={form.avg_views_per_video || ""} onChange={v => set("avg_views_per_video", Number(v))} placeholder="5000" type="number" />
-      </div>
-      <Field label="Top Video URL" value={form.top_video_url || ""} onChange={v => set("top_video_url", v)} placeholder="https://tiktok.com/@..." />
-      <Button size="sm" onClick={() => onSave(form)} disabled={loading} className="gap-2">
-        {loading ? <Loader2 className="h-3.5 w-3.5 animate-spin" /> : null} Save TikTok Stats
-      </Button>
-    </div>
-  );
-
-  if (platform.id === "apple_music") return (
-    <div className="space-y-3">
-      <div className="grid grid-cols-2 gap-3">
-        <div className="col-span-2">
-          <Field label="Apple Music Profile URL" value={form.apple_music_url || ""} onChange={v => set("apple_music_url", v)} placeholder="https://music.apple.com/..." />
-        </div>
-        <Field label="Monthly Listeners (if known)" value={form.apple_monthly_listeners || ""} onChange={v => set("apple_monthly_listeners", Number(v))} placeholder="5000" type="number" />
-        <Field label="Shazam Count (if known)" value={form.shazam_count || ""} onChange={v => set("shazam_count", Number(v))} placeholder="1200" type="number" />
-      </div>
-      <Button size="sm" onClick={() => onSave(form)} disabled={loading} className="gap-2">
-        {loading ? <Loader2 className="h-3.5 w-3.5 animate-spin" /> : null} Save Apple Music Stats
-      </Button>
-    </div>
-  );
-
-  if (platform.id === "self_reported") return (
-    <div className="space-y-3">
-      <div className="grid grid-cols-2 gap-3">
-        <Field label="Total Shows (lifetime)" value={form.total_shows || ""} onChange={v => set("total_shows", Number(v))} placeholder="45" type="number" />
-        <Field label="Biggest Venue Capacity" value={form.biggest_venue_capacity || ""} onChange={v => set("biggest_venue_capacity", Number(v))} placeholder="500" type="number" />
-        <Field label="Avg Ticket Price ($)" value={form.avg_ticket_price || ""} onChange={v => set("avg_ticket_price", Number(v))} placeholder="20" type="number" />
-        <Field label="Avg Tickets Sold/Show" value={form.avg_tickets_sold || ""} onChange={v => set("avg_tickets_sold", Number(v))} placeholder="200" type="number" />
-        <Field label="Email List Size" value={form.email_list_size || ""} onChange={v => set("email_list_size", Number(v))} placeholder="2500" type="number" />
-        <Field label="Merch Revenue (last 12mo $)" value={form.merch_revenue_12mo || ""} onChange={v => set("merch_revenue_12mo", Number(v))} placeholder="8000" type="number" />
-        <Field label="Press Placements" value={form.press_placements || ""} onChange={v => set("press_placements", Number(v))} placeholder="5" type="number" />
-        <Field label="Sync Placements" value={form.sync_placements || ""} onChange={v => set("sync_placements", Number(v))} placeholder="2" type="number" />
-      </div>
-      <Button size="sm" onClick={() => onSave(form)} disabled={loading} className="gap-2 w-full">
-        {loading ? <Loader2 className="h-3.5 w-3.5 animate-spin" /> : null} Save Self-Reported Stats
-      </Button>
-    </div>
-  );
-
-  return null;
-}
-
 function Field({ label, value, onChange, placeholder, type = "text" }) {
   return (
     <div className="space-y-1">
@@ -345,13 +486,11 @@ function Field({ label, value, onChange, placeholder, type = "text" }) {
 }
 
 const PLATFORMS = [
-  { id: "spotify", name: "Spotify", emoji: "🎵", bg: "bg-green-500/10", type: "spotify" },
-  { id: "youtube", name: "YouTube", emoji: "▶️", bg: "bg-red-500/10", type: "url", urlPlaceholder: "https://youtube.com/@yourchannel" },
-  { id: "tiktok", name: "TikTok", emoji: "🎵", bg: "bg-zinc-800", type: "manual" },
-  { id: "apple_music", name: "Apple Music", emoji: "🍎", bg: "bg-pink-500/10", type: "manual" },
+  { id: "spotify", name: "Spotify", emoji: "🎵", bg: "bg-green-500/10" },
+  { id: "youtube", name: "YouTube", emoji: "▶️", bg: "bg-red-500/10" },
+  { id: "tiktok", name: "TikTok", emoji: "🎵", bg: "bg-zinc-800" },
+  { id: "apple_music", name: "Apple Music", emoji: "🍎", bg: "bg-pink-500/10" },
 ];
-
-const META_PLATFORM = { id: "self_reported", name: "Live / Business Stats", emoji: "📊", bg: "bg-primary/10", type: "manual" };
 
 export default function ConnectProfiles() {
   const { user } = useAuth();
@@ -370,24 +509,29 @@ export default function ConnectProfiles() {
       .finally(() => setLoading(false));
   }, [user]);
 
-  const handleSynced = (data) => {
-    if (!data) return;
-    setConnections(prev => ({ ...prev, [data.platform]: data }));
+  const handleUpdated = (platform) => (data) => {
+    if (!data) {
+      setConnections(prev => {
+        const next = { ...prev };
+        if (next[platform]) next[platform] = { ...next[platform], status: "disconnected", stats: null };
+        return next;
+      });
+    } else {
+      setConnections(prev => ({ ...prev, [data.platform || platform]: data }));
+    }
   };
 
-  const allPlatforms = [...PLATFORMS, META_PLATFORM];
-  const connectedCount = Object.keys(connections).length;
+  const allPlatforms = [...PLATFORMS, { id: "self_reported" }];
+  const connectedCount = Object.values(connections).filter(c => c.status === "connected").length;
+
   const totalDataPoints = Object.values(connections).reduce((acc, c) => {
     return acc + Object.values(c.stats || {}).filter(v => v !== null && v !== undefined && v !== 0 && v !== "").length;
   }, 0);
 
   const healthItems = allPlatforms.map(p => {
     const conn = connections[p.id];
-    const isStale = conn?.last_synced && ((Date.now() - new Date(conn.last_synced).getTime()) > 30 * 24 * 60 * 60 * 1000);
-    return {
-      name: p.name,
-      status: conn ? (isStale ? "stale" : "connected") : "missing",
-    };
+    const freshness = conn?.status === "connected" ? getFreshness(conn.last_synced) : null;
+    return { name: p.id === "self_reported" ? "Live/Business Stats" : PLATFORMS.find(x => x.id === p.id)?.name || p.id, conn, freshness };
   });
 
   if (loading) return (
@@ -416,17 +560,17 @@ export default function ConnectProfiles() {
         <motion.div initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }} className="space-y-1">
           <p className="text-xs text-primary uppercase tracking-widest font-medium">AI Manager Data Layer</p>
           <h1 className="font-heading text-4xl font-bold">Connect Your Profiles</h1>
-          <p className="text-muted-foreground text-sm max-w-xl">Give Maya access to your real platform data. The more you connect, the smarter her advice becomes.</p>
+          <p className="text-muted-foreground text-sm max-w-xl">Give Maya access to your real platform data. Spotify and YouTube sync automatically every 24 hours.</p>
         </motion.div>
 
-        {/* Maya data callout */}
+        {/* Data summary */}
         <div className="rounded-2xl bg-primary/5 border border-primary/20 p-5 flex items-center gap-4">
           <div className="h-12 w-12 rounded-xl bg-primary/10 flex items-center justify-center shrink-0">
             <Zap className="h-6 w-6 text-primary" />
           </div>
           <div className="flex-1">
             <p className="font-semibold">Maya has access to <span className="text-primary">{totalDataPoints} data points</span> about your career</p>
-            <p className="text-xs text-muted-foreground mt-0.5">Connect more platforms to unlock deeper, more specific advice from your AI manager.</p>
+            <p className="text-xs text-muted-foreground mt-0.5">Spotify and YouTube sync automatically every 24 hours.</p>
           </div>
           <div className="text-right shrink-0">
             <p className="text-2xl font-bold text-primary">{connectedCount}</p>
@@ -434,27 +578,27 @@ export default function ConnectProfiles() {
           </div>
         </div>
 
-        {/* Connected Platforms */}
+        {/* Platform cards */}
         <section className="space-y-4">
           <h2 className="font-heading font-semibold text-lg flex items-center gap-2">
             <Link2 className="h-4 w-4 text-primary" /> Connected Platforms
           </h2>
           <div className="space-y-4">
             {PLATFORMS.map(p => (
-              <PlatformCard key={p.id} platform={p} conn={connections[p.id] || null} onSynced={handleSynced} />
+              <PlatformCard key={p.id} platform={p} conn={connections[p.id] || null} onUpdated={handleUpdated(p.id)} />
             ))}
           </div>
         </section>
 
-        {/* Self-Reported Stats */}
+        {/* Self-Reported */}
         <section className="space-y-4">
           <div>
             <h2 className="font-heading font-semibold text-lg flex items-center gap-2">
               <BarChart2 className="h-4 w-4 text-primary" /> Self-Reported Stats
             </h2>
-            <p className="text-xs text-muted-foreground mt-1">Data that can't be pulled automatically — update these monthly for best results.</p>
+            <p className="text-xs text-muted-foreground mt-1">Data that can't be pulled automatically — update these monthly.</p>
           </div>
-          <PlatformCard platform={META_PLATFORM} conn={connections["self_reported"] || null} onSynced={handleSynced} />
+          <SelfReportedCard conn={connections["self_reported"] || null} onUpdated={handleUpdated("self_reported")} />
         </section>
 
         {/* Data Health */}
@@ -463,14 +607,16 @@ export default function ConnectProfiles() {
             <Shield className="h-4 w-4 text-primary" /> Data Health
           </h2>
           <div className="rounded-2xl bg-card border border-border p-5 space-y-4">
-            <div className="space-y-2">
+            <div className="space-y-2.5">
               {healthItems.map(item => (
                 <div key={item.name} className="flex items-center justify-between">
                   <p className="text-sm">{item.name}</p>
                   <div className="flex items-center gap-2">
-                    {item.status === "connected" && <><CheckCircle2 className="h-3.5 w-3.5 text-primary" /><span className="text-xs text-primary font-medium">Connected</span></>}
-                    {item.status === "stale" && <><Clock className="h-3.5 w-3.5 text-yellow-400" /><span className="text-xs text-yellow-400 font-medium">Stale (30+ days)</span></>}
-                    {item.status === "missing" && <><AlertCircle className="h-3.5 w-3.5 text-muted-foreground" /><span className="text-xs text-muted-foreground">Not connected</span></>}
+                    {item.freshness ? (
+                      <FreshnessBadge last_synced={item.conn?.last_synced} />
+                    ) : (
+                      <><AlertCircle className="h-3.5 w-3.5 text-muted-foreground" /><span className="text-xs text-muted-foreground">Not connected</span></>
+                    )}
                   </div>
                 </div>
               ))}
