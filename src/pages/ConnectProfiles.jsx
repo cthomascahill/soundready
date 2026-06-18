@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
+import { Link, useSearchParams } from "react-router-dom";
 import { base44 } from "@/api/base44Client";
 import { useAuth } from "@/lib/AuthContext";
 import { motion } from "framer-motion";
@@ -33,37 +33,11 @@ function FreshnessBadge({ last_synced }) {
 }
 
 // ── Spotify OAuth Card ────────────────────────────────────────────────────────
-function SpotifyCard({ conn, onUpdated }) {
+function SpotifyCard({ conn, onUpdated, oauthLoading, oauthError }) {
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState("");
+  const [error, setError] = useState(oauthError || "");
 
-  // Check for OAuth callback code in URL
-  useEffect(() => {
-    const params = new URLSearchParams(window.location.search);
-    const code = params.get("code");
-    const state = params.get("state");
-    if (!code || !state) return;
-
-    // Clear params from URL
-    window.history.replaceState({}, document.title, window.location.pathname);
-
-    setLoading(true);
-    setError("");
-    let origin = "https://soundready.ai";
-    try { origin = window.top.location.origin; } catch (e) { /* cross-origin iframe fallback */ }
-    base44.functions.invoke("spotifyOAuth", {
-      action: "exchange_code",
-      code,
-      redirect_uri: origin + "/connect-profiles",
-    }).then(res => {
-      setLoading(false);
-      if (res.data?.error) { setError(res.data.error); return; }
-      if (res.data?.data) onUpdated(res.data.data);
-    }).catch(e => {
-      setLoading(false);
-      setError(e.message);
-    });
-  }, []);
+  useEffect(() => { setError(oauthError || ""); }, [oauthError]);
 
   const handleConnect = async () => {
     setLoading(true);
@@ -106,6 +80,7 @@ function SpotifyCard({ conn, onUpdated }) {
 
   const isConnected = conn?.status === "connected" && conn?.connection_type === "oauth";
   const s = conn?.stats || {};
+  const anyLoading = loading || oauthLoading;
 
   return (
     <div className="space-y-4">
@@ -144,11 +119,11 @@ function SpotifyCard({ conn, onUpdated }) {
 
           {/* Actions */}
           <div className="flex gap-2">
-            <Button size="sm" variant="outline" onClick={handleSync} disabled={loading} className="flex-1 gap-1.5">
-              {loading ? <Loader2 className="h-3.5 w-3.5 animate-spin" /> : <RefreshCw className="h-3.5 w-3.5" />}
+            <Button size="sm" variant="outline" onClick={handleSync} disabled={anyLoading} className="flex-1 gap-1.5">
+              {anyLoading ? <Loader2 className="h-3.5 w-3.5 animate-spin" /> : <RefreshCw className="h-3.5 w-3.5" />}
               Sync Now
             </Button>
-            <Button size="sm" variant="outline" onClick={handleDisconnect} disabled={loading}
+            <Button size="sm" variant="outline" onClick={handleDisconnect} disabled={anyLoading}
               className="gap-1.5 text-destructive border-destructive/30 hover:bg-destructive/10">
               <LogOut className="h-3.5 w-3.5" /> Disconnect
             </Button>
@@ -157,9 +132,9 @@ function SpotifyCard({ conn, onUpdated }) {
       ) : (
         <div className="space-y-3">
           <p className="text-sm text-muted-foreground">Connect your Spotify account to automatically pull followers, top tracks, and more.</p>
-          <Button onClick={handleConnect} disabled={loading} className="gap-2 bg-[#1DB954] hover:bg-[#1aa34a] text-black font-semibold">
-            {loading ? <Loader2 className="h-4 w-4 animate-spin" /> : <span className="text-lg leading-none">♪</span>}
-            {loading ? "Connecting..." : "Connect Spotify"}
+          <Button onClick={handleConnect} disabled={anyLoading} className="gap-2 bg-[#1DB954] hover:bg-[#1aa34a] text-black font-semibold">
+            {anyLoading ? <Loader2 className="h-4 w-4 animate-spin" /> : <span className="text-lg leading-none">♪</span>}
+            {anyLoading ? "Connecting..." : "Connect Spotify"}
           </Button>
           <p className="text-xs text-muted-foreground">You'll be redirected to Spotify to approve access. Scopes: read profile, read email, read follows.</p>
         </div>
@@ -299,7 +274,7 @@ function YouTubeCard({ conn, onUpdated }) {
 }
 
 // ── Generic Platform Card Shell ───────────────────────────────────────────────
-function PlatformCard({ platform, conn, onUpdated }) {
+function PlatformCard({ platform, conn, onUpdated, oauthLoading, oauthError }) {
   const isConnected = conn?.status === "connected";
   const freshness = getFreshness(conn?.last_synced);
 
@@ -340,7 +315,7 @@ function PlatformCard({ platform, conn, onUpdated }) {
       </div>
 
       {/* Platform-specific content */}
-      {platform.id === "spotify" && <SpotifyCard conn={conn} onUpdated={onUpdated} />}
+      {platform.id === "spotify" && <SpotifyCard conn={conn} onUpdated={onUpdated} oauthLoading={oauthLoading} oauthError={oauthError} />}
       {platform.id === "youtube" && <YouTubeCard conn={conn} onUpdated={onUpdated} />}
       {(platform.id === "tiktok" || platform.id === "apple_music") && (
         <ManualForm platform={platform} conn={conn} onUpdated={onUpdated} />
@@ -502,6 +477,34 @@ export default function ConnectProfiles() {
   const { user } = useAuth();
   const [connections, setConnections] = useState({});
   const [loading, setLoading] = useState(true);
+  const [oauthLoading, setOauthLoading] = useState(false);
+  const [oauthError, setOauthError] = useState("");
+  const [searchParams, setSearchParams] = useSearchParams();
+
+  // Handle Spotify OAuth callback
+  useEffect(() => {
+    const code = searchParams.get("code");
+    const state = searchParams.get("state");
+    if (!code || !state) return;
+
+    // Remove code/state from URL immediately
+    setSearchParams({}, { replace: true });
+
+    setOauthLoading(true);
+    setOauthError("");
+    base44.functions.invoke("spotifyOAuth", {
+      action: "exchange_code",
+      code,
+      redirect_uri: "https://soundready.ai/connect-profiles",
+    }).then(res => {
+      setOauthLoading(false);
+      if (res.data?.error) { setOauthError(res.data.error); return; }
+      if (res.data?.data) setConnections(prev => ({ ...prev, spotify: res.data.data }));
+    }).catch(e => {
+      setOauthLoading(false);
+      setOauthError(e.message);
+    });
+  }, []);
 
   useEffect(() => {
     if (!user?.id) return;
@@ -591,7 +594,10 @@ export default function ConnectProfiles() {
           </h2>
           <div className="space-y-4">
             {PLATFORMS.map(p => (
-              <PlatformCard key={p.id} platform={p} conn={connections[p.id] || null} onUpdated={handleUpdated(p.id)} />
+              <PlatformCard key={p.id} platform={p} conn={connections[p.id] || null} onUpdated={handleUpdated(p.id)}
+                oauthLoading={p.id === "spotify" ? oauthLoading : false}
+                oauthError={p.id === "spotify" ? oauthError : ""}
+              />
             ))}
           </div>
         </section>
