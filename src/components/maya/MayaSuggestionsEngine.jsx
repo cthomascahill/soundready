@@ -253,11 +253,11 @@ export default function MayaSuggestionsEngine({ user }) {
     setLoading(true);
     setError(null);
 
-    // 30s timeout guard
+    // 90s timeout guard
     timeoutRef.current = setTimeout(() => {
       setLoading(false);
-      setError("Maya ran into an issue generating suggestions. Try refreshing.");
-    }, 30000);
+      setError("Maya took too long to respond. Try again.");
+    }, 90000);
 
     try {
       const [profiles, songs, conns] = await Promise.all([
@@ -271,8 +271,8 @@ export default function MayaSuggestionsEngine({ user }) {
 
       const raw = await base44.integrations.Core.InvokeLLM({
         prompt,
-        model: "claude_sonnet_4_6",
-        add_context_from_internet: false, // claude_sonnet_4_6 doesn't support web search
+        add_context_from_internet: true,
+        model: "gemini_3_1_pro",
       });
 
       clearTimeout(timeoutRef.current);
