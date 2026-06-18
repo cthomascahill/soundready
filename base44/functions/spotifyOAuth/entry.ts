@@ -1,10 +1,14 @@
 import { createClientFromRequest } from 'npm:@base44/sdk@0.8.31';
 
-const CLIENT_ID = Deno.env.get('SPOTIFY_CLIENT_ID');
-const CLIENT_SECRET = Deno.env.get('SPOTIFY_CLIENT_SECRET');
-
 Deno.serve(async (req) => {
   try {
+    const CLIENT_ID = Deno.env.get('SPOTIFY_CLIENT_ID');
+    const CLIENT_SECRET = Deno.env.get('SPOTIFY_CLIENT_SECRET');
+
+    if (!CLIENT_ID || !CLIENT_SECRET) {
+      return Response.json({ error: 'Spotify credentials not configured' }, { status: 500 });
+    }
+
     const base44 = createClientFromRequest(req);
     const user = await base44.auth.me();
     if (!user) return Response.json({ error: 'Unauthorized' }, { status: 401 });
