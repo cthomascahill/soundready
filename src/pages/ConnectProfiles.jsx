@@ -49,10 +49,12 @@ function SpotifyCard({ conn, onUpdated }) {
 
     setLoading(true);
     setError("");
+    let origin = "https://soundready.ai";
+    try { origin = window.top.location.origin; } catch (e) { /* cross-origin iframe fallback */ }
     base44.functions.invoke("spotifyOAuth", {
       action: "exchange_code",
       code,
-      redirect_uri: (window.top.location.origin) + "/connect-profiles",
+      redirect_uri: origin + "/connect-profiles",
     }).then(res => {
       setLoading(false);
       if (res.data?.error) { setError(res.data.error); return; }
@@ -66,13 +68,17 @@ function SpotifyCard({ conn, onUpdated }) {
   const handleConnect = async () => {
     setLoading(true);
     setError("");
+    let appUrl = "https://soundready.ai";
+    try { appUrl = window.top.location.origin; } catch (e) { /* cross-origin iframe fallback */ }
     const res = await base44.functions.invoke("spotifyOAuth", {
       action: "get_auth_url",
-      app_url: window.top.location.origin,
+      app_url: appUrl,
     }).catch(e => ({ data: { error: e.message } }));
     setLoading(false);
     if (res.data?.error) { setError(res.data.error); return; }
-    if (res.data?.auth_url) window.top.location.href = res.data.auth_url;
+    if (res.data?.auth_url) {
+      try { window.top.location.href = res.data.auth_url; } catch (e) { window.location.href = res.data.auth_url; }
+    }
   };
 
   const handleSync = async () => {
