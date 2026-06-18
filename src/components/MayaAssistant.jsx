@@ -4,6 +4,7 @@ import { useAuth } from "@/lib/AuthContext";
 import { X, Send, Loader2, Sparkles, ChevronRight } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import ReactMarkdown from "react-markdown";
+import MayaUpsellPopover from "@/components/maya/MayaUpsellPopover";
 
 const QUICK_STARTS = [
   "What should I focus on this week?",
@@ -239,6 +240,7 @@ export default function MayaAssistant() {
   const [savedBeats, setSavedBeats] = useState([]);
   const [platformConns, setPlatformConns] = useState([]);
   const [profileLoaded, setProfileLoaded] = useState(false);
+  const [upsellOpen, setUpsellOpen] = useState(false);
   const bottomRef = useRef(null);
   const inputRef = useRef(null);
   const systemPromptRef = useRef(null);
@@ -298,8 +300,28 @@ export default function MayaAssistant() {
   const artistName = profile?.stage_name || user?.full_name || "Artist";
   const showQuickStarts = messages.length === 0;
 
-  // Only render for AI Manager tier (admin role = AI Manager)
-  if (!user || user.role !== "admin") return null;
+  if (!user) return null;
+
+  const isAIManager = user.role === "admin";
+
+  // Non-AI Manager tier: locked upsell button + popover
+  if (!isAIManager) {
+    return (
+      <>
+        {upsellOpen && <MayaUpsellPopover onClose={() => setUpsellOpen(false)} />}
+        <button
+          onClick={() => setUpsellOpen(v => !v)}
+          className="fixed bottom-6 right-6 z-50 flex items-center gap-2.5 px-4 py-3 rounded-full bg-zinc-800 text-zinc-300 border border-zinc-600/60 shadow-2xl hover:bg-zinc-700 hover:text-white transition-all hover:scale-105 active:scale-95 font-semibold text-sm relative overflow-hidden"
+          style={{ boxShadow: "0 0 20px rgba(34,197,94,0.1)" }}
+        >
+          {/* Subtle shimmer */}
+          <span className="absolute inset-0 bg-gradient-to-r from-transparent via-white/5 to-transparent -translate-x-full animate-shimmer" />
+          <Sparkles className="h-4 w-4 text-primary/70" />
+          Meet Maya
+        </button>
+      </>
+    );
+  }
 
   return (
     <>
