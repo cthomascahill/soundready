@@ -2,7 +2,6 @@ import { createClientFromRequest } from 'npm:@base44/sdk@0.8.31';
 
 const CLIENT_ID = Deno.env.get('SPOTIFY_CLIENT_ID');
 const CLIENT_SECRET = Deno.env.get('SPOTIFY_CLIENT_SECRET');
-const REDIRECT_URI = Deno.env.get('SPOTIFY_REDIRECT_URI') || 'https://app.base44.com/callback/spotify';
 
 Deno.serve(async (req) => {
   try {
@@ -15,8 +14,9 @@ Deno.serve(async (req) => {
 
     // ── Get OAuth authorization URL ───────────────────────────────────────────
     if (action === 'get_auth_url') {
-      const appUrl = body.app_url || 'https://app.base44.com';
+      const appUrl = body.app_url || 'https://app.base44.com/apps/69dcf0ecc907e43a438a626b';
       const redirectUri = `${appUrl}/connect-profiles`;
+      console.log('redirect_uri being sent to Spotify:', redirectUri);
       const scopes = 'user-read-private user-read-email user-follow-read';
       const state = user.id; // use user ID as state to map callback back
       const params = new URLSearchParams({
