@@ -22,6 +22,15 @@
       "type": "boolean",
       "default": false
     },
+    "stage_review": {
+      "type": "boolean",
+      "default": false,
+      "description": "Reviewing versions back and forth with the engineer"
+    },
+    "stage_artwork": {
+      "type": "boolean",
+      "default": false
+    },
     "stage_submit": {
       "type": "boolean",
       "default": false
