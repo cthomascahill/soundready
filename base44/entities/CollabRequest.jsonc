@@ -1,0 +1,51 @@
+{
+  "name": "CollabRequest",
+  "type": "object",
+  "properties": {
+    "producer_id": {
+      "type": "string",
+      "description": "User id of the producer who sent the request"
+    },
+    "producer_name": {
+      "type": "string"
+    },
+    "producer_email": {
+      "type": "string"
+    },
+    "artist_id": {
+      "type": "string",
+      "description": "User id of the artist receiving the request"
+    },
+    "artist_name": {
+      "type": "string"
+    },
+    "artist_email": {
+      "type": "string"
+    },
+    "beat_id": {
+      "type": "string",
+      "description": "Beat the request is about"
+    },
+    "beat_title": {
+      "type": "string"
+    },
+    "message": {
+      "type": "string",
+      "description": "Message from the producer to the artist"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "pending",
+        "accepted",
+        "declined"
+      ],
+      "default": "pending"
+    }
+  },
+  "required": [
+    "producer_id",
+    "artist_id",
+    "message"
+  ]
+}

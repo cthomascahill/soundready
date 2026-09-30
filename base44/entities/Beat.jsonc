@@ -27,7 +27,8 @@
       }
     },
     "file_url": {
-      "type": "string"
+      "type": "string",
+      "description": "Audio file \u2014 public URL or private file URI from UploadPrivateFile"
     },
     "status": {
       "type": "string",
@@ -37,6 +38,35 @@
         "featured"
       ],
       "default": "pending"
+    },
+    "stage": {
+      "type": "string",
+      "enum": [
+        "Idea",
+        "Sketch",
+        "Full Beat",
+        "Mixed",
+        "Sent Out",
+        "Placed"
+      ],
+      "default": "Idea",
+      "description": "Producer pipeline stage (Beat Pipeline)"
+    },
+    "notes": {
+      "type": "string",
+      "description": "Producer notes on this beat"
+    },
+    "lease_price": {
+      "type": "number",
+      "description": "Lease price in USD"
+    },
+    "exclusive_price": {
+      "type": "number",
+      "description": "Exclusive price in USD"
+    },
+    "placed_with_artist": {
+      "type": "string",
+      "description": "Artist the beat was placed with, once stage is Placed"
     },
     "featured_date": {
       "type": "string"

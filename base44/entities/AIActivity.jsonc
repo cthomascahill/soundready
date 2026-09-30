@@ -13,7 +13,8 @@
         "tour_opportunity",
         "epk_generated",
         "digest_sent",
-        "booking_outreach"
+        "booking_outreach",
+        "producer_pitch"
       ],
       "description": "Type of AI action taken"
     },
@@ -30,7 +31,8 @@
       "description": "Related song ID if applicable"
     },
     "song_title": {
-      "type": "string"
+      "type": "string",
+      "description": "Related song or beat title"
     },
     "status": {
       "type": "string",
