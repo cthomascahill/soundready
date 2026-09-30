@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef } from "react";
 import { base44 } from "@/api/base44Client";
 import { useAuth } from "@/lib/AuthContext";
-import { Heart, MessageCircle, Repeat2, Send, ChevronDown, ChevronUp, X } from "lucide-react";
+import { Heart, MessageCircle, Repeat2, Send, ChevronDown, ChevronUp, X, UserPlus, Users } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { motion, AnimatePresence } from "framer-motion";
 import moment from "moment";
@@ -18,7 +18,7 @@ const MOOD_MAP = Object.fromEntries(MOOD_TAGS.map(m => [m.id, m]));
 
 const FILTERS = ["Everyone", "New Music", "W", "Collab", "Question", "Show", "Motivation"];
 
-function PostCard({ post, currentUser, onLike, onComment, onRepost }) {
+function PostCard({ post, currentUser, onLike, onComment, onRepost, friendEmails, onAddFriend }) {
   const [showComments, setShowComments] = useState(false);
   const [comments, setComments] = useState([]);
   const [commentsLoaded, setCommentsLoaded] = useState(false);
@@ -58,6 +58,12 @@ function PostCard({ post, currentUser, onLike, onComment, onRepost }) {
         <div className="flex-1 min-w-0">
           <div className="flex items-center gap-2 flex-wrap">
             <p className="font-semibold text-sm">{post.author_name || "Artist"}</p>
+            {post.author_id !== currentUser?.id && post.author_email && !friendEmails?.has(post.author_email) && onAddFriend && (
+              <button onClick={() => onAddFriend(post)}
+                className="inline-flex items-center gap-1 text-[10px] px-2 py-0.5 rounded-full border border-primary/30 text-primary hover:bg-primary/10 transition-colors">
+                <UserPlus className="h-3 w-3" /> Add Friend
+              </button>
+            )}
             {post.author_genre && <span className="text-[10px] px-2 py-0.5 rounded-full bg-secondary text-muted-foreground border border-border">{post.author_genre}</span>}
             {mood && <span className={`text-[10px] px-2 py-0.5 rounded-full border ${mood.color}`}>{mood.label}</span>}
             <span className="text-[10px] text-muted-foreground ml-auto">{moment(post.created_date).fromNow()}</span>
@@ -120,10 +126,13 @@ export default function ArtistFeed() {
   const [filter, setFilter] = useState("Everyone");
   const [posting, setPosting] = useState(false);
   const [profile, setProfile] = useState(null);
+  const [tab, setTab] = useState("community");
+  const [friends, setFriends] = useState([]);
 
   useEffect(() => {
     if (!user?.id) return;
     base44.entities.ArtistProfile.filter({ created_by_id: user.id }, "-created_date", 1).then(p => setProfile(p[0] || null)).catch(() => {});
+    base44.entities.Friendship.filter({ owner_email: user.email }).then(setFriends).catch(() => {});
     base44.entities.ArtistPost.list("-created_date", 50).then(p => { setPosts(p); setLoading(false); });
     const unsub = base44.entities.ArtistPost.subscribe(ev => {
       if (ev.type === "create") setPosts(prev => [ev.data, ...prev]);
@@ -166,9 +175,26 @@ export default function ArtistFeed() {
     await base44.entities.ArtistPost.update(post.id, { reposts: newReposts });
   };
 
-  const filteredPosts = filter === "Everyone"
-    ? posts
-    : posts.filter(p => p.mood_tag === filter);
+  const friendEmails = new Set(friends.map(f => f.friend_email));
+
+  const addFriend = async (post) => {
+    if (!user || !post.author_email || friendEmails.has(post.author_email)) return;
+    const f = await base44.entities.Friendship.create({
+      owner_email: user.email,
+      friend_email: post.author_email,
+      friend_name: post.author_name || "Artist",
+    });
+    setFriends(prev => [...prev, f]);
+  };
+
+  const removeFriend = async (friend) => {
+    await base44.entities.Friendship.deleteMany({ owner_email: user.email, friend_email: friend.friend_email });
+    setFriends(prev => prev.filter(f => f.friend_email !== friend.friend_email));
+  };
+
+  const filteredPosts = posts
+    .filter(p => tab === "friends" ? (p.author_id === user?.id || friendEmails.has(p.author_email)) : true)
+    .filter(p => filter === "Everyone" ? true : p.mood_tag === filter);
 
   const trendingTags = MOOD_TAGS.map(m => ({
     ...m,
@@ -203,14 +229,42 @@ export default function ArtistFeed() {
                 ))}
               </div>
             )}
+
+            {/* Friends list (Friends tab) */}
+            {tab === "friends" && (
+              <div className="rounded-2xl bg-card border border-border p-4 space-y-2">
+                <p className="text-xs font-semibold text-muted-foreground uppercase tracking-wider">Your Friends ({friends.length})</p>
+                {friends.map(f => (
+                  <div key={f.id} className="flex items-center gap-2">
+                    <div className="h-6 w-6 rounded-full bg-primary/10 flex items-center justify-center text-[10px] font-bold text-primary">{f.friend_name?.[0]?.toUpperCase() || "?"}</div>
+                    <span className="text-xs flex-1 truncate">{f.friend_name || f.friend_email}</span>
+                    <button onClick={() => removeFriend(f)} className="text-muted-foreground hover:text-destructive transition-colors"><X className="h-3 w-3" /></button>
+                  </div>
+                ))}
+              </div>
+            )}
           </div>
 
           {/* Main feed */}
           <div className="flex-1 space-y-4 min-w-0">
             {/* Header */}
             <div>
-              <p className="text-xs text-primary uppercase tracking-widest font-medium">Community</p>
+              <p className="text-xs text-primary uppercase tracking-widest font-medium">Social</p>
               <h1 className="font-heading text-3xl font-bold">The Wall</h1>
+              <div className="flex gap-2 mt-3">
+                {[
+                  { id: "community", label: "Community" },
+                  { id: "friends", label: "Friends" },
+                ].map(t => (
+                  <button key={t.id} onClick={() => setTab(t.id)}
+                    className={`text-sm px-4 py-2 rounded-full border transition-colors ${tab === t.id ? "bg-primary text-primary-foreground border-primary font-semibold" : "border-border text-muted-foreground hover:border-primary/40"}`}>
+                    {t.label}{t.id === "friends" && friends.length > 0 ? ` (${friends.length})` : ""}
+                  </button>
+                ))}
+              </div>
+              <p className="text-xs text-muted-foreground mt-2">
+                {tab === "friends" ? "Posts from artists you've added as friends." : "Every artist on SoundReady — posts, wins, collabs, and questions."}
+              </p>
             </div>
 
             {/* Compose */}
@@ -252,11 +306,21 @@ export default function ArtistFeed() {
             {loading ? (
               <div className="flex justify-center py-20"><div className="h-6 w-6 border-2 border-primary/20 border-t-primary rounded-full animate-spin" /></div>
             ) : filteredPosts.length === 0 ? (
-              <div className="text-center py-20 text-muted-foreground text-sm">No posts yet. Be the first to post!</div>
+              tab === "friends" && friends.length === 0 ? (
+                <div className="text-center py-20 space-y-3">
+                  <Users className="h-10 w-10 text-muted-foreground/30 mx-auto" />
+                  <p className="text-sm font-semibold">No friends yet</p>
+                  <p className="text-sm text-muted-foreground max-w-sm mx-auto">Head to the Community tab and tap "Add Friend" on posts from artists you want to keep up with.</p>
+                  <Button size="sm" variant="outline" onClick={() => setTab("community")}>Go to Community</Button>
+                </div>
+              ) : (
+                <div className="text-center py-20 text-muted-foreground text-sm">No posts here yet. Be the first to post!</div>
+              )
             ) : (
               <div className="space-y-3">
                 {filteredPosts.map(post => (
-                  <PostCard key={post.id} post={post} currentUser={user} onLike={handleLike} onComment={() => {}} onRepost={handleRepost} />
+                  <PostCard key={post.id} post={post} currentUser={user} onLike={handleLike} onComment={() => {}} onRepost={handleRepost}
+                    friendEmails={friendEmails} onAddFriend={addFriend} />
                 ))}
               </div>
             )}

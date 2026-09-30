@@ -1,0 +1,22 @@
+{
+  "name": "Friendship",
+  "type": "object",
+  "properties": {
+    "owner_email": {
+      "type": "string",
+      "description": "Email of the user who added this friend"
+    },
+    "friend_email": {
+      "type": "string",
+      "description": "Email of the friend"
+    },
+    "friend_name": {
+      "type": "string",
+      "description": "Display name of the friend"
+    }
+  },
+  "required": [
+    "owner_email",
+    "friend_email"
+  ]
+}

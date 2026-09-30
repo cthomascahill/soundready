@@ -44,7 +44,7 @@ const STEPS = [
   {
     n: "06",
     title: "Book Shows and Build Your Tour",
-    body: "Search 200+ venues and send professional booking inquiries directly from SoundReady. Plan your tour routing based on where your real fans are. Track every dollar of income and expenses with the Tour Finance tracker. Prep your setlist and upload your files with Soundcheck. Touring is how artists build real fanbases — SoundReady makes sure you're doing it right.",
+    body: "Search 570+ venues and send professional booking inquiries directly from SoundReady. Plan your tour routing based on where your real fans are. Track every dollar of income and expenses with the Tour Finance tracker. Prep your setlist and upload your files with Soundcheck. Touring is how artists build real fanbases — SoundReady makes sure you're doing it right.",
     why: "Artists using SoundReady's booking tools book 120% more shows than artists sending cold emails manually. More shows means more fans, more merch sold, and more money in your pocket.",
   },
   {
@@ -89,7 +89,7 @@ const ALL_TOOLS = [
   "AI Mastering (professional WAV output)",
   "Playlist Pitching & Curator Outreach",
   "Sync Licensing Opportunities",
-  "Gig Finder (200+ venue database)",
+  "Gig Finder (570+ venue database)",
   "Tour Planner & Routing",
   "Tour Finance & P&L Tracker",
   "Soundcheck & Setlist Builder",
@@ -111,9 +111,9 @@ const ALL_TOOLS = [
 ];
 
 const TIERS = [
-  { name: "Artist", price: "$37/mo", tagline: "You're the operation. Every tool in your hands.", cta: "Start Building My Career", badge: null },
-  { name: "Pro", price: "$67/mo", tagline: "You and your team. Everyone in one place.", cta: "Start Building My Career", badge: "Most Popular" },
-  { name: "Label", price: "$97/mo", tagline: "Your whole roster. One platform.", cta: "Start Building My Career", badge: null },
+  { name: "Artist", price: "$0", tagline: "Your music's home base. Song Vault + Song Tracker, free forever.", cta: "Start Free", badge: null },
+  { name: "Artist Pro", price: "$37/mo", tagline: "You and your team. Every tool unlocked — free for 7 days.", cta: "Start 7-Day Free Trial", badge: "Most Popular" },
+  { name: "AI Manager", price: "$60/mo", tagline: "Maya works your career around the clock. You approve every move.", cta: "Unlock Maya", badge: null },
 ];
 
 export default function HowItWorks() {
@@ -157,7 +157,7 @@ export default function HowItWorks() {
             <span className="text-primary">Here's how to win.</span>
           </h1>
           <p className="text-xl sm:text-2xl text-muted-foreground leading-relaxed max-w-3xl mx-auto">
-            SoundReady gives independent artists the same tools, strategy, and infrastructure that signed artists get from their labels. This is how it works — and why it changes everything.
+            SoundReady gives independent artists the same tools, strategy, and infrastructure that signed artists get from their labels. Free to start — your Song Vault and Song Tracker are yours forever. This is how it works — and why it changes everything.
           </p>
           <div className="flex flex-col sm:flex-row items-center justify-center gap-3 pt-2">
             <Button size="lg" className="gap-2 font-heading font-bold text-base px-8 h-12" onClick={handleCTA}>
@@ -178,7 +178,7 @@ export default function HowItWorks() {
           <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="space-y-5 text-lg text-muted-foreground leading-relaxed">
             <p>The artists getting playlisted, booked, and paid aren't more talented than you. They have better infrastructure — managers, publicists, booking agents, and lawyers reviewing every deal before it gets signed.</p>
             <p className="text-foreground font-semibold text-xl">You have a laptop and a dream.</p>
-            <p>That gap is exactly what SoundReady was built to close. For $37 a month you get every tool, strategy, and system the industry uses to build careers — whether you're self-managing, have a team, or are building one.</p>
+            <p>That gap is exactly what SoundReady was built to close. Your Song Vault and Song Tracker are free forever. When you're ready for more, Artist Pro ($37/mo, 7 days free) unlocks every tool, strategy, and system the industry uses to build careers — and for $60 flat, Maya, your AI manager, runs the day-to-day work for you.</p>
             <p className="text-foreground font-semibold">Just upload your music and let's get to work.</p>
           </motion.div>
         </div>
@@ -298,7 +298,7 @@ export default function HowItWorks() {
           <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="text-center space-y-4">
             <p className="text-xs text-primary uppercase tracking-wider font-bold">The Full Platform</p>
             <h2 className="font-heading text-4xl sm:text-5xl font-bold">25+ tools. One subscription. Zero excuses.</h2>
-            <p className="text-lg text-muted-foreground max-w-2xl mx-auto">Here is everything included in every SoundReady plan. This is what your $37 gets you.</p>
+            <p className="text-lg text-muted-foreground max-w-2xl mx-auto">Your Vault and Song Tracker are free forever. Everything below unlocks with your 7-day free trial of Artist Pro.</p>
           </motion.div>
           <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}
             className="rounded-2xl bg-card border border-border p-8">
@@ -311,7 +311,7 @@ export default function HowItWorks() {
               ))}
             </div>
             <div className="mt-8 pt-6 border-t border-border text-center">
-              <p className="font-heading font-black text-xl text-primary">All of this. $37 a month. The infrastructure your career deserves.</p>
+              <p className="font-heading font-black text-xl text-primary">All of this. $37 a month — free for 7 days. The infrastructure your career deserves.</p>
             </div>
           </motion.div>
         </div>
@@ -322,7 +322,7 @@ export default function HowItWorks() {
         <div className="max-w-5xl mx-auto space-y-12">
           <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="text-center space-y-4">
             <h2 className="font-heading text-4xl sm:text-5xl font-bold">Pick your plan. Start today.</h2>
-            <p className="text-lg text-muted-foreground max-w-2xl mx-auto">Every plan includes every tool. You pay for the size of your operation — not for access.</p>
+            <p className="text-lg text-muted-foreground max-w-2xl mx-auto">Start free forever. Unlock the full toolkit with Artist Pro. Hand the work to Maya when you're ready.</p>
           </motion.div>
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-5">
             {TIERS.map((tier, i) => (
@@ -340,7 +340,7 @@ export default function HowItWorks() {
                 <p className="text-sm text-muted-foreground leading-relaxed mb-6 flex-1">{tier.tagline}</p>
                 <Button
                   className="w-full font-semibold bg-primary hover:bg-primary/90 text-primary-foreground"
-                  onClick={handleCTA}
+                  onClick={() => { window.location.href = isAuth ? "/dashboard" : "/pricing"; }}
                 >
                   {tier.cta}
                 </Button>
@@ -362,9 +362,9 @@ export default function HowItWorks() {
             SoundReady is the last tool your music career will ever need. Upload your first song today and see exactly what your music is capable of.
           </p>
           <Button size="lg" className="gap-2 font-heading font-bold text-base px-10 h-12" onClick={handleCTA}>
-            Start Building My Career — $37/mo <ArrowRight className="h-4 w-4" />
+            Start Free — Build My Career <ArrowRight className="h-4 w-4" />
           </Button>
-          <p className="text-xs text-muted-foreground">No contracts. No percentage cuts. No free tier — because serious artists deserve serious tools.</p>
+          <p className="text-xs text-muted-foreground">No contracts. No percentage cuts. Start free — upgrade when you're ready.</p>
         </motion.div>
       </section>
     </div>
