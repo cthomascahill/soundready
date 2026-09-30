@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Link, useSearchParams } from "react-router-dom";
+import { Link, useNavigate, useSearchParams } from "react-router-dom";
 import { base44 } from "@/api/base44Client";
 import { useAuth } from "@/lib/AuthContext";
 import { motion } from "framer-motion";
@@ -8,7 +8,7 @@ import { Input } from "@/components/ui/input";
 import {
   CheckCircle2, AlertCircle, Clock, Link2, RefreshCw,
   Loader2, Shield, BarChart2, Zap, ExternalLink, Info,
-  LogOut, Wifi, WifiOff, AlertTriangle
+  LogOut, Wifi, WifiOff, AlertTriangle, ArrowRight
 } from "lucide-react";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 
@@ -474,7 +474,8 @@ const PLATFORMS = [
 ];
 
 export default function ConnectProfiles() {
-  const { user } = useAuth();
+  const { user, checkAppState } = useAuth();
+  const navigate = useNavigate();
   const [connections, setConnections] = useState({});
   const [loading, setLoading] = useState(true);
   const [oauthLoading, setOauthLoading] = useState(false);
@@ -552,6 +553,30 @@ export default function ConnectProfiles() {
   return (
     <div className="min-h-screen bg-background px-4 py-10">
       <div className="max-w-3xl mx-auto space-y-8">
+
+        {/* Step 1 onboarding banner — new users land here first */}
+        {user?.onboarding_complete !== true && (
+          <div className="rounded-2xl border border-primary/25 bg-primary/10 p-5 space-y-3">
+            <div className="flex items-center gap-2.5 flex-wrap">
+              <span className="px-2 py-0.5 rounded-full bg-primary text-primary-foreground text-[10px] font-bold uppercase tracking-wider">Step 1</span>
+              <p className="font-heading font-bold text-lg">Welcome to SoundReady — connect your profiles first.</p>
+            </div>
+            <p className="text-sm text-muted-foreground leading-relaxed">
+              Everything in the app — Maya's advice, your roadmap, your release strategy — runs on this data. Connect Spotify or YouTube below (TikTok and Apple Music can be entered manually). You can come back anytime to add more.
+            </p>
+            <Button
+              onClick={async () => {
+                await base44.auth.updateMe({ onboarding_complete: true }).catch(() => {});
+                await checkAppState();
+                navigate("/dashboard");
+              }}
+              variant={connectedCount > 0 ? "default" : "outline"}
+              className="gap-2 w-fit"
+            >
+              {connectedCount > 0 ? "I'm Done — Go to Dashboard" : "Skip for now"} <ArrowRight className="h-3.5 w-3.5" />
+            </Button>
+          </div>
+        )}
 
         {/* Maya upgrade banner for non-AI-Manager users */}
         {!(user?.role === "admin" || user?.subscription_tier === "ai_manager") && (
