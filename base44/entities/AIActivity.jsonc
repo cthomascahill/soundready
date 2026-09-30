@@ -14,7 +14,8 @@
         "epk_generated",
         "digest_sent",
         "booking_outreach",
-        "producer_pitch"
+        "producer_pitch",
+        "beat_scout"
       ],
       "description": "Type of AI action taken"
     },

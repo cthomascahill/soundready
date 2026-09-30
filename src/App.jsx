@@ -81,6 +81,12 @@ import BeatPipeline from './pages/BeatPipeline';
 import Placements from './pages/Placements';
 import ArtistMatch from './pages/ArtistMatch';
 import ProGate from './components/ProGate';
+import BeatStore from './pages/BeatStore';
+import ClientCRM from './pages/ClientCRM';
+import ProducerContracts from './pages/ProducerContracts';
+import Storefront from './pages/Storefront';
+import StoreDownload from './pages/StoreDownload';
+import SignContract from './pages/SignContract';
 
 // Wraps a page so free-tier users see the Artist Pro upgrade screen
 const pro = (Page) => (
@@ -119,6 +125,9 @@ const AuthenticatedApp = () => {
           <Route path="/" element={<About />} />
           <Route path="/how-it-works" element={<HowItWorks />} />
           <Route path="/pricing" element={<Pricing />} />
+          <Route path="/store/:producerId" element={<Storefront />} />
+          <Route path="/store/download" element={<StoreDownload />} />
+          <Route path="/contracts/sign/:token" element={<SignContract />} />
 
           <Route path="*" element={<About />} />
         </Routes>
@@ -133,6 +142,9 @@ const AuthenticatedApp = () => {
         <Route path="/" element={<About />} />
         <Route path="/how-it-works" element={<HowItWorks />} />
         <Route path="/pricing" element={<Pricing />} />
+        <Route path="/store/:producerId" element={<Storefront />} />
+        <Route path="/store/download" element={<StoreDownload />} />
+        <Route path="/contracts/sign/:token" element={<SignContract />} />
         <Route path="*" element={<LoginRedirect />} />
       </Routes>
     );
@@ -144,6 +156,9 @@ const AuthenticatedApp = () => {
       <Route path="/" element={<About />} />
       <Route path="/how-it-works" element={<HowItWorks />} />
       <Route path="/pricing" element={<Pricing />} />
+      <Route path="/store/:producerId" element={<Storefront />} />
+      <Route path="/store/download" element={<StoreDownload />} />
+      <Route path="/contracts/sign/:token" element={<SignContract />} />
 
       {/* Protected routes */}
       <Route element={<AppLayout />}>
@@ -216,6 +231,9 @@ const AuthenticatedApp = () => {
         <Route path="/beat-pipeline" element={pro(BeatPipeline)} />
         <Route path="/placements" element={<Placements />} />
         <Route path="/artist-match" element={pro(ArtistMatch)} />
+        <Route path="/beat-store" element={pro(BeatStore)} />
+        <Route path="/client-crm" element={pro(ClientCRM)} />
+        <Route path="/producer-contracts" element={pro(ProducerContracts)} />
         <Route path="/community" element={<Community />} />
         <Route path="*" element={<PageNotFound />} />
       </Route>

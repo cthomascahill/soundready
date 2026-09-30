@@ -8,6 +8,7 @@ import {
   Home, Music2, Users, ListChecks, Sparkles, Flame, Link2,
   Map, Newspaper, CreditCard, UserCircle, PenTool,
   Mic2, Megaphone, Route, Wallet, FileText, Disc3, Target,
+  Store, FileSignature,
 } from "lucide-react";
 
 // The Music section swaps with the active profile mode
@@ -20,13 +21,16 @@ const MUSIC_ARTIST = [
 
 const MUSIC_PRODUCER = [
   { to: "/beat-vault", icon: Disc3, label: "Beat Vault" },
+  { to: "/beat-store", icon: Store, label: "Beat Store" },
   { to: "/beat-pipeline", icon: ListChecks, label: "Beat Pipeline" },
   { to: "/artist-match", icon: Target, label: "Artist Match" },
   { to: "/placements", icon: FileText, label: "Placements" },
+  { to: "/client-crm", icon: Users, label: "Client CRM" },
   { to: "/beat-discovery", icon: Music2, label: "Beat Discovery" },
 ];
 
-const NAV_SECTIONS = (mode) => [
+const NAV_SECTIONS = (mode) => {
+  const sections = [
   {
     label: "Home",
     items: [
@@ -61,6 +65,7 @@ const NAV_SECTIONS = (mode) => [
     items: [
       { to: "/team-chat", icon: Users, label: "Team Chat" },
       { to: "/whiteboard", icon: PenTool, label: "Whiteboard" },
+      ...(mode === "producer" ? [{ to: "/producer-contracts", icon: FileSignature, label: "Contracts" }] : []),
     ],
   },
   {
@@ -70,13 +75,17 @@ const NAV_SECTIONS = (mode) => [
       { to: "/profile", icon: UserCircle, label: "Profile" },
     ],
   },
-];
+  ];
+  // Touring and Career don't apply to producers — hide them entirely in Producer mode
+  return mode === "producer" ? sections.filter((s) => s.label !== "Touring" && s.label !== "Career") : sections;
+};
 
 // Pages locked behind Artist Pro — free users see a lock icon on these
 const PRO_ONLY = new Set([
   "/studio", "/career-roadmap", "/artist-feed", "/music-news",
   "/gig-finder", "/tour-opportunities", "/tour-planner", "/tour-finance",
   "/contracts", "/team-chat", "/whiteboard", "/beat-pipeline", "/artist-match",
+  "/beat-store", "/client-crm", "/producer-contracts",
 ]);
 
 export default function SidebarNav({ activePath, onNavigate }) {

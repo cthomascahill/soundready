@@ -30,6 +30,11 @@
       "type": "string",
       "description": "Audio file \u2014 public URL or private file URI from UploadPrivateFile"
     },
+    "for_sale": {
+      "type": "boolean",
+      "default": false,
+      "description": "Listed for sale in the producer's public Beat Store"
+    },
     "status": {
       "type": "string",
       "enum": [

@@ -7,7 +7,7 @@ import { Input } from "@/components/ui/input";
 import { GENRES, MOODS } from "@/lib/beatMeta";
 import { Loader2, Upload } from "lucide-react";
 
-const EMPTY = { title: "", genre: "", bpm: "", key: "", mood_tags: [], lease_price: "", exclusive_price: "", notes: "" };
+const EMPTY = { title: "", genre: "", bpm: "", key: "", mood_tags: [], lease_price: "", exclusive_price: "", notes: "", for_sale: false };
 
 /**
  * Create or edit a beat in the producer's Beat Vault.
@@ -36,6 +36,7 @@ export default function BeatUploadModal({ open, onClose, onSaved, beat }) {
             lease_price: beat.lease_price ?? "",
             exclusive_price: beat.exclusive_price ?? "",
             notes: beat.notes || "",
+            for_sale: !!beat.for_sale,
           }
         : EMPTY
     );
@@ -61,6 +62,7 @@ export default function BeatUploadModal({ open, onClose, onSaved, beat }) {
         lease_price: form.lease_price !== "" ? parseFloat(form.lease_price) : undefined,
         exclusive_price: form.exclusive_price !== "" ? parseFloat(form.exclusive_price) : undefined,
         notes: form.notes || undefined,
+        for_sale: !!form.for_sale,
       };
 
       let saved;
@@ -146,6 +148,16 @@ export default function BeatUploadModal({ open, onClose, onSaved, beat }) {
             <Input type="number" value={form.exclusive_price} onChange={(e) => setForm((f) => ({ ...f, exclusive_price: e.target.value }))} placeholder="e.g. 300" />
           </div>
         </div>
+
+        <label className="flex items-center gap-2 text-xs text-muted-foreground cursor-pointer">
+          <input
+            type="checkbox"
+            checked={form.for_sale}
+            onChange={(e) => setForm((f) => ({ ...f, for_sale: e.target.checked }))}
+            className="h-4 w-4 rounded border-border"
+          />
+          List this beat for sale in my public Beat Store
+        </label>
 
         <div className="space-y-1.5">
           <label className="text-xs text-muted-foreground">Mood Tags</label>

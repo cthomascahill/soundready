@@ -5,13 +5,16 @@ import { base44 } from "@/api/base44Client";
 import { useAuth } from "@/lib/AuthContext";
 import { useMode } from "@/lib/mode";
 import ModeToggle from "@/components/ModeToggle";
+import { hasAIManager } from "@/lib/tier";
 import { Button } from "@/components/ui/button";
 import {
   FileText, Mic2, MapPin,
   Music2, BarChart2, ChevronRight, ArrowRight,
-  Sparkles, AlertCircle, Shield, Map, TrendingUp, Disc3, ListChecks
+  Sparkles, AlertCircle, Shield, Map, TrendingUp, Disc3, ListChecks,
+  Store, Users, FileSignature
 } from "lucide-react";
 import AIActivityFeed from "@/components/dashboard/AIActivityFeed";
+import MayaScoutCard from "@/components/dashboard/MayaScoutCard";
 
 
 const QUICK_ACTIONS = [
@@ -33,6 +36,9 @@ const PRODUCER_ACTIONS = [
   { label: "Placements", icon: TrendingUp, to: "/placements", color: "text-yellow-400 bg-yellow-500/10" },
   { label: "Artist Match", icon: Mic2, to: "/artist-match", color: "text-teal-400 bg-teal-500/10" },
   { label: "Beat Discovery", icon: Music2, to: "/beat-discovery", color: "text-chart-5 bg-chart-5/10" },
+  { label: "Beat Store", icon: Store, to: "/beat-store", color: "text-teal-400 bg-teal-500/10" },
+  { label: "Client CRM", icon: Users, to: "/client-crm", color: "text-orange-400 bg-orange-500/10" },
+  { label: "Contracts", icon: FileSignature, to: "/producer-contracts", color: "text-chart-3 bg-chart-3/10" },
 ];
 
 export default function Dashboard() {
@@ -85,6 +91,9 @@ export default function Dashboard() {
           </div>
           <p className="text-muted-foreground">Here's where everything stands today.</p>
         </motion.div>
+
+        {/* On-demand Maya scouting for AI Manager producers */}
+        {isProducer && hasAIManager(user) && <MayaScoutCard />}
 
         {/* Your Music Row */}
         <section>

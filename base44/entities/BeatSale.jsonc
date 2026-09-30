@@ -1,0 +1,58 @@
+{
+  "name": "BeatSale",
+  "type": "object",
+  "properties": {
+    "beat_id": {
+      "type": "string",
+      "description": "Beat that was sold"
+    },
+    "beat_title": {
+      "type": "string",
+      "description": "Beat title at time of sale"
+    },
+    "producer_id": {
+      "type": "string",
+      "description": "Producer who earned the sale"
+    },
+    "producer_name": {
+      "type": "string",
+      "description": "Producer display name at time of sale"
+    },
+    "buyer_email": {
+      "type": "string",
+      "description": "Buyer's email from Stripe checkout"
+    },
+    "deal_type": {
+      "type": "string",
+      "enum": [
+        "Lease",
+        "Exclusive"
+      ]
+    },
+    "amount": {
+      "type": "number",
+      "description": "Amount paid in USD"
+    },
+    "stripe_session_id": {
+      "type": "string",
+      "description": "Stripe checkout session that produced this sale"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "paid",
+        "delivered"
+      ],
+      "default": "paid",
+      "description": "paid = webhook confirmed payment, delivered = buyer downloaded the file"
+    },
+    "delivered_at": {
+      "type": "string",
+      "description": "ISO timestamp when the buyer first downloaded"
+    }
+  },
+  "required": [
+    "beat_id",
+    "amount"
+  ]
+}

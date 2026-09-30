@@ -1,0 +1,45 @@
+{
+  "name": "Maya Weekly Producer Scouting",
+  "description": "Every Tuesday morning, Maya scouts the web for sync calls, A&R calls, and labels seeking beats for every AI Manager producer, drafting pitches into Maya's Desk for approval.",
+  "trigger": {
+    "condition": null,
+    "config": {
+      "trigger_type": "scheduled",
+      "events": [],
+      "schedule_mode": "recurring",
+      "cron_expression": "0 14 * * 2",
+      "one_time_date": null,
+      "timezone": "UTC",
+      "interval_value": null,
+      "interval_unit": null,
+      "interval_anchor": null,
+      "ends_type": "never",
+      "ends_on_date": null,
+      "ends_after_count": null
+    }
+  },
+  "definition": {
+    "document": {
+      "dsl": "1.0.0",
+      "name": "maya_weekly_producer_scouting",
+      "version": "1.0",
+      "namespace": "base44"
+    },
+    "do": [
+      {
+        "run_scout": {
+          "call": "invoke_backend_function",
+          "with": {
+            "function_name": "mayaScoutBeats",
+            "args": {}
+          },
+          "then": "end",
+          "x-base44": {
+            "title": "Scout beat opportunities",
+            "description": "Web search for AI Manager producers"
+          }
+        }
+      }
+    ]
+  }
+}
