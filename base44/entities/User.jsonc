@@ -64,6 +64,38 @@
       "type": "boolean",
       "default": false,
       "description": "Whether the user has completed initial onboarding"
+    },
+    "subscription_tier": {
+      "type": "string",
+      "enum": [
+        "free",
+        "pro",
+        "ai_manager"
+      ],
+      "default": "free",
+      "description": "Current subscription tier"
+    },
+    "subscription_status": {
+      "type": "string",
+      "default": "none",
+      "description": "Stripe subscription status: active, trialing, canceled, past_due, none"
+    },
+    "trial_ends_at": {
+      "type": "string",
+      "description": "ISO timestamp when the free trial ends and the card is charged"
+    },
+    "stripe_customer_id": {
+      "type": "string",
+      "description": "Stripe customer ID"
+    },
+    "stripe_subscription_id": {
+      "type": "string",
+      "description": "Stripe subscription ID"
+    },
+    "cancel_at_period_end": {
+      "type": "boolean",
+      "default": false,
+      "description": "Whether the subscription is set to cancel at period end"
     }
   },
   "required": [

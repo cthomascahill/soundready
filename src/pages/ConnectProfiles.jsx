@@ -553,8 +553,8 @@ export default function ConnectProfiles() {
     <div className="min-h-screen bg-background px-4 py-10">
       <div className="max-w-3xl mx-auto space-y-8">
 
-        {/* Maya upgrade banner for non-admin */}
-        {user?.role !== "admin" && (
+        {/* Maya upgrade banner for non-AI-Manager users */}
+        {!(user?.role === "admin" || user?.subscription_tier === "ai_manager") && (
           <div className="rounded-xl border border-primary/20 bg-primary/5 px-4 py-3 flex items-center justify-between gap-4">
             <p className="text-sm text-muted-foreground">
               <span className="text-foreground font-medium">Your connected data powers Maya.</span> Upgrade to AI Manager to unlock her.

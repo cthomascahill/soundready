@@ -1,36 +1,20 @@
 import { useState, useEffect, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
-import { Search, X, Music2, Users, Briefcase, DollarSign, MapPin, Mic2, FileText, Sparkles, Layout, Newspaper, Map, TrendingUp, Receipt, GraduationCap, Paintbrush, Bus, BarChart2 } from "lucide-react";
+import { Search, X, Home, Music2, Users, ListChecks, Sparkles, Flame, Link2, Map, Newspaper, CreditCard, UserCircle } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 
 const ALL_ROUTES = [
-  { label: "Dashboard", path: "/dashboard", icon: BarChart2, category: "Home" },
-  { label: "Music News", path: "/music-news", icon: Newspaper, category: "Home" },
-  { label: "Song Vault", path: "/history", icon: Music2, category: "Music" },
-  { label: "Song Tracker", path: "/song-tracker", icon: Music2, category: "Music" },
-  { label: "The Studio", path: "/studio", icon: Sparkles, category: "Music" },
-  { label: "Distribution", path: "/distribution", icon: Briefcase, category: "Music" },
-  { label: "Whiteboard", path: "/whiteboard", icon: Layout, category: "Team" },
+  { label: "Dashboard", path: "/dashboard", icon: Home, category: "Core" },
+  { label: "Song Vault", path: "/history", icon: Music2, category: "Core" },
+  { label: "Song Tracker", path: "/song-tracker", icon: ListChecks, category: "Core" },
+  { label: "The Studio", path: "/studio", icon: Sparkles, category: "Core" },
+  { label: "The Wall", path: "/artist-feed", icon: Flame, category: "Core" },
   { label: "Team Chat", path: "/team-chat", icon: Users, category: "Team" },
-  { label: "Artist Profile", path: "/artist-profile", icon: Sparkles, category: "Career" },
-  { label: "Branding Studio", path: "/branding-studio", icon: Paintbrush, category: "Career" },
-  { label: "Career Roadmap", path: "/career-roadmap", icon: Map, category: "Career" },
-  { label: "Playlist Pitching", path: "/playlist-pitcher", icon: Mic2, category: "Career" },
-  { label: "Music Academy", path: "/music-academy", icon: GraduationCap, category: "Career" },
-  { label: "Tour Planner", path: "/tour-planner", icon: Bus, category: "Tours" },
-  { label: "Tour Opportunities", path: "/tour-opportunities", icon: Briefcase, category: "Tours" },
-  { label: "Soundcheck", path: "/soundcheck", icon: Mic2, category: "Tours" },
-  { label: "EPK Builder", path: "/pitch-deck", icon: FileText, category: "Tours" },
-  { label: "Gig Finder", path: "/gig-finder", icon: MapPin, category: "Tours" },
-  { label: "Tour Finance", path: "/tour-finance", icon: DollarSign, category: "Finance" },
-  { label: "Revenue Splits", path: "/revenue-splits", icon: TrendingUp, category: "Finance" },
-  { label: "Contract Analyzer", path: "/contract-analyzer", icon: FileText, category: "Finance" },
-  { label: "Legal Templates", path: "/legal", icon: FileText, category: "Finance" },
-  { label: "Royalties", path: "/royalties", icon: TrendingUp, category: "Finance" },
-  { label: "Budget Tracker", path: "/budget", icon: DollarSign, category: "Finance" },
-  { label: "Invoice Manager", path: "/invoices", icon: Receipt, category: "Finance" },
-  { label: "Tax Estimator", path: "/tax-estimator", icon: DollarSign, category: "Finance" },
-  { label: "Profile", path: "/profile", icon: Users, category: "Account" },
+  { label: "Connect Platforms", path: "/connect-profiles", icon: Link2, category: "Core" },
+  { label: "Career Roadmap", path: "/career-roadmap", icon: Map, category: "Core" },
+  { label: "Music News", path: "/music-news", icon: Newspaper, category: "Core" },
+  { label: "Your Plan", path: "/pricing-account", icon: CreditCard, category: "Account" },
+  { label: "Profile", path: "/profile", icon: UserCircle, category: "Account" },
 ];
 
 export default function CommandPalette({ open, onClose }) {

@@ -39,13 +39,23 @@
         "complete",
         "sent",
         "ready_to_send",
-        "viewed"
+        "viewed",
+        "denied"
       ],
-      "default": "complete"
+      "default": "complete",
+      "description": "pending/ready_to_send = awaiting artist approval, sent = approved & sent, denied = rejected by artist"
     },
     "draft_email": {
       "type": "string",
       "description": "Pre-drafted email ready to send"
+    },
+    "recipient_email": {
+      "type": "string",
+      "description": "Email address the approved draft was sent to"
+    },
+    "sent_at": {
+      "type": "string",
+      "description": "ISO timestamp when the artist approved and the draft was sent"
     },
     "metadata": {
       "type": "object",

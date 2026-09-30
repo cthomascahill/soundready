@@ -71,6 +71,7 @@ import ArtistFeed from './pages/ArtistFeed.jsx';
 import BeatDiscovery from './pages/BeatDiscovery.jsx';
 import WhiteboardCanvas from './pages/WhiteboardCanvas';
 import ConnectProfiles from './pages/ConnectProfiles';
+import MayaDesk from './pages/MayaDesk';
 
 const AuthenticatedApp = () => {
   const { user, isLoadingAuth, isLoadingPublicSettings, authError, navigateToLogin } = useAuth();
@@ -170,6 +171,7 @@ const AuthenticatedApp = () => {
         <Route path="/beat-discovery" element={<BeatDiscovery />} />
         <Route path="/whiteboard/:boardId" element={<WhiteboardCanvas />} />
         <Route path="/connect-profiles" element={<ConnectProfiles />} />
+        <Route path="/maya-desk" element={<MayaDesk />} />
         <Route path="/community" element={<Community />} />
         <Route path="*" element={<PageNotFound />} />
       </Route>

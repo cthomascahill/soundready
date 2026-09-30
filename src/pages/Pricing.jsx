@@ -1,129 +1,59 @@
 import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
+import { useSearchParams, Link } from "react-router-dom";
 import {
-  CheckCircle2, ArrowRight, Zap, Users, Briefcase, Bot, Sparkles, X, Flame, DollarSign
+  CheckCircle2, ArrowRight, Zap, Users, Bot, Sparkles, Flame, ShieldCheck,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { base44 } from "@/api/base44Client";
-import { Link } from "react-router-dom";
+import { useAuth } from "@/lib/AuthContext";
+import { getTier, trialDaysLeft } from "@/lib/tier";
 import SoundReadyLogo from "@/components/SoundReadyLogo";
+import CheckoutButton from "@/components/billing/CheckoutButton";
 
-const TIERS = [
-  {
-    icon: Zap,
-    color: "text-chart-5",
-    bg: "bg-chart-5/10",
-    border: "border-chart-5/20",
-    name: "Artist",
-    tagline: "Your career. Your control.",
-    price: "$37/mo",
-    desc: "Every tool SoundReady has — in your hands. Upload songs, get your release strategy, master your tracks, pitch playlists, book shows, track your money, and protect yourself legally. Everything a manager does, for $37 a month.",
-    items: [
-      "Full song library & workspace",
-      "AI release strategy & song analysis",
-      "AI mastering",
-      "Playlist pitching & sync licensing",
-      "Gig finder & tour planner",
-      "Finance & royalty tracker",
-      "Legal templates & contract analyzer",
-      "A&R Intelligence & Release Radar",
-      "Fan Intelligence dashboard",
-      "Music academy",
-    ],
-    cta: "Start Building My Career",
-    subtext: "No free tier. No contracts. Cancel anytime.",
-    badge: null,
-    glow: false,
-  },
-  {
-    icon: Users,
-    color: "text-primary",
-    bg: "bg-primary/10",
-    border: "border-primary/20",
-    name: "Pro",
-    tagline: "You and your team, finally in sync.",
-    price: "$67/mo",
-    badge: "Most Popular",
-    badgeStyle: "bg-primary text-primary-foreground",
-    glow: false,
-    desc: "Everything in Artist, plus a shared workspace for your whole team. Your manager, producer, and publicist work from the same platform — same songs, same strategy, same plan. No missed emails. No dropped balls.",
-    items: [
-      "Everything in Artist",
-      "Invite up to 3 team members",
-      "Collaborative whiteboard & shared workspaces",
-      "Team role assignments (Manager, Producer, Label Rep)",
-      "Priority support",
-    ],
-    cta: "Start Building My Career",
-    subtext: "No free tier. No contracts. Cancel anytime.",
-  },
-  {
-    icon: Briefcase,
-    color: "text-yellow-400",
-    bg: "bg-yellow-500/10",
-    border: "border-yellow-500/20",
-    name: "Label",
-    tagline: "Your whole roster. One platform.",
-    price: "$97/mo",
-    badge: null,
-    glow: false,
-    desc: "Everything in Pro, built for indie labels and managers running multiple artists. Unlimited songs, unlimited team members, multiple artist profiles — all under one login.",
-    items: [
-      "Everything in Pro",
-      "Unlimited team members",
-      "Unlimited song library",
-      "Multiple artist profiles under one account",
-      "First access to new features",
-    ],
-    cta: "Start Building My Career",
-    subtext: "No free tier. No contracts. Cancel anytime.",
-  },
-  {
-    icon: Bot,
-    color: "text-primary",
-    bg: "bg-primary/10",
-    border: "border-primary/30",
-    name: "AI Manager",
-    tagline: "Your career on autopilot.",
-    price: "$200/mo",
-    badge: "Most Powerful",
-    badgeStyle: "bg-primary text-primary-foreground",
-    glow: true,
-    desc: "Everything in Label plus a dedicated AI that works your career around the clock. The moment you upload a song, SoundReady automatically pitches every matching playlist, monitors tour opportunities, and prepares booking outreach — all ready to send with one tap.",
-    items: [
-      "Everything in Label",
-      "Auto-playlist pitching on every release",
-      "Tour & gig opportunity alerts in your genre",
-      "One-tap booking agent outreach",
-      "Auto-generated EPK & press kit on upload",
-      "Weekly AI career digest delivered to your inbox",
-      "Priority support & dedicated onboarding",
-    ],
-    cta: "Get Started",
-    subtext: "No contracts. Cancel anytime.",
-  },
+const FREE_ITEMS = [
+  "Song Vault & pre-release Tracker",
+  "The Studio (lyrics, ideas, beats)",
+  "The Wall — the artist community",
+  "Connect Spotify & YouTube",
+  "Career Roadmap",
+  "Weekly music news briefing",
+];
+
+const PRO_ITEMS = [
+  "Everything in Artist",
+  "Invite your manager, producer & engineer",
+  "Team Chat + shared Whiteboard",
+  "Full release, tour, finance & legal toolkit",
+  "A&R, fan & release intelligence",
+  "Priority support",
+];
+
+const AI_ITEMS = [
+  "Everything in Artist Pro",
+  "Maya chat — advice backed by your real numbers",
+  "Auto-drafted playlist & tour-opening pitches",
+  "EPKs & weekly career digests",
+  "Nothing sends without your approval",
+  "Approve, edit, or deny every move Maya makes",
 ];
 
 const FAQ = [
   {
+    q: "How does the 7-day free trial work?",
+    a: "Start Artist Pro with your card on file and use everything free for 7 days. Your card is automatically charged $37 on day 7 — cancel anytime before then and you pay nothing. Cancel after that and you keep access until the end of your billing period.",
+  },
+  {
     q: "Does SoundReady take a percentage of my income?",
-    a: "Never. Unlike a traditional manager, SoundReady charges a flat monthly fee. You keep 100% of your earnings — always.",
+    a: "Never. A traditional manager takes 15–20% of everything you earn, forever. Maya is $60 flat — and you keep 100% of your earnings, always.",
   },
   {
-    q: "What's the difference between Artist and Pro?",
-    a: "Artist gives you every single tool on the platform. Pro adds a shared team workspace so your manager, producer, and publicist can all work from the same place at the same time.",
-  },
-  {
-    q: "What makes AI Manager different from Label?",
-    a: "AI Manager doesn't wait for you to act. The moment you upload a song, it pitches playlists, flags tour opportunities, and builds your EPK automatically. Everything is prepped and handed to you for one-tap approval.",
+    q: "What exactly does Maya do?",
+    a: "Maya watches your connected Spotify and YouTube data, matches your songs to real playlist and tour opportunities, and drafts the emails — pitches, outreach, EPKs, digests. Every draft lands in Maya's Desk where you approve, edit, or deny it. She does the work; you stay in control.",
   },
   {
     q: "Can I cancel anytime?",
-    a: "Yes. No contracts, no commitments. Cancel anytime from your account settings. We're confident the platform speaks for itself.",
-  },
-  {
-    q: "What file formats do you accept?",
-    a: "MP3, WAV, AAC, and FLAC up to 50MB.",
+    a: "Yes. No contracts, no commitments. Cancel from your plan page in one click — during the trial you're never charged, and after it you keep access until the period you already paid for ends.",
   },
   {
     q: "Is my music kept private?",
@@ -132,16 +62,34 @@ const FAQ = [
 ];
 
 export default function Pricing() {
-  const [isAuth, setIsAuth] = useState(false);
+  const { user, checkAppState, navigateToLogin } = useAuth();
+  const [searchParams] = useSearchParams();
+  const checkoutStatus = searchParams.get("checkout");
+  const [canceling, setCanceling] = useState(false);
+  const [planMsg, setPlanMsg] = useState("");
 
   useEffect(() => {
-    base44.auth.isAuthenticated().then(setIsAuth);
+    if (checkoutStatus === "success") checkAppState();
   }, []);
 
-  const handleCTA = () => {
-    if (isAuth) window.location.href = "/dashboard";
-    else base44.auth.redirectToLogin();
+  const tier = getTier(user);
+  const daysLeft = trialDaysLeft(user);
+  const isAuth = !!user;
+
+  const handleCancel = async () => {
+    setCanceling(true);
+    setPlanMsg("");
+    const res = await base44.functions.invoke("stripeCheckout", { action: "cancel" })
+      .catch(e => ({ data: { error: e.message } }));
+    setCanceling(false);
+    if (res.data?.error) { setPlanMsg(res.data.error); return; }
+    setPlanMsg("Cancelled. You keep access until the end of your current period — no further charges.");
+    await checkAppState();
   };
+
+  const loginCta = (label) => (
+    <Button className="w-full font-semibold" onClick={navigateToLogin}>{label}</Button>
+  );
 
   return (
     <div className="min-h-screen bg-background font-body">
@@ -153,131 +101,199 @@ export default function Pricing() {
           <div className="flex items-center gap-4">
             <Link to="/" className="text-sm text-muted-foreground hover:text-foreground transition-colors hidden sm:block">Home</Link>
             <Link to="/how-it-works" className="text-sm text-muted-foreground hover:text-foreground transition-colors hidden sm:block">How It Works</Link>
-            <Button size="sm" className="font-semibold" onClick={handleCTA}>
-              {isAuth ? "Go to Dashboard" : "Get Started"}
-            </Button>
+            {isAuth ? (
+              <Link to="/dashboard"><Button size="sm" className="font-semibold">Go to Dashboard</Button></Link>
+            ) : (
+              <Button size="sm" className="font-semibold" onClick={navigateToLogin}>Get Started</Button>
+            )}
           </div>
         </div>
       </header>
 
-      {/* HERO */}
-      <section className="relative px-4 pt-28 pb-20 text-center overflow-hidden">
+      {/* HERO — the artist journey */}
+      <section className="relative px-4 pt-24 pb-16 text-center overflow-hidden">
         <div className="absolute inset-0 bg-gradient-to-b from-primary/8 via-background to-background pointer-events-none" />
-        <motion.div initial={{ opacity: 0, y: 32 }} animate={{ opacity: 1, y: 0 }} className="relative max-w-4xl mx-auto space-y-7">
+        <motion.div initial={{ opacity: 0, y: 32 }} animate={{ opacity: 1, y: 0 }} className="relative max-w-4xl mx-auto space-y-6">
           <motion.div initial={{ opacity: 0, scale: 0.9 }} animate={{ opacity: 1, scale: 1 }} transition={{ delay: 0.1 }}
             className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/10 border border-primary/30 text-primary text-xs font-bold tracking-wider uppercase">
             <Flame className="h-3.5 w-3.5" />
-            Simple, Transparent Pricing
+            Built for independent artists
           </motion.div>
-          <h1 className="font-heading text-6xl sm:text-8xl font-black tracking-tight leading-[0.9]">
-            Pay for the size of<br />
-            <span className="text-primary">your operation.</span>
+          <h1 className="font-heading text-5xl sm:text-7xl font-black tracking-tight leading-[0.95]">
+            Start free. Grow into Pro.<br />
+            <span className="text-primary">Then hand the work to Maya.</span>
           </h1>
-          <p className="text-xl sm:text-2xl text-muted-foreground leading-relaxed max-w-3xl mx-auto">
-            Every plan includes the full platform. No feature gates. No percentage cuts. No contracts. The only difference is how big your team is.
+          <p className="text-lg sm:text-xl text-muted-foreground leading-relaxed max-w-2xl mx-auto">
+            Every serious artist needs a team. SoundReady is yours — your tools, your people, and an AI manager that actually does the work.
           </p>
-          <p className="text-sm text-muted-foreground">Starting at $37/mo — less than a single manager meeting.</p>
+          {!isAuth && (
+            <Button size="lg" className="gap-2 font-heading font-bold text-base px-10 h-12" onClick={navigateToLogin}>
+              Start Free <ArrowRight className="h-4 w-4" />
+            </Button>
+          )}
         </motion.div>
       </section>
 
-      {/* THE MATH */}
+      {/* FREE TIER BAND */}
       <section className="px-4 pb-12">
-        <div className="max-w-3xl mx-auto">
+        <div className="max-w-4xl mx-auto">
           <motion.div initial={{ opacity: 0, y: 16 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}
-            className="rounded-2xl bg-secondary border border-border p-8 text-center space-y-5">
-            <DollarSign className="h-8 w-8 text-primary mx-auto" />
-            <h3 className="font-heading text-2xl font-bold">The math doesn't lie.</h3>
-            <div className="grid grid-cols-2 gap-4 text-center max-w-md mx-auto">
-              <div className="rounded-xl bg-destructive/10 border border-destructive/25 p-4 space-y-1">
-                <p className="font-heading text-3xl font-black text-destructive">$7,500+</p>
-                <p className="text-xs text-muted-foreground">What a manager takes on $50K/year income</p>
+            className="rounded-2xl border border-border bg-secondary/30 p-6 sm:p-8">
+            <div className="flex flex-col sm:flex-row sm:items-center gap-6">
+              <div className="sm:w-1/3">
+                <p className="font-heading font-black text-2xl">Artist</p>
+                <p className="text-3xl font-black mt-1">$0<span className="text-sm text-muted-foreground font-medium"> / forever</span></p>
+                <p className="text-xs text-muted-foreground mt-2">Your career hub. Free — because organizing your music should never cost money.</p>
               </div>
-              <div className="rounded-xl bg-primary/10 border border-primary/20 p-4 space-y-1">
-                <p className="font-heading text-3xl font-black text-primary">$37/mo</p>
-                <p className="text-xs text-muted-foreground">SoundReady — all tools, all features, zero cuts</p>
+              <div className="sm:w-2/3 grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-2">
+                {FREE_ITEMS.map(item => (
+                  <div key={item} className="flex items-start gap-2.5">
+                    <CheckCircle2 className="h-4 w-4 shrink-0 mt-0.5 text-primary" />
+                    <span className="text-xs text-foreground">{item}</span>
+                  </div>
+                ))}
               </div>
             </div>
           </motion.div>
         </div>
       </section>
 
-      {/* TIER CARDS */}
-      <section className="px-4 pb-20">
-        <div className="max-w-7xl mx-auto">
-          <div className="grid grid-cols-1 lg:grid-cols-4 gap-5">
-            {TIERS.map((tier, i) => (
-              <motion.div key={tier.name}
-                initial={{ opacity: 0, y: 24 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}
-                transition={{ delay: i * 0.1 }}
-                className={`relative rounded-2xl border p-6 flex flex-col bg-card ${
-                  tier.badge === "Most Powerful" ? "ring-2 ring-primary/60 shadow-2xl shadow-primary/10" :
-                  tier.badge === "Most Popular" ? "ring-2 ring-primary/40 shadow-xl" : ""
-                } ${tier.border}`}>
-                {tier.badge && (
-                  <div className={`absolute -top-3 left-1/2 -translate-x-1/2 px-3 py-1 rounded-full text-xs font-bold whitespace-nowrap ${tier.badgeStyle || "bg-primary text-primary-foreground"}`}>
-                    {tier.badge}
+      {/* PAID TIERS */}
+      <section className="px-4 pb-16">
+        <div className="max-w-5xl mx-auto space-y-6">
+
+          {/* Current plan / checkout status (auth only) */}
+          {isAuth && (
+            <div className="space-y-3">
+              {checkoutStatus === "success" && (
+                <div className="rounded-xl border border-primary/25 bg-primary/10 px-4 py-3 flex items-center gap-3">
+                  <CheckCircle2 className="h-4 w-4 text-primary shrink-0" />
+                  <p className="text-sm"><span className="font-semibold text-primary">Payment received.</span> Your plan is activating — this page updates automatically in a few seconds.</p>
+                </div>
+              )}
+              {checkoutStatus === "cancelled" && (
+                <div className="rounded-xl border border-border bg-secondary/40 px-4 py-3 text-sm text-muted-foreground">
+                  Checkout cancelled — no charge was made. Pick a plan whenever you're ready.
+                </div>
+              )}
+              {(tier === "pro" || tier === "ai_manager") && (
+                <div className="rounded-xl border border-primary/20 bg-primary/5 px-4 py-3 flex flex-col sm:flex-row sm:items-center gap-3">
+                  <p className="text-sm flex-1">
+                    <span className="font-semibold text-primary">
+                      {tier === "pro" ? "Artist Pro" : "AI Manager"}
+                    </span>
+                    <span className="text-muted-foreground">
+                      {user?.subscription_status === "trialing"
+                        ? ` — free trial, ${daysLeft} ${daysLeft === 1 ? "day" : "days"} left`
+                        : user?.subscription_status === "canceled"
+                        ? " — ended"
+                        : user?.cancel_at_period_end
+                        ? " — set to cancel at period end"
+                        : " — active"}
+                    </span>
+                  </p>
+                  {(user?.subscription_status === "active" || user?.subscription_status === "trialing") && !user?.cancel_at_period_end && (
+                    <Button size="sm" variant="outline" onClick={handleCancel} disabled={canceling} className="gap-1.5 shrink-0">
+                      {canceling ? <Zap className="h-3.5 w-3.5 animate-pulse" /> : null}
+                      {user?.subscription_status === "trialing" ? "Cancel trial (pay nothing)" : "Cancel plan"}
+                    </Button>
+                  )}
+                </div>
+              )}
+              {planMsg && <p className="text-xs text-muted-foreground px-1">{planMsg}</p>}
+            </div>
+          )}
+
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-5">
+            {/* ARTIST PRO */}
+            <motion.div initial={{ opacity: 0, y: 24 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}
+              className="relative rounded-2xl border border-chart-5/20 bg-card p-6 flex flex-col">
+              <div className="absolute -top-3 left-1/2 -translate-x-1/2 px-3 py-1 rounded-full text-xs font-bold whitespace-nowrap bg-chart-5 text-black">
+                7-Day Free Trial
+              </div>
+              <div className="h-11 w-11 rounded-xl bg-chart-5/10 border border-chart-5/20 flex items-center justify-center mb-4">
+                <Users className="h-5 w-5 text-chart-5" />
+              </div>
+              <p className="font-heading font-black text-2xl">Artist Pro</p>
+              <p className="text-sm font-semibold mt-0.5 mb-2 text-chart-5">You and your team, finally in sync.</p>
+              <p className="text-2xl font-black mb-3">$37<span className="text-sm text-muted-foreground font-medium">/mo</span></p>
+              <p className="text-sm text-muted-foreground leading-relaxed mb-5">
+                You're growing — bring your people. Your manager, producer, and engineer work from the same songs, same strategy, same plan. No missed emails, no dropped balls.
+              </p>
+              <div className="space-y-2 flex-1">
+                {PRO_ITEMS.map(item => (
+                  <div key={item} className="flex items-start gap-2.5">
+                    <CheckCircle2 className="h-4 w-4 shrink-0 mt-0.5 text-chart-5" />
+                    <span className="text-xs text-foreground">{item}</span>
                   </div>
-                )}
-                {tier.glow && (
-                  <div className="absolute inset-0 rounded-2xl bg-primary/5 pointer-events-none" />
-                )}
-                <div className={`h-11 w-11 rounded-xl ${tier.bg} border ${tier.border} flex items-center justify-center mb-4 relative`}>
-                  <tier.icon className={`h-5 w-5 ${tier.color}`} />
-                </div>
-                <p className="font-heading font-black text-2xl">{tier.name}</p>
-                <p className={`text-sm font-semibold mt-0.5 mb-2 ${tier.color}`}>{tier.tagline}</p>
-                <p className="text-2xl font-black mb-3">{tier.price}</p>
-                <p className="text-sm text-muted-foreground leading-relaxed mb-5">{tier.desc}</p>
-                <div className="space-y-2 flex-1">
-                  {tier.items.map((item) => (
-                    <div key={item} className="flex items-start gap-2.5">
-                      <CheckCircle2 className={`h-4 w-4 shrink-0 mt-0.5 ${tier.color}`} />
-                      <span className="text-xs text-foreground">{item}</span>
-                    </div>
-                  ))}
-                </div>
-                <Button
-                  className="w-full mt-6 font-semibold bg-primary hover:bg-primary/90 text-primary-foreground relative"
-                  onClick={handleCTA}
-                >
-                  {tier.name === "AI Manager" && <Sparkles className="h-3.5 w-3.5 mr-1.5" />}
-                  {tier.cta}
-                </Button>
-                {tier.subtext && <p className="text-center text-xs text-muted-foreground mt-2">{tier.subtext}</p>}
-              </motion.div>
-            ))}
+                ))}
+              </div>
+              <div className="mt-6">
+                {!isAuth ? loginCta("Start 7-Day Free Trial")
+                  : tier === "free" ? <CheckoutButton tier="pro" className="bg-chart-5 hover:bg-chart-5/90 text-black">Start 7-Day Free Trial</CheckoutButton>
+                  : <Button className="w-full font-semibold" disabled>{tier === "pro" ? "Your current plan" : "Included in your plan"}</Button>}
+              </div>
+              <p className="text-center text-xs text-muted-foreground mt-2">Card required — charged $37 automatically after 7 days. Cancel before then, pay nothing.</p>
+            </motion.div>
+
+            {/* AI MANAGER */}
+            <motion.div initial={{ opacity: 0, y: 24 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: 0.08 }}
+              className="relative rounded-2xl border border-primary/30 bg-card p-6 flex flex-col ring-2 ring-primary/60 shadow-2xl shadow-primary/10">
+              <div className="absolute -top-3 left-1/2 -translate-x-1/2 px-3 py-1 rounded-full text-xs font-bold whitespace-nowrap bg-primary text-primary-foreground">
+                Maya Works For You
+              </div>
+              <div className="absolute inset-0 rounded-2xl bg-primary/5 pointer-events-none" />
+              <div className="h-11 w-11 rounded-xl bg-primary/10 border border-primary/30 flex items-center justify-center mb-4 relative">
+                <Bot className="h-5 w-5 text-primary" />
+              </div>
+              <p className="font-heading font-black text-2xl">AI Manager</p>
+              <p className="text-sm font-semibold mt-0.5 mb-2 text-primary">Your career, worked around the clock.</p>
+              <p className="text-2xl font-black mb-3">$60<span className="text-sm text-muted-foreground font-medium">/mo</span></p>
+              <p className="text-sm text-muted-foreground leading-relaxed mb-5">
+                A real manager takes 15–20% of everything you earn. Maya drafts your playlist pitches, tour outreach, EPKs, and digests from your real numbers — and every move waits for your approval.
+              </p>
+              <div className="space-y-2 flex-1">
+                {AI_ITEMS.map(item => (
+                  <div key={item} className="flex items-start gap-2.5">
+                    <CheckCircle2 className="h-4 w-4 shrink-0 mt-0.5 text-primary" />
+                    <span className="text-xs text-foreground">{item}</span>
+                  </div>
+                ))}
+              </div>
+              <div className="mt-6 relative">
+                {!isAuth ? loginCta("Unlock Maya")
+                  : tier === "ai_manager" ? <Button className="w-full font-semibold" disabled>Your current plan</Button>
+                  : <CheckoutButton tier="ai_manager" className="bg-primary hover:bg-primary/90 text-primary-foreground gap-2"><Sparkles className="h-4 w-4" /> Unlock Maya</CheckoutButton>}
+              </div>
+              <p className="text-center text-xs text-muted-foreground mt-2">Cancel anytime. No percentage cuts — ever.</p>
+            </motion.div>
           </div>
         </div>
       </section>
 
-      {/* STATS */}
-      <section className="px-4 py-20 border-t border-border bg-secondary/20">
-        <div className="max-w-5xl mx-auto space-y-10">
-          <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="text-center space-y-2">
-            <p className="text-xs text-primary uppercase tracking-wider font-bold">The Results</p>
-            <h2 className="font-heading text-4xl sm:text-5xl font-bold">What happens when artists use SoundReady.</h2>
-            <p className="text-lg text-muted-foreground">Not promises. Outcomes.</p>
+      {/* THE MATH */}
+      <section className="px-4 pb-16">
+        <div className="max-w-3xl mx-auto">
+          <motion.div initial={{ opacity: 0, y: 16 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}
+            className="rounded-2xl bg-secondary border border-border p-8 text-center space-y-5">
+            <ShieldCheck className="h-8 w-8 text-primary mx-auto" />
+            <h3 className="font-heading text-2xl font-bold">The math doesn't lie.</h3>
+            <div className="grid grid-cols-2 gap-4 text-center max-w-md mx-auto">
+              <div className="rounded-xl bg-destructive/10 border border-destructive/25 p-4 space-y-1">
+                <p className="font-heading text-2xl font-black text-destructive">15–20%</p>
+                <p className="text-xs text-muted-foreground">What a traditional manager takes — of everything, forever</p>
+              </div>
+              <div className="rounded-xl bg-primary/10 border border-primary/20 p-4 space-y-1">
+                <p className="font-heading text-2xl font-black text-primary">$60 flat</p>
+                <p className="text-xs text-muted-foreground">Maya — full-time work, zero cuts</p>
+              </div>
+            </div>
           </motion.div>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-            {[
-              { num: "+200%", label: "Average revenue increase", sub: "Within 12 months using SoundReady's finance, pitching, and release tools." },
-              { num: "+78%", label: "Increase in streams", sub: "For artists using release strategy and playlist pitching on every release." },
-              { num: "+120%", label: "More shows booked", sub: "Versus artists sending cold emails manually." },
-              { num: "10+ hrs", label: "Saved every week", sub: "By stopping manual playlist, outreach, royalty tracking, and release planning." },
-            ].map((s, i) => (
-              <motion.div key={i} initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: i * 0.1 }}
-                className="rounded-2xl bg-card border border-primary/20 p-6 space-y-3 text-center">
-                <p className="font-heading text-5xl font-black text-primary">{s.num}</p>
-                <p className="font-heading font-bold text-sm">{s.label}</p>
-                <p className="text-xs text-muted-foreground leading-relaxed">{s.sub}</p>
-              </motion.div>
-            ))}
-          </div>
         </div>
       </section>
 
       {/* FAQ */}
-      <section className="px-4 py-24 border-t border-border">
+      <section className="px-4 pb-24 border-t border-border pt-16">
         <div className="max-w-2xl mx-auto space-y-8">
           <motion.div initial={{ opacity: 0, y: 16 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="text-center space-y-2">
             <p className="text-xs text-primary uppercase tracking-widest font-bold">Common Questions</p>
@@ -298,17 +314,21 @@ export default function Pricing() {
       </section>
 
       {/* FINAL CTA */}
-      <section className="px-4 py-32 border-t border-border text-center bg-gradient-to-t from-primary/8 via-background to-background">
+      <section className="px-4 py-28 border-t border-border text-center bg-gradient-to-t from-primary/8 via-background to-background">
         <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="max-w-2xl mx-auto space-y-8">
-          <h2 className="font-heading text-5xl sm:text-6xl font-black leading-[0.95]">
+          <h2 className="font-heading text-4xl sm:text-5xl font-black leading-[0.95]">
             Your next release could be your biggest.<br />
-            <span className="text-primary">SoundReady makes sure of it.</span>
+            <span className="text-primary">Maya makes sure of it.</span>
           </h2>
-          <p className="text-lg text-muted-foreground">The artists winning right now aren't more talented — they're more organized and more strategic. SoundReady gives you everything you need to be both, starting today.</p>
-          <Button size="lg" className="gap-2 font-heading font-bold text-base px-10 h-12" onClick={handleCTA}>
-            Start Building My Career <ArrowRight className="h-4 w-4" />
-          </Button>
-          <p className="text-xs text-muted-foreground">No contracts. No percentage cuts. No free tier — because serious artists deserve serious tools.</p>
+          <p className="text-muted-foreground">Start free today. Upgrade when you're ready — the work is already done for you.</p>
+          {isAuth ? (
+            <Link to="/dashboard"><Button size="lg" className="gap-2 font-heading font-bold text-base px-10 h-12">Go to Dashboard <ArrowRight className="h-4 w-4" /></Button></Link>
+          ) : (
+            <Button size="lg" className="gap-2 font-heading font-bold text-base px-10 h-12" onClick={navigateToLogin}>
+              Start Free <ArrowRight className="h-4 w-4" />
+            </Button>
+          )}
+          <p className="text-xs text-muted-foreground">No contracts. No percentage cuts. Cancel anytime.</p>
         </motion.div>
       </section>
     </div>

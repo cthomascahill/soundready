@@ -1,4 +1,5 @@
 import { useState, useEffect, useRef } from "react";
+import { Link } from "react-router-dom";
 import { base44 } from "@/api/base44Client";
 import { useAuth } from "@/lib/AuthContext";
 import { X, Send, Loader2, Sparkles, ChevronRight } from "lucide-react";
@@ -302,7 +303,7 @@ export default function MayaAssistant() {
 
   if (!user) return null;
 
-  const isAIManager = user.role === "admin";
+  const isAIManager = user.role === "admin" || user.subscription_tier === "ai_manager";
 
   // Non-AI Manager tier: locked upsell button + popover
   if (!isAIManager) {
@@ -364,6 +365,10 @@ export default function MayaAssistant() {
                 <p className="font-heading font-bold text-white">Maya</p>
                 <p className="text-[11px] text-zinc-400">AI Music Industry Manager · {artistName}</p>
               </div>
+              <Link to="/maya-desk" onClick={() => setOpen(false)}
+                className="text-[11px] font-semibold text-primary hover:underline mr-2 shrink-0">
+                Maya's Desk →
+              </Link>
               <button onClick={() => setOpen(false)} className="h-8 w-8 rounded-lg bg-zinc-800 flex items-center justify-center text-zinc-400 hover:text-white hover:bg-zinc-700 transition-colors">
                 <X className="h-4 w-4" />
               </button>

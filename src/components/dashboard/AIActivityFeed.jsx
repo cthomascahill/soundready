@@ -305,7 +305,7 @@ export default function AIActivityFeed({ user }) {
   const [loading, setLoading] = useState(true);
   const [activeTab, setActiveTab] = useState("suggestions");
 
-  const isAIManager = user?.role === "admin" || user?.plan === "ai_manager";
+  const isAIManager = user?.role === "admin" || user?.subscription_tier === "ai_manager";
 
   useEffect(() => {
     if (!isAIManager) { setLoading(false); return; }
@@ -333,9 +333,14 @@ export default function AIActivityFeed({ user }) {
         </div>
         <h2 className="font-heading font-semibold text-lg">AI Activity</h2>
         {isAIManager && (
-          <span className="ml-auto px-2.5 py-0.5 rounded-full bg-primary/10 border border-primary/20 text-primary text-[10px] font-bold uppercase tracking-wider">
-            AI Manager
-          </span>
+          <div className="ml-auto flex items-center gap-3">
+            <Link to="/maya-desk" className="text-xs font-medium text-primary hover:underline">
+              Maya's Desk →
+            </Link>
+            <span className="px-2.5 py-0.5 rounded-full bg-primary/10 border border-primary/20 text-primary text-[10px] font-bold uppercase tracking-wider">
+              AI Manager
+            </span>
+          </div>
         )}
       </div>
 
@@ -374,9 +379,11 @@ export default function AIActivityFeed({ user }) {
               <p className="text-sm text-muted-foreground max-w-sm mx-auto leading-relaxed">
                 Upgrade to AI Manager and SoundReady automatically pitches playlists, finds tour opportunities, drafts booking emails, and sends you a weekly career digest — all without lifting a finger.
               </p>
-              <Button size="sm" className="gap-2 font-semibold" onClick={() => window.location.href = "/pricing"}>
-                <Zap className="h-3.5 w-3.5" />Upgrade to AI Manager · $200/mo
-              </Button>
+              <Link to="/pricing-account">
+                <Button size="sm" className="gap-2 font-semibold">
+                  <Zap className="h-3.5 w-3.5" />Upgrade to AI Manager · $60/mo
+                </Button>
+              </Link>
             </div>
           </div>
         ) : loading ? (
