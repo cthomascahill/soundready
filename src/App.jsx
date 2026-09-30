@@ -1,3 +1,5 @@
+import { useEffect } from 'react';
+import { base44 } from '@/api/base44Client';
 import { Toaster } from "@/components/ui/toaster"
 import { QueryClientProvider } from '@tanstack/react-query'
 import { queryClientInstance } from '@/lib/query-client'
@@ -81,6 +83,18 @@ const pro = (Page) => (
   <ProGate><Page /></ProGate>
 );
 
+// Sends a logged-out visitor to the login page, then back where they were headed
+const LoginRedirect = () => {
+  useEffect(() => {
+    base44.auth.redirectToLogin(window.location.pathname);
+  }, []);
+  return (
+    <div className="fixed inset-0 flex items-center justify-center bg-background">
+      <div className="w-8 h-8 border-4 border-primary/20 border-t-primary rounded-full animate-spin" />
+    </div>
+  );
+};
+
 const AuthenticatedApp = () => {
   const { user, isLoadingAuth, isLoadingPublicSettings, authError, navigateToLogin } = useAuth();
 
@@ -106,6 +120,18 @@ const AuthenticatedApp = () => {
         </Routes>
       );
     }
+  }
+
+  // Logged-out visitors on a public app: marketing site + login for everything else
+  if (!user) {
+    return (
+      <Routes>
+        <Route path="/" element={<About />} />
+        <Route path="/how-it-works" element={<HowItWorks />} />
+        <Route path="/pricing" element={<Pricing />} />
+        <Route path="*" element={<LoginRedirect />} />
+      </Routes>
+    );
   }
 
   return (

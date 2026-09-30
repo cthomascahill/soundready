@@ -9,6 +9,7 @@ import {
   Bot, UserCheck, ChevronRight, Sparkles
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import SoundReadyLogo from "@/components/SoundReadyLogo";
 
 const MANAGER_PAINS = [
   { icon: DollarSign, text: "The traditional model takes 15–20% of everything you earn — whether deals close or not" },
@@ -113,6 +114,22 @@ export default function About() {
 
   return (
     <div className="min-h-screen bg-background">
+
+      {/* Nav */}
+      <header className="sticky top-0 z-40 border-b border-border/50 bg-background/90 backdrop-blur-xl">
+        <div className="max-w-6xl mx-auto px-4 h-14 flex items-center justify-between">
+          <Link to="/"><SoundReadyLogo size={28} /></Link>
+          <div className="flex items-center gap-4">
+            <Link to="/how-it-works" className="text-sm text-muted-foreground hover:text-foreground transition-colors hidden sm:block">How It Works</Link>
+            <Link to="/pricing" className="text-sm text-muted-foreground hover:text-foreground transition-colors hidden sm:block">Pricing</Link>
+            {isAuth ? (
+              <Button size="sm" className="font-semibold" onClick={() => window.location.href = "/dashboard"}>Go to Dashboard</Button>
+            ) : (
+              <Button size="sm" className="font-semibold" onClick={handleCTA}>Log In / Sign Up</Button>
+            )}
+          </div>
+        </div>
+      </header>
 
       {/* HERO */}
       <section className="relative px-4 pt-28 pb-24 text-center overflow-hidden">
