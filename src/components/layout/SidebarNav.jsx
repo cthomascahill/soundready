@@ -1,4 +1,7 @@
 import { Link } from "react-router-dom";
+import { useAuth } from "@/lib/AuthContext";
+import { isProOrAbove } from "@/lib/tier";
+import { Lock } from "lucide-react";
 import {
   Home, Music2, Users, ListChecks, Sparkles, Flame, Link2,
   Map, Newspaper, CreditCard, UserCircle, PenTool,
@@ -55,7 +58,16 @@ const NAV_SECTIONS = [
   },
 ];
 
+// Pages locked behind Artist Pro — free users see a lock icon on these
+const PRO_ONLY = new Set([
+  "/studio", "/career-roadmap", "/artist-feed", "/music-news",
+  "/gig-finder", "/tour-opportunities", "/tour-planner", "/tour-finance",
+  "/contracts", "/team-chat", "/whiteboard",
+]);
+
 export default function SidebarNav({ activePath, onNavigate }) {
+  const { user } = useAuth();
+  const showLocks = !isProOrAbove(user);
   return (
     <nav className="flex-1 overflow-y-auto px-3 py-4 space-y-5">
       {NAV_SECTIONS.map((section) => (
@@ -81,6 +93,9 @@ export default function SidebarNav({ activePath, onNavigate }) {
                 >
                   <item.icon className="h-4 w-4 shrink-0" />
                   {item.label}
+                  {showLocks && PRO_ONLY.has(item.to) && (
+                    <Lock className="h-3 w-3 ml-auto text-muted-foreground/50 shrink-0" />
+                  )}
                 </Link>
               );
             })}

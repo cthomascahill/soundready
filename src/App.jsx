@@ -73,6 +73,12 @@ import BeatDiscovery from './pages/BeatDiscovery.jsx';
 import WhiteboardCanvas from './pages/WhiteboardCanvas';
 import ConnectProfiles from './pages/ConnectProfiles';
 import MayaDesk from './pages/MayaDesk';
+import ProGate from './components/ProGate';
+
+// Wraps a page so free-tier users see the Artist Pro upgrade screen
+const pro = (Page) => (
+  <ProGate><Page /></ProGate>
+);
 
 const AuthenticatedApp = () => {
   const { user, isLoadingAuth, isLoadingPublicSettings, authError, navigateToLogin } = useAuth();
@@ -127,7 +133,7 @@ const AuthenticatedApp = () => {
         <Route path="/pitch-deck" element={<PitchDeck />} />
         <Route path="/spotify" element={<SpotifyConnect />} />
         <Route path="/playlist-pitcher" element={<PlaylistPitcher />} />
-        <Route path="/gig-finder" element={<GigFinder />} />
+        <Route path="/gig-finder" element={pro(GigFinder)} />
         <Route path="/algorithm-guide" element={<AlgorithmGuide />} />
         <Route path="/mastering" element={<Mastering />} />
         <Route path="/link-in-bio" element={<LinkInBio />} />
@@ -135,11 +141,11 @@ const AuthenticatedApp = () => {
         <Route path="/press-kit" element={<PressKit />} />
         <Route path="/pricing-account" element={<Pricing />} />
         <Route path="/profile" element={<Profile />} />
-        <Route path="/contracts" element={<VenueContracts />} />
-        <Route path="/tour-finance" element={<TourFinance />} />
-        <Route path="/tour-planner" element={<TourPlanner />} />
-        <Route path="/tour-planner/:tourId" element={<TourPlannerCanvas />} />
-        <Route path="/tour-opportunities" element={<TourOpportunities />} />
+        <Route path="/contracts" element={pro(VenueContracts)} />
+        <Route path="/tour-finance" element={pro(TourFinance)} />
+        <Route path="/tour-planner" element={pro(TourPlanner)} />
+        <Route path="/tour-planner/:tourId" element={pro(TourPlannerCanvas)} />
+        <Route path="/tour-opportunities" element={pro(TourOpportunities)} />
         <Route path="/tax-estimator" element={<TaxEstimator />} />
         <Route path="/newsletter" element={<NewsletterBuilder />} />
 
@@ -150,8 +156,8 @@ const AuthenticatedApp = () => {
         <Route path="/streaming-analyst" element={<StreamingAnalyst />} />
         <Route path="/song-tracker" element={<SongTracker />} />
         <Route path="/artist-profile" element={<ArtistIntake />} />
-        <Route path="/studio" element={<Studio />} />
-        <Route path="/music-news" element={<MusicNews />} />
+        <Route path="/studio" element={pro(Studio)} />
+        <Route path="/music-news" element={pro(MusicNews)} />
 
         <Route path="/email-campaigns" element={<EmailCampaigns />} />
 
@@ -161,17 +167,17 @@ const AuthenticatedApp = () => {
         <Route path="/legal" element={<Legal />} />
         <Route path="/invoices" element={<InvoiceManager />} />
         <Route path="/soundcheck" element={<Soundcheck />} />
-        <Route path="/whiteboard" element={<Whiteboard />} />
-        <Route path="/team-chat" element={<TeamChat />} />
+        <Route path="/whiteboard" element={pro(Whiteboard)} />
+        <Route path="/team-chat" element={pro(TeamChat)} />
         <Route path="/branding-studio" element={<BrandingStudio />} />
-        <Route path="/career-roadmap" element={<CareerRoadmap />} />
+        <Route path="/career-roadmap" element={pro(CareerRoadmap)} />
         <Route path="/revenue-splits" element={<RevenueSplits />} />
         <Route path="/lyric-room" element={<LyricRoom />} />
         <Route path="/genre-trends" element={<GenreTrends />} />
         <Route path="/challenge-tracker" element={<ChallengeTracker />} />
-        <Route path="/artist-feed" element={<ArtistFeed />} />
+        <Route path="/artist-feed" element={pro(ArtistFeed)} />
         <Route path="/beat-discovery" element={<BeatDiscovery />} />
-        <Route path="/whiteboard/:boardId" element={<WhiteboardCanvas />} />
+        <Route path="/whiteboard/:boardId" element={pro(WhiteboardCanvas)} />
         <Route path="/connect-profiles" element={<ConnectProfiles />} />
         <Route path="/maya-desk" element={<MayaDesk />} />
         <Route path="/community" element={<Community />} />

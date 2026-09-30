@@ -26,16 +26,14 @@ const TIERS = [
     bg: "bg-chart-5/10",
     border: "border-chart-5/20",
     name: "Artist",
-    tagline: "Your career hub. Free forever.",
+    tagline: "Your music's home base. Free forever.",
     price: "$0",
-    desc: "Every serious artist needs a system before they need a team. Organize your songs in the Vault, track your releases, find your people on The Wall, and connect your platforms — free, forever.",
+    desc: "Every serious artist needs a system before they need a team. Organize your entire catalog in the Song Vault and track every release from idea to release — free, forever. Everything else unlocks with Artist Pro.",
     items: [
-      "Song Vault & pre-release Tracker",
-      "The Studio — lyrics, ideas & beats",
-      "The Wall — the artist community",
-      "Artist profile & Career Roadmap",
+      "Song Vault — your entire catalog, organized",
+      "Song Tracker — from idea to release",
       "Connect Spotify & YouTube",
-      "Weekly music news briefing",
+      "Your artist dashboard",
     ],
     cta: "Start Free",
     subtext: "Free forever. No card required.",
@@ -49,14 +47,14 @@ const TIERS = [
     tagline: "You and your team, finally in sync.",
     price: "$37/mo",
     badge: "Most Popular · 7-Day Free Trial",
-    desc: "You're growing — bring your people. Your manager, producer, and engineer work from the same songs, same strategy, same plan. Plus the full toolkit: releases, tours, finance, legal, and intelligence.",
+    desc: "The full toolkit, unlocked. Book more shows, plan smarter tours, and bring your manager, producer, and engineer into one workspace — everything works together, 7 days free.",
     items: [
-      "Everything in Artist",
-      "Invite your manager, producer & engineer",
-      "Team chat & shared whiteboard",
-      "Full release, tour, finance & legal toolkit",
-      "A&R, fan & release intelligence",
-      "Priority support",
+      "Everything in Artist, unlocked",
+      "The Studio, Gig Finder & 570+ venue database",
+      "Tour Planner, Tour Finance & Venue Contracts",
+      "The Wall — the artist community",
+      "Invite your team — Team Chat & Whiteboard",
+      "Career Roadmap & weekly music briefings",
     ],
     cta: "Start 7-Day Free Trial",
     route: "/pricing",
@@ -132,7 +130,7 @@ export default function About() {
           </h1>
 
           <p className="text-xl sm:text-2xl text-muted-foreground leading-relaxed max-w-3xl mx-auto font-body">
-            SoundReady gives independent artists the same tools, strategy, and infrastructure that signed artists get from their label — free to start. Organize your music in the Vault and Studio, connect your platforms, bring your whole team on Pro when you're ready — then hand the day-to-day work to Maya, your AI manager.
+            SoundReady gives independent artists the same tools, strategy, and infrastructure that signed artists get from their label — free to start. Your Song Vault and Song Tracker are free forever. When you're ready for more, Artist Pro unlocks the full toolkit — booking, touring, your whole team — and Maya, your AI manager, takes the day-to-day work off your plate.
           </p>
 
           <div className="flex flex-col sm:flex-row items-center justify-center gap-3 pt-2">
@@ -213,7 +211,7 @@ export default function About() {
           <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="text-center space-y-4">
             <p className="text-xs text-primary uppercase tracking-wider font-bold">Pricing</p>
             <h2 className="font-heading text-4xl sm:text-5xl font-bold">Start free. Grow when you're ready.</h2>
-            <p className="text-lg text-muted-foreground max-w-2xl mx-auto">Your core tools are free forever. Upgrade for your team — or hand the work to Maya when the career is moving.</p>
+            <p className="text-lg text-muted-foreground max-w-2xl mx-auto">Your Vault and Song Tracker are free forever. Unlock the full toolkit with Pro — or hand the work to Maya when the career is moving.</p>
           </motion.div>
 
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-5">

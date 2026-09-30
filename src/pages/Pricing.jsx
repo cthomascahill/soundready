@@ -12,21 +12,19 @@ import SoundReadyLogo from "@/components/SoundReadyLogo";
 import CheckoutButton from "@/components/billing/CheckoutButton";
 
 const FREE_ITEMS = [
-  "Song Vault & pre-release Tracker",
-  "The Studio (lyrics, ideas, beats)",
-  "The Wall — the artist community",
+  "Song Vault — your entire catalog, organized",
+  "Song Tracker — from idea to release",
   "Connect Spotify & YouTube",
-  "Career Roadmap",
-  "Weekly music news briefing",
+  "Your artist dashboard",
 ];
 
 const PRO_ITEMS = [
-  "Everything in Artist",
-  "Invite your manager, producer & engineer",
-  "Team Chat + shared Whiteboard",
-  "Full release, tour, finance & legal toolkit",
-  "A&R, fan & release intelligence",
-  "Priority support",
+  "Everything in Artist, unlocked",
+  "The Studio, Gig Finder & 570+ venue database",
+  "Tour Planner, Tour Finance & Venue Contracts",
+  "The Wall — the artist community",
+  "Team Chat & shared Whiteboard",
+  "Career Roadmap & weekly music briefings",
 ];
 
 const AI_ITEMS = [
@@ -143,7 +141,7 @@ export default function Pricing() {
               <div className="sm:w-1/3">
                 <p className="font-heading font-black text-2xl">Artist</p>
                 <p className="text-3xl font-black mt-1">$0<span className="text-sm text-muted-foreground font-medium"> / forever</span></p>
-                <p className="text-xs text-muted-foreground mt-2">Your career hub. Free — because organizing your music should never cost money.</p>
+                <p className="text-xs text-muted-foreground mt-2">Your music's home base. Free — because organizing your music should never cost money. Everything else unlocks with Artist Pro.</p>
               </div>
               <div className="sm:w-2/3 grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-2">
                 {FREE_ITEMS.map(item => (
