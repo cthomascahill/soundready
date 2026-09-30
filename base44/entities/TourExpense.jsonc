@@ -9,6 +9,10 @@
     "venue_name": {
       "type": "string"
     },
+    "tour_id": {
+      "type": "string",
+      "description": "Tour this expense belongs to"
+    },
     "show_date": {
       "type": "string",
       "description": "ISO date of the show"

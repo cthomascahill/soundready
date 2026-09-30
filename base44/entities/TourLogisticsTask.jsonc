@@ -28,6 +28,10 @@
       "type": "string",
       "description": "Optional link to Venue"
     },
+    "tour_id": {
+      "type": "string",
+      "description": "Tour this task belongs to"
+    },
     "status": {
       "type": "string",
       "enum": [

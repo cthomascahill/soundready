@@ -124,6 +124,10 @@
     },
     "notes": {
       "type": "string"
+    },
+    "tour_id": {
+      "type": "string",
+      "description": "Tour this show belongs to (for Tour Planner)"
     }
   },
   "required": [

@@ -39,6 +39,7 @@ import VenueContracts from './pages/VenueContracts';
 import Community from './pages/Community';
 import TourFinance from './pages/TourFinance';
 import TourPlanner from './pages/TourPlanner';
+import TourPlannerCanvas from './pages/TourPlannerCanvas';
 import TourOpportunities from './pages/TourOpportunities';
 import TaxEstimator from './pages/TaxEstimator';
 import NewsletterBuilder from './pages/NewsletterBuilder.jsx';
@@ -137,6 +138,7 @@ const AuthenticatedApp = () => {
         <Route path="/contracts" element={<VenueContracts />} />
         <Route path="/tour-finance" element={<TourFinance />} />
         <Route path="/tour-planner" element={<TourPlanner />} />
+        <Route path="/tour-planner/:tourId" element={<TourPlannerCanvas />} />
         <Route path="/tour-opportunities" element={<TourOpportunities />} />
         <Route path="/tax-estimator" element={<TaxEstimator />} />
         <Route path="/newsletter" element={<NewsletterBuilder />} />
