@@ -5,7 +5,7 @@ import { base44 } from "@/api/base44Client";
 import { useAuth } from "@/lib/AuthContext";
 import { Button } from "@/components/ui/button";
 import {
-  FileText, Mic2, MapPin, Wand2,
+  FileText, Mic2, MapPin,
   Music2, BarChart2, ChevronRight, ArrowRight,
   Sparkles, AlertCircle, Shield, Map, TrendingUp
 } from "lucide-react";
@@ -18,8 +18,7 @@ const QUICK_ACTIONS = [
   { label: "Create EPK", icon: FileText, to: "/pitch-deck", color: "text-purple-400 bg-purple-500/10" },
   { label: "Pitch to Playlist", icon: Mic2, to: "/playlist-pitcher", color: "text-chart-3 bg-chart-3/10" },
   { label: "Find a Venue", icon: MapPin, to: "/gig-finder", color: "text-orange-400 bg-orange-500/10" },
-  { label: "Master a Track", icon: Wand2, to: "/mastering", color: "text-cyan-400 bg-cyan-500/10" },
-  { label: "A&R Intel", icon: Sparkles, to: "/ar-intelligence", color: "text-chart-5 bg-chart-5/10" },
+
   { label: "Career Roadmap", icon: Map, to: "/career-roadmap", color: "text-teal-400 bg-teal-500/10" },
   { label: "Revenue Splits", icon: TrendingUp, to: "/revenue-splits", color: "text-yellow-400 bg-yellow-500/10" },
   { label: "Analyze Contract", icon: Shield, to: "/contract-analyzer", color: "text-yellow-400 bg-yellow-500/10" },

@@ -7,8 +7,8 @@ import {
   ChevronDown, UserCircle,
   Layout, FileText, Mic2, MapPin, CalendarRange,
   TrendingUp, Receipt, ScrollText,
-  Send, Wand2, Sparkles, ListChecks, Newspaper, Bus, GraduationCap, Paintbrush, Search, Map,
-  PenLine, Flame, Headphones, Radio, Target, Link2
+  Send, Sparkles, ListChecks, Newspaper, Bus, GraduationCap, Paintbrush, Search, Map,
+  Flame, Link2
 } from "lucide-react";
 import SoundReadyLogo from "@/components/SoundReadyLogo";
 import CommandPalette from "@/components/CommandPalette";
@@ -19,9 +19,6 @@ const MUSIC_ITEMS = [
   { to: "/history", icon: Music2, label: "Song Vault" },
   { to: "/song-tracker", icon: ListChecks, label: "Song Tracker" },
   { to: "/studio", icon: Sparkles, label: "The Studio" },
-  { to: "/lyric-room", icon: PenLine, label: "Lyric Room" },
-  { to: "/beat-discovery", icon: Headphones, label: "Beat Discovery" },
-  { to: "/mastering", icon: Wand2, label: "AI Mastering" },
   { to: "/distribution", icon: Send, label: "Distribution" },
 ];
 
@@ -35,11 +32,7 @@ const CAREER_ITEMS = [
   { to: "/connect-profiles", icon: Link2, label: "Connect Platforms" },
   { to: "/branding-studio", icon: Paintbrush, label: "Branding Studio" },
   { to: "/career-roadmap", icon: Map, label: "Career Roadmap" },
-  { to: "/genre-trends", icon: Radio, label: "Genre Trends" },
-  { to: "/challenge-tracker", icon: Target, label: "Challenges & Goals" },
-  { to: "/ar-intelligence", icon: Sparkles, label: "A&R Intelligence" },
   { to: "/playlist-pitcher", icon: Mic2, label: "Playlist Pitching" },
-  { to: "/press-kit", icon: FileText, label: "Press Kit" },
   { to: "/music-academy", icon: GraduationCap, label: "Music Academy" },
 ];
 

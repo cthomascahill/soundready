@@ -128,7 +128,6 @@ export default function SongWorkspace() {
         <Tabs defaultValue="analysis">
           <TabsList className="mb-6">
             <TabsTrigger value="analysis">Analysis</TabsTrigger>
-            <TabsTrigger value="mastering">Mastering</TabsTrigger>
             <TabsTrigger value="distribution">Distribution</TabsTrigger>
             <TabsTrigger value="release-plan">Release Plan</TabsTrigger>
             <TabsTrigger value="pitch">Pitch</TabsTrigger>
@@ -155,20 +154,6 @@ export default function SongWorkspace() {
                 <Verdict text={song.verdict} />
               </div>
             )}
-          </TabsContent>
-
-          {/* Mastering Tab */}
-          <TabsContent value="mastering">
-            <div className="rounded-2xl bg-card border border-border p-8 text-center space-y-4">
-              <div className="h-12 w-12 rounded-xl bg-cyan-500/10 flex items-center justify-center mx-auto">
-                <Music2 className="h-6 w-6 text-cyan-400" />
-              </div>
-              <p className="font-heading font-semibold text-lg">AI Mastering</p>
-              <p className="text-muted-foreground text-sm">Professional WAV output — AI-tuned EQ, compression, and -14 LUFS normalization for streaming.</p>
-              <Button onClick={() => navigate("/mastering")} className="gap-2">
-                Master This Track
-              </Button>
-            </div>
           </TabsContent>
 
           {/* Distribution Tab */}

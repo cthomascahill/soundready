@@ -1,6 +1,6 @@
 import { useState, useEffect, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
-import { Search, X, Music2, Users, Briefcase, DollarSign, MapPin, Mic2, FileText, Wand2, Sparkles, Layout, Newspaper, Map, TrendingUp, Receipt, GraduationCap, Paintbrush, Bus, BarChart2 } from "lucide-react";
+import { Search, X, Music2, Users, Briefcase, DollarSign, MapPin, Mic2, FileText, Sparkles, Layout, Newspaper, Map, TrendingUp, Receipt, GraduationCap, Paintbrush, Bus, BarChart2 } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 
 const ALL_ROUTES = [
@@ -9,16 +9,13 @@ const ALL_ROUTES = [
   { label: "Song Vault", path: "/history", icon: Music2, category: "Music" },
   { label: "Song Tracker", path: "/song-tracker", icon: Music2, category: "Music" },
   { label: "The Studio", path: "/studio", icon: Sparkles, category: "Music" },
-  { label: "AI Mastering", path: "/mastering", icon: Wand2, category: "Music" },
   { label: "Distribution", path: "/distribution", icon: Briefcase, category: "Music" },
   { label: "Whiteboard", path: "/whiteboard", icon: Layout, category: "Team" },
   { label: "Team Chat", path: "/team-chat", icon: Users, category: "Team" },
   { label: "Artist Profile", path: "/artist-profile", icon: Sparkles, category: "Career" },
   { label: "Branding Studio", path: "/branding-studio", icon: Paintbrush, category: "Career" },
   { label: "Career Roadmap", path: "/career-roadmap", icon: Map, category: "Career" },
-  { label: "A&R Intelligence", path: "/ar-intelligence", icon: Sparkles, category: "Career" },
   { label: "Playlist Pitching", path: "/playlist-pitcher", icon: Mic2, category: "Career" },
-  { label: "Press Kit", path: "/press-kit", icon: FileText, category: "Career" },
   { label: "Music Academy", path: "/music-academy", icon: GraduationCap, category: "Career" },
   { label: "Tour Planner", path: "/tour-planner", icon: Bus, category: "Tours" },
   { label: "Tour Opportunities", path: "/tour-opportunities", icon: Briefcase, category: "Tours" },
