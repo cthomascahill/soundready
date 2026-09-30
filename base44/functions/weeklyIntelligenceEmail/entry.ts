@@ -13,7 +13,7 @@ Deno.serve(async (req) => {
     let emailsSent = 0;
 
     for (const user of allUsers) {
-      const userSongs = allAnalyses.filter((s) => s.created_by === user.email);
+      const userSongs = allAnalyses.filter((s) => s.created_by_id === user.id);
       if (userSongs.length === 0) continue;
 
       // Get user's recent snapshots (last 14 days)
@@ -23,14 +23,15 @@ Deno.serve(async (req) => {
       );
 
       // Get user's contacts
-      const userContacts = allContacts.filter((c) => c.created_by === user.email);
+      const userContacts = allContacts.filter((c) => c.created_by_id === user.id);
       const coldContacts = userContacts.filter((c) => c.relationship_status === "Cold").slice(0, 3);
 
-      // Compute trend
+      // Compute trend from the user's most recent song's snapshots
       const latestSong = userSongs[0];
       const songSnaps = userSnaps.filter((s) => s.song_id === latestSong.id).sort((a, b) => a.snapshot_date.localeCompare(b.snapshot_date));
+      const latestSnap = songSnaps.length > 0 ? songSnaps[songSnaps.length - 1] : null;
       const trend = songSnaps.length >= 2
-        ? (songSnaps[songSnaps.length - 1].overall_score - songSnaps[0].overall_score)
+        ? (latestSnap.overall_score - songSnaps[0].overall_score)
         : null;
 
       // Generate personalized email via AI
@@ -38,16 +39,17 @@ Deno.serve(async (req) => {
         prompt: `You are a personal music manager writing a weekly Monday check-in email to an independent artist.
 
 Artist: ${user.full_name || user.email}
-Tracks on SoundScore: ${userSongs.length}
-Top Track: "${latestSong.title}" (${latestSong.genre}, Score: ${latestSong.overall_score}/100)
-TikTok Score: ${latestSong.tiktok_score}/100 | Spotify Score: ${latestSong.spotify_score}/100
+Tracks on SoundReady: ${userSongs.length}
+Top Track: "${latestSong.title}" (${latestSong.genre || "unknown genre"})
+Latest Score: ${latestSnap ? `${latestSnap.overall_score}/100` : "No score yet"}
+TikTok Score: ${latestSnap?.tiktok_score !== undefined && latestSnap?.tiktok_score !== null ? `${latestSnap.tiktok_score}/100` : "N/A"} | Spotify Score: ${latestSnap?.spotify_score !== undefined && latestSnap?.spotify_score !== null ? `${latestSnap.spotify_score}/100` : "N/A"}
 Score Trend (last 2 weeks): ${trend !== null ? (trend > 0 ? `+${trend.toFixed(0)} points ↑` : `${trend.toFixed(0)} points ↓`) : "No snapshots yet"}
 Curator Contacts in CRM: ${userContacts.length} total, ${coldContacts.length} cold leads
 Cold contacts to pitch this week: ${coldContacts.map((c) => `${c.name} (${c.role}, ${c.platform || "no platform"})`).join(", ") || "none yet"}
 
 Write a warm, encouraging, BRIEF weekly email. Tone: knowledgeable friend who is also a music industry insider. 
 Include: 1) Quick score summary 2) 1-2 curator pitch suggestions if applicable 3) 2 specific content ideas for this week based on the genre/mood 4) One sharp actionable tip.
-Format as plain text email. Subject line included. Sign off as "Your SoundScore Manager".`,
+Format as plain text email. Subject line included. Sign off as "Your SoundReady Manager".`,
         response_json_schema: {
           type: "object",
           properties: {
@@ -61,7 +63,7 @@ Format as plain text email. Subject line included. Sign off as "Your SoundScore 
         to: user.email,
         subject: emailContent.subject,
         body: emailContent.body,
-        from_name: "SoundScore",
+        from_name: "SoundReady",
       });
 
       emailsSent++;

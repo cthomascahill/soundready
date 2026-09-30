@@ -55,7 +55,9 @@ Deno.serve(async (req) => {
     url.searchParams.set("page", String(page));
     url.searchParams.set("apiKey", NEWS_API_KEY);
 
-    const res = await fetch(url.toString());
+    const res = await fetch(url.toString(), {
+      headers: { "User-Agent": "SoundReady/1.0 (https://soundready.base44.app)" },
+    });
     const data = await res.json();
 
     if (data.status !== "ok") {
