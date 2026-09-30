@@ -38,6 +38,7 @@ import Profile from './pages/Profile';
 import VenueContracts from './pages/VenueContracts';
 import Community from './pages/Community';
 import TourFinance from './pages/TourFinance';
+import TourFinanceCanvas from './pages/TourFinanceCanvas';
 import TourPlanner from './pages/TourPlanner';
 import TourPlannerCanvas from './pages/TourPlannerCanvas';
 import TourOpportunities from './pages/TourOpportunities';
@@ -143,6 +144,7 @@ const AuthenticatedApp = () => {
         <Route path="/profile" element={<Profile />} />
         <Route path="/contracts" element={pro(VenueContracts)} />
         <Route path="/tour-finance" element={pro(TourFinance)} />
+        <Route path="/tour-finance/:tourId" element={pro(TourFinanceCanvas)} />
         <Route path="/tour-planner" element={pro(TourPlanner)} />
         <Route path="/tour-planner/:tourId" element={pro(TourPlannerCanvas)} />
         <Route path="/tour-opportunities" element={pro(TourOpportunities)} />
