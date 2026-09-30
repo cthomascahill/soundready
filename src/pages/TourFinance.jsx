@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import { base44 } from "@/api/base44Client";
 import { motion } from "framer-motion";
 import moment from "moment";
-import { Map, Mic2, ChevronRight, Calendar, DollarSign, TrendingUp, TrendingDown } from "lucide-react";
+import { Mic2, ChevronRight, Calendar, DollarSign } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { fmt, computeTotals, scopeTourData } from "@/lib/tourFinance";
 
@@ -82,8 +82,6 @@ export default function TourFinance() {
     });
   }, []);
 
-  const overall = all ? computeTotals(all) : null;
-
   return (
     <div className="min-h-screen bg-background px-4 py-10">
       <div className="max-w-5xl mx-auto space-y-6">
@@ -99,35 +97,6 @@ export default function TourFinance() {
           </div>
         ) : (
           <>
-            {/* All-time totals */}
-            {overall && (
-              <div className="grid grid-cols-2 sm:grid-cols-5 gap-3">
-                <div className="rounded-2xl bg-card border border-border p-4 text-center">
-                  <p className="text-xs text-muted-foreground mb-1">Show Payouts</p>
-                  <p className="font-heading font-bold text-xl text-green-600">{fmt(overall.totalPayout)}</p>
-                </div>
-                <div className="rounded-2xl bg-card border border-border p-4 text-center">
-                  <p className="text-xs text-muted-foreground mb-1">Ticket Revenue</p>
-                  <p className="font-heading font-bold text-xl text-green-600">{fmt(overall.totalTicketRevenue)}</p>
-                </div>
-                <div className="rounded-2xl bg-card border border-border p-4 text-center">
-                  <p className="text-xs text-muted-foreground mb-1">Merch Net</p>
-                  <p className="font-heading font-bold text-xl text-green-600">{fmt(overall.totalMerchRevenue - overall.totalMerchCost)}</p>
-                </div>
-                <div className="rounded-2xl bg-card border border-border p-4 text-center">
-                  <p className="text-xs text-muted-foreground mb-1">Total Expenses</p>
-                  <p className="font-heading font-bold text-xl text-destructive">{fmt(overall.totalExpenses)}</p>
-                </div>
-                <div className={`rounded-2xl border p-4 text-center ${overall.netProfit >= 0 ? "bg-primary/5 border-primary/20" : "bg-destructive/5 border-destructive/20"}`}>
-                  <p className="text-xs text-muted-foreground mb-1">Net Profit</p>
-                  <div className="flex items-center justify-center gap-1">
-                    {overall.netProfit >= 0 ? <TrendingUp className="h-4 w-4 text-primary" /> : <TrendingDown className="h-4 w-4 text-destructive" />}
-                    <p className={`font-heading font-bold text-xl ${overall.netProfit >= 0 ? "text-primary" : "text-destructive"}`}>{fmt(overall.netProfit)}</p>
-                  </div>
-                </div>
-              </div>
-            )}
-
             {/* Tours grid */}
             {tours.length === 0 ? (
               <div className="rounded-2xl border border-border bg-card p-12 text-center">
