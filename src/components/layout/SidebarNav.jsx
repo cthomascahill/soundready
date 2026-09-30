@@ -2,6 +2,7 @@ import { Link } from "react-router-dom";
 import {
   Home, Music2, Users, ListChecks, Sparkles, Flame, Link2,
   Map, Newspaper, CreditCard, UserCircle, PenTool,
+  Mic2, Megaphone, Route, Wallet, FileText,
 } from "lucide-react";
 
 const NAV_SECTIONS = [
@@ -17,7 +18,6 @@ const NAV_SECTIONS = [
       { to: "/history", icon: Music2, label: "Song Vault" },
       { to: "/song-tracker", icon: ListChecks, label: "Song Tracker" },
       { to: "/studio", icon: Sparkles, label: "The Studio" },
-      { to: "/whiteboard", icon: PenTool, label: "Whiteboard" },
     ],
   },
   {
@@ -30,9 +30,20 @@ const NAV_SECTIONS = [
     ],
   },
   {
+    label: "Touring",
+    items: [
+      { to: "/gig-finder", icon: Mic2, label: "Gig Finder" },
+      { to: "/tour-opportunities", icon: Megaphone, label: "Tour Opportunities" },
+      { to: "/tour-planner", icon: Route, label: "Tour Planner" },
+      { to: "/tour-finance", icon: Wallet, label: "Tour Finance" },
+      { to: "/contracts", icon: FileText, label: "Venue Contracts" },
+    ],
+  },
+  {
     label: "Team",
     items: [
       { to: "/team-chat", icon: Users, label: "Team Chat" },
+      { to: "/whiteboard", icon: PenTool, label: "Whiteboard" },
     ],
   },
   {
