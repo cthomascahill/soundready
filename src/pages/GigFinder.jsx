@@ -4,6 +4,7 @@ import { motion } from "framer-motion";
 import { MapPin, Music, DollarSign, Calendar, Send, Check, ExternalLink, Search, Star, ChevronDown, ChevronUp } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { EXPANDED_VENUE_DB } from "@/lib/venueDatabase";
 
 const VENUE_DB = [
   // New York, NY
@@ -498,6 +499,8 @@ const VENUE_DB = [
 ];
 
 
+const ALL_VENUES = [...VENUE_DB, ...EXPANDED_VENUE_DB];
+
 const BOOKING_RESOURCES = [
   { name: "Indie on the Move", url: "https://www.indieonthemove.com", desc: "The gold standard for DIY touring. Searchable venue database, booking contacts, and tour routing tools.", icon: "🗺️" },
   { name: "Sonicbids", url: "https://www.sonicbids.com", desc: "EPK platform connecting artists to venues and festivals worldwide. Submit your EPK once, apply to hundreds of gigs.", icon: "📁" },
@@ -579,7 +582,7 @@ export default function GigFinder() {
   const GENRES = ["All", "Hip Hop", "Pop", "R&B", "Indie", "EDM", "Country", "Rock", "Latin"];
   const TYPES = ["All", "Club", "Bar/Venue", "Concert Hall", "Arts Venue", "Amphitheater"];
 
-  const filtered = VENUE_DB.filter((v) => {
+  const filtered = ALL_VENUES.filter((v) => {
     const genreMatch = genre === "All" || v.genres.includes(genre) || v.genres.includes("All");
     const cityMatch = !city.trim() || v.city.toLowerCase().includes(city.toLowerCase());
     const typeMatch = venueType === "All" || v.type === venueType;
@@ -617,7 +620,7 @@ export default function GigFinder() {
         {/* Venue grid */}
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
           {filtered.map((venue) => (
-            <motion.div key={venue.name} initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }}
+            <motion.div key={`${venue.name}-${venue.city}`} initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }}
               className="rounded-2xl bg-card border border-border p-5 space-y-3">
               <div>
                 <div className="flex items-start justify-between gap-2">

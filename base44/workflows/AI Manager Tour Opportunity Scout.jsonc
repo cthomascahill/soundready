@@ -1,0 +1,45 @@
+{
+  "name": "AI Manager Tour Opportunity Scout",
+  "description": "Every Wednesday morning, Maya scans the web for tours, festivals, and venue booking windows matching each AI Manager artist's genre and key markets, and queues draft outreach pitches in Maya's Desk for approval.",
+  "trigger": {
+    "condition": null,
+    "config": {
+      "trigger_type": "scheduled",
+      "events": [],
+      "schedule_mode": "recurring",
+      "cron_expression": "0 9 * * 3",
+      "one_time_date": null,
+      "timezone": "America/New_York",
+      "interval_value": null,
+      "interval_unit": null,
+      "interval_anchor": null,
+      "ends_type": "never",
+      "ends_on_date": null,
+      "ends_after_count": null
+    }
+  },
+  "definition": {
+    "document": {
+      "dsl": "1.0.0",
+      "name": "ai_manager_tour_opportunity_scout",
+      "version": "1.0",
+      "namespace": "base44"
+    },
+    "do": [
+      {
+        "scout_tours": {
+          "call": "invoke_backend_function",
+          "with": {
+            "function_name": "aiTourOpportunities",
+            "args": {}
+          },
+          "then": "end",
+          "x-base44": {
+            "title": "Find tour opportunities",
+            "description": "Scans web for genre + market matches"
+          }
+        }
+      }
+    ]
+  }
+}
