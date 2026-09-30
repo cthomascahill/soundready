@@ -211,7 +211,7 @@ export default function BeatDiscovery() {
         <div className="flex items-start justify-between flex-wrap gap-4">
           <div>
             <p className="text-xs text-primary uppercase tracking-widest font-medium">Discovery</p>
-            <h1 className="font-heading text-3xl font-bold">Beat of the Day</h1>
+            <h1 className="font-heading text-3xl font-bold">Beat Discovery</h1>
             <p className="text-muted-foreground text-sm mt-1">Daily beats from producers. Save, sample, and connect.</p>
           </div>
           <div className="flex gap-2">
@@ -248,48 +248,6 @@ export default function BeatDiscovery() {
                       </div>
                     </div>
                   ))}
-                </div>
-              </div>
-            )}
-
-            {/* Featured Beat Hero */}
-            {featured && (
-              <div className="rounded-2xl border border-primary/30 bg-gradient-to-br from-primary/10 to-card p-6 space-y-5">
-                <div className="flex items-start justify-between flex-wrap gap-3">
-                  <div>
-                    <p className="text-xs text-primary uppercase tracking-widest font-semibold">Today's Featured Beat</p>
-                    <p className="font-heading font-bold text-2xl mt-1">{featured.title}</p>
-                    <p className="text-muted-foreground text-sm">by {featured.producer_name}</p>
-                    <div className="flex flex-wrap gap-1.5 mt-2">
-                      {featured.genre && <span className="text-xs px-2 py-0.5 rounded-full bg-primary/10 text-primary border border-primary/20">{featured.genre}</span>}
-                      {featured.bpm && <span className="text-xs px-2 py-0.5 rounded-full bg-secondary text-muted-foreground border border-border">{featured.bpm} BPM</span>}
-                      {featured.key && <span className="text-xs px-2 py-0.5 rounded-full bg-secondary text-muted-foreground border border-border">Key: {featured.key}</span>}
-                      {(featured.mood_tags || []).map(m => <span key={m} className="text-xs px-2 py-0.5 rounded-full bg-secondary text-muted-foreground border border-border">{m}</span>)}
-                    </div>
-                  </div>
-                  <div className="flex gap-2">
-                    <button onClick={() => saveBeat(featured)} className={`flex items-center gap-1.5 px-3 py-2 rounded-lg border text-sm transition-colors ${featured.saves?.includes(user?.id) ? "bg-primary/10 text-primary border-primary/30" : "border-border text-muted-foreground hover:border-primary/30 hover:text-primary"}`}>
-                      {featured.saves?.includes(user?.id) ? <BookmarkCheck className="h-4 w-4" /> : <Bookmark className="h-4 w-4" />}
-                      {featured.saves?.includes(user?.id) ? "Saved" : "Save Beat"}
-                    </button>
-                    <button onClick={() => { setContactForm({ beatId: featured.id, message: "", email: "" }); setShowContact(true); }}
-                      className="flex items-center gap-1.5 px-3 py-2 rounded-lg border border-border text-sm text-muted-foreground hover:border-primary/30 hover:text-primary transition-colors">
-                      <Send className="h-4 w-4" />Contact Producer
-                    </button>
-                  </div>
-                </div>
-                <WaveformCanvas playing={playing?.id === featured.id} />
-                <div className="flex items-center gap-4">
-                  <button onClick={() => playBeat(featured)} className="h-12 w-12 rounded-full bg-primary flex items-center justify-center hover:bg-primary/80 transition-colors">
-                    {playing?.id === featured.id ? <Pause className="h-5 w-5 text-black" /> : <Play className="h-5 w-5 text-black ml-0.5" />}
-                  </button>
-                  <div className="flex items-center gap-2 text-muted-foreground">
-                    <Volume2 className="h-4 w-4" />
-                    <input type="range" min="0" max="1" step="0.1" value={volume}
-                      onChange={e => { const v = parseFloat(e.target.value); setVolume(v); if (audioRef.current) audioRef.current.volume = v; }}
-                      className="w-20 accent-primary" />
-                  </div>
-                  <span className="text-xs text-muted-foreground ml-auto">{(featured.play_count || 0).toLocaleString()} plays</span>
                 </div>
               </div>
             )}

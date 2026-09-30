@@ -57,7 +57,11 @@ export default function NewClientForm({ open, onClose, onSaved }) {
         </div>
 
         <div className="space-y-1.5">
-          <label className="text-xs text-muted-foreground">Terms / Notes</label>
+          <label className="text-xs text-muted-foreground">Terms</label>
+          <Input name="terms" placeholder="e.g. $500 lease, 50/50 split" />
+        </div>
+        <div className="space-y-1.5">
+          <label className="text-xs text-muted-foreground">Notes</label>
           <textarea
             name="notes"
             placeholder="What's the deal, what's next, follow-ups…"

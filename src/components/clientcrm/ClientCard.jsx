@@ -11,7 +11,25 @@ const STAGES = ["Prospect", "Pitched", "Negotiating", "Closed"];
 export default function ClientCard({ client, onUpdated, onRemoved }) {
   const [busy, setBusy] = useState(false);
   const [expanded, setExpanded] = useState(false);
+  const [editing, setEditing] = useState(false);
+  const [notesDraft, setNotesDraft] = useState("");
+  const [termsDraft, setTermsDraft] = useState("");
   const stageIndex = STAGES.indexOf(client.stage);
+
+  const saveNotes = async () => {
+    if (busy) return;
+    setBusy(true);
+    try {
+      const updated = await base44.entities.ProducerClient.update(client.id, {
+        notes: notesDraft,
+        terms: termsDraft,
+      });
+      onUpdated(updated);
+      setEditing(false);
+    } finally {
+      setBusy(false);
+    }
+  };
 
   const move = async (dir) => {
     const next = STAGES[Math.min(Math.max(stageIndex + dir, 0), STAGES.length - 1)];
@@ -83,19 +101,63 @@ export default function ClientCard({ client, onUpdated, onRemoved }) {
         <p className="text-[10px] text-muted-foreground/80 truncate">On "{client.beat_title}"</p>
       )}
 
-      {(client.notes || client.terms) && (
-        <>
-          <button onClick={() => setExpanded(!expanded)} className="text-[10px] text-primary hover:underline">
-            {expanded ? "Hide notes" : "Notes"}
-          </button>
-          {expanded && (
-            <p className="text-[11px] text-muted-foreground leading-relaxed rounded-lg bg-secondary/50 border border-border p-2 whitespace-pre-wrap">
-              {client.terms ? `Terms: ${client.terms}\n` : ""}
-              {client.notes}
-            </p>
-          )}
-        </>
-      )}
+      <div className="space-y-1.5">
+        <button
+          onClick={() => { setExpanded(!expanded); setEditing(false); }}
+          className="text-[10px] text-primary hover:underline"
+        >
+          {expanded ? "Hide notes" : client.notes || client.terms ? "Notes" : "Add note"}
+        </button>
+        {expanded && !editing && (
+          <div className="space-y-1.5">
+            {client.notes || client.terms ? (
+              <p className="text-[11px] text-muted-foreground leading-relaxed rounded-lg bg-secondary/50 border border-border p-2 whitespace-pre-wrap">
+                {client.terms ? `Terms: ${client.terms}\n` : ""}
+                {client.notes || ""}
+              </p>
+            ) : (
+              <p className="text-[11px] text-muted-foreground/70">No notes on this client yet.</p>
+            )}
+            <button
+              onClick={() => { setNotesDraft(client.notes || ""); setTermsDraft(client.terms || ""); setEditing(true); }}
+              className="text-[10px] text-primary hover:underline"
+            >
+              Edit
+            </button>
+          </div>
+        )}
+        {expanded && editing && (
+          <div className="space-y-2">
+            <input
+              value={termsDraft}
+              onChange={(e) => setTermsDraft(e.target.value)}
+              placeholder="Terms — lease/exclusive, fee, splits…"
+              className="w-full rounded-lg border border-input bg-transparent px-2 py-1.5 text-[11px] focus:outline-none focus:ring-1 focus:ring-ring"
+            />
+            <textarea
+              value={notesDraft}
+              onChange={(e) => setNotesDraft(e.target.value)}
+              placeholder="Notes — what's next, follow-ups, last conversation…"
+              className="w-full h-20 rounded-lg border border-input bg-transparent px-2 py-1.5 text-[11px] focus:outline-none focus:ring-1 focus:ring-ring resize-none"
+            />
+            <div className="flex gap-1.5">
+              <button
+                onClick={saveNotes}
+                disabled={busy}
+                className="px-2.5 py-1 rounded-lg bg-primary text-primary-foreground text-[10px] font-semibold disabled:opacity-50"
+              >
+                {busy ? "Saving…" : "Save"}
+              </button>
+              <button
+                onClick={() => setEditing(false)}
+                className="px-2.5 py-1 rounded-lg border border-border text-muted-foreground text-[10px]"
+              >
+                Cancel
+              </button>
+            </div>
+          </div>
+        )}
+      </div>
 
       <div className="flex items-center justify-between pt-0.5">
         <span className="text-[10px] text-muted-foreground/70">
