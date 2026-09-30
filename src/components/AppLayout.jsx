@@ -8,6 +8,7 @@ import CommandPalette from "@/components/CommandPalette";
 import NotificationCenter from "@/components/NotificationCenter";
 import MayaAssistant from "@/components/MayaAssistant";
 import TrialBanner from "@/components/billing/TrialBanner";
+import { ModeProvider } from "@/lib/mode";
 
 export default function AppLayout() {
   const location = useLocation();
@@ -36,6 +37,7 @@ export default function AppLayout() {
   const closeDrawer = () => setDrawerOpen(false);
 
   return (
+    <ModeProvider>
     <div className="min-h-screen bg-background font-body">
       {/* Mobile top bar */}
       <div className="lg:hidden sticky top-0 z-40 border-b border-border bg-background/90 backdrop-blur-xl">
@@ -97,6 +99,7 @@ export default function AppLayout() {
 
       <CommandPalette open={cmdOpen} onClose={() => setCmdOpen(false)} />
       <MayaAssistant />
-    </div>
+      </div>
+    </ModeProvider>
   );
 }

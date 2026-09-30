@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef } from "react";
 import { base44 } from "@/api/base44Client";
 import { useAuth } from "@/lib/AuthContext";
-import { Play, Pause, Volume2, Bookmark, BookmarkCheck, Upload, Send, Loader2, Music2, ChevronRight } from "lucide-react";
+import { Play, Pause, Volume2, Bookmark, BookmarkCheck, Upload, Send, Loader2, Music2, ChevronRight, Sparkles, Check, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { motion } from "framer-motion";
@@ -98,6 +98,8 @@ export default function BeatDiscovery() {
   const [submitForm, setSubmitForm] = useState({ title: "", genre: "", bpm: "", key: "", mood_tags: [], producer_email: "" });
   const [uploading, setUploading] = useState(false);
   const [submitFile, setSubmitFile] = useState(null);
+  const [matches, setMatches] = useState([]);
+  const [requests, setRequests] = useState([]);
   const audioRef = useRef(null);
 
   useEffect(() => {
@@ -120,6 +122,32 @@ export default function BeatDiscovery() {
     });
     return unsub;
   }, [user]);
+
+  // Artist-side matching: producers whose beats fit this artist's sound
+  useEffect(() => {
+    if (!user?.id) return;
+    base44.functions.invoke("producerMatching", { mode: "artist" })
+      .then(res => setMatches(res.data?.matches || []))
+      .catch(() => setMatches([]));
+  }, [user]);
+
+  // Collab requests received from producers
+  useEffect(() => {
+    if (!user?.id) return;
+    base44.entities.CollabRequest.filter({ artist_id: user.id }, "-created_date", 50)
+      .then(setRequests)
+      .catch(() => setRequests([]));
+    const unsub = base44.entities.CollabRequest.subscribe(ev => {
+      if (ev.type === "create" && ev.data?.artist_id === user?.id) setRequests(prev => [ev.data, ...prev]);
+      if (ev.type === "update") setRequests(prev => prev.map(r => r.id === ev.id ? ev.data : r));
+    });
+    return unsub;
+  }, [user]);
+
+  const respondRequest = async (req, status) => {
+    const updated = await base44.entities.CollabRequest.update(req.id, { status });
+    setRequests(prev => prev.map(r => r.id === req.id ? updated : r));
+  };
 
   const playBeat = async (beat) => {
     if (playing?.id === beat.id) {
@@ -187,10 +215,10 @@ export default function BeatDiscovery() {
             <p className="text-muted-foreground text-sm mt-1">Daily beats from producers. Save, sample, and connect.</p>
           </div>
           <div className="flex gap-2">
-            {["discover", "saved", "submit"].map(t => (
+            {["discover", "saved", "requests", "submit"].map(t => (
               <button key={t} onClick={() => setTab(t)}
                 className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors capitalize ${tab === t ? "bg-primary text-primary-foreground" : "border border-border text-muted-foreground hover:text-foreground"}`}>
-                {t === "saved" ? `Saved (${savedBeats.length})` : t === "submit" ? "Submit a Beat" : "Discover"}
+                {t === "saved" ? `Saved (${savedBeats.length})` : t === "submit" ? "Submit a Beat" : t === "requests" ? `Requests (${requests.filter(r => r.status === "pending").length})` : "Discover"}
               </button>
             ))}
           </div>
@@ -200,6 +228,30 @@ export default function BeatDiscovery() {
 
         {!loading && tab === "discover" && (
           <div className="space-y-6">
+            {/* Matched producers strip */}
+            {matches.length > 0 && (
+              <div className="rounded-2xl border border-primary/20 bg-gradient-to-br from-primary/5 to-card p-5 space-y-3">
+                <div className="flex items-center gap-2">
+                  <Sparkles className="h-4 w-4 text-primary" />
+                  <p className="font-heading font-semibold text-sm">Matched to Your Sound</p>
+                  <span className="text-[10px] text-muted-foreground ml-auto">Producers whose beats fit your profile</span>
+                </div>
+                <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                  {matches.slice(0, 3).map((m, i) => (
+                    <div key={i} className="rounded-xl bg-card border border-border p-4 space-y-2">
+                      <p className="font-semibold text-sm truncate">{m.producer_name}</p>
+                      <p className="text-xs text-muted-foreground line-clamp-2">{(m.reasons || []).slice(0, 2).join(" · ") || "Fits your genre and vibe"}</p>
+                      <div className="flex flex-wrap gap-1">
+                        {(m.beats || []).slice(0, 2).map(b => (
+                          <span key={b.id || b.title} className="text-[10px] px-2 py-0.5 rounded-full bg-primary/10 text-primary border border-primary/20 truncate max-w-full">{b.title}</span>
+                        ))}
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
+
             {/* Featured Beat Hero */}
             {featured && (
               <div className="rounded-2xl border border-primary/30 bg-gradient-to-br from-primary/10 to-card p-6 space-y-5">
@@ -286,6 +338,40 @@ export default function BeatDiscovery() {
                     <button onClick={() => playBeat(beat)} className="h-8 w-8 rounded-full bg-primary flex items-center justify-center hover:bg-primary/80 transition-colors">
                       {playing?.id === beat.id ? <Pause className="h-3.5 w-3.5 text-black" /> : <Play className="h-3.5 w-3.5 text-black ml-0.5" />}
                     </button>
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+        )}
+
+        {tab === "requests" && (
+          <div className="space-y-4">
+            {requests.length === 0 ? (
+              <div className="text-center py-20 text-muted-foreground text-sm">No collab requests yet. Producers whose beats match your sound can reach you here.</div>
+            ) : (
+              <div className="space-y-3">
+                {requests.map(req => (
+                  <div key={req.id} className="rounded-xl bg-card border border-border p-4 space-y-3">
+                    <div className="flex items-start justify-between gap-3">
+                      <div className="min-w-0">
+                        <p className="font-semibold text-sm truncate">{req.producer_name} wants to work with you</p>
+                        {req.beat_title && <p className="text-xs text-primary mt-0.5">Beat: {req.beat_title}</p>}
+                        <p className="text-xs text-muted-foreground mt-1.5 leading-relaxed">{req.message}</p>
+                      </div>
+                      <span className={`text-[10px] font-bold px-2 py-0.5 rounded-full border shrink-0 ${
+                        req.status === "pending" ? "bg-yellow-500/10 text-yellow-400 border-yellow-500/25" :
+                        req.status === "accepted" ? "bg-primary/10 text-primary border-primary/20" :
+                        "bg-secondary text-muted-foreground border-border"}`}>
+                        {req.status === "pending" ? "New" : req.status === "accepted" ? "Accepted" : "Declined"}
+                      </span>
+                    </div>
+                    {req.status === "pending" && (
+                      <div className="flex gap-2">
+                        <Button size="sm" className="gap-1.5 flex-1" onClick={() => respondRequest(req, "accepted")}><Check className="h-3.5 w-3.5" />Accept</Button>
+                        <Button size="sm" variant="outline" className="gap-1.5 flex-1" onClick={() => respondRequest(req, "declined")}><X className="h-3.5 w-3.5" />Decline</Button>
+                      </div>
+                    )}
                   </div>
                 ))}
               </div>

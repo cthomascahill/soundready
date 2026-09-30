@@ -12,16 +12,18 @@ import SoundReadyLogo from "@/components/SoundReadyLogo";
 import CheckoutButton from "@/components/billing/CheckoutButton";
 
 const FREE_ITEMS = [
-  "Song Vault — your entire catalog, organized",
+  "Song Vault — your entire song catalog, organized",
   "Song Tracker — from idea to release",
+  "Beat Vault & Placements — for producers",
   "Connect Spotify & YouTube",
-  "Your artist dashboard",
+  "Your dashboard",
 ];
 
 const PRO_ITEMS = [
   "Everything in Artist, unlocked",
   "The Studio, Gig Finder & 570+ venue database",
   "Tour Planner, Tour Finance & Venue Contracts",
+  "Beat Pipeline & Artist Match — producer tools",
   "The Wall — the artist community",
   "Team Chat & shared Whiteboard",
   "Career Roadmap & weekly music briefings",
@@ -31,6 +33,7 @@ const AI_ITEMS = [
   "Everything in Artist Pro",
   "Maya chat — advice backed by your real numbers",
   "Auto-drafted playlist & tour-opening pitches",
+  "Maya pitches your beats to matching artists",
   "EPKs & weekly career digests",
   "Nothing sends without your approval",
   "Approve, edit, or deny every move Maya makes",
@@ -48,6 +51,10 @@ const FAQ = [
   {
     q: "What exactly does Maya do?",
     a: "Maya watches your connected Spotify and YouTube data, matches your songs to real playlist and tour opportunities, and drafts the emails — pitches, outreach, EPKs, digests. Every draft lands in Maya's Desk where you approve, edit, or deny it. She does the work; you stay in control.",
+  },
+  {
+    q: "I'm a producer — is SoundReady for me?",
+    a: "Yes — every account has both an artist side and a producer side. Producers get the Beat Vault, the Beat Pipeline from idea to placement, a placement and credits tracker, and Artist Match, which ranks artists on the platform whose sound fits your beats. On AI Manager, Maya even drafts the pitch emails for you.",
   },
   {
     q: "Can I cancel anytime?",
@@ -115,14 +122,14 @@ export default function Pricing() {
           <motion.div initial={{ opacity: 0, scale: 0.9 }} animate={{ opacity: 1, scale: 1 }} transition={{ delay: 0.1 }}
             className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/10 border border-primary/30 text-primary text-xs font-bold tracking-wider uppercase">
             <Flame className="h-3.5 w-3.5" />
-            Built for independent artists
+            Built for independent artists &amp; producers
           </motion.div>
           <h1 className="font-heading text-5xl sm:text-7xl font-black tracking-tight leading-[0.95]">
             Start free. Grow into Pro.<br />
             <span className="text-primary">Then hand the work to Maya.</span>
           </h1>
           <p className="text-lg sm:text-xl text-muted-foreground leading-relaxed max-w-2xl mx-auto">
-            Every serious artist needs a team. SoundReady is yours — your tools, your people, and an AI manager that actually does the work.
+            Every serious artist — and every serious producer — needs a team. SoundReady is yours: your tools, your people, and an AI manager that actually does the work.
           </p>
           {!isAuth && (
             <Button size="lg" className="gap-2 font-heading font-bold text-base px-10 h-12" onClick={navigateToLogin}>
@@ -141,7 +148,7 @@ export default function Pricing() {
               <div className="sm:w-1/3">
                 <p className="font-heading font-black text-2xl">Artist</p>
                 <p className="text-3xl font-black mt-1">$0<span className="text-sm text-muted-foreground font-medium"> / forever</span></p>
-                <p className="text-xs text-muted-foreground mt-2">Your music's home base. Free — because organizing your music should never cost money. Everything else unlocks with Artist Pro.</p>
+                <p className="text-xs text-muted-foreground mt-2">Your music's home base — songs or beats. Free — because organizing your catalog should never cost money. Everything else unlocks with Artist Pro.</p>
               </div>
               <div className="sm:w-2/3 grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-2">
                 {FREE_ITEMS.map(item => (
@@ -248,7 +255,7 @@ export default function Pricing() {
               <p className="text-sm font-semibold mt-0.5 mb-2 text-primary">Your career, worked around the clock.</p>
               <p className="text-2xl font-black mb-3">$60<span className="text-sm text-muted-foreground font-medium">/mo</span></p>
               <p className="text-sm text-muted-foreground leading-relaxed mb-5">
-                A real manager takes 15–20% of everything you earn. Maya drafts your playlist pitches, tour outreach, EPKs, and digests from your real numbers — and every move waits for your approval.
+                A real manager takes 15–20% of everything you earn. Maya drafts your playlist pitches, tour outreach, EPKs, and digests from your real numbers — and for producers, she pitches your beats to the artists who fit your sound. Every move waits for your approval.
               </p>
               <div className="space-y-2 flex-1">
                 {AI_ITEMS.map(item => (

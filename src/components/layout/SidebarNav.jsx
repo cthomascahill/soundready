@@ -1,14 +1,32 @@
 import { Link } from "react-router-dom";
 import { useAuth } from "@/lib/AuthContext";
+import { useMode } from "@/lib/mode";
 import { isProOrAbove } from "@/lib/tier";
 import { Lock } from "lucide-react";
+import ModeToggle from "@/components/ModeToggle";
 import {
   Home, Music2, Users, ListChecks, Sparkles, Flame, Link2,
   Map, Newspaper, CreditCard, UserCircle, PenTool,
-  Mic2, Megaphone, Route, Wallet, FileText,
+  Mic2, Megaphone, Route, Wallet, FileText, Disc3, Target,
 } from "lucide-react";
 
-const NAV_SECTIONS = [
+// The Music section swaps with the active profile mode
+const MUSIC_ARTIST = [
+  { to: "/history", icon: Music2, label: "Song Vault" },
+  { to: "/song-tracker", icon: ListChecks, label: "Song Tracker" },
+  { to: "/studio", icon: Sparkles, label: "The Studio" },
+  { to: "/beat-discovery", icon: Disc3, label: "Beat Discovery" },
+];
+
+const MUSIC_PRODUCER = [
+  { to: "/beat-vault", icon: Disc3, label: "Beat Vault" },
+  { to: "/beat-pipeline", icon: ListChecks, label: "Beat Pipeline" },
+  { to: "/artist-match", icon: Target, label: "Artist Match" },
+  { to: "/placements", icon: FileText, label: "Placements" },
+  { to: "/beat-discovery", icon: Music2, label: "Beat Discovery" },
+];
+
+const NAV_SECTIONS = (mode) => [
   {
     label: "Home",
     items: [
@@ -17,11 +35,7 @@ const NAV_SECTIONS = [
   },
   {
     label: "Music",
-    items: [
-      { to: "/history", icon: Music2, label: "Song Vault" },
-      { to: "/song-tracker", icon: ListChecks, label: "Song Tracker" },
-      { to: "/studio", icon: Sparkles, label: "The Studio" },
-    ],
+    items: mode === "producer" ? MUSIC_PRODUCER : MUSIC_ARTIST,
   },
   {
     label: "Career",
@@ -62,15 +76,21 @@ const NAV_SECTIONS = [
 const PRO_ONLY = new Set([
   "/studio", "/career-roadmap", "/artist-feed", "/music-news",
   "/gig-finder", "/tour-opportunities", "/tour-planner", "/tour-finance",
-  "/contracts", "/team-chat", "/whiteboard",
+  "/contracts", "/team-chat", "/whiteboard", "/beat-pipeline", "/artist-match",
 ]);
 
 export default function SidebarNav({ activePath, onNavigate }) {
   const { user } = useAuth();
+  const { mode } = useMode();
   const showLocks = !isProOrAbove(user);
+  const sections = NAV_SECTIONS(mode);
+
   return (
-    <nav className="flex-1 overflow-y-auto px-3 py-4 space-y-5">
-      {NAV_SECTIONS.map((section) => (
+    <div className="flex-1 overflow-y-auto px-3 py-4 space-y-5">
+      <div className="px-0 pb-1">
+        <ModeToggle />
+      </div>
+      {sections.map((section) => (
         <div key={section.label}>
           <p className="px-3 mb-1.5 text-[10px] font-bold uppercase tracking-widest text-muted-foreground/60">
             {section.label}
@@ -102,6 +122,6 @@ export default function SidebarNav({ activePath, onNavigate }) {
           </div>
         </div>
       ))}
-    </nav>
+    </div>
   );
 }

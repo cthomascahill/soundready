@@ -5,7 +5,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { Input } from "@/components/ui/input";
 import {
   Music2, MapPin, FileText, Mail, Send, Check, X,
-  Loader2, ChevronRight, AlertTriangle, Pencil,
+  Loader2, ChevronRight, AlertTriangle, Pencil, Disc3,
 } from "lucide-react";
 
 const ACTION_META = {
@@ -14,6 +14,7 @@ const ACTION_META = {
   epk_generated: { icon: FileText, color: "text-purple-400 bg-purple-500/10", typeLabel: "EPK / Press" },
   digest_sent: { icon: Mail, color: "text-chart-5 bg-chart-5/10", typeLabel: "Weekly Digest" },
   booking_outreach: { icon: Send, color: "text-teal-400 bg-teal-500/10", typeLabel: "Booking Outreach" },
+  producer_pitch: { icon: Disc3, color: "text-purple-400 bg-purple-500/10", typeLabel: "Beat Pitch" },
 };
 
 /**

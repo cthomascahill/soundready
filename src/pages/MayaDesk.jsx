@@ -85,7 +85,7 @@ export default function MayaDesk() {
           </div>
           <p className="font-heading font-bold text-lg">Maya's Desk is part of the AI Manager plan</p>
           <p className="text-sm text-muted-foreground leading-relaxed">
-            Maya drafts your playlist pitches, tour outreach, EPKs, and weekly digests — and nothing sends until you approve it here.
+            Maya drafts your playlist pitches, tour outreach, EPKs, beat pitches, and weekly digests — and nothing sends until you approve it here.
           </p>
           <Link to="/pricing-account">
             <Button className="w-full gap-2 font-semibold">

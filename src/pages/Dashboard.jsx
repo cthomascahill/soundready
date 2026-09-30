@@ -3,11 +3,13 @@ import { motion } from "framer-motion";
 import { Link, useNavigate } from "react-router-dom";
 import { base44 } from "@/api/base44Client";
 import { useAuth } from "@/lib/AuthContext";
+import { useMode } from "@/lib/mode";
+import ModeToggle from "@/components/ModeToggle";
 import { Button } from "@/components/ui/button";
 import {
   FileText, Mic2, MapPin,
   Music2, BarChart2, ChevronRight, ArrowRight,
-  Sparkles, AlertCircle, Shield, Map, TrendingUp
+  Sparkles, AlertCircle, Shield, Map, TrendingUp, Disc3, ListChecks
 } from "lucide-react";
 import AIActivityFeed from "@/components/dashboard/AIActivityFeed";
 
@@ -25,9 +27,19 @@ const QUICK_ACTIONS = [
   { label: "Tour Planner", icon: BarChart2, to: "/tour-planner", color: "text-pink-400 bg-pink-500/10" },
 ];
 
+const PRODUCER_ACTIONS = [
+  { label: "Beat Vault", icon: Disc3, to: "/beat-vault", color: "text-primary bg-primary/10" },
+  { label: "Beat Pipeline", icon: ListChecks, to: "/beat-pipeline", color: "text-purple-400 bg-purple-500/10" },
+  { label: "Placements", icon: TrendingUp, to: "/placements", color: "text-yellow-400 bg-yellow-500/10" },
+  { label: "Artist Match", icon: Mic2, to: "/artist-match", color: "text-teal-400 bg-teal-500/10" },
+  { label: "Beat Discovery", icon: Music2, to: "/beat-discovery", color: "text-chart-5 bg-chart-5/10" },
+];
+
 export default function Dashboard() {
   const { user } = useAuth();
+  const { mode } = useMode();
   const navigate = useNavigate();
+  const isProducer = mode === "producer";
   const [recentSongs, setRecentSongs] = useState([]);
   const [loading, setLoading] = useState(true);
   const [nextSteps, setNextSteps] = useState([]);
@@ -35,18 +47,25 @@ export default function Dashboard() {
 
   useEffect(() => {
     if (!user?.id) return;
-    base44.entities.SongVault.filter({ created_by_id: user.id }, "-created_date", 5)
-      .then(setRecentSongs)
-      .catch(() => setRecentSongs([]))
-      .finally(() => setLoading(false));
-  }, [user]);
+    if (isProducer) {
+      base44.entities.Beat.filter({ created_by_id: user.id }, "-created_date", 5)
+        .then(setRecentSongs)
+        .catch(() => setRecentSongs([]))
+        .finally(() => setLoading(false));
+    } else {
+      base44.entities.SongVault.filter({ created_by_id: user.id }, "-created_date", 5)
+        .then(setRecentSongs)
+        .catch(() => setRecentSongs([]))
+        .finally(() => setLoading(false));
+    }
+  }, [user, isProducer]);
 
   useEffect(() => {
     if (loading || recentSongs.length === 0) return;
     setStepsLoading(true);
-    const songList = recentSongs.slice(0, 3).map(s => `"${s.title}" (status: ${s.status || "Demo"})`).join(", ");
+    const itemList = recentSongs.slice(0, 3).map(s => `"${s.title}" (${isProducer ? `stage: ${s.stage || "Idea"}` : `status: ${s.status || "Demo"}`})`).join(", ");
     base44.integrations.Core.InvokeLLM({
-      prompt: `You are an artist manager. Based on these recent songs: ${songList}, generate exactly 3 short, specific, actionable next-step nudges for the artist. Each should be 1 sentence, referencing the actual song title. Format as a JSON array of strings. Examples: "You haven't pitched 'Song Title' to playlists yet", "Your EPK hasn't been updated this month — add your latest release stats."`,
+      prompt: `You are a music career manager. Based on these recent ${isProducer ? "beats" : "songs"}: ${itemList}, generate exactly 3 short, specific, actionable next-step nudges for the ${isProducer ? "producer" : "artist"}. Each should be 1 sentence, referencing the actual title. Format as a JSON array of strings. Examples: "You haven't pitched 'Song Title' to playlists yet", "Your EPK hasn't been updated this month — add your latest release stats."`,
       response_json_schema: { type: "object", properties: { steps: { type: "array", items: { type: "string" } } } }
     }).then(res => setNextSteps(res.steps || [])).catch(() => setNextSteps([])).finally(() => setStepsLoading(false));
   }, [loading, recentSongs]);
@@ -58,17 +77,20 @@ export default function Dashboard() {
         {/* Greeting */}
         <motion.div initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }} className="space-y-1">
           <p className="text-xs text-primary uppercase tracking-widest font-medium">Welcome back</p>
-          <h1 className="font-heading text-4xl font-bold">
-            {user?.artist_name || user?.full_name || "Dashboard"}
-          </h1>
+          <div className="flex flex-wrap items-center gap-3">
+            <h1 className="font-heading text-4xl font-bold">
+              {user?.artist_name || user?.full_name || "Dashboard"}
+            </h1>
+            <ModeToggle />
+          </div>
           <p className="text-muted-foreground">Here's where everything stands today.</p>
         </motion.div>
 
         {/* Your Music Row */}
         <section>
           <div className="flex items-center justify-between mb-4">
-            <h2 className="font-heading font-semibold text-lg">Your Music</h2>
-            <Link to="/history" className="text-sm text-primary hover:underline flex items-center gap-1">
+            <h2 className="font-heading font-semibold text-lg">{isProducer ? "Your Beats" : "Your Music"}</h2>
+            <Link to={isProducer ? "/beat-vault" : "/history"} className="text-sm text-primary hover:underline flex items-center gap-1">
               View all <ArrowRight className="h-3.5 w-3.5" />
             </Link>
           </div>
@@ -78,9 +100,15 @@ export default function Dashboard() {
             </div>
           ) : recentSongs.length === 0 ? (
             <div className="rounded-2xl bg-card border border-dashed border-border p-10 text-center space-y-3">
-              <Music2 className="h-10 w-10 text-muted-foreground/30 mx-auto" />
-              <p className="text-muted-foreground">No songs yet. Add your first track to get started.</p>
-              <Link to="/history"><Button size="sm" className="gap-2"><Music2 className="h-4 w-4" />Go to Song Vault</Button></Link>
+              {isProducer
+                ? <Disc3 className="h-10 w-10 text-muted-foreground/30 mx-auto" />
+                : <Music2 className="h-10 w-10 text-muted-foreground/30 mx-auto" />}
+              <p className="text-muted-foreground">{isProducer ? "No beats yet. Upload your first beat to get started." : "No songs yet. Add your first track to get started."}</p>
+              <Link to={isProducer ? "/beat-vault" : "/history"}>
+                <Button size="sm" className="gap-2">
+                  {isProducer ? <><Disc3 className="h-4 w-4" />Go to Beat Vault</> : <><Music2 className="h-4 w-4" />Go to Song Vault</>}
+                </Button>
+              </Link>
             </div>
           ) : (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
@@ -89,18 +117,22 @@ export default function Dashboard() {
                 className="rounded-xl bg-card border border-border p-4 space-y-3 hover:border-primary/30 transition-colors">
                 <div className="flex items-start gap-3">
                   <div className="h-12 w-12 rounded-lg bg-primary/10 flex items-center justify-center shrink-0">
-                    <Music2 className="h-5 w-5 text-primary" />
+                    {isProducer ? <Disc3 className="h-5 w-5 text-primary" /> : <Music2 className="h-5 w-5 text-primary" />}
                   </div>
                   <div className="min-w-0 flex-1">
                     <p className="font-semibold truncate">{song.title}</p>
-                    <p className="text-xs text-muted-foreground truncate">{[song.producer && `Prod. ${song.producer}`, song.genre].filter(Boolean).join(" · ")}</p>
+                    <p className="text-xs text-muted-foreground truncate">
+                      {isProducer
+                        ? [song.genre, song.bpm && `${song.bpm} BPM`].filter(Boolean).join(" · ")
+                        : [song.producer && `Prod. ${song.producer}`, song.genre].filter(Boolean).join(" · ")}
+                    </p>
                     <span className="mt-1 inline-flex text-[10px] font-semibold px-2 py-0.5 rounded-full border bg-green-500/15 text-green-400 border-green-500/25">
-                      {song.status || "Demo"}
+                      {isProducer ? (song.stage || "Idea") : (song.status || "Demo")}
                     </span>
                   </div>
                 </div>
                 <Button size="sm" variant="outline" className="w-full text-xs h-7"
-                  onClick={() => navigate("/history")}>
+                  onClick={() => navigate(isProducer ? "/beat-vault" : "/history")}>
                   View in Vault
                 </Button>
               </motion.div>
@@ -170,7 +202,7 @@ export default function Dashboard() {
         <section>
           <h2 className="font-heading font-semibold text-lg mb-4">Quick Actions</h2>
           <div className="flex flex-wrap gap-3">
-            {QUICK_ACTIONS.map((action, i) => (
+            {(isProducer ? PRODUCER_ACTIONS : QUICK_ACTIONS).map((action, i) => (
               <Link key={action.label} to={action.to}>
                 <motion.button
                   initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: i * 0.05 }}

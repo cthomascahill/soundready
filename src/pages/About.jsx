@@ -6,7 +6,7 @@ import {
   ArrowRight, Flame, Zap, BarChart2, Music2, DollarSign, FileText, Users,
   CheckCircle2, Mic2, MapPin, BookOpen, Wand2, Link2, TrendingUp, Newspaper,
   Send, CalendarDays, AlertTriangle, Clock, PhoneOff, TrendingDown, Star,
-  Bot, UserCheck, ChevronRight, Sparkles
+  Bot, UserCheck, ChevronRight, Sparkles, Disc3
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import SoundReadyLogo from "@/components/SoundReadyLogo";
@@ -29,10 +29,11 @@ const TIERS = [
     name: "Artist",
     tagline: "Your music's home base. Free forever.",
     price: "$0",
-    desc: "Every serious artist needs a system before they need a team. Organize your entire catalog in the Song Vault and track every release from idea to release — free, forever. Everything else unlocks with Artist Pro.",
+    desc: "Every serious artist — and every serious producer — needs a system before they need a team. Organize your songs in the Song Vault or your beats in the Beat Vault, and track every release from idea to release — free, forever. Everything else unlocks with Artist Pro.",
     items: [
-      "Song Vault — your entire catalog, organized",
+      "Song Vault — your entire song catalog, organized",
       "Song Tracker — from idea to release",
+      "Beat Vault & Placements — for producers",
       "Connect Spotify & YouTube",
       "Your artist dashboard",
     ],
@@ -48,11 +49,12 @@ const TIERS = [
     tagline: "You and your team, finally in sync.",
     price: "$37/mo",
     badge: "Most Popular · 7-Day Free Trial",
-    desc: "The full toolkit, unlocked. Book more shows, plan smarter tours, and bring your manager, producer, and engineer into one workspace — everything works together, 7 days free.",
+    desc: "The full toolkit, unlocked. Book more shows, plan smarter tours, and bring your manager, producer, and engineer into one workspace — and if you make beats, move them from idea to placement with the Beat Pipeline and Artist Match. 7 days free.",
     items: [
       "Everything in Artist, unlocked",
       "The Studio, Gig Finder & 570+ venue database",
       "Tour Planner, Tour Finance & Venue Contracts",
+      "Beat Pipeline & Artist Match — producer tools",
       "The Wall — the artist community",
       "Invite your team — Team Chat & Whiteboard",
       "Career Roadmap & weekly music briefings",
@@ -72,11 +74,12 @@ const TIERS = [
     badge: "Maya Works For You",
     badgeStyle: "bg-primary text-primary-foreground",
     glow: true,
-    desc: "A real manager takes 15–20% of everything you earn. Maya drafts your playlist pitches, tour outreach, EPKs, and digests from your real numbers — and every move waits for your approval in Maya's Desk.",
+    desc: "A real manager takes 15–20% of everything you earn. Maya drafts your playlist pitches, tour outreach, EPKs, and digests from your real numbers — and for producers, she pitches your beats to the artists who fit your sound. Every move waits for your approval in Maya's Desk.",
     items: [
       "Everything in Artist Pro",
       "Maya chat backed by your real numbers",
       "Auto-drafted playlist & tour-opening pitches",
+      "Maya pitches your beats to matching artists",
       "EPKs & weekly career digests",
       "Approve, edit, or deny every move Maya makes",
     ],
@@ -98,6 +101,8 @@ const WHAT_WE_DO = [
   { icon: BarChart2, color: "text-chart-5", title: "A&R Intelligence", desc: "Weekly briefings on what's working in your genre right now — tempos, moods, and strategies getting editorial love. Make smarter decisions before you finish the song." },
   { icon: FileText, color: "text-yellow-400", title: "Contract Analyzer", desc: "Upload any deal or contract and SoundReady flags every clause that could hurt you — in plain English. Know exactly what you're signing before you sign it." },
   { icon: Users, color: "text-pink-400", title: "Fan Intelligence", desc: "Understand where your real fans are, when they listen, and what they want. Use that data to tour smarter and make every release decision with real information." },
+  { icon: Disc3, color: "text-purple-400", title: "Beat Vault & Placements", desc: "Producers get their own workspace. Catalog every beat with BPM, key, and moods, track your credits and fees, and turn your placement history into the resume that lands collabs." },
+  { icon: UserCheck, color: "text-teal-400", title: "Artist Match", desc: "SoundReady ranks the artists on the platform whose sound fits your beats — and Maya drafts the pitch for you. Your beats stop waiting for artists to find you." },
 ];
 
 export default function About() {
@@ -138,7 +143,7 @@ export default function About() {
           <motion.div initial={{ opacity: 0, scale: 0.9 }} animate={{ opacity: 1, scale: 1 }} transition={{ delay: 0.1 }}
             className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/10 border border-primary/30 text-primary text-xs font-bold tracking-wider uppercase">
             <Flame className="h-3.5 w-3.5" />
-            The Artist Management Revolution
+            The Artist &amp; Producer Management Revolution
           </motion.div>
 
           <h1 className="font-heading text-6xl sm:text-8xl font-black tracking-tight leading-[0.9]">
@@ -147,7 +152,7 @@ export default function About() {
           </h1>
 
           <p className="text-xl sm:text-2xl text-muted-foreground leading-relaxed max-w-3xl mx-auto font-body">
-            SoundReady gives independent artists the same tools, strategy, and infrastructure that signed artists get from their label — free to start. Your Song Vault and Song Tracker are free forever. When you're ready for more, Artist Pro unlocks the full toolkit — booking, touring, your whole team — and Maya, your AI manager, takes the day-to-day work off your plate.
+            SoundReady gives independent artists and producers the same tools, strategy, and infrastructure that signed acts get from their label — free to start. Your Song Vault, Song Tracker, and Beat Vault are free forever. When you're ready for more, Artist Pro unlocks the full toolkit — booking, touring, your whole team — and Maya, your AI manager, takes the day-to-day work off your plate: pitching your songs to playlists and your beats to the artists who need them.
           </p>
 
           <div className="flex flex-col sm:flex-row items-center justify-center gap-3 pt-2">
@@ -169,10 +174,10 @@ export default function About() {
       <section className="px-4 py-24 border-t border-border">
         <div className="max-w-5xl mx-auto">
           <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="text-center mb-14 space-y-4">
-            <h2 className="font-heading text-4xl sm:text-5xl font-bold">Two types of artists. One platform that <span className="text-primary">changes everything.</span></h2>
+            <h2 className="font-heading text-4xl sm:text-5xl font-bold">Artists. Producers. One platform that <span className="text-primary">changes everything.</span></h2>
           </motion.div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
             {[
               {
                 headline: "You have a manager.",
@@ -185,6 +190,12 @@ export default function About() {
                 body: "You're making real music but your career isn't moving. The artists winning right now aren't more talented — they're better organized. SoundReady is the infrastructure that turns a good artist into a growing one.",
                 label: "Start moving forward.",
                 icon: TrendingUp,
+              },
+              {
+                headline: "You make beats.",
+                body: "Your best beats are sitting in a folder while artists who'd pay for them never hear them. SoundReady gives producers the same infrastructure as artists — a Beat Vault, a pipeline from idea to placement, and matching that puts your sound in front of artists who fit it.",
+                label: "Turn beats into placements.",
+                icon: Disc3,
               },
             ].map((card, i) => (
               <motion.div key={i}
@@ -313,10 +324,11 @@ export default function About() {
             <p className="text-xs text-primary uppercase tracking-wider font-bold">Who It's For</p>
             <h2 className="font-heading text-4xl font-bold">Built for every artist who is serious about their career.</h2>
           </motion.div>
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-5">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
             {[
               { level: "The Unsigned Artist", desc: "You're self-managing and the game feels rigged against you. SoundReady gives you the same tools, strategy, and infrastructure that signed artists get from their labels — from day one." },
               { level: "The Emerging Artist", desc: "You have momentum but your career isn't keeping up with your music. SoundReady organizes everything so every release works as hard as you do." },
+              { level: "The Producer", desc: "Your beats are everywhere but your placements aren't. SoundReady gives you a real producer system — a Beat Vault, a pipeline, a credits resume, and matching that puts your sound in front of the right artists." },
               { level: "The Manager or Indie Label", desc: "You're responsible for multiple artists and the disorganization is costing you real opportunities. SoundReady gives your whole team one place to work — every artist, every release, every deal, from a single platform." },
             ].map((w, i) => (
               <motion.div key={w.level}
@@ -365,7 +377,7 @@ export default function About() {
             {[
               { num: "15–20%", sub: "What the traditional management model takes — whether deals close or not" },
               { num: "$0", sub: "What it costs to start on SoundReady — core tools free forever" },
-              { num: "25+", sub: "Integrated tools giving every artist the infrastructure of a full professional team" },
+              { num: "25+", sub: "Integrated tools giving every artist and producer the infrastructure of a full professional team" },
             ].map((s, i) => (
               <motion.div key={i} initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: i * 0.1 }} className="space-y-2">
                 <p className="font-heading text-3xl sm:text-5xl font-black text-primary">{s.num}</p>
@@ -384,7 +396,7 @@ export default function About() {
               Your next release could be your biggest.<br />
               <span className="text-primary">SoundReady makes sure of it.</span>
             </h2>
-            <p className="text-lg text-muted-foreground">The artists winning right now aren't more talented — they're more organized and more strategic. SoundReady gives you everything you need to be both, starting today.</p>
+            <p className="text-lg text-muted-foreground">The artists and producers winning right now aren't more talented — they're more organized and more strategic. SoundReady gives you everything you need to be both, starting today.</p>
           </div>
           <Button size="lg" className="gap-2 font-heading font-bold text-base px-10 h-13" onClick={handleCTA}>
             Start Building My Career <ArrowRight className="h-4 w-4" />

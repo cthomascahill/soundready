@@ -76,6 +76,10 @@ import BeatDiscovery from './pages/BeatDiscovery.jsx';
 import WhiteboardCanvas from './pages/WhiteboardCanvas';
 import ConnectProfiles from './pages/ConnectProfiles';
 import MayaDesk from './pages/MayaDesk';
+import BeatVault from './pages/BeatVault';
+import BeatPipeline from './pages/BeatPipeline';
+import Placements from './pages/Placements';
+import ArtistMatch from './pages/ArtistMatch';
 import ProGate from './components/ProGate';
 
 // Wraps a page so free-tier users see the Artist Pro upgrade screen
@@ -208,6 +212,10 @@ const AuthenticatedApp = () => {
         <Route path="/whiteboard/:boardId" element={pro(WhiteboardCanvas)} />
         <Route path="/connect-profiles" element={<ConnectProfiles />} />
         <Route path="/maya-desk" element={<MayaDesk />} />
+        <Route path="/beat-vault" element={<BeatVault />} />
+        <Route path="/beat-pipeline" element={pro(BeatPipeline)} />
+        <Route path="/placements" element={<Placements />} />
+        <Route path="/artist-match" element={pro(ArtistMatch)} />
         <Route path="/community" element={<Community />} />
         <Route path="*" element={<PageNotFound />} />
       </Route>

@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { base44 } from "@/api/base44Client";
 import { Link } from "react-router-dom";
-import { Bot, Music2, MapPin, FileText, Mail, Zap, Lock, ChevronRight, CheckCircle2, Clock, Send, Sparkles, Loader2, ArrowRight } from "lucide-react";
+import { Bot, Music2, MapPin, FileText, Mail, Zap, Lock, ChevronRight, CheckCircle2, Clock, Send, Sparkles, Loader2, ArrowRight, Disc3 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
 const ACTION_ICONS = {
@@ -11,6 +11,7 @@ const ACTION_ICONS = {
   epk_generated: { icon: FileText, color: "text-purple-400 bg-purple-500/10" },
   digest_sent: { icon: Mail, color: "text-chart-5 bg-chart-5/10" },
   booking_outreach: { icon: Send, color: "text-teal-400 bg-teal-500/10" },
+  producer_pitch: { icon: Disc3, color: "text-purple-400 bg-purple-500/10" },
 };
 
 const STATUS_STYLES = {

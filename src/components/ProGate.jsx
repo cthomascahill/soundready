@@ -12,6 +12,7 @@ const UNLOCKS = [
   "The Wall — the artist community",
   "Team Chat + shared Whiteboard",
   "Career Roadmap & weekly music news",
+  "Beat Pipeline & Artist Match — producer tools",
 ];
 
 /**
@@ -46,7 +47,7 @@ export default function ProGate({ children, feature }) {
               {feature ? `${feature} is part of Artist Pro` : "This is part of Artist Pro"}
             </h1>
             <p className="text-sm text-muted-foreground leading-relaxed">
-              Your Vault and Song Tracker are free forever. Artist Pro unlocks the full toolkit — and it's free for 7 days.
+              Your Song Vault, Beat Vault, and trackers are free forever. Artist Pro unlocks the full toolkit — and it's free for 7 days.
             </p>
           </div>
           <div className="space-y-2">

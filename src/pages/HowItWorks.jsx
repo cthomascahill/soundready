@@ -105,15 +105,18 @@ const ALL_TOOLS = [
   "Release Radar (competitor tracking)",
   "Fan Intelligence Dashboard",
   "Collaborative Team Whiteboard",
+  "Beat Vault & Placements (producer catalog & credits)",
+  "Beat Pipeline (idea → placed)",
+  "Artist Match (beat-to-artist matching)",
   "Team Workspace & Role Assignments",
   "Music Academy (career A-Z guide)",
   "Distribution Checklist & Metadata Manager",
 ];
 
 const TIERS = [
-  { name: "Artist", price: "$0", tagline: "Your music's home base. Song Vault + Song Tracker, free forever.", cta: "Start Free", badge: null },
-  { name: "Artist Pro", price: "$37/mo", tagline: "You and your team. Every tool unlocked — free for 7 days.", cta: "Start 7-Day Free Trial", badge: "Most Popular" },
-  { name: "AI Manager", price: "$60/mo", tagline: "Maya works your career around the clock. You approve every move.", cta: "Unlock Maya", badge: null },
+  { name: "Artist", price: "$0", tagline: "Your music's home base. Song Vault, Beat Vault & trackers — free forever.", cta: "Start Free", badge: null },
+  { name: "Artist Pro", price: "$37/mo", tagline: "You and your team. Every tool unlocked — artist and producer — free for 7 days.", cta: "Start 7-Day Free Trial", badge: "Most Popular" },
+  { name: "AI Manager", price: "$60/mo", tagline: "Maya works your career around the clock — pitching songs and beats. You approve every move.", cta: "Unlock Maya", badge: null },
 ];
 
 export default function HowItWorks() {
@@ -154,10 +157,10 @@ export default function HowItWorks() {
           </motion.div>
           <h1 className="font-heading text-6xl sm:text-8xl font-black tracking-tight leading-[0.9]">
             Most artists are losing.<br />
-            <span className="text-primary">Here's how to win.</span>
+            <span className="text-primary">Producers too. Here's how to win.</span>
           </h1>
           <p className="text-xl sm:text-2xl text-muted-foreground leading-relaxed max-w-3xl mx-auto">
-            SoundReady gives independent artists the same tools, strategy, and infrastructure that signed artists get from their labels. Free to start — your Song Vault and Song Tracker are yours forever. This is how it works — and why it changes everything.
+            SoundReady gives independent artists and producers the same tools, strategy, and infrastructure that signed acts get from their labels. Free to start — your Song Vault, Beat Vault, and trackers are yours forever. This is how it works — and why it changes everything.
           </p>
           <div className="flex flex-col sm:flex-row items-center justify-center gap-3 pt-2">
             <Button size="lg" className="gap-2 font-heading font-bold text-base px-8 h-12" onClick={handleCTA}>
@@ -254,7 +257,7 @@ export default function HowItWorks() {
               { num: "+78%", sub: "Stream increase for artists using the release strategy and playlist pitching on every release." },
               { num: "+120%", sub: "More shows booked versus artists sending cold emails manually." },
               { num: "10+ hrs", sub: "Saved every week by artists who stop manually managing playlists, outreach, royalties, and release planning." },
-              { num: "25+", sub: "Integrated tools giving every artist the infrastructure of a full professional team." },
+              { num: "25+", sub: "Integrated tools giving every artist and producer the infrastructure of a full professional team." },
               { num: "$37/mo", sub: "What all of this costs. The traditional management model takes 15–20% of everything you earn — whether deals close or not." },
             ].map((s, i) => (
               <motion.div key={i} initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: i * 0.08 }}
@@ -274,9 +277,10 @@ export default function HowItWorks() {
             <p className="text-xs text-primary uppercase tracking-wider font-bold">Who It's For</p>
             <h2 className="font-heading text-4xl sm:text-5xl font-bold">Serious about your music career? SoundReady is for you.</h2>
           </motion.div>
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-5">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
             {[
               { level: "The Independent Artist", desc: "You're doing everything yourself and it's exhausting. SoundReady doesn't replace your hustle — it organizes it so every release has a real strategy behind it." },
+              { level: "The Producer", desc: "Your beats deserve better than a folder and a DM. The Beat Vault, Beat Pipeline, placement tracker, and Artist Match turn your catalog into a real business — with Maya pitching for you on the AI Manager plan." },
               { level: "The Artist With a Manager", desc: "Your team needs one place to work from. SoundReady gives your manager the tools to move faster, pitch smarter, and keep your whole career organized — so nothing falls through the cracks." },
               { level: "The Manager or Indie Label", desc: "You're responsible for multiple artists and the disorganization is costing you real opportunities. SoundReady's Pro and Label tiers put your entire roster in one place — every artist, every release, every deal." },
             ].map((w, i) => (
@@ -355,7 +359,7 @@ export default function HowItWorks() {
       <section className="px-4 py-32 border-t border-border text-center bg-gradient-to-t from-primary/5 via-background to-background">
         <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="max-w-3xl mx-auto space-y-8">
           <h2 className="font-heading text-5xl sm:text-6xl font-black leading-[0.95]">
-            The artists winning right now<br />
+            The artists and producers winning right now<br />
             have a system. <span className="text-primary">Be one of them.</span>
           </h2>
           <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
