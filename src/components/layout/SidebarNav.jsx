@@ -16,7 +16,6 @@ const MUSIC_ARTIST = [
   { to: "/history", icon: Music2, label: "Song Vault" },
   { to: "/song-tracker", icon: ListChecks, label: "Song Tracker" },
   { to: "/studio", icon: Sparkles, label: "The Studio" },
-  { to: "/beat-discovery", icon: Disc3, label: "Beat Discovery" },
 ];
 
 const MUSIC_PRODUCER = [
@@ -26,7 +25,6 @@ const MUSIC_PRODUCER = [
   { to: "/artist-match", icon: Target, label: "Artist Match" },
   { to: "/placements", icon: FileText, label: "Placements" },
   { to: "/client-crm", icon: Users, label: "Client CRM" },
-  { to: "/beat-discovery", icon: Music2, label: "Beat Discovery" },
 ];
 
 const NAV_SECTIONS = (mode) => {
@@ -76,8 +74,8 @@ const NAV_SECTIONS = (mode) => {
     ],
   },
   ];
-  // Touring and Career don't apply to producers — hide them entirely in Producer mode
-  return mode === "producer" ? sections.filter((s) => s.label !== "Touring" && s.label !== "Career") : sections;
+  // Touring doesn't apply to producers — hide it in Producer mode (Career stays for both)
+  return mode === "producer" ? sections.filter((s) => s.label !== "Touring") : sections;
 };
 
 // Pages locked behind Artist Pro — free users see a lock icon on these

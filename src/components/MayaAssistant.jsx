@@ -6,6 +6,8 @@ import { X, Send, Loader2, Sparkles, ChevronRight } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import ReactMarkdown from "react-markdown";
 import MayaUpsellPopover from "@/components/maya/MayaUpsellPopover";
+import { useMode } from "@/lib/mode";
+import { buildProducerSystemPrompt, PRODUCER_QUICK_STARTS } from "@/lib/mayaProducerPrompt";
 
 const QUICK_STARTS = [
   "What should I focus on this week?",
@@ -191,7 +193,7 @@ function buildPlatformDataContext(platformConns) {
     }
   });
 
-  lines.push("\nIMPORTANT: Reference these real numbers directly in your advice. Do not ask the artist for stats you already have above.");
+  lines.push("\nIMPORTANT: Reference these real numbers directly in your advice. Do not ask them for stats you already have above.");
   return lines.join("\n");
 }
 
@@ -230,6 +232,7 @@ Return your response as JSON:
 
 export default function MayaAssistant() {
   const { user } = useAuth();
+  const { mode } = useMode();
   const [open, setOpen] = useState(false);
   const [messages, setMessages] = useState([]);
   const [input, setInput] = useState("");
@@ -246,7 +249,7 @@ export default function MayaAssistant() {
   const inputRef = useRef(null);
   const systemPromptRef = useRef(null);
 
-  // Load artist context once on open
+  // Load artist/producer context once on open (rebuilds when the profile mode switches)
   useEffect(() => {
     if (!open || profileLoaded || !user?.id) return;
     Promise.all([
@@ -255,7 +258,11 @@ export default function MayaAssistant() {
       base44.entities.ArtistGoal.filter({ created_by_id: user.id }, "-created_date", 20).catch(() => []),
       base44.entities.Beat.list("-created_date", 50).catch(() => []),
       base44.entities.PlatformConnection.filter({ created_by_id: user.id }, "-created_date", 20).catch(() => []),
-    ]).then(([profiles, chals, goalList, beats, conns]) => {
+      base44.entities.Beat.filter({ created_by_id: user.id }, "-created_date", 100).catch(() => []),
+      base44.entities.BeatPlacement.filter({ created_by_id: user.id }, "-created_date", 50).catch(() => []),
+      base44.entities.ProducerClient.filter({ created_by_id: user.id }, "-created_date", 50).catch(() => []),
+      base44.entities.BeatSale.filter({ producer_id: user.id }, "-created_date", 50).catch(() => []),
+    ]).then(([profiles, chals, goalList, beats, conns, ownBeats, placements, clientList, sales]) => {
       const prof = profiles[0] || null;
       const userSavedBeats = beats.filter(b => b.saves?.includes(user.id));
       setProfile(prof);
@@ -263,12 +270,18 @@ export default function MayaAssistant() {
       setGoals(goalList);
       setSavedBeats(userSavedBeats);
       setPlatformConns(conns);
-      const basePrompt = buildSystemPrompt(prof, chals, goalList, userSavedBeats);
       const platformContext = buildPlatformDataContext(conns);
-      systemPromptRef.current = basePrompt + platformContext;
+      systemPromptRef.current = mode === "producer"
+        ? buildProducerSystemPrompt(user, prof, ownBeats, placements, clientList, sales) + platformContext
+        : buildSystemPrompt(prof, chals, goalList, userSavedBeats) + platformContext;
       setProfileLoaded(true);
     });
-  }, [open, profileLoaded, user]);
+  }, [open, profileLoaded, user, mode]);
+
+  // Switching Artist/Producer mode rebuilds Maya's context with the right career data
+  useEffect(() => {
+    setProfileLoaded(false);
+  }, [mode]);
 
   useEffect(() => {
     bottomRef.current?.scrollIntoView({ behavior: "smooth" });
@@ -383,7 +396,9 @@ export default function MayaAssistant() {
                   </div>
                   <p className="font-heading font-bold text-white">Hey {artistName} 👋</p>
                   <p className="text-xs text-zinc-400 max-w-[280px] mx-auto leading-relaxed">
-                    I'm Maya, your AI music manager. I know your profile, your goals, your numbers. Ask me anything.
+                    {mode === "producer"
+                      ? "I'm Maya, your AI music manager. I know your catalog, your placements, your numbers. Ask me anything."
+                      : "I'm Maya, your AI music manager. I know your profile, your goals, your numbers. Ask me anything."}
                   </p>
                 </div>
               )}
@@ -450,7 +465,7 @@ export default function MayaAssistant() {
             {showQuickStarts && profileLoaded && (
               <div className="px-4 pb-2 flex flex-col gap-1.5 shrink-0">
                 <p className="text-[10px] text-zinc-500 uppercase tracking-widest px-1">Quick start</p>
-                {QUICK_STARTS.map((q, i) => (
+                {(mode === "producer" ? PRODUCER_QUICK_STARTS : QUICK_STARTS).map((q, i) => (
                   <button key={i} onClick={() => send(q)}
                     className="text-left text-xs px-3 py-2.5 rounded-xl bg-zinc-800/60 border border-zinc-700/50 text-zinc-300 hover:bg-zinc-700/60 hover:text-white hover:border-primary/30 transition-all">
                     {q}

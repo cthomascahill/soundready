@@ -72,7 +72,6 @@ import LyricRoom from './pages/LyricRoom.jsx';
 import GenreTrends from './pages/GenreTrends.jsx';
 import ChallengeTracker from './pages/ChallengeTracker.jsx';
 import ArtistFeed from './pages/ArtistFeed.jsx';
-import BeatDiscovery from './pages/BeatDiscovery.jsx';
 import WhiteboardCanvas from './pages/WhiteboardCanvas';
 import ConnectProfiles from './pages/ConnectProfiles';
 import MayaDesk from './pages/MayaDesk';
@@ -223,7 +222,6 @@ const AuthenticatedApp = () => {
         <Route path="/genre-trends" element={<GenreTrends />} />
         <Route path="/challenge-tracker" element={<ChallengeTracker />} />
         <Route path="/artist-feed" element={pro(ArtistFeed)} />
-        <Route path="/beat-discovery" element={<BeatDiscovery />} />
         <Route path="/whiteboard/:boardId" element={pro(WhiteboardCanvas)} />
         <Route path="/connect-profiles" element={<ConnectProfiles />} />
         <Route path="/maya-desk" element={<MayaDesk />} />

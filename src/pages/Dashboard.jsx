@@ -35,7 +35,6 @@ const PRODUCER_ACTIONS = [
   { label: "Beat Pipeline", icon: ListChecks, to: "/beat-pipeline", color: "text-purple-400 bg-purple-500/10" },
   { label: "Placements", icon: TrendingUp, to: "/placements", color: "text-yellow-400 bg-yellow-500/10" },
   { label: "Artist Match", icon: Mic2, to: "/artist-match", color: "text-teal-400 bg-teal-500/10" },
-  { label: "Beat Discovery", icon: Music2, to: "/beat-discovery", color: "text-chart-5 bg-chart-5/10" },
   { label: "Beat Store", icon: Store, to: "/beat-store", color: "text-teal-400 bg-teal-500/10" },
   { label: "Client CRM", icon: Users, to: "/client-crm", color: "text-orange-400 bg-orange-500/10" },
   { label: "Contracts", icon: FileSignature, to: "/producer-contracts", color: "text-chart-3 bg-chart-3/10" },
