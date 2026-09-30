@@ -4,6 +4,8 @@ import { AlertTriangle, Calendar, Navigation } from "lucide-react";
 import moment from "moment";
 import L from "leaflet";
 import { divIcon } from "leaflet";
+import { base44 } from "@/api/base44Client";
+import { Button } from "@/components/ui/button";
 
 // Fix default marker icons
 delete L.Icon.Default.prototype._getIconUrl;
@@ -15,15 +17,14 @@ L.Icon.Default.mergeOptions({
 
 async function geocodeCity(city, state) {
   const query = state ? `${city}, ${state}, USA` : `${city}, USA`;
-  const url = `https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(query)}&limit=1`;
-  const res = await fetch(url, { headers: { "Accept-Language": "en" } });
-  const data = await res.json();
-  if (data && data[0]) return [parseFloat(data[0].lat), parseFloat(data[0].lon)];
-  return null;
+  const res = await base44.functions.invoke("geoLookup", { action: "geocode", query });
+  const coords = res.data?.data;
+  return coords ? [coords.lat, coords.lon] : null;
 }
 
 export default function TourRouteMap({ venues, routeData, travelGapsByDate, pinnedVenues = [], homeBase = null }) {
   const [coordsCache, setCoordsCache] = useState({});
+  const [retryCount, setRetryCount] = useState(0);
 
   const sorted = useMemo(() =>
     venues
@@ -39,11 +40,15 @@ export default function TourRouteMap({ venues, routeData, travelGapsByDate, pinn
       if (coordsCache[key] !== undefined) return;
       // Mark as loading so we don't double-fetch
       setCoordsCache(prev => ({ ...prev, [key]: null }));
-      geocodeCity(v.city, v.state).then(coords => {
-        setCoordsCache(prev => ({ ...prev, [key]: coords }));
-      });
+      geocodeCity(v.city, v.state)
+        .then(coords => {
+          setCoordsCache(prev => ({ ...prev, [key]: coords }));
+        })
+        .catch(() => {
+          setCoordsCache(prev => ({ ...prev, [key]: "error" }));
+        });
     });
-  }, [sorted]);
+  }, [sorted, retryCount]);
 
   const mapData = useMemo(() => {
     if (!sorted.length) return null;
@@ -51,7 +56,7 @@ export default function TourRouteMap({ venues, routeData, travelGapsByDate, pinn
     const venuesWithCoords = sorted.map(v => {
       const key = `${v.city}|${v.state || ""}`;
       const coords = coordsCache[key];
-      return coords ? { ...v, _coords: coords } : null;
+      return Array.isArray(coords) ? { ...v, _coords: coords } : null;
     }).filter(Boolean);
 
     if (!venuesWithCoords.length) return null;
@@ -88,6 +93,18 @@ export default function TourRouteMap({ venues, routeData, travelGapsByDate, pinn
   }
 
   if (!mapData) {
+    const allFailed = sorted.length > 0 && sorted.every(v => coordsCache[`${v.city}|${v.state || ""}`] === "error");
+    if (allFailed) {
+      return (
+        <div className="rounded-2xl bg-card border border-border p-8 text-center space-y-3">
+          <AlertTriangle className="h-6 w-6 text-yellow-400 mx-auto" />
+          <p className="text-sm text-muted-foreground">Couldn't load map locations. Check your connection and try again.</p>
+          <Button size="sm" variant="outline" onClick={() => { setCoordsCache({}); setRetryCount(c => c + 1); }}>
+            Retry
+          </Button>
+        </div>
+      );
+    }
     return (
       <div className="rounded-2xl bg-card border border-border p-8 text-center">
         <div className="h-6 w-6 border-2 border-primary/20 border-t-primary rounded-full animate-spin mx-auto mb-2" />

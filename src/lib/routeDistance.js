@@ -1,18 +1,8 @@
-// Uses OpenRouteService free API (no key required for basic geocoding + routing)
-// Geocodes "City, State" → coordinates, then gets driving route between them.
+// Tour routing via the geoLookup backend function (server-side Nominatim + OSRM).
 
-const GEO_CACHE = {};
+import { base44 } from "@/api/base44Client";
 
-async function geocode(cityState) {
-  if (GEO_CACHE[cityState]) return GEO_CACHE[cityState];
-  const url = `https://nominatim.openstreetmap.org/search?q=${encodeURIComponent(cityState)}&format=json&limit=1`;
-  const res = await fetch(url, { headers: { "User-Agent": "SoundReady-TourPlanner/1.0" } });
-  const data = await res.json();
-  if (!data.length) return null;
-  const coords = { lat: parseFloat(data[0].lat), lon: parseFloat(data[0].lon) };
-  GEO_CACHE[cityState] = coords;
-  return coords;
-}
+const ROUTE_CACHE = {};
 
 /**
  * Returns { distanceMiles, durationHours } or null on failure.
@@ -22,19 +12,21 @@ export async function getDrivingRoute(fromCity, fromState, toCity, toState) {
   const toLabel = [toCity, toState].filter(Boolean).join(", ");
   if (!fromLabel || !toLabel || fromLabel === toLabel) return null;
 
-  const [from, to] = await Promise.all([geocode(fromLabel), geocode(toLabel)]);
-  if (!from || !to) return null;
+  const cacheKey = `${fromLabel}|${toLabel}`;
+  if (ROUTE_CACHE[cacheKey]) return ROUTE_CACHE[cacheKey];
 
-  // OSRM public API — free, no key needed
-  const url = `https://router.project-osrm.org/route/v1/driving/${from.lon},${from.lat};${to.lon},${to.lat}?overview=false`;
-  const res = await fetch(url);
-  const data = await res.json();
-
-  if (data.code !== "Ok" || !data.routes?.length) return null;
-  const route = data.routes[0];
-
-  return {
-    distanceMiles: Math.round(route.distance * 0.000621371), // meters → miles
-    durationHours: route.duration / 3600, // seconds → hours
-  };
+  try {
+    const res = await base44.functions.invoke("geoLookup", {
+      action: "route",
+      fromCity,
+      fromState,
+      toCity,
+      toState,
+    });
+    const data = res.data?.data || null;
+    if (data) ROUTE_CACHE[cacheKey] = data;
+    return data;
+  } catch {
+    return null;
+  }
 }
