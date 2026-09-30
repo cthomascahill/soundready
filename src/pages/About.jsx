@@ -6,7 +6,7 @@ import {
   ArrowRight, Flame, Zap, BarChart2, Music2, DollarSign, FileText, Users,
   CheckCircle2, Mic2, MapPin, BookOpen, Wand2, Link2, TrendingUp, Newspaper,
   Send, CalendarDays, AlertTriangle, Clock, PhoneOff, TrendingDown, Star,
-  Briefcase, Bot, UserCheck, ChevronRight, X, Sparkles
+  Bot, UserCheck, ChevronRight, Sparkles
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
@@ -26,62 +26,41 @@ const TIERS = [
     bg: "bg-chart-5/10",
     border: "border-chart-5/20",
     name: "Artist",
-    tagline: "Your career. Your control.",
-    price: "$37/mo",
-    desc: "Every tool SoundReady has — in your hands. Upload songs, get your release strategy, master your tracks, pitch playlists, book shows, track your money, and protect yourself legally. Everything a manager does, for $37 a month.",
+    tagline: "Your career hub. Free forever.",
+    price: "$0",
+    desc: "Every serious artist needs a system before they need a team. Organize your songs in the Vault, track your releases, find your people on The Wall, and connect your platforms — free, forever.",
     items: [
-      "Full song library & workspace",
-      "AI release strategy & song analysis",
-      "AI mastering",
-      "Playlist pitching & sync licensing",
-      "Gig finder & tour planner",
-      "Finance & royalty tracker",
-      "Legal templates & contract analyzer",
-      "A&R Intelligence & Release Radar",
-      "Fan Intelligence dashboard",
-      "Music academy",
+      "Song Vault & pre-release Tracker",
+      "The Studio — lyrics, ideas & beats",
+      "The Wall — the artist community",
+      "Artist profile & Career Roadmap",
+      "Connect Spotify & YouTube",
+      "Weekly music news briefing",
     ],
-    cta: "Start Building My Career",
-    subtext: "No free tier. No contracts. Cancel anytime.",
+    cta: "Start Free",
+    subtext: "Free forever. No card required.",
   },
   {
     icon: Users,
-    color: "text-primary",
-    bg: "bg-primary/10",
-    border: "border-primary/20",
-    name: "Pro",
+    color: "text-chart-5",
+    bg: "bg-chart-5/10",
+    border: "border-chart-5/20",
+    name: "Artist Pro",
     tagline: "You and your team, finally in sync.",
-    price: "$67/mo",
-    badge: "Most Popular",
-    desc: "Everything in Artist, plus a shared workspace for your whole team. Your manager, producer, and publicist work from the same platform — same songs, same strategy, same plan. No missed emails. No dropped balls.",
+    price: "$37/mo",
+    badge: "Most Popular · 7-Day Free Trial",
+    desc: "You're growing — bring your people. Your manager, producer, and engineer work from the same songs, same strategy, same plan. Plus the full toolkit: releases, tours, finance, legal, and intelligence.",
     items: [
       "Everything in Artist",
-      "Invite up to 3 team members",
-      "Collaborative whiteboard & shared workspaces",
-      "Team role assignments (Manager, Producer, Label Rep)",
+      "Invite your manager, producer & engineer",
+      "Team chat & shared whiteboard",
+      "Full release, tour, finance & legal toolkit",
+      "A&R, fan & release intelligence",
       "Priority support",
     ],
-    cta: "Start Building My Career",
-    subtext: "No free tier. No contracts. Cancel anytime.",
-  },
-  {
-    icon: Briefcase,
-    color: "text-yellow-400",
-    bg: "bg-yellow-500/10",
-    border: "border-yellow-500/20",
-    name: "Label",
-    tagline: "Your whole roster. One platform.",
-    price: "$97/mo",
-    desc: "Everything in Pro, built for indie labels and managers running multiple artists. Unlimited songs, unlimited team members, multiple artist profiles — all under one login.",
-    items: [
-      "Everything in Pro",
-      "Unlimited team members",
-      "Unlimited song library",
-      "Multiple artist profiles under one account",
-      "First access to new features",
-    ],
-    cta: "Apply Now",
-    subtext: "No contracts. Cancel anytime.",
+    cta: "Start 7-Day Free Trial",
+    route: "/pricing",
+    subtext: "Card required — charged automatically after 7 days. Cancel anytime.",
   },
   {
     icon: Bot,
@@ -89,23 +68,22 @@ const TIERS = [
     bg: "bg-primary/10",
     border: "border-primary/30",
     name: "AI Manager",
-    tagline: "Your career on autopilot.",
-    price: "$200/mo",
-    badge: "Most Powerful",
+    tagline: "Your career, worked around the clock.",
+    price: "$60/mo",
+    badge: "Maya Works For You",
     badgeStyle: "bg-primary text-primary-foreground",
     glow: true,
-    desc: "Everything in Label plus a dedicated AI that works your career around the clock. The moment you upload a song and submit to distribution SoundReady automatically pitches every matching playlist, monitors tour opportunities in your genre, and prepares booking outreach — all ready to send with one tap. This is what having a real team working for you feels like.",
+    desc: "A real manager takes 15–20% of everything you earn. Maya drafts your playlist pitches, tour outreach, EPKs, and digests from your real numbers — and every move waits for your approval in Maya's Desk.",
     items: [
-      "Everything in Label",
-      "Auto-playlist pitching on every release",
-      "Tour & gig opportunity alerts in your genre",
-      "One-tap booking agent outreach",
-      "Auto-generated EPK & press kit on upload",
-      "Weekly AI career digest delivered to your inbox",
-      "Priority support & dedicated onboarding",
+      "Everything in Artist Pro",
+      "Maya chat backed by your real numbers",
+      "Auto-drafted playlist & tour-opening pitches",
+      "EPKs & weekly career digests",
+      "Approve, edit, or deny every move Maya makes",
     ],
-    cta: "Get Started",
-    subtext: "No contracts. Cancel anytime.",
+    cta: "Unlock Maya",
+    route: "/pricing",
+    subtext: "No percentage cuts — ever.",
   },
 ];
 
@@ -125,7 +103,6 @@ const WHAT_WE_DO = [
 
 export default function About() {
   const [isAuth, setIsAuth] = useState(false);
-  const [showLabelModal, setShowLabelModal] = useState(false);
 
   useEffect(() => {
     base44.auth.isAuthenticated().then(setIsAuth);
@@ -155,12 +132,12 @@ export default function About() {
           </h1>
 
           <p className="text-xl sm:text-2xl text-muted-foreground leading-relaxed max-w-3xl mx-auto font-body">
-            SoundReady gives independent artists the exact same tools, strategy, and infrastructure that signed artists get from their label — for $37 a month. More streams. More playlists. More shows. More money. No manager required.
+            SoundReady gives independent artists the same tools, strategy, and infrastructure that signed artists get from their label — free to start. Organize your music in the Vault and Studio, connect your platforms, bring your whole team on Pro when you're ready — then hand the day-to-day work to Maya, your AI manager.
           </p>
 
           <div className="flex flex-col sm:flex-row items-center justify-center gap-3 pt-2">
             <Button size="lg" className="gap-2 font-heading font-bold text-base px-8 h-12" onClick={handleCTA}>
-              Start Building My Career <ArrowRight className="h-4 w-4" />
+              Start Free <ArrowRight className="h-4 w-4" />
             </Button>
             <Link to="/how-it-works">
               <Button size="lg" variant="outline" className="gap-2 font-heading font-bold text-base px-8 h-12">
@@ -169,7 +146,7 @@ export default function About() {
             </Link>
           </div>
 
-          <p className="text-xs text-muted-foreground">No contracts. No percentage cuts. No free tier — because serious artists deserve serious tools.</p>
+          <p className="text-xs text-muted-foreground">Start free. No contracts. No percentage cuts — ever.</p>
         </motion.div>
       </section>
 
@@ -235,18 +212,18 @@ export default function About() {
         <div className="max-w-5xl mx-auto space-y-14">
           <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="text-center space-y-4">
             <p className="text-xs text-primary uppercase tracking-wider font-bold">Pricing</p>
-            <h2 className="font-heading text-4xl sm:text-5xl font-bold">Three ways SoundReady works for you.</h2>
-            <p className="text-lg text-muted-foreground max-w-2xl mx-auto">Pay for the size of your operation — not for features. Every tier includes the full platform.</p>
+            <h2 className="font-heading text-4xl sm:text-5xl font-bold">Start free. Grow when you're ready.</h2>
+            <p className="text-lg text-muted-foreground max-w-2xl mx-auto">Your core tools are free forever. Upgrade for your team — or hand the work to Maya when the career is moving.</p>
           </motion.div>
 
-          <div className="grid grid-cols-1 lg:grid-cols-4 gap-5">
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-5">
             {TIERS.map((tier, i) => (
               <motion.div key={tier.name}
                 initial={{ opacity: 0, y: 24 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}
                 transition={{ delay: i * 0.12 }}
                 className={`relative rounded-2xl border p-6 flex flex-col bg-card ${
-                  tier.badge === "Most Powerful" ? "ring-2 ring-primary/60 shadow-2xl shadow-primary/10" :
-                  tier.badge === "Most Popular" ? "ring-2 ring-primary/40 shadow-xl" : ""
+                  tier.name === "AI Manager" ? "ring-2 ring-primary/60 shadow-2xl shadow-primary/10" :
+                  tier.name === "Artist Pro" ? "ring-2 ring-chart-5/40 shadow-xl" : ""
                 } ${tier.border}`}>
                 {tier.badge && (
                   <div className={`absolute -top-3 left-1/2 -translate-x-1/2 px-3 py-1 rounded-full text-xs font-bold whitespace-nowrap ${tier.badgeStyle || "bg-primary text-primary-foreground"}`}>
@@ -271,44 +248,24 @@ export default function About() {
                     </div>
                   ))}
                 </div>
-                <Button
-                  className={`w-full mt-6 font-semibold ${tier.name === "AI Manager" ? "bg-primary hover:bg-primary/90 text-primary-foreground" : "bg-primary hover:bg-primary/90 text-primary-foreground"}`}
-                  onClick={tier.cta === "Apply Now" ? () => setShowLabelModal(true) : handleCTA}
-                >
-                  {tier.name === "AI Manager" && <Sparkles className="h-3.5 w-3.5 mr-1.5" />}
-                  {tier.cta}
-                </Button>
+                {tier.route ? (
+                  <Link to={tier.route}>
+                    <Button className="w-full mt-6 font-semibold">
+                      {tier.name === "AI Manager" && <Sparkles className="h-3.5 w-3.5 mr-1.5" />}
+                      {tier.cta}
+                    </Button>
+                  </Link>
+                ) : (
+                  <Button className="w-full mt-6 font-semibold" onClick={handleCTA}>
+                    {tier.cta}
+                  </Button>
+                )}
                 {tier.subtext && <p className="text-center text-xs text-muted-foreground mt-2">{tier.subtext}</p>}
               </motion.div>
             ))}
           </div>
         </div>
       </section>
-
-      {/* Label Modal */}
-      {showLabelModal && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 px-4" onClick={() => setShowLabelModal(false)}>
-          <motion.div
-            initial={{ opacity: 0, scale: 0.95 }}
-            animate={{ opacity: 1, scale: 1 }}
-            className="bg-card border border-border rounded-2xl p-8 max-w-lg w-full space-y-6 relative"
-            onClick={(e) => e.stopPropagation()}
-          >
-            <button onClick={() => setShowLabelModal(false)} className="absolute top-4 right-4 text-muted-foreground hover:text-foreground">
-              <X className="h-5 w-5" />
-            </button>
-            <div className="space-y-2">
-              <p className="text-xs text-primary uppercase tracking-widest font-bold">Label Plan</p>
-              <h3 className="font-heading text-2xl font-bold">Let's get your roster set up.</h3>
-              <p className="text-muted-foreground text-sm">Get in touch and we'll get your roster set up.</p>
-            </div>
-            <div className="rounded-xl bg-secondary/50 border border-border h-48 flex items-center justify-center text-muted-foreground text-sm">
-              {/* Calendly embed placeholder */}
-              Calendly embed coming soon
-            </div>
-          </motion.div>
-        </div>
-      )}
 
       {/* WHAT WE DO */}
       <section className="px-4 py-24 border-t border-border">
@@ -392,7 +349,7 @@ export default function About() {
           <div className="grid grid-cols-3 gap-4 sm:gap-8 text-center">
             {[
               { num: "15–20%", sub: "What the traditional management model takes — whether deals close or not" },
-              { num: "$37/mo", sub: "Starting price for SoundReady — all tools included" },
+              { num: "$0", sub: "What it costs to start on SoundReady — core tools free forever" },
               { num: "25+", sub: "Integrated tools giving every artist the infrastructure of a full professional team" },
             ].map((s, i) => (
               <motion.div key={i} initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: i * 0.1 }} className="space-y-2">
@@ -417,7 +374,7 @@ export default function About() {
           <Button size="lg" className="gap-2 font-heading font-bold text-base px-10 h-13" onClick={handleCTA}>
             Start Building My Career <ArrowRight className="h-4 w-4" />
           </Button>
-          <p className="text-xs text-muted-foreground">No contracts. No percentage cuts. No free tier — because serious artists deserve serious tools.</p>
+          <p className="text-xs text-muted-foreground">Start free. No contracts. No percentage cuts — ever.</p>
         </motion.div>
       </section>
     </div>
