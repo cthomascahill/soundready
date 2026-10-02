@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { base44 } from "@/api/base44Client";
-import { ChevronRight, ChevronLeft, Trash2, Phone, Loader2 } from "lucide-react";
+import { ChevronRight, ChevronLeft, Trash2, Phone, Loader2, FolderOpen } from "lucide-react";
 
 const STAGES = ["Prospect", "Pitched", "Negotiating", "Closed"];
 
@@ -8,7 +8,7 @@ const STAGES = ["Prospect", "Pitched", "Negotiating", "Closed"];
  * One client card in the CRM pipeline — move them through deal stages,
  * log contact, or remove them.
  */
-export default function ClientCard({ client, onUpdated, onRemoved }) {
+export default function ClientCard({ client, onUpdated, onRemoved, onOpen }) {
   const [busy, setBusy] = useState(false);
   const [expanded, setExpanded] = useState(false);
   const [editing, setEditing] = useState(false);
@@ -166,6 +166,13 @@ export default function ClientCard({ client, onUpdated, onRemoved }) {
             : "No contact logged"}
         </span>
         <div className="flex gap-1">
+          <button
+            onClick={() => onOpen?.(client)}
+            title="Open projects & songs"
+            className="h-6 w-6 rounded-md flex items-center justify-center text-muted-foreground hover:text-primary hover:bg-primary/10 transition-colors"
+          >
+            <FolderOpen className="h-3 w-3" />
+          </button>
           <button
             onClick={logContact}
             disabled={busy}

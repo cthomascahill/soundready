@@ -8,7 +8,7 @@ import {
   Home, Music2, Users, ListChecks, Sparkles, Flame, Link2, LayoutGrid,
   Map, Newspaper, CreditCard, UserCircle, PenTool,
   Mic2, Megaphone, Route, Wallet, FileText, Disc3, Target,
-  Store, FileSignature, Radar, Mic,
+  Store, FileSignature, Radar, Mic, MessageCircle,
 } from "lucide-react";
 
 // The Music section swaps with the active profile mode
@@ -46,6 +46,7 @@ const NAV_SECTIONS = (mode) => {
       { to: "/connect-profiles", icon: Link2, label: "Connect Platforms" },
       { to: "/career-roadmap", icon: Map, label: "Career Roadmap" },
       { to: "/artist-feed", icon: Flame, label: "The Wall" },
+      { to: "/friends", icon: MessageCircle, label: "Friends" },
       { to: "/music-news", icon: Newspaper, label: "Music News" },
       { to: "/industry-intel", icon: Radar, label: "Industry Intel" },
     ],

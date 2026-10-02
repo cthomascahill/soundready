@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { base44 } from "@/api/base44Client";
 import { User, Mail, LogOut, Music2, Save, Check, BarChart2, Zap, Crown, Layers } from "lucide-react";
 import AccountTypePicker from "@/components/AccountTypePicker";
+import PublicProfileCard from "@/components/social/PublicProfileCard";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import moment from "moment";
@@ -231,6 +232,9 @@ export default function Profile() {
             )}
           </Button>
         </div>
+
+        {/* Public profile — what other creators see */}
+        <PublicProfileCard />
 
         {/* Logout */}
         <div className="rounded-2xl bg-card border border-border p-6">

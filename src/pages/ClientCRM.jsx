@@ -4,6 +4,7 @@ import { useAuth } from "@/lib/AuthContext";
 import { Button } from "@/components/ui/button";
 import NewClientForm from "@/components/clientcrm/NewClientForm";
 import ClientCard from "@/components/clientcrm/ClientCard";
+import ClientDetail from "@/components/clientcrm/ClientDetail";
 import { Users, Plus, Loader2 } from "lucide-react";
 
 const STAGES = [
@@ -22,6 +23,7 @@ export default function ClientCRM() {
   const [clients, setClients] = useState([]);
   const [loading, setLoading] = useState(true);
   const [formOpen, setFormOpen] = useState(false);
+  const [openClient, setOpenClient] = useState(null);
 
   useEffect(() => {
     if (!user?.id) return;
@@ -54,7 +56,9 @@ export default function ClientCRM() {
           </Button>
         </div>
 
-        {loading ? (
+        {openClient ? (
+          <ClientDetail client={openClient} onBack={() => setOpenClient(null)} />
+        ) : loading ? (
           <div className="flex justify-center py-20">
             <Loader2 className="h-8 w-8 animate-spin text-primary" />
           </div>
@@ -89,7 +93,7 @@ export default function ClientCRM() {
                       <p className="text-[11px] text-muted-foreground/60 text-center py-4">No one here yet</p>
                     ) : (
                       inStage.map((c) => (
-                        <ClientCard key={c.id} client={c} onUpdated={onUpdated} onRemoved={onRemoved} />
+                        <ClientCard key={c.id} client={c} onUpdated={onUpdated} onRemoved={onRemoved} onOpen={setOpenClient} />
                       ))
                     )}
                   </div>
