@@ -40,6 +40,14 @@
       "default": false,
       "description": "Song is out on streaming platforms"
     },
+    "audio_file_uri": {
+      "type": "string",
+      "description": "Latest mix audio file in private storage"
+    },
+    "audio_version_label": {
+      "type": "string",
+      "description": "Label for the latest mix, e.g. MIX 5"
+    },
     "notes": {
       "type": "string",
       "default": ""

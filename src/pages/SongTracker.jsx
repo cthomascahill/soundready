@@ -4,6 +4,7 @@ import { useAuth } from "@/lib/AuthContext";
 import { DragDropContext, Droppable, Draggable } from "@hello-pangea/dnd";
 import { Plus, GripVertical, Trash2, ChevronDown, Check, Filter, ArrowUpDown } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import AudioCell from "@/components/songtracker/AudioCell";
 
 const STAGES = [
   { key: "stage_write", label: "Write" },
@@ -62,8 +63,10 @@ function SongRow({ song, index, onUpdate, onDelete }) {
   const [notesExpanded, setNotesExpanded] = useState(false);
   const [localName, setLocalName] = useState(song.song_name);
   const [localNotes, setLocalNotes] = useState(song.notes || "");
+  const [localVersion, setLocalVersion] = useState(song.audio_version_label || "");
   const nameTimer = useRef(null);
   const notesTimer = useRef(null);
+  const versionTimer = useRef(null);
 
   const handleNameChange = (val) => {
     setLocalName(val);
@@ -75,6 +78,12 @@ function SongRow({ song, index, onUpdate, onDelete }) {
     setLocalNotes(val);
     clearTimeout(notesTimer.current);
     notesTimer.current = setTimeout(() => onUpdate(song.id, { notes: val }), 600);
+  };
+
+  const handleVersionChange = (val) => {
+    setLocalVersion(val);
+    clearTimeout(versionTimer.current);
+    versionTimer.current = setTimeout(() => onUpdate(song.id, { audio_version_label: val }), 600);
   };
 
   const toggleStage = (key) => {
@@ -127,6 +136,9 @@ function SongRow({ song, index, onUpdate, onDelete }) {
               </span>
             </div>
 
+            {/* Latest mix audio */}
+            <AudioCell song={song} onUpdate={onUpdate} />
+
             {/* Notes toggle */}
             <div className="w-24 shrink-0 px-2">
               <button
@@ -152,6 +164,12 @@ function SongRow({ song, index, onUpdate, onDelete }) {
           {/* Notes expansion */}
           {notesExpanded && (
             <div className="px-10 pb-3">
+              <input
+                value={localVersion}
+                onChange={(e) => handleVersionChange(e.target.value)}
+                placeholder="Version label (e.g. MIX 5)"
+                className="w-48 mb-2 bg-secondary/30 border border-border rounded-lg px-3 py-1.5 text-xs text-foreground placeholder:text-muted-foreground/50 focus:outline-none focus:ring-1 focus:ring-primary"
+              />
               <textarea
                 value={localNotes}
                 onChange={(e) => handleNotesChange(e.target.value)}
@@ -356,6 +374,7 @@ export default function SongTracker() {
               <div key={s.key} className="w-16 shrink-0 text-center">{s.label}</div>
             ))}
             <div className="w-32 shrink-0 px-2 hidden md:block">Status</div>
+            <div className="w-28 shrink-0 px-2 text-center">Latest Mix</div>
             <div className="w-24 shrink-0 px-2">Notes</div>
             <div className="w-10 shrink-0" />
           </div>
