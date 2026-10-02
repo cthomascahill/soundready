@@ -6,18 +6,7 @@ import { Plus, GripVertical, Trash2, ChevronDown, Filter, ArrowUpDown } from "lu
 import { Button } from "@/components/ui/button";
 import AudioCell from "@/components/songtracker/AudioCell";
 import ArtworkCell from "@/components/songtracker/ArtworkCell";
-import StageStrip, { STAGE_COLORS } from "@/components/songtracker/StageStrip";
-
-const STAGES = [
-  { key: "stage_write", label: "Write" },
-  { key: "stage_record", label: "Record" },
-  { key: "stage_mix", label: "Mix" },
-  { key: "stage_master", label: "Master" },
-  { key: "stage_review", label: "Review" },
-  { key: "stage_artwork", label: "Artwork" },
-  { key: "stage_submit", label: "Submit" },
-  { key: "stage_released", label: "Released" },
-];
+import { STAGES, STAGE_COLORS } from "@/lib/songStages";
 
 function getStatus(song) {
   const completed = STAGES.filter((s) => song[s.key]).length;
@@ -35,7 +24,6 @@ function getStatus(song) {
 
 function SongRow({ song, index, onUpdate, onDelete }) {
   const [notesExpanded, setNotesExpanded] = useState(false);
-  const [stagesExpanded, setStagesExpanded] = useState(false);
   const [localName, setLocalName] = useState(song.song_name);
   const [localNotes, setLocalNotes] = useState(song.notes || "");
   const [localVersion, setLocalVersion] = useState(song.audio_version_label || "");
@@ -96,13 +84,18 @@ function SongRow({ song, index, onUpdate, onDelete }) {
               />
             </div>
 
-            {/* Stage progress strip */}
-            <StageStrip
-              song={song}
-              stages={STAGES}
-              expanded={stagesExpanded}
-              onToggleExpand={() => setStagesExpanded((v) => !v)}
-            />
+            {/* Mini stage bubbles */}
+            {STAGES.map((s) => (
+              <div key={s.key} className="w-9 shrink-0 flex justify-center">
+                <button
+                  onClick={() => toggleStage(s.key)}
+                  title={s.label}
+                  className={`h-3 w-3 rounded-full transition-all ${
+                    song[s.key] ? STAGE_COLORS[s.key] : "bg-border hover:bg-muted-foreground/60"
+                  }`}
+                />
+              </div>
+            ))}
 
             {/* Status badge */}
             <div className="w-32 shrink-0 px-2 hidden md:block">
@@ -148,28 +141,6 @@ function SongRow({ song, index, onUpdate, onDelete }) {
               </button>
             </div>
           </div>
-
-          {/* Stage checklist expansion */}
-          {stagesExpanded && (
-            <div className="px-10 py-3 border-t border-border/50">
-              <div className="flex flex-wrap items-center gap-1.5">
-                {STAGES.map((s) => (
-                  <button
-                    key={s.key}
-                    onClick={() => toggleStage(s.key)}
-                    className={`flex items-center gap-1.5 text-xs px-2.5 py-1 rounded-full border transition-colors ${
-                      song[s.key]
-                        ? "bg-secondary text-foreground border-border"
-                        : "border-border/60 text-muted-foreground hover:border-border hover:text-foreground"
-                    }`}
-                  >
-                    <span className={`h-2 w-2 rounded-full ${song[s.key] ? STAGE_COLORS[s.key] : "bg-border"}`} />
-                    {s.label}
-                  </button>
-                ))}
-              </div>
-            </div>
-          )}
 
           {/* Notes expansion */}
           {notesExpanded && (
@@ -380,7 +351,9 @@ export default function SongTracker() {
           <div className="flex items-center gap-0 bg-secondary/30 border-b border-border text-xs font-semibold text-muted-foreground uppercase tracking-wider min-h-[40px]">
             <div className="w-8 shrink-0" /> {/* drag handle space */}
             <div className="flex-1 px-2">Song Name</div>
-            <div className="w-40 shrink-0 px-2 text-center">Stages</div>
+            {STAGES.map((s) => (
+              <div key={s.key} className="w-9 shrink-0 text-center text-[8px] leading-tight text-muted-foreground/60 normal-case tracking-normal px-0.5">{s.label}</div>
+            ))}
             <div className="w-32 shrink-0 px-2 hidden md:block">Status</div>
             <div className="w-28 shrink-0 px-2 text-center">Latest Mix</div>
             <div className="w-20 shrink-0 px-2 text-center">Artwork</div>
