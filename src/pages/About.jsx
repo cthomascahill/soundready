@@ -12,6 +12,7 @@ import { Button } from "@/components/ui/button";
 import SoundReadyLogo from "@/components/SoundReadyLogo";
 import SEO from "@/components/SEO";
 import GrowthComparisonChart from "@/components/home/GrowthComparisonChart";
+import CountUpStat from "@/components/home/CountUpStat";
 
 const MANAGER_PAINS = [
   { icon: DollarSign, text: "The traditional model takes 15–20% of everything you earn — whether deals close or not" },
@@ -364,7 +365,7 @@ export default function About() {
             ].map((s, i) => (
               <motion.div key={i} initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: i * 0.1 }}
                 className="rounded-2xl bg-card border border-primary/20 p-6 space-y-3 text-center">
-                <p className="font-heading text-5xl font-black text-primary">{s.num}</p>
+                <CountUpStat value={s.num} />
                 <p className="font-heading font-bold text-base">{s.label}</p>
                 <p className="text-xs text-muted-foreground leading-relaxed">{s.sub}</p>
               </motion.div>

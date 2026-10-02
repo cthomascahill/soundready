@@ -11,6 +11,7 @@ import { getTier, trialDaysLeft } from "@/lib/tier";
 import SoundReadyLogo from "@/components/SoundReadyLogo";
 import CheckoutButton from "@/components/billing/CheckoutButton";
 import SEO from "@/components/SEO";
+import ManagerCostSlider from "@/components/home/ManagerCostSlider";
 
 // Each tier's unlocks, shown side-by-side for artists and producers
 const FREE_GROUPS = [
@@ -315,6 +316,7 @@ export default function Pricing() {
                 <p className="text-xs text-muted-foreground">Maya — full-time work, zero cuts</p>
               </div>
             </div>
+            <ManagerCostSlider />
           </motion.div>
         </div>
       </section>
