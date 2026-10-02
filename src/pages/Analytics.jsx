@@ -136,7 +136,6 @@ export default function Analytics() {
         <Tabs defaultValue="analytics">
           <TabsList>
             <TabsTrigger value="analytics">Analytics</TabsTrigger>
-            <TabsTrigger value="fan-intel" onClick={() => navigate("/fan-intelligence")}>Fan Intelligence ↗</TabsTrigger>
           </TabsList>
         </Tabs>
 

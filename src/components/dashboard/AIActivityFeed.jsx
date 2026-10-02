@@ -89,7 +89,6 @@ const SUGGESTION_ROUTES = {
   "Challenge Tracker": "/challenge-tracker",
   "Tour Planner": "/tour-planner",
   "Gig Finder": "/gig-finder",
-  "Sync Pitcher": "/sync-pitcher",
   "A&R Intelligence": "/ar-intelligence",
   "Lyric Room": "/lyric-room",
   "Music Academy": "/music-academy",

@@ -17,8 +17,8 @@ const QUARTER_TEXT = ["text-primary", "text-purple-400", "text-orange-400", "tex
 const ACTION_LINKS = {
   "song vault": "/history", "release": "/history", "playlist": "/playlist-pitcher",
   "epk": "/pitch-deck", "tour": "/tour-planner", "venue": "/gig-finder",
-  "stream": "/streaming", "analytics": "/analytics", "branding": "/branding-studio",
-  "royalt": "/royalties", "social": "/scheduler",
+  "analytics": "/analytics", "branding": "/branding-studio",
+  "royalt": "/royalties",
 };
 
 function getLink(text) {

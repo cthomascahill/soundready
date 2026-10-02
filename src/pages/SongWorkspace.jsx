@@ -212,11 +212,6 @@ export default function SongWorkspace() {
                   <p className="text-sm text-muted-foreground">Find curators and generate personalized pitch emails for this song.</p>
                   <Button variant="outline" onClick={() => navigate("/playlist-pitcher")} className="w-full">Open Playlist Pitcher</Button>
                 </div>
-                <div className="rounded-xl bg-card border border-border p-5 space-y-3">
-                  <p className="font-heading font-semibold">Sync Licensing</p>
-                  <p className="text-sm text-muted-foreground">Surface TV, film, game, and commercial sync opportunities for this track.</p>
-                  <Button variant="outline" onClick={() => navigate("/sync-pitcher")} className="w-full">Open Sync Pitcher</Button>
-                </div>
               </div>
             </div>
           </TabsContent>

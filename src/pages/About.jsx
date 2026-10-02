@@ -97,11 +97,9 @@ const WHAT_WE_DO = [
   { icon: MapPin, color: "text-orange-400", title: "Booking & Tours", desc: "Access 200+ venues, generate booking inquiries, plan your tour routing, and track every dollar of income and expenses. More shows, better margins, zero spreadsheets." },
   { icon: DollarSign, color: "text-chart-4", title: "Finance & Royalties", desc: "Upload royalty statements from every DSP and see exactly what you're earning in one place. Track expenses, send invoices, and finally understand your music business finances." },
   { icon: Send, color: "text-teal-400", title: "Distribution", desc: "Manage ISRC codes, metadata, pre-save links, and distributor submissions in one organized checklist. Every release goes out clean, professional, and ready to perform." },
-  { icon: Music2, color: "text-[#1DB954]", title: "Sync Licensing", desc: "Surface sync opportunities for TV, film, games, and commercials — SoundReady writes the pitch for you. One sync placement can change your financial year." },
-  { icon: Wand2, color: "text-cyan-400", title: "AI Mastering", desc: "Upload your track and get a professionally mastered WAV back with -14 LUFS normalization. Sounds like you paid $200 for it. Costs nothing extra." },
+
   { icon: BarChart2, color: "text-chart-5", title: "A&R Intelligence", desc: "Weekly briefings on what's working in your genre right now — tempos, moods, and strategies getting editorial love. Make smarter decisions before you finish the song." },
   { icon: FileText, color: "text-yellow-400", title: "Contract Analyzer", desc: "Upload any deal or contract and SoundReady flags every clause that could hurt you — in plain English. Know exactly what you're signing before you sign it." },
-  { icon: Users, color: "text-pink-400", title: "Fan Intelligence", desc: "Understand where your real fans are, when they listen, and what they want. Use that data to tour smarter and make every release decision with real information." },
   { icon: Disc3, color: "text-purple-400", title: "Beat Vault & Placements", desc: "Producers get their own workspace. Catalog every beat with BPM, key, and moods, track your credits and fees, and turn your placement history into the resume that lands collabs." },
   { icon: UserCheck, color: "text-teal-400", title: "Artist Match", desc: "SoundReady ranks the artists on the platform whose sound fits your beats — and Maya drafts the pitch for you. Your beats stop waiting for artists to find you." },
 ];

@@ -41,14 +41,7 @@ const NAV_GROUPS = [
   {
     label: "Network",
     items: [
-      { path: "/collabs", label: "Collab Finder", icon: MessageSquare },
       { path: "/hooks", label: "Hook Finder", icon: Zap },
-    ],
-  },
-  {
-    label: "Publish",
-    items: [
-      { path: "/calendar", label: "Content Calendar", icon: CalendarDays },
     ],
   },
 ];

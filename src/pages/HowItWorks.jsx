@@ -45,7 +45,7 @@ const STEPS = [
   {
     n: "06",
     title: "Book Shows and Build Your Tour",
-    body: "Search 570+ venues and send professional booking inquiries directly from SoundReady. Plan your tour routing based on where your real fans are. Track every dollar of income and expenses with the Tour Finance tracker. Prep your setlist and upload your files with Soundcheck. Touring is how artists build real fanbases — SoundReady makes sure you're doing it right.",
+    body: "Search 570+ venues and send professional booking inquiries directly from SoundReady. Plan your tour routing based on where your real fans are. Track every dollar of income and expenses with the Tour Finance tracker. Touring is how artists build real fanbases — SoundReady makes sure you're doing it right.",
     why: "Artists using SoundReady's booking tools book 120% more shows than artists sending cold emails manually. More shows means more fans, more merch sold, and more money in your pocket.",
   },
   {
@@ -76,10 +76,9 @@ const STEPS = [
 
 const WORKSPACE_TABS = [
   { title: "Analysis", sell: "Your complete release intelligence report. Know exactly how your song will perform before it ever goes live." },
-  { title: "Mastering", sell: "Professional mastering in one click. Upload raw. Download radio-ready." },
   { title: "Distribution", sell: "Every release detail tracked and organized. Go live clean, professional, and ready." },
   { title: "Release Plan", sell: "Your 6-week action plan. Check off tasks and stay on track all the way to release day." },
-  { title: "Pitch", sell: "Send personalized pitches to playlists and sync opportunities directly from your song page." },
+  { title: "Pitch", sell: "Send personalized pitches to playlists directly from your song page." },
 ];
 
 const ALL_TOOLS = [
@@ -87,14 +86,11 @@ const ALL_TOOLS = [
   "AI Release Strategy & Analysis (real audio processing)",
   "Spotify Algorithm Score & Outlook",
   "6-Week Release Plan Generator",
-  "AI Mastering (professional WAV output)",
   "Playlist Pitching & Curator Outreach",
-  "Sync Licensing Opportunities",
   "Gig Finder (570+ venue database)",
   "Tour Planner & Routing",
   "Tour Finance & P&L Tracker",
-  "Soundcheck & Setlist Builder",
-  "Press Kit & EPK Builder",
+  "EPK Builder",
   "Finance & Royalty Tracker",
   "Invoice Manager",
   "Rights Manager & Song Splits",

@@ -15,10 +15,6 @@ import SongLibrary from './pages/SongLibrary';
 import SongWorkspace from './pages/SongWorkspace';
 import ARIntelligence from './pages/ARIntelligence';
 import ContractAnalyzer from './pages/ContractAnalyzer';
-import FanIntelligence from './pages/FanIntelligence';
-import ReleaseRadar from './pages/ReleaseRadar';
-import StreamingDashboard from './pages/StreamingDashboard';
-import ReleaseCalendar from './pages/ReleaseCalendar';
 import AppLayout from './components/AppLayout';
 import Analytics from './pages/Analytics';
 import Distribution from './pages/Distribution';
@@ -28,11 +24,9 @@ import SpotifyConnect from './pages/SpotifyConnect';
 import About from './pages/About';
 import HowItWorks from './pages/HowItWorks';
 import PlaylistPitcher from './pages/PlaylistPitcher';
-import Mastering from './pages/Mastering';
 import ReleasePlanInput from './pages/ReleasePlanInput';
 import LinkInBio from './pages/LinkInBio';
 import RoyaltyDashboard from './pages/RoyaltyDashboard';
-import PressKit from './pages/PressKit';
 import GigFinder from './pages/GigFinder';
 import AlgorithmGuide from './pages/AlgorithmGuide';
 import Pricing from './pages/Pricing';
@@ -45,24 +39,14 @@ import TourPlanner from './pages/TourPlanner';
 import TourPlannerCanvas from './pages/TourPlannerCanvas';
 import TourOpportunities from './pages/TourOpportunities';
 import TaxEstimator from './pages/TaxEstimator';
-import NewsletterBuilder from './pages/NewsletterBuilder.jsx';
-import ContentScheduler from './pages/ContentScheduler.jsx';
-import SyncPitcher from './pages/SyncPitcher.jsx';
-import TikTokCreatorOutreach from './pages/TikTokCreatorOutreach.jsx';
-import CollabFinder from './pages/CollabFinder.jsx';
-import StreamingAnalyst from './pages/StreamingAnalyst';
 import SongTracker from './pages/SongTracker';
 import ArtistIntake from './pages/ArtistIntake';
 import Studio from './pages/Studio';
 import MusicNews from './pages/MusicNews';
 
-import EmailCampaigns from './pages/EmailCampaigns.jsx';
-import SmartMixingFeedback from './pages/SmartMixingFeedback.jsx';
-import AIVideoGenerator from './pages/AIVideoGenerator.jsx';
 import MusicAcademy from './pages/MusicAcademy';
 import Legal from './pages/Legal';
 import InvoiceManager from './pages/InvoiceManager';
-import Soundcheck from './pages/Soundcheck';
 import Whiteboard from './pages/Whiteboard';
 import TeamChat from './pages/TeamChat.jsx';
 import BrandingStudio from './pages/BrandingStudio.jsx';
@@ -170,10 +154,6 @@ const AuthenticatedApp = () => {
         <Route path="/music/:songId" element={<SongWorkspace />} />
         <Route path="/ar-intelligence" element={<ARIntelligence />} />
         <Route path="/contract-analyzer" element={<ContractAnalyzer />} />
-        <Route path="/fan-intelligence" element={<FanIntelligence />} />
-        <Route path="/release-radar" element={<ReleaseRadar />} />
-        <Route path="/streaming" element={<StreamingDashboard />} />
-        <Route path="/calendar" element={<ReleaseCalendar />} />
         <Route path="/analytics" element={<Analytics />} />
         <Route path="/distribution" element={<Distribution />} />
         <Route path="/budget" element={<BudgetTracker />} />
@@ -182,10 +162,8 @@ const AuthenticatedApp = () => {
         <Route path="/playlist-pitcher" element={<PlaylistPitcher />} />
         <Route path="/gig-finder" element={pro(GigFinder)} />
         <Route path="/algorithm-guide" element={<AlgorithmGuide />} />
-        <Route path="/mastering" element={<Mastering />} />
         <Route path="/link-in-bio" element={<LinkInBio />} />
         <Route path="/royalties" element={<RoyaltyDashboard />} />
-        <Route path="/press-kit" element={<PressKit />} />
         <Route path="/pricing-account" element={<Pricing />} />
         <Route path="/profile" element={<Profile />} />
         <Route path="/contracts" element={pro(VenueContracts)} />
@@ -195,26 +173,14 @@ const AuthenticatedApp = () => {
         <Route path="/tour-planner/:tourId" element={pro(TourPlannerCanvas)} />
         <Route path="/tour-opportunities" element={pro(TourOpportunities)} />
         <Route path="/tax-estimator" element={<TaxEstimator />} />
-        <Route path="/newsletter" element={<NewsletterBuilder />} />
-
-        <Route path="/scheduler" element={<ContentScheduler />} />
-        <Route path="/sync-pitcher" element={<SyncPitcher />} />
-        <Route path="/tiktok-creators" element={<TikTokCreatorOutreach />} />
-        <Route path="/collabs" element={<CollabFinder />} />
-        <Route path="/streaming-analyst" element={<StreamingAnalyst />} />
         <Route path="/song-tracker" element={<SongTracker />} />
         <Route path="/artist-profile" element={<ArtistIntake />} />
         <Route path="/studio" element={pro(Studio)} />
         <Route path="/music-news" element={pro(MusicNews)} />
 
-        <Route path="/email-campaigns" element={<EmailCampaigns />} />
-
-        <Route path="/mixing-feedback" element={<SmartMixingFeedback />} />
-        <Route path="/video-generator" element={<AIVideoGenerator />} />
         <Route path="/music-academy" element={<MusicAcademy />} />
         <Route path="/legal" element={<Legal />} />
         <Route path="/invoices" element={<InvoiceManager />} />
-        <Route path="/soundcheck" element={<Soundcheck />} />
         <Route path="/whiteboard" element={pro(Whiteboard)} />
         <Route path="/team-chat" element={pro(TeamChat)} />
         <Route path="/branding-studio" element={<BrandingStudio />} />
