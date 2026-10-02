@@ -28,6 +28,30 @@ export const TABS = [
   { value: "all", label: "All", test: () => true },
 ];
 
+// Column comparators for user-chosen sorting
+export function compareBy(key, a, b) {
+  switch (key) {
+    case "name":
+      return (a.song_name || "").localeCompare(b.song_name || "");
+    case "stage": {
+      const av = getCurrentStage(a), bv = getCurrentStage(b);
+      return (av ? STAGES.indexOf(av) : -1) - (bv ? STAGES.indexOf(bv) : -1);
+    }
+    case "next": {
+      const av = getNextStage(a), bv = getNextStage(b);
+      return (av ? STAGES.indexOf(av) : STAGES.length) - (bv ? STAGES.indexOf(bv) : STAGES.length);
+    }
+    case "release_date": {
+      if (!a.release_date && !b.release_date) return 0;
+      if (!a.release_date) return 1; // songs without a date stay at the bottom
+      if (!b.release_date) return -1;
+      return a.release_date.localeCompare(b.release_date);
+    }
+    default:
+      return 0;
+  }
+}
+
 // Unreleased songs first (soonest release date on top), released songs last (newest first)
 export function sortSongs(list) {
   return [...list].sort((a, b) => {

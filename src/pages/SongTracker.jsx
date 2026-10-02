@@ -1,12 +1,28 @@
 import { useState, useEffect, useCallback, useMemo } from "react";
 import { base44 } from "@/api/base44Client";
 import { useAuth } from "@/lib/AuthContext";
-import { Plus } from "lucide-react";
+import { Plus, ArrowUp, ArrowDown } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import SongRow from "@/components/songtracker/SongRow";
 import TrackerTabs from "@/components/songtracker/TrackerTabs";
 import StageFilter from "@/components/songtracker/StageFilter";
-import { TABS, getCurrentStage, sortSongs } from "@/lib/songStatus";
+import SortControl from "@/components/songtracker/SortControl";
+import { TABS, getCurrentStage, sortSongs, compareBy } from "@/lib/songStatus";
+
+// Clickable column header: first click sorts ascending, second descending, third resets
+const SortHeader = ({ label, sortKey, sort, onSort, width }) => {
+  const active = sort.key === sortKey;
+  return (
+    <button
+      type="button"
+      onClick={() => onSort(sortKey)}
+      className={`flex items-center gap-1 text-left shrink-0 transition-colors ${width} ${active ? "text-foreground" : "hover:text-foreground"}`}
+    >
+      {label}
+      {active && (sort.dir === "asc" ? <ArrowUp className="h-3 w-3" /> : <ArrowDown className="h-3 w-3" />)}
+    </button>
+  );
+};
 
 const EMPTY_MESSAGES = {
   active: "No songs in progress.",
@@ -21,6 +37,7 @@ export default function SongTracker() {
   const [loading, setLoading] = useState(true);
   const [tab, setTab] = useState("active");
   const [stageFilter, setStageFilter] = useState("all");
+  const [sort, setSort] = useState({ key: null, dir: "asc" });
   const [newSongId, setNewSongId] = useState(null);
 
   useEffect(() => {
@@ -64,6 +81,12 @@ export default function SongTracker() {
   const changeTab = (value) => { setTab(value); setNewSongId(null); };
   const changeFilter = (value) => { setStageFilter(value); setNewSongId(null); };
 
+  // First click sorts ascending, second descending, third back to the default order
+  const cycleSort = (key) =>
+    setSort((s) => (s.key === key
+      ? (s.dir === "asc" ? { key, dir: "desc" } : { key: null, dir: "asc" })
+      : { key, dir: "asc" }));
+
   const counts = useMemo(
     () => Object.fromEntries(TABS.map((t) => [t.value, songs.filter(t.test).length])),
     [songs]
@@ -76,8 +99,12 @@ export default function SongTracker() {
       const current = getCurrentStage(s);
       return stageFilter === "none" ? !current : current?.key === stageFilter;
     });
-    return sortSongs(list);
-  }, [songs, tab, stageFilter]);
+    const ordered = sortSongs(list);
+    if (sort.key) {
+      ordered.sort((a, b) => (sort.dir === "asc" ? compareBy(sort.key, a, b) : -compareBy(sort.key, a, b)));
+    }
+    return ordered;
+  }, [songs, tab, stageFilter, sort]);
 
   return (
     <div className="min-h-screen bg-background px-4 py-10">
@@ -98,7 +125,12 @@ export default function SongTracker() {
         {songs.length > 0 && (
           <div className="flex items-center justify-between gap-3 flex-wrap">
             <TrackerTabs value={tab} counts={counts} onChange={changeTab} />
-            <StageFilter value={stageFilter} onChange={changeFilter} />
+            <div className="flex items-center gap-2">
+              <StageFilter value={stageFilter} onChange={changeFilter} />
+              <div className="md:hidden">
+                <SortControl sort={sort} onChange={setSort} />
+              </div>
+            </div>
           </div>
         )}
 
@@ -106,10 +138,10 @@ export default function SongTracker() {
         <div className="rounded-2xl bg-card border border-border overflow-hidden">
           <div className="hidden md:flex items-center gap-3 px-3 min-h-[40px] bg-secondary/30 border-b border-border text-xs font-semibold text-muted-foreground uppercase tracking-wider">
             <div className="w-4 shrink-0" />
-            <div className="flex-1">Song</div>
-            <div className="w-36 shrink-0">Current Stage</div>
-            <div className="w-56 shrink-0">Next Action</div>
-            <div className="w-32 shrink-0">Release Date</div>
+            <SortHeader label="Song" sortKey="name" sort={sort} onSort={cycleSort} width="flex-1" />
+            <SortHeader label="Current Stage" sortKey="stage" sort={sort} onSort={cycleSort} width="w-36" />
+            <SortHeader label="Next Action" sortKey="next" sort={sort} onSort={cycleSort} width="w-56" />
+            <SortHeader label="Release Date" sortKey="release_date" sort={sort} onSort={cycleSort} width="w-32" />
             <div className="w-8 shrink-0" />
           </div>
 
