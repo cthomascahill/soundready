@@ -1,55 +1,39 @@
 import { useState, useEffect, useCallback, useMemo } from "react";
 import { base44 } from "@/api/base44Client";
 import { useAuth } from "@/lib/AuthContext";
-import { Plus, ArrowUp, ArrowDown } from "lucide-react";
+import { ArrowLeft } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import SongRow from "@/components/songtracker/SongRow";
-import TrackerTabs from "@/components/songtracker/TrackerTabs";
-import StageFilter from "@/components/songtracker/StageFilter";
-import SortControl from "@/components/songtracker/SortControl";
-import { TABS, getCurrentStage, sortSongs, compareBy } from "@/lib/songStatus";
-
-// Clickable column header: first click sorts ascending, second descending, third resets
-const SortHeader = ({ label, sortKey, sort, onSort, width }) => {
-  const active = sort.key === sortKey;
-  return (
-    <button
-      type="button"
-      onClick={() => onSort(sortKey)}
-      className={`flex items-center gap-1 text-left shrink-0 transition-colors ${width} ${active ? "text-foreground" : "hover:text-foreground"}`}
-    >
-      {label}
-      {active && (sort.dir === "asc" ? <ArrowUp className="h-3 w-3" /> : <ArrowDown className="h-3 w-3" />)}
-    </button>
-  );
-};
-
-const EMPTY_MESSAGES = {
-  active: "No songs in progress.",
-  upcoming: "No songs with an upcoming release date.",
-  released: "No released songs yet.",
-  all: "No songs yet.",
-};
+import ProjectsGrid from "@/components/songtracker/ProjectsGrid";
+import TrackerList from "@/components/songtracker/TrackerList";
 
 export default function SongTracker() {
   const { user } = useAuth();
   const [songs, setSongs] = useState([]);
+  const [projects, setProjects] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [tab, setTab] = useState("active");
-  const [stageFilter, setStageFilter] = useState("all");
-  const [sort, setSort] = useState({ key: null, dir: "asc" });
-  const [newSongId, setNewSongId] = useState(null);
+  // null = project folders view; "all" / "singles" / a project id = that project's song list
+  const [openProjectId, setOpenProjectId] = useState(null);
 
   useEffect(() => {
     if (!user?.id) return;
-    base44.entities.PipelineSong.filter({ created_by_id: user.id }, "sort_order", 200)
-      .then((data) => { setSongs(data); setLoading(false); })
+    Promise.all([
+      base44.entities.PipelineSong.filter({ created_by_id: user.id }, "sort_order", 500),
+      base44.entities.ReleaseProject.filter({ created_by_id: user.id }, "-created_date", 100),
+    ])
+      .then(([songData, projectData]) => {
+        setSongs(songData);
+        setProjects(projectData);
+        setLoading(false);
+      })
       .catch(() => setLoading(false));
   }, [user]);
 
   const addSong = async () => {
+    const projectId =
+      openProjectId && openProjectId !== "all" && openProjectId !== "singles" ? openProjectId : null;
     const newSong = await base44.entities.PipelineSong.create({
       song_name: "",
+      project_id: projectId,
       stage_write: false,
       stage_record: false,
       stage_mix: false,
@@ -62,10 +46,7 @@ export default function SongTracker() {
       sort_order: songs.length,
     });
     setSongs((prev) => [...prev, newSong]);
-    // Jump to Active so the new song is visible, opened and ready to name
-    setTab("active");
-    setStageFilter("all");
-    setNewSongId(newSong.id);
+    return newSong;
   };
 
   const updateSong = useCallback(async (id, changes) => {
@@ -78,105 +59,97 @@ export default function SongTracker() {
     await base44.entities.PipelineSong.delete(id);
   };
 
-  const changeTab = (value) => { setTab(value); setNewSongId(null); };
-  const changeFilter = (value) => { setStageFilter(value); setNewSongId(null); };
+  const deleteProject = async (id) => {
+    // Its songs drop back into the Singles folder
+    setSongs((prev) => prev.map((s) => s.project_id === id ? { ...s, project_id: null } : s));
+    await base44.entities.PipelineSong.updateMany({ project_id: id }, { $set: { project_id: null } });
+    await base44.entities.ReleaseProject.delete(id);
+    setProjects((prev) => prev.filter((p) => p.id !== id));
+  };
 
-  // First click sorts ascending, second descending, third back to the default order
-  const cycleSort = (key) =>
-    setSort((s) => (s.key === key
-      ? (s.dir === "asc" ? { key, dir: "desc" } : { key: null, dir: "asc" })
-      : { key, dir: "asc" }));
-
-  const counts = useMemo(
-    () => Object.fromEntries(TABS.map((t) => [t.value, songs.filter(t.test).length])),
-    [songs]
+  const moveTargets = useMemo(
+    () => [
+      { id: null, label: "Singles" },
+      ...projects.map((p) => ({ id: p.id, label: p.name })),
+    ],
+    [projects]
   );
 
-  const visibleSongs = useMemo(() => {
-    const inTab = TABS.find((t) => t.value === tab).test;
-    const list = songs.filter(inTab).filter((s) => {
-      if (stageFilter === "all") return true;
-      const current = getCurrentStage(s);
-      return stageFilter === "none" ? !current : current?.key === stageFilter;
-    });
-    const ordered = sortSongs(list);
-    if (sort.key) {
-      ordered.sort((a, b) => (sort.dir === "asc" ? compareBy(sort.key, a, b) : -compareBy(sort.key, a, b)));
-    }
-    return ordered;
-  }, [songs, tab, stageFilter, sort]);
+  if (loading) {
+    return (
+      <div className="min-h-screen bg-background flex items-center justify-center">
+        <div className="h-8 w-8 border-4 border-primary/20 border-t-primary rounded-full animate-spin" />
+      </div>
+    );
+  }
+
+  // Project folders view
+  if (!openProjectId) {
+    return (
+      <div className="min-h-screen bg-background px-4 py-10">
+        <div className="max-w-6xl mx-auto space-y-6">
+          <div>
+            <p className="text-xs text-primary uppercase tracking-widest font-medium">Pipeline</p>
+            <h1 className="font-heading text-4xl font-bold">Song Tracker</h1>
+            <p className="text-muted-foreground text-sm mt-1">
+              Track every release from idea to launch — grouped into projects.
+            </p>
+          </div>
+          <ProjectsGrid
+            songs={songs}
+            projects={projects}
+            onOpen={setOpenProjectId}
+            onDeleteProject={deleteProject}
+            onCreateProject={(project) => {
+              setProjects((prev) => [project, ...prev]);
+              setOpenProjectId(project.id);
+            }}
+          />
+        </div>
+      </div>
+    );
+  }
+
+  // One project's song list
+  const openProject = projects.find((p) => p.id === openProjectId);
+  const title =
+    openProjectId === "all" ? "All Songs" : openProjectId === "singles" ? "Singles" : openProject?.name;
+  const scopedSongs =
+    openProjectId === "all"
+      ? songs
+      : openProjectId === "singles"
+        ? songs.filter((s) => !s.project_id)
+        : songs.filter((s) => s.project_id === openProjectId);
 
   return (
     <div className="min-h-screen bg-background px-4 py-10">
       <div className="max-w-6xl mx-auto space-y-6">
-        {/* Header */}
-        <div className="flex items-start justify-between gap-4 flex-wrap">
-          <div>
-            <p className="text-xs text-primary uppercase tracking-widest font-medium">Pipeline</p>
-            <h1 className="font-heading text-4xl font-bold">Song Tracker</h1>
-            <p className="text-muted-foreground text-sm mt-1">Track every song from idea to release.</p>
-          </div>
-          <Button onClick={addSong} className="gap-2">
-            <Plus className="h-4 w-4" /> Add Song
+        <div className="space-y-3">
+          <Button
+            variant="ghost"
+            size="sm"
+            onClick={() => setOpenProjectId(null)}
+            className="gap-2 -ml-2 text-muted-foreground"
+          >
+            <ArrowLeft className="h-4 w-4" /> All Projects
           </Button>
+          <div className="flex items-center gap-3 flex-wrap">
+            <h1 className="font-heading text-3xl font-bold">{title}</h1>
+            {openProject && (
+              <span className="text-[10px] font-bold uppercase tracking-wide text-muted-foreground bg-secondary px-2 py-1 rounded">
+                {openProject.project_type}
+              </span>
+            )}
+          </div>
         </div>
 
-        {/* Tabs + stage filter */}
-        {songs.length > 0 && (
-          <div className="flex items-center justify-between gap-3 flex-wrap">
-            <TrackerTabs value={tab} counts={counts} onChange={changeTab} />
-            <div className="flex items-center gap-2">
-              <StageFilter value={stageFilter} onChange={changeFilter} />
-              <div className="md:hidden">
-                <SortControl sort={sort} onChange={setSort} />
-              </div>
-            </div>
-          </div>
-        )}
-
-        {/* Song list */}
-        <div className="rounded-2xl bg-card border border-border overflow-hidden">
-          <div className="hidden md:flex items-center gap-3 px-3 min-h-[40px] bg-secondary/30 border-b border-border text-xs font-semibold text-muted-foreground uppercase tracking-wider">
-            <div className="w-4 shrink-0" />
-            <SortHeader label="Song" sortKey="name" sort={sort} onSort={cycleSort} width="flex-1" />
-            <SortHeader label="Current Stage" sortKey="stage" sort={sort} onSort={cycleSort} width="w-36" />
-            <SortHeader label="Next Action" sortKey="next" sort={sort} onSort={cycleSort} width="w-56" />
-            <SortHeader label="Release Date" sortKey="release_date" sort={sort} onSort={cycleSort} width="w-32" />
-            <div className="w-8 shrink-0" />
-          </div>
-
-          {loading ? (
-            <div className="flex justify-center py-16">
-              <div className="h-6 w-6 border-2 border-primary/20 border-t-primary rounded-full animate-spin" />
-            </div>
-          ) : songs.length === 0 ? (
-            <div className="text-center py-20 space-y-3">
-              <p className="text-muted-foreground text-sm">No songs in your tracker yet.</p>
-              <Button onClick={addSong} variant="outline" className="gap-2">
-                <Plus className="h-4 w-4" /> Add Your First Song
-              </Button>
-            </div>
-          ) : visibleSongs.length === 0 ? (
-            <div className="text-center py-12 space-y-2">
-              <p className="text-muted-foreground text-sm">
-                {stageFilter === "all" ? EMPTY_MESSAGES[tab] : "No songs match this stage filter."}
-              </p>
-              {stageFilter !== "all" && (
-                <Button variant="ghost" size="sm" onClick={() => changeFilter("all")}>Clear filter</Button>
-              )}
-            </div>
-          ) : (
-            visibleSongs.map((song) => (
-              <SongRow
-                key={song.id}
-                song={song}
-                isNew={song.id === newSongId}
-                onUpdate={updateSong}
-                onDelete={deleteSong}
-              />
-            ))
-          )}
-        </div>
+        <TrackerList
+          songs={scopedSongs}
+          moveTargets={moveTargets}
+          onAdd={addSong}
+          onUpdate={updateSong}
+          onDelete={deleteSong}
+        />
       </div>
     </div>
   );

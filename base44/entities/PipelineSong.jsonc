@@ -6,6 +6,10 @@
       "type": "string",
       "description": "Song title"
     },
+    "project_id": {
+      "type": "string",
+      "description": "ReleaseProject (Album/EP) this song belongs to; empty for Singles"
+    },
     "stage_write": {
       "type": "boolean",
       "default": false

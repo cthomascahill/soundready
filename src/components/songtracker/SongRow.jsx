@@ -8,7 +8,7 @@ import SongRowMenu from "./SongRowMenu";
 import SongDetails from "./SongDetails";
 
 // One song: a quiet summary row that expands into the full details
-export default function SongRow({ song, isNew, onUpdate, onDelete }) {
+export default function SongRow({ song, isNew, moveTargets, onUpdate, onDelete }) {
   const [open, setOpen] = useState(!!isNew);
   const [name, setName] = useDebouncedField(song.song_name, (v) => onUpdate(song.id, { song_name: v }));
   const current = getCurrentStage(song);
@@ -70,8 +70,11 @@ export default function SongRow({ song, isNew, onUpdate, onDelete }) {
         </div>
 
         <SongRowMenu
+          song={song}
           nextStage={next}
+          moveTargets={moveTargets}
           onAdvance={(key) => onUpdate(song.id, { [key]: true })}
+          onMove={(projectId) => onUpdate(song.id, { project_id: projectId })}
           onDelete={() => onDelete(song.id)}
         />
       </div>

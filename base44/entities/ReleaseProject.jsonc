@@ -1,0 +1,22 @@
+{
+  "name": "ReleaseProject",
+  "type": "object",
+  "properties": {
+    "name": {
+      "type": "string",
+      "description": "Project name, e.g. the album or EP title"
+    },
+    "project_type": {
+      "type": "string",
+      "enum": [
+        "Album",
+        "EP"
+      ],
+      "default": "Album",
+      "description": "Kind of release project"
+    }
+  },
+  "required": [
+    "name"
+  ]
+}

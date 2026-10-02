@@ -1,14 +1,21 @@
-import { MoreHorizontal, Trash2, CheckCircle2 } from "lucide-react";
+import { MoreHorizontal, Trash2, CheckCircle2, FolderInput } from "lucide-react";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuSeparator,
+  DropdownMenuSub,
+  DropdownMenuSubContent,
+  DropdownMenuSubTrigger,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 
-// Three-dot menu on a song row: finish the next step quickly, or delete the song
-export default function SongRowMenu({ nextStage, onAdvance, onDelete }) {
+// Three-dot menu on a song row: finish the next step, move it to another project, or delete it
+export default function SongRowMenu({ song, nextStage, moveTargets, onAdvance, onMove, onDelete }) {
+  const targets = (moveTargets || []).filter(
+    (t) => (t.id || null) !== (song.project_id || null)
+  );
+
   return (
     // Stops menu clicks from toggling the row open/closed
     <div className="w-8 shrink-0 flex justify-center" onClick={(e) => e.stopPropagation()}>
@@ -28,6 +35,23 @@ export default function SongRowMenu({ nextStage, onAdvance, onDelete }) {
               <DropdownMenuItem onSelect={() => onAdvance(nextStage.key)}>
                 <CheckCircle2 className="h-4 w-4 mr-2" /> Mark {nextStage.label} as done
               </DropdownMenuItem>
+              <DropdownMenuSeparator />
+            </>
+          )}
+          {targets.length > 0 && (
+            <>
+              <DropdownMenuSub>
+                <DropdownMenuSubTrigger>
+                  <FolderInput className="h-4 w-4 mr-2" /> Move to...
+                </DropdownMenuSubTrigger>
+                <DropdownMenuSubContent>
+                  {targets.map((t) => (
+                    <DropdownMenuItem key={t.id || "singles"} onSelect={() => onMove(t.id)}>
+                      {t.label}
+                    </DropdownMenuItem>
+                  ))}
+                </DropdownMenuSubContent>
+              </DropdownMenuSub>
               <DropdownMenuSeparator />
             </>
           )}
