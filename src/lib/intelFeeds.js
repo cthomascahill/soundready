@@ -1,0 +1,58 @@
+import {
+  TrendingUp, ListMusic, Activity, Mic, PiggyBank, Bus, ShoppingBag, Sparkles,
+} from "lucide-react";
+
+// Every feed in the Industry Intel hub. ids must match FEED_PROMPTS in
+// base44/functions/fetchIndustryIntel/entry.ts
+export const INTEL_FEEDS = [
+  {
+    id: "ar_intel",
+    label: "A&R Intel",
+    icon: TrendingUp,
+    description: "Label signings, who's actively scouting, and what they want right now.",
+  },
+  {
+    id: "playlist_watch",
+    label: "Playlist & Curator Watch",
+    icon: ListMusic,
+    description: "Playlists adding tracks in your genre — with submission contacts.",
+  },
+  {
+    id: "genre_pulse",
+    label: "Genre Pulse",
+    icon: Activity,
+    description: "Sounds spiking on shorts, viral samples and subgenres on the rise.",
+  },
+  {
+    id: "open_mics",
+    label: "Open Mics & Showcases",
+    icon: Mic,
+    description: "Local events, battle-of-the-bands and showcase deadlines near you.",
+  },
+  {
+    id: "grants",
+    label: "Grants & Funding",
+    icon: PiggyBank,
+    description: "Grants, arts council funding and sponsorships — with countdown timers.",
+  },
+  {
+    id: "tour_news",
+    label: "Tour News for Your Market",
+    icon: Bus,
+    description: "Tours routing through your cities and opening-slot intel.",
+  },
+  {
+    id: "scene_digest",
+    label: "This Week in Your Scene",
+    icon: Sparkles,
+    description: "An AI-written weekly digest of your genre, city and platforms.",
+  },
+];
+
+// Producer mode only: who's shopping for beats right now
+export const PRODUCER_FEED = {
+  id: "producer_market",
+  label: "Marketplace Watch",
+  icon: ShoppingBag,
+  description: "Artists shopping for beats, A&R beat calls and 'looking for production' posts.",
+};

@@ -4,7 +4,7 @@ import {
   Wallet, Coins, PieChart, Receipt, Calculator, Shield, Scale, MapPin,
   Megaphone, Route, PiggyBank, FileSignature, Map, Target, TrendingUp,
   Award, GraduationCap, Flame, MessageSquare, Bot, MessagesSquare,
-  Presentation, Briefcase, UserCircle,
+  Presentation, Briefcase, UserCircle, Radar,
 } from "lucide-react";
 
 // Every tool on the platform, grouped by category.
@@ -67,6 +67,7 @@ export const TOOL_CATEGORIES = [
       { name: "Genre Trends", to: "/genre-trends", desc: "What's working in your genre right now", icon: Target, tier: "free" },
       { name: "Challenge Tracker", to: "/challenge-tracker", desc: "Career challenges and badges", icon: Award, tier: "free" },
       { name: "Music News", to: "/music-news", desc: "Daily industry briefings", icon: Newspaper, tier: "pro" },
+      { name: "Industry Intel", to: "/industry-intel", desc: "Signings, playlists, trends, grants and tour intel", icon: Radar, tier: "pro" },
       { name: "Music Academy", to: "/music-academy", desc: "Learn the business of music", icon: GraduationCap, tier: "free" },
       { name: "A&R Intelligence", to: "/ar-intelligence", desc: "What labels are looking for", icon: TrendingUp, tier: "free" },
       { name: "The Wall", to: "/artist-feed", desc: "The artist community feed", icon: Flame, tier: "pro" },

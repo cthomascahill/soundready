@@ -8,7 +8,7 @@ import {
   Home, Music2, Users, ListChecks, Sparkles, Flame, Link2, LayoutGrid,
   Map, Newspaper, CreditCard, UserCircle, PenTool,
   Mic2, Megaphone, Route, Wallet, FileText, Disc3, Target,
-  Store, FileSignature,
+  Store, FileSignature, Radar,
 } from "lucide-react";
 
 // The Music section swaps with the active profile mode
@@ -47,6 +47,7 @@ const NAV_SECTIONS = (mode) => {
       { to: "/career-roadmap", icon: Map, label: "Career Roadmap" },
       { to: "/artist-feed", icon: Flame, label: "The Wall" },
       { to: "/music-news", icon: Newspaper, label: "Music News" },
+      { to: "/industry-intel", icon: Radar, label: "Industry Intel" },
     ],
   },
   {
@@ -81,7 +82,7 @@ const NAV_SECTIONS = (mode) => {
 
 // Pages locked behind Artist Pro — free users see a lock icon on these
 const PRO_ONLY = new Set([
-  "/studio", "/career-roadmap", "/artist-feed", "/music-news",
+  "/studio", "/career-roadmap", "/artist-feed", "/music-news", "/industry-intel",
   "/gig-finder", "/tour-opportunities", "/tour-planner", "/tour-finance",
   "/contracts", "/team-chat", "/whiteboard", "/beat-pipeline", "/artist-match",
   "/beat-store", "/client-crm", "/producer-contracts",

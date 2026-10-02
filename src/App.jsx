@@ -43,6 +43,7 @@ import SongTracker from './pages/SongTracker';
 import ArtistIntake from './pages/ArtistIntake';
 import Studio from './pages/Studio';
 import MusicNews from './pages/MusicNews';
+import IndustryIntel from './pages/IndustryIntel';
 
 import MusicAcademy from './pages/MusicAcademy';
 import Legal from './pages/Legal';
@@ -177,6 +178,7 @@ const AuthenticatedApp = () => {
         <Route path="/artist-profile" element={<ArtistIntake />} />
         <Route path="/studio" element={pro(Studio)} />
         <Route path="/music-news" element={pro(MusicNews)} />
+        <Route path="/industry-intel" element={pro(IndustryIntel)} />
 
         <Route path="/music-academy" element={<MusicAcademy />} />
         <Route path="/legal" element={<Legal />} />
