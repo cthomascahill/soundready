@@ -5,6 +5,7 @@ import { DragDropContext, Droppable, Draggable } from "@hello-pangea/dnd";
 import { Plus, GripVertical, Trash2, ChevronDown, Check, Filter, ArrowUpDown } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import AudioCell from "@/components/songtracker/AudioCell";
+import ReleaseKit from "@/components/songtracker/ReleaseKit";
 
 const STAGES = [
   { key: "stage_write", label: "Write" },
@@ -177,6 +178,7 @@ function SongRow({ song, index, onUpdate, onDelete }) {
                 rows={3}
                 className="w-full bg-secondary/30 border border-border rounded-lg px-3 py-2 text-sm text-foreground placeholder:text-muted-foreground/50 focus:outline-none focus:ring-1 focus:ring-primary resize-none"
               />
+              <ReleaseKit song={song} onUpdate={onUpdate} />
             </div>
           )}
         </div>

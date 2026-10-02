@@ -48,6 +48,14 @@
       "type": "string",
       "description": "Label for the latest mix, e.g. MIX 5"
     },
+    "artwork_file_uri": {
+      "type": "string",
+      "description": "Cover artwork file in private storage"
+    },
+    "release_date": {
+      "type": "string",
+      "description": "Planned release date (ISO date)"
+    },
     "notes": {
       "type": "string",
       "default": ""
