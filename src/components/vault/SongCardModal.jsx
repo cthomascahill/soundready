@@ -27,7 +27,7 @@ export default function SongCardModal({ song, onClose, onSave, projects = [] }) 
     bpm: song?.bpm || "",
     key: song?.key || "",
     moods: song?.moods || [],
-    status: song?.status || "Demo",
+    status: song?.status || "Released",
     release_date: song?.release_date || "",
     lyrics: song?.lyrics || "",
     notes: song?.notes || "",

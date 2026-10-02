@@ -5,6 +5,7 @@ import { ArrowLeft } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import ProjectsGrid from "@/components/songtracker/ProjectsGrid";
 import TrackerList from "@/components/songtracker/TrackerList";
+import { vaultStatusFromStages, VAULT_STATUS_ORDER } from "@/lib/songStages";
 
 export default function SongTracker() {
   const { user } = useAuth();
@@ -55,12 +56,21 @@ export default function SongTracker() {
     setSongs((prev) => prev.map((s) => s.id === id ? { ...s, ...changes } : s));
     await base44.entities.PipelineSong.update(id, changes);
 
-    // A song marked Released graduates to the Song Vault (the finished catalog)
-    if (changes.stage_released === true && !wasReleased && song?.song_name) {
+    // Keep the Song Vault in unison: the tracker's checked-off stages drive the vault status
+    const touchedStages = Object.keys(changes).some((k) => k.startsWith("stage_"));
+    if (touchedStages && song?.song_name) {
+      const merged = { ...song, ...changes };
+      const vaultStatus = vaultStatusFromStages(merged);
       const existing = await base44.entities.SongVault.filter(
         { created_by_id: user.id, title: song.song_name }, "-created_date", 1
       );
-      if (!existing.length) {
+      if (existing.length) {
+        // Only move the vault status forward, never back
+        if (VAULT_STATUS_ORDER.indexOf(vaultStatus) > VAULT_STATUS_ORDER.indexOf(existing[0].status || "Demo")) {
+          await base44.entities.SongVault.update(existing[0].id, { status: vaultStatus });
+        }
+      } else if (merged.stage_released && !wasReleased) {
+        // First release and no vault record yet — graduate it into the catalog
         await base44.entities.SongVault.create({
           title: song.song_name,
           status: "Released",

@@ -13,3 +13,15 @@ export const STAGES = [
   { key: "stage_submit", label: "Submitted", status: "Submitted", action: "Submit to distributor", badge: "bg-teal-500/10 text-teal-400 border-teal-500/25" },
   { key: "stage_released", label: "Released", status: "Released", action: "Release the song", badge: "bg-primary/15 text-primary border-primary/25" },
 ];
+
+// Song Vault statuses, earliest to furthest — used to sync tracker stages to the vault
+export const VAULT_STATUS_ORDER = ["Idea", "Demo", "Recorded", "Mixed", "Mastered", "Released"];
+
+// The vault status that matches a pipeline song's checked-off tracker stages
+export function vaultStatusFromStages(song) {
+  if (song.stage_released) return "Released";
+  if (song.stage_master) return "Mastered";
+  if (song.stage_mix) return "Mixed";
+  if (song.stage_record) return "Recorded";
+  return "Demo";
+}

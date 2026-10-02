@@ -4,7 +4,7 @@ import { useAuth } from "@/lib/AuthContext";
 import { useNavigate } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import {
-  Music2, Plus, Search, Grid, List, Play, Pause, Tag,
+  Music2, Plus, Search, Grid, List, Play, Pause, Tag, ListPlus,
   Folder, SlidersHorizontal, X, ChevronDown
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -13,6 +13,8 @@ import moment from "moment";
 import SongCardModal from "@/components/vault/SongCardModal";
 import ProjectsSidebar from "@/components/vault/ProjectsSidebar";
 import VaultCapPrompt, { VaultUsageBadge, FREE_VAULT_CAP } from "@/components/vault/VaultCapPrompt";
+import BulkAddSongs from "@/components/vault/BulkAddSongs";
+import TrackerStageDots from "@/components/vault/TrackerStageDots";
 import { isProOrAbove } from "@/lib/tier";
 
 const STATUS_COLORS = {
@@ -43,7 +45,7 @@ function AudioMiniPlayer({ url, name }) {
   );
 }
 
-function SongCard({ song, onEdit, viewMode }) {
+function SongCard({ song, onEdit, viewMode, pipeline }) {
   if (viewMode === "list") {
     return (
       <motion.div initial={{ opacity: 0, y: 6 }} animate={{ opacity: 1, y: 0 }}
@@ -68,6 +70,7 @@ function SongCard({ song, onEdit, viewMode }) {
           <span className={`text-[10px] font-semibold px-2 py-0.5 rounded-full border ${STATUS_COLORS[song.status] || STATUS_COLORS.Demo}`}>
             {song.status}
           </span>
+          {pipeline && <TrackerStageDots song={pipeline} />}
           {song.file_url && <AudioMiniPlayer url={song.file_url} name={song.title} />}
           <span className="text-xs text-zinc-600 hidden lg:block">{moment(song.created_date).format("MMM D")}</span>
         </div>
@@ -102,6 +105,7 @@ function SongCard({ song, onEdit, viewMode }) {
           </span>
         ))}
       </div>
+      {pipeline && <TrackerStageDots song={pipeline} />}
       <div className="flex items-center justify-between">
         <span className="text-[10px] text-zinc-600">{moment(song.created_date).format("MMM D, YYYY")}</span>
         {song.file_url && <AudioMiniPlayer url={song.file_url} name={song.title} />}
@@ -126,13 +130,16 @@ export default function SongLibrary() {
   const [showFilters, setShowFilters] = useState(false);
   const [showSidebar, setShowSidebar] = useState(true);
   const [showCapPrompt, setShowCapPrompt] = useState(false);
+  const [pipelineSongs, setPipelineSongs] = useState([]);
+  const [showBulk, setShowBulk] = useState(false);
 
   useEffect(() => {
     if (!user?.id) return;
     Promise.all([
       base44.entities.SongVault.filter({ created_by_id: user.id }, "-created_date", 200),
       base44.entities.SongProject.filter({ created_by_id: user.id }, "name", 100),
-    ]).then(([s, p]) => { setSongs(s); setProjects(p); setLoading(false); });
+      base44.entities.PipelineSong.filter({ created_by_id: user.id }, "sort_order", 500),
+    ]).then(([s, p, pipe]) => { setSongs(s); setProjects(p); setPipelineSongs(pipe); setLoading(false); });
   }, [user]);
 
   const handleModalSave = (song, type) => {
@@ -155,9 +162,19 @@ export default function SongLibrary() {
 
   const isFree = !isProOrAbove(user);
   const atCap = isFree && songs.length >= FREE_VAULT_CAP;
+  // Songs also in the Song Tracker, matched by title — keeps the two views in unison
+  const pipelineByTitle = new Map();
+  pipelineSongs.forEach((p) => {
+    const key = p.song_name?.toLowerCase().trim();
+    if (key && !pipelineByTitle.has(key)) pipelineByTitle.set(key, p);
+  });
   const openNew = () => {
     if (atCap) { setShowCapPrompt(true); return; }
     setModalSong(null); setShowModal(true);
+  };
+  const openBulk = () => {
+    if (atCap) { setShowCapPrompt(true); return; }
+    setShowBulk(true);
   };
   const openEdit = (song) => { setModalSong(song); setShowModal(true); };
 
@@ -197,6 +214,9 @@ export default function SongLibrary() {
           </div>
           <div className="flex items-center gap-3">
             {isFree && <VaultUsageBadge count={songs.length} label="songs" />}
+            <Button variant="outline" onClick={openBulk} className="gap-2 border-zinc-700">
+              <ListPlus className="h-4 w-4" /> Bulk Add
+            </Button>
             <Button onClick={openNew} className="gap-2">
               <Plus className="h-4 w-4" /> Add Song
             </Button>
@@ -297,23 +317,30 @@ export default function SongLibrary() {
             ) : filtered.length === 0 ? (
               <div className="text-center py-24 space-y-4">
                 <Music2 className="h-12 w-12 text-zinc-700 mx-auto" />
-                <p className="text-zinc-500">{search || hasFilters ? "No songs match your filters." : "Your catalog is empty. Add your first song, or mark one Released in the Song Tracker — it lands here automatically."}</p>
+                <p className="text-zinc-500">{search || hasFilters ? "No songs match your filters." : "Your catalog is empty. Bulk add your released songs below — or mark one Released in the Song Tracker and it lands here automatically."}</p>
                 {!search && !hasFilters && (
-                  <Button onClick={openNew} variant="outline" className="border-zinc-700 gap-2">
-                    <Plus className="h-4 w-4" /> Add Your First Song
-                  </Button>
+                  <div className="flex flex-wrap items-center justify-center gap-3">
+                    <Button onClick={openBulk} variant="outline" className="border-zinc-700 gap-2">
+                      <ListPlus className="h-4 w-4" /> Bulk Add Released Songs
+                    </Button>
+                    <Button onClick={openNew} variant="outline" className="border-zinc-700 gap-2">
+                      <Plus className="h-4 w-4" /> Add a Single Song
+                    </Button>
+                  </div>
                 )}
               </div>
             ) : viewMode === "grid" ? (
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
                 {filtered.map(song => (
-                  <SongCard key={song.id} song={song} onEdit={openEdit} viewMode="grid" />
+                  <SongCard key={song.id} song={song} onEdit={openEdit} viewMode="grid"
+                    pipeline={pipelineByTitle.get(song.title?.toLowerCase().trim())} />
                 ))}
               </div>
             ) : (
               <div className="space-y-2">
                 {filtered.map(song => (
-                  <SongCard key={song.id} song={song} onEdit={openEdit} viewMode="list" />
+                  <SongCard key={song.id} song={song} onEdit={openEdit} viewMode="list"
+                    pipeline={pipelineByTitle.get(song.title?.toLowerCase().trim())} />
                 ))}
               </div>
             )}
@@ -333,6 +360,14 @@ export default function SongLibrary() {
 
       {showCapPrompt && (
         <VaultCapPrompt kind="song" onClose={() => setShowCapPrompt(false)} />
+      )}
+
+      {showBulk && (
+        <BulkAddSongs
+          max={isFree ? Math.max(0, FREE_VAULT_CAP - songs.length) : null}
+          onClose={() => setShowBulk(false)}
+          onCreated={(created) => setSongs(prev => [...created, ...prev])}
+        />
       )}
     </div>
   );
