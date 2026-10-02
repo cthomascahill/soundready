@@ -124,7 +124,7 @@ export default function HowItWorks() {
 
   const handleCTA = () => {
     if (isAuth) window.location.href = "/dashboard";
-    else base44.auth.redirectToLogin();
+    else window.location.href = "/pricing";
   };
 
   return (
@@ -140,6 +140,12 @@ export default function HowItWorks() {
           <div className="flex items-center gap-4">
             <Link to="/" className="text-sm text-muted-foreground hover:text-foreground transition-colors hidden sm:block">Home</Link>
             <Link to="/how-it-works" className="text-sm text-foreground font-semibold transition-colors hidden sm:block">How It Works</Link>
+            <Link to="/pricing" className="text-sm text-muted-foreground hover:text-foreground transition-colors hidden sm:block">Pricing</Link>
+            {!isAuth && (
+              <Button size="sm" variant="ghost" className="font-semibold" onClick={() => base44.auth.redirectToLogin()}>
+                Log In
+              </Button>
+            )}
             <Button size="sm" className="font-semibold" onClick={handleCTA}>
               {isAuth ? "Go to Dashboard" : "Get Started"}
             </Button>

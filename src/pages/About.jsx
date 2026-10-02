@@ -115,7 +115,7 @@ export default function About() {
 
   const handleCTA = () => {
     if (isAuth) window.location.href = "/dashboard";
-    else base44.auth.redirectToLogin();
+    else window.location.href = "/pricing";
   };
 
   return (
@@ -135,7 +135,10 @@ export default function About() {
             {isAuth ? (
               <Button size="sm" className="font-semibold" onClick={() => window.location.href = "/dashboard"}>Go to Dashboard</Button>
             ) : (
-              <Button size="sm" className="font-semibold" onClick={handleCTA}>Log In / Sign Up</Button>
+              <>
+                <Button size="sm" variant="ghost" className="font-semibold" onClick={() => base44.auth.redirectToLogin()}>Log In</Button>
+                <Button size="sm" className="font-semibold" onClick={handleCTA}>Get Started</Button>
+              </>
             )}
           </div>
         </div>
