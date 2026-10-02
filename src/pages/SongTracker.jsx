@@ -50,9 +50,26 @@ export default function SongTracker() {
   };
 
   const updateSong = useCallback(async (id, changes) => {
+    const song = songs.find((s) => s.id === id);
+    const wasReleased = !!song?.stage_released;
     setSongs((prev) => prev.map((s) => s.id === id ? { ...s, ...changes } : s));
     await base44.entities.PipelineSong.update(id, changes);
-  }, []);
+
+    // A song marked Released graduates to the Song Vault (the finished catalog)
+    if (changes.stage_released === true && !wasReleased && song?.song_name) {
+      const existing = await base44.entities.SongVault.filter(
+        { created_by_id: user.id, title: song.song_name }, "-created_date", 1
+      );
+      if (!existing.length) {
+        await base44.entities.SongVault.create({
+          title: song.song_name,
+          status: "Released",
+          release_date: changes.release_date || song.release_date || new Date().toISOString().slice(0, 10),
+          notes: song.notes || "",
+        });
+      }
+    }
+  }, [songs, user]);
 
   const deleteSong = async (id) => {
     setSongs((prev) => prev.filter((s) => s.id !== id));
@@ -92,7 +109,7 @@ export default function SongTracker() {
             <p className="text-xs text-primary uppercase tracking-widest font-medium">Pipeline</p>
             <h1 className="font-heading text-4xl font-bold">Song Tracker</h1>
             <p className="text-muted-foreground text-sm mt-1">
-              Track every release from idea to launch — grouped into projects.
+              Your active pipeline — every song from idea to launch. Mark one Released and it's saved to your Song Vault automatically.
             </p>
           </div>
           <ProjectsGrid

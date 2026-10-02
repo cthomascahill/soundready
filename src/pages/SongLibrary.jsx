@@ -185,7 +185,7 @@ export default function SongLibrary() {
           <div>
             <p className="text-xs text-primary uppercase tracking-widest font-medium">Vault</p>
             <h1 className="font-heading text-3xl font-bold">Song Library</h1>
-            <p className="text-zinc-500 text-sm mt-0.5">{songs.length} songs · your personal music filing cabinet</p>
+            <p className="text-zinc-500 text-sm mt-0.5">{songs.length} songs · your finished catalog — every released song lives here</p>
           </div>
           <Button onClick={openNew} className="gap-2">
             <Plus className="h-4 w-4" /> Add Song
@@ -286,7 +286,7 @@ export default function SongLibrary() {
             ) : filtered.length === 0 ? (
               <div className="text-center py-24 space-y-4">
                 <Music2 className="h-12 w-12 text-zinc-700 mx-auto" />
-                <p className="text-zinc-500">{search || hasFilters ? "No songs match your filters." : "Your vault is empty. Add your first song."}</p>
+                <p className="text-zinc-500">{search || hasFilters ? "No songs match your filters." : "Your catalog is empty. Add your first song, or mark one Released in the Song Tracker — it lands here automatically."}</p>
                 {!search && !hasFilters && (
                   <Button onClick={openNew} variant="outline" className="border-zinc-700 gap-2">
                     <Plus className="h-4 w-4" /> Add Your First Song
