@@ -1,5 +1,6 @@
 import { useAuth } from "@/lib/AuthContext";
 import { isProOrAbove } from "@/lib/tier";
+import LapsedProCard, { isLapsedPro } from "@/components/LapsedProCard";
 import CheckoutButton from "@/components/billing/CheckoutButton";
 import { Lock, CheckCircle2, ArrowRight } from "lucide-react";
 import { Link } from "react-router-dom";
@@ -31,6 +32,17 @@ export default function ProGate({ children, feature }) {
   }
 
   if (isProOrAbove(user)) return children;
+
+  // Lapsed Pro users see their own locked data instead of the generic trial pitch
+  if (isLapsedPro(user)) {
+    return (
+      <div className="min-h-[70vh] flex items-center justify-center px-4 py-16">
+        <div className="max-w-lg w-full">
+          <LapsedProCard feature={feature} />
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-[70vh] flex items-center justify-center px-4 py-16">

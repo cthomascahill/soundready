@@ -9,6 +9,7 @@ import {
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import SoundReadyLogo from "@/components/SoundReadyLogo";
+import SEO from "@/components/SEO";
 
 const STEPS = [
   {
@@ -133,6 +134,10 @@ export default function HowItWorks() {
 
   return (
     <div className="min-h-screen bg-background font-body">
+      <SEO
+        title="How It Works — SoundReady"
+        description="Upload your song, get a full release intelligence report, master it, plan your release, and let Maya — your AI manager — work the outreach. See the whole workflow."
+      />
       {/* Public Nav */}
       <header className="sticky top-0 z-40 border-b border-border/50 bg-background/90 backdrop-blur-xl">
         <div className="max-w-6xl mx-auto px-4 h-14 flex items-center justify-between">

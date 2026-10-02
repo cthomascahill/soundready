@@ -47,5 +47,67 @@
     "producer_id",
     "artist_id",
     "message"
-  ]
+  ],
+  "rls": {
+    "read": {
+      "$or": [
+        {
+          "data.producer_id": "{{user.id}}"
+        },
+        {
+          "data.artist_id": "{{user.id}}"
+        },
+        {
+          "user_condition": {
+            "role": "admin"
+          }
+        }
+      ]
+    },
+    "create": {
+      "$or": [
+        {
+          "data.producer_id": "{{user.id}}"
+        },
+        {
+          "data.artist_id": "{{user.id}}"
+        },
+        {
+          "user_condition": {
+            "role": "admin"
+          }
+        }
+      ]
+    },
+    "update": {
+      "$or": [
+        {
+          "data.producer_id": "{{user.id}}"
+        },
+        {
+          "data.artist_id": "{{user.id}}"
+        },
+        {
+          "user_condition": {
+            "role": "admin"
+          }
+        }
+      ]
+    },
+    "delete": {
+      "$or": [
+        {
+          "data.producer_id": "{{user.id}}"
+        },
+        {
+          "data.artist_id": "{{user.id}}"
+        },
+        {
+          "user_condition": {
+            "role": "admin"
+          }
+        }
+      ]
+    }
+  }
 }

@@ -5,7 +5,7 @@ import { isProOrAbove } from "@/lib/tier";
 import { Lock } from "lucide-react";
 import ModeToggle from "@/components/ModeToggle";
 import {
-  Home, Music2, Users, ListChecks, Sparkles, Flame, Link2,
+  Home, Music2, Users, ListChecks, Sparkles, Flame, Link2, LayoutGrid,
   Map, Newspaper, CreditCard, UserCircle, PenTool,
   Mic2, Megaphone, Route, Wallet, FileText, Disc3, Target,
   Store, FileSignature,
@@ -33,6 +33,7 @@ const NAV_SECTIONS = (mode) => {
     label: "Home",
     items: [
       { to: "/dashboard", icon: Home, label: "Dashboard" },
+      { to: "/tools", icon: LayoutGrid, label: "Tool Library" },
     ],
   },
   {

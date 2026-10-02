@@ -10,6 +10,7 @@ import {
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import SoundReadyLogo from "@/components/SoundReadyLogo";
+import SEO from "@/components/SEO";
 
 const MANAGER_PAINS = [
   { icon: DollarSign, text: "The traditional model takes 15–20% of everything you earn — whether deals close or not" },
@@ -119,6 +120,10 @@ export default function About() {
 
   return (
     <div className="min-h-screen bg-background">
+      <SEO
+        title="SoundReady — AI Career Management for Independent Artists & Producers"
+        description="Your songs, your beats, your tours, your team — plus Maya, the AI manager that drafts your pitches and outreach from your real numbers. Start free."
+      />
 
       {/* Nav */}
       <header className="sticky top-0 z-40 border-b border-border/50 bg-background/90 backdrop-blur-xl">

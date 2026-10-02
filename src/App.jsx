@@ -86,6 +86,7 @@ import ProducerContracts from './pages/ProducerContracts';
 import Storefront from './pages/Storefront';
 import StoreDownload from './pages/StoreDownload';
 import SignContract from './pages/SignContract';
+import ToolLibrary from './pages/ToolLibrary';
 
 // Wraps a page so free-tier users see the Artist Pro upgrade screen
 const pro = (Page) => (
@@ -162,6 +163,7 @@ const AuthenticatedApp = () => {
       {/* Protected routes */}
       <Route element={<AppLayout />}>
         <Route path="/dashboard" element={<Dashboard />} />
+        <Route path="/tools" element={<ToolLibrary />} />
         <Route path="/release-plan" element={<ReleasePlanInput />} />
         <Route path="/results" element={<Results />} /> 
         <Route path="/history" element={<SongLibrary />} />

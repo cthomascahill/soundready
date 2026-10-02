@@ -6,6 +6,7 @@ import { useAuth } from "@/lib/AuthContext";
 import { useMode } from "@/lib/mode";
 import ModeToggle from "@/components/ModeToggle";
 import { hasAIManager } from "@/lib/tier";
+import { isLapsedPro } from "@/components/LapsedProCard";
 import { Button } from "@/components/ui/button";
 import {
   FileText, Mic2, MapPin,
@@ -15,6 +16,8 @@ import {
 } from "lucide-react";
 import AIActivityFeed from "@/components/dashboard/AIActivityFeed";
 import MayaScoutCard from "@/components/dashboard/MayaScoutCard";
+import ConnectionFreshness from "@/components/dashboard/ConnectionFreshness";
+import LapsedProCard from "@/components/LapsedProCard";
 
 
 const QUICK_ACTIONS = [
@@ -89,7 +92,15 @@ export default function Dashboard() {
             <ModeToggle />
           </div>
           <p className="text-muted-foreground">Here's where everything stands today.</p>
+          <ConnectionFreshness />
         </motion.div>
+
+        {/* Win-back summary for users whose Pro plan ended */}
+        {isLapsedPro(user) && (
+          <div className="max-w-lg">
+            <LapsedProCard />
+          </div>
+        )}
 
         {/* On-demand Maya scouting for AI Manager producers */}
         {isProducer && hasAIManager(user) && <MayaScoutCard />}

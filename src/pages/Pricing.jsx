@@ -10,34 +10,67 @@ import { useAuth } from "@/lib/AuthContext";
 import { getTier, trialDaysLeft } from "@/lib/tier";
 import SoundReadyLogo from "@/components/SoundReadyLogo";
 import CheckoutButton from "@/components/billing/CheckoutButton";
+import SEO from "@/components/SEO";
 
-const FREE_ITEMS = [
-  "Song Vault — your entire song catalog, organized",
-  "Song Tracker — from idea to release",
-  "Beat Vault & Placements — for producers",
-  "Connect Spotify & YouTube",
-  "Your dashboard",
+// Each tier's unlocks, shown side-by-side for artists and producers
+const FREE_GROUPS = [
+  { label: "For artists", items: [
+    "Song Vault — your entire song catalog, organized",
+    "Song Tracker — from idea to release",
+    "Connect Spotify & YouTube",
+    "Your dashboard & analytics",
+  ] },
+  { label: "For producers", items: [
+    "Beat Vault & Placements — your beat business",
+    "Full producer mode in every account",
+  ] },
 ];
 
-const PRO_ITEMS = [
-  "Everything in Artist, unlocked",
-  "The Studio, Gig Finder & 570+ venue database",
-  "Tour Planner, Tour Finance & Venue Contracts",
-  "Beat Pipeline & Artist Match — producer tools",
-  "The Wall — the artist community",
-  "Team Chat & shared Whiteboard",
-  "Career Roadmap & weekly music briefings",
+const PRO_GROUPS = [
+  { label: "For artists", items: [
+    "The Studio, Gig Finder & 570+ venue database",
+    "Tour Planner, Tour Finance & Venue Contracts",
+    "The Wall — the artist community",
+    "Team Chat & shared Whiteboard",
+    "Career Roadmap & weekly music briefings",
+  ] },
+  { label: "For producers", items: [
+    "Beat Pipeline & Artist Match — producer tools",
+    "Beat Store — sell leases & exclusives",
+    "Client CRM & producer contracts",
+  ] },
 ];
 
-const AI_ITEMS = [
-  "Everything in Artist Pro",
-  "Maya chat — advice backed by your real numbers",
-  "Auto-drafted playlist & tour-opening pitches",
-  "Maya pitches your beats to matching artists",
-  "EPKs & weekly career digests",
-  "Nothing sends without your approval",
-  "Approve, edit, or deny every move Maya makes",
+const AI_GROUPS = [
+  { label: "For artists", items: [
+    "Maya chat — advice backed by your real numbers",
+    "Auto-drafted playlist & tour-opening pitches",
+    "EPKs & weekly career digests",
+    "Nothing sends without your approval",
+  ] },
+  { label: "For producers", items: [
+    "Maya pitches your beats to matching artists",
+    "Approve, edit, or deny every move Maya makes",
+  ] },
 ];
+
+const TierItems = ({ groups, check = "text-primary" }) => (
+  <div className="space-y-4">
+    {groups.map((group) => (
+      <div key={group.label}>
+        <p className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground/70 mb-1.5">{group.label}</p>
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-2">
+          {group.items.map((item) => (
+            <div key={item} className="flex items-start gap-2.5">
+              <CheckCircle2 className={`h-4 w-4 shrink-0 mt-0.5 ${check}`} />
+              <span className="text-xs text-foreground">{item}</span>
+            </div>
+          ))}
+        </div>
+      </div>
+    ))}
+  </div>
+);
 
 const FAQ = [
   {
@@ -98,6 +131,10 @@ export default function Pricing() {
 
   return (
     <div className="min-h-screen bg-background font-body">
+      <SEO
+        title="Pricing — SoundReady"
+        description="Start free forever. Artist Pro unlocks the full toolkit for $37/mo with a 7-day free trial. AI Manager adds Maya — your AI manager — for $60/mo flat. No percentage cuts, ever."
+      />
 
       {/* Nav */}
       <header className="sticky top-0 z-40 border-b border-border/50 bg-background/90 backdrop-blur-xl">
@@ -150,13 +187,8 @@ export default function Pricing() {
                 <p className="text-3xl font-black mt-1">$0<span className="text-sm text-muted-foreground font-medium"> / forever</span></p>
                 <p className="text-xs text-muted-foreground mt-2">Your music's home base — songs or beats. Free — because organizing your catalog should never cost money. Everything else unlocks with Artist Pro.</p>
               </div>
-              <div className="sm:w-2/3 grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-2">
-                {FREE_ITEMS.map(item => (
-                  <div key={item} className="flex items-start gap-2.5">
-                    <CheckCircle2 className="h-4 w-4 shrink-0 mt-0.5 text-primary" />
-                    <span className="text-xs text-foreground">{item}</span>
-                  </div>
-                ))}
+              <div className="sm:w-2/3">
+                <TierItems groups={FREE_GROUPS} />
               </div>
             </div>
           </motion.div>
@@ -225,13 +257,8 @@ export default function Pricing() {
               <p className="text-sm text-muted-foreground leading-relaxed mb-5">
                 You're growing — bring your people. Your manager, producer, and engineer work from the same songs, same strategy, same plan. No missed emails, no dropped balls.
               </p>
-              <div className="space-y-2 flex-1">
-                {PRO_ITEMS.map(item => (
-                  <div key={item} className="flex items-start gap-2.5">
-                    <CheckCircle2 className="h-4 w-4 shrink-0 mt-0.5 text-chart-5" />
-                    <span className="text-xs text-foreground">{item}</span>
-                  </div>
-                ))}
+              <div className="flex-1">
+                <TierItems groups={PRO_GROUPS} check="text-chart-5" />
               </div>
               <div className="mt-6">
                 {!isAuth ? loginCta("Start 7-Day Free Trial")
@@ -257,13 +284,8 @@ export default function Pricing() {
               <p className="text-sm text-muted-foreground leading-relaxed mb-5">
                 A real manager takes 15–20% of everything you earn. Maya drafts your playlist pitches, tour outreach, EPKs, and digests from your real numbers — and for producers, she pitches your beats to the artists who fit your sound. Every move waits for your approval.
               </p>
-              <div className="space-y-2 flex-1">
-                {AI_ITEMS.map(item => (
-                  <div key={item} className="flex items-start gap-2.5">
-                    <CheckCircle2 className="h-4 w-4 shrink-0 mt-0.5 text-primary" />
-                    <span className="text-xs text-foreground">{item}</span>
-                  </div>
-                ))}
+              <div className="flex-1">
+                <TierItems groups={AI_GROUPS} />
               </div>
               <div className="mt-6 relative">
                 {!isAuth ? loginCta("Unlock Maya")
