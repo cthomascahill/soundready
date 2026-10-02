@@ -2,10 +2,11 @@ import { useState, useEffect, useRef, useCallback, useMemo } from "react";
 import { base44 } from "@/api/base44Client";
 import { useAuth } from "@/lib/AuthContext";
 import { DragDropContext, Droppable, Draggable } from "@hello-pangea/dnd";
-import { Plus, GripVertical, Trash2, ChevronDown, Check, Filter, ArrowUpDown } from "lucide-react";
+import { Plus, GripVertical, Trash2, ChevronDown, Filter, ArrowUpDown } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import AudioCell from "@/components/songtracker/AudioCell";
 import ArtworkCell from "@/components/songtracker/ArtworkCell";
+import StageStrip from "@/components/songtracker/StageStrip";
 
 const STAGES = [
   { key: "stage_write", label: "Write" },
@@ -30,38 +31,9 @@ function getStatus(song) {
   return { label: "In Progress", cls: "bg-yellow-500/10 text-yellow-400 border-yellow-500/20" };
 }
 
-function StageToggle({ checked, onChange }) {
-  return (
-    <button
-      onClick={onChange}
-      className={`h-5 w-5 rounded-full border-2 flex items-center justify-center transition-all mx-auto ${
-        checked ? "bg-primary border-primary" : "border-border bg-transparent hover:border-primary/50"
-      }`}
-    >
-      {checked && <Check className="h-2.5 w-2.5 text-black" strokeWidth={3} />}
-    </button>
-  );
-}
-
-function ProgressBar({ song }) {
-  const completed = STAGES.filter((s) => song[s.key]).length;
-  return (
-    <div className="flex items-center gap-1.5">
-      <div className="flex gap-0.5">
-        {STAGES.map((s) => (
-          <div
-            key={s.key}
-            className={`h-1.5 w-3 rounded-full transition-colors ${song[s.key] ? "bg-primary" : "bg-border"}`}
-          />
-        ))}
-      </div>
-      <span className="text-[10px] text-muted-foreground">{completed}/{STAGES.length}</span>
-    </div>
-  );
-}
-
 function SongRow({ song, index, onUpdate, onDelete }) {
   const [notesExpanded, setNotesExpanded] = useState(false);
+  const [stagesExpanded, setStagesExpanded] = useState(false);
   const [localName, setLocalName] = useState(song.song_name);
   const [localNotes, setLocalNotes] = useState(song.notes || "");
   const [localVersion, setLocalVersion] = useState(song.audio_version_label || "");
@@ -120,15 +92,15 @@ function SongRow({ song, index, onUpdate, onDelete }) {
                 placeholder="Song name..."
                 className="w-full bg-transparent text-sm font-medium text-foreground placeholder:text-muted-foreground/40 focus:outline-none"
               />
-              <ProgressBar song={song} />
             </div>
 
-            {/* Stage toggles */}
-            {STAGES.map((s) => (
-              <div key={s.key} className="w-10 shrink-0 flex justify-center">
-                <StageToggle checked={!!song[s.key]} onChange={() => toggleStage(s.key)} />
-              </div>
-            ))}
+            {/* Stage progress strip */}
+            <StageStrip
+              song={song}
+              stages={STAGES}
+              expanded={stagesExpanded}
+              onToggleExpand={() => setStagesExpanded((v) => !v)}
+            />
 
             {/* Status badge */}
             <div className="w-32 shrink-0 px-2 hidden md:block">
@@ -174,6 +146,28 @@ function SongRow({ song, index, onUpdate, onDelete }) {
               </button>
             </div>
           </div>
+
+          {/* Stage checklist expansion */}
+          {stagesExpanded && (
+            <div className="px-10 py-3 border-t border-border/50">
+              <div className="flex flex-wrap items-center gap-1.5">
+                {STAGES.map((s) => (
+                  <button
+                    key={s.key}
+                    onClick={() => toggleStage(s.key)}
+                    className={`flex items-center gap-1.5 text-xs px-2.5 py-1 rounded-full border transition-colors ${
+                      song[s.key]
+                        ? "bg-primary/15 text-primary border-primary/30"
+                        : "border-border text-muted-foreground hover:border-primary/40 hover:text-foreground"
+                    }`}
+                  >
+                    <span className={`h-2 w-2 rounded-full ${song[s.key] ? "bg-primary" : "bg-border"}`} />
+                    {s.label}
+                  </button>
+                ))}
+              </div>
+            </div>
+          )}
 
           {/* Notes expansion */}
           {notesExpanded && (
@@ -384,9 +378,7 @@ export default function SongTracker() {
           <div className="flex items-center gap-0 bg-secondary/30 border-b border-border text-xs font-semibold text-muted-foreground uppercase tracking-wider min-h-[40px]">
             <div className="w-8 shrink-0" /> {/* drag handle space */}
             <div className="flex-1 px-2">Song Name</div>
-            {STAGES.map((s) => (
-              <div key={s.key} className="w-10 shrink-0 text-center text-[9px] leading-tight px-0.5">{s.label}</div>
-            ))}
+            <div className="w-44 shrink-0 px-2 text-center">Stages</div>
             <div className="w-32 shrink-0 px-2 hidden md:block">Status</div>
             <div className="w-28 shrink-0 px-2 text-center">Latest Mix</div>
             <div className="w-20 shrink-0 px-2 text-center">Artwork</div>
