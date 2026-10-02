@@ -42,7 +42,7 @@ export default function BeatStore() {
   const toggleForSale = async (beat) => {
     if (busyId === beat.id) return;
     if (!beat.for_sale && !beat.lease_price && !beat.exclusive_price) {
-      setError(`Set a lease or exclusive price for "${beat.title}" in your Beat Vault before listing it.`);
+      setError(`Set a lease or exclusive price for "${beat.title}" in your Productions before listing it.`);
       return;
     }
     setError("");
@@ -109,7 +109,7 @@ export default function BeatStore() {
           <div className="rounded-2xl bg-card border border-dashed border-border p-12 text-center space-y-3">
             <Disc3 className="h-12 w-12 text-muted-foreground/30 mx-auto" />
             <p className="font-heading font-bold text-lg">No beats to list yet</p>
-            <p className="text-sm text-muted-foreground">Upload beats in your Beat Vault, set prices, and list them here.</p>
+            <p className="text-sm text-muted-foreground">Upload beats in your Productions, set prices, and list them here.</p>
           </div>
         ) : (
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
@@ -132,7 +132,7 @@ export default function BeatStore() {
                 <div className="flex gap-3 text-xs text-muted-foreground">
                   {beat.lease_price != null && <span>Lease <span className="text-foreground font-semibold">${beat.lease_price}</span></span>}
                   {beat.exclusive_price != null && <span>Exclusive <span className="text-foreground font-semibold">${beat.exclusive_price}</span></span>}
-                  {!beat.lease_price && !beat.exclusive_price && <span className="text-yellow-400">No prices set — add them in the Beat Vault</span>}
+                  {!beat.lease_price && !beat.exclusive_price && <span className="text-yellow-400">No prices set — add them in the Productions</span>}
                 </div>
 
                 <div className="flex items-center gap-2 pt-1">

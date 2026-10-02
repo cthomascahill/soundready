@@ -11,6 +11,7 @@ import TaxSummary from "@/components/tourfinance/TaxSummary";
 import TourMapView from "@/components/tourfinance/TourMapView";
 import AddMerchSaleForm from "@/components/tourfinance/AddMerchSaleForm";
 import BudgetForecast from "@/components/tourfinance/BudgetForecast";
+import ExportTourFinance from "@/components/tourfinance/ExportTourFinance";
 import { fmt, computeTotals } from "@/lib/tourFinance";
 
 const CATEGORIES = ["Gas", "Lodging", "Food", "Merch Production", "Equipment", "Transportation", "Promotion", "Parking/Tolls", "Other"];
@@ -216,6 +217,14 @@ export default function TourFinanceWorkspace({ tour }) {
             <Button variant="outline" asChild className="gap-2">
               <Link to={`/tour-planner/${tour.id}`}><MapPin className="h-4 w-4" />Open Planner</Link>
             </Button>
+            <ExportTourFinance
+              tour={tour}
+              venues={venues}
+              expenses={expenses}
+              merchSales={merchSales}
+              ticketSales={ticketSales}
+              totals={{ totalPayout, totalTicketRevenue, totalMerchRevenue, totalMerchCost, totalExpenses, netProfit }}
+            />
             <Button variant="outline" onClick={() => { setShowMerchForm(v => !v); setShowExpenseForm(false); setShowTicketForm(false); }} className="gap-2">
               <ShoppingBag className="h-4 w-4" />Merch Sale
             </Button>

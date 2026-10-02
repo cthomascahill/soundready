@@ -1,4 +1,4 @@
-// Song Tracker workflow stages, in order.
+// Tracker workflow stages, in order.
 // label  = name in the workflow progress list
 // status = name shown as the song's current stage (badge + filter)
 // action = what the user needs to do to reach this stage
@@ -14,7 +14,7 @@ export const STAGES = [
   { key: "stage_released", label: "Released", status: "Released", action: "Release the song", badge: "bg-primary/15 text-primary border-primary/25" },
 ];
 
-// Song Vault statuses, earliest to furthest — used to sync tracker stages to the vault
+// Vault statuses, earliest to furthest — used to sync tracker stages to the vault
 export const VAULT_STATUS_ORDER = ["Idea", "Demo", "Recorded", "Mixed", "Mastered", "Released"];
 
 // The vault status that matches a pipeline song's checked-off tracker stages

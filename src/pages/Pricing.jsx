@@ -16,13 +16,13 @@ import ManagerCostSlider from "@/components/home/ManagerCostSlider";
 // Each tier's unlocks, shown side-by-side for artists and producers
 const FREE_GROUPS = [
   { label: "For artists", items: [
-    "Song Vault — up to 5 songs, organized",
-    "Song Tracker — from idea to release",
+    "Vault — up to 5 songs, organized",
+    "Tracker — from idea to release",
     "Connect Spotify & YouTube",
     "Your dashboard & analytics",
   ] },
   { label: "For producers", items: [
-    "Beat Vault & Placements — up to 5 beats",
+    "Productions & Placements — up to 5 beats",
     "Full producer mode in every account",
   ] },
 ];
@@ -88,7 +88,7 @@ const FAQ = [
   },
   {
     q: "I'm a producer — is SoundReady for me?",
-    a: "Yes — every account has both an artist side and a producer side. Producers get the Beat Vault, the Beat Pipeline from idea to placement, a placement and credits tracker, and Artist Match, which ranks artists on the platform whose sound fits your beats. On AI Manager, Maya even drafts the pitch emails for you.",
+    a: "Yes — every account has both an artist side and a producer side. Producers get the Productions, the Beat Pipeline from idea to placement, a placement and credits tracker, and Artist Match, which ranks artists on the platform whose sound fits your beats. On AI Manager, Maya even drafts the pitch emails for you.",
   },
   {
     q: "Can I cancel anytime?",

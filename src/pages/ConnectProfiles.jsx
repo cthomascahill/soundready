@@ -11,6 +11,7 @@ import {
   LogOut, Wifi, WifiOff, AlertTriangle, ArrowRight
 } from "lucide-react";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
+import AccountTypePicker from "@/components/AccountTypePicker";
 
 // ── Freshness helpers ─────────────────────────────────────────────────────────
 function getFreshness(last_synced) {
@@ -480,7 +481,12 @@ export default function ConnectProfiles() {
   const [loading, setLoading] = useState(true);
   const [oauthLoading, setOauthLoading] = useState(false);
   const [oauthError, setOauthError] = useState("");
+  const [accountType, setAccountType] = useState("artist_producer");
   const [searchParams, setSearchParams] = useSearchParams();
+
+  useEffect(() => {
+    if (user?.id) setAccountType(user.account_type || "artist_producer");
+  }, [user?.id, user?.account_type]);
 
   // Handle Spotify OAuth callback
   useEffect(() => {
@@ -519,6 +525,15 @@ export default function ConnectProfiles() {
       .finally(() => setLoading(false));
   }, [user]);
 
+  const handleAccountType = async (key) => {
+    setAccountType(key);
+    await base44.auth.updateMe({
+      account_type: key,
+      active_mode: key === "producer" ? "producer" : "artist",
+    }).catch(() => {});
+    await checkAppState();
+  };
+
   const handleUpdated = (platform) => (data) => {
     if (!data) {
       setConnections(prev => {
@@ -554,11 +569,23 @@ export default function ConnectProfiles() {
     <div className="min-h-screen bg-background px-4 py-10">
       <div className="max-w-3xl mx-auto space-y-8">
 
-        {/* Step 1 onboarding banner — new users land here first */}
+        {/* Step 1 onboarding — pick your role before anything else */}
+        {user?.onboarding_complete !== true && (
+          <div className="rounded-2xl border border-primary/25 bg-primary/10 p-5 space-y-4">
+            <div className="flex items-center gap-2.5 flex-wrap">
+              <span className="px-2 py-0.5 rounded-full bg-primary text-primary-foreground text-[10px] font-bold uppercase tracking-wider">Step 1</span>
+              <p className="font-heading font-bold text-lg">First — what kind of creator are you?</p>
+            </div>
+            <AccountTypePicker value={accountType} onChange={handleAccountType} />
+            <p className="text-xs text-muted-foreground">Your tools adapt to your role. You can change this anytime from your Profile.</p>
+          </div>
+        )}
+
+        {/* Step 2 onboarding banner — new users land here next */}
         {user?.onboarding_complete !== true && (
           <div className="rounded-2xl border border-primary/25 bg-primary/10 p-5 space-y-3">
             <div className="flex items-center gap-2.5 flex-wrap">
-              <span className="px-2 py-0.5 rounded-full bg-primary text-primary-foreground text-[10px] font-bold uppercase tracking-wider">Step 1</span>
+              <span className="px-2 py-0.5 rounded-full bg-primary text-primary-foreground text-[10px] font-bold uppercase tracking-wider">Step 2</span>
               <p className="font-heading font-bold text-lg">Welcome to SoundReady — connect your profiles first.</p>
             </div>
             <p className="text-sm text-muted-foreground leading-relaxed">

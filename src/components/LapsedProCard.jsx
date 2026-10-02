@@ -31,7 +31,7 @@ export default function LapsedProCard({ feature }) {
   if (!isLapsedPro(user)) return null;
 
   const items = [
-    { label: "songs in your Song Tracker", n: counts?.songs },
+    { label: "songs in your Tracker", n: counts?.songs },
     { label: "venues and tours you were working", n: counts?.venues },
     { label: "producer clients in your CRM", n: counts?.clients },
   ].filter((i) => i.n > 0);

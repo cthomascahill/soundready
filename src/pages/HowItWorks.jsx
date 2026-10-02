@@ -27,7 +27,7 @@ const STEPS = [
   {
     n: "03",
     title: "Track Every Release from Idea to Launch",
-    body: "The Song Tracker keeps every release moving. Group songs into albums, EPs, and singles, then watch each one move through its stages — written, recorded, mixed, mastered, artwork, submitted, released. Upload your latest mix, attach the cover art, and store the release date, ISRC, and UPC codes right on the song. At a glance, you always know exactly where every release stands.",
+    body: "The Tracker keeps every release moving. Group songs into albums, EPs, and singles, then watch each one move through its stages — written, recorded, mixed, mastered, artwork, submitted, released. Upload your latest mix, attach the cover art, and store the release date, ISRC, and UPC codes right on the song. At a glance, you always know exactly where every release stands.",
     why: "Most releases stall because nobody's tracking the details. The artists who release consistently are the ones with a system — every song has a status, a date, and a next step.",
   },
   {
@@ -82,7 +82,7 @@ const WORKSPACE_TABS = [
 ];
 
 const ALL_TOOLS = [
-  "Song Library & Song Workspace",
+  "Vault & Song Workspace",
   "AI Release Strategy & Analysis (real audio processing)",
   "Spotify Algorithm Score & Outlook",
   "6-Week Release Plan Generator",
@@ -101,7 +101,7 @@ const ALL_TOOLS = [
   "Music News (daily industry briefings)",
   "Industry Intel (signings, playlists, grants & tour intel)",
   "Collaborative Team Whiteboard",
-  "Beat Vault & Placements (producer catalog & credits)",
+  "Productions & Placements (producer catalog & credits)",
   "Beat Pipeline (idea → placed)",
   "Artist Match (beat-to-artist matching)",
   "Team Workspace & Role Assignments",
@@ -166,7 +166,7 @@ export default function HowItWorks() {
             <span className="text-primary">Producers too. Here's how to win.</span>
           </h1>
           <p className="text-xl sm:text-2xl text-muted-foreground leading-relaxed max-w-3xl mx-auto">
-            SoundReady gives independent artists and producers the same tools, strategy, and infrastructure that signed acts get from their labels. Free to start — your Song Vault and Beat Vault (up to 5 songs and 5 beats) and your trackers are yours forever. This is how it works — and why it changes everything.
+            SoundReady gives independent artists and producers the same tools, strategy, and infrastructure that signed acts get from their labels. Free to start — your Vault and Productions (up to 5 songs and 5 beats) and your trackers are yours forever. This is how it works — and why it changes everything.
           </p>
           <div className="flex flex-col sm:flex-row items-center justify-center gap-3 pt-2">
             <Button size="lg" className="gap-2 font-heading font-bold text-base px-8 h-12" onClick={handleCTA}>
@@ -187,7 +187,7 @@ export default function HowItWorks() {
           <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="space-y-5 text-lg text-muted-foreground leading-relaxed">
             <p>The artists getting playlisted, booked, and paid aren't more talented than you. They have better infrastructure — managers, publicists, booking agents, and lawyers reviewing every deal before it gets signed.</p>
             <p className="text-foreground font-semibold text-xl">You have a laptop and a dream.</p>
-            <p>That gap is exactly what SoundReady was built to close. Your Song Vault (up to 5 songs) and Song Tracker are free forever. When you're ready for more, Artist Pro ($37/mo, 7 days free) unlocks every tool, strategy, and system the industry uses to build careers — and for $60 flat, Maya, your AI manager, runs the day-to-day work for you.</p>
+            <p>That gap is exactly what SoundReady was built to close. Your Vault (up to 5 songs) and Tracker are free forever. When you're ready for more, Artist Pro ($37/mo, 7 days free) unlocks every tool, strategy, and system the industry uses to build careers — and for $60 flat, Maya, your AI manager, runs the day-to-day work for you.</p>
             <p className="text-foreground font-semibold">Just upload your music and let's get to work.</p>
           </motion.div>
         </div>
@@ -286,7 +286,7 @@ export default function HowItWorks() {
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
             {[
               { level: "The Independent Artist", desc: "You're doing everything yourself and it's exhausting. SoundReady doesn't replace your hustle — it organizes it so every release has a real strategy behind it." },
-              { level: "The Producer", desc: "Your beats deserve better than a folder and a DM. The Beat Vault, Beat Pipeline, placement tracker, and Artist Match turn your catalog into a real business — with Maya pitching for you on the AI Manager plan." },
+              { level: "The Producer", desc: "Your beats deserve better than a folder and a DM. The Productions, Beat Pipeline, placement tracker, and Artist Match turn your catalog into a real business — with Maya pitching for you on the AI Manager plan." },
               { level: "The Artist With a Manager", desc: "Your team needs one place to work from. SoundReady gives your manager the tools to move faster, pitch smarter, and keep your whole career organized — so nothing falls through the cracks." },
               { level: "The Manager or Indie Label", desc: "You're responsible for multiple artists and the disorganization is costing you real opportunities. SoundReady's Pro tier puts your entire roster in one place — every artist, every release, every deal." },
             ].map((w, i) => (
@@ -308,7 +308,7 @@ export default function HowItWorks() {
           <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="text-center space-y-4">
             <p className="text-xs text-primary uppercase tracking-wider font-bold">The Full Platform</p>
             <h2 className="font-heading text-4xl sm:text-5xl font-bold">40+ tools. One subscription. Zero excuses.</h2>
-            <p className="text-lg text-muted-foreground max-w-2xl mx-auto">Your Vault and Song Tracker are free forever. Everything below unlocks with your 7-day free trial of Artist Pro.</p>
+            <p className="text-lg text-muted-foreground max-w-2xl mx-auto">Your Vault and Tracker are free forever. Everything below unlocks with your 7-day free trial of Artist Pro.</p>
           </motion.div>
           <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}
             className="rounded-2xl bg-card border border-border p-8">

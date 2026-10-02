@@ -5,6 +5,7 @@ import AudioCell from "./AudioCell";
 import ArtworkCell from "./ArtworkCell";
 import DetailField from "./DetailField";
 import StageProgress from "./StageProgress";
+import VersionsPanel from "./VersionsPanel";
 
 const fieldBox = "min-h-9 flex items-center rounded-md border border-border bg-secondary/30 px-3 py-0.5";
 
@@ -57,6 +58,10 @@ export default function SongDetails({ song, onUpdate }) {
 
       <DetailField label="Notes">
         <Textarea value={notes} onChange={(e) => setNotes(e.target.value)} placeholder="Add notes..." rows={3} className="bg-secondary/30 resize-none" />
+      </DetailField>
+
+      <DetailField label="Versions — every mix and master of this record">
+        <VersionsPanel song={song} onUpdate={onUpdate} />
       </DetailField>
     </div>
   );

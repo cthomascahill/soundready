@@ -13,11 +13,11 @@ export const TOOL_CATEGORIES = [
   {
     label: "Music",
     tools: [
-      { name: "Song Vault", to: "/history", desc: "Your entire catalog, organized", icon: Music2, tier: "free" },
-      { name: "Song Tracker", to: "/song-tracker", desc: "Every release from idea to launch", icon: ListChecks, tier: "free" },
+      { name: "Vault", to: "/history", desc: "Your entire catalog, organized", icon: Music2, tier: "free" },
+      { name: "Tracker", to: "/song-tracker", desc: "Every release from idea to launch", icon: ListChecks, tier: "free" },
       { name: "The Studio", to: "/studio", desc: "Lyrics, ideas and beat tools", icon: Sparkles, tier: "pro" },
       { name: "Lyric Room", to: "/lyric-room", desc: "Write, tag and store lyrics", icon: PenTool, tier: "free" },
-      { name: "Beat Vault", to: "/beat-vault", desc: "Your beat catalog, tagged and tracked", icon: Disc3, tier: "free" },
+      { name: "Productions", to: "/beat-vault", desc: "Your beat catalog, tagged and tracked", icon: Disc3, tier: "free" },
       { name: "Beat Pipeline", to: "/beat-pipeline", desc: "Beats from idea to placement", icon: ListChecks, tier: "pro" },
       { name: "Beat Store", to: "/beat-store", desc: "Sell leases and exclusives", icon: Store, tier: "pro" },
       { name: "Placements", to: "/placements", desc: "Your placement and credits history", icon: FileText, tier: "free" },

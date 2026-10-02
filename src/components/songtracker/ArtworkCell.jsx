@@ -3,7 +3,7 @@ import { base44 } from "@/api/base44Client";
 import { Upload, Loader2 } from "lucide-react";
 
 /**
- * Artwork column for a Song Tracker row: thumbnail preview,
+ * Artwork column for a Tracker row: thumbnail preview,
  * click to download for the distributor handoff, replace via upload.
  */
 export default function ArtworkCell({ song, onUpdate, className = "w-20 shrink-0 px-2 justify-center" }) {

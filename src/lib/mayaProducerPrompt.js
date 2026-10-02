@@ -40,7 +40,7 @@ export function buildProducerSystemPrompt(user, profile, beats, placements, clie
 
   return `You are Maya, an AI music industry manager built into SoundReady. You are speaking with ${name}, a music producer.
 
-PRODUCER CATALOG (Beat Vault):
+PRODUCER CATALOG (Productions):
 - Total beats: ${(beats || []).length}; by stage: ${stageStr}
 - Genres: ${genres.join(", ") || "unspecified"}
 - Listed for sale in their Beat Store: ${forSale}

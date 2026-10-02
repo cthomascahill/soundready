@@ -144,7 +144,7 @@ export default function Studio() {
       sort_order: trackerSongs.length,
     });
     setTrackerSongs(prev => [...prev, newSong]);
-    alert(`"${newSong.song_name}" added to your Song Tracker!`);
+    alert(`"${newSong.song_name}" added to your Tracker!`);
   };
 
   const copyToSeed = (content) => {

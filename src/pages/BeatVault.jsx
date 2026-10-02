@@ -82,7 +82,7 @@ export default function BeatVault() {
         <div className="flex items-start justify-between flex-wrap gap-4">
           <div>
             <p className="text-xs text-primary uppercase tracking-widest font-medium">Producer</p>
-            <h1 className="font-heading text-3xl font-bold">Beat Vault</h1>
+            <h1 className="font-heading text-3xl font-bold">Productions</h1>
             <p className="text-muted-foreground text-sm mt-1">
               Your entire beat catalog — organized, priced, and ready to pitch.
             </p>

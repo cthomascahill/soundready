@@ -8,18 +8,18 @@ import {
   Home, Music2, Users, ListChecks, Sparkles, Flame, Link2, LayoutGrid,
   Map, Newspaper, CreditCard, UserCircle, PenTool,
   Mic2, Megaphone, Route, Wallet, FileText, Disc3, Target,
-  Store, FileSignature, Radar,
+  Store, FileSignature, Radar, Mic,
 } from "lucide-react";
 
 // The Music section swaps with the active profile mode
 const MUSIC_ARTIST = [
-  { to: "/history", icon: Music2, label: "Song Vault" },
-  { to: "/song-tracker", icon: ListChecks, label: "Song Tracker" },
+  { to: "/history", icon: Music2, label: "Vault" },
+  { to: "/song-tracker", icon: ListChecks, label: "Tracker" },
   { to: "/studio", icon: Sparkles, label: "The Studio" },
 ];
 
 const MUSIC_PRODUCER = [
-  { to: "/beat-vault", icon: Disc3, label: "Beat Vault" },
+  { to: "/beat-vault", icon: Disc3, label: "Productions" },
   { to: "/beat-store", icon: Store, label: "Beat Store" },
   { to: "/beat-pipeline", icon: ListChecks, label: "Beat Pipeline" },
   { to: "/artist-match", icon: Target, label: "Artist Match" },
@@ -72,6 +72,7 @@ const NAV_SECTIONS = (mode) => {
     label: "Account",
     items: [
       { to: "/pricing-account", icon: CreditCard, label: "Your Plan" },
+      { to: "/artist-profile", icon: Mic, label: "Artist Profile" },
       { to: "/profile", icon: UserCircle, label: "Profile" },
     ],
   },

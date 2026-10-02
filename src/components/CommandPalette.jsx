@@ -5,8 +5,8 @@ import { motion, AnimatePresence } from "framer-motion";
 
 const ALL_ROUTES = [
   { label: "Dashboard", path: "/dashboard", icon: Home, category: "Core" },
-  { label: "Song Vault", path: "/history", icon: Music2, category: "Core" },
-  { label: "Song Tracker", path: "/song-tracker", icon: ListChecks, category: "Core" },
+  { label: "Vault", path: "/history", icon: Music2, category: "Core" },
+  { label: "Tracker", path: "/song-tracker", icon: ListChecks, category: "Core" },
   { label: "The Studio", path: "/studio", icon: Sparkles, category: "Core" },
   { label: "The Wall", path: "/artist-feed", icon: Flame, category: "Core" },
   { label: "Team Chat", path: "/team-chat", icon: Users, category: "Team" },

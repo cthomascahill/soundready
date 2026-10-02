@@ -10,7 +10,7 @@ import { Loader2, Upload } from "lucide-react";
 const EMPTY = { title: "", genre: "", bpm: "", key: "", mood_tags: [], lease_price: "", exclusive_price: "", notes: "", for_sale: false };
 
 /**
- * Create or edit a beat in the producer's Beat Vault.
+ * Create or edit a beat in the producer's Productions.
  * Audio uploads are stored privately; only the producer can play them.
  */
 export default function BeatUploadModal({ open, onClose, onSaved, beat }) {

@@ -1,4 +1,4 @@
-// Shared producer metadata used across the Beat Vault, Pipeline, and Discovery pages.
+// Shared producer metadata used across the Productions, Pipeline, and Discovery pages.
 
 export const GENRES = ["Hip-Hop", "R&B", "Trap", "Drill", "Afrobeats", "Pop", "Lo-Fi", "EDM", "Soul"];
 

@@ -15,6 +15,7 @@ import ProjectsSidebar from "@/components/vault/ProjectsSidebar";
 import VaultCapPrompt, { VaultUsageBadge, FREE_VAULT_CAP } from "@/components/vault/VaultCapPrompt";
 import BulkAddSongs from "@/components/vault/BulkAddSongs";
 import TrackerStageDots from "@/components/vault/TrackerStageDots";
+import VaultArtwork from "@/components/vault/VaultArtwork";
 import { isProOrAbove } from "@/lib/tier";
 
 const STATUS_COLORS = {
@@ -51,9 +52,7 @@ function SongCard({ song, onEdit, viewMode, pipeline }) {
       <motion.div initial={{ opacity: 0, y: 6 }} animate={{ opacity: 1, y: 0 }}
         onClick={() => onEdit(song)}
         className="flex items-center gap-3 px-4 py-3 rounded-xl bg-card border border-border hover:border-primary/30 hover:bg-card/80 transition-all cursor-pointer">
-        <div className="h-9 w-9 rounded-lg bg-primary/10 flex items-center justify-center shrink-0">
-          <Music2 className="h-4 w-4 text-primary" />
-        </div>
+        <VaultArtwork url={song.artwork_url} title={song.title} className="h-12 w-12 rounded-lg shrink-0 object-cover" />
         <div className="flex-1 min-w-0">
           <p className="font-semibold text-sm truncate">{song.title}</p>
           <p className="text-xs text-zinc-500 truncate">
@@ -81,15 +80,19 @@ function SongCard({ song, onEdit, viewMode, pipeline }) {
   return (
     <motion.div initial={{ opacity: 0, scale: 0.97 }} animate={{ opacity: 1, scale: 1 }}
       onClick={() => onEdit(song)}
-      className="rounded-2xl bg-card border border-border hover:border-primary/30 hover:bg-card/80 transition-all cursor-pointer p-4 space-y-3">
-      <div className="flex items-start justify-between gap-2">
-        <div className="h-10 w-10 rounded-xl bg-primary/10 flex items-center justify-center shrink-0">
-          <Music2 className="h-5 w-5 text-primary" />
-        </div>
-        <span className={`text-[10px] font-semibold px-2 py-0.5 rounded-full border shrink-0 mt-0.5 ${STATUS_COLORS[song.status] || STATUS_COLORS.Demo}`}>
+      className="rounded-2xl bg-card border border-border hover:border-primary/30 transition-all cursor-pointer overflow-hidden group">
+      <div className="relative">
+        <VaultArtwork url={song.artwork_url} title={song.title} className="w-full aspect-square" iconClass="h-10 w-10" />
+        <span className={`absolute top-2 right-2 text-[10px] font-semibold px-2 py-0.5 rounded-full border shrink-0 ${STATUS_COLORS[song.status] || STATUS_COLORS.Demo}`}>
           {song.status}
         </span>
+        {song.file_url && (
+          <div className="absolute bottom-2 right-2" onClick={(e) => e.stopPropagation()}>
+            <AudioMiniPlayer url={song.file_url} name={song.title} />
+          </div>
+        )}
       </div>
+      <div className="p-4 space-y-3">
       <div>
         <p className="font-heading font-semibold truncate">{song.title}</p>
         {song.producer && <p className="text-xs text-zinc-500 truncate">Prod. {song.producer}</p>}
@@ -105,10 +108,8 @@ function SongCard({ song, onEdit, viewMode, pipeline }) {
           </span>
         ))}
       </div>
-      {pipeline && <TrackerStageDots song={pipeline} />}
-      <div className="flex items-center justify-between">
-        <span className="text-[10px] text-zinc-600">{moment(song.created_date).format("MMM D, YYYY")}</span>
-        {song.file_url && <AudioMiniPlayer url={song.file_url} name={song.title} />}
+        {pipeline && <TrackerStageDots song={pipeline} />}
+        <p className="text-[10px] text-zinc-600">{moment(song.created_date).format("MMM D, YYYY")}</p>
       </div>
     </motion.div>
   );
@@ -162,7 +163,7 @@ export default function SongLibrary() {
 
   const isFree = !isProOrAbove(user);
   const atCap = isFree && songs.length >= FREE_VAULT_CAP;
-  // Songs also in the Song Tracker, matched by title — keeps the two views in unison
+  // Songs also in the Tracker, matched by title — keeps the two views in unison
   const pipelineByTitle = new Map();
   pipelineSongs.forEach((p) => {
     const key = p.song_name?.toLowerCase().trim();
@@ -208,8 +209,8 @@ export default function SongLibrary() {
         {/* Top Header */}
         <div className="flex items-center justify-between gap-4 mb-6 flex-wrap">
           <div>
-            <p className="text-xs text-primary uppercase tracking-widest font-medium">Vault</p>
-            <h1 className="font-heading text-3xl font-bold">Song Library</h1>
+            <p className="text-xs text-primary uppercase tracking-widest font-medium">Your Catalog</p>
+            <h1 className="font-heading text-3xl font-bold">Vault</h1>
             <p className="text-zinc-500 text-sm mt-0.5">{songs.length} songs · your finished catalog — every released song lives here</p>
           </div>
           <div className="flex items-center gap-3">
@@ -317,7 +318,7 @@ export default function SongLibrary() {
             ) : filtered.length === 0 ? (
               <div className="text-center py-24 space-y-4">
                 <Music2 className="h-12 w-12 text-zinc-700 mx-auto" />
-                <p className="text-zinc-500">{search || hasFilters ? "No songs match your filters." : "Your catalog is empty. Bulk add your released songs below — or mark one Released in the Song Tracker and it lands here automatically."}</p>
+                <p className="text-zinc-500">{search || hasFilters ? "No songs match your filters." : "Your catalog is empty. Bulk add your released songs below — or mark one Released in the Tracker and it lands here automatically."}</p>
                 {!search && !hasFilters && (
                   <div className="flex flex-wrap items-center justify-center gap-3">
                     <Button onClick={openBulk} variant="outline" className="border-zinc-700 gap-2">

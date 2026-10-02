@@ -3,7 +3,7 @@ import { base44 } from "@/api/base44Client";
 import { Play, Pause, Upload, Download, Loader2 } from "lucide-react";
 
 /**
- * Latest-mix audio for a Song Tracker row: upload the file,
+ * Latest-mix audio for a Tracker row: upload the file,
  * play it inline, and replace it with a newer version.
  */
 export default function AudioCell({ song, onUpdate, className = "w-28 shrink-0 px-2 justify-center" }) {

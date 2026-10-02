@@ -56,7 +56,7 @@ export default function SongTracker() {
     setSongs((prev) => prev.map((s) => s.id === id ? { ...s, ...changes } : s));
     await base44.entities.PipelineSong.update(id, changes);
 
-    // Keep the Song Vault in unison: the tracker's checked-off stages drive the vault status
+    // Keep the Vault in unison: the tracker's checked-off stages drive the vault status
     const touchedStages = Object.keys(changes).some((k) => k.startsWith("stage_"));
     if (touchedStages && song?.song_name) {
       const merged = { ...song, ...changes };
@@ -117,9 +117,9 @@ export default function SongTracker() {
         <div className="max-w-6xl mx-auto space-y-6">
           <div>
             <p className="text-xs text-primary uppercase tracking-widest font-medium">Pipeline</p>
-            <h1 className="font-heading text-4xl font-bold">Song Tracker</h1>
+            <h1 className="font-heading text-4xl font-bold">Tracker</h1>
             <p className="text-muted-foreground text-sm mt-1">
-              Your active pipeline — every song from idea to launch. Mark one Released and it's saved to your Song Vault automatically.
+              Your active pipeline — every song from idea to launch. Mark one Released and it's saved to your Vault automatically.
             </p>
           </div>
           <ProjectsGrid

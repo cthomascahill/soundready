@@ -1,6 +1,6 @@
 import { useState, useRef, useEffect } from "react";
 import { base44 } from "@/api/base44Client";
-import { X, Music2, Upload, Play, Pause, Tag, Plus } from "lucide-react";
+import { X, Music2, Upload, Play, Pause, Tag, Plus, ImagePlus } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 
@@ -35,6 +35,7 @@ export default function SongCardModal({ song, onClose, onSave, projects = [] }) 
     file_url: song?.file_url || "",
     file_name: song?.file_name || "",
     duration: song?.duration || null,
+    artwork_url: song?.artwork_url || "",
     project_ids: song?.project_ids || [],
   });
   const [audioFile, setAudioFile] = useState(null);
@@ -43,8 +44,10 @@ export default function SongCardModal({ song, onClose, onSave, projects = [] }) 
   const [playing, setPlaying] = useState(false);
   const [newTag, setNewTag] = useState("");
   const [draggingAudio, setDraggingAudio] = useState(false);
+  const [uploadingArt, setUploadingArt] = useState(false);
   const audioRef = useRef(null);
   const fileInputRef = useRef(null);
+  const artworkInputRef = useRef(null);
 
   const handleAudioFile = async (file) => {
     if (!file || !file.type.startsWith("audio/")) return;
@@ -62,6 +65,14 @@ export default function SongCardModal({ song, onClose, onSave, projects = [] }) 
     setForm(f => ({ ...f, file_url, file_name: file.name, duration: dur }));
     setAudioFile({ localUrl, name: file.name });
     setUploading(false);
+  };
+
+  const handleArtworkFile = async (file) => {
+    if (!file || !file.type.startsWith("image/")) return;
+    setUploadingArt(true);
+    const { file_url } = await base44.integrations.Core.UploadPublicFile({ file });
+    setForm(f => ({ ...f, artwork_url: file_url }));
+    setUploadingArt(false);
   };
 
   const toggleMood = (mood) => {
@@ -169,6 +180,28 @@ export default function SongCardModal({ song, onClose, onSave, projects = [] }) 
               </div>
             )}
             <input ref={fileInputRef} type="file" accept="audio/*" className="hidden" onChange={e => handleAudioFile(e.target.files[0])} />
+          </div>
+
+          {/* Cover Artwork */}
+          <div>
+            <label className="text-xs text-zinc-400 uppercase tracking-wider mb-2 block">Cover Artwork</label>
+            {form.artwork_url ? (
+              <div className="flex items-center gap-3 rounded-xl border border-zinc-700 p-3">
+                <img src={form.artwork_url} alt="Cover artwork" className="h-14 w-14 rounded-lg object-cover" />
+                <p className="text-xs text-zinc-500 flex-1">Shown on your Vault library</p>
+                <button onClick={() => setForm(f => ({ ...f, artwork_url: "" }))}
+                  className="text-zinc-500 hover:text-red-400 transition-colors text-xs">Remove</button>
+              </div>
+            ) : (
+              <button onClick={() => artworkInputRef.current?.click()}
+                className="w-full flex items-center justify-center gap-2 rounded-xl border-2 border-dashed border-zinc-700 py-3 text-sm text-zinc-400 hover:border-zinc-500 hover:text-zinc-300 transition-all">
+                {uploadingArt
+                  ? <div className="h-4 w-4 border-2 border-primary/30 border-t-primary rounded-full animate-spin" />
+                  : <ImagePlus className="h-4 w-4" />}
+                {uploadingArt ? "Uploading..." : "Upload cover artwork"}
+              </button>
+            )}
+            <input ref={artworkInputRef} type="file" accept="image/*" className="hidden" onChange={e => handleArtworkFile(e.target.files[0])} />
           </div>
 
           {/* Song Info */}

@@ -201,7 +201,7 @@ function buildPipelineContext(pipelineSongs, deskActivities) {
   const lines = [];
 
   if (pipelineSongs?.length) {
-    lines.push("\nSONG TRACKER (current release pipeline):");
+    lines.push("\nTRACKER (current release pipeline):");
     pipelineSongs.slice(0, 10).forEach(s => {
       if (!s.song_name) return;
       const stages = ["write", "record", "mix", "master", "review", "artwork", "submit", "released"]

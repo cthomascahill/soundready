@@ -59,11 +59,11 @@ export default function BeatPipeline() {
             <Disc3 className="h-12 w-12 text-muted-foreground/30 mx-auto" />
             <p className="font-heading font-bold text-lg">Nothing in the pipeline yet</p>
             <p className="text-sm text-muted-foreground max-w-sm mx-auto">
-              Upload beats to your Beat Vault — they'll show up here so you can track each one from idea to placement.
+              Upload beats to your Productions — they'll show up here so you can track each one from idea to placement.
             </p>
             <Link to="/beat-vault">
               <Button size="sm" className="gap-2">
-                <Disc3 className="h-4 w-4" />Go to Beat Vault
+                <Disc3 className="h-4 w-4" />Go to Productions
               </Button>
             </Link>
           </div>

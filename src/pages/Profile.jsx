@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { base44 } from "@/api/base44Client";
-import { User, Mail, LogOut, Music2, Save, Check, BarChart2, Zap, Crown } from "lucide-react";
+import { User, Mail, LogOut, Music2, Save, Check, BarChart2, Zap, Crown, Layers } from "lucide-react";
+import AccountTypePicker from "@/components/AccountTypePicker";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import moment from "moment";
@@ -17,6 +18,7 @@ export default function Profile() {
   const [saving, setSaving] = useState(false);
   const [saved, setSaved] = useState(false);
   const [analysisCount, setAnalysisCount] = useState(0);
+  const [accountType, setAccountType] = useState("artist_producer");
   const [form, setForm] = useState({
     artist_name: "",
     bio: "",
@@ -28,6 +30,7 @@ export default function Profile() {
     base44.auth.me()
       .then(async (u) => {
         setUser(u);
+        setAccountType(u.account_type || "artist_producer");
         setForm({
           artist_name: u.artist_name || "",
           bio: u.bio || "",
@@ -49,6 +52,14 @@ export default function Profile() {
     setSaving(false);
     setSaved(true);
     setTimeout(() => setSaved(false), 2000);
+  };
+
+  const handleAccountType = async (key) => {
+    setAccountType(key);
+    await base44.auth.updateMe({
+      account_type: key,
+      active_mode: key === "producer" ? "producer" : "artist",
+    }).catch(() => {});
   };
 
   const handleInputChange = (field) => (e) => {
@@ -103,6 +114,16 @@ export default function Profile() {
               {PLAN_LABELS[plan] || "Free"}
             </div>
           </div>
+        </div>
+
+        {/* Account type — enable or disable roles */}
+        <div className="rounded-2xl bg-card border border-border p-6 space-y-4">
+          <p className="font-heading font-semibold flex items-center gap-2">
+            <Layers className="h-4 w-4 text-primary" />
+            Account Type
+          </p>
+          <p className="text-xs text-muted-foreground -mt-2">Enable or disable roles — your tools adapt to how you create.</p>
+          <AccountTypePicker value={accountType} onChange={handleAccountType} />
         </div>
 
         {/* Usage stats */}

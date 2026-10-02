@@ -83,7 +83,7 @@ export default function SongWorkspace() {
         <div className="max-w-5xl mx-auto px-4 py-6 space-y-4">
           <button onClick={() => navigate("/history")} className="flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground transition-colors">
             <ArrowLeft className="h-4 w-4" />
-            Song Library
+            Vault
           </button>
 
           <div className="flex items-start gap-4">

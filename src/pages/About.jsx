@@ -32,11 +32,11 @@ const TIERS = [
     name: "Artist",
     tagline: "Your music's home base. Free forever.",
     price: "$0",
-    desc: "Every serious artist — and every serious producer — needs a system before they need a team. Organize up to 5 songs in the Song Vault or up to 5 beats in the Beat Vault, and track every release from idea to release — free, forever. Everything else unlocks with Artist Pro.",
+    desc: "Every serious artist — and every serious producer — needs a system before they need a team. Organize up to 5 songs in the Vault or up to 5 beats in the Productions, and track every release from idea to release — free, forever. Everything else unlocks with Artist Pro.",
     items: [
-      "Song Vault — up to 5 songs, organized",
-      "Song Tracker — from idea to release",
-      "Beat Vault & Placements — up to 5 beats",
+      "Vault — up to 5 songs, organized",
+      "Tracker — from idea to release",
+      "Productions & Placements — up to 5 beats",
       "Connect Spotify & YouTube",
       "Your artist dashboard",
     ],
@@ -102,7 +102,7 @@ const WHAT_WE_DO = [
 
   { icon: BarChart2, color: "text-chart-5", title: "A&R Intelligence", desc: "Weekly briefings on what's working in your genre right now — tempos, moods, and strategies getting editorial love. Make smarter decisions before you finish the song." },
   { icon: FileText, color: "text-yellow-400", title: "Contract Analyzer", desc: "Upload any deal or contract and SoundReady flags every clause that could hurt you — in plain English. Know exactly what you're signing before you sign it." },
-  { icon: Disc3, color: "text-purple-400", title: "Beat Vault & Placements", desc: "Producers get their own workspace. Catalog every beat with BPM, key, and moods, track your credits and fees, and turn your placement history into the resume that lands collabs." },
+  { icon: Disc3, color: "text-purple-400", title: "Productions & Placements", desc: "Producers get their own workspace. Catalog every beat with BPM, key, and moods, track your credits and fees, and turn your placement history into the resume that lands collabs." },
   { icon: UserCheck, color: "text-teal-400", title: "Artist Match", desc: "SoundReady ranks the artists on the platform whose sound fits your beats — and Maya drafts the pitch for you. Your beats stop waiting for artists to find you." },
 ];
 
@@ -160,7 +160,7 @@ export default function About() {
           </h1>
 
           <p className="text-xl sm:text-2xl text-muted-foreground leading-relaxed max-w-3xl mx-auto font-body">
-            SoundReady gives independent artists and producers the same tools, strategy, and infrastructure that signed acts get from their label — free to start. Your Song Vault (up to 5 songs), Song Tracker, and Beat Vault (up to 5 beats) are free forever. When you're ready for more, Artist Pro unlocks the full toolkit — booking, touring, your whole team — and Maya, your AI manager, takes the day-to-day work off your plate: pitching your songs to playlists and your beats to the artists who need them.
+            SoundReady gives independent artists and producers the same tools, strategy, and infrastructure that signed acts get from their label — free to start. Your Vault (up to 5 songs), Tracker, and Productions (up to 5 beats) are free forever. When you're ready for more, Artist Pro unlocks the full toolkit — booking, touring, your whole team — and Maya, your AI manager, takes the day-to-day work off your plate: pitching your songs to playlists and your beats to the artists who need them.
           </p>
 
           <div className="flex flex-col sm:flex-row items-center justify-center gap-3 pt-2">
@@ -201,7 +201,7 @@ export default function About() {
               },
               {
                 headline: "You make beats.",
-                body: "Your best beats are sitting in a folder while artists who'd pay for them never hear them. SoundReady gives producers the same infrastructure as artists — a Beat Vault, a pipeline from idea to placement, and matching that puts your sound in front of artists who fit it.",
+                body: "Your best beats are sitting in a folder while artists who'd pay for them never hear them. SoundReady gives producers the same infrastructure as artists — a Productions, a pipeline from idea to placement, and matching that puts your sound in front of artists who fit it.",
                 label: "Turn beats into placements.",
                 icon: Disc3,
               },
@@ -247,7 +247,7 @@ export default function About() {
           <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="text-center space-y-4">
             <p className="text-xs text-primary uppercase tracking-wider font-bold">Pricing</p>
             <h2 className="font-heading text-4xl sm:text-5xl font-bold">Start free. Grow when you're ready.</h2>
-            <p className="text-lg text-muted-foreground max-w-2xl mx-auto">Your Vault and Song Tracker are free forever. Unlock the full toolkit with Pro — or hand the work to Maya when the career is moving.</p>
+            <p className="text-lg text-muted-foreground max-w-2xl mx-auto">Your Vault and Tracker are free forever. Unlock the full toolkit with Pro — or hand the work to Maya when the career is moving.</p>
           </motion.div>
 
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-5">
@@ -336,7 +336,7 @@ export default function About() {
             {[
               { level: "The Unsigned Artist", desc: "You're self-managing and the game feels rigged against you. SoundReady gives you the same tools, strategy, and infrastructure that signed artists get from their labels — from day one." },
               { level: "The Emerging Artist", desc: "You have momentum but your career isn't keeping up with your music. SoundReady organizes everything so every release works as hard as you do." },
-              { level: "The Producer", desc: "Your beats are everywhere but your placements aren't. SoundReady gives you a real producer system — a Beat Vault, a pipeline, a credits resume, and matching that puts your sound in front of the right artists." },
+              { level: "The Producer", desc: "Your beats are everywhere but your placements aren't. SoundReady gives you a real producer system — a Productions, a pipeline, a credits resume, and matching that puts your sound in front of the right artists." },
               { level: "The Manager or Indie Label", desc: "You're responsible for multiple artists and the disorganization is costing you real opportunities. SoundReady gives your whole team one place to work — every artist, every release, every deal, from a single platform." },
             ].map((w, i) => (
               <motion.div key={w.level}

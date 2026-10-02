@@ -80,7 +80,7 @@ function ActivityItem({ item }) {
 }
 
 const SUGGESTION_ROUTES = {
-  "Song Vault": "/history",
+  "Vault": "/history",
   "Playlist Pitching": "/playlist-pitcher",
   "EPK Builder": "/pitch-deck",
   "Branding Studio": "/branding-studio",
@@ -171,7 +171,7 @@ Interested in sync: ${syncInterested}
 Generate 5 suggestions. Each must be:
 - Specific to THIS artist's actual situation (reference their real numbers and gaps)
 - A concrete next action, not generic advice
-- Referencing a specific tool in SoundReady where they can take action (choose from: Song Vault, Playlist Pitching, EPK Builder, Branding Studio, Career Roadmap, Genre Trends, Challenge Tracker, Tour Planner, Gig Finder, Sync Pitcher, A&R Intelligence, Lyric Room, Music Academy, Revenue Splits, Distribution, Royalties)
+- Referencing a specific tool in SoundReady where they can take action (choose from: Vault, Playlist Pitching, EPK Builder, Branding Studio, Career Roadmap, Genre Trends, Challenge Tracker, Tour Planner, Gig Finder, Sync Pitcher, A&R Intelligence, Lyric Room, Music Academy, Revenue Splits, Distribution, Royalties)
 - Urgent-feeling, like a manager would say
 
 Return JSON:

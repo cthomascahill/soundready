@@ -21,7 +21,7 @@ import LapsedProCard from "@/components/LapsedProCard";
 
 
 const QUICK_ACTIONS = [
-  { label: "Song Vault", icon: Music2, to: "/history", color: "text-primary bg-primary/10" },
+  { label: "Vault", icon: Music2, to: "/history", color: "text-primary bg-primary/10" },
 
   { label: "Create EPK", icon: FileText, to: "/pitch-deck", color: "text-purple-400 bg-purple-500/10" },
   { label: "Pitch to Playlist", icon: Mic2, to: "/playlist-pitcher", color: "text-chart-3 bg-chart-3/10" },
@@ -34,7 +34,7 @@ const QUICK_ACTIONS = [
 ];
 
 const PRODUCER_ACTIONS = [
-  { label: "Beat Vault", icon: Disc3, to: "/beat-vault", color: "text-primary bg-primary/10" },
+  { label: "Productions", icon: Disc3, to: "/beat-vault", color: "text-primary bg-primary/10" },
   { label: "Beat Pipeline", icon: ListChecks, to: "/beat-pipeline", color: "text-purple-400 bg-purple-500/10" },
   { label: "Placements", icon: TrendingUp, to: "/placements", color: "text-yellow-400 bg-yellow-500/10" },
   { label: "Artist Match", icon: Mic2, to: "/artist-match", color: "text-teal-400 bg-teal-500/10" },
@@ -125,7 +125,7 @@ export default function Dashboard() {
               <p className="text-muted-foreground">{isProducer ? "No beats yet. Upload your first beat to get started." : "No songs yet. Add your first track to get started."}</p>
               <Link to={isProducer ? "/beat-vault" : "/history"}>
                 <Button size="sm" className="gap-2">
-                  {isProducer ? <><Disc3 className="h-4 w-4" />Go to Beat Vault</> : <><Music2 className="h-4 w-4" />Go to Song Vault</>}
+                  {isProducer ? <><Disc3 className="h-4 w-4" />Go to Productions</> : <><Music2 className="h-4 w-4" />Go to Vault</>}
                 </Button>
               </Link>
             </div>

@@ -1,4 +1,5 @@
 import { useMode } from "@/lib/mode";
+import { useAuth } from "@/lib/AuthContext";
 import { Mic2, Disc3 } from "lucide-react";
 
 const OPTIONS = [
@@ -7,15 +8,22 @@ const OPTIONS = [
 ];
 
 /**
- * Compact Artist/Producer switch — the dual-profile toggle.
+ * Artist/Producer switch for dual-role accounts. Accounts that picked a
+ * single role (Artist only or Producer only) just see their own side.
  * Persists on the user's profile via ModeProvider.
  */
 export default function ModeToggle() {
   const { mode, setMode } = useMode();
+  const { user } = useAuth();
+  const accountType = user?.account_type;
+  const options =
+    accountType === "artist" ? OPTIONS.filter(o => o.key === "artist")
+      : accountType === "producer" ? OPTIONS.filter(o => o.key === "producer")
+        : OPTIONS;
 
   return (
     <div className="flex items-center gap-1 p-1 rounded-xl border border-border bg-secondary/40">
-      {OPTIONS.map((opt) => {
+      {options.map((opt) => {
         const active = mode === opt.key;
         return (
           <button

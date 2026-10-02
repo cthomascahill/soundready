@@ -36,7 +36,7 @@
         "Mastered",
         "Released"
       ],
-      "default": "Demo"
+      "default": "Released"
     },
     "release_date": {
       "type": "string"
@@ -52,6 +52,10 @@
       "items": {
         "type": "string"
       }
+    },
+    "artwork_url": {
+      "type": "string",
+      "description": "Cover artwork image URL \u2014 displayed in the Vault library"
     },
     "file_url": {
       "type": "string"
