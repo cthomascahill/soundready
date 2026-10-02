@@ -27,9 +27,13 @@ function SongRow({ song, index, onUpdate, onDelete }) {
   const [localName, setLocalName] = useState(song.song_name);
   const [localNotes, setLocalNotes] = useState(song.notes || "");
   const [localVersion, setLocalVersion] = useState(song.audio_version_label || "");
+  const [localIsrc, setLocalIsrc] = useState(song.isrc_code || "");
+  const [localUpc, setLocalUpc] = useState(song.upc_code || "");
   const nameTimer = useRef(null);
   const notesTimer = useRef(null);
   const versionTimer = useRef(null);
+  const isrcTimer = useRef(null);
+  const upcTimer = useRef(null);
 
   const handleNameChange = (val) => {
     setLocalName(val);
@@ -47,6 +51,18 @@ function SongRow({ song, index, onUpdate, onDelete }) {
     setLocalVersion(val);
     clearTimeout(versionTimer.current);
     versionTimer.current = setTimeout(() => onUpdate(song.id, { audio_version_label: val }), 600);
+  };
+
+  const handleIsrcChange = (val) => {
+    setLocalIsrc(val);
+    clearTimeout(isrcTimer.current);
+    isrcTimer.current = setTimeout(() => onUpdate(song.id, { isrc_code: val }), 600);
+  };
+
+  const handleUpcChange = (val) => {
+    setLocalUpc(val);
+    clearTimeout(upcTimer.current);
+    upcTimer.current = setTimeout(() => onUpdate(song.id, { upc_code: val }), 600);
   };
 
   const toggleStage = (key) => {
@@ -145,12 +161,26 @@ function SongRow({ song, index, onUpdate, onDelete }) {
           {/* Notes expansion */}
           {notesExpanded && (
             <div className="px-10 pb-3">
-              <input
-                value={localVersion}
-                onChange={(e) => handleVersionChange(e.target.value)}
-                placeholder="Version label (e.g. MIX 5)"
-                className="w-48 mb-2 bg-secondary/30 border border-border rounded-lg px-3 py-1.5 text-xs text-foreground placeholder:text-muted-foreground/50 focus:outline-none focus:ring-1 focus:ring-primary"
-              />
+              <div className="flex flex-wrap gap-2 mb-2">
+                <input
+                  value={localVersion}
+                  onChange={(e) => handleVersionChange(e.target.value)}
+                  placeholder="Version label (e.g. MIX 5)"
+                  className="w-48 bg-secondary/30 border border-border rounded-lg px-3 py-1.5 text-xs text-foreground placeholder:text-muted-foreground/50 focus:outline-none focus:ring-1 focus:ring-primary"
+                />
+                <input
+                  value={localIsrc}
+                  onChange={(e) => handleIsrcChange(e.target.value)}
+                  placeholder="ISRC (e.g. CC-XXX-YY-NNNNN)"
+                  className="w-52 bg-secondary/30 border border-border rounded-lg px-3 py-1.5 text-xs text-foreground placeholder:text-muted-foreground/50 focus:outline-none focus:ring-1 focus:ring-primary"
+                />
+                <input
+                  value={localUpc}
+                  onChange={(e) => handleUpcChange(e.target.value)}
+                  placeholder="UPC / Barcode"
+                  className="w-40 bg-secondary/30 border border-border rounded-lg px-3 py-1.5 text-xs text-foreground placeholder:text-muted-foreground/50 focus:outline-none focus:ring-1 focus:ring-primary"
+                />
+              </div>
               <textarea
                 value={localNotes}
                 onChange={(e) => handleNotesChange(e.target.value)}

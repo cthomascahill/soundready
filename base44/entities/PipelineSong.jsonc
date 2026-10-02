@@ -56,6 +56,14 @@
       "type": "string",
       "description": "Planned release date (ISO date)"
     },
+    "isrc_code": {
+      "type": "string",
+      "description": "ISRC code for the release, e.g. CC-XXX-YY-NNNNN"
+    },
+    "upc_code": {
+      "type": "string",
+      "description": "UPC / barcode for the release"
+    },
     "notes": {
       "type": "string",
       "default": ""
