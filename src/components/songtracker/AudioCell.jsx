@@ -1,6 +1,6 @@
 import { useState, useRef } from "react";
 import { base44 } from "@/api/base44Client";
-import { Play, Pause, Upload, Loader2 } from "lucide-react";
+import { Play, Pause, Upload, Download, Loader2 } from "lucide-react";
 
 /**
  * Latest-mix audio for a Song Tracker row: upload the file,
@@ -48,6 +48,20 @@ export default function AudioCell({ song, onUpdate }) {
     setPlaying(true);
   };
 
+  const downloadMix = async () => {
+    const { signed_url } = await base44.integrations.Core.CreateFileSignedUrl({
+      file_uri: song.audio_file_uri,
+      expires_in: 3600,
+    });
+    const a = document.createElement("a");
+    a.href = signed_url;
+    a.download = `${song.song_name} - ${song.audio_version_label || "Mix"}`;
+    a.target = "_blank";
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+  };
+
   const hasAudio = !!song.audio_file_uri;
 
   return (
@@ -80,6 +94,13 @@ export default function AudioCell({ song, onUpdate }) {
             title="Upload a newer version"
           >
             <Upload className="h-3 w-3" />
+          </button>
+          <button
+            onClick={downloadMix}
+            className="text-muted-foreground/40 hover:text-primary transition-colors shrink-0"
+            title="Download the latest mix"
+          >
+            <Download className="h-3 w-3" />
           </button>
           <audio ref={audioRef} onEnded={() => setPlaying(false)} className="hidden" />
         </>

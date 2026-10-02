@@ -5,7 +5,7 @@ import { DragDropContext, Droppable, Draggable } from "@hello-pangea/dnd";
 import { Plus, GripVertical, Trash2, ChevronDown, Check, Filter, ArrowUpDown } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import AudioCell from "@/components/songtracker/AudioCell";
-import ReleaseKit from "@/components/songtracker/ReleaseKit";
+import ArtworkCell from "@/components/songtracker/ArtworkCell";
 
 const STAGES = [
   { key: "stage_write", label: "Write" },
@@ -140,6 +140,19 @@ function SongRow({ song, index, onUpdate, onDelete }) {
             {/* Latest mix audio */}
             <AudioCell song={song} onUpdate={onUpdate} />
 
+            {/* Artwork */}
+            <ArtworkCell song={song} onUpdate={onUpdate} />
+
+            {/* Release date */}
+            <div className="w-36 shrink-0 px-2 flex items-center justify-center">
+              <input
+                type="date"
+                value={song.release_date || ""}
+                onChange={(e) => onUpdate(song.id, { release_date: e.target.value })}
+                className="w-full bg-secondary/30 border border-border rounded-md px-2 py-1 text-xs text-foreground focus:outline-none focus:ring-1 focus:ring-primary"
+              />
+            </div>
+
             {/* Notes toggle */}
             <div className="w-24 shrink-0 px-2">
               <button
@@ -178,7 +191,6 @@ function SongRow({ song, index, onUpdate, onDelete }) {
                 rows={3}
                 className="w-full bg-secondary/30 border border-border rounded-lg px-3 py-2 text-sm text-foreground placeholder:text-muted-foreground/50 focus:outline-none focus:ring-1 focus:ring-primary resize-none"
               />
-              <ReleaseKit song={song} onUpdate={onUpdate} />
             </div>
           )}
         </div>
@@ -377,6 +389,8 @@ export default function SongTracker() {
             ))}
             <div className="w-32 shrink-0 px-2 hidden md:block">Status</div>
             <div className="w-28 shrink-0 px-2 text-center">Latest Mix</div>
+            <div className="w-20 shrink-0 px-2 text-center">Artwork</div>
+            <div className="w-36 shrink-0 px-2 text-center">Release Date</div>
             <div className="w-24 shrink-0 px-2">Notes</div>
             <div className="w-10 shrink-0" />
           </div>
