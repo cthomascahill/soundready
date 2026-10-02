@@ -110,7 +110,7 @@ const ALL_TOOLS = [
 ];
 
 const TIERS = [
-  { name: "Artist", price: "$0", tagline: "Your music's home base. Song Vault, Beat Vault & trackers — free forever.", cta: "Start Free", badge: null },
+  { name: "Artist", price: "$0", tagline: "Your music's home base. Up to 5 songs & 5 beats, plus trackers — free forever.", cta: "Start Free", badge: null },
   { name: "Artist Pro", price: "$37/mo", tagline: "You and your team. Every tool unlocked — artist and producer — free for 7 days.", cta: "Start 7-Day Free Trial", badge: "Most Popular" },
   { name: "AI Manager", price: "$60/mo", tagline: "Maya works your career around the clock — pitching songs and beats. You approve every move.", cta: "Unlock Maya", badge: null },
 ];
@@ -166,7 +166,7 @@ export default function HowItWorks() {
             <span className="text-primary">Producers too. Here's how to win.</span>
           </h1>
           <p className="text-xl sm:text-2xl text-muted-foreground leading-relaxed max-w-3xl mx-auto">
-            SoundReady gives independent artists and producers the same tools, strategy, and infrastructure that signed acts get from their labels. Free to start — your Song Vault, Beat Vault, and trackers are yours forever. This is how it works — and why it changes everything.
+            SoundReady gives independent artists and producers the same tools, strategy, and infrastructure that signed acts get from their labels. Free to start — your Song Vault and Beat Vault (up to 5 songs and 5 beats) and your trackers are yours forever. This is how it works — and why it changes everything.
           </p>
           <div className="flex flex-col sm:flex-row items-center justify-center gap-3 pt-2">
             <Button size="lg" className="gap-2 font-heading font-bold text-base px-8 h-12" onClick={handleCTA}>
@@ -187,7 +187,7 @@ export default function HowItWorks() {
           <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="space-y-5 text-lg text-muted-foreground leading-relaxed">
             <p>The artists getting playlisted, booked, and paid aren't more talented than you. They have better infrastructure — managers, publicists, booking agents, and lawyers reviewing every deal before it gets signed.</p>
             <p className="text-foreground font-semibold text-xl">You have a laptop and a dream.</p>
-            <p>That gap is exactly what SoundReady was built to close. Your Song Vault and Song Tracker are free forever. When you're ready for more, Artist Pro ($37/mo, 7 days free) unlocks every tool, strategy, and system the industry uses to build careers — and for $60 flat, Maya, your AI manager, runs the day-to-day work for you.</p>
+            <p>That gap is exactly what SoundReady was built to close. Your Song Vault (up to 5 songs) and Song Tracker are free forever. When you're ready for more, Artist Pro ($37/mo, 7 days free) unlocks every tool, strategy, and system the industry uses to build careers — and for $60 flat, Maya, your AI manager, runs the day-to-day work for you.</p>
             <p className="text-foreground font-semibold">Just upload your music and let's get to work.</p>
           </motion.div>
         </div>

@@ -32,11 +32,11 @@ const TIERS = [
     name: "Artist",
     tagline: "Your music's home base. Free forever.",
     price: "$0",
-    desc: "Every serious artist — and every serious producer — needs a system before they need a team. Organize your songs in the Song Vault or your beats in the Beat Vault, and track every release from idea to release — free, forever. Everything else unlocks with Artist Pro.",
+    desc: "Every serious artist — and every serious producer — needs a system before they need a team. Organize up to 5 songs in the Song Vault or up to 5 beats in the Beat Vault, and track every release from idea to release — free, forever. Everything else unlocks with Artist Pro.",
     items: [
-      "Song Vault — your entire song catalog, organized",
+      "Song Vault — up to 5 songs, organized",
       "Song Tracker — from idea to release",
-      "Beat Vault & Placements — for producers",
+      "Beat Vault & Placements — up to 5 beats",
       "Connect Spotify & YouTube",
       "Your artist dashboard",
     ],
@@ -160,7 +160,7 @@ export default function About() {
           </h1>
 
           <p className="text-xl sm:text-2xl text-muted-foreground leading-relaxed max-w-3xl mx-auto font-body">
-            SoundReady gives independent artists and producers the same tools, strategy, and infrastructure that signed acts get from their label — free to start. Your Song Vault, Song Tracker, and Beat Vault are free forever. When you're ready for more, Artist Pro unlocks the full toolkit — booking, touring, your whole team — and Maya, your AI manager, takes the day-to-day work off your plate: pitching your songs to playlists and your beats to the artists who need them.
+            SoundReady gives independent artists and producers the same tools, strategy, and infrastructure that signed acts get from their label — free to start. Your Song Vault (up to 5 songs), Song Tracker, and Beat Vault (up to 5 beats) are free forever. When you're ready for more, Artist Pro unlocks the full toolkit — booking, touring, your whole team — and Maya, your AI manager, takes the day-to-day work off your plate: pitching your songs to playlists and your beats to the artists who need them.
           </p>
 
           <div className="flex flex-col sm:flex-row items-center justify-center gap-3 pt-2">

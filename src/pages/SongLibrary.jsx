@@ -12,6 +12,8 @@ import { Input } from "@/components/ui/input";
 import moment from "moment";
 import SongCardModal from "@/components/vault/SongCardModal";
 import ProjectsSidebar from "@/components/vault/ProjectsSidebar";
+import VaultCapPrompt, { VaultUsageBadge, FREE_VAULT_CAP } from "@/components/vault/VaultCapPrompt";
+import { isProOrAbove } from "@/lib/tier";
 
 const STATUS_COLORS = {
   Idea: "bg-zinc-700/50 text-zinc-300 border-zinc-600",
@@ -123,6 +125,7 @@ export default function SongLibrary() {
   const [sortBy, setSortBy] = useState("newest");
   const [showFilters, setShowFilters] = useState(false);
   const [showSidebar, setShowSidebar] = useState(true);
+  const [showCapPrompt, setShowCapPrompt] = useState(false);
 
   useEffect(() => {
     if (!user?.id) return;
@@ -150,7 +153,12 @@ export default function SongLibrary() {
     if (activeProject === id) setActiveProject(null);
   };
 
-  const openNew = () => { setModalSong(null); setShowModal(true); };
+  const isFree = !isProOrAbove(user);
+  const atCap = isFree && songs.length >= FREE_VAULT_CAP;
+  const openNew = () => {
+    if (atCap) { setShowCapPrompt(true); return; }
+    setModalSong(null); setShowModal(true);
+  };
   const openEdit = (song) => { setModalSong(song); setShowModal(true); };
 
   let filtered = songs.filter(s => {
@@ -187,9 +195,12 @@ export default function SongLibrary() {
             <h1 className="font-heading text-3xl font-bold">Song Library</h1>
             <p className="text-zinc-500 text-sm mt-0.5">{songs.length} songs · your finished catalog — every released song lives here</p>
           </div>
-          <Button onClick={openNew} className="gap-2">
-            <Plus className="h-4 w-4" /> Add Song
-          </Button>
+          <div className="flex items-center gap-3">
+            {isFree && <VaultUsageBadge count={songs.length} label="songs" />}
+            <Button onClick={openNew} className="gap-2">
+              <Plus className="h-4 w-4" /> Add Song
+            </Button>
+          </div>
         </div>
 
         <div className="flex gap-6">
@@ -318,6 +329,10 @@ export default function SongLibrary() {
           onClose={() => { setShowModal(false); setModalSong(null); }}
           onSave={handleModalSave}
         />
+      )}
+
+      {showCapPrompt && (
+        <VaultCapPrompt kind="song" onClose={() => setShowCapPrompt(false)} />
       )}
     </div>
   );

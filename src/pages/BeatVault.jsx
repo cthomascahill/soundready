@@ -4,6 +4,8 @@ import { base44 } from "@/api/base44Client";
 import { useAuth } from "@/lib/AuthContext";
 import { Button } from "@/components/ui/button";
 import BeatUploadModal from "@/components/beatvault/BeatUploadModal";
+import VaultCapPrompt, { VaultUsageBadge, FREE_VAULT_CAP } from "@/components/vault/VaultCapPrompt";
+import { isProOrAbove } from "@/lib/tier";
 import { Play, Pause, Pencil, Trash2, Plus, Loader2, Disc3 } from "lucide-react";
 
 /**
@@ -19,6 +21,7 @@ export default function BeatVault() {
   const [editing, setEditing] = useState(null);
   const [playingId, setPlayingId] = useState(null);
   const [signingId, setSigningId] = useState(null);
+  const [showCapPrompt, setShowCapPrompt] = useState(false);
   const audioRef = useRef(null);
 
   useEffect(() => {
@@ -63,6 +66,14 @@ export default function BeatVault() {
     setBeats((prev) => (isNew ? [beat, ...prev] : prev.map((b) => (b.id === beat.id ? beat : b))));
   };
 
+  const isFree = !isProOrAbove(user);
+  const atCap = isFree && beats.length >= FREE_VAULT_CAP;
+  const openUpload = () => {
+    if (atCap) { setShowCapPrompt(true); return; }
+    setEditing(null);
+    setModalOpen(true);
+  };
+
   return (
     <div className="min-h-screen bg-background px-4 py-8">
       <div className="max-w-5xl mx-auto space-y-6">
@@ -76,15 +87,12 @@ export default function BeatVault() {
               Your entire beat catalog — organized, priced, and ready to pitch.
             </p>
           </div>
-          <Button
-            className="gap-2 font-semibold"
-            onClick={() => {
-              setEditing(null);
-              setModalOpen(true);
-            }}
-          >
-            <Plus className="h-4 w-4" /> Upload a Beat
-          </Button>
+          <div className="flex items-center gap-3">
+            {isFree && <VaultUsageBadge count={beats.length} label="beats" />}
+            <Button className="gap-2 font-semibold" onClick={openUpload}>
+              <Plus className="h-4 w-4" /> Upload a Beat
+            </Button>
+          </div>
         </div>
 
         {loading ? (
@@ -185,6 +193,10 @@ export default function BeatVault() {
       </div>
 
       <BeatUploadModal open={modalOpen} onClose={() => setModalOpen(false)} onSaved={onSaved} beat={editing} />
+
+      {showCapPrompt && (
+        <VaultCapPrompt kind="beat" onClose={() => setShowCapPrompt(false)} />
+      )}
     </div>
   );
 }

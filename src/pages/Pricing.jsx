@@ -16,13 +16,13 @@ import ManagerCostSlider from "@/components/home/ManagerCostSlider";
 // Each tier's unlocks, shown side-by-side for artists and producers
 const FREE_GROUPS = [
   { label: "For artists", items: [
-    "Song Vault — your entire song catalog, organized",
+    "Song Vault — up to 5 songs, organized",
     "Song Tracker — from idea to release",
     "Connect Spotify & YouTube",
     "Your dashboard & analytics",
   ] },
   { label: "For producers", items: [
-    "Beat Vault & Placements — your beat business",
+    "Beat Vault & Placements — up to 5 beats",
     "Full producer mode in every account",
   ] },
 ];
@@ -186,7 +186,7 @@ export default function Pricing() {
               <div className="sm:w-1/3">
                 <p className="font-heading font-black text-2xl">Artist</p>
                 <p className="text-3xl font-black mt-1">$0<span className="text-sm text-muted-foreground font-medium"> / forever</span></p>
-                <p className="text-xs text-muted-foreground mt-2">Your music's home base — songs or beats. Free — because organizing your catalog should never cost money. Everything else unlocks with Artist Pro.</p>
+                <p className="text-xs text-muted-foreground mt-2">Your music's home base — songs or beats. Free — because organizing your catalog should never cost money. The free plan holds up to 5 songs and 5 beats; everything you add stays yours. Everything else unlocks with Artist Pro.</p>
               </div>
               <div className="sm:w-2/3">
                 <TierItems groups={FREE_GROUPS} />
