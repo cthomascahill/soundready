@@ -6,7 +6,7 @@ import { Play, Pause, Upload, Download, Loader2 } from "lucide-react";
  * Latest-mix audio for a Song Tracker row: upload the file,
  * play it inline, and replace it with a newer version.
  */
-export default function AudioCell({ song, onUpdate }) {
+export default function AudioCell({ song, onUpdate, className = "w-28 shrink-0 px-2 justify-center" }) {
   const inputRef = useRef(null);
   const audioRef = useRef(null);
   const [playing, setPlaying] = useState(false);
@@ -65,7 +65,7 @@ export default function AudioCell({ song, onUpdate }) {
   const hasAudio = !!song.audio_file_uri;
 
   return (
-    <div className="w-28 shrink-0 px-2 flex items-center justify-center gap-1.5">
+    <div className={`flex items-center gap-1.5 ${className}`}>
       {uploading ? (
         <span className="flex items-center gap-1 text-[10px] text-muted-foreground">
           <Loader2 className="h-3 w-3 animate-spin" /> Uploading

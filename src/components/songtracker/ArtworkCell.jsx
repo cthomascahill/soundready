@@ -6,7 +6,7 @@ import { Upload, Loader2 } from "lucide-react";
  * Artwork column for a Song Tracker row: thumbnail preview,
  * click to download for the distributor handoff, replace via upload.
  */
-export default function ArtworkCell({ song, onUpdate }) {
+export default function ArtworkCell({ song, onUpdate, className = "w-20 shrink-0 px-2 justify-center" }) {
   const inputRef = useRef(null);
   const [uploading, setUploading] = useState(false);
   const [artUrl, setArtUrl] = useState(null);
@@ -50,7 +50,7 @@ export default function ArtworkCell({ song, onUpdate }) {
   };
 
   return (
-    <div className="w-20 shrink-0 px-2 flex items-center justify-center gap-1">
+    <div className={`flex items-center gap-1 ${className}`}>
       {uploading ? (
         <Loader2 className="h-3.5 w-3.5 animate-spin text-muted-foreground" />
       ) : artUrl ? (

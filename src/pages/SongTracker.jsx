@@ -1,228 +1,27 @@
-import { useState, useEffect, useRef, useCallback, useMemo } from "react";
+import { useState, useEffect, useCallback, useMemo } from "react";
 import { base44 } from "@/api/base44Client";
 import { useAuth } from "@/lib/AuthContext";
-import { DragDropContext, Droppable, Draggable } from "@hello-pangea/dnd";
-import { Plus, GripVertical, Trash2, ChevronDown, Filter, ArrowUpDown } from "lucide-react";
+import { Plus } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import AudioCell from "@/components/songtracker/AudioCell";
-import ArtworkCell from "@/components/songtracker/ArtworkCell";
-import { STAGES, STAGE_COLORS } from "@/lib/songStages";
+import SongRow from "@/components/songtracker/SongRow";
+import TrackerTabs from "@/components/songtracker/TrackerTabs";
+import StageFilter from "@/components/songtracker/StageFilter";
+import { TABS, getCurrentStage, sortSongs } from "@/lib/songStatus";
 
-function getStatus(song) {
-  const completed = STAGES.filter((s) => song[s.key]).length;
-  if (song.stage_released) return { label: "Released", cls: "bg-primary/15 text-primary border-primary/25" };
-  if (completed === STAGES.length) return { label: "Complete", cls: "bg-primary/15 text-primary border-primary/25" };
-  if (completed === 0) return { label: "Not Started", cls: "bg-secondary text-muted-foreground border-border" };
-  if (song.stage_submit) return { label: "Ready to Submit", cls: "bg-teal-500/10 text-teal-400 border-teal-500/25" };
-  if (song.stage_artwork) return { label: "Artwork Done", cls: "bg-yellow-500/10 text-yellow-400 border-yellow-500/25" };
-  if (song.stage_review) return { label: "In Review", cls: "bg-orange-500/10 text-orange-400 border-orange-500/25" };
-  if (song.stage_master) return { label: "Mastered", cls: "bg-pink-500/10 text-pink-400 border-pink-500/25" };
-  if (song.stage_mix) return { label: "Mixed", cls: "bg-purple-500/10 text-purple-400 border-purple-500/25" };
-  if (song.stage_record) return { label: "Recorded", cls: "bg-blue-500/10 text-blue-400 border-blue-500/25" };
-  return { label: "Written", cls: "bg-cyan-500/10 text-cyan-400 border-cyan-500/25" };
-}
-
-function SongRow({ song, index, onUpdate, onDelete }) {
-  const [notesExpanded, setNotesExpanded] = useState(false);
-  const [localName, setLocalName] = useState(song.song_name);
-  const [localNotes, setLocalNotes] = useState(song.notes || "");
-  const [localVersion, setLocalVersion] = useState(song.audio_version_label || "");
-  const [localIsrc, setLocalIsrc] = useState(song.isrc_code || "");
-  const [localUpc, setLocalUpc] = useState(song.upc_code || "");
-  const nameTimer = useRef(null);
-  const notesTimer = useRef(null);
-  const versionTimer = useRef(null);
-  const isrcTimer = useRef(null);
-  const upcTimer = useRef(null);
-
-  const handleNameChange = (val) => {
-    setLocalName(val);
-    clearTimeout(nameTimer.current);
-    nameTimer.current = setTimeout(() => onUpdate(song.id, { song_name: val }), 600);
-  };
-
-  const handleNotesChange = (val) => {
-    setLocalNotes(val);
-    clearTimeout(notesTimer.current);
-    notesTimer.current = setTimeout(() => onUpdate(song.id, { notes: val }), 600);
-  };
-
-  const handleVersionChange = (val) => {
-    setLocalVersion(val);
-    clearTimeout(versionTimer.current);
-    versionTimer.current = setTimeout(() => onUpdate(song.id, { audio_version_label: val }), 600);
-  };
-
-  const handleIsrcChange = (val) => {
-    setLocalIsrc(val);
-    clearTimeout(isrcTimer.current);
-    isrcTimer.current = setTimeout(() => onUpdate(song.id, { isrc_code: val }), 600);
-  };
-
-  const handleUpcChange = (val) => {
-    setLocalUpc(val);
-    clearTimeout(upcTimer.current);
-    upcTimer.current = setTimeout(() => onUpdate(song.id, { upc_code: val }), 600);
-  };
-
-  const toggleStage = (key) => {
-    const val = !song[key];
-    onUpdate(song.id, { [key]: val });
-  };
-
-  const status = getStatus(song);
-
-  return (
-    <Draggable draggableId={song.id} index={index}>
-      {(provided, snapshot) => (
-        <div
-          ref={provided.innerRef}
-          {...provided.draggableProps}
-          className={`border-b border-border transition-colors ${snapshot.isDragging ? "bg-secondary/60 shadow-xl" : "bg-transparent hover:bg-secondary/20"}`}
-        >
-          {/* Main row */}
-          <div className="flex items-center gap-0 min-h-[52px]">
-            {/* Drag handle */}
-            <div
-              {...provided.dragHandleProps}
-              className="px-2 text-muted-foreground/30 hover:text-muted-foreground cursor-grab active:cursor-grabbing shrink-0"
-            >
-              <GripVertical className="h-4 w-4" />
-            </div>
-
-            {/* Song Name */}
-            <div className="flex-1 min-w-0 px-2">
-              <input
-                value={localName}
-                onChange={(e) => handleNameChange(e.target.value)}
-                placeholder="Song name..."
-                className="w-full bg-transparent text-sm font-medium text-foreground placeholder:text-muted-foreground/40 focus:outline-none"
-              />
-            </div>
-
-            {/* Mini stage bubbles */}
-            {STAGES.map((s) => (
-              <div key={s.key} className="w-9 shrink-0 flex justify-center">
-                <button
-                  onClick={() => toggleStage(s.key)}
-                  title={s.label}
-                  className={`h-3 w-3 rounded-full transition-all ${
-                    song[s.key] ? "bg-primary" : "bg-border hover:bg-muted-foreground/60"
-                  }`}
-                />
-              </div>
-            ))}
-
-            {/* Status badge */}
-            <div className="w-32 shrink-0 px-2 hidden md:block">
-              <span className={`text-[10px] font-semibold px-2 py-0.5 rounded-full border ${status.cls}`}>
-                {status.label}
-              </span>
-            </div>
-
-            {/* Latest mix audio */}
-            <AudioCell song={song} onUpdate={onUpdate} />
-
-            {/* Artwork */}
-            <ArtworkCell song={song} onUpdate={onUpdate} />
-
-            {/* Release date */}
-            <div className="w-36 shrink-0 px-2 flex items-center justify-center">
-              <input
-                type="date"
-                value={song.release_date || ""}
-                onChange={(e) => onUpdate(song.id, { release_date: e.target.value })}
-                className="w-full bg-transparent border border-transparent hover:border-border rounded-md px-2 py-1 text-xs text-foreground focus:outline-none focus:border-primary transition-colors"
-              />
-            </div>
-
-            {/* Notes toggle */}
-            <div className="w-24 shrink-0 px-2">
-              <button
-                onClick={() => setNotesExpanded((v) => !v)}
-                className={`flex items-center gap-1 text-xs transition-colors ${localNotes ? "text-primary" : "text-muted-foreground hover:text-foreground"}`}
-              >
-                <span className="hidden sm:inline truncate max-w-[60px]">{localNotes ? localNotes.slice(0, 12) + (localNotes.length > 12 ? "…" : "") : "Add note"}</span>
-                <ChevronDown className={`h-3 w-3 shrink-0 transition-transform ${notesExpanded ? "rotate-180" : ""}`} />
-              </button>
-            </div>
-
-            {/* Delete */}
-            <div className="w-10 shrink-0 flex justify-center">
-              <button
-                onClick={() => onDelete(song.id)}
-                className="text-muted-foreground/30 hover:text-destructive transition-colors p-1"
-              >
-                <Trash2 className="h-3.5 w-3.5" />
-              </button>
-            </div>
-          </div>
-
-          {/* Notes expansion */}
-          {notesExpanded && (
-            <div className="px-10 pb-3">
-              <div className="flex flex-wrap gap-2 mb-2">
-                <input
-                  value={localVersion}
-                  onChange={(e) => handleVersionChange(e.target.value)}
-                  placeholder="Version label (e.g. MIX 5)"
-                  className="w-48 bg-secondary/30 border border-border rounded-lg px-3 py-1.5 text-xs text-foreground placeholder:text-muted-foreground/50 focus:outline-none focus:ring-1 focus:ring-primary"
-                />
-                <input
-                  value={localIsrc}
-                  onChange={(e) => handleIsrcChange(e.target.value)}
-                  placeholder="ISRC (e.g. CC-XXX-YY-NNNNN)"
-                  className="w-52 bg-secondary/30 border border-border rounded-lg px-3 py-1.5 text-xs text-foreground placeholder:text-muted-foreground/50 focus:outline-none focus:ring-1 focus:ring-primary"
-                />
-                <input
-                  value={localUpc}
-                  onChange={(e) => handleUpcChange(e.target.value)}
-                  placeholder="UPC / Barcode"
-                  className="w-40 bg-secondary/30 border border-border rounded-lg px-3 py-1.5 text-xs text-foreground placeholder:text-muted-foreground/50 focus:outline-none focus:ring-1 focus:ring-primary"
-                />
-              </div>
-              <textarea
-                value={localNotes}
-                onChange={(e) => handleNotesChange(e.target.value)}
-                placeholder="Add notes..."
-                rows={3}
-                className="w-full bg-secondary/30 border border-border rounded-lg px-3 py-2 text-sm text-foreground placeholder:text-muted-foreground/50 focus:outline-none focus:ring-1 focus:ring-primary resize-none"
-              />
-            </div>
-          )}
-        </div>
-      )}
-    </Draggable>
-  );
-}
-
-const FILTER_OPTIONS = [
-  { label: "All Songs", value: "all" },
-  { label: "Not Started", value: "not_started" },
-  { label: "In Progress", value: "in_progress" },
-  { label: "Written", value: "stage_write" },
-  { label: "Recorded", value: "stage_record" },
-  { label: "Mixed", value: "stage_mix" },
-  { label: "Mastered", value: "stage_master" },
-  { label: "In Review", value: "stage_review" },
-  { label: "Artwork Done", value: "stage_artwork" },
-  { label: "Ready to Submit", value: "stage_submit" },
-  { label: "Released", value: "stage_released" },
-  { label: "Complete", value: "complete" },
-];
-
-const SORT_OPTIONS = [
-  { label: "Manual Order", value: "manual" },
-  { label: "Song Name (A–Z)", value: "name" },
-  ...FILTER_OPTIONS.map((o) => ({ label: o.label, value: `sort_${o.value}` })),
-];
+const EMPTY_MESSAGES = {
+  active: "No songs in progress.",
+  upcoming: "No songs with an upcoming release date.",
+  released: "No released songs yet.",
+  all: "No songs yet.",
+};
 
 export default function SongTracker() {
   const { user } = useAuth();
   const [songs, setSongs] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [filter, setFilter] = useState("all");
-  const [sort, setSort] = useState("manual");
+  const [tab, setTab] = useState("active");
+  const [stageFilter, setStageFilter] = useState("all");
+  const [newSongId, setNewSongId] = useState(null);
 
   useEffect(() => {
     if (!user?.id) return;
@@ -246,6 +45,10 @@ export default function SongTracker() {
       sort_order: songs.length,
     });
     setSongs((prev) => [...prev, newSong]);
+    // Jump to Active so the new song is visible, opened and ready to name
+    setTab("active");
+    setStageFilter("all");
+    setNewSongId(newSong.id);
   };
 
   const updateSong = useCallback(async (id, changes) => {
@@ -258,64 +61,23 @@ export default function SongTracker() {
     await base44.entities.PipelineSong.delete(id);
   };
 
-  const onDragEnd = async (result) => {
-    if (!result.destination) return;
-    const reordered = Array.from(songs);
-    const [moved] = reordered.splice(result.source.index, 1);
-    reordered.splice(result.destination.index, 0, moved);
-    setSongs(reordered);
-    // Persist new sort order
-    await Promise.all(
-      reordered.map((s, i) => {
-        if (s.sort_order !== i) return base44.entities.PipelineSong.update(s.id, { sort_order: i });
-      })
-    );
-  };
+  const changeTab = (value) => { setTab(value); setNewSongId(null); };
+  const changeFilter = (value) => { setStageFilter(value); setNewSongId(null); };
 
-  const filteredSongs = songs.filter((s) => {
-    if (filter === "all") return true;
-    if (filter === "not_started") return STAGES.every((st) => !s[st.key]);
-    if (filter === "in_progress") {
-      const c = STAGES.filter((st) => s[st.key]).length;
-      return c > 0 && c < STAGES.length;
-    }
-    if (filter === "complete") return STAGES.every((st) => s[st.key]);
-    // Stage-specific filter: show songs where that stage is done but the next one isn't
-    const idx = STAGES.findIndex((st) => st.key === filter);
-    if (idx >= 0) return s[filter] === true;
-    return true;
-  });
+  const counts = useMemo(
+    () => Object.fromEntries(TABS.map((t) => [t.value, songs.filter(t.test).length])),
+    [songs]
+  );
 
-  // Applies the chosen sort on top of the active filter
-  const sortedSongs = useMemo(() => {
-    const list = [...filteredSongs];
-    if (sort === "manual") return list;
-    if (sort === "name") return list.sort((a, b) => (a.song_name || "").localeCompare(b.song_name || ""));
-    const target = sort.replace("sort_", "");
-    const matches = (s) => {
-      if (target === "not_started") return STAGES.every((st) => !s[st.key]);
-      if (target === "in_progress") {
-        const c = STAGES.filter((st) => s[st.key]).length;
-        return c > 0 && c < STAGES.length;
-      }
-      if (target === "complete") return STAGES.every((st) => s[st.key]);
-      return s[target] === true;
-    };
-    return list.sort((a, b) => {
-      const ma = matches(a) ? 0 : 1;
-      const mb = matches(b) ? 0 : 1;
-      if (ma !== mb) return ma - mb;
-      const ca = STAGES.filter((st) => a[st.key]).length;
-      const cb = STAGES.filter((st) => b[st.key]).length;
-      return cb - ca || a.sort_order - b.sort_order;
+  const visibleSongs = useMemo(() => {
+    const inTab = TABS.find((t) => t.value === tab).test;
+    const list = songs.filter(inTab).filter((s) => {
+      if (stageFilter === "all") return true;
+      const current = getCurrentStage(s);
+      return stageFilter === "none" ? !current : current?.key === stageFilter;
     });
-  }, [filteredSongs, sort]);
-
-  const completedCount = songs.filter((s) => STAGES.every((st) => s[st.key])).length;
-  const inProgressCount = songs.filter((s) => {
-    const c = STAGES.filter((st) => s[st.key]).length;
-    return c > 0 && c < STAGES.length;
-  }).length;
+    return sortSongs(list);
+  }, [songs, tab, stageFilter]);
 
   return (
     <div className="min-h-screen bg-background px-4 py-10">
@@ -327,116 +89,60 @@ export default function SongTracker() {
             <h1 className="font-heading text-4xl font-bold">Song Tracker</h1>
             <p className="text-muted-foreground text-sm mt-1">Track every song from idea to release.</p>
           </div>
-          <div className="flex items-center gap-3">
-            {songs.length > 0 && (
-              <div className="hidden sm:flex items-center gap-4 text-sm text-muted-foreground">
-                <span><span className="text-foreground font-semibold">{songs.length}</span> songs</span>
-                <span><span className="text-primary font-semibold">{inProgressCount}</span> in progress</span>
-                <span><span className="text-green-400 font-semibold">{completedCount}</span> complete</span>
-              </div>
-            )}
-            <Button onClick={addSong} className="gap-2">
-              <Plus className="h-4 w-4" /> Add Song
-            </Button>
-          </div>
+          <Button onClick={addSong} className="gap-2">
+            <Plus className="h-4 w-4" /> Add Song
+          </Button>
         </div>
 
-        {/* Filter bar */}
+        {/* Tabs + stage filter */}
         {songs.length > 0 && (
-          <div className="flex items-center gap-2 flex-wrap">
-            <Filter className="h-3.5 w-3.5 text-muted-foreground shrink-0" />
-            {FILTER_OPTIONS.map((opt) => (
-              <button
-                key={opt.value}
-                onClick={() => setFilter(opt.value)}
-                className={`text-xs px-3 py-1 rounded-full border transition-colors ${
-                  filter === opt.value
-                    ? "bg-primary text-black border-primary"
-                    : "border-border text-muted-foreground hover:border-primary/40 hover:text-foreground"
-                }`}
-              >
-                {opt.label}
-              </button>
-            ))}
-            <div className="flex items-center gap-2 ml-auto">
-              <ArrowUpDown className="h-3.5 w-3.5 text-muted-foreground shrink-0" />
-              <select
-                value={sort}
-                onChange={(e) => setSort(e.target.value)}
-                className="text-xs border border-border rounded-full px-3 py-1 bg-transparent text-muted-foreground hover:border-primary/40 hover:text-foreground focus:outline-none cursor-pointer"
-              >
-                {SORT_OPTIONS.map((opt) => (
-                  <option key={opt.value} value={opt.value} className="bg-card text-foreground">
-                    Sort: {opt.label}
-                  </option>
-                ))}
-              </select>
-            </div>
+          <div className="flex items-center justify-between gap-3 flex-wrap">
+            <TrackerTabs value={tab} counts={counts} onChange={changeTab} />
+            <StageFilter value={stageFilter} onChange={changeFilter} />
           </div>
         )}
 
-        {/* Table */}
+        {/* Song list */}
         <div className="rounded-2xl bg-card border border-border overflow-hidden">
-          {/* Table header */}
-          <div className="flex items-center gap-0 bg-secondary/30 border-b border-border text-xs font-semibold text-muted-foreground uppercase tracking-wider min-h-[40px]">
-            <div className="w-8 shrink-0" /> {/* drag handle space */}
-            <div className="flex-1 px-2">Song Name</div>
-            {STAGES.map((s) => (
-              <div key={s.key} className="w-9 shrink-0 text-center text-[8px] leading-tight text-muted-foreground/60 normal-case tracking-normal px-0.5">{s.label}</div>
-            ))}
-            <div className="w-32 shrink-0 px-2 hidden md:block">Status</div>
-            <div className="w-28 shrink-0 px-2 text-center">Latest Mix</div>
-            <div className="w-20 shrink-0 px-2 text-center">Artwork</div>
-            <div className="w-36 shrink-0 px-2 text-center">Release Date</div>
-            <div className="w-24 shrink-0 px-2">Notes</div>
-            <div className="w-10 shrink-0" />
+          <div className="hidden md:flex items-center gap-3 px-3 min-h-[40px] bg-secondary/30 border-b border-border text-xs font-semibold text-muted-foreground uppercase tracking-wider">
+            <div className="w-4 shrink-0" />
+            <div className="flex-1">Song</div>
+            <div className="w-36 shrink-0">Current Stage</div>
+            <div className="w-56 shrink-0">Next Action</div>
+            <div className="w-32 shrink-0">Release Date</div>
+            <div className="w-8 shrink-0" />
           </div>
 
           {loading ? (
             <div className="flex justify-center py-16">
               <div className="h-6 w-6 border-2 border-primary/20 border-t-primary rounded-full animate-spin" />
             </div>
-          ) : filteredSongs.length === 0 && songs.length === 0 ? (
+          ) : songs.length === 0 ? (
             <div className="text-center py-20 space-y-3">
               <p className="text-muted-foreground text-sm">No songs in your tracker yet.</p>
               <Button onClick={addSong} variant="outline" className="gap-2">
                 <Plus className="h-4 w-4" /> Add Your First Song
               </Button>
             </div>
-          ) : filteredSongs.length === 0 ? (
-            <div className="text-center py-12">
-              <p className="text-muted-foreground text-sm">No songs match this filter.</p>
+          ) : visibleSongs.length === 0 ? (
+            <div className="text-center py-12 space-y-2">
+              <p className="text-muted-foreground text-sm">
+                {stageFilter === "all" ? EMPTY_MESSAGES[tab] : "No songs match this stage filter."}
+              </p>
+              {stageFilter !== "all" && (
+                <Button variant="ghost" size="sm" onClick={() => changeFilter("all")}>Clear filter</Button>
+              )}
             </div>
           ) : (
-            <DragDropContext onDragEnd={onDragEnd}>
-              <Droppable droppableId="songs">
-                {(provided) => (
-                  <div ref={provided.innerRef} {...provided.droppableProps}>
-                    {sortedSongs.map((song, index) => (
-                      <SongRow
-                        key={song.id}
-                        song={song}
-                        index={index}
-                        onUpdate={updateSong}
-                        onDelete={deleteSong}
-                      />
-                    ))}
-                    {provided.placeholder}
-                  </div>
-                )}
-              </Droppable>
-            </DragDropContext>
-          )}
-
-          {/* Add row button at bottom */}
-          {songs.length > 0 && (
-            <button
-              onClick={addSong}
-              className="w-full flex items-center gap-2 px-10 py-3 text-sm text-muted-foreground hover:text-foreground hover:bg-secondary/20 transition-colors border-t border-border"
-            >
-              <Plus className="h-4 w-4" />
-              Add Song
-            </button>
+            visibleSongs.map((song) => (
+              <SongRow
+                key={song.id}
+                song={song}
+                isNew={song.id === newSongId}
+                onUpdate={updateSong}
+                onDelete={deleteSong}
+              />
+            ))
           )}
         </div>
       </div>

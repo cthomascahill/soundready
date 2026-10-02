@@ -1,23 +1,15 @@
-// Song Tracker stage definitions and their display colors
+// Song Tracker workflow stages, in order.
+// label  = name in the workflow progress list
+// status = name shown as the song's current stage (badge + filter)
+// action = what the user needs to do to reach this stage
+// badge  = color of the current-stage badge
 export const STAGES = [
-  { key: "stage_write", label: "Write" },
-  { key: "stage_record", label: "Record" },
-  { key: "stage_mix", label: "Mix" },
-  { key: "stage_master", label: "Master" },
-  { key: "stage_review", label: "Review" },
-  { key: "stage_artwork", label: "Artwork" },
-  { key: "stage_submit", label: "Submit" },
-  { key: "stage_released", label: "Released" },
+  { key: "stage_write", label: "Written", status: "Written", action: "Write the song", badge: "bg-cyan-500/10 text-cyan-400 border-cyan-500/25" },
+  { key: "stage_record", label: "Recorded", status: "Recorded", action: "Record the song", badge: "bg-blue-500/10 text-blue-400 border-blue-500/25" },
+  { key: "stage_mix", label: "Mixed", status: "Mixed", action: "Send for mixing", badge: "bg-purple-500/10 text-purple-400 border-purple-500/25" },
+  { key: "stage_master", label: "Mastered", status: "Mastered", action: "Send for mastering", badge: "bg-pink-500/10 text-pink-400 border-pink-500/25" },
+  { key: "stage_review", label: "Review", status: "In Review", action: "Review the mix", badge: "bg-orange-500/10 text-orange-400 border-orange-500/25" },
+  { key: "stage_artwork", label: "Artwork", status: "Artwork Done", action: "Finish cover artwork", badge: "bg-yellow-500/10 text-yellow-400 border-yellow-500/25" },
+  { key: "stage_submit", label: "Submitted", status: "Submitted", action: "Submit to distributor", badge: "bg-teal-500/10 text-teal-400 border-teal-500/25" },
+  { key: "stage_released", label: "Released", status: "Released", action: "Release the song", badge: "bg-primary/15 text-primary border-primary/25" },
 ];
-
-// One color per stage so progress reads at a glance
-export const STAGE_COLORS = {
-  stage_write: "bg-cyan-400",
-  stage_record: "bg-blue-400",
-  stage_mix: "bg-purple-400",
-  stage_master: "bg-pink-400",
-  stage_review: "bg-orange-400",
-  stage_artwork: "bg-yellow-400",
-  stage_submit: "bg-teal-400",
-  stage_released: "bg-primary",
-};
