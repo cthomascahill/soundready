@@ -1,8 +1,8 @@
-import { useState, useEffect, useRef, useCallback } from "react";
+import { useState, useEffect, useRef, useCallback, useMemo } from "react";
 import { base44 } from "@/api/base44Client";
 import { useAuth } from "@/lib/AuthContext";
 import { DragDropContext, Droppable, Draggable } from "@hello-pangea/dnd";
-import { Plus, GripVertical, Trash2, ChevronDown, Check, Filter } from "lucide-react";
+import { Plus, GripVertical, Trash2, ChevronDown, Check, Filter, ArrowUpDown } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
 const STAGES = [
@@ -182,11 +182,18 @@ const FILTER_OPTIONS = [
   { label: "Complete", value: "complete" },
 ];
 
+const SORT_OPTIONS = [
+  { label: "Manual Order", value: "manual" },
+  { label: "Song Name (A–Z)", value: "name" },
+  ...FILTER_OPTIONS.map((o) => ({ label: o.label, value: `sort_${o.value}` })),
+];
+
 export default function SongTracker() {
   const { user } = useAuth();
   const [songs, setSongs] = useState([]);
   const [loading, setLoading] = useState(true);
   const [filter, setFilter] = useState("all");
+  const [sort, setSort] = useState("manual");
 
   useEffect(() => {
     if (!user?.id) return;
@@ -250,6 +257,31 @@ export default function SongTracker() {
     return true;
   });
 
+  // Applies the chosen sort on top of the active filter
+  const sortedSongs = useMemo(() => {
+    const list = [...filteredSongs];
+    if (sort === "manual") return list;
+    if (sort === "name") return list.sort((a, b) => (a.song_name || "").localeCompare(b.song_name || ""));
+    const target = sort.replace("sort_", "");
+    const matches = (s) => {
+      if (target === "not_started") return STAGES.every((st) => !s[st.key]);
+      if (target === "in_progress") {
+        const c = STAGES.filter((st) => s[st.key]).length;
+        return c > 0 && c < STAGES.length;
+      }
+      if (target === "complete") return STAGES.every((st) => s[st.key]);
+      return s[target] === true;
+    };
+    return list.sort((a, b) => {
+      const ma = matches(a) ? 0 : 1;
+      const mb = matches(b) ? 0 : 1;
+      if (ma !== mb) return ma - mb;
+      const ca = STAGES.filter((st) => a[st.key]).length;
+      const cb = STAGES.filter((st) => b[st.key]).length;
+      return cb - ca || a.sort_order - b.sort_order;
+    });
+  }, [filteredSongs, sort]);
+
   const completedCount = songs.filter((s) => STAGES.every((st) => s[st.key])).length;
   const inProgressCount = songs.filter((s) => {
     const c = STAGES.filter((st) => s[st.key]).length;
@@ -297,6 +329,20 @@ export default function SongTracker() {
                 {opt.label}
               </button>
             ))}
+            <div className="flex items-center gap-2 ml-auto">
+              <ArrowUpDown className="h-3.5 w-3.5 text-muted-foreground shrink-0" />
+              <select
+                value={sort}
+                onChange={(e) => setSort(e.target.value)}
+                className="text-xs border border-border rounded-full px-3 py-1 bg-transparent text-muted-foreground hover:border-primary/40 hover:text-foreground focus:outline-none cursor-pointer"
+              >
+                {SORT_OPTIONS.map((opt) => (
+                  <option key={opt.value} value={opt.value} className="bg-card text-foreground">
+                    Sort: {opt.label}
+                  </option>
+                ))}
+              </select>
+            </div>
           </div>
         )}
 
@@ -334,7 +380,7 @@ export default function SongTracker() {
               <Droppable droppableId="songs">
                 {(provided) => (
                   <div ref={provided.innerRef} {...provided.droppableProps}>
-                    {filteredSongs.map((song, index) => (
+                    {sortedSongs.map((song, index) => (
                       <SongRow
                         key={song.id}
                         song={song}
