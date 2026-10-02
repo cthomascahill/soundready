@@ -107,7 +107,7 @@ function SongRow({ song, index, onUpdate, onDelete }) {
                   onClick={() => toggleStage(s.key)}
                   title={s.label}
                   className={`h-3 w-3 rounded-full transition-all ${
-                    song[s.key] ? STAGE_COLORS[s.key] : "bg-border hover:bg-muted-foreground/60"
+                    song[s.key] ? "bg-primary" : "bg-border hover:bg-muted-foreground/60"
                   }`}
                 />
               </div>
