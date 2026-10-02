@@ -11,6 +11,7 @@ import {
 import { Button } from "@/components/ui/button";
 import SoundReadyLogo from "@/components/SoundReadyLogo";
 import SEO from "@/components/SEO";
+import GrowthComparisonChart from "@/components/home/GrowthComparisonChart";
 
 const MANAGER_PAINS = [
   { icon: DollarSign, text: "The traditional model takes 15–20% of everything you earn — whether deals close or not" },
@@ -369,6 +370,7 @@ export default function About() {
               </motion.div>
             ))}
           </div>
+          <GrowthComparisonChart />
           <p className="text-center text-xs text-muted-foreground">Based on average outcomes reported by SoundReady artists across all tiers.</p>
         </div>
       </section>
