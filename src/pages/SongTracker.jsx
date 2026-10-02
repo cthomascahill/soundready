@@ -34,11 +34,11 @@ function StageToggle({ checked, onChange }) {
   return (
     <button
       onClick={onChange}
-      className={`h-6 w-6 rounded-full border-2 flex items-center justify-center transition-all mx-auto ${
+      className={`h-5 w-5 rounded-full border-2 flex items-center justify-center transition-all mx-auto ${
         checked ? "bg-primary border-primary" : "border-border bg-transparent hover:border-primary/50"
       }`}
     >
-      {checked && <Check className="h-3 w-3 text-black" strokeWidth={3} />}
+      {checked && <Check className="h-2.5 w-2.5 text-black" strokeWidth={3} />}
     </button>
   );
 }
@@ -125,7 +125,7 @@ function SongRow({ song, index, onUpdate, onDelete }) {
 
             {/* Stage toggles */}
             {STAGES.map((s) => (
-              <div key={s.key} className="w-16 shrink-0 flex justify-center">
+              <div key={s.key} className="w-10 shrink-0 flex justify-center">
                 <StageToggle checked={!!song[s.key]} onChange={() => toggleStage(s.key)} />
               </div>
             ))}
@@ -385,7 +385,7 @@ export default function SongTracker() {
             <div className="w-8 shrink-0" /> {/* drag handle space */}
             <div className="flex-1 px-2">Song Name</div>
             {STAGES.map((s) => (
-              <div key={s.key} className="w-16 shrink-0 text-center">{s.label}</div>
+              <div key={s.key} className="w-10 shrink-0 text-center text-[9px] leading-tight px-0.5">{s.label}</div>
             ))}
             <div className="w-32 shrink-0 px-2 hidden md:block">Status</div>
             <div className="w-28 shrink-0 px-2 text-center">Latest Mix</div>
