@@ -292,19 +292,19 @@ export default function MayaSuggestionsEngine({ user }) {
         return;
       }
 
-      // Preserve approved/denied statuses from previous run
-      const prevMap = {};
-      suggestions.forEach(s => { if (s.id) prevMap[s.id] = s.status; });
+      // Preserve approved/denied statuses from the previous run (matched by title)
+      const prevStatus = {};
+      suggestions.forEach(s => { if (s.title) prevStatus[s.title] = s.status; });
 
       const withIds = parsed.map((s, i) => ({
         ...s,
         id: `${Date.now()}-${i}`,
-        status: "pending",
+        status: prevStatus[s.title] || "pending",
       }));
 
       setSuggestions(withIds);
       setLastGenerated(new Date().toISOString());
-      setApprovedList([]);
+      setApprovedList(withIds.filter(s => s.status === "approved"));
 
       // Cache to DB
       const payload = { metadata: { suggestions: withIds } };

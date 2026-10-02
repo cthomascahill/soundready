@@ -2,7 +2,7 @@ import { useState, useEffect, useRef } from "react";
 import { Link } from "react-router-dom";
 import { base44 } from "@/api/base44Client";
 import { useAuth } from "@/lib/AuthContext";
-import { X, Send, Loader2, Sparkles, ChevronRight } from "lucide-react";
+import { X, Send, Loader2, Sparkles, ChevronRight, RotateCcw } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import ReactMarkdown from "react-markdown";
 import MayaUpsellPopover from "@/components/maya/MayaUpsellPopover";
@@ -197,6 +197,32 @@ function buildPlatformDataContext(platformConns) {
   return lines.join("\n");
 }
 
+function buildPipelineContext(pipelineSongs, deskActivities) {
+  const lines = [];
+
+  if (pipelineSongs?.length) {
+    lines.push("\nSONG TRACKER (current release pipeline):");
+    pipelineSongs.slice(0, 10).forEach(s => {
+      if (!s.song_name) return;
+      const stages = ["write", "record", "mix", "master", "review", "artwork", "submit", "released"]
+        .filter(st => s[`stage_${st}`]);
+      lines.push(`  · "${s.song_name}" — completed stages: ${stages.join(", ") || "none yet"}${s.release_date ? ` | planned release: ${s.release_date}` : ""}`);
+    });
+    lines.push("  Use this to give release-stage-specific advice (e.g. what's still pending before they can release).");
+  }
+
+  const drafts = (deskActivities || []).filter(a => a.title !== "__maya_suggestions__");
+  if (drafts.length) {
+    lines.push("\nMAYA'S DESK (drafts you already prepared, with current status):");
+    drafts.slice(0, 8).forEach(a => {
+      lines.push(`  · ${a.title} (${a.action_type.replace(/_/g, " ")}, status: ${a.status})`);
+    });
+    lines.push("  Reference these — don't re-draft what's already waiting, and remind the artist to approve or deny pending drafts.");
+  }
+
+  return lines.join("\n");
+}
+
 async function callMaya(messages, systemPrompt) {
   const history = messages.map(m => `${m.role === "user" ? "Artist" : "Maya"}: ${m.content}`).join("\n\n");
   const lastUser = messages[messages.length - 1]?.content || "";
@@ -262,7 +288,9 @@ export default function MayaAssistant() {
       base44.entities.BeatPlacement.filter({ created_by_id: user.id }, "-created_date", 50).catch(() => []),
       base44.entities.ProducerClient.filter({ created_by_id: user.id }, "-created_date", 50).catch(() => []),
       base44.entities.BeatSale.filter({ producer_id: user.id }, "-created_date", 50).catch(() => []),
-    ]).then(([profiles, chals, goalList, beats, conns, ownBeats, placements, clientList, sales]) => {
+      base44.entities.PipelineSong.filter({ created_by_id: user.id }, "sort_order", 50).catch(() => []),
+      base44.entities.AIActivity.filter({ user_id: user.id }, "-created_date", 15).catch(() => []),
+    ]).then(([profiles, chals, goalList, beats, conns, ownBeats, placements, clientList, sales, pipelineSongs, deskActivities]) => {
       const prof = profiles[0] || null;
       const userSavedBeats = beats.filter(b => b.saves?.includes(user.id));
       setProfile(prof);
@@ -271,9 +299,10 @@ export default function MayaAssistant() {
       setSavedBeats(userSavedBeats);
       setPlatformConns(conns);
       const platformContext = buildPlatformDataContext(conns);
+      const pipelineContext = buildPipelineContext(pipelineSongs, deskActivities);
       systemPromptRef.current = mode === "producer"
-        ? buildProducerSystemPrompt(user, prof, ownBeats, placements, clientList, sales) + platformContext
-        : buildSystemPrompt(prof, chals, goalList, userSavedBeats) + platformContext;
+        ? buildProducerSystemPrompt(user, prof, ownBeats, placements, clientList, sales) + platformContext + pipelineContext
+        : buildSystemPrompt(prof, chals, goalList, userSavedBeats) + platformContext + pipelineContext;
       setProfileLoaded(true);
     });
   }, [open, profileLoaded, user, mode]);
@@ -282,6 +311,23 @@ export default function MayaAssistant() {
   useEffect(() => {
     setProfileLoaded(false);
   }, [mode]);
+
+  // Chat memory — restore this user's last conversation
+  useEffect(() => {
+    if (!user?.id) return;
+    try {
+      const saved = JSON.parse(localStorage.getItem(`maya_chat_${user.id}`) || "[]");
+      if (Array.isArray(saved) && saved.length) setMessages(saved);
+    } catch {}
+  }, [user?.id]);
+
+  // Persist the conversation as it grows (keep the last 40 messages)
+  useEffect(() => {
+    if (!user?.id || messages.length === 0) return;
+    try {
+      localStorage.setItem(`maya_chat_${user.id}`, JSON.stringify(messages.slice(-40)));
+    } catch {}
+  }, [messages, user?.id]);
 
   useEffect(() => {
     bottomRef.current?.scrollIntoView({ behavior: "smooth" });
@@ -303,12 +349,23 @@ export default function MayaAssistant() {
     setLoading(true);
 
     const sysPrompt = systemPromptRef.current || buildSystemPrompt(null, [], [], []);
-    const result = await callMaya(newMessages, sysPrompt);
+    let result = null;
+    try {
+      result = await callMaya(newMessages, sysPrompt);
+    } catch (err) {
+      console.error("Maya chat error:", err);
+    }
 
-    const mayaMsg = { role: "assistant", content: result?.response || "Sorry, I had trouble responding. Try again." };
+    const mayaMsg = { role: "assistant", content: result?.response || "Sorry, I hit a snag responding. Try again in a moment." };
     setMessages(prev => [...prev, mayaMsg]);
     setChips(result?.chips || []);
     setLoading(false);
+  };
+
+  const startNewChat = () => {
+    setMessages([]);
+    setChips([]);
+    try { localStorage.removeItem(`maya_chat_${user?.id}`); } catch {}
   };
 
   const artistName = profile?.stage_name || user?.full_name || "Artist";
@@ -382,6 +439,10 @@ export default function MayaAssistant() {
                 className="text-[11px] font-semibold text-primary hover:underline mr-2 shrink-0">
                 Maya's Desk →
               </Link>
+              <button onClick={startNewChat} title="Start a new chat"
+                className="h-8 w-8 rounded-lg bg-zinc-800 flex items-center justify-center text-zinc-400 hover:text-white hover:bg-zinc-700 transition-colors shrink-0">
+                <RotateCcw className="h-3.5 w-3.5" />
+              </button>
               <button onClick={() => setOpen(false)} className="h-8 w-8 rounded-lg bg-zinc-800 flex items-center justify-center text-zinc-400 hover:text-white hover:bg-zinc-700 transition-colors">
                 <X className="h-4 w-4" />
               </button>
