@@ -26,9 +26,9 @@ const STEPS = [
   },
   {
     n: "03",
-    title: "Master Your Track Professionally",
-    body: "One click and your song goes through professional-grade mastering — AI-tuned EQ, multiband compression, peak limiting, and -14 LUFS normalization to streaming platform standards. You get back a mastered WAV file that sounds like you paid $200 for it. Because we built it in.",
-    why: "Unmastered tracks get skipped. Mastered tracks get saved. The difference between a stream and a skip is often just how professional the audio sounds in the first 10 seconds.",
+    title: "Track Every Release from Idea to Launch",
+    body: "The Song Tracker keeps every release moving. Group songs into albums, EPs, and singles, then watch each one move through its stages — written, recorded, mixed, mastered, artwork, submitted, released. Upload your latest mix, attach the cover art, and store the release date, ISRC, and UPC codes right on the song. At a glance, you always know exactly where every release stands.",
+    why: "Most releases stall because nobody's tracking the details. The artists who release consistently are the ones with a system — every song has a status, a date, and a next step.",
   },
   {
     n: "04",
@@ -38,9 +38,9 @@ const STEPS = [
   },
   {
     n: "05",
-    title: "Pitch to Playlists and Sync",
-    body: "Pitch your music to playlist curators and sync licensing opportunities directly from your song workspace. Every pitch is pre-written using your song's actual data — genre, mood, energy, comparable artists — so it's personalized and relevant. You review it and send it. More pitches means more placements. More placements means more streams. More streams means more everything.",
-    why: "One playlist placement can add thousands of streams overnight. One sync deal can pay more than a year of touring. SoundReady makes sure you're always pitching — because consistency is how placements happen.",
+    title: "Pitch to Playlists",
+    body: "Pitch your music to playlist curators directly from your song workspace. Every pitch is pre-written using your song's actual data — genre, mood, energy, comparable artists — so it's personalized and relevant. You review it and send it. More pitches means more placements. More placements means more streams. More streams means more everything.",
+    why: "One playlist placement can add thousands of streams overnight. SoundReady makes sure you're always pitching — because consistency is how placements happen.",
   },
   {
     n: "06",
@@ -63,7 +63,7 @@ const STEPS = [
   {
     n: "09",
     title: "Stay Ahead of the Market",
-    body: "A&R Intelligence gives you weekly briefings on what's actually working in your genre right now. Release Radar lets you track comparable artists so you always know when they're moving and how to time your releases to stand out. Fan Intelligence shows you where your real fans are so every decision — touring, advertising, content — is backed by real data.",
+    body: "A&R Intelligence and Genre Trends give you briefings on what's actually working in your genre right now. Music News brings you daily industry briefings, and Industry Intel tracks the things you'd otherwise miss — label signings, playlist changes, grants and funding, showcase deadlines, and tour news in your market — so you always know when to move.",
     why: "The artists winning right now are not just talented — they are strategic. They know what the market wants before they release. SoundReady gives you that intelligence so you are always one step ahead.",
   },
   {
@@ -95,12 +95,11 @@ const ALL_TOOLS = [
   "Invoice Manager",
   "Rights Manager & Song Splits",
   "Budget Tracker",
-  "Merch Store",
   "Contract Analyzer (AI entertainment lawyer)",
   "Legal Templates (venue, songwriter, NDA)",
-  "A&R Intelligence (weekly trend briefings)",
-  "Release Radar (competitor tracking)",
-  "Fan Intelligence Dashboard",
+  "A&R Intelligence (trend briefings)",
+  "Music News (daily industry briefings)",
+  "Industry Intel (signings, playlists, grants & tour intel)",
   "Collaborative Team Whiteboard",
   "Beat Vault & Placements (producer catalog & credits)",
   "Beat Pipeline (idea → placed)",
@@ -227,7 +226,7 @@ export default function HowItWorks() {
             <h2 className="font-heading text-4xl sm:text-5xl font-bold">Every song gets its own headquarters.</h2>
           </motion.div>
           <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="max-w-3xl mx-auto space-y-5 text-lg text-muted-foreground leading-relaxed">
-            <p>Click any song in your library and it opens a dedicated Song Workspace — a single page where everything about that release lives together. Analysis, mastering status, distribution checklist, release plan, pitching history. All connected. All in one place.</p>
+            <p>Click any song in your library and it opens a dedicated Song Workspace — a single page where everything about that release lives together. Analysis, distribution checklist, release plan, pitching history. All connected. All in one place.</p>
             <p>This is what a label does for signed artists — they build an entire operation around each release. SoundReady does it automatically for every song you upload. Every song deserves a real release. SoundReady makes sure it gets one.</p>
           </motion.div>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4">
@@ -258,7 +257,7 @@ export default function HowItWorks() {
               { num: "+78%", sub: "Stream increase for artists using the release strategy and playlist pitching on every release." },
               { num: "+120%", sub: "More shows booked versus artists sending cold emails manually." },
               { num: "10+ hrs", sub: "Saved every week by artists who stop manually managing playlists, outreach, royalties, and release planning." },
-              { num: "25+", sub: "Integrated tools giving every artist and producer the infrastructure of a full professional team." },
+              { num: "40+", sub: "Integrated tools giving every artist and producer the infrastructure of a full professional team." },
               { num: "$37/mo", sub: "What all of this costs. The traditional management model takes 15–20% of everything you earn — whether deals close or not." },
             ].map((s, i) => (
               <motion.div key={i} initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: i * 0.08 }}
@@ -283,7 +282,7 @@ export default function HowItWorks() {
               { level: "The Independent Artist", desc: "You're doing everything yourself and it's exhausting. SoundReady doesn't replace your hustle — it organizes it so every release has a real strategy behind it." },
               { level: "The Producer", desc: "Your beats deserve better than a folder and a DM. The Beat Vault, Beat Pipeline, placement tracker, and Artist Match turn your catalog into a real business — with Maya pitching for you on the AI Manager plan." },
               { level: "The Artist With a Manager", desc: "Your team needs one place to work from. SoundReady gives your manager the tools to move faster, pitch smarter, and keep your whole career organized — so nothing falls through the cracks." },
-              { level: "The Manager or Indie Label", desc: "You're responsible for multiple artists and the disorganization is costing you real opportunities. SoundReady's Pro and Label tiers put your entire roster in one place — every artist, every release, every deal." },
+              { level: "The Manager or Indie Label", desc: "You're responsible for multiple artists and the disorganization is costing you real opportunities. SoundReady's Pro tier puts your entire roster in one place — every artist, every release, every deal." },
             ].map((w, i) => (
               <motion.div key={i}
                 initial={{ opacity: 0, y: 16 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}
@@ -302,7 +301,7 @@ export default function HowItWorks() {
         <div className="max-w-4xl mx-auto space-y-12">
           <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="text-center space-y-4">
             <p className="text-xs text-primary uppercase tracking-wider font-bold">The Full Platform</p>
-            <h2 className="font-heading text-4xl sm:text-5xl font-bold">25+ tools. One subscription. Zero excuses.</h2>
+            <h2 className="font-heading text-4xl sm:text-5xl font-bold">40+ tools. One subscription. Zero excuses.</h2>
             <p className="text-lg text-muted-foreground max-w-2xl mx-auto">Your Vault and Song Tracker are free forever. Everything below unlocks with your 7-day free trial of Artist Pro.</p>
           </motion.div>
           <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}

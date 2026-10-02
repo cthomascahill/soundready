@@ -94,7 +94,7 @@ const WHAT_WE_DO = [
   { icon: Zap, color: "text-primary", title: "Release Strategy", desc: "Get a complete AI-powered release plan in 60 seconds, built around your actual audio data. Ideal timing, pitching timeline, algorithm outlook — no guesswork." },
   { icon: Mic2, color: "text-chart-3", title: "Playlist Pitching", desc: "Pitch to 40+ curated playlists with personalized outreach written around your song's sound and mood. More playlist adds means more streams and algorithmic momentum." },
   { icon: FileText, color: "text-purple-400", title: "Press & EPK", desc: "Generate a full Electronic Press Kit with bio, stats, and streaming links in minutes. The same professional presentation that gets artists into festivals and editorial — ready to send instantly." },
-  { icon: MapPin, color: "text-orange-400", title: "Booking & Tours", desc: "Access 200+ venues, generate booking inquiries, plan your tour routing, and track every dollar of income and expenses. More shows, better margins, zero spreadsheets." },
+  { icon: MapPin, color: "text-orange-400", title: "Booking & Tours", desc: "Access 570+ venues, generate booking inquiries, plan your tour routing, and track every dollar of income and expenses. More shows, better margins, zero spreadsheets." },
   { icon: DollarSign, color: "text-chart-4", title: "Finance & Royalties", desc: "Upload royalty statements from every DSP and see exactly what you're earning in one place. Track expenses, send invoices, and finally understand your music business finances." },
   { icon: Send, color: "text-teal-400", title: "Distribution", desc: "Manage ISRC codes, metadata, pre-save links, and distributor submissions in one organized checklist. Every release goes out clean, professional, and ready to perform." },
 
@@ -380,7 +380,7 @@ export default function About() {
             {[
               { num: "15–20%", sub: "What the traditional management model takes — whether deals close or not" },
               { num: "$0", sub: "What it costs to start on SoundReady — core tools free forever" },
-              { num: "25+", sub: "Integrated tools giving every artist and producer the infrastructure of a full professional team" },
+              { num: "40+", sub: "Integrated tools giving every artist and producer the infrastructure of a full professional team" },
             ].map((s, i) => (
               <motion.div key={i} initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: i * 0.1 }} className="space-y-2">
                 <p className="font-heading text-3xl sm:text-5xl font-black text-primary">{s.num}</p>
