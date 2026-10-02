@@ -6,7 +6,7 @@ import { Plus, GripVertical, Trash2, ChevronDown, Filter, ArrowUpDown } from "lu
 import { Button } from "@/components/ui/button";
 import AudioCell from "@/components/songtracker/AudioCell";
 import ArtworkCell from "@/components/songtracker/ArtworkCell";
-import StageStrip from "@/components/songtracker/StageStrip";
+import StageStrip, { STAGE_COLORS } from "@/components/songtracker/StageStrip";
 
 const STAGES = [
   { key: "stage_write", label: "Write" },
@@ -18,18 +18,6 @@ const STAGES = [
   { key: "stage_submit", label: "Submit" },
   { key: "stage_released", label: "Released" },
 ];
-
-function getStatus(song) {
-  const completed = STAGES.filter((s) => song[s.key]).length;
-  if (completed === 0) return { label: "Not Started", cls: "bg-secondary text-muted-foreground border-border" };
-  if (song.stage_released) return { label: "Released", cls: "bg-green-500/15 text-green-400 border-green-500/25" };
-  if (completed === STAGES.length) return { label: "Complete", cls: "bg-green-500/15 text-green-400 border-green-500/25" };
-  if (song.stage_submit) return { label: "Ready to Submit", cls: "bg-primary/15 text-primary border-primary/25" };
-  if (song.stage_artwork) return { label: "Artwork Done", cls: "bg-chart-2/15 text-chart-2 border-chart-2/25" };
-  if (song.stage_review) return { label: "In Review", cls: "bg-chart-2/15 text-chart-2 border-chart-2/25" };
-  if (song.stage_master) return { label: "Mastered", cls: "bg-chart-2/15 text-chart-2 border-chart-2/25" };
-  return { label: "In Progress", cls: "bg-yellow-500/10 text-yellow-400 border-yellow-500/20" };
-}
 
 function SongRow({ song, index, onUpdate, onDelete }) {
   const [notesExpanded, setNotesExpanded] = useState(false);
@@ -63,8 +51,6 @@ function SongRow({ song, index, onUpdate, onDelete }) {
     const val = !song[key];
     onUpdate(song.id, { [key]: val });
   };
-
-  const status = getStatus(song);
 
   return (
     <Draggable draggableId={song.id} index={index}>
@@ -102,13 +88,6 @@ function SongRow({ song, index, onUpdate, onDelete }) {
               onToggleExpand={() => setStagesExpanded((v) => !v)}
             />
 
-            {/* Status badge */}
-            <div className="w-32 shrink-0 px-2 hidden md:block">
-              <span className={`text-[10px] font-semibold px-2 py-0.5 rounded-full border ${status.cls}`}>
-                {status.label}
-              </span>
-            </div>
-
             {/* Latest mix audio */}
             <AudioCell song={song} onUpdate={onUpdate} />
 
@@ -121,7 +100,7 @@ function SongRow({ song, index, onUpdate, onDelete }) {
                 type="date"
                 value={song.release_date || ""}
                 onChange={(e) => onUpdate(song.id, { release_date: e.target.value })}
-                className="w-full bg-secondary/30 border border-border rounded-md px-2 py-1 text-xs text-foreground focus:outline-none focus:ring-1 focus:ring-primary"
+                className="w-full bg-transparent border border-transparent hover:border-border rounded-md px-2 py-1 text-xs text-foreground focus:outline-none focus:border-primary transition-colors"
               />
             </div>
 
@@ -157,11 +136,11 @@ function SongRow({ song, index, onUpdate, onDelete }) {
                     onClick={() => toggleStage(s.key)}
                     className={`flex items-center gap-1.5 text-xs px-2.5 py-1 rounded-full border transition-colors ${
                       song[s.key]
-                        ? "bg-primary/15 text-primary border-primary/30"
-                        : "border-border text-muted-foreground hover:border-primary/40 hover:text-foreground"
+                        ? "bg-secondary text-foreground border-border"
+                        : "border-border/60 text-muted-foreground hover:border-border hover:text-foreground"
                     }`}
                   >
-                    <span className={`h-2 w-2 rounded-full ${song[s.key] ? "bg-primary" : "bg-border"}`} />
+                    <span className={`h-2 w-2 rounded-full ${song[s.key] ? STAGE_COLORS[s.key] : "bg-border"}`} />
                     {s.label}
                   </button>
                 ))}
@@ -378,8 +357,7 @@ export default function SongTracker() {
           <div className="flex items-center gap-0 bg-secondary/30 border-b border-border text-xs font-semibold text-muted-foreground uppercase tracking-wider min-h-[40px]">
             <div className="w-8 shrink-0" /> {/* drag handle space */}
             <div className="flex-1 px-2">Song Name</div>
-            <div className="w-44 shrink-0 px-2 text-center">Stages</div>
-            <div className="w-32 shrink-0 px-2 hidden md:block">Status</div>
+            <div className="w-40 shrink-0 px-2 text-center">Stages</div>
             <div className="w-28 shrink-0 px-2 text-center">Latest Mix</div>
             <div className="w-20 shrink-0 px-2 text-center">Artwork</div>
             <div className="w-36 shrink-0 px-2 text-center">Release Date</div>
