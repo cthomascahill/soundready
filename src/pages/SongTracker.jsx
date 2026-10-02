@@ -13,12 +13,14 @@ const STAGES = [
   { key: "stage_review", label: "Review" },
   { key: "stage_artwork", label: "Artwork" },
   { key: "stage_submit", label: "Submit" },
+  { key: "stage_released", label: "Released" },
 ];
 
 function getStatus(song) {
   const completed = STAGES.filter((s) => song[s.key]).length;
   if (completed === 0) return { label: "Not Started", cls: "bg-secondary text-muted-foreground border-border" };
-  if (completed === 7) return { label: "Complete", cls: "bg-green-500/15 text-green-400 border-green-500/25" };
+  if (song.stage_released) return { label: "Released", cls: "bg-green-500/15 text-green-400 border-green-500/25" };
+  if (completed === STAGES.length) return { label: "Complete", cls: "bg-green-500/15 text-green-400 border-green-500/25" };
   if (song.stage_submit) return { label: "Ready to Submit", cls: "bg-primary/15 text-primary border-primary/25" };
   if (song.stage_artwork) return { label: "Artwork Done", cls: "bg-chart-2/15 text-chart-2 border-chart-2/25" };
   if (song.stage_review) return { label: "In Review", cls: "bg-chart-2/15 text-chart-2 border-chart-2/25" };
@@ -51,7 +53,7 @@ function ProgressBar({ song }) {
           />
         ))}
       </div>
-      <span className="text-[10px] text-muted-foreground">{completed}/7</span>
+      <span className="text-[10px] text-muted-foreground">{completed}/{STAGES.length}</span>
     </div>
   );
 }
@@ -176,6 +178,7 @@ const FILTER_OPTIONS = [
   { label: "In Review", value: "stage_review" },
   { label: "Artwork Done", value: "stage_artwork" },
   { label: "Ready to Submit", value: "stage_submit" },
+  { label: "Released", value: "stage_released" },
   { label: "Complete", value: "complete" },
 ];
 
@@ -202,6 +205,7 @@ export default function SongTracker() {
       stage_review: false,
       stage_artwork: false,
       stage_submit: false,
+      stage_released: false,
       notes: "",
       sort_order: songs.length,
     });
@@ -237,7 +241,7 @@ export default function SongTracker() {
     if (filter === "not_started") return STAGES.every((st) => !s[st.key]);
     if (filter === "in_progress") {
       const c = STAGES.filter((st) => s[st.key]).length;
-      return c > 0 && c < 7;
+      return c > 0 && c < STAGES.length;
     }
     if (filter === "complete") return STAGES.every((st) => s[st.key]);
     // Stage-specific filter: show songs where that stage is done but the next one isn't
@@ -249,7 +253,7 @@ export default function SongTracker() {
   const completedCount = songs.filter((s) => STAGES.every((st) => s[st.key])).length;
   const inProgressCount = songs.filter((s) => {
     const c = STAGES.filter((st) => s[st.key]).length;
-    return c > 0 && c < 7;
+    return c > 0 && c < STAGES.length;
   }).length;
 
   return (

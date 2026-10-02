@@ -35,6 +35,11 @@
       "type": "boolean",
       "default": false
     },
+    "stage_released": {
+      "type": "boolean",
+      "default": false,
+      "description": "Song is out on streaming platforms"
+    },
     "notes": {
       "type": "string",
       "default": ""
