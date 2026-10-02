@@ -19,6 +19,20 @@ const STAGES = [
   { key: "stage_released", label: "Released" },
 ];
 
+function getStatus(song) {
+  const completed = STAGES.filter((s) => song[s.key]).length;
+  if (song.stage_released) return { label: "Released", cls: "bg-primary/15 text-primary border-primary/25" };
+  if (completed === STAGES.length) return { label: "Complete", cls: "bg-primary/15 text-primary border-primary/25" };
+  if (completed === 0) return { label: "Not Started", cls: "bg-secondary text-muted-foreground border-border" };
+  if (song.stage_submit) return { label: "Ready to Submit", cls: "bg-teal-500/10 text-teal-400 border-teal-500/25" };
+  if (song.stage_artwork) return { label: "Artwork Done", cls: "bg-yellow-500/10 text-yellow-400 border-yellow-500/25" };
+  if (song.stage_review) return { label: "In Review", cls: "bg-orange-500/10 text-orange-400 border-orange-500/25" };
+  if (song.stage_master) return { label: "Mastered", cls: "bg-pink-500/10 text-pink-400 border-pink-500/25" };
+  if (song.stage_mix) return { label: "Mixed", cls: "bg-purple-500/10 text-purple-400 border-purple-500/25" };
+  if (song.stage_record) return { label: "Recorded", cls: "bg-blue-500/10 text-blue-400 border-blue-500/25" };
+  return { label: "Written", cls: "bg-cyan-500/10 text-cyan-400 border-cyan-500/25" };
+}
+
 function SongRow({ song, index, onUpdate, onDelete }) {
   const [notesExpanded, setNotesExpanded] = useState(false);
   const [stagesExpanded, setStagesExpanded] = useState(false);
@@ -51,6 +65,8 @@ function SongRow({ song, index, onUpdate, onDelete }) {
     const val = !song[key];
     onUpdate(song.id, { [key]: val });
   };
+
+  const status = getStatus(song);
 
   return (
     <Draggable draggableId={song.id} index={index}>
@@ -87,6 +103,13 @@ function SongRow({ song, index, onUpdate, onDelete }) {
               expanded={stagesExpanded}
               onToggleExpand={() => setStagesExpanded((v) => !v)}
             />
+
+            {/* Status badge */}
+            <div className="w-32 shrink-0 px-2 hidden md:block">
+              <span className={`text-[10px] font-semibold px-2 py-0.5 rounded-full border ${status.cls}`}>
+                {status.label}
+              </span>
+            </div>
 
             {/* Latest mix audio */}
             <AudioCell song={song} onUpdate={onUpdate} />
@@ -358,6 +381,7 @@ export default function SongTracker() {
             <div className="w-8 shrink-0" /> {/* drag handle space */}
             <div className="flex-1 px-2">Song Name</div>
             <div className="w-40 shrink-0 px-2 text-center">Stages</div>
+            <div className="w-32 shrink-0 px-2 hidden md:block">Status</div>
             <div className="w-28 shrink-0 px-2 text-center">Latest Mix</div>
             <div className="w-20 shrink-0 px-2 text-center">Artwork</div>
             <div className="w-36 shrink-0 px-2 text-center">Release Date</div>
