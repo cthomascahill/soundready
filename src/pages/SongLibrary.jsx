@@ -5,8 +5,9 @@ import { useNavigate } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   Music2, Plus, Search, Grid, List, Play, Pause, Tag, ListPlus,
-  Folder, SlidersHorizontal, X, ChevronDown
+  Folder, SlidersHorizontal, X, ChevronDown, Loader2
 } from "lucide-react";
+import { resolvePlayableAudioUrl } from "@/lib/audioPlayback";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import moment from "moment";
@@ -34,16 +35,21 @@ const GENRES = ["Hip-Hop", "R&B", "Pop", "Trap", "Drill", "Afrobeats", "Gospel",
 
 function AudioMiniPlayer({ url, name }) {
   const [playing, setPlaying] = useState(false);
+  const [loading, setLoading] = useState(false);
   const audioRef = useRef(null);
-  const toggle = (e) => {
+  const toggle = async (e) => {
     e.stopPropagation();
-    if (playing) { audioRef.current.pause(); setPlaying(false); }
-    else { audioRef.current.play(); setPlaying(true); }
+    if (playing) { audioRef.current.pause(); setPlaying(false); return; }
+    setLoading(true);
+    const playable = await resolvePlayableAudioUrl(url);
+    audioRef.current.src = playable;
+    try { await audioRef.current.play(); setPlaying(true); } catch { setPlaying(false); }
+    setLoading(false);
   };
   return (
     <button onClick={toggle} className="h-7 w-7 rounded-full bg-primary/20 border border-primary/40 flex items-center justify-center text-primary hover:bg-primary/30 transition-colors shrink-0">
-      {playing ? <Pause className="h-3 w-3" /> : <Play className="h-3 w-3 ml-0.5" />}
-      <audio ref={audioRef} src={url} onEnded={() => setPlaying(false)} />
+      {loading ? <Loader2 className="h-3 w-3 animate-spin" /> : playing ? <Pause className="h-3 w-3" /> : <Play className="h-3 w-3 ml-0.5" />}
+      <audio ref={audioRef} onEnded={() => setPlaying(false)} />
     </button>
   );
 }

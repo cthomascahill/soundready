@@ -3,6 +3,7 @@ import { base44 } from "@/api/base44Client";
 import { X, Music2, Upload, Play, Pause, Tag, Plus, ImagePlus } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { resolvePlayableAudioUrl } from "@/lib/audioPlayback";
 
 const GENRES = ["Hip-Hop", "R&B", "Pop", "Trap", "Drill", "Afrobeats", "Gospel", "Country", "Rock", "Electronic", "Jazz", "Soul", "Alternative", "Other"];
 const MOODS = ["Dark", "Uplifting", "Chill", "Aggressive", "Romantic", "Melancholic", "Party", "Introspective", "Hype", "Spiritual", "Nostalgic", "Cinematic"];
@@ -101,10 +102,11 @@ export default function SongCardModal({ song, onClose, onSave, projects = [] }) 
     }));
   };
 
-  const togglePlay = () => {
+  const togglePlay = async () => {
     if (!audioRef.current) return;
-    if (playing) { audioRef.current.pause(); setPlaying(false); }
-    else { audioRef.current.play(); setPlaying(true); }
+    if (playing) { audioRef.current.pause(); setPlaying(false); return; }
+    audioRef.current.src = await resolvePlayableAudioUrl(audioSrc);
+    try { await audioRef.current.play(); setPlaying(true); } catch { setPlaying(false); }
   };
 
   const handleSave = async () => {

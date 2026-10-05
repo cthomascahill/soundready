@@ -4,6 +4,7 @@ import {
   Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription,
 } from "@/components/ui/dialog";
 import { Play, Pause, Download, Star, Trash2, Loader2, Music2 } from "lucide-react";
+import { resolvePlayableAudioUrl } from "@/lib/audioPlayback";
 
 const fmtDuration = (s) => {
   if (s == null) return "—";
@@ -42,7 +43,7 @@ export default function VersionCompare({ song, versions, open, onOpenChange, onM
           const { signed_url } = await base44.integrations.Core.CreateFileSignedUrl({
             file_uri: v.file_uri, expires_in: 3600,
           });
-          return [v.id, { url: signed_url, duration: null }];
+          return [v.id, { url: await resolvePlayableAudioUrl(signed_url), duration: null }];
         } catch {
           return [v.id, { url: null, duration: null }];
         }

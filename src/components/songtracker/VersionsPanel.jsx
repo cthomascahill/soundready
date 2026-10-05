@@ -2,6 +2,7 @@ import { useState, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import { base44 } from "@/api/base44Client";
 import { Plus, Play, Pause, Download, Star, Trash2, Loader2, Columns3, Maximize2 } from "lucide-react";
+import { resolvePlayableAudioUrl } from "@/lib/audioPlayback";
 import VersionCompare from "./VersionCompare";
 
 // Every version of one song — Mix V1, Mix V2, Master V1, Final Master —
@@ -66,9 +67,8 @@ export default function VersionsPanel({ song, onUpdate }) {
       expires_in: 3600,
     });
     if (audioRef.current) {
-      audioRef.current.src = signed_url;
-      audioRef.current.play();
-      setPlayingId(v.id);
+      audioRef.current.src = await resolvePlayableAudioUrl(signed_url);
+      try { await audioRef.current.play(); setPlayingId(v.id); } catch { setPlayingId(null); }
     }
   };
 

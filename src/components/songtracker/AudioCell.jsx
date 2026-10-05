@@ -1,6 +1,7 @@
 import { useState, useRef } from "react";
 import { base44 } from "@/api/base44Client";
 import { Play, Pause, Upload, Download, Loader2 } from "lucide-react";
+import { resolvePlayableAudioUrl } from "@/lib/audioPlayback";
 
 /**
  * Latest-mix audio for a Tracker row: upload the file,
@@ -41,11 +42,10 @@ export default function AudioCell({ song, onUpdate, className = "w-28 shrink-0 p
         file_uri: song.audio_file_uri,
         expires_in: 3600,
       });
-      audioRef.current.src = signed_url;
+      audioRef.current.src = await resolvePlayableAudioUrl(signed_url);
       setLoadingUrl(false);
     }
-    await audioRef.current.play();
-    setPlaying(true);
+    try { await audioRef.current.play(); setPlaying(true); } catch { setPlaying(false); }
   };
 
   const downloadMix = async () => {
