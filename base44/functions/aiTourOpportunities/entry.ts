@@ -1,4 +1,5 @@
 import { createClientFromRequest } from 'npm:@base44/sdk@0.8.31';
+import { findContactEmail, sanitizeEmail } from '../../shared/mayaContact.ts';
 
 Deno.serve(async (req) => {
   try {
@@ -98,7 +99,7 @@ Search the web for:
 2. Festivals in the artist's key markets that are currently accepting applications (or opening soon) for ${primaryGenre} acts
 3. Venues in the artist's key markets with realistic open booking windows for an act at this level${existingNames.size ? `\n\nDo NOT repeat any of these opportunities already sitting in the artist's queue: ${[...existingNames].join('; ')}` : ''}
 
-For each opportunity provide: name, type (tour opener / venue / festival), why it fits THIS artist (reference their genre, markets, and size — be specific), and a pre-drafted professional outreach email the artist can approve and send with one tap. The email should be specific to the opportunity, reference the ${primaryGenre} genre, and come from the artist's perspective.`,
+For each opportunity provide: name, type (tour opener / venue / festival), why it fits THIS artist (reference their genre, markets, and size — be specific), a pre-drafted professional outreach email the artist can approve and send with one tap, and contact_email — the booking/submission email address the organizer actually publishes (on their website, applications page, or socials), with email_source saying exactly where you found it. Search for the real contact email; addresses like booking@, submissions@, info@ or contact@ on their real domain are exactly what you want. NEVER guess or invent an email — return an empty string only if you truly cannot find one published anywhere. The email should be specific to the opportunity, reference the ${primaryGenre} genre, and come from the artist's perspective.`,
     add_context_from_internet: true,
     response_json_schema: {
       type: "object",
@@ -111,7 +112,9 @@ For each opportunity provide: name, type (tour opener / venue / festival), why i
               name: { type: "string" },
               type: { type: "string" },
               why_it_fits: { type: "string" },
-              draft_email: { type: "string" }
+              draft_email: { type: "string" },
+              contact_email: { type: "string" },
+              email_source: { type: "string" }
             }
           }
         }
@@ -125,18 +128,33 @@ For each opportunity provide: name, type (tour opener / venue / festival), why i
     if (!nameKey || existingNames.has(nameKey)) continue;
     existingNames.add(nameKey);
 
+    // Maya finds who to contact — never the artist
+    let contactEmail = sanitizeEmail(opp.contact_email);
+    let emailSource = opp.email_source;
+    if (!contactEmail) {
+      const hunted = await findContactEmail(client, {
+        org: opp.name,
+        opportunity: opp.name,
+        context: ` for booking and opening-slot applications (${opp.type})`,
+      });
+      contactEmail = hunted.email;
+      emailSource = hunted.source || opp.email_source;
+    }
+
     await client.entities.AIActivity.create({
       user_id: userId,
       action_type: "tour_opportunity",
       title: `Tour opportunity: ${opp.name}`,
-      description: `${opp.type} — ${opp.why_it_fits}`,
-      status: "ready_to_send",
+      description: `${opp.type} — ${opp.why_it_fits}${contactEmail ? ` Maya found their contact email (${emailSource || 'published contact'}).` : ' No published contact email found — check the opportunity before sending.'}`,
+      status: contactEmail ? "ready_to_send" : "pending",
       draft_email: opp.draft_email,
+      recipient_email: contactEmail,
       metadata: {
         opportunity_type: opp.type,
         opportunity_name: opp.name,
         genre: primaryGenre,
         markets,
+        email_source: emailSource,
       },
     });
     created++;
