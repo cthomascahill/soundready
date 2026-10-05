@@ -40,6 +40,7 @@ import TourPlannerCanvas from './pages/TourPlannerCanvas';
 import TourOpportunities from './pages/TourOpportunities';
 import TaxEstimator from './pages/TaxEstimator';
 import SongTracker from './pages/SongTracker';
+import SongVersions from './pages/SongVersions';
 import ArtistIntake from './pages/ArtistIntake';
 import Studio from './pages/Studio';
 import MusicNews from './pages/MusicNews';
@@ -178,6 +179,7 @@ const AuthenticatedApp = () => {
         <Route path="/tour-opportunities" element={pro(TourOpportunities)} />
         <Route path="/tax-estimator" element={<TaxEstimator />} />
         <Route path="/song-tracker" element={<SongTracker />} />
+        <Route path="/song-versions/:songId" element={<SongVersions />} />
         <Route path="/artist-profile" element={<ArtistIntake />} />
         <Route path="/studio" element={pro(Studio)} />
         <Route path="/music-news" element={pro(MusicNews)} />

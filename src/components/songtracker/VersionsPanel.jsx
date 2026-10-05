@@ -1,11 +1,13 @@
 import { useState, useEffect, useRef } from "react";
+import { useNavigate } from "react-router-dom";
 import { base44 } from "@/api/base44Client";
-import { Plus, Play, Pause, Download, Star, Trash2, Loader2, Columns3 } from "lucide-react";
+import { Plus, Play, Pause, Download, Star, Trash2, Loader2, Columns3, Maximize2 } from "lucide-react";
 import VersionCompare from "./VersionCompare";
 
 // Every version of one song — Mix V1, Mix V2, Master V1, Final Master —
 // stored under the same record instead of duplicate songs.
 export default function VersionsPanel({ song, onUpdate }) {
+  const navigate = useNavigate();
   const [versions, setVersions] = useState([]);
   const [label, setLabel] = useState("");
   const [uploading, setUploading] = useState(false);
@@ -139,6 +141,11 @@ export default function VersionsPanel({ song, onUpdate }) {
             <Columns3 className="h-4 w-4" /> Compare
           </button>
         )}
+        <button onClick={() => navigate(`/song-versions/${song.id}`)}
+          title="Open the full version history view"
+          className="flex items-center gap-1.5 h-9 px-3 rounded-md border border-border text-zinc-400 text-sm font-medium shrink-0 hover:text-white hover:border-zinc-600">
+          <Maximize2 className="h-4 w-4" /> Full View
+        </button>
         <input
           value={label}
           onChange={(e) => setLabel(e.target.value)}
