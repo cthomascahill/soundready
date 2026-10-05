@@ -3,11 +3,12 @@ import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import { base44 } from "@/api/base44Client";
 import { useAuth } from "@/lib/AuthContext";
+import { useMode } from "@/lib/mode";
 import { hasAIManager } from "@/lib/tier";
 import MayaQueueCard from "@/components/maya/MayaQueueCard";
 import { Button } from "@/components/ui/button";
 import {
-  Sparkles, Lock, Zap, Check, X, Mail, Loader2, Inbox, ChevronRight,
+  Sparkles, Lock, Zap, Check, X, Mail, Loader2, Inbox, ChevronRight, RefreshCw,
 } from "lucide-react";
 
 const QUEUE_STATUSES = ["pending", "ready_to_send", "viewed"];
@@ -44,11 +45,33 @@ function HistoryRow({ item }) {
 
 export default function MayaDesk() {
   const { user } = useAuth();
+  const { mode } = useMode();
   const [activities, setActivities] = useState([]);
   const [loading, setLoading] = useState(true);
   const [tab, setTab] = useState("queue");
+  const [searching, setSearching] = useState(false);
+  const [searchNote, setSearchNote] = useState("");
 
   const aiManager = hasAIManager(user);
+
+  // Have Maya run a fresh scouting sweep right now, on demand
+  const runSearch = async () => {
+    setSearching(true);
+    setSearchNote("");
+    const fn = mode === "producer" ? "mayaScoutBeats" : "aiTourOpportunities";
+    const res = await base44.functions.invoke(fn, {}).catch(e => ({ data: { error: e.message } }));
+    setSearching(false);
+    if (res.data?.error) {
+      setSearchNote(res.data.reason === "no_beats"
+        ? "Maya needs at least one beat in your Productions to scout placements."
+        : "Maya's search hit a snag — try again in a moment.");
+      return;
+    }
+    const found = res.data?.found ?? res.data?.opportunities_found ?? 0;
+    setSearchNote(found > 0
+      ? `Maya found ${found} new ${found === 1 ? "opportunity" : "opportunities"} — filed to your queue below.`
+      : "Maya searched but found nothing new right now. She also sweeps weekly on her own.");
+  };
 
   useEffect(() => {
     if (!aiManager || !user?.id) { setLoading(false); return; }
