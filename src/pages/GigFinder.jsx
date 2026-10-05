@@ -573,6 +573,7 @@ function Copy({ className }) { return <svg className={className} fill="none" str
 
 export default function GigFinder() {
   const [genre, setGenre] = useState("All");
+  const [cityInput, setCityInput] = useState("");
   const [city, setCity] = useState("");
   const [venueType, setVenueType] = useState("All");
   const [artistName, setArtistName] = useState("");
@@ -581,6 +582,8 @@ export default function GigFinder() {
 
   const GENRES = ["All", "Hip Hop", "Pop", "R&B", "Indie", "EDM", "Country", "Rock", "Latin"];
   const TYPES = ["All", "Club", "Bar/Venue", "Concert Hall", "Arts Venue", "Amphitheater"];
+
+  const runSearch = () => setCity(cityInput);
 
   const filtered = ALL_VENUES.filter((v) => {
     const genreMatch = genre === "All" || v.genres.includes(genre) || v.genres.includes("All");
@@ -603,12 +606,18 @@ export default function GigFinder() {
         {/* Artist name + filters */}
         <div className="rounded-2xl bg-card border border-border p-5 space-y-4">
           <Input placeholder="Your artist/band name (for booking emails)" value={artistName} onChange={(e) => setArtistName(e.target.value)} />
+          <div className="flex gap-2">
+            <Input placeholder="Search venues by city..." value={cityInput} onChange={(e) => setCityInput(e.target.value)}
+              onKeyDown={(e) => e.key === "Enter" && runSearch()} className="h-9 text-sm" />
+            <Button onClick={runSearch} className="h-9 px-4 gap-2 shrink-0">
+              <Search className="h-4 w-4" /> Search
+            </Button>
+          </div>
           <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
             <select value={genre} onChange={(e) => setGenre(e.target.value)}
               className="h-9 rounded-md border border-input bg-transparent px-3 text-sm text-foreground focus:outline-none focus:ring-1 focus:ring-ring">
               {GENRES.map((g) => <option key={g}>{g}</option>)}
             </select>
-            <Input placeholder="Filter by city..." value={city} onChange={(e) => setCity(e.target.value)} className="h-9 text-sm" />
             <select value={venueType} onChange={(e) => setVenueType(e.target.value)}
               className="h-9 rounded-md border border-input bg-transparent px-3 text-sm text-foreground focus:outline-none focus:ring-1 focus:ring-ring">
               {TYPES.map((t) => <option key={t}>{t}</option>)}
