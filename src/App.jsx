@@ -74,6 +74,7 @@ import SignContract from './pages/SignContract';
 import ToolLibrary from './pages/ToolLibrary';
 import Friends from './pages/Friends';
 import CreatorProfile from './pages/CreatorProfile';
+import BuyoutLeads from './pages/BuyoutLeads';
 
 // Wraps a page so free-tier users see the Artist Pro upgrade screen
 const pro = (Page) => (
@@ -207,6 +208,7 @@ const AuthenticatedApp = () => {
         <Route path="/community" element={<Community />} />
         <Route path="/friends" element={<Friends />} />
         <Route path="/u/:userId" element={<CreatorProfile />} />
+        <Route path="/buyout-leads" element={<BuyoutLeads />} />
         <Route path="*" element={<PageNotFound />} />
       </Route>
     </Routes>

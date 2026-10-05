@@ -8,7 +8,7 @@ import {
   Home, Music2, Users, ListChecks, Sparkles, Flame, Link2, LayoutGrid,
   Map, Newspaper, CreditCard, UserCircle, PenTool,
   Mic2, Megaphone, Route, Wallet, FileText, Disc3, Target,
-  Store, FileSignature, Radar, Mic, MessageCircle,
+  Store, FileSignature, Radar, Mic, MessageCircle, Building2,
 } from "lucide-react";
 
 // The Music section swaps with the active profile mode
@@ -27,13 +27,14 @@ const MUSIC_PRODUCER = [
   { to: "/client-crm", icon: Users, label: "Client CRM" },
 ];
 
-const NAV_SECTIONS = (mode) => {
+const NAV_SECTIONS = (mode, isAdmin) => {
   const sections = [
   {
     label: "Home",
     items: [
       { to: "/dashboard", icon: Home, label: "Dashboard" },
       { to: "/tools", icon: LayoutGrid, label: "Tool Library" },
+      ...(isAdmin ? [{ to: "/buyout-leads", icon: Building2, label: "Buyout Leads" }] : []),
     ],
   },
   {
@@ -94,7 +95,7 @@ export default function SidebarNav({ activePath, onNavigate }) {
   const { user } = useAuth();
   const { mode } = useMode();
   const showLocks = !isProOrAbove(user);
-  const sections = NAV_SECTIONS(mode);
+  const sections = NAV_SECTIONS(mode, user?.role === "admin");
 
   return (
     <div className="flex-1 overflow-y-auto px-3 py-4 space-y-5">
