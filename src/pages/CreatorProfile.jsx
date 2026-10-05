@@ -125,7 +125,7 @@ export default function CreatorProfile() {
                     <UserCheck className="h-4 w-4" /> Friends
                   </span>
                   <Button asChild className="gap-2">
-                    <Link to="/friends"><MessageSquare className="h-4 w-4" /> Message</Link>
+                    <Link to={`/friends?chat=${userId}`}><MessageSquare className="h-4 w-4" /> Message</Link>
                   </Button>
                 </>
               ) : rel?.status === "pending" ? (

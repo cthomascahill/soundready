@@ -1,4 +1,5 @@
 import { useState, useEffect, useCallback } from "react";
+import { useLocation } from "react-router-dom";
 import { base44 } from "@/api/base44Client";
 import { useAuth } from "@/lib/AuthContext";
 import SEO from "@/components/SEO";
@@ -20,11 +21,21 @@ const TABS = [
  */
 export default function Friends() {
   const { user } = useAuth();
+  const location = useLocation();
   const [tab, setTab] = useState("chat");
   const [requests, setRequests] = useState([]);
   const [messages, setMessages] = useState([]);
   const [loading, setLoading] = useState(true);
   const [activeChat, setActiveChat] = useState(null);
+
+  // Deep link: /friends?chat=<userId> opens the Messages tab on that conversation
+  useEffect(() => {
+    const chatWith = new URLSearchParams(location.search).get("chat");
+    if (chatWith) {
+      setTab("chat");
+      setActiveChat(chatWith);
+    }
+  }, [location.search]);
 
   useEffect(() => {
     if (!user?.id) return;

@@ -6,6 +6,7 @@ import SoundReadyLogo from "@/components/SoundReadyLogo";
 import SidebarNav from "@/components/layout/SidebarNav";
 import CommandPalette from "@/components/CommandPalette";
 import NotificationCenter from "@/components/NotificationCenter";
+import MessagesBell from "@/components/social/MessagesBell";
 import MayaAssistant from "@/components/MayaAssistant";
 import TrialBanner from "@/components/billing/TrialBanner";
 import { ModeProvider } from "@/lib/mode";
@@ -46,8 +47,10 @@ export default function AppLayout() {
             className="h-9 w-9 rounded-lg flex items-center justify-center text-muted-foreground hover:text-foreground hover:bg-secondary transition-colors">
             <Menu className="h-5 w-5" />
           </button>
-          <Link to="/dashboard"><SoundReadyLogo size={26} /></Link>
-          <NotificationCenter user={user} />
+          <div className="flex items-center gap-1">
+            <MessagesBell user={user} />
+            <NotificationCenter user={user} />
+          </div>
         </div>
       </div>
 
@@ -58,7 +61,8 @@ export default function AppLayout() {
             <Link to="/dashboard"><SoundReadyLogo size={28} /></Link>
           </div>
           <SidebarNav activePath={location.pathname} />
-          <div className="border-t border-border p-3">
+          <div className="border-t border-border p-3 space-y-1">
+            <MessagesBell user={user} layout="row" />
             <button onClick={() => setCmdOpen(true)}
               className="w-full flex items-center gap-2 px-3 py-2 rounded-lg text-sm text-muted-foreground hover:text-foreground hover:bg-secondary transition-colors">
               <Search className="h-4 w-4" />
@@ -81,7 +85,8 @@ export default function AppLayout() {
                 </button>
               </div>
               <SidebarNav activePath={location.pathname} onNavigate={closeDrawer} />
-              <div className="border-t border-border p-3">
+              <div className="border-t border-border p-3 space-y-1">
+                <div onClick={closeDrawer}><MessagesBell user={user} layout="row" /></div>
                 <button onClick={() => { closeDrawer(); setCmdOpen(true); }}
                   className="w-full flex items-center gap-2 px-3 py-2 rounded-lg text-sm text-muted-foreground hover:text-foreground hover:bg-secondary transition-colors">
                   <Search className="h-4 w-4" /> Search…
