@@ -94,9 +94,13 @@ Find 3 opportunities. For each return:
   let found = 0;
 
   for (const opp of opportunities) {
+    // The LLM may answer "null"/"none" in plain text — only accept real addresses
+    const rawEmail = String(opp.public_email || '').trim();
+    const publicEmail = /^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(rawEmail) ? rawEmail : undefined;
+
     let draftText = `Subject: Beat submission — ${producerName}\n\nDear ${opp.org || 'there'},\n\nI'd like to submit my beats for your consideration. My sound: ${genres.join(' / ') || 'hip-hop'}.\n\nSubmit here: ${opp.submission_link || 'see link'}\n\n— ${producerName}`;
 
-    if (opp.public_email) {
+    if (publicEmail) {
       const draft = await base44.integrations.Core.InvokeLLM({
         prompt: `You are a music producer's manager writing a short submission pitch email.
 
@@ -116,10 +120,10 @@ Then the body. Sign off as ${producerName}.`,
       user_id: user.id,
       action_type: 'beat_scout',
       title: `Maya found ${opp.title}${opp.org ? ` — ${opp.org}` : ''}`,
-      description: `${opp.what_they_want || 'An opportunity for your beats.'}${opp.deadline && opp.deadline !== 'Open' ? ` Deadline: ${opp.deadline}.` : ''}${opp.public_email ? ' Maya drafted a submission email for your approval.' : ' No public email listed — submit via the link in the draft.'}`,
-      status: opp.public_email ? 'ready_to_send' : 'pending',
+      description: `${opp.what_they_want || 'An opportunity for your beats.'}${opp.deadline && opp.deadline !== 'Open' ? ` Deadline: ${opp.deadline}.` : ''}${publicEmail ? ' Maya drafted a submission email for your approval.' : ' No public email listed — submit via the link in the draft.'}`,
+      status: publicEmail ? 'ready_to_send' : 'pending',
       draft_email: draftText,
-      recipient_email: opp.public_email || undefined,
+      recipient_email: publicEmail,
       metadata: {
         submission_link: opp.submission_link,
         org: opp.org,

@@ -27,8 +27,12 @@ export default function MayaQueueCard({ item, user, onUpdated }) {
   const Icon = meta.icon;
 
   const [draft, setDraft] = useState(item.draft_email || "");
+  const prefilledRecipient =
+    item.recipient_email && item.recipient_email !== "null" && item.recipient_email !== "undefined"
+      ? item.recipient_email
+      : "";
   const [recipient, setRecipient] = useState(
-    item.recipient_email || (item.action_type === "digest_sent" ? user?.email || "" : "")
+    prefilledRecipient || (item.action_type === "digest_sent" ? user?.email || "" : "")
   );
   const [editing, setEditing] = useState(false);
   const [expanded, setExpanded] = useState(false);
