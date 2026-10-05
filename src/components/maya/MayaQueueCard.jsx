@@ -35,6 +35,7 @@ export default function MayaQueueCard({ item, user, onUpdated }) {
     prefilledRecipient || (item.action_type === "digest_sent" ? user?.email || "" : "")
   );
   const [editing, setEditing] = useState(false);
+  const [editingRecipient, setEditingRecipient] = useState(false);
   const [expanded, setExpanded] = useState(false);
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState("");
@@ -125,15 +126,49 @@ export default function MayaQueueCard({ item, user, onUpdated }) {
 
       {/* Recipient + actions */}
       <div className="space-y-2">
-        <div className="flex items-center gap-2">
-          <Input
-            type="email"
-            value={recipient}
-            onChange={e => setRecipient(e.target.value)}
-            placeholder="Recipient's email (curator, promoter, press...)"
-            className="h-8 text-xs flex-1"
-          />
-        </div>
+        {prefilledRecipient && !editingRecipient ? (
+          <div className="flex items-center justify-between gap-2 bg-secondary/50 border border-border rounded-lg px-3 py-2">
+            <div className="flex items-center gap-2 min-w-0 text-xs">
+              <Mail className="h-3.5 w-3.5 text-primary shrink-0" />
+              <span className="text-muted-foreground shrink-0">To:</span>
+              <span className="font-medium truncate">{recipient}</span>
+              {item.metadata?.email_source && (
+                <span className="text-[10px] text-muted-foreground/70 truncate hidden lg:inline">
+                  · {item.metadata.email_source}
+                </span>
+              )}
+            </div>
+            <button
+              onClick={() => setEditingRecipient(true)}
+              className="text-muted-foreground hover:text-foreground transition-colors shrink-0"
+              title="Change recipient"
+            >
+              <Pencil className="h-3 w-3" />
+            </button>
+          </div>
+        ) : (
+          <div className="space-y-1.5">
+            {!prefilledRecipient && (
+              <p className="text-[10px] text-muted-foreground/70">
+                Maya couldn't find a published contact email — add one to send, or submit manually via the opportunity's link.
+              </p>
+            )}
+            <div className="flex items-center gap-2">
+              <Input
+                type="email"
+                value={recipient}
+                onChange={e => setRecipient(e.target.value)}
+                placeholder={prefilledRecipient ? "Change recipient's email" : "Recipient's email (curator, promoter, press...)"}
+                className="h-8 text-xs flex-1"
+              />
+              {prefilledRecipient && (
+                <Button size="sm" variant="outline" className="h-8 px-2.5" onClick={() => { setRecipient(prefilledRecipient); setEditingRecipient(false); }}>
+                  <X className="h-3 w-3" />
+                </Button>
+              )}
+            </div>
+          </div>
+        )}
         {error && (
           <div className="flex items-center gap-2 text-xs text-destructive bg-destructive/10 border border-destructive/20 rounded-lg px-3 py-2">
             <AlertTriangle className="h-3.5 w-3.5 shrink-0" />
