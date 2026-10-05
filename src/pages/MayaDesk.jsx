@@ -131,9 +131,21 @@ export default function MayaDesk() {
           <h1 className="font-heading text-4xl font-bold flex items-center gap-3">
             <Sparkles className="h-7 w-7 text-primary" /> Maya's Desk
           </h1>
-          <p className="text-muted-foreground text-sm max-w-xl">
-            Everything Maya has drafted for you, based on your real connected data. Nothing goes out without your approval — edit any draft before you send it.
-          </p>
+          <div className="flex items-start justify-between gap-4">
+            <p className="text-muted-foreground text-sm max-w-xl">
+              Everything Maya has drafted for you, based on your real connected data. Nothing goes out without your approval — edit any draft before you send it.
+            </p>
+            <Button onClick={runSearch} disabled={searching} variant="outline" size="sm"
+              className="gap-2 font-semibold shrink-0 border-primary/30 text-primary hover:bg-primary/10">
+              {searching ? <Loader2 className="h-4 w-4 animate-spin" /> : <RefreshCw className="h-4 w-4" />}
+              {searching ? "Maya is searching…" : "New search"}
+            </Button>
+          </div>
+          {searchNote && (
+            <p className="text-xs text-muted-foreground bg-secondary/50 border border-border rounded-lg px-3 py-2">
+              {searchNote}
+            </p>
+          )}
         </motion.div>
 
         {/* Tabs */}
