@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef } from "react";
 import { base44 } from "@/api/base44Client";
-import { Plus, Play, Pause, Download, Star, Trash2, Loader2 } from "lucide-react";
+import { Plus, Play, Pause, Download, Star, Trash2, Loader2, Columns3 } from "lucide-react";
+import VersionCompare from "./VersionCompare";
 
 // Every version of one song — Mix V1, Mix V2, Master V1, Final Master —
 // stored under the same record instead of duplicate songs.
@@ -9,6 +10,7 @@ export default function VersionsPanel({ song, onUpdate }) {
   const [label, setLabel] = useState("");
   const [uploading, setUploading] = useState(false);
   const [playingId, setPlayingId] = useState(null);
+  const [compareOpen, setCompareOpen] = useState(false);
   const audioRef = useRef(null);
   const inputRef = useRef(null);
 
@@ -131,6 +133,12 @@ export default function VersionsPanel({ song, onUpdate }) {
         </p>
       )}
       <div className="flex items-center gap-2">
+        {versions.length > 1 && (
+          <button onClick={() => setCompareOpen(true)}
+            className="flex items-center gap-1.5 h-9 px-3 rounded-md border border-primary/30 text-primary text-sm font-semibold shrink-0 hover:bg-primary/10">
+            <Columns3 className="h-4 w-4" /> Compare
+          </button>
+        )}
         <input
           value={label}
           onChange={(e) => setLabel(e.target.value)}
@@ -148,6 +156,14 @@ export default function VersionsPanel({ song, onUpdate }) {
       </div>
       <input ref={inputRef} type="file" accept="audio/*" className="hidden" onChange={handleUpload} />
       <audio ref={audioRef} onEnded={() => setPlayingId(null)} onPause={() => setPlayingId(null)} className="hidden" />
+      <VersionCompare
+        song={song}
+        versions={versions}
+        open={compareOpen}
+        onOpenChange={setCompareOpen}
+        onMakeLatest={makeLatest}
+        onRemove={remove}
+      />
     </div>
   );
 }
