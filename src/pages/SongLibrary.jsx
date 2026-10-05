@@ -16,6 +16,7 @@ import VaultCapPrompt, { VaultUsageBadge, FREE_VAULT_CAP } from "@/components/va
 import BulkAddSongs from "@/components/vault/BulkAddSongs";
 import TrackerStageDots from "@/components/vault/TrackerStageDots";
 import VaultArtwork from "@/components/vault/VaultArtwork";
+import CatalogValuation from "@/components/vault/CatalogValuation";
 import { isProOrAbove } from "@/lib/tier";
 import { mirrorVaultSongsToTracker } from "@/lib/vaultTrackerSync";
 
@@ -352,6 +353,8 @@ export default function SongLibrary() {
                 ))}
               </div>
             )}
+
+            <CatalogValuation />
           </div>
         </div>
       </div>

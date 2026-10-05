@@ -1,0 +1,73 @@
+{
+  "name": "CatalogBuyoutInterest",
+  "type": "object",
+  "properties": {
+    "user_id": {
+      "type": "string",
+      "description": "User who submitted the interest"
+    },
+    "creator_name": {
+      "type": "string",
+      "description": "Account display name at time of submission"
+    },
+    "creator_email": {
+      "type": "string",
+      "description": "Account email at time of submission"
+    },
+    "monthly_revenue": {
+      "type": "number",
+      "description": "Monthly catalog revenue selected on the slider"
+    },
+    "annual_revenue": {
+      "type": "number",
+      "description": "Monthly revenue x 12"
+    },
+    "estimated_buyout": {
+      "type": "number",
+      "description": "Estimated buyout at 2x annual revenue"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "interested",
+        "contacted",
+        "closed"
+      ],
+      "default": "interested",
+      "description": "Where this buyout conversation stands"
+    }
+  },
+  "required": [
+    "user_id",
+    "creator_email",
+    "monthly_revenue",
+    "estimated_buyout"
+  ],
+  "rls": {
+    "read": {
+      "$or": [
+        {
+          "created_by_id": "{{user.id}}"
+        },
+        {
+          "user_condition": {
+            "role": "admin"
+          }
+        }
+      ]
+    },
+    "create": {
+      "created_by_id": "{{user.id}}"
+    },
+    "update": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "delete": {
+      "user_condition": {
+        "role": "admin"
+      }
+    }
+  }
+}
