@@ -17,6 +17,7 @@ import BulkAddSongs from "@/components/vault/BulkAddSongs";
 import TrackerStageDots from "@/components/vault/TrackerStageDots";
 import VaultArtwork from "@/components/vault/VaultArtwork";
 import { isProOrAbove } from "@/lib/tier";
+import { mirrorVaultSongsToTracker } from "@/lib/vaultTrackerSync";
 
 const STATUS_COLORS = {
   Idea: "bg-zinc-700/50 text-zinc-300 border-zinc-600",
@@ -143,9 +144,15 @@ export default function SongLibrary() {
     ]).then(([s, p, pipe]) => { setSongs(s); setProjects(p); setPipelineSongs(pipe); setLoading(false); });
   }, [user]);
 
-  const handleModalSave = (song, type) => {
-    if (type === "create") setSongs(prev => [song, ...prev]);
-    else setSongs(prev => prev.map(s => s.id === song.id ? song : s));
+  const handleModalSave = async (song, type) => {
+    if (type === "create") {
+      setSongs(prev => [song, ...prev]);
+      // New vault songs also land in the Tracker with matching stages
+      const piped = await mirrorVaultSongsToTracker([song]);
+      if (piped.length) setPipelineSongs(prev => [...prev, ...piped]);
+    } else {
+      setSongs(prev => prev.map(s => s.id === song.id ? song : s));
+    }
   };
 
   const handleDelete = async (id) => {
@@ -367,7 +374,11 @@ export default function SongLibrary() {
         <BulkAddSongs
           max={isFree ? Math.max(0, FREE_VAULT_CAP - songs.length) : null}
           onClose={() => setShowBulk(false)}
-          onCreated={(created) => setSongs(prev => [...created, ...prev])}
+          onCreated={async (created) => {
+            setSongs(prev => [...created, ...prev]);
+            const piped = await mirrorVaultSongsToTracker(created);
+            if (piped.length) setPipelineSongs(prev => [...prev, ...piped]);
+          }}
         />
       )}
     </div>
