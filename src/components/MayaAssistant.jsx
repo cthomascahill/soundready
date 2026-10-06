@@ -2,7 +2,7 @@ import { useState, useEffect, useRef } from "react";
 import { Link } from "react-router-dom";
 import { base44 } from "@/api/base44Client";
 import { useAuth } from "@/lib/AuthContext";
-import { X, Send, Loader2, Sparkles, ChevronRight, RotateCcw } from "lucide-react";
+import { X, Send, Loader2, Sparkles, ChevronRight, RotateCcw, ExternalLink, Globe } from "lucide-react";
 import SamLogo from "@/components/SamLogo";
 import { motion, AnimatePresence } from "framer-motion";
 import ReactMarkdown from "react-markdown";
@@ -244,12 +244,42 @@ function buildMemorySection(memories) {
   return lines.join("\n");
 }
 
-async function callSam(messages, systemPrompt, wantLearning) {
+// ChatGPT-style routing: decides whether the latest message needs live web
+// results and returns the query to run. null = answer from existing knowledge.
+async function routeForSearch(userMsg) {
+  const result = await base44.integrations.Core.InvokeLLM({
+    prompt: `You route messages inside an AI music manager chat. Does answering this message require CURRENT information from the live web? Answer yes only when the manager's own industry knowledge or the artist's stored profile cannot reliably answer it.
+
+Needs search: news or recent events, latest releases, charts, trends, or algorithm changes, press or reputation mentions of a person or act, looking up a specific person, label, venue, playlist, festival, or company, current prices, policies, or deadlines, verifying any time-sensitive fact.
+Does NOT need search: advice based on the artist's own data, strategy, planning, writing emails or posts, feedback, general music industry guidance.
+
+Message: "${userMsg}"
+
+If it needs search, write an effective standalone web search query (add context such as artist name, "music industry", and the year ${new Date().getFullYear()} when it helps). Otherwise leave search_query empty.`,
+    model: "gpt_5_mini",
+    response_json_schema: {
+      type: "object",
+      properties: {
+        needs_search: { type: "boolean" },
+        search_query: { type: "string" }
+      },
+      required: ["needs_search", "search_query"]
+    }
+  });
+
+  return result.needs_search ? (result.search_query?.trim() || userMsg) : null;
+}
+
+async function callSam(messages, systemPrompt, wantLearning, searchQuery) {
   const history = messages.map(m => `${m.role === "user" ? "Artist" : "Sam"}: ${m.content}`).join("\n\n");
 
   const learningBlock = wantLearning ? `
 
 LEARNING: While responding, check whether the artist revealed a durable preference, goal, constraint, decision, or outreach style (e.g. "I only want paid shows", "I don't cold-email curators", "I'm focusing on sync this year"). Extract up to 2 as "learned" items: {category: one of goals|preferences|constraints|decisions|outreach_style, key: a short label, value: the specific fact in the artist's terms}. Only durable facts about the artist, never one-off questions or temporary states. Never re-propose anything already in the CONFIRMED PREFERENCES or DISMISSED lists above. If nothing durable was revealed, return an empty learned array.` : "";
+
+  const searchBlock = searchQuery ? `
+
+WEB SEARCH: Live internet search results are attached for the query "${searchQuery}". Use them for anything current or external. Cite inline with markdown links like [Source Title](url) for every claim that comes from the web, and list every web page you actually used in "sources" (title + url). Clearly separate verified facts from rumors or allegations. If the results are thin or irrelevant, say so plainly instead of guessing.` : "";
 
   const prompt = `${systemPrompt}
 
@@ -257,18 +287,20 @@ LEARNING: While responding, check whether the artist revealed a durable preferen
 ${history}
 ---END HISTORY---
 
-Now respond as Sam to the artist's latest message. Also provide 2-3 follow-up suggestion chips.${learningBlock}
+Now respond as Sam to the artist's latest message. Also provide 2-3 follow-up suggestion chips.${learningBlock}${searchBlock}
 
 Return your response as JSON:
 {
   "response": "your full markdown response here",
   "chips": ["suggestion 1", "suggestion 2", "suggestion 3"],
-  "learned": [{"category": "...", "key": "...", "value": "..."}]
+  "learned": [{"category": "...", "key": "...", "value": "..."}],
+  "sources": [{"title": "...", "url": "..."}]
 }`;
 
   const result = await base44.integrations.Core.InvokeLLM({
     prompt,
-    model: "claude_sonnet_4_6",
+    model: searchQuery ? "gemini_3_1_pro" : "claude_sonnet_4_6",
+    add_context_from_internet: !!searchQuery,
     response_json_schema: {
       type: "object",
       properties: {
@@ -284,6 +316,17 @@ Return your response as JSON:
               value: { type: "string" }
             },
             required: ["category", "key", "value"]
+          }
+        },
+        sources: {
+          type: "array",
+          items: {
+            type: "object",
+            properties: {
+              title: { type: "string" },
+              url: { type: "string" }
+            },
+            required: ["title", "url"]
           }
         }
       }
@@ -309,6 +352,7 @@ export default function MayaAssistant() {
   const [platformConns, setPlatformConns] = useState([]);
   const [profileLoaded, setProfileLoaded] = useState(false);
   const [upsellOpen, setUpsellOpen] = useState(false);
+  const [searching, setSearching] = useState(false);
   const [memories, setMemories] = useState([]);
   const [learned, setLearned] = useState([]);
   const memoriesRef = useRef([]);
@@ -396,12 +440,25 @@ export default function MayaAssistant() {
     const sysPrompt = (systemPromptRef.current || buildSystemPrompt(null, [], [], [])) + buildMemorySection(memoriesRef.current);
     let result = null;
     try {
-      result = await callSam(newMessages, sysPrompt, isAIManager);
+      // Decide first whether this message needs live web results
+      let searchQuery = null;
+      try {
+        searchQuery = await routeForSearch(msg);
+      } catch (routeErr) {
+        console.error("Sam search routing error:", routeErr);
+      }
+      setSearching(!!searchQuery);
+      result = await callSam(newMessages, sysPrompt, isAIManager, searchQuery);
     } catch (err) {
       console.error("Sam chat error:", err);
     }
+    setSearching(false);
 
-    const mayaMsg = { role: "assistant", content: result?.response || "Sorry, I hit a snag responding. Try again in a moment." };
+    const mayaMsg = {
+      role: "assistant",
+      content: result?.response || "Sorry, I hit a snag responding. Try again in a moment.",
+      ...(result?.sources?.length ? { sources: result.sources } : {})
+    };
     setMessages(prev => [...prev, mayaMsg]);
     setChips(result?.chips || []);
     setLearned((result?.learned || []).filter(l => l?.key && l?.value));
@@ -546,11 +603,24 @@ export default function MayaAssistant() {
                       : "bg-card text-card-foreground rounded-tl-sm border border-border"
                   }`}>
                     {msg.role === "assistant" ? (
-                      <ReactMarkdown
-                        className="prose prose-sm prose-invert max-w-none [&>*:first-child]:mt-0 [&>*:last-child]:mb-0 dark:[&_strong]:text-white [&_ul]:my-1 [&_li]:my-0.5 [&_p]:my-1"
-                      >
-                        {msg.content}
-                      </ReactMarkdown>
+                      <>
+                        <ReactMarkdown
+                          className="prose prose-sm prose-invert max-w-none [&>*:first-child]:mt-0 [&>*:last-child]:mb-0 dark:[&_strong]:text-white [&_ul]:my-1 [&_li]:my-0.5 [&_p]:my-1"
+                        >
+                          {msg.content}
+                        </ReactMarkdown>
+                        {msg.sources?.length > 0 && (
+                          <div className="mt-2.5 pt-2 border-t border-border/70 flex flex-wrap gap-1.5">
+                            {msg.sources.slice(0, 6).map((s, i) => (
+                              <a key={i} href={s.url} target="_blank" rel="noopener noreferrer"
+                                className="flex items-center gap-1 text-[10px] leading-none px-2 py-1 rounded-full bg-muted border border-border text-muted-foreground hover:text-primary hover:border-primary/30 transition-colors max-w-full">
+                                <ExternalLink className="h-2.5 w-2.5 shrink-0" />
+                                <span className="truncate">{s.title || s.url}</span>
+                              </a>
+                            ))}
+                          </div>
+                        )}
+                      </>
                     ) : msg.content}
                   </div>
                 </div>
@@ -561,7 +631,12 @@ export default function MayaAssistant() {
                   <div className="h-7 w-7 rounded-full bg-primary/20 flex items-center justify-center shrink-0">
                     <Sparkles className="h-3.5 w-3.5 text-primary" />
                   </div>
-                  <div className="bg-card border border-border rounded-2xl rounded-tl-sm px-4 py-3 flex items-center gap-1.5">
+                  <div className="bg-card border border-border rounded-2xl rounded-tl-sm px-4 py-3 flex items-center gap-2">
+                    {searching && (
+                      <span className="flex items-center gap-1 text-[11px] text-muted-foreground">
+                        <Globe className="h-3 w-3 text-primary animate-pulse" /> Searching the web…
+                      </span>
+                    )}
                     <span className="h-1.5 w-1.5 rounded-full bg-primary animate-bounce" style={{ animationDelay: "0ms" }} />
                     <span className="h-1.5 w-1.5 rounded-full bg-primary animate-bounce" style={{ animationDelay: "150ms" }} />
                     <span className="h-1.5 w-1.5 rounded-full bg-primary animate-bounce" style={{ animationDelay: "300ms" }} />
