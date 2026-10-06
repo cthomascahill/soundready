@@ -158,7 +158,7 @@ export default function About() {
       <section className="px-4 py-24 border-t border-border">
         <div className="max-w-5xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
           <motion.div initial={{ opacity: 0, x: -24 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }} className="space-y-6 order-2 lg:order-1">
-            <p className="text-xs text-primary uppercase tracking-wider font-bold">{t("The Main Event")}</p>
+            <p className="text-xs text-primary uppercase tracking-wider font-bold">{t("AI Manager")}</p>
             <h2 className="font-heading text-4xl sm:text-5xl font-bold">{t("Meet Sam.")}</h2>
             <p className="text-lg text-muted-foreground leading-relaxed">
               {t("Sam is your AI manager. Sam automatically finds opportunities and pitches you for them every week — real outbound, from your real numbers, waiting for your approval. Just log in, approve or deny.")}
@@ -180,11 +180,11 @@ export default function About() {
         </div>
       </section>
 
-      {/* THE WEEKLY LOOP */}
-      <CareerWorkflowSection />
-
       {/* SAM IN ACTION */}
       <SamInActionSection />
+
+      {/* THE WEEKLY LOOP */}
+      <CareerWorkflowSection />
 
       {/* THE SOLUTION — 3 tiers */}
       <section className="px-4 py-24 border-t border-border bg-secondary/20">
