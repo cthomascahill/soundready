@@ -5,7 +5,7 @@
     "channel": {
       "type": "string",
       "default": "general",
-      "description": "Channel name: 'general' or 'dm|||email1|||email2' (sorted)"
+      "description": "Channel: '<name>|||<team owner email>' for team channels, or 'dm|||email1|||email2' (sorted) for direct messages"
     },
     "sender_email": {
       "type": "string"
@@ -21,6 +21,13 @@
     },
     "file_url": {
       "type": "string"
+    },
+    "participants": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Emails allowed to read this message: the team owner plus roster for team channels, or the two people for DMs"
     }
   },
   "required": [
@@ -35,35 +42,18 @@
           "created_by_id": "{{user.id}}"
         },
         {
-          "user_condition": {
-            "role": "admin"
-          }
+          "data.participants": "{{user.email}}"
         }
       ]
+    },
+    "create": {
+      "created_by_id": "{{user.id}}"
     },
     "update": {
-      "$or": [
-        {
-          "created_by_id": "{{user.id}}"
-        },
-        {
-          "user_condition": {
-            "role": "admin"
-          }
-        }
-      ]
+      "created_by_id": "{{user.id}}"
     },
     "delete": {
-      "$or": [
-        {
-          "created_by_id": "{{user.id}}"
-        },
-        {
-          "user_condition": {
-            "role": "admin"
-          }
-        }
-      ]
+      "created_by_id": "{{user.id}}"
     }
   }
 }
