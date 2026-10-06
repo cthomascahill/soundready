@@ -281,7 +281,7 @@ export default function About() {
           <div className="grid grid-cols-2 lg:grid-cols-5 gap-4">
             {[
               { num: "843+", label: "venues ready to pitch" },
-              { num: "40+", label: "integrated tools" },
+              { num: "24", label: "integrated tools" },
               { num: "10+ hrs", label: "back in your week" },
               { num: "$0", label: "to get started" },
               { num: "15–20%", label: "traditional management takes" },
