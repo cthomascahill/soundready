@@ -20,7 +20,6 @@ import SamFileModal from "@/components/vault/SamFileModal";
 import PageDropOverlay from "@/components/vault/PageDropOverlay";
 import TrackerStageDots from "@/components/vault/TrackerStageDots";
 import VaultArtwork from "@/components/vault/VaultArtwork";
-import CatalogValuation from "@/components/vault/CatalogValuation";
 import { isProOrAbove } from "@/lib/tier";
 import { mirrorVaultSongsToTracker } from "@/lib/vaultTrackerSync";
 
@@ -374,7 +373,6 @@ export default function SongLibrary() {
               </div>
             )}
 
-            <CatalogValuation />
           </div>
         </div>
       </div>

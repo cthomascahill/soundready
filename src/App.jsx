@@ -47,6 +47,7 @@ import ArtistIntake from './pages/ArtistIntake';
 import Studio from './pages/Studio';
 import MusicNews from './pages/MusicNews';
 import IndustryIntel from './pages/IndustryIntel';
+import Deals from './pages/Deals';
 
 import MusicAcademy from './pages/MusicAcademy';
 import Legal from './pages/Legal';
@@ -206,6 +207,7 @@ const AuthenticatedApp = () => {
         <Route path="/whiteboard/:boardId" element={pro(WhiteboardCanvas)} />
         <Route path="/connect-profiles" element={<ConnectProfiles />} />
         <Route path="/maya-desk" element={<MayaDesk />} />
+        <Route path="/deals" element={<Deals />} />
         <Route path="/maya-profile" element={<MayaProfile />} />
         <Route path="/beat-vault" element={<BeatVault />} />
         <Route path="/beat-pipeline" element={pro(BeatPipeline)} />
