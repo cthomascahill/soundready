@@ -5,7 +5,7 @@ import { Lock } from "lucide-react";
 import { useLang } from "@/lib/i18n/LanguageContext";
 import {
   Home, Music2, Users, ListChecks, Link2, LayoutGrid,
-  Map, Newspaper, CreditCard, UserCircle, PenTool,
+  Map, Newspaper, CreditCard, UserCircle,
   Route, Mic, Building2, Bot, Sparkles, Handshake,
 } from "lucide-react";
 
@@ -31,6 +31,7 @@ const NAV_SECTIONS = (isAdmin) => [
     id: "ai-manager",
     label: "AI Manager",
     items: [
+      { to: "/artist-profile", icon: Mic, label: "Artist Profile" },
       { to: "/connect-profiles", icon: Link2, label: "Connect Platforms" },
       { to: "/maya-desk", icon: Bot, label: "Sam's Desk" },
       { to: "/deals", icon: Handshake, label: "Deals" },
@@ -51,7 +52,6 @@ const NAV_SECTIONS = (isAdmin) => [
     label: "Team",
     items: [
       { to: "/team-chat", icon: Users, label: "Team Chat" },
-      { to: "/whiteboard", icon: PenTool, label: "Whiteboard" },
     ],
   },
   {
@@ -59,7 +59,6 @@ const NAV_SECTIONS = (isAdmin) => [
     label: "Account",
     items: [
       { to: "/pricing-account", icon: CreditCard, label: "Your Plan" },
-      { to: "/artist-profile", icon: Mic, label: "Artist Profile" },
       { to: "/profile", icon: UserCircle, label: "Profile" },
     ],
   },
@@ -69,7 +68,7 @@ const NAV_SECTIONS = (isAdmin) => [
 const PRO_ONLY = new Set([
   "/studio", "/career-roadmap", "/artist-feed", "/music-news", "/industry-intel",
   "/touring", "/gig-finder", "/tour-opportunities", "/tour-planner", "/tour-finance",
-  "/contracts", "/team-chat", "/whiteboard", "/beat-pipeline", "/artist-match",
+  "/contracts", "/team-chat", "/beat-pipeline", "/artist-match",
   "/beat-store", "/client-crm", "/producer-contracts",
 ]);
 

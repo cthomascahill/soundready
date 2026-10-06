@@ -4,7 +4,7 @@ import {
   Wallet, Coins, PieChart, Receipt, Calculator, Shield, Scale, MapPin,
   Megaphone, Route, PiggyBank, FileSignature, Map, Target, TrendingUp,
   Award, GraduationCap, Flame, MessageSquare, Bot, MessagesSquare,
-  Presentation, Briefcase, UserCircle, Radar,
+  Briefcase, UserCircle, Radar,
 } from "lucide-react";
 
 // Every tool on the platform, grouped by category.
@@ -79,7 +79,6 @@ export const TOOL_CATEGORIES = [
     label: "Team",
     tools: [
       { name: "Team Chat", to: "/team-chat", desc: "Your team's messages and org chart", icon: MessagesSquare, tier: "pro" },
-      { name: "Whiteboard", to: "/whiteboard", desc: "Shared boards for planning", icon: Presentation, tier: "pro" },
       { name: "Client CRM", to: "/client-crm", desc: "Producer client pipeline", icon: Briefcase, tier: "pro" },
       { name: "Producer Contracts", to: "/producer-contracts", desc: "E-sign leases and exclusives", icon: FileSignature, tier: "pro" },
     ],

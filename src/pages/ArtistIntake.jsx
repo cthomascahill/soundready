@@ -114,8 +114,8 @@ export default function ArtistIntake() {
         {/* Header */}
         <motion.div initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }} className="space-y-1">
           <p className="text-xs text-primary uppercase tracking-widest font-medium">AI Manager Foundation</p>
-          <h1 className="font-heading text-4xl font-bold">Artist Profile</h1>
-          <p className="text-muted-foreground text-sm">The more you fill out, the smarter your AI Manager becomes. Every insight, digest, and recommendation pulls from this.</p>
+          <h1 className="font-heading text-4xl font-bold">YOU MUST COMPLETE THIS</h1>
+          <p className="text-muted-foreground text-sm">Your Artist Profile is the foundation of everything Sam does — outreach, pitches, recommendations and digests all pull from this. The more you fill out, the smarter your AI Manager becomes.</p>
         </motion.div>
 
         {/* Completion bar */}

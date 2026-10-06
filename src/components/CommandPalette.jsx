@@ -1,6 +1,6 @@
 import { useState, useEffect, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
-import { Search, X, Home, Music2, Users, ListChecks, Sparkles, Flame, Link2, Map, Newspaper, CreditCard, UserCircle, PenTool, Mic2, Megaphone, Route, Wallet, FileText } from "lucide-react";
+import { Search, X, Home, Music2, Users, ListChecks, Sparkles, Flame, Link2, Map, Newspaper, CreditCard, UserCircle, Mic2, Megaphone, Route, Wallet, FileText } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 
 const ALL_ROUTES = [
@@ -10,7 +10,6 @@ const ALL_ROUTES = [
   { label: "The Studio", path: "/studio", icon: Sparkles, category: "Core" },
   { label: "The Wall", path: "/artist-feed", icon: Flame, category: "Core" },
   { label: "Team Chat", path: "/team-chat", icon: Users, category: "Team" },
-  { label: "Whiteboard", path: "/whiteboard", icon: PenTool, category: "Team" },
   { label: "Touring", path: "/touring", icon: Route, category: "Touring" },
   { label: "Gig Finder", path: "/gig-finder", icon: Mic2, category: "Touring" },
   { label: "Tour Opportunities", path: "/tour-opportunities", icon: Megaphone, category: "Touring" },
