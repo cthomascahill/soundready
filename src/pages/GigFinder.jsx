@@ -5,6 +5,11 @@ import { MapPin, Music, DollarSign, Calendar, Send, Check, ExternalLink, Search,
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { EXPANDED_VENUE_DB } from "@/lib/venueDatabase";
+import { NORTHEAST_VENUES } from "@/lib/venues/northeast";
+import { SOUTH_VENUES } from "@/lib/venues/south";
+import { MIDWEST_VENUES } from "@/lib/venues/midwest";
+import { WEST_VENUES } from "@/lib/venues/west";
+import { MORE_VENUES } from "@/lib/venues/more";
 
 const VENUE_DB = [
   // New York, NY
@@ -499,7 +504,17 @@ const VENUE_DB = [
 ];
 
 
-const ALL_VENUES = [...VENUE_DB, ...EXPANDED_VENUE_DB];
+// Nationwide directory: core list + expansion files, deduped by name+city
+const ALL_VENUES = (() => {
+  const seen = new Set();
+  return [...VENUE_DB, ...EXPANDED_VENUE_DB, ...NORTHEAST_VENUES, ...SOUTH_VENUES, ...MIDWEST_VENUES, ...WEST_VENUES, ...MORE_VENUES]
+    .filter((v) => {
+      const key = `${v.name}|${v.city}`;
+      if (seen.has(key)) return false;
+      seen.add(key);
+      return true;
+    });
+})();
 
 const BOOKING_RESOURCES = [
   { name: "Indie on the Move", url: "https://www.indieonthemove.com", desc: "The gold standard for DIY touring. Searchable venue database, booking contacts, and tour routing tools.", icon: "🗺️" },

@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { base44 } from "@/api/base44Client";
 import { motion, AnimatePresence } from "framer-motion";
-import { Search, MapPin, Calendar, Music2, ExternalLink, Loader2, Send, CheckCircle2 } from "lucide-react";
+import { Search, MapPin, Calendar, Music2, ExternalLink, Loader2, Send, CheckCircle2, History, Sparkles, Radio } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import OpeningSlotPitchModal from "@/components/tourop/OpeningSlotPitchModal";
@@ -55,6 +55,14 @@ export default function TourOpportunities() {
 
   const hasPitched = (tour) => {
     return pitches.some((p) => p.tour_artist === tour.artist_name || p.tour_artist === tour.name);
+  };
+
+  const isPast = (tour) => tour.status === "happened";
+
+  const STATUS_META = {
+    upcoming: { label: "Upcoming", icon: Calendar, cls: "bg-primary/10 border-primary/25 text-primary" },
+    recently_announced: { label: "Recently Announced", icon: Sparkles, cls: "bg-chart-5/10 border-chart-5/25 text-chart-5" },
+    happened: { label: "Happened", icon: History, cls: "bg-secondary border-border text-muted-foreground" },
   };
 
   return (
@@ -174,7 +182,25 @@ export default function TourOpportunities() {
                 className="rounded-2xl bg-card border border-border p-5 space-y-3 hover:border-primary/30 transition-colors"
               >
                 <div className="flex items-start justify-between gap-4">
-                  <div className="flex-1 min-w-0">
+                  <div className="flex-1 min-w-0 space-y-1.5">
+                    <div className="flex flex-wrap items-center gap-2">
+                      {(() => {
+                        const meta = STATUS_META[tour.status] || STATUS_META.upcoming;
+                        const StatusIcon = meta.icon;
+                        return (
+                          <span className={`inline-flex items-center gap-1 px-2 py-0.5 rounded-full border text-xs font-semibold ${meta.cls}`}>
+                            <StatusIcon className="h-3 w-3" />
+                            {meta.label}
+                          </span>
+                        );
+                      })()}
+                      {tour.source && (
+                        <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-secondary border border-border text-xs text-muted-foreground">
+                          <Radio className="h-3 w-3" />
+                          {tour.source}
+                        </span>
+                      )}
+                    </div>
                     <h3 className="font-heading font-bold text-lg">{tour.artist_name || tour.name}</h3>
                     <p className="text-sm text-muted-foreground mt-0.5">{tour.tour_name}</p>
                   </div>
@@ -186,6 +212,13 @@ export default function TourOpportunities() {
                     </a>
                   )}
                 </div>
+
+                {isPast(tour) && (
+                  <div className="rounded-lg bg-primary/5 border border-primary/20 px-3 py-2 text-xs text-muted-foreground leading-relaxed">
+                    This run already played. They clearly tour — reach out now to be on their radar for the{" "}
+                    <span className="text-primary font-semibold">next tour</span> before slots fill.
+                  </div>
+                )}
 
                 <div className="flex flex-wrap gap-4 text-sm">
                   {tour.dates && (
@@ -223,14 +256,14 @@ export default function TourOpportunities() {
                     ) : (
                       <>
                         <Send className="h-3.5 w-3.5" />
-                        Generate Pitch
+                        {isPast(tour) ? "Pitch for Next Tour" : "Generate Pitch"}
                       </>
                     )}
                   </Button>
                   {tour.url && (
                     <a href={tour.url} target="_blank" rel="noopener noreferrer">
                       <Button variant="ghost" size="sm">
-                        View Full Tour
+                        {isPast(tour) ? "View Tour History" : "View Full Tour"}
                       </Button>
                     </a>
                   )}

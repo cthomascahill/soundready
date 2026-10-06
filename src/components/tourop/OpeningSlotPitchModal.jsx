@@ -56,7 +56,22 @@ Best,
 {artist_name}`,
 };
 
+// Used when the tour's dates already happened — the pitch targets their NEXT tour
+const NEXT_TOUR_TEMPLATE = `Hi {booking_contact},
+
+I'm {artist_name}, an artist with {listener_count} monthly listeners. I caught the recent {tour_name} run that {tour_artist} just wrapped, and it confirmed what the streaming numbers already suggest: our audiences overlap significantly ({fan_overlap} of their listeners also follow me).
+
+I know this tour cycle is done, so I'm reaching out early to be on your radar for {tour_artist}'s NEXT tour. I'd love to open when routing comes through my region, and I can pull a real local crowd on a weeknight.
+
+My live set is tight, professional and ready for rooms of any size. I've attached my EPK and recent performance footage.
+
+Would you be open to keeping me in mind as the next tour comes together?
+
+Best,
+{artist_name}`;
+
 export default function OpeningSlotPitchModal({ tour, artistData, onClose, onPitchCreated }) {
+  const isPast = tour.status === "happened";
   const [step, setStep] = useState("customize"); // customize, preview, sent
   const [copied, setCopied] = useState(false);
   const [loading, setLoading] = useState(false);
