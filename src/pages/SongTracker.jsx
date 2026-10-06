@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/button";
 import ProjectsGrid from "@/components/songtracker/ProjectsGrid";
 import TrackerList from "@/components/songtracker/TrackerList";
 import { vaultStatusFromStages, VAULT_STATUS_ORDER } from "@/lib/songStages";
+import { mirrorVaultSongsToTracker } from "@/lib/vaultTrackerSync";
 
 export default function SongTracker() {
   const { user } = useAuth();
@@ -20,9 +21,13 @@ export default function SongTracker() {
     Promise.all([
       base44.entities.PipelineSong.filter({ created_by_id: user.id }, "sort_order", 500),
       base44.entities.ReleaseProject.filter({ created_by_id: user.id }, "-created_date", 100),
+      base44.entities.SongVault.filter({ created_by_id: user.id }, "-created_date", 200).catch(() => []),
     ])
-      .then(([songData, projectData]) => {
-        setSongs(songData);
+      .then(async ([songData, projectData, vaultSongs]) => {
+        // Safety net: any Vault song missing from the tracker (uploaded from
+        // anywhere) gets mirrored here with its matching stage progression
+        const piped = await mirrorVaultSongsToTracker(vaultSongs).catch(() => []);
+        setSongs([...songData, ...piped]);
         setProjects(projectData);
         setLoading(false);
       })
