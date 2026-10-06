@@ -82,12 +82,14 @@ export default function OpeningSlotPitchModal({ tour, artistData, onClose, onPit
     tour_name: tour.tour_name || "tour",
     listener_count: artistData?.monthly_listeners || "emerging",
     fan_overlap: "significant",
-    email_subject: `Opening Slot Request - ${artistData?.name || "Your Artist"}`,
+    email_subject: tour.status === "happened"
+      ? `Next Tour Support Interest - ${artistData?.name || "Your Artist"}`
+      : `Opening Slot Request - ${artistData?.name || "Your Artist"}`,
     pitch_body: "",
   });
 
   const genre = artistData?.genre || "default";
-  const template = PITCH_TEMPLATES[genre] || PITCH_TEMPLATES.default;
+  const template = isPast ? NEXT_TOUR_TEMPLATE : (PITCH_TEMPLATES[genre] || PITCH_TEMPLATES.default);
 
   const generatePitch = () => {
     let body = template;

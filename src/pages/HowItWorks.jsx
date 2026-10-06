@@ -47,7 +47,7 @@ const STEPS = [
   {
     n: "06",
     title: "Book Shows and Build Your Tour",
-    body: "Search 570+ venues and send professional booking inquiries directly from SoundReady. Plan your tour routing based on where your real fans are. Track every dollar of income and expenses with the Tour Finance tracker. Touring is how artists build real fanbases — SoundReady makes sure you're doing it right.",
+    body: "Search 843+ venues and send professional booking inquiries directly from SoundReady. Plan your tour routing based on where your real fans are. Track every dollar of income and expenses with the Tour Finance tracker. Touring is how artists build real fanbases — SoundReady makes sure you're doing it right.",
     why: "Artists using SoundReady's booking tools book 120% more shows than artists sending cold emails manually. More shows means more fans, more merch sold, and more money in your pocket.",
   },
   {
@@ -90,7 +90,7 @@ const ALL_TOOLS = [
   "Spotify Algorithm Score & Outlook",
   "6-Week Release Plan Generator",
   "Playlist Pitching & Curator Outreach",
-  "Gig Finder (570+ venue database)",
+  "Gig Finder (843+ venue database)",
   "Tour Planner & Routing",
   "Tour Finance & P&L Tracker",
   "EPK Builder",

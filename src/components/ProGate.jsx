@@ -8,7 +8,7 @@ import { motion } from "framer-motion";
 
 const UNLOCKS = [
   "The Studio — lyrics, ideas & beats",
-  "Gig Finder — 570+ venues nationwide",
+  "Gig Finder — 843+ venues nationwide",
   "Tour Planner, Tour Finance & Venue Contracts",
   "The Wall — the artist community",
   "Team Chat + shared Whiteboard",

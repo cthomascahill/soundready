@@ -45,7 +45,7 @@ export const HOME_STRINGS = {
     "The full toolkit, unlocked. Book more shows, plan smarter tours, and bring your whole team into one workspace — and if you make beats, move them from idea to placement with the Beat Pipeline and Artist Match. 7 days free.":
       "El kit completo, desbloqueado. Reserva más shows, planifica giras más inteligentes y reúne a todo tu equipo en un solo espacio de trabajo — y si haces beats, muévelos de la idea a la colocación con el Beat Pipeline y Artist Match. 7 días gratis.",
     "Everything in Artist, unlocked": "Todo lo de Artist, desbloqueado",
-    "The Studio, Gig Finder & 570+ venue database": "The Studio, Gig Finder y base de 570+ locales",
+    "The Studio, Gig Finder & 843+ venue database": "The Studio, Gig Finder y base de 843+ locales",
     "Tour Planner, Tour Finance & Venue Contracts": "Tour Planner, Tour Finance y contratos de locales",
     "Beat Pipeline & Artist Match — producer tools": "Beat Pipeline y Artist Match — herramientas de productor",
     "The Wall — the artist community": "The Wall — la comunidad de artistas",
@@ -79,8 +79,8 @@ export const HOME_STRINGS = {
     "Generate a full Electronic Press Kit with bio, stats, and streaming links in minutes. The same professional presentation that gets artists into festivals and editorial — ready to send instantly.":
       "Genera un EPK completo con bio, estadísticas y enlaces de streaming en minutos. La misma presentación profesional que lleva a los artistas a festivales y editoriales — listo para enviar al instante.",
     "Booking & Tours": "Reservas y Giras",
-    "Access 570+ venues, generate booking inquiries, plan your tour routing, and track every dollar of income and expenses. More shows, better margins, zero spreadsheets.":
-      "Accede a más de 570 locales, genera solicitudes de reserva, planifica la ruta de tu gira y controla cada dólar de ingresos y gastos. Más shows, mejores márgenes, cero hojas de cálculo.",
+    "Access 843+ venues, generate booking inquiries, plan your tour routing, and track every dollar of income and expenses. More shows, better margins, zero spreadsheets.":
+      "Accede a más de 843 locales, genera solicitudes de reserva, planifica la ruta de tu gira y controla cada dólar de ingresos y gastos. Más shows, mejores márgenes, cero hojas de cálculo.",
     "Finance & Royalties": "Finanzas y Regalías",
     "Upload royalty statements from every DSP and see exactly what you're earning in one place. Track expenses, send invoices, and finally understand your music business finances.":
       "Sube tus estados de regalías de cada DSP y ve exactamente cuánto ganas en un solo lugar. Controla gastos, envía facturas y entiende por fin las finanzas de tu negocio musical.",
@@ -198,7 +198,7 @@ export const HOME_STRINGS = {
     "The full toolkit, unlocked. Book more shows, plan smarter tours, and bring your whole team into one workspace — and if you make beats, move them from idea to placement with the Beat Pipeline and Artist Match. 7 days free.":
       "La boîte à outils complète, débloquée. Réservez plus de concerts, planifiez de meilleures tournées et réunissez toute votre équipe dans un seul espace — et si vous faites des beats, menez-les de l'idée au placement avec le Beat Pipeline et Artist Match. 7 jours gratuits.",
     "Everything in Artist, unlocked": "Tout ce qu'offre Artist, débloqué",
-    "The Studio, Gig Finder & 570+ venue database": "The Studio, Gig Finder et 570+ salles",
+    "The Studio, Gig Finder & 843+ venue database": "The Studio, Gig Finder et 843+ salles",
     "Tour Planner, Tour Finance & Venue Contracts": "Tour Planner, Tour Finance et contrats de salles",
     "Beat Pipeline & Artist Match — producer tools": "Beat Pipeline et Artist Match — outils producteur",
     "The Wall — the artist community": "The Wall — la communauté d'artistes",
@@ -232,8 +232,8 @@ export const HOME_STRINGS = {
     "Generate a full Electronic Press Kit with bio, stats, and streaming links in minutes. The same professional presentation that gets artists into festivals and editorial — ready to send instantly.":
       "Générez un EPK complet avec bio, statistiques et liens de streaming en quelques minutes. La même présentation professionnelle qui mène les artistes aux festivals et aux éditoriales — prêt à envoyer immédiatement.",
     "Booking & Tours": "Booking et Tournées",
-    "Access 570+ venues, generate booking inquiries, plan your tour routing, and track every dollar of income and expenses. More shows, better margins, zero spreadsheets.":
-      "Accédez à plus de 570 salles, générez des demandes de booking, planifiez votre routage de tournée et suivez chaque dollar de revenus et de dépenses. Plus de concerts, de meilleures marges, zéro tableur.",
+    "Access 843+ venues, generate booking inquiries, plan your tour routing, and track every dollar of income and expenses. More shows, better margins, zero spreadsheets.":
+      "Accédez à plus de 843 salles, générez des demandes de booking, planifiez votre routage de tournée et suivez chaque dollar de revenus et de dépenses. Plus de concerts, de meilleures marges, zéro tableur.",
     "Finance & Royalties": "Finances et Royalties",
     "Upload royalty statements from every DSP and see exactly what you're earning in one place. Track expenses, send invoices, and finally understand your music business finances.":
       "Importez vos relevés de royalties de chaque DSP et voyez exactement ce que vous gagnez au même endroit. Suivez les dépenses, envoyez des factures et comprenez enfin les finances de votre activité musicale.",
@@ -351,7 +351,7 @@ export const HOME_STRINGS = {
     "The full toolkit, unlocked. Book more shows, plan smarter tours, and bring your whole team into one workspace — and if you make beats, move them from idea to placement with the Beat Pipeline and Artist Match. 7 days free.":
       "Das volle Toolkit, freigeschaltet. Buche mehr Shows, plane klügere Tourneen und bring dein ganzes Team in einen Workspace — und wenn du Beats machst, führe sie mit Beat Pipeline und Artist Match von der Idee zum Placement. 7 Tage kostenlos.",
     "Everything in Artist, unlocked": "Alles aus Artist, freigeschaltet",
-    "The Studio, Gig Finder & 570+ venue database": "The Studio, Gig Finder und 570+ Venues-Datenbank",
+    "The Studio, Gig Finder & 843+ venue database": "The Studio, Gig Finder und 843+ Venues-Datenbank",
     "Tour Planner, Tour Finance & Venue Contracts": "Tour Planner, Tour Finance und Venue-Verträge",
     "Beat Pipeline & Artist Match — producer tools": "Beat Pipeline und Artist Match — Producer-Tools",
     "The Wall — the artist community": "The Wall — die Künstler-Community",
@@ -385,8 +385,8 @@ export const HOME_STRINGS = {
     "Generate a full Electronic Press Kit with bio, stats, and streaming links in minutes. The same professional presentation that gets artists into festivals and editorial — ready to send instantly.":
       "Erstelle in Minuten ein komplettes EPK mit Bio, Statistiken und Streaming-Links. Die gleiche professionelle Präsentation, die Künstler zu Festivals und Editorials bringt — sofort versandbereit.",
     "Booking & Tours": "Booking und Touren",
-    "Access 570+ venues, generate booking inquiries, plan your tour routing, and track every dollar of income and expenses. More shows, better margins, zero spreadsheets.":
-      "Greif auf über 570 Venues zu, erstelle Booking-Anfragen, plane deine Tour-Routen und verfolge jedes Einnahmen- und Ausgabendollar. Mehr Shows, bessere Margen, keine Tabellen.",
+    "Access 843+ venues, generate booking inquiries, plan your tour routing, and track every dollar of income and expenses. More shows, better margins, zero spreadsheets.":
+      "Greif auf über 843 Venues zu, erstelle Booking-Anfragen, plane deine Tour-Routen und verfolge jedes Einnahmen- und Ausgabendollar. Mehr Shows, bessere Margen, keine Tabellen.",
     "Finance & Royalties": "Finanzen und Tantiemen",
     "Upload royalty statements from every DSP and see exactly what you're earning in one place. Track expenses, send invoices, and finally understand your music business finances.":
       "Lade deine Tantiemen-Abrechnungen von jedem DSP hoch und sieh an einem Ort genau, was du verdienst. Verfolge Ausgaben, stelle Rechnungen und verstehe endlich die Finanzen deines Musikbusiness.",

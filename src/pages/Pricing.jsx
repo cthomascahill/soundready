@@ -31,7 +31,7 @@ const FREE_GROUPS = [
 
 const PRO_GROUPS = [
   { label: "For artists", items: [
-    "The Studio, Gig Finder & 570+ venue database",
+    "The Studio, Gig Finder & 843+ venue database",
     "Tour Planner, Tour Finance & Venue Contracts",
     "The Wall — the artist community",
     "Team Chat & shared Whiteboard",
