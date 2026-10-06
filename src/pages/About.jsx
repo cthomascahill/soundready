@@ -332,7 +332,6 @@ export default function About() {
               {t("Your next release could be your biggest.")}<br />
               <span className="text-primary">{t("SoundReady makes sure of it.")}</span>
             </h2>
-            <p className="text-lg text-muted-foreground">{t("The artists winning right now are better organized. Start today.")}</p>
           </div>
           <Button size="lg" className="gap-2 font-heading font-bold text-base px-10 h-13" onClick={handleCTA}>
             {t("Start")} <ArrowRight className="h-4 w-4" />

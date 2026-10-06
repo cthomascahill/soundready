@@ -9,13 +9,22 @@ export default function SamInActionSection() {
   const { t } = useLang();
   return (
     <section className="px-4 py-24 border-t border-border">
-      <div className="max-w-2xl mx-auto relative">
-        <img
-          src={SAM_IMG}
-          alt="Sam, the SoundReady AI manager robot"
-          className="absolute -top-10 -right-2 sm:-right-10 h-20 w-auto drop-shadow-xl z-10 pointer-events-none"
-        />
-        <motion.div initial={{ opacity: 0, y: 24 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}>
+      <div className="max-w-5xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+        <motion.div initial={{ opacity: 0, x: -24 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }} className="space-y-5 order-2 lg:order-1">
+          <p className="text-xs text-primary uppercase tracking-wider font-bold">{t("Sam In Action")}</p>
+          <h2 className="font-heading text-4xl sm:text-5xl font-bold leading-tight">
+            {t("Your AI manager automatically outbounds on your behalf.")}
+          </h2>
+          <p className="text-lg text-muted-foreground leading-relaxed">
+            {t("This is Sam's Desk — a finished pitch, researched and drafted from your real numbers, waiting for your decision.")}
+          </p>
+        </motion.div>
+        <motion.div initial={{ opacity: 0, x: 24 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }} className="relative order-1 lg:order-2">
+          <img
+            src={SAM_IMG}
+            alt="Sam, the SoundReady AI manager robot"
+            className="absolute -top-12 -right-2 sm:-right-6 h-16 w-auto drop-shadow-xl z-10 pointer-events-none"
+          />
           <div className="rounded-2xl border border-border bg-card p-5 space-y-4 shadow-xl">
             <div className="flex items-center gap-2 pb-2 border-b border-border">
               <Bot className="h-4 w-4 text-primary" />
