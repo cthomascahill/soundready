@@ -1,5 +1,6 @@
 import {
   TrendingUp, ListMusic, Activity, Mic, PiggyBank, Bus, ShoppingBag, Sparkles,
+  Clapperboard, Trophy,
 } from "lucide-react";
 
 // Every feed in the Industry Intel hub. ids must match FEED_PROMPTS in
@@ -40,6 +41,18 @@ export const INTEL_FEEDS = [
     label: "Tour News for Your Market",
     icon: Bus,
     description: "Tours routing through your cities and opening-slot intel.",
+  },
+  {
+    id: "sync_calls",
+    label: "Sync & Licensing Calls",
+    icon: Clapperboard,
+    description: "TV, film, ad, game and supervisor calls seeking music right now.",
+  },
+  {
+    id: "competitions",
+    label: "Competitions & Contests",
+    icon: Trophy,
+    description: "Songwriting contests, beat battles and festival slot contests with deadlines.",
   },
   {
     id: "scene_digest",

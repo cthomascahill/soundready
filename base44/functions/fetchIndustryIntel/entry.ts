@@ -10,6 +10,8 @@ const FEED_PROMPTS = {
   grants: "Research currently open music-related grants, arts council and foundation funding programs, and sponsorship opportunities available to independent artists or producers in the user's region: award amounts, eligibility, deadlines, and application links.",
   tour_news: "Research which tours are routing through the user's city or region in the coming months: which artists are playing which venues and when, and any opening-slot or local-support opportunities (support acts not yet announced, venues known for booking local openers, support-slot contests).",
   producer_market: "Research who is shopping for beats right now: artists posting 'looking for production', A&R beat calls, and producer-search opportunities in the user's genre. Note who is looking, what sound they want, and how to submit.",
+  sync_calls: "Research current sync licensing and music placement opportunities for independent artists: TV shows, films, ads, video games and content libraries actively seeking music, music supervisors or sync agencies accepting submissions, and any open sync briefs or placement calls — what they want, how to submit, and deadlines.",
+  competitions: "Research currently open music competitions, songwriting contests, beat battles and festival slot contests relevant to the genre: prize details, entry requirements, entry fees if any, deadlines, and how to enter.",
   scene_digest: "Write this week's scene report for the user's exact genre and city: the biggest stories and releases of the week, viral moments, notable moves by comparable artists, and what is changing on streaming and social platforms right now. The items are the week's headlines for their scene.",
 };
 
