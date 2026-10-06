@@ -10,8 +10,6 @@ import PublicNav from "@/components/public/PublicNav";
 import SEO from "@/components/SEO";
 import { useLang } from "@/lib/i18n/LanguageContext";
 
-const DASH_IMG = "https://media.base44.com/images/public/69dcf0ecc907e43a438a626b/5cfdd4ed9_generated_image.png";
-
 const STEPS = [
   { n: "01", icon: Upload, title: "Drop your song in", line: "MP3, WAV, AAC — it lives in your Vault." },
   { n: "02", icon: BarChart2, title: "Get the report", line: "Real audio analysis, real numbers." },
@@ -81,13 +79,6 @@ export default function HowItWorks() {
           </Button>
         </motion.div>
 
-        <motion.div initial={{ opacity: 0, y: 32 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.25 }} className="relative max-w-5xl mx-auto pt-10">
-          <img
-            src={DASH_IMG}
-            alt="SoundReady — your Vault, analytics and Sam's Desk in one place"
-            className="rounded-2xl border border-border shadow-2xl w-full"
-          />
-        </motion.div>
       </section>
 
       {/* TEN STEPS */}

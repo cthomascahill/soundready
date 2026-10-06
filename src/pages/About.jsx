@@ -17,8 +17,6 @@ import CareerWorkflowSection from "@/components/home/CareerWorkflowSection";
 import SamInActionSection from "@/components/home/SamInActionSection";
 import { useLang } from "@/lib/i18n/LanguageContext";
 
-const DASH_IMG = "https://media.base44.com/images/public/69dcf0ecc907e43a438a626b/5cfdd4ed9_generated_image.png";
-
 const TIERS = [
   {
     icon: Zap,
@@ -154,13 +152,6 @@ export default function About() {
           <p className="text-xs text-muted-foreground">{t("Start free. No contracts. No percentage cuts — ever.")}</p>
         </motion.div>
 
-        <motion.div initial={{ opacity: 0, y: 32 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.25 }} className="relative pt-10">
-          <img
-            src={DASH_IMG}
-            alt="SoundReady — your Vault, analytics and Sam's Desk in one place"
-            className="rounded-2xl border border-border shadow-2xl w-full"
-          />
-        </motion.div>
       </section>
 
       {/* SAM SPOTLIGHT — the main event */}
