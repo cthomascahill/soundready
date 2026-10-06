@@ -6,7 +6,7 @@ import {
   ArrowRight, Flame, Zap, BarChart2, Music2, DollarSign, FileText, Users,
   CheckCircle2, Mic2, MapPin, BookOpen, Wand2, Link2, TrendingUp, Newspaper,
   Send, CalendarDays, AlertTriangle, Clock, PhoneOff, TrendingDown, Star,
-  Bot, UserCheck, ChevronRight, Sparkles, Disc3, Radar
+  Bot, ChevronRight, Sparkles, Radar
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import PublicNav from "@/components/public/PublicNav";
@@ -26,42 +26,17 @@ const MANAGER_PAINS = [
 
 const TIERS = [
   {
-    icon: Bot,
-    color: "text-primary",
-    bg: "bg-primary/10",
-    border: "border-primary/30",
-    name: "AI Manager",
-    tagline: "Your career, worked around the clock.",
-    price: "$60/mo",
-    badge: "Sam Works For You",
-    badgeStyle: "bg-primary text-primary-foreground",
-    glow: true,
-    desc: "Sam automatically outbounds on your behalf for opportunities weekly — tour support, features, sync opportunities and more. You simply approve or deny. Every move is drafted from your real numbers and waits for you in Sam's Desk.",
-    items: [
-      "Sam outbounds for you weekly — tour support, features, sync & more",
-      "You simply approve or deny — nothing sends without you",
-      "Sam chat backed by your real numbers",
-      "Auto-drafted playlist & tour-opening pitches",
-      "Sam pitches your beats to matching artists",
-      "EPKs & weekly career digests",
-    ],
-    cta: "Start Manager",
-    route: "/pricing",
-    subtext: "No percentage cuts — ever.",
-  },
-  {
     icon: Zap,
     color: "text-chart-5",
     bg: "bg-chart-5/10",
     border: "border-chart-5/20",
-    name: "Artist",
+    name: "Free",
     tagline: "Your music's home base. Free forever.",
     price: "$0",
-    desc: "You need a system before you need a team. Organize up to 5 songs in the Vault — or up to 5 beats in the Productions — and track every song from idea to release, free, forever. Everything else unlocks with Artist Pro.",
+    desc: "You need a system before you need a team. Organize up to 5 songs in the Vault and track every song from idea to release, free, forever. Everything else unlocks with Artist Pro.",
     items: [
       "Vault — up to 5 songs, organized",
       "Tracker — from idea to release",
-      "Productions & Placements — up to 5 beats",
       "Connect Spotify & YouTube",
       "Your artist dashboard",
     ],
@@ -76,21 +51,45 @@ const TIERS = [
     name: "Artist Pro",
     tagline: "You and your team, finally in sync.",
     price: "$37/mo",
-    badge: "Most Popular · 7-Day Free Trial",
-    desc: "The full toolkit, unlocked. Book more shows, plan smarter tours, and bring your whole team into one workspace — and if you make beats, move them from idea to placement with the Beat Pipeline and Artist Match. 7 days free.",
+    badge: "7-Day Free Trial",
+    desc: "The full toolkit, unlocked. Book more shows, plan smarter tours, and bring your whole team into one workspace. 7 days free.",
     items: [
-      "Everything in Artist, unlocked",
+      "Everything in Free, unlocked",
       "The Studio, Gig Finder & 843+ venue database",
       "Tour Planner, Tour Finance & Venue Contracts",
-      "Beat Pipeline & Artist Match — producer tools",
       "The Wall — the artist community",
-      "Invite your team — Team Chat & Whiteboard",
+      "Invite your team — Team Chat",
       "Career Roadmap & weekly music briefings",
     ],
     cta: "Start Pro",
     route: "/pricing",
     subtext: "Card required — charged automatically after 7 days. Cancel anytime.",
   },
+  {
+    icon: Bot,
+    color: "text-primary",
+    bg: "bg-primary/10",
+    border: "border-primary/30",
+    name: "AI Manager",
+    tagline: "Your career, worked around the clock.",
+    price: "$60/mo",
+    badge: "Most Popular · Sam Works For You",
+    badgeStyle: "bg-primary text-primary-foreground",
+    glow: true,
+    desc: "Sam automatically outbounds on your behalf for opportunities weekly — tour support, features, sync opportunities and more. You simply approve or deny. Every move is drafted from your real numbers and waits for you in Sam's Desk.",
+    items: [
+      "Sam outbounds for you weekly — tour support, features, sync & more",
+      "You simply approve or deny — nothing sends without you",
+      "Sam chat backed by your real numbers",
+      "Auto-drafted playlist & tour-opening pitches",
+      "EPKs & weekly career digests",
+    ],
+    cta: "Start Manager",
+    route: "/pricing",
+    subtext: "No percentage cuts — ever.",
+  },
+
+
 ];
 
 const WHAT_WE_DO = [
@@ -104,9 +103,7 @@ const WHAT_WE_DO = [
 
   { icon: Radar, color: "text-chart-5", title: "Industry Intel & Music News", desc: "Label signings, playlist changes, grants, showcase deadlines and tour news in your market — plus daily briefings on what's working in your genre right now. Always know when to move." },
   { icon: FileText, color: "text-yellow-400", title: "Contract Analyzer", desc: "Upload any deal or contract and SoundReady flags every clause that could hurt you — in plain English. Know exactly what you're signing before you sign it." },
-  { icon: Disc3, color: "text-purple-400", title: "Productions & Placements", desc: "Producers get their own workspace. Catalog every beat with BPM, key, and moods, track your credits and fees, and turn your placement history into the resume that lands collabs." },
-  { icon: UserCheck, color: "text-teal-400", title: "Artist Match", desc: "SoundReady ranks the artists on the platform whose sound fits your beats — and Sam drafts the pitch for you. Your beats stop waiting for artists to find you." },
-  { icon: Users, color: "text-cyan-400", title: "Team Workspace", desc: "Bring your manager, producer, and engineer into one workspace — shared chat, whiteboards, and feedback on every version of the song. Your whole team in sync." },
+  { icon: Users, color: "text-cyan-400", title: "Team Workspace", desc: "Bring your whole team into one workspace — shared chat and feedback on every version of the song. Your whole team in sync." },
 ];
 
 export default function About() {
@@ -125,8 +122,8 @@ export default function About() {
   return (
     <div className="min-h-screen bg-background">
       <SEO
-        title="SoundReady — AI Career Management for Independent Artists & Producers"
-        description="Your songs, your beats, your tours, your team — plus Sam, the AI manager that drafts your pitches and outreach from your real numbers. Start free."
+        title="SoundReady — AI Career Management for Independent Artists"
+        description="Your songs, your tours, your team — plus Sam, the AI manager that drafts your pitches and outreach from your real numbers. Start free."
       />
 
       <PublicNav showHome={false} />
@@ -207,10 +204,10 @@ export default function About() {
       <section className="px-4 py-24 border-t border-border">
         <div className="max-w-5xl mx-auto">
           <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="text-center mb-14 space-y-4">
-            <h2 className="font-heading text-4xl sm:text-5xl font-bold">{t("Artists. Producers. One platform that ")}<span className="text-primary">{t("changes everything.")}</span></h2>
+            <h2 className="font-heading text-4xl sm:text-5xl font-bold">{t("Every artist. One platform that ")}<span className="text-primary">{t("changes everything.")}</span></h2>
           </motion.div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-5">
             {[
               {
                 headline: "You have a manager.",
@@ -223,12 +220,6 @@ export default function About() {
                 body: "You're making real music but your career isn't moving. The artists winning right now aren't more talented — they're better organized. SoundReady is the infrastructure that turns a good artist into a growing one.",
                 label: "Start moving forward.",
                 icon: TrendingUp,
-              },
-              {
-                headline: "You make beats.",
-                body: "Your best beats are sitting in a folder while artists who'd pay for them never hear them. SoundReady gives producers the same infrastructure as artists — your Productions, a pipeline from idea to placement, and matching that puts your sound in front of the right artists.",
-                label: "Turn beats into placements.",
-                icon: Disc3,
               },
             ].map((card, i) => (
               <motion.div key={i}
@@ -244,25 +235,6 @@ export default function About() {
               </motion.div>
             ))}
           </div>
-        </div>
-      </section>
-
-      {/* MANAGER CALLOUT */}
-      <section className="px-4 py-12 border-t border-border">
-        <div className="max-w-4xl mx-auto">
-          <motion.div initial={{ opacity: 0, y: 16 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}
-            className="rounded-2xl bg-secondary border border-border px-8 py-7 flex flex-col sm:flex-row items-start sm:items-center gap-5">
-            <div className="h-11 w-11 rounded-xl bg-primary/10 border border-primary/20 flex items-center justify-center shrink-0">
-              <Users className="h-5 w-5 text-primary" />
-            </div>
-            <div className="space-y-1 flex-1">
-              <p className="font-heading font-bold text-lg">{t("Already have a manager?")}</p>
-              <p className="text-sm text-muted-foreground leading-relaxed">{t("SoundReady is built for them too. Invite your team, share your workspace, and give your manager the infrastructure to actually move your career forward — faster than ever.")}</p>
-            </div>
-            <Button variant="outline" className="shrink-0 font-semibold" onClick={handleCTA}>
-              {t("Invite Your Team")}
-            </Button>
-          </motion.div>
         </div>
       </section>
 
@@ -296,7 +268,7 @@ export default function About() {
                   <motion.img
                     src="https://media.base44.com/images/public/69dcf0ecc907e43a438a626b/d124f0929_generated_f10ed4b3.png"
                     alt="Sam, the SoundReady AI manager robot, grabbing the side of the AI Manager card"
-                    className="pointer-events-none absolute -right-3 sm:-right-14 top-8 h-32 sm:h-44 w-auto drop-shadow-xl z-10"
+                    className="pointer-events-none absolute -right-3 xl:-right-14 top-8 h-32 sm:h-44 w-auto drop-shadow-xl z-10"
                     initial={{ opacity: 0, x: 16 }}
                     whileInView={{ opacity: 1, x: 0 }}
                     viewport={{ once: true }}
@@ -369,11 +341,10 @@ export default function About() {
             <p className="text-xs text-primary uppercase tracking-wider font-bold">{t("Who It's For")}</p>
             <h2 className="font-heading text-4xl font-bold">{t("Built for every artist who is serious about their career.")}</h2>
           </motion.div>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
             {[
               { level: "The Unsigned Artist", desc: "You're self-managing and the game feels rigged against you. SoundReady gives you the same tools, strategy, and infrastructure that signed artists get from their labels — from day one." },
               { level: "The Emerging Artist", desc: "You have momentum but your career isn't keeping up with your music. SoundReady organizes everything so every release works as hard as you do." },
-              { level: "The Producer", desc: "Your beats are everywhere but your placements aren't. SoundReady gives you a real producer system — your Productions, a pipeline, a credits resume, and matching that puts your sound in front of the right artists." },
               { level: "The Manager or Indie Label", desc: "You're responsible for multiple artists and the disorganization is costing you real opportunities. SoundReady gives your whole team one place to work — every artist, every release, every deal, from a single platform." },
             ].map((w, i) => (
               <motion.div key={w.level}
@@ -423,7 +394,7 @@ export default function About() {
             {[
               { num: "15–20%", sub: "What the traditional management model takes — whether deals close or not" },
               { num: "$0", sub: "What it costs to start on SoundReady — core tools free forever" },
-              { num: "40+", sub: "Integrated tools giving every artist and producer the infrastructure of a full professional team" },
+              { num: "40+", sub: "Integrated tools giving every artist the infrastructure of a full professional team" },
             ].map((s, i) => (
               <motion.div key={i} initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: i * 0.1 }} className="space-y-2">
                 <p className="font-heading text-3xl sm:text-5xl font-black text-primary">{s.num}</p>
@@ -442,7 +413,7 @@ export default function About() {
               {t("Your next release could be your biggest.")}<br />
               <span className="text-primary">{t("SoundReady makes sure of it.")}</span>
             </h2>
-            <p className="text-lg text-muted-foreground">{t("The artists and producers winning right now aren't more talented — they're more organized and more strategic. SoundReady gives you everything you need to be both, starting today.")}</p>
+            <p className="text-lg text-muted-foreground">{t("The artists winning right now aren't more talented — they're more organized and more strategic. SoundReady gives you everything you need to be both, starting today.")}</p>
           </div>
           <Button size="lg" className="gap-2 font-heading font-bold text-base px-10 h-13" onClick={handleCTA}>
             {t("Start")} <ArrowRight className="h-4 w-4" />
