@@ -32,6 +32,7 @@ import RoyaltyDashboard from './pages/RoyaltyDashboard';
 import GigFinder from './pages/GigFinder';
 import AlgorithmGuide from './pages/AlgorithmGuide';
 import Pricing from './pages/Pricing';
+import Checkout from './pages/Checkout';
 import Profile from './pages/Profile';
 import VenueContracts from './pages/VenueContracts';
 import Community from './pages/Community';
@@ -103,6 +104,7 @@ const AuthenticatedApp = () => {
       {/* Public marketing pages */}
       <Route path="/" element={<About />} />
       <Route path="/pricing" element={<Pricing />} />
+      <Route path="/checkout/:plan" element={<Checkout />} />
       <Route path="/store/:producerId" element={<Storefront />} />
       <Route path="/store/download" element={<StoreDownload />} />
       <Route path="/contracts/sign/:token" element={<SignContract />} />

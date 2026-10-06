@@ -9,40 +9,11 @@ import { base44 } from "@/api/base44Client";
 import { useAuth } from "@/lib/AuthContext";
 import { getTier, trialDaysLeft } from "@/lib/tier";
 import PublicNav from "@/components/public/PublicNav";
-import CheckoutButton from "@/components/billing/CheckoutButton";
 import SEO from "@/components/SEO";
 import ManagerCostSlider from "@/components/home/ManagerCostSlider";
+import { FREE_ITEMS, PRO_ITEMS, AI_ITEMS } from "@/lib/plans";
 
-// Each tier's unlocks — artists and their teams
-const FREE_ITEMS = [
-  "Vault — up to 5 songs, organized",
-  "Tracker — from idea to release",
-  "Connect Spotify & YouTube",
-  "Your dashboard & analytics",
-];
 
-const PRO_ITEMS = [
-  "Everything in Free, unlocked",
-  "Gig Finder — 843+ venues ready to pitch",
-  "Tour Planner, Tour Finance & Venue Contracts",
-  "The Wall — the artist community",
-  "Team Chat & Career Roadmap",
-  "Weekly music briefings & Music News",
-  "Genre Trends & Lyric Room",
-  "Invoices, Revenue Splits & Royalty Dashboard",
-  "Budget Tracker & full Analytics",
-  "Link in Bio & Branding Studio",
-];
-
-const AI_ITEMS = [
-  "Weekly outbound on your behalf — you approve or deny",
-  "Nothing sends without your approval",
-  "Auto-drafted playlist & tour-opening pitches",
-  "Tour & sync opportunities, outbounded for you",
-  "Sam chat — advice backed by your real numbers",
-  "Electronic press kit (EPK) creator",
-  "Weekly career digest",
-];
 
 const TierItems = ({ items, check = "text-primary" }) => (
   <div className="grid grid-cols-1 gap-y-2">
@@ -217,11 +188,9 @@ export default function Pricing() {
                 <TierItems items={FREE_ITEMS} check="text-chart-5" />
               </div>
               <div className="mt-6">
-                {isAuth ? (
-                  <Button className="w-full font-semibold" onClick={() => navigate("/history")}>Start Free</Button>
-                ) : (
-                  <Button className="w-full font-semibold" onClick={() => base44.auth.redirectToLogin(`${window.location.origin}/pricing?tier=free`)}>Start Free</Button>
-                )}
+                <Link to="/checkout/free">
+                  <Button className="w-full font-semibold">Start Free</Button>
+                </Link>
               </div>
               <p className="text-center text-xs text-muted-foreground mt-2">Free forever. No card required.</p>
             </motion.div>
@@ -245,11 +214,9 @@ export default function Pricing() {
                 <TierItems items={PRO_ITEMS} check="text-chart-5" />
               </div>
               <div className="mt-6">
-                {!isAuth ? (
-                  <Button className="w-full font-semibold" onClick={() => base44.auth.redirectToLogin(`${window.location.origin}/pricing?tier=pro`)}>Start Pro</Button>
-                )
-                : tier === "free" ? <CheckoutButton tier="pro" className="w-full bg-chart-5 hover:bg-chart-5/90 text-black">Start Pro</CheckoutButton>
-                : <Button className="w-full font-semibold" disabled>{tier === "pro" ? "Your current plan" : "Included in your plan"}</Button>}
+                <Link to="/checkout/artist-pro">
+                  <Button className="w-full font-semibold bg-chart-5 hover:bg-chart-5/90 text-black">Start Pro</Button>
+                </Link>
               </div>
               <p className="text-center text-xs text-muted-foreground mt-2">Card required — charged $37 automatically after 7 days. Cancel before then, pay nothing.</p>
             </motion.div>
@@ -285,11 +252,9 @@ export default function Pricing() {
                 <TierItems items={AI_ITEMS} />
               </div>
               <div className="mt-6 relative">
-                {!isAuth ? (
-                  <Button className="w-full font-semibold" onClick={() => base44.auth.redirectToLogin(`${window.location.origin}/pricing?tier=ai_manager`)}>Start AI Manager</Button>
-                )
-                : tier === "ai_manager" ? <Button className="w-full font-semibold" disabled>Your current plan</Button>
-                : <CheckoutButton tier="ai_manager" className="w-full bg-primary hover:bg-primary/90 text-primary-foreground gap-2"><Sparkles className="h-4 w-4" /> Start AI Manager</CheckoutButton>}
+                <Link to="/checkout/ai-manager">
+                  <Button className="w-full font-semibold gap-2"><Sparkles className="h-4 w-4" /> Start AI Manager</Button>
+                </Link>
               </div>
               <p className="text-center text-xs text-muted-foreground mt-2">Cancel anytime. No percentage cuts — ever.</p>
             </motion.div>

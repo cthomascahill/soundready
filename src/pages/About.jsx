@@ -34,6 +34,7 @@ const TIERS = [
       "Connect Spotify & YouTube",
     ],
     cta: "Start Free",
+    checkout: "/checkout/free",
     subtext: "Free forever. No card required.",
   },
   {
@@ -54,7 +55,7 @@ const TIERS = [
       "Team Chat & Career Roadmap",
     ],
     cta: "Start Pro",
-    route: "/pricing",
+    checkout: "/checkout/artist-pro",
     subtext: "Card required — charged automatically after 7 days. Cancel anytime.",
   },
   {
@@ -76,7 +77,7 @@ const TIERS = [
       "EPKs & weekly digests",
     ],
     cta: "Start AI Manager",
-    route: "/pricing",
+    checkout: "/checkout/ai-manager",
     subtext: "No percentage cuts — ever.",
   },
 
@@ -152,9 +153,11 @@ export default function About() {
             <p className="text-lg text-muted-foreground leading-relaxed">
               {t("Sam is your AI manager. Sam automatically finds opportunities and pitches you for them every week — real outbound, from your real numbers, waiting for your approval. Just log in, approve or deny.")}
             </p>
-            <Button size="lg" className="gap-2 font-heading font-bold text-base px-8 h-12" onClick={handleCTA}>
-              {t("Get Sam — $60/mo")} <ArrowRight className="h-4 w-4" />
-            </Button>
+            <Link to="/checkout/ai-manager">
+              <Button size="lg" className="gap-2 font-heading font-bold text-base px-8 h-12">
+                {t("Get Sam — $60/mo")} <ArrowRight className="h-4 w-4" />
+              </Button>
+            </Link>
             <p className="text-xs text-muted-foreground">{t("No percentage cuts — ever. Everything on this page comes with it.")}</p>
           </motion.div>
           <motion.div initial={{ opacity: 0, x: 24 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }} className="relative order-1 lg:order-2 flex justify-center">
@@ -226,18 +229,12 @@ export default function About() {
                     </div>
                   ))}
                 </div>
-                {tier.route ? (
-                  <Link to={tier.route}>
-                    <Button className="w-full mt-6 font-semibold">
-                      {tier.name === "AI Manager" && <Sparkles className="h-3.5 w-3.5 mr-1.5" />}
-                      {t(tier.cta)}
-                    </Button>
-                  </Link>
-                ) : (
-                  <Button className="w-full mt-6 font-semibold" onClick={handleCTA}>
+                <Link to={tier.checkout}>
+                  <Button className="w-full mt-6 font-semibold">
+                    {tier.name === "AI Manager" && <Sparkles className="h-3.5 w-3.5 mr-1.5" />}
                     {t(tier.cta)}
                   </Button>
-                )}
+                </Link>
                 {tier.subtext && <p className="text-center text-xs text-muted-foreground mt-2">{t(tier.subtext)}</p>}
               </motion.div>
             ))}
