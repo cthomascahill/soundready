@@ -1,5 +1,6 @@
 import { useMemo, useState, useEffect } from "react";
-import { MapContainer, TileLayer, Marker, Popup, Polyline } from "react-leaflet";
+import { MapContainer, TileLayer, Marker, Popup, Polyline, useMap } from "react-leaflet";
+import "leaflet/dist/leaflet.css";
 import { AlertTriangle, Calendar, Navigation } from "lucide-react";
 import moment from "moment";
 import L from "leaflet";
@@ -14,6 +15,17 @@ L.Icon.Default.mergeOptions({
   iconUrl: "https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-icon.png",
   shadowUrl: "https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-shadow.png",
 });
+
+// Keeps the map framed on the venues as they load/change
+function FitBounds({ positions }) {
+  const map = useMap();
+  useEffect(() => {
+    if (!positions.length) return;
+    if (positions.length === 1) map.setView(positions[0], 6);
+    else map.fitBounds(positions, { padding: [40, 40] });
+  }, [JSON.stringify(positions)]);
+  return null;
+}
 
 async function geocodeCity(city, state) {
   const query = state ? `${city}, ${state}, USA` : `${city}, USA`;
@@ -134,8 +146,9 @@ export default function TourRouteMap({ venues, routeData, travelGapsByDate, pinn
 
       {/* Map */}
       <div className="rounded-2xl overflow-hidden border border-border h-80 bg-secondary">
-        <MapContainer center={center} zoom={4} className="w-full h-full">
+        <MapContainer center={center} zoom={4} className="w-full h-full" scrollWheelZoom>
           <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" attribution='&copy; OpenStreetMap' />
+          <FitBounds positions={mapData.coords} />
 
           {/* Route polyline */}
           {mapData.coords.length > 1 && (

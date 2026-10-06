@@ -677,10 +677,10 @@ export default function TourPlannerCanvas() {
               routeData={routeData}
               travelGapsByDate={travelGapsByDate}
             />
-            <Button variant="outline" onClick={() => setShowModal(true)} className="gap-2 shrink-0">
+            <Button onClick={() => setShowModal(true)} className="gap-2 shrink-0 font-semibold">
               <Mic2 className="h-4 w-4" />Add Show
             </Button>
-            <Button onClick={() => setModal({ date: today })} className="gap-2 shrink-0">
+            <Button variant="outline" onClick={() => setModal({ date: today })} className="gap-2 shrink-0">
               <Plus className="h-4 w-4" />Add Task
             </Button>
           </div>
