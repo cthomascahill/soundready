@@ -20,8 +20,6 @@ export default function LanguagePicker({ className = "" }) {
     return () => document.removeEventListener("mousedown", handler);
   }, [open]);
 
-  const current = languages.find((l) => l.code === lang) || languages[0];
-
   return (
     <div className="relative" ref={ref}>
       <button
@@ -31,7 +29,7 @@ export default function LanguagePicker({ className = "" }) {
         className={`flex items-center gap-2 px-3 py-2 rounded-lg text-sm text-muted-foreground hover:text-foreground hover:bg-secondary transition-colors ${className}`}
       >
         <Globe className="h-4 w-4 shrink-0" />
-        <span className="flex-1 text-left">{current.name}</span>
+        <span className="flex-1 text-left">{t("Language")}</span>
       </button>
       {open && (
         <div className="absolute right-0 mt-1.5 w-44 rounded-xl border border-border bg-popover shadow-2xl py-1 z-50">
