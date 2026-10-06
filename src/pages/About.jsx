@@ -275,13 +275,13 @@ export default function About() {
                 )}
                 {tier.name === "AI Manager" && (
                   <motion.img
-                    src="https://media.base44.com/images/public/69dcf0ecc907e43a438a626b/84d42947d_generated_25c86301.png"
-                    alt="Sam, the SoundReady AI manager robot, hanging onto the AI Manager card"
-                    className="pointer-events-none absolute -top-9 right-3 h-20 w-auto drop-shadow-lg"
-                    initial={{ opacity: 0, y: -12 }}
-                    whileInView={{ opacity: 1, y: 0 }}
+                    src="https://media.base44.com/images/public/69dcf0ecc907e43a438a626b/d124f0929_generated_f10ed4b3.png"
+                    alt="Sam, the SoundReady AI manager robot, grabbing the side of the AI Manager card"
+                    className="pointer-events-none absolute -right-3 sm:-right-14 top-8 h-32 sm:h-44 w-auto drop-shadow-xl z-10"
+                    initial={{ opacity: 0, x: 16 }}
+                    whileInView={{ opacity: 1, x: 0 }}
                     viewport={{ once: true }}
-                    animate={{ y: [0, -4, 0] }}
+                    animate={{ y: [0, -5, 0] }}
                     transition={{ y: { repeat: Infinity, duration: 3, ease: "easeInOut" } }}
                   />
                 )}
