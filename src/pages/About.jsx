@@ -13,6 +13,8 @@ import PublicNav from "@/components/public/PublicNav";
 import SEO from "@/components/SEO";
 import GrowthComparisonChart from "@/components/home/GrowthComparisonChart";
 import CountUpStat from "@/components/home/CountUpStat";
+import CareerWorkflowSection from "@/components/home/CareerWorkflowSection";
+import SamInActionSection from "@/components/home/SamInActionSection";
 import { useLang } from "@/lib/i18n/LanguageContext";
 
 const MANAGER_PAINS = [
@@ -137,16 +139,16 @@ export default function About() {
           <motion.div initial={{ opacity: 0, scale: 0.9 }} animate={{ opacity: 1, scale: 1 }} transition={{ delay: 0.1 }}
             className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/10 border border-primary/30 text-primary text-xs font-bold tracking-wider uppercase">
             <Bot className="h-3.5 w-3.5" />
-            {t("Meet Sam — Your AI Artist Manager")}
+            {t("One home base for your career. One AI manager working it.")}
           </motion.div>
 
           <h1 className="font-heading text-6xl sm:text-8xl font-black tracking-tight leading-[0.9]">
-            {t("Meet Sam.")}<br />
-            <span className="text-primary">{t("Your AI manager.")}</span>
+            {t("Your career, organized.")}<br />
+            <span className="text-primary">{t("Sam works it every week.")}</span>
           </h1>
 
           <p className="text-xl sm:text-2xl text-muted-foreground leading-relaxed max-w-3xl mx-auto font-body">
-            {t("Sam outbounds for you every week — playlist pitches, tour support, sync opportunities and more — drafted from your real numbers. You just approve or deny. Your whole career is organized around it: the Vault, the Tracker, Industry Intel and Music News. $60/mo flat — start free and grow into it.")}
+            {t("SoundReady is the home base for your artist career — every song, show, deal and dollar in one place. Then Sam, your AI manager, outbounds for you every week: playlist pitches, tour support, sync opportunities and more, drafted from your real numbers. You just approve or deny. Start free and grow in.")}
           </p>
 
           <div className="flex flex-col sm:flex-row items-center justify-center gap-3 pt-2">
@@ -201,6 +203,12 @@ export default function About() {
           </motion.div>
         </div>
       </section>
+
+      {/* THE WEEKLY LOOP */}
+      <CareerWorkflowSection />
+
+      {/* SAM IN ACTION */}
+      <SamInActionSection />
 
       {/* THE PROBLEM — two types */}
       <section className="px-4 py-24 border-t border-border">

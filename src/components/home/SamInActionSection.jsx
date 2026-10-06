@@ -1,0 +1,88 @@
+import { motion } from "framer-motion";
+import { Bot, CheckCircle2, Pencil, X, Send, Sparkles, CalendarDays } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { useLang } from "@/lib/i18n/LanguageContext";
+
+const SAM_IMG = "https://media.base44.com/images/public/69dcf0ecc907e43a438a626b/d124f0929_generated_f10ed4b3.png";
+
+export default function SamInActionSection() {
+  const { t } = useLang();
+  return (
+    <section className="px-4 py-24 border-t border-border">
+      <div className="max-w-5xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+        <motion.div initial={{ opacity: 0, x: -24 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }} className="space-y-6">
+          <p className="text-xs text-primary uppercase tracking-widest font-bold">{t("Sam in Action")}</p>
+          <h2 className="font-heading text-4xl sm:text-5xl font-bold">{t("Not a chatbot. A desk with work on it.")}</h2>
+          <p className="text-lg text-muted-foreground leading-relaxed">
+            {t("Every week Sam reads your real numbers — streams, markets, releases, goals — and puts finished work on your desk: a personalized pitch, researched and drafted. Your only job is the decision.")}
+          </p>
+          <div className="space-y-3">
+            {[
+              "Every draft cites your real data — no generic templates",
+              "Approve, edit or deny in one tap — you stay in control",
+              "Outcomes feed back into Sam's memory, so next week's work gets smarter",
+            ].map((item) => (
+              <div key={item} className="flex items-start gap-3">
+                <CheckCircle2 className="h-5 w-5 text-primary shrink-0 mt-0.5" />
+                <span className="text-sm text-foreground">{t(item)}</span>
+              </div>
+            ))}
+          </div>
+        </motion.div>
+
+        <motion.div initial={{ opacity: 0, x: 24 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }} className="relative">
+          <img
+            src={SAM_IMG}
+            alt="Sam, the SoundReady AI manager robot"
+            className="absolute -top-10 -right-2 h-20 w-auto drop-shadow-xl z-10 pointer-events-none hidden sm:block"
+          />
+          <div className="rounded-2xl border border-border bg-card p-5 space-y-4 shadow-xl">
+            <div className="flex items-center gap-2 pb-2 border-b border-border">
+              <Bot className="h-4 w-4 text-primary" />
+              <p className="font-heading font-bold text-sm">{t("Sam's Desk")}</p>
+              <span className="ml-auto text-[10px] font-bold uppercase tracking-widest text-primary bg-primary/10 border border-primary/20 rounded-full px-2 py-0.5">
+                {t("This week")}
+              </span>
+            </div>
+
+            <div className="rounded-xl border border-border bg-secondary/40 p-4 space-y-3">
+              <span className="inline-flex items-center gap-1 text-[10px] font-bold uppercase tracking-widest text-primary">
+                <Sparkles className="h-3 w-3" /> {t("Playlist pitch · drafted from your Spotify data")}
+              </span>
+              <p className="font-heading font-bold text-sm">{t('Pitch "Midnight Drive" to Chill Vibes Daily (482k followers)')}</p>
+              <p className="text-xs text-muted-foreground leading-relaxed">
+                {t("Your streams are up 34% in two weeks and 62% of your listeners are in Germany — this playlist's audience is a direct match. Sam drafted the pitch in your voice.")}
+              </p>
+              <div className="rounded-lg bg-background border border-border p-3 text-[11px] text-muted-foreground leading-relaxed">
+                <span className="font-semibold text-foreground">Subject:</span> "Midnight Drive" — a late-night lo-fi cut for Chill Vibes Daily
+                <br /><br />
+                Hi Sofia — I'm Nova, an indie electronic artist. "Midnight Drive" has been quietly climbing in Germany...
+              </div>
+              <div className="flex flex-wrap gap-2">
+                <Button size="sm" className="h-8 gap-1.5">
+                  <Send className="h-3.5 w-3.5" /> {t("Approve & send")}
+                </Button>
+                <Button size="sm" variant="outline" className="h-8 gap-1.5">
+                  <Pencil className="h-3.5 w-3.5" /> {t("Edit")}
+                </Button>
+                <Button size="sm" variant="ghost" className="h-8 gap-1.5 text-muted-foreground">
+                  <X className="h-3.5 w-3.5" /> {t("Deny")}
+                </Button>
+              </div>
+            </div>
+
+            <div className="rounded-xl border border-border p-3 flex items-center gap-3">
+              <CalendarDays className="h-4 w-4 text-chart-4 shrink-0" />
+              <p className="text-xs text-muted-foreground">
+                {t("Also on the desk: a tour-opening pitch for your Berlin date on Nov 14, researched and drafted.")}
+              </p>
+            </div>
+            <p className="text-[10px] text-muted-foreground text-center">
+              {t("Illustrative example — Sam's Desk shows your real drafts, built from your real numbers.")}
+            </p>
+          </div>
+        </motion.div>
+      </div>
+    </section>
+  );
+}
