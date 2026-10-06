@@ -118,7 +118,7 @@ export default function About() {
   }, []);
 
   const handleCTA = () => {
-    if (isAuth) window.location.href = "/dashboard";
+    if (isAuth) window.location.href = "/history";
     else window.location.href = "/pricing";
   };
 

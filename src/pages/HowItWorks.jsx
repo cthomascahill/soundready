@@ -128,7 +128,7 @@ export default function HowItWorks() {
   }, []);
 
   const handleCTA = () => {
-    if (isAuth) window.location.href = "/dashboard";
+    if (isAuth) window.location.href = "/history";
     else window.location.href = "/pricing";
   };
 
@@ -337,7 +337,7 @@ export default function HowItWorks() {
                 <p className="text-sm text-muted-foreground leading-relaxed mb-6 flex-1">{tier.tagline}</p>
                 <Button
                   className="w-full font-semibold bg-primary hover:bg-primary/90 text-primary-foreground"
-                  onClick={() => { window.location.href = isAuth ? "/dashboard" : "/pricing"; }}
+                  onClick={() => { window.location.href = isAuth ? "/history" : "/pricing"; }}
                 >
                   {tier.cta}
                 </Button>

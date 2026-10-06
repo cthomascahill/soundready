@@ -52,7 +52,7 @@ export default function Home() {
   const { user } = useAuth();
 
   useEffect(() => {
-    if (user) navigate("/dashboard");
+    if (user) navigate("/history");
   }, [user, navigate]);
 
   return (

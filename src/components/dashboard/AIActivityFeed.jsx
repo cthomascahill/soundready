@@ -267,7 +267,7 @@ Return JSON:
       ) : (
         <>
           {suggestions.map((s, i) => {
-            const route = SUGGESTION_ROUTES[s.tool] || "/dashboard";
+            const route = SUGGESTION_ROUTES[s.tool] || "/history";
             const colorClass = ICON_COLORS[s.icon_type] || ICON_COLORS.growth;
             return (
               <motion.div key={i} initial={{ opacity: 0, y: 6 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: i * 0.07 }}

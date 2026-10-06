@@ -10,7 +10,7 @@ import { AuthProvider, useAuth } from '@/lib/AuthContext';
 import { LanguageProvider } from '@/lib/i18n/LanguageContext';
 import UserNotRegisteredError from '@/components/UserNotRegisteredError';
 import LoginPage from './pages/Home';
-import Dashboard from './pages/Dashboard';
+import { Navigate } from 'react-router-dom';
 import Results from './pages/Results';
 import History from './pages/History';
 import SongLibrary from './pages/SongLibrary';
@@ -155,7 +155,8 @@ const AuthenticatedApp = () => {
 
       {/* Protected routes */}
       <Route element={<AppLayout />}>
-        <Route path="/dashboard" element={<Dashboard />} />
+        <Route path="/" element={<Navigate to="/history" replace />} />
+        <Route path="/dashboard" element={<Navigate to="/history" replace />} />
         <Route path="/tools" element={<ToolLibrary />} />
         <Route path="/release-plan" element={<ReleasePlanInput />} />
         <Route path="/results" element={<Results />} /> 

@@ -33,8 +33,8 @@ export default function AdminGate({ children }) {
             You don't have access to this area of SoundReady.
           </p>
         </div>
-        <Link to="/dashboard" className="text-xs text-primary underline">
-          Back to dashboard
+        <Link to="/history" className="text-xs text-primary underline">
+          Back to Vault
         </Link>
       </div>
     </div>

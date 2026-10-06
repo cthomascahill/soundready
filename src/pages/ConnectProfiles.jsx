@@ -595,7 +595,7 @@ export default function ConnectProfiles() {
               onClick={async () => {
                 await base44.auth.updateMe({ onboarding_complete: true }).catch(() => {});
                 await checkAppState();
-                navigate("/dashboard");
+                navigate("/history");
               }}
               variant={connectedCount > 0 ? "default" : "outline"}
               className="gap-2 w-fit"

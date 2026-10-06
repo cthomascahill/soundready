@@ -119,7 +119,7 @@ export default function Pricing() {
   // A tier picked while logged out is preserved in the URL — finish the flow after login
   const selectedTier = searchParams.get("tier");
   useEffect(() => {
-    if (isAuth && selectedTier === "free") navigate("/dashboard");
+    if (isAuth && selectedTier === "free") navigate("/history");
   }, [isAuth, selectedTier]);
 
   const handleCancel = async () => {
@@ -183,7 +183,7 @@ export default function Pricing() {
             </div>
             <div className="mt-6">
               {isAuth ? (
-                <Button className="font-semibold" onClick={() => navigate("/dashboard")}>Start Free</Button>
+                <Button className="font-semibold" onClick={() => navigate("/history")}>Start Free</Button>
               ) : (
                 <Button className="font-semibold" onClick={() => base44.auth.redirectToLogin(`${window.location.origin}/pricing?tier=free`)}>Start Free</Button>
               )}
@@ -357,7 +357,7 @@ export default function Pricing() {
           </h2>
           <p className="text-muted-foreground">Start free today. Upgrade when you're ready — the work is already done for you.</p>
           {isAuth ? (
-            <Link to="/dashboard"><Button size="lg" className="gap-2 font-heading font-bold text-base px-10 h-12">Go to Dashboard <ArrowRight className="h-4 w-4" /></Button></Link>
+            <Link to="/history"><Button size="lg" className="gap-2 font-heading font-bold text-base px-10 h-12">Go to Vault <ArrowRight className="h-4 w-4" /></Button></Link>
           ) : (
             <Button size="lg" className="gap-2 font-heading font-bold text-base px-10 h-12" onClick={() => document.getElementById("plans")?.scrollIntoView({ behavior: "smooth" })}>
               Start <ArrowRight className="h-4 w-4" />

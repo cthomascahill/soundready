@@ -4,7 +4,7 @@ import { Search, X, Home, Music2, Users, ListChecks, Sparkles, Flame, Link2, Map
 import { motion, AnimatePresence } from "framer-motion";
 
 const ALL_ROUTES = [
-  { label: "Dashboard", path: "/dashboard", icon: Home, category: "Core" },
+  { label: "Vault", path: "/history", icon: Home, category: "Core" },
   { label: "Vault", path: "/history", icon: Music2, category: "Core" },
   { label: "Tracker", path: "/song-tracker", icon: ListChecks, category: "Core" },
   { label: "The Studio", path: "/studio", icon: Sparkles, category: "Core" },

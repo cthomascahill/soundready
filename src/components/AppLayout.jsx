@@ -31,9 +31,9 @@ export default function AppLayout() {
   }, []);
 
   // Onboarding: connect profiles is Step 1 — new users who land on the
-  // dashboard get taken there first until they complete or skip it.
+  // Vault get taken there first until they complete or skip it.
   useEffect(() => {
-    if (user && user.onboarding_complete !== true && location.pathname === "/dashboard") {
+    if (user && user.onboarding_complete !== true && location.pathname === "/history") {
       navigate("/connect-profiles", { replace: true });
     }
   }, [user, location.pathname, navigate]);
@@ -60,7 +60,7 @@ export default function AppLayout() {
         {/* Desktop sidebar */}
         <aside className="hidden lg:flex flex-col w-60 shrink-0 border-r border-border bg-background sticky top-0 h-screen">
           <div className="h-14 flex items-center px-5 border-b border-border">
-            <Link to="/dashboard"><SoundReadyLogo size={28} /></Link>
+            <Link to="/history"><SoundReadyLogo size={28} /></Link>
           </div>
           <SidebarNav activePath={location.pathname} />
           <div className="border-t border-border p-3 space-y-1">

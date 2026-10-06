@@ -43,7 +43,7 @@ export default function CreatorProfile() {
           <div className="rounded-2xl bg-card border border-dashed border-border p-12 text-center space-y-2">
             <p className="font-heading font-bold text-lg">Creator not found</p>
             <p className="text-sm text-muted-foreground">This creator doesn't have a public profile yet.</p>
-            <Link to="/dashboard" className="text-sm text-primary hover:underline">Back to dashboard</Link>
+            <Link to="/history" className="text-sm text-primary hover:underline">Back to Vault</Link>
           </div>
         ) : (
           <div className="rounded-2xl bg-card border border-border p-6 sm:p-8 space-y-5">
