@@ -9,24 +9,24 @@
     --font-heading: 'Space Grotesk', sans-serif;
     --font-body: 'Inter', sans-serif;
 
-    --background: 0 0% 100%;
-    --foreground: 0 0% 4%;
-    --card: 0 0% 100%;
-    --card-foreground: 0 0% 4%;
-    --popover: 0 0% 100%;
-    --popover-foreground: 0 0% 4%;
+    --background: 45 30% 96%;
+    --foreground: 30 8% 13%;
+    --card: 45 35% 98%;
+    --card-foreground: 30 8% 13%;
+    --popover: 45 35% 98%;
+    --popover-foreground: 30 8% 13%;
     --primary: 142 71% 45%;
     --primary-foreground: 0 0% 0%;
-    --secondary: 142 15% 96%;
-    --secondary-foreground: 0 0% 9%;
-    --muted: 0 0% 95%;
-    --muted-foreground: 0 0% 30%;
+    --secondary: 45 25% 91%;
+    --secondary-foreground: 30 8% 13%;
+    --muted: 45 20% 92%;
+    --muted-foreground: 30 5% 36%;
     --accent: 142 71% 45%;
     --accent-foreground: 0 0% 0%;
     --destructive: 0 72% 51%;
     --destructive-foreground: 0 0% 98%;
-    --border: 0 0% 80%;
-    --input: 0 0% 80%;
+    --border: 40 8% 85%;
+    --input: 40 8% 85%;
     --ring: 142 71% 45%;
     --chart-1: 142 71% 40%;
     --chart-2: 142 60% 50%;
@@ -34,13 +34,13 @@
     --chart-4: 45 90% 50%;
     --chart-5: 200 80% 45%;
     --radius: 0.75rem;
-    --sidebar-background: 0 0% 98%;
-    --sidebar-foreground: 0 0% 9%;
+    --sidebar-background: 45 28% 94%;
+    --sidebar-foreground: 30 8% 13%;
     --sidebar-primary: 142 71% 40%;
     --sidebar-primary-foreground: 0 0% 0%;
-    --sidebar-accent: 142 15% 94%;
-    --sidebar-accent-foreground: 0 0% 9%;
-    --sidebar-border: 0 0% 82%;
+    --sidebar-accent: 45 22% 89%;
+    --sidebar-accent-foreground: 30 8% 13%;
+    --sidebar-border: 40 8% 85%;
     --sidebar-ring: 142 71% 45%;
   }
 
