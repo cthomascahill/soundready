@@ -1,13 +1,13 @@
+import { useState } from "react";
+import { Headphones } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import useDebouncedField from "@/hooks/useDebouncedField";
-import AudioCell from "./AudioCell";
 import ArtworkCell from "./ArtworkCell";
 import DetailField from "./DetailField";
 import StageProgress from "./StageProgress";
 import VersionsPanel from "./VersionsPanel";
-
-const fieldBox = "min-h-9 flex items-center rounded-md border border-border bg-secondary/30 px-3 py-0.5";
+import AudioReviewPlayer from "./AudioReviewPlayer";
 
 // Everything about a song that doesn't belong in the collapsed row
 export default function SongDetails({ song, onUpdate }) {
@@ -16,6 +16,8 @@ export default function SongDetails({ song, onUpdate }) {
   const [isrc, setIsrc] = useDebouncedField(song.isrc_code, save("isrc_code"));
   const [upc, setUpc] = useDebouncedField(song.upc_code, save("upc_code"));
   const [notes, setNotes] = useDebouncedField(song.notes, save("notes"));
+  const [reviewOpen, setReviewOpen] = useState(false);
+  const [versionsRefresh, setVersionsRefresh] = useState(0);
 
   return (
     <div className="px-4 md:px-10 pb-5 pt-3 space-y-5 bg-secondary/10">
@@ -24,13 +26,16 @@ export default function SongDetails({ song, onUpdate }) {
       </DetailField>
 
       <div className="grid gap-4 md:grid-cols-3">
-        <DetailField label="Latest mix">
-          <div className={fieldBox}>
-            <AudioCell song={song} onUpdate={onUpdate} className="w-auto justify-start" />
-          </div>
+        <DetailField label="Mixes">
+          <button
+            onClick={() => setReviewOpen(true)}
+            className="h-9 w-full px-5 rounded-md bg-primary text-primary-foreground text-xs font-bold tracking-widest flex items-center justify-center gap-2 hover:bg-primary/90 transition-colors"
+          >
+            <Headphones className="h-4 w-4" /> LISTEN TO MIXES
+          </button>
         </DetailField>
         <DetailField label="Artwork">
-          <div className={fieldBox}>
+          <div className="min-h-9 flex items-center rounded-md border border-border bg-secondary/30 px-3 py-0.5">
             <ArtworkCell song={song} onUpdate={onUpdate} className="w-auto justify-start" />
           </div>
         </DetailField>
@@ -61,8 +66,16 @@ export default function SongDetails({ song, onUpdate }) {
       </DetailField>
 
       <DetailField label="Versions — every mix and master of this record">
-        <VersionsPanel song={song} onUpdate={onUpdate} />
+        <VersionsPanel key={versionsRefresh} song={song} onUpdate={onUpdate} />
       </DetailField>
+
+      <AudioReviewPlayer
+        song={song}
+        onUpdate={onUpdate}
+        open={reviewOpen}
+        onOpenChange={setReviewOpen}
+        onVersionsChanged={() => setVersionsRefresh((k) => k + 1)}
+      />
     </div>
   );
 }
