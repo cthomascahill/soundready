@@ -13,7 +13,9 @@ export default function SamInActionSection() {
         <motion.div initial={{ opacity: 0, x: -24 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }} className="space-y-5 order-2 lg:order-1">
           <p className="text-xs text-primary uppercase tracking-wider font-bold">{t("Sam In Action")}</p>
           <h2 className="font-heading text-4xl sm:text-5xl font-bold leading-tight">
-            {t("Your AI manager automatically outbounds on your behalf.")}
+            {t("Your AI manager automatically outbounds on ")}
+            <span className="text-primary font-black">{t("your behalf")}</span>
+            {t(".")}
           </h2>
           <p className="text-lg text-muted-foreground leading-relaxed">
             {t("This is Sam's Desk — a finished pitch, researched and drafted from your real numbers, waiting for your decision.")}
