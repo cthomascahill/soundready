@@ -2,7 +2,7 @@ import { useState, useEffect, useRef } from "react";
 import { Link } from "react-router-dom";
 import { base44 } from "@/api/base44Client";
 import { useAuth } from "@/lib/AuthContext";
-import { X, Send, Loader2, Sparkles, ChevronRight, RotateCcw, ExternalLink, Globe } from "lucide-react";
+import { X, Send, Loader2, Sparkles, ChevronRight, RotateCcw, ExternalLink, Globe, ScanLine } from "lucide-react";
 import SamLogo from "@/components/SamLogo";
 import { motion, AnimatePresence } from "framer-motion";
 import ReactMarkdown from "react-markdown";
@@ -13,6 +13,7 @@ import { useLang } from "@/lib/i18n/LanguageContext";
 import { buildProducerSystemPrompt, PRODUCER_QUICK_STARTS } from "@/lib/mayaProducerPrompt";
 
 const QUICK_STARTS = [
+  "Scan what's being said about me online right now",
   "What should I focus on this week?",
   "How do I grow on Spotify right now?",
   "Help me write an email to a booking agent",
@@ -246,12 +247,32 @@ function buildMemorySection(memories) {
 
 // ChatGPT-style routing: decides whether the latest message needs live web
 // results and returns the query to run. null = answer from existing knowledge.
+// Identity details Sam uses to make sure scan results are about THIS artist
+function buildIdentityBlock(profile) {
+  const ap = profile || {};
+  const bits = [
+    ap.stage_name && `Stage name: "${ap.stage_name}"`,
+    ap.city_state && `Based in: ${ap.city_state}`,
+    ap.genres?.length && `Genres: ${ap.genres.join(", ")}`,
+    (ap.sounds_like_1 || ap.sounds_like_2 || ap.sounds_like_3) && `Sounds like: ${[ap.sounds_like_1, ap.sounds_like_2, ap.sounds_like_3].filter(Boolean).join(", ")}`,
+    ap.instagram_handle && `Instagram: @${ap.instagram_handle}`,
+    ap.most_recent_release_title && `Recent release: "${ap.most_recent_release_title}"`,
+    ap.most_streamed_song_title && `Known for: "${ap.most_streamed_song_title}"`,
+  ].filter(Boolean).join(" · ");
+
+  return bits
+    ? `${bits}\n`
+    : "Identity details are incomplete — use the name and context the artist gave in chat and clearly note the ambiguity.\n";
+}
+
 async function routeForSearch(userMsg) {
   const result = await base44.integrations.Core.InvokeLLM({
     prompt: `You route messages inside an AI music manager chat. Does answering this message require CURRENT information from the live web? Answer yes only when the manager's own industry knowledge or the artist's stored profile cannot reliably answer it.
 
 Needs search: news or recent events, latest releases, charts, trends, or algorithm changes, press or reputation mentions of a person or act, looking up a specific person, label, venue, playlist, festival, or company, current prices, policies, or deadlines, verifying any time-sensitive fact.
 Does NOT need search: advice based on the artist's own data, strategy, planning, writing emails or posts, feedback, general music industry guidance.
+
+Also classify the search: set scan=true when it is a reputation/press scan of the artist's own presence online (what's being said about me, scan my press, my mentions, my reputation) or a scan of opportunities for a specific artist. Otherwise scan=false.
 
 Message: "${userMsg}"
 
@@ -261,25 +282,42 @@ If it needs search, write an effective standalone web search query (add context 
       type: "object",
       properties: {
         needs_search: { type: "boolean" },
-        search_query: { type: "string" }
+        search_query: { type: "string" },
+        scan: { type: "boolean" }
       },
-      required: ["needs_search", "search_query"]
+      required: ["needs_search", "search_query", "scan"]
     }
   });
 
-  return result.needs_search ? (result.search_query?.trim() || userMsg) : null;
+  if (!result.needs_search) return null;
+  return { query: result.search_query?.trim() || userMsg, scan: !!result.scan };
 }
 
-async function callSam(messages, systemPrompt, wantLearning, searchQuery) {
+async function callSam(messages, systemPrompt, wantLearning, search, profile) {
+  const searchQuery = search?.query || null;
   const history = messages.map(m => `${m.role === "user" ? "Artist" : "Sam"}: ${m.content}`).join("\n\n");
 
   const learningBlock = wantLearning ? `
 
 LEARNING: While responding, check whether the artist revealed a durable preference, goal, constraint, decision, or outreach style (e.g. "I only want paid shows", "I don't cold-email curators", "I'm focusing on sync this year"). Extract up to 2 as "learned" items: {category: one of goals|preferences|constraints|decisions|outreach_style, key: a short label, value: the specific fact in the artist's terms}. Only durable facts about the artist, never one-off questions or temporary states. Never re-propose anything already in the CONFIRMED PREFERENCES or DISMISSED lists above. If nothing durable was revealed, return an empty learned array.` : "";
 
-  const searchBlock = searchQuery ? `
+  const searchBlock = !searchQuery ? "" : search.scan ? `
 
-WEB SEARCH: Live internet search results are attached for the query "${searchQuery}". Use them for anything current or external. Cite inline with markdown links like [Source Title](url) for every claim that comes from the web, and list every web page you actually used in "sources" (title + url). Clearly separate verified facts from rumors or allegations. If the results are thin or irrelevant, say so plainly instead of guessing.` : "";
+REPUTATION SCAN MODE: Live internet results are attached for the query "${searchQuery}". This is a scan of the artist's presence across the web.
+
+IDENTITY CHECK — only report results about THIS artist:
+${buildIdentityBlock(profile)}
+If a result might refer to a different act with a similar name, exclude it and say the match was ambiguous. Judge relevance using the artist's profile, goals and confirmed preferences above.
+
+STRUCTURE your response as markdown:
+1. **TL;DR** — one honest paragraph (also return it in "scan_summary").
+2. **Findings** grouped by category (Press, Playlists, Social, Events, Industry, Other) — each with its date, a markdown link, and a clear label of VERIFIED FACT vs CLAIM/RUMOR.
+3. **Opportunities** — playlist features, press angles, booking openings, grants, sync calls, and local events that fit this artist's profile and goals.
+4. **Recommended next steps** — 2-3 concrete actions you would take as their manager.
+
+Return every finding in "findings": {category, title, summary, url, date, stance: "verified"|"claim"|"opportunity"}. Cite inline with markdown links and list every page you used in "sources". If the results are thin or irrelevant, say so plainly instead of guessing.` : `
+
+WEB SEARCH: Live internet search results are attached for the query "${searchQuery}". Use them for anything current or external. Cite inline with markdown links like [Source Title](url) for every claim that comes from the web, and list every web page you actually used in "sources" (title + url). Clearly separate verified facts from rumors or allegations. If the results are thin or irrelevant, say so plainly instead of guessing.`;
 
   const prompt = `${systemPrompt}
 
@@ -294,7 +332,9 @@ Return your response as JSON:
   "response": "your full markdown response here",
   "chips": ["suggestion 1", "suggestion 2", "suggestion 3"],
   "learned": [{"category": "...", "key": "...", "value": "..."}],
-  "sources": [{"title": "...", "url": "..."}]
+  "sources": [{"title": "...", "url": "..."}],
+  "findings": [{"category": "...", "title": "...", "summary": "...", "url": "...", "date": "...", "stance": "..."}],
+  "scan_summary": "one paragraph TL;DR, scans only"
 }`;
 
   const result = await base44.integrations.Core.InvokeLLM({
@@ -328,7 +368,23 @@ Return your response as JSON:
             },
             required: ["title", "url"]
           }
-        }
+        },
+        findings: {
+          type: "array",
+          items: {
+            type: "object",
+            properties: {
+              category: { type: "string" },
+              title: { type: "string" },
+              summary: { type: "string" },
+              url: { type: "string" },
+              date: { type: "string" },
+              stance: { type: "string" }
+            },
+            required: ["title", "summary"]
+          }
+        },
+        scan_summary: { type: "string" }
       }
     }
   });
@@ -439,16 +495,43 @@ export default function MayaAssistant() {
 
     const sysPrompt = (systemPromptRef.current || buildSystemPrompt(null, [], [], [])) + buildMemorySection(memoriesRef.current);
     let result = null;
+    let scanSaved = false;
     try {
       // Decide first whether this message needs live web results
-      let searchQuery = null;
+      let search = null;
       try {
-        searchQuery = await routeForSearch(msg);
+        search = await routeForSearch(msg);
       } catch (routeErr) {
         console.error("Sam search routing error:", routeErr);
       }
-      setSearching(!!searchQuery);
-      result = await callSam(newMessages, sysPrompt, isAIManager, searchQuery);
+      setSearching(!!search);
+      result = await callSam(newMessages, sysPrompt, isAIManager, search, profile);
+
+      // Reputation scans are snapshotted, flagging findings that are new
+      // versus the artist's previous scan so changes show up over time
+      if (search?.scan && result?.findings?.length && user?.id) {
+        try {
+          const prev = await base44.entities.ReputationScan.filter({ user_id: user.id }, "-created_date", 1);
+          const prevUrls = new Set(
+            [...(prev[0]?.sources || []), ...(prev[0]?.findings || [])].map(s => s.url).filter(Boolean)
+          );
+          const findings = result.findings
+            .filter(f => f?.title)
+            .map(f => ({ ...f, is_new: !prevUrls.has(f.url) }));
+          await base44.entities.ReputationScan.create({
+            user_id: user.id,
+            artist_name: profile?.stage_name || user.full_name || "",
+            query: search.query,
+            scan_summary: result.scan_summary || "",
+            findings,
+            sources: result.sources || [],
+            new_count: findings.filter(f => f.is_new).length,
+          });
+          scanSaved = true;
+        } catch (scanErr) {
+          console.error("Scan snapshot save error:", scanErr);
+        }
+      }
     } catch (err) {
       console.error("Sam chat error:", err);
     }
@@ -457,7 +540,8 @@ export default function MayaAssistant() {
     const mayaMsg = {
       role: "assistant",
       content: result?.response || "Sorry, I hit a snag responding. Try again in a moment.",
-      ...(result?.sources?.length ? { sources: result.sources } : {})
+      ...(result?.sources?.length ? { sources: result.sources } : {}),
+      ...(scanSaved ? { scan_saved: true } : {})
     };
     setMessages(prev => [...prev, mayaMsg]);
     setChips(result?.chips || []);
@@ -619,6 +703,11 @@ export default function MayaAssistant() {
                               </a>
                             ))}
                           </div>
+                        )}
+                        {msg.scan_saved && (
+                          <p className="mt-2 flex items-center gap-1 text-[10px] text-muted-foreground">
+                            <ScanLine className="h-3 w-3 text-primary" /> Snapshot saved — see Sam's Desk → Reputation Scans for what changed
+                          </p>
                         )}
                       </>
                     ) : msg.content}

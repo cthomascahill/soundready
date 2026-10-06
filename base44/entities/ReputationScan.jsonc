@@ -1,0 +1,124 @@
+{
+  "name": "ReputationScan",
+  "type": "object",
+  "properties": {
+    "user_id": {
+      "type": "string",
+      "description": "User this scan belongs to"
+    },
+    "artist_name": {
+      "type": "string",
+      "description": "Artist name that was scanned"
+    },
+    "query": {
+      "type": "string",
+      "description": "Web search query Sam ran"
+    },
+    "scan_summary": {
+      "type": "string",
+      "description": "One-paragraph TL;DR of what the scan found"
+    },
+    "findings": {
+      "type": "array",
+      "description": "Individual findings from the scan, flagged new vs already seen",
+      "items": {
+        "type": "object",
+        "properties": {
+          "category": {
+            "type": "string",
+            "description": "Press, Playlists, Social, Events, Industry, Opportunity or Other"
+          },
+          "title": {
+            "type": "string"
+          },
+          "summary": {
+            "type": "string"
+          },
+          "url": {
+            "type": "string"
+          },
+          "date": {
+            "type": "string"
+          },
+          "stance": {
+            "type": "string",
+            "description": "verified, claim or opportunity"
+          },
+          "is_new": {
+            "type": "boolean",
+            "description": "Whether this finding was not in the previous scan"
+          }
+        },
+        "required": [
+          "title",
+          "summary"
+        ]
+      }
+    },
+    "sources": {
+      "type": "array",
+      "description": "Web pages Sam used for this scan",
+      "items": {
+        "type": "object",
+        "properties": {
+          "title": {
+            "type": "string"
+          },
+          "url": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "new_count": {
+      "type": "number",
+      "default": 0,
+      "description": "How many findings were new versus the previous scan"
+    }
+  },
+  "required": [
+    "user_id",
+    "query"
+  ],
+  "rls": {
+    "read": {
+      "$or": [
+        {
+          "created_by_id": "{{user.id}}"
+        },
+        {
+          "user_condition": {
+            "role": "admin"
+          }
+        }
+      ]
+    },
+    "create": {
+      "created_by_id": "{{user.id}}"
+    },
+    "update": {
+      "$or": [
+        {
+          "created_by_id": "{{user.id}}"
+        },
+        {
+          "user_condition": {
+            "role": "admin"
+          }
+        }
+      ]
+    },
+    "delete": {
+      "$or": [
+        {
+          "created_by_id": "{{user.id}}"
+        },
+        {
+          "user_condition": {
+            "role": "admin"
+          }
+        }
+      ]
+    }
+  }
+}

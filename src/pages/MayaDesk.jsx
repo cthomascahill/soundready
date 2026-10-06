@@ -8,6 +8,7 @@ import { hasAIManager } from "@/lib/tier";
 import MayaQueueCard from "@/components/maya/MayaQueueCard";
 import RecommendationsPanel from "@/components/maya/RecommendationsPanel";
 import MemoryPanel from "@/components/maya/MemoryPanel";
+import ScansPanel from "@/components/maya/ScansPanel";
 import OutcomeControl from "@/components/maya/OutcomeControl";
 import SamLogo from "@/components/SamLogo";
 import { Button } from "@/components/ui/button";
@@ -180,6 +181,7 @@ export default function MayaDesk() {
             { key: "queue", label: `Awaiting Approval${queue.length ? ` (${queue.length})` : ""}` },
             { key: "recs", label: `Recommendations${recsPending ? ` (${recsPending})` : ""}` },
             { key: "memory", label: "What Sam Knows" },
+            { key: "scans", label: "Reputation Scans" },
             { key: "history", label: `Sent & Denied${history.length ? ` (${history.length})` : ""}` },
           ].map(t => (
             <button key={t.key} onClick={() => setTab(t.key)}
@@ -198,6 +200,8 @@ export default function MayaDesk() {
           <RecommendationsPanel user={user} mode={mode} onPendingChange={setRecsPending} />
         ) : tab === "memory" ? (
           <MemoryPanel />
+        ) : tab === "scans" ? (
+          <ScansPanel />
         ) : tab === "queue" ? (
           queue.length === 0 ? (
             <div className="rounded-2xl bg-card border border-dashed border-border p-10 text-center space-y-3">
