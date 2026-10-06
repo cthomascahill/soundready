@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
-import { Building2, CheckCircle2, Sparkles, TrendingUp } from "lucide-react";
+import { Building2, CheckCircle2, Sparkles } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Slider } from "@/components/ui/slider";
 import { useToast } from "@/components/ui/use-toast";
@@ -16,8 +16,7 @@ export default function CatalogValuation() {
   const [submitting, setSubmitting] = useState(false);
   const [submitted, setSubmitted] = useState(false);
 
-  const annual = monthly * 12;
-  const buyout = annual * 2;
+  const advance = monthly * 12; // 12 months of their revenue
 
   const handleInterested = async () => {
     setSubmitting(true);
@@ -27,11 +26,11 @@ export default function CatalogValuation() {
         creator_name: user.full_name || user.email,
         creator_email: user.email,
         monthly_revenue: monthly,
-        annual_revenue: annual,
-        estimated_buyout: buyout,
+        annual_revenue: advance,
+        estimated_buyout: advance,
       });
       setSubmitted(true);
-      toast({ title: "Interest received", description: "SoundReady Records will reach out to " + user.email });
+      toast({ title: "Application received", description: "SoundReady Records will reach out to " + user.email });
     } finally {
       setSubmitting(false);
     }
@@ -45,9 +44,9 @@ export default function CatalogValuation() {
             <Building2 className="h-4 w-4 text-primary" />
             <p className="text-xs text-primary uppercase tracking-widest font-medium">SoundReady Records</p>
           </div>
-          <h2 className="font-heading text-xl font-bold">What's your catalog worth?</h2>
+          <h2 className="font-heading text-xl font-bold">Get an advance on your catalog</h2>
           <p className="text-sm text-zinc-500 mt-1 max-w-md">
-            Slide to your average monthly catalog revenue and see an estimated buyout from SoundReady Records — 2× your annual revenue.
+            Slide to your average monthly catalog revenue and see an estimated advance from SoundReady Records — 12 months of your revenue, paid upfront.
           </p>
         </div>
         <span className="text-[10px] px-2.5 py-1 rounded-full border border-zinc-700 bg-zinc-900 text-zinc-400 shrink-0">
@@ -74,19 +73,12 @@ export default function CatalogValuation() {
             </div>
           </div>
 
-          <div className="grid grid-cols-2 gap-3">
-            <div className="rounded-xl border border-zinc-800 bg-background/60 p-4">
-              <div className="flex items-center gap-1.5 text-xs text-zinc-500 mb-1">
-                <TrendingUp className="h-3.5 w-3.5" /> Annual revenue
-              </div>
-              <p className="font-heading text-xl font-bold tabular-nums">{fmt(annual)}</p>
+          <div className="rounded-xl border border-primary/30 bg-primary/10 p-4">
+            <div className="flex items-center gap-1.5 text-xs text-primary mb-1">
+              <Sparkles className="h-3.5 w-3.5" /> Estimated advance
             </div>
-            <div className="rounded-xl border border-primary/30 bg-primary/10 p-4">
-              <div className="flex items-center gap-1.5 text-xs text-primary mb-1">
-                <Sparkles className="h-3.5 w-3.5" /> Estimated buyout
-              </div>
-              <p className="font-heading text-xl font-bold text-primary tabular-nums">{fmt(buyout)}</p>
-            </div>
+            <p className="font-heading text-3xl font-bold text-primary tabular-nums">{fmt(advance)}</p>
+            <p className="text-[11px] text-zinc-500 mt-1">12 months of your catalog revenue, paid upfront</p>
           </div>
         </div>
 
@@ -95,17 +87,17 @@ export default function CatalogValuation() {
             <motion.div initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }}
               className="rounded-xl border border-primary/30 bg-primary/10 p-5 text-center">
               <CheckCircle2 className="h-8 w-8 text-primary mx-auto mb-2" />
-              <p className="font-semibold text-sm">Interest received</p>
+              <p className="font-semibold text-sm">Application received</p>
               <p className="text-xs text-zinc-400 mt-1">SoundReady Records will follow up at your account email.</p>
             </motion.div>
           ) : (
             <Button onClick={handleInterested} disabled={submitting || monthly === 0}
               className="w-full h-12 text-base font-semibold gap-2">
-              {submitting ? "Submitting..." : "I'm Interested"}
+              {submitting ? "Submitting..." : "Apply to get an advance"}
             </Button>
           )}
           <p className="text-[10px] text-zinc-600 text-center mt-2 leading-relaxed">
-            Base estimate at 2× annual revenue. Final terms depend on catalog review.
+            Estimate equals 12 months of catalog revenue. Final terms depend on catalog review.
           </p>
         </div>
       </div>

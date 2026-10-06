@@ -63,9 +63,9 @@ export default function BuyoutLeads() {
         <div className="flex items-center justify-between gap-4 mb-6 flex-wrap">
           <div>
             <p className="text-xs text-primary uppercase tracking-widest font-medium">SoundReady Records</p>
-            <h1 className="font-heading text-3xl font-bold">Buyout Leads</h1>
+            <h1 className="font-heading text-3xl font-bold">Advance Leads</h1>
             <p className="text-zinc-500 text-sm mt-0.5">
-              Creators who clicked "I'm Interested" on the catalog buyout estimate
+              Creators who applied for a catalog advance on the estimate slider
             </p>
           </div>
           <div className="flex items-center gap-6">
@@ -74,7 +74,7 @@ export default function BuyoutLeads() {
               <p className="font-heading text-2xl font-bold">{filtered.length}</p>
             </div>
             <div className="text-right">
-              <p className="text-[10px] uppercase tracking-widest text-zinc-500">Combined est. buyouts</p>
+              <p className="text-[10px] uppercase tracking-widest text-zinc-500">Combined est. advances</p>
               <p className="font-heading text-2xl font-bold text-primary">{fmt(totalBuyout)}</p>
             </div>
           </div>
@@ -94,7 +94,7 @@ export default function BuyoutLeads() {
           <div className="text-center py-24 space-y-3">
             <Inbox className="h-12 w-12 text-zinc-700 mx-auto" />
             <p className="text-zinc-500">
-              {search ? "No leads match your search." : "No buyout interest yet. Leads appear here when a creator clicks \"I'm Interested\"."}
+              {search ? "No leads match your search." : "No advance applications yet. Leads appear here when a creator applies for an advance."}
             </p>
           </div>
         ) : (
@@ -106,7 +106,7 @@ export default function BuyoutLeads() {
                     <th className="px-4 py-3 font-medium">Creator</th>
                     <th className="px-4 py-3 font-medium">Contact</th>
                     <th className="px-4 py-3 font-medium text-right">Monthly Revenue</th>
-                    <th className="px-4 py-3 font-medium text-right">Est. Buyout</th>
+                    <th className="px-4 py-3 font-medium text-right">Est. Advance</th>
                     <th className="px-4 py-3 font-medium">Status</th>
                     <th className="px-4 py-3 font-medium">Submitted</th>
                   </tr>

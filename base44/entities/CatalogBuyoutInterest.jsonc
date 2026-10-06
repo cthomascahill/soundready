@@ -24,7 +24,7 @@
     },
     "estimated_buyout": {
       "type": "number",
-      "description": "Estimated buyout at 2x annual revenue"
+      "description": "Estimated advance: 12 months of catalog revenue (1x annual)"
     },
     "status": {
       "type": "string",
@@ -34,7 +34,7 @@
         "closed"
       ],
       "default": "interested",
-      "description": "Where this buyout conversation stands"
+      "description": "Where this advance conversation stands"
     }
   },
   "required": [
