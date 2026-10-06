@@ -7,12 +7,20 @@ import {
   Loader2, Search, Send, CheckCircle2, AlertCircle, ExternalLink,
 } from "lucide-react";
 
+const routeChip = (pr) => {
+  if (pr.contact_email) return { label: "Email on file", cls: "bg-green-500/10 text-green-400 border-green-500/20" };
+  if (pr.accepts_submissions === "no") return { label: "No open submissions", cls: "bg-red-500/10 text-red-400 border-red-500/25" };
+  if (pr.submission_url) return { label: "Apply via their page", cls: "bg-yellow-500/10 text-yellow-400 border-yellow-500/25" };
+  return { label: "No verified route", cls: "bg-secondary text-muted-foreground border-border" };
+};
+
 export default function ProspectPicker({ category, onCreated }) {
   const { user } = useAuth();
   const [profile, setProfile] = useState(null);
   const [conns, setConns] = useState([]);
   const [researching, setResearching] = useState(false);
   const [prospects, setProspects] = useState([]);
+  const [searches, setSearches] = useState(3);
   const [selected, setSelected] = useState({});
   const [drafting, setDrafting] = useState(false);
   const [error, setError] = useState("");
@@ -58,8 +66,9 @@ export default function ProspectPicker({ category, onCreated }) {
       return;
     }
     const list = res.data?.prospects || [];
+    setSearches(res.data?.searches || 3);
     setProspects(list);
-    setSelected(Object.fromEntries(list.map((_, i) => [i, true])));
+    setSelected(Object.fromEntries(list.map((p, i) => [i, p.route !== "none" && p.accepts_submissions !== "no"])));
     if (list.length === 0) setError("Sam couldn't verify any companies right now — try again in a bit.");
   };
 
@@ -98,7 +107,7 @@ export default function ProspectPicker({ category, onCreated }) {
       <div>
         <p className="font-heading font-bold text-sm">New outreach</p>
         <p className="text-xs text-muted-foreground mt-0.5">
-          Sam researches real {category.label.toLowerCase()} with verified public contacts, then drafts your pitches for approval.
+          Sam runs three targeted searches — genre fit, career-stage fit, and open submission routes — then ranks what it finds by realistic fit for you.
         </p>
       </div>
 
@@ -136,7 +145,7 @@ export default function ProspectPicker({ category, onCreated }) {
           </Button>
           {researching && (
             <p className="text-xs text-muted-foreground">
-              This can take up to a minute — Sam is searching the live web for real companies and verified contacts.
+              This can take up to a minute — Sam is running three separate web searches and cross-checking what it finds.
             </p>
           )}
         </div>
@@ -146,7 +155,7 @@ export default function ProspectPicker({ category, onCreated }) {
       {prospects.length > 0 && (
         <div className="space-y-3">
           <p className="text-xs font-bold uppercase tracking-wider text-muted-foreground">
-            Sam found {prospects.length} — pick who to pitch
+            Sam found {prospects.length} across {searches} searches — ranked by fit, pick who to pitch
           </p>
           <div className="space-y-3">
             {prospects.map((pr, i) => (
@@ -165,18 +174,27 @@ export default function ProspectPicker({ category, onCreated }) {
                 <div className="space-y-1.5 min-w-0 flex-1">
                   <div className="flex flex-wrap items-center gap-2">
                     <p className="font-semibold text-sm">{pr.company_name}</p>
-                    <span className={`text-[10px] font-bold px-2 py-0.5 rounded-full border ${
-                      pr.contact_email
-                        ? "bg-green-500/10 text-green-400 border-green-500/20"
-                        : "bg-secondary text-muted-foreground border-border"
-                    }`}>
-                      {pr.contact_email ? "Email on file" : "Submissions page"}
+                    <span className={`text-[10px] font-bold px-2 py-0.5 rounded-full border ${routeChip(pr).cls}`}>
+                      {routeChip(pr).label}
                     </span>
+                    {!!pr.fit_score && (
+                      <span className="text-[10px] font-bold px-2 py-0.5 rounded-full border bg-primary/10 text-primary border-primary/25">
+                        Fit {pr.fit_score}/10
+                      </span>
+                    )}
                   </div>
                   <p className="text-xs text-muted-foreground">
                     {[pr.company_type, pr.location].filter(Boolean).join(" · ") || "—"}
                   </p>
                   <p className="text-xs text-muted-foreground leading-relaxed">{pr.why_fit}</p>
+                  {pr.fit_evidence && (
+                    <p className="text-xs text-muted-foreground/80 leading-relaxed italic">Evidence: {pr.fit_evidence}</p>
+                  )}
+                  {pr.accepts_submissions === "no" && (
+                    <p className="text-xs text-red-400/90">
+                      Their public pages say they don't take unsolicited submissions — pitch carefully or skip.
+                    </p>
+                  )}
                   <div className="flex flex-wrap gap-x-4 gap-y-1 text-[11px] pt-0.5">
                     {pr.contact_email && <span className="text-primary font-medium">{pr.contact_email}</span>}
                     {pr.submission_url && (

@@ -63,6 +63,11 @@ export default function OutreachCard({ record, onUpdated }) {
       </div>
 
       <p className="text-xs text-muted-foreground leading-relaxed">{record.why_fit}</p>
+      {!!record.metadata?.fit_score && (
+        <p className="text-[11px] text-muted-foreground/80">
+          Sam's fit rating: {record.metadata.fit_score}/10{record.metadata.fit_evidence ? ` — ${record.metadata.fit_evidence}` : ""}
+        </p>
+      )}
 
       <div className="flex flex-wrap gap-x-4 gap-y-1 text-[11px]">
         {record.contact_email && (

@@ -92,65 +92,157 @@ ${pipelineLines.join('\n') || 'No songs in the pipeline'}`;
       const category = body.category;
       if (!CATEGORY_LABELS[category]) return Response.json({ error: 'category required' }, { status: 400 });
 
-      const prompt = `You are Sam, the AI artist manager inside SoundReady, researching real ${CATEGORY_LABELS[category]} for ${artistName}, an independent artist.
+      // Three distinct discovery angles, each running its own web search
+      const soundLike = [profile.sounds_like_1, profile.sounds_like_2, profile.sounds_like_3].filter(Boolean).join(', ');
+      const ctx = {
+        genres: genres.join(' / ') || 'independent music',
+        location: profile.city_state,
+        careerStage: profile.career_stage || 'emerging independent',
+        listeners: profile.spotify_monthly_listeners || 'a growing base of',
+        releases: profile.songs_released ?? 'a small catalog of',
+      };
 
-${artistContext}
+      const ANGLES = {
+        record_label: [
+          `Genre and sound fit: find independent and mid-size record labels known for signing artists in ${ctx.genres}${soundLike ? `, especially ones whose artists get compared to ${soundLike}` : ''}. Look for concrete roster evidence — actual artists they have signed.`,
+          `Career-stage fit: find labels that realistically sign artists at this exact level — ${ctx.careerStage} artists with around ${ctx.listeners} Spotify monthly listeners. Exclude major labels unless the traction clearly justifies them.`,
+          `Regional and open-submission angle: find labels based in or near ${ctx.location}, plus any labels anywhere that publicly accept unsolicited demos or run open submission periods right now.`,
+        ],
+        distributor: [
+          `Catalog fit: find music distribution and label-services companies suited to an independent catalog of about ${ctx.releases} released songs in ${ctx.genres}, from DIY platforms to full-service distributors.`,
+          `Stage fit: find distributors that serve ${ctx.careerStage} artists around ${ctx.listeners} monthly listeners, balancing cost, royalty split and services like playlist pitching. Note their publicly documented pricing or service model.`,
+          `Alternative angle: find distributors known for ${ctx.genres} artists, plus label-services companies that offer marketing or artist-development support and publish how artists apply.`,
+        ],
+        sync: [
+          `Genre fit: find sync licensing agencies, music libraries and placement companies that specialize in or actively represent ${ctx.genres} music.`,
+          `Submission fit: find sync companies that accept submissions from independent artists at a ${ctx.careerStage} level, with a publicly documented submission process.`,
+          `Media-use angle: find sync companies by what they place — film/TV, trailers, games, advertising — and note each one's specialty.`,
+        ],
+      };
 
-TASK: Search the web and find 6 to 8 real, currently operating companies that are a realistic fit for this artist right now — right genre, right size, right traction level. Targets: ${CATEGORY_TARGETS[category]}.
+      const SHARED_RULES = `For every company: verify it is real and currently operating, and find its official public contact route — an email address (A&R, demo or submissions inbox) or its official submissions/contact page. NEVER invent an email address, contact name, URL, roster fact or submission policy. Every detail must come from a real page you found on the web, returned as source_url. Set accepts_submissions to "yes" only if a public page shows they currently accept unsolicited submissions, "no" if a public page says they do not, and "unknown" if you could not verify either. In fit_evidence, cite the specific evidence for the fit — actual rostered artists, stated genre specialty, or a documented submissions policy. If you cannot verify a company, do not include it. Return 4 to 6 companies.`;
 
-For every company, find its public contact channel: an email address (A&R, demo, or submissions inbox) or its official submissions/contact page. NEVER invent an email address, contact name, or URL. Every contact detail must come from a real page you found on the web, and you must return that page as source_url. If you cannot verify a public email, leave contact_email empty and return the official submissions page as submission_url instead. If you cannot verify that a company exists, do not include it.`;
-
-      const result = await base44.integrations.Core.InvokeLLM({
-        prompt,
-        add_context_from_internet: true,
-        model: 'gemini_3_1_pro',
-        response_json_schema: {
-          type: 'object',
-          properties: {
-            prospects: {
-              type: 'array',
-              items: {
-                type: 'object',
-                properties: {
-                  company_name: { type: 'string' },
-                  company_type: { type: 'string' },
-                  location: { type: 'string' },
-                  why_fit: { type: 'string' },
-                  contact_name: { type: 'string' },
-                  contact_email: { type: 'string' },
-                  submission_url: { type: 'string' },
-                  source_url: { type: 'string' },
-                },
-                required: ['company_name', 'why_fit', 'source_url'],
+      const ANGLE_SCHEMA = {
+        type: 'object',
+        properties: {
+          prospects: {
+            type: 'array',
+            items: {
+              type: 'object',
+              properties: {
+                company_name: { type: 'string' },
+                company_type: { type: 'string' },
+                location: { type: 'string' },
+                why_fit: { type: 'string' },
+                fit_evidence: { type: 'string' },
+                accepts_submissions: { type: 'string', enum: ['yes', 'no', 'unknown'] },
+                contact_name: { type: 'string' },
+                contact_email: { type: 'string' },
+                submission_url: { type: 'string' },
+                source_url: { type: 'string' },
               },
+              required: ['company_name', 'why_fit', 'source_url'],
             },
           },
-          required: ['prospects'],
         },
-      });
+        required: ['prospects'],
+      };
 
-      const seen = new Set();
-      const prospects = (result?.prospects || [])
-        .filter(p => p.company_name && p.why_fit)
-        .filter(p => {
-          const key = String(p.company_name).toLowerCase().trim();
-          if (seen.has(key)) return false;
-          seen.add(key);
-          return true;
+      const angleResults = await Promise.all(ANGLES[category].map(angle =>
+        base44.integrations.Core.InvokeLLM({
+          prompt: `You are Sam, the AI artist manager inside SoundReady, researching real ${CATEGORY_LABELS[category]} for ${artistName}, an independent artist.\n\n${artistContext}\n\nSEARCH ANGLE: ${angle}\n\n${SHARED_RULES}`,
+          add_context_from_internet: true,
+          model: 'gemini_3_1_pro',
+          response_json_schema: ANGLE_SCHEMA,
+        }).catch(err => {
+          console.error(`dealOutreach: search angle failed: ${err.message}`);
+          return { prospects: [] };
         })
-        .slice(0, 8)
-        .map(p => ({
-          company_name: String(p.company_name).slice(0, 120),
-          company_type: p.company_type || '',
-          location: p.location || '',
-          why_fit: p.why_fit,
-          contact_name: p.contact_name || '',
-          contact_email: isValidEmail(p.contact_email) ? String(p.contact_email).toLowerCase().trim() : '',
-          submission_url: p.submission_url || '',
-          source_url: p.source_url || '',
-        }));
-      console.log(`dealOutreach: research found ${prospects.length} ${category} prospects for user ${user.id}`);
-      return Response.json({ prospects });
+      ));
+
+      // Clean, dedupe and merge across angles — keep the entry with the better contact route
+      const norm = (s) => String(s || '').toLowerCase().replace(/[^a-z0-9]/g, '');
+      const clean = (p) => ({
+        company_name: String(p.company_name).slice(0, 120),
+        company_type: p.company_type || '',
+        location: p.location || '',
+        why_fit: p.why_fit || '',
+        fit_evidence: p.fit_evidence || '',
+        accepts_submissions: ['yes', 'no', 'unknown'].includes(p.accepts_submissions) ? p.accepts_submissions : 'unknown',
+        contact_name: p.contact_name || '',
+        contact_email: isValidEmail(p.contact_email) ? String(p.contact_email).toLowerCase().trim() : '',
+        submission_url: p.submission_url || '',
+        source_url: p.source_url || '',
+      });
+      const routeOf = (p) => (p.contact_email ? 'email' : p.submission_url ? 'page' : 'none');
+      const routeRank = (p) => (routeOf(p) === 'email' ? 0 : routeOf(p) === 'page' ? 1 : 2);
+
+      const merged = new Map();
+      for (const result of angleResults) {
+        for (const raw of result?.prospects || []) {
+          if (!raw?.company_name || !raw.why_fit) continue;
+          const p = clean(raw);
+          const key = norm(p.company_name);
+          if (!key) continue;
+          const prev = merged.get(key);
+          if (!prev) { merged.set(key, p); continue; }
+          const base = routeRank(p) < routeRank(prev) ? p : prev;
+          const other = base === p ? prev : p;
+          merged.set(key, {
+            ...base,
+            company_type: base.company_type || other.company_type || '',
+            location: base.location || other.location || '',
+            fit_evidence: base.fit_evidence || other.fit_evidence || '',
+            accepts_submissions: base.accepts_submissions !== 'unknown' ? base.accepts_submissions : other.accepts_submissions,
+            contact_name: base.contact_name || other.contact_name || '',
+            submission_url: base.submission_url || other.submission_url || '',
+            source_url: base.source_url || other.source_url || '',
+          });
+        }
+      }
+      const unique = [...merged.values()];
+
+      // Honest fit ranking against the artist's actual profile
+      let ranked = unique.map(p => ({ ...p, fit_score: 5, fit_reason: '' }));
+      if (unique.length > 1) {
+        const rankRes = await base44.integrations.Core.InvokeLLM({
+          prompt: `You are Sam, the AI artist manager inside SoundReady, ranking real ${CATEGORY_LABELS[category]} for ${artistName}.\n\n${artistContext}\n\nCOMPANIES FOUND:\n${unique.map((p, i) => `${i + 1}. ${p.company_name}${p.company_type ? ` (${p.company_type})` : ''} — ${p.why_fit}${p.fit_evidence ? ` Evidence: ${p.fit_evidence}` : ''}${p.accepts_submissions !== 'unknown' ? ` Submissions: ${p.accepts_submissions}` : ''}`).join('\n')}\n\nTASK: Score each company's realistic fit for this artist RIGHT NOW, 1 to 10. Judge genre and scene fit, career-stage fit (an artist with these numbers will not realistically sign to a major — score those low), and whether their route is actionable. Add a one-sentence fit_reason. Be honest: unglamorous but realistic fits should outscore prestigious but unrealistic ones.`,
+          response_json_schema: {
+            type: 'object',
+            properties: {
+              ranked: {
+                type: 'array',
+                items: {
+                  type: 'object',
+                  properties: {
+                    company_name: { type: 'string' },
+                    fit_score: { type: 'number' },
+                    fit_reason: { type: 'string' },
+                  },
+                  required: ['company_name', 'fit_score'],
+                },
+              },
+            },
+            required: ['ranked'],
+          },
+        }).catch(err => {
+          console.error(`dealOutreach: ranking failed: ${err.message}`);
+          return null;
+        });
+        const rankMap = new Map((rankRes?.ranked || []).map(r => [norm(r.company_name), r]));
+        ranked = unique.map(p => {
+          const r = rankMap.get(norm(p.company_name));
+          return {
+            ...p,
+            fit_score: Math.max(1, Math.min(10, Math.round(Number(r?.fit_score) || 5))),
+            fit_reason: r?.fit_reason || '',
+          };
+        }).sort((a, b) => (b.fit_score - a.fit_score) || (routeRank(a) - routeRank(b)));
+      }
+
+      const prospects = ranked.slice(0, 12).map(p => ({ ...p, route: routeOf(p) }));
+      console.log(`dealOutreach: ${prospects.length} unique ${category} prospects from ${ANGLES[category].length} searches for user ${user.id}`);
+      return Response.json({ prospects, searches: ANGLES[category].length });
     }
 
     // ── Draft: personalized pitches for the prospects the artist picked ────
@@ -218,6 +310,13 @@ Do not invent numbers, achievements, or links that are not in the artist context
           source_url: p.source_url || '',
           draft: draftMap.get(key) || '',
           status: 'draft',
+          metadata: {
+            fit_score: typeof p.fit_score === 'number' ? p.fit_score : null,
+            fit_evidence: p.fit_evidence || '',
+            fit_reason: p.fit_reason || '',
+            accepts_submissions: p.accepts_submissions || 'unknown',
+            route: p.contact_email ? 'email' : p.submission_url ? 'page' : 'none',
+          },
         }));
       }
       console.log(`dealOutreach: filed ${created.length} ${category} drafts for user ${user.id}`);
