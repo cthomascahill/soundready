@@ -33,7 +33,7 @@ export default function SoundReadyLogo({ size = 32 }) {
       </svg>
 
       <span className="font-heading font-black tracking-tight" style={{ fontSize: size * 0.62 }}>
-        <span className="text-white">sound</span><span className="text-primary">ready</span>
+        <span className="text-foreground">sound</span><span className="text-primary">ready</span>
       </span>
     </div>
   );

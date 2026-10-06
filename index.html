@@ -1,10 +1,20 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" suppressHydrationWarning>
   <head>
     <meta charset="UTF-8" />
     <link rel="icon" type="image/png" href="https://media.base44.com/images/public/69dcf0ecc907e43a438a626b/010253974_ChatGPTImageJun11202609_02_49AM.png" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="color-scheme" content="dark" />
+    <meta name="color-scheme" content="dark light" />
+    <script>
+      // Paint the right theme before React loads (dark is the default)
+      try {
+        if (localStorage.getItem("theme") !== "light") {
+          document.documentElement.classList.add("dark");
+        }
+      } catch (e) {
+        document.documentElement.classList.add("dark");
+      }
+    </script>
     <title>SoundReady — AI Career Management for Independent Artists &amp; Producers</title>
     <meta name="description" content="SoundReady is the all-in-one career platform for independent artists and producers: song and beat trackers, playlist pitching, tour planning, contracts, and Maya, the AI manager that works your career around the clock." />
     <meta name="keywords" content="music career platform, independent artists, music producers, AI music manager, playlist pitching, beat store, tour planning, EPK builder, music contracts" />
@@ -22,7 +32,8 @@
     <meta name="twitter:image" content="https://media.base44.com/images/public/69dcf0ecc907e43a438a626b/e07660090_generated_image.png" />
 
     <style>
-      html, body { background-color: #0a0a0a; color: #f2f2f2; }
+      html.dark, html.dark body { background-color: #0a0a0a; color: #f2f2f2; }
+      html:not(.dark), html:not(.dark) body { background-color: #ffffff; color: #18181b; }
     </style>
     <link rel="manifest" href="/manifest.json" />
   </head>

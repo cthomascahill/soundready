@@ -420,7 +420,7 @@ export default function AudioReviewPlayer({ song, onUpdate, open, onOpenChange, 
       <select
         value={value || ""}
         onChange={(e) => onChange(e.target.value || null)}
-        className="w-full h-10 rounded-lg bg-black/30 border border-white/10 text-white text-sm px-3 pr-8 appearance-none truncate focus:outline-none focus:border-[#e8e454]/50"
+        className="w-full h-10 rounded-lg bg-background/60 border border-border text-foreground text-sm px-3 pr-8 appearance-none truncate focus:outline-none focus:border-primary/50"
       >
         <option value="" disabled>
           {placeholder}
@@ -441,14 +441,14 @@ export default function AudioReviewPlayer({ song, onUpdate, open, onOpenChange, 
       onClick={() => onOpenChange(false)}
     >
       <div
-        className="w-full max-w-3xl rounded-2xl bg-[#20231c] border border-white/10 p-5 sm:p-6 space-y-4 shadow-2xl"
+        className="w-full max-w-3xl rounded-2xl bg-card border border-border p-5 sm:p-6 space-y-4 shadow-2xl"
         onClick={(e) => e.stopPropagation()}
       >
         {/* Header */}
         <div className="flex items-start justify-between gap-4">
           <div className="min-w-0">
             <p className="text-[10px] tracking-[0.2em] text-zinc-400 font-semibold">AUDIO REVIEW</p>
-            <h2 className="font-heading text-2xl font-bold text-white truncate">
+            <h2 className="font-heading text-2xl font-bold text-foreground truncate">
               {(song.song_name || "Untitled")} — {aVersion?.label || "No mix"}
             </h2>
             <p className="text-xs text-zinc-400 truncate">
@@ -456,7 +456,7 @@ export default function AudioReviewPlayer({ song, onUpdate, open, onOpenChange, 
             </p>
           </div>
           <div className="flex items-center gap-3 shrink-0">
-            <AudioWaveform className="h-7 w-7 text-white/80 hidden sm:block" />
+            <AudioWaveform className="h-7 w-7 text-foreground/80 hidden sm:block" />
             <button onClick={() => onOpenChange(false)} className="text-zinc-400 hover:text-white">
               <X className="h-5 w-5" />
             </button>
@@ -465,21 +465,21 @@ export default function AudioReviewPlayer({ song, onUpdate, open, onOpenChange, 
 
         {/* A/B selection + upload */}
         <div className="flex items-center gap-2 flex-wrap">
-          <span className="text-sm font-bold text-[#e8e454] w-4 shrink-0">A</span>
+          <span className="text-sm font-bold text-primary w-4 shrink-0">A</span>
           <VersionSelect value={aId} onChange={setAId} placeholder="Choose a mix" />
-          <span className="text-sm font-bold text-[#e8e454] w-4 shrink-0 ml-1">B</span>
+          <span className="text-sm font-bold text-primary w-4 shrink-0 ml-1">B</span>
           <VersionSelect value={bId} onChange={setBId} placeholder="Choose a second mix" />
           <div className="flex items-center gap-1.5 ml-auto shrink-0">
             <input
               value={newLabel}
               onChange={(e) => setNewLabel(e.target.value)}
               placeholder="Mix name"
-              className="h-10 w-28 rounded-lg bg-black/30 border border-white/10 text-sm px-3 text-white placeholder:text-zinc-600 focus:outline-none focus:border-[#e8e454]/50"
+              className="h-10 w-28 rounded-lg bg-background/60 border border-border text-sm px-3 text-foreground placeholder:text-muted-foreground focus:outline-none focus:border-primary/50"
             />
             <button
               onClick={() => inputRef.current?.click()}
               disabled={uploading}
-              className="h-10 px-3 rounded-lg bg-[#e8e454] text-black text-sm font-semibold flex items-center gap-1.5 hover:brightness-110 disabled:opacity-50 shrink-0"
+              className="h-10 px-3 rounded-lg bg-primary text-primary-foreground text-sm font-semibold flex items-center gap-1.5 hover:brightness-110 disabled:opacity-50 shrink-0"
             >
               {uploading ? <Loader2 className="h-4 w-4 animate-spin" /> : <Upload className="h-4 w-4" />}
               Upload Mix
@@ -509,7 +509,7 @@ export default function AudioReviewPlayer({ song, onUpdate, open, onOpenChange, 
             value={Math.min(transport, duration || 0)}
             onChange={(e) => seek(Number(e.target.value) / (duration || 1))}
             disabled={!duration}
-            className="flex-1 accent-[#e8e454] h-1.5"
+            className="flex-1 accent-primary h-1.5"
           />
           <span className="text-[10px] text-zinc-500 tabular-nums w-8 text-right">{fmtTime(duration)}</span>
         </div>
@@ -518,13 +518,13 @@ export default function AudioReviewPlayer({ song, onUpdate, open, onOpenChange, 
         <div className="flex items-center gap-4 flex-wrap">
           <button
             onClick={playing ? pause : play}
-            className="h-12 w-12 rounded-full bg-[#e8e454] text-black flex items-center justify-center shrink-0 shadow-[0_0_24px_rgba(232,228,84,0.35)] hover:brightness-110 transition"
+            className="h-12 w-12 rounded-full bg-primary text-primary-foreground flex items-center justify-center shrink-0 shadow-[0_0_24px_rgba(33,196,93,0.35)] hover:brightness-110 transition"
             title={playing ? "Pause" : "Play"}
           >
             {playing ? <Pause className="h-5 w-5" /> : <Play className="h-5 w-5 ml-0.5" />}
           </button>
 
-          <div className="flex items-center rounded-full bg-black/30 border border-white/10 p-1 shrink-0">
+          <div className="flex items-center rounded-full bg-background/60 border border-border p-1 shrink-0">
             {["a", "b"].map((s) => {
               const disabled = s === "b" && (!bId || !info[bId]?.url);
               return (
@@ -535,7 +535,7 @@ export default function AudioReviewPlayer({ song, onUpdate, open, onOpenChange, 
                   title={disabled ? "Choose a second mix first" : `Listen to ${s.toUpperCase()}`}
                   className={`h-8 w-10 rounded-full text-sm font-bold uppercase transition-colors ${
                     side === s
-                      ? "bg-[#e8e454] text-black"
+                      ? "bg-primary text-primary-foreground"
                       : "text-zinc-400 hover:text-white disabled:opacity-30 disabled:hover:text-zinc-400"
                   }`}
                 >
@@ -554,19 +554,19 @@ export default function AudioReviewPlayer({ song, onUpdate, open, onOpenChange, 
               step={0.01}
               value={volume}
               onChange={(e) => setVolume(Number(e.target.value))}
-              className="w-24 accent-[#e8e454] h-1.5"
+              className="w-24 accent-primary h-1.5"
             />
           </div>
 
           {/* Timestamped note */}
           <div className="flex items-center gap-2 ml-auto min-w-[180px] flex-1 justify-end">
-            {noteSaved && <Check className="h-4 w-4 text-[#e8e454] shrink-0" />}
+            {noteSaved && <Check className="h-4 w-4 text-primary shrink-0" />}
             <input
               value={note}
               onChange={(e) => setNote(e.target.value)}
               onKeyDown={(e) => e.key === "Enter" && saveNote()}
               placeholder={`Note at ${fmtTime(transport)}`}
-              className="h-9 rounded-lg bg-black/30 border border-white/10 text-sm px-3 text-white placeholder:text-zinc-600 focus:outline-none focus:border-[#e8e454]/50 w-full max-w-xs"
+              className="h-9 rounded-lg bg-background/60 border border-border text-sm px-3 text-foreground placeholder:text-muted-foreground focus:outline-none focus:border-primary/50 w-full max-w-xs"
             />
           </div>
         </div>

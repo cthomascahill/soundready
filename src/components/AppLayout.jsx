@@ -10,6 +10,7 @@ import MessagesBell from "@/components/social/MessagesBell";
 import MayaAssistant from "@/components/MayaAssistant";
 import TrialBanner from "@/components/billing/TrialBanner";
 import LanguagePicker from "@/components/LanguagePicker";
+import ThemeToggle from "@/components/ThemeToggle";
 import { useLang } from "@/lib/i18n/LanguageContext";
 import { ModeProvider } from "@/lib/mode";
 
@@ -73,6 +74,7 @@ export default function AppLayout() {
               <kbd className="text-[10px] border border-border rounded px-1.5 py-0.5">⌘K</kbd>
             </button>
             <LanguagePicker className="w-full" />
+            <ThemeToggle className="w-full" />
           </div>
         </aside>
 
@@ -96,6 +98,7 @@ export default function AppLayout() {
                   <Search className="h-4 w-4" /> {t("Search…")}
                 </button>
                 <LanguagePicker className="w-full" />
+                <ThemeToggle className="w-full" />
               </div>
             </div>
           </div>

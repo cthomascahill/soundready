@@ -1,6 +1,6 @@
 import { useEffect, useRef } from "react";
 
-// Static peak-bar waveform with a yellow playhead line; click anywhere to seek.
+// Static peak-bar waveform with a green playhead line; click anywhere to seek.
 export default function WaveformDisplay({ peaks, progress = 0, onSeek, loading = false }) {
   const canvasRef = useRef(null);
 
@@ -23,15 +23,15 @@ export default function WaveformDisplay({ peaks, progress = 0, onSeek, loading =
       if (!n) return;
       const barW = w / n;
       const gap = Math.max(0.5, barW * 0.3);
-      ctx.fillStyle = "#8a8f7d";
+      ctx.fillStyle = "rgba(33,196,93,0.45)";
       for (let i = 0; i < n; i++) {
         const v = Math.max(0.03, peaks[i]);
         const bh = v * (h - 6);
         ctx.fillRect(i * barW, (h - bh) / 2, Math.max(1, barW - gap), bh);
       }
-      // yellow playhead
+      // green playhead
       const x = Math.min(progress * w, w - 2);
-      ctx.fillStyle = "#e8e454";
+      ctx.fillStyle = "#21c45d";
       ctx.fillRect(Math.max(0, x - 1), 0, 2, h);
     };
 
@@ -42,7 +42,7 @@ export default function WaveformDisplay({ peaks, progress = 0, onSeek, loading =
   }, [peaks, progress]);
 
   return (
-    <div className="relative flex-1 min-w-0 h-28 rounded-xl bg-black/25 border border-white/5 overflow-hidden">
+    <div className="relative flex-1 min-w-0 h-28 rounded-xl bg-background/40 border border-border overflow-hidden">
       <canvas
         ref={canvasRef}
         className="w-full h-full cursor-pointer block"
@@ -54,13 +54,13 @@ export default function WaveformDisplay({ peaks, progress = 0, onSeek, loading =
         }}
       />
       {loading && (
-        <div className="absolute inset-0 flex items-center justify-center bg-black/30">
-          <span className="text-[10px] text-zinc-400 animate-pulse">Rendering waveform…</span>
+        <div className="absolute inset-0 flex items-center justify-center bg-background/60">
+          <span className="text-[10px] text-muted-foreground animate-pulse">Rendering waveform…</span>
         </div>
       )}
       {!loading && !peaks?.length && (
         <div className="absolute inset-0 flex items-center justify-center">
-          <span className="text-[10px] text-zinc-600">Waveform unavailable — playback still works</span>
+          <span className="text-[10px] text-muted-foreground">Waveform unavailable — playback still works</span>
         </div>
       )}
     </div>
