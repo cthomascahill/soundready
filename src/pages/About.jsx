@@ -306,24 +306,6 @@ export default function About() {
         </div>
       </section>
 
-      {/* THE MATH */}
-      <section className="px-4 py-16 border-t border-border">
-        <div className="max-w-4xl mx-auto">
-          <div className="grid grid-cols-3 gap-4 sm:gap-8 text-center">
-            {[
-              { num: "15–20%", sub: "What the traditional management model takes — whether deals close or not" },
-              { num: "$0", sub: "What it costs to start on SoundReady — core tools free forever" },
-              { num: "40+", sub: "Integrated tools giving every artist the infrastructure of a full professional team" },
-            ].map((s, i) => (
-              <motion.div key={i} initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: i * 0.1 }} className="space-y-2">
-                <p className="font-heading text-3xl sm:text-5xl font-black text-primary">{s.num}</p>
-                <p className="text-xs sm:text-sm text-muted-foreground">{t(s.sub)}</p>
-              </motion.div>
-            ))}
-          </div>
-        </div>
-      </section>
-
       {/* CTA */}
       <section className="px-4 py-32 border-t border-border text-center bg-gradient-to-t from-primary/8 via-background to-background">
         <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="max-w-2xl mx-auto space-y-8">
