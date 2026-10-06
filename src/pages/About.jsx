@@ -274,7 +274,7 @@ export default function About() {
       <section className="px-4 py-20 border-t border-border">
         <div className="max-w-5xl mx-auto space-y-8">
           <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="text-center space-y-2">
-            <h2 className="font-heading text-4xl font-bold">{t("The infrastructure of a full professional team.")}</h2>
+            <h2 className="font-heading text-4xl font-bold">{t("The results speak for themselves.")}</h2>
           </motion.div>
           <GrowthComparisonChart />
           <p className="text-center text-xs text-muted-foreground">{t("Illustrative comparison, not a guarantee — results depend on your releases, effort, and genre.")}</p>
