@@ -76,7 +76,6 @@ import Storefront from './pages/Storefront';
 import StoreDownload from './pages/StoreDownload';
 import SignContract from './pages/SignContract';
 import ToolLibrary from './pages/ToolLibrary';
-import Friends from './pages/Friends';
 import CreatorProfile from './pages/CreatorProfile';
 import BuyoutLeads from './pages/BuyoutLeads';
 import AdminGate from './components/AdminGate';
@@ -213,7 +212,6 @@ const AuthenticatedApp = () => {
         <Route path="/client-crm" element={pro(ClientCRM)} />
         <Route path="/producer-contracts" element={pro(ProducerContracts)} />
         <Route path="/community" element={<Community />} />
-        <Route path="/friends" element={<Friends />} />
         <Route path="/u/:userId" element={<CreatorProfile />} />
         <Route path="/buyout-leads" element={<AdminGate><BuyoutLeads /></AdminGate>} />
         <Route path="*" element={<PageNotFound />} />

@@ -7,7 +7,7 @@ import { Globe, Save, Check, Loader2 } from "lucide-react";
 
 /**
  * Public profile editor for the Profile page — the card other creators
- * see when they find you in Friends → Find Creators.
+ * see when they visit your public profile page.
  */
 export default function PublicProfileCard() {
   const { user } = useAuth();
@@ -84,7 +84,7 @@ export default function PublicProfileCard() {
           Public Profile
         </p>
         <p className="text-xs text-muted-foreground mt-1">
-          What other creators see when they find you in Friends → Find Creators.
+          What other creators see when they visit your public profile page.
         </p>
       </div>
 
