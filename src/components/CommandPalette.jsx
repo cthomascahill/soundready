@@ -1,6 +1,6 @@
 import { useState, useEffect, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
-import { Search, X, Home, Music2, Users, ListChecks, Sparkles, Flame, Link2, Map, Newspaper, CreditCard, UserCircle, Mic2, Megaphone, Route, Wallet, FileText } from "lucide-react";
+import { Search, X, Home, Music2, Users, ListChecks, Sparkles, Flame, Map, Newspaper, CreditCard, UserCircle, Mic2, Megaphone, Route, Wallet, FileText } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 
 const ALL_ROUTES = [
