@@ -51,6 +51,15 @@ const TOOLS = [
     title: "Venue Contracts",
     desc: "Send offer sheets and booking contracts venues actually sign — e-signed and stored on the deal.",
   },
+  {
+    to: "/pitch-deck",
+    icon: Mic2,
+    color: "text-primary",
+    bg: "bg-primary/10",
+    border: "border-primary/20",
+    title: "EPK Builder",
+    desc: "An electronic press kit that books shows — your music, numbers and press in one link venues can't ignore.",
+  },
 ];
 
 export default function Touring() {
@@ -58,7 +67,7 @@ export default function Touring() {
 
   return (
     <div className="p-6 md:p-10 max-w-6xl mx-auto space-y-10">
-      <SEO title="Touring — SoundReady" description="Every booking and touring tool in one place: Gig Finder, Tour Opportunities, Tour Planner, Tour Finance and Venue Contracts." />
+      <SEO title="Touring — SoundReady" description="Every booking and touring tool in one place: Gig Finder, Tour Opportunities, Tour Planner, Tour Finance, Venue Contracts and the EPK Builder." />
 
       <motion.div initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }} className="space-y-2">
         <p className="text-xs text-primary uppercase tracking-widest font-bold">{t("Touring")}</p>
