@@ -463,7 +463,7 @@ export default function MayaAssistant() {
         style={{ boxShadow: "0 0 30px rgba(34,197,94,0.4)" }}
       >
         <Sparkles className="h-4 w-4" />
-        Ask Maya
+        Talk With Maya
       </button>
 
       {/* Backdrop */}
