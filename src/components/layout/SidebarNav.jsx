@@ -4,7 +4,7 @@ import { isProOrAbove } from "@/lib/tier";
 import { Lock } from "lucide-react";
 import { useLang } from "@/lib/i18n/LanguageContext";
 import {
-  Home, Music2, Users, ListChecks, Link2, LayoutGrid,
+  Home, Music2, Users, ListChecks, LayoutGrid,
   Map, Newspaper, CreditCard, UserCircle,
   Route, Mic, Building2, Bot, Sparkles, Handshake,
 } from "lucide-react";
@@ -32,7 +32,6 @@ const NAV_SECTIONS = (isAdmin) => [
     label: "AI Manager",
     items: [
       { to: "/artist-profile", icon: Mic, label: "Artist Profile" },
-      { to: "/connect-profiles", icon: Link2, label: "Connect Platforms" },
       { to: "/maya-desk", icon: Bot, label: "Sam's Desk" },
       { to: "/deals", icon: Handshake, label: "Deals" },
       { to: "/industry-intel", icon: Sparkles, label: "Opportunities" },

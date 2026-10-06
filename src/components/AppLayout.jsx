@@ -34,7 +34,7 @@ export default function AppLayout() {
   // Vault get taken there first until they complete or skip it.
   useEffect(() => {
     if (user && user.onboarding_complete !== true && location.pathname === "/history") {
-      navigate("/connect-profiles", { replace: true });
+      navigate("/artist-profile", { replace: true });
     }
   }, [user, location.pathname, navigate]);
 

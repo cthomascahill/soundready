@@ -5,6 +5,7 @@ import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { Save, Check, User, Music2, BarChart2, Share2, Mic2, Briefcase, Target, Film } from "lucide-react";
 import ProfileBlock from "@/components/artistprofile/ProfileBlock";
+import ConnectProfilesSection from "@/components/artistprofile/ConnectProfilesSection";
 import {
   TextField, NumberField, SelectField, YesNoField,
   MultiSelectField, TextareaField, FieldGroup
@@ -139,6 +140,9 @@ export default function ArtistIntake() {
             {completionPct >= 90 && "🔥 Your profile is nearly complete — your AI Manager has everything it needs."}
           </p>
         </div>
+
+        {/* Connected platforms — Sam's data layer */}
+        <ConnectProfilesSection />
 
         {/* Blocks */}
         <div className="space-y-3">

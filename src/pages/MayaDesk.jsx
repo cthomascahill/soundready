@@ -223,7 +223,7 @@ export default function MayaDesk() {
               <p className="text-sm text-muted-foreground max-w-sm mx-auto">
                 Sam files drafts here the moment they find playlist matches, tour openings, or your weekly digest. Upload a song and connect your Spotify to give Sam more to work with.
               </p>
-              <Link to="/connect-profiles" className="inline-flex items-center gap-1 text-xs text-primary hover:underline font-medium">
+              <Link to="/artist-profile" className="inline-flex items-center gap-1 text-xs text-primary hover:underline font-medium">
                 Connect your platforms <ChevronRight className="h-3 w-3" />
               </Link>
             </div>

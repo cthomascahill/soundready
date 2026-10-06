@@ -16,7 +16,7 @@ const ALL_ROUTES = [
   { label: "Tour Planner", path: "/tour-planner", icon: Route, category: "Touring" },
   { label: "Tour Finance", path: "/tour-finance", icon: Wallet, category: "Touring" },
   { label: "Venue Contracts", path: "/contracts", icon: FileText, category: "Touring" },
-  { label: "Connect Platforms", path: "/connect-profiles", icon: Link2, category: "Core" },
+  { label: "Artist Profile", path: "/artist-profile", icon: UserCircle, category: "Core" },
   { label: "Career Roadmap", path: "/career-roadmap", icon: Map, category: "Core" },
   { label: "Music News", path: "/music-news", icon: Newspaper, category: "Core" },
   { label: "Your Plan", path: "/pricing-account", icon: CreditCard, category: "Account" },

@@ -1,6 +1,6 @@
 import {
   Music2, ListChecks, FileText, Calendar, Mic2, BarChart2, Scale, Handshake,
-  MapPin, Megaphone, Route, PiggyBank, FileSignature, Map, Link2, UserCircle,
+  MapPin, Megaphone, Route, PiggyBank, FileSignature, Map, UserCircle,
   Newspaper, Radar, TrendingUp, Flame, MessageSquare, Bot, MessagesSquare, Shield,
 } from "lucide-react";
 
@@ -51,7 +51,6 @@ export const TOOL_CATEGORIES = [
     label: "Career",
     tools: [
       { name: "Career Roadmap", to: "/career-roadmap", desc: "Your personalized growth plan", icon: Map, tier: "pro" },
-      { name: "Connect Platforms", to: "/connect-profiles", desc: "Spotify, YouTube, Instagram and more", icon: Link2, tier: "free" },
       { name: "Artist Profile", to: "/artist-profile", desc: "Your full career intake", icon: UserCircle, tier: "free" },
       { name: "Music News", to: "/music-news", desc: "Daily industry briefings", icon: Newspaper, tier: "pro" },
       { name: "Industry Intel", to: "/industry-intel", desc: "Signings, playlists, trends, grants and tour intel", icon: Radar, tier: "pro" },

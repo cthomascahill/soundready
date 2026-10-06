@@ -61,7 +61,6 @@ import GenreTrends from './pages/GenreTrends.jsx';
 import ChallengeTracker from './pages/ChallengeTracker.jsx';
 import ArtistFeed from './pages/ArtistFeed.jsx';
 import WhiteboardCanvas from './pages/WhiteboardCanvas';
-import ConnectProfiles from './pages/ConnectProfiles';
 import MayaDesk from './pages/MayaDesk';
 import MayaProfile from './pages/MayaProfile';
 import BeatVault from './pages/BeatVault';
@@ -201,7 +200,7 @@ const AuthenticatedApp = () => {
         <Route path="/challenge-tracker" element={<ChallengeTracker />} />
         <Route path="/artist-feed" element={pro(ArtistFeed)} />
         <Route path="/whiteboard/:boardId" element={pro(WhiteboardCanvas)} />
-        <Route path="/connect-profiles" element={<ConnectProfiles />} />
+        <Route path="/connect-profiles" element={<ArtistIntake />} />
         <Route path="/maya-desk" element={<MayaDesk />} />
         <Route path="/deals" element={<Deals />} />
         <Route path="/maya-profile" element={<MayaProfile />} />
