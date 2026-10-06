@@ -1,16 +1,14 @@
-import { Mic2, Disc3, Layers } from "lucide-react";
+import { Mic2 } from "lucide-react";
 
 // How the user uses SoundReady. Saved to their profile and used to adapt
-// the interface (sidebar, dashboard, mode toggle).
+// the interface (sidebar, dashboard, mode toggle). Artists only.
 const TYPES = [
   { key: "artist", icon: Mic2, label: "Artist", desc: "You write, record, and release your own music." },
-  { key: "producer", icon: Disc3, label: "Producer", desc: "You make productions for artists, in any genre." },
-  { key: "artist_producer", icon: Layers, label: "Artist + Producer", desc: "You do both. Switch between modes anytime." },
 ];
 
 export default function AccountTypePicker({ value, onChange }) {
   return (
-    <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+    <div className="grid grid-cols-1 gap-3 sm:max-w-sm">
       {TYPES.map((t) => {
         const active = value === t.key;
         return (
