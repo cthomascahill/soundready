@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef, useCallback } from "react";
 import { base44 } from "@/api/base44Client";
-import { X, Play, Pause, Volume2, Upload, Loader2, AudioWaveform, ChevronDown, Check } from "lucide-react";
+import { X, Play, Pause, Volume2, Upload, Loader2, ChevronDown, Check } from "lucide-react";
 import { resolvePlayableAudioUrl } from "@/lib/audioPlayback";
 import WaveformDisplay from "./audioreview/WaveformDisplay";
 import LevelMeters from "./audioreview/LevelMeters";
@@ -447,7 +447,7 @@ export default function AudioReviewPlayer({ song, onUpdate, open, onOpenChange, 
         {/* Header */}
         <div className="flex items-start justify-between gap-4">
           <div className="min-w-0">
-            <p className="text-[10px] tracking-[0.2em] text-zinc-400 font-semibold">AUDIO REVIEW</p>
+            <p className="text-[10px] tracking-[0.2em] text-zinc-400 font-semibold">A/B MIX COMPARISON</p>
             <h2 className="font-heading text-2xl font-bold text-foreground truncate">
               {(song.song_name || "Untitled")} — {aVersion?.label || "No mix"}
             </h2>
@@ -456,7 +456,6 @@ export default function AudioReviewPlayer({ song, onUpdate, open, onOpenChange, 
             </p>
           </div>
           <div className="flex items-center gap-3 shrink-0">
-            <AudioWaveform className="h-7 w-7 text-foreground/80 hidden sm:block" />
             <button onClick={() => onOpenChange(false)} className="text-zinc-400 hover:text-white">
               <X className="h-5 w-5" />
             </button>
@@ -524,21 +523,23 @@ export default function AudioReviewPlayer({ song, onUpdate, open, onOpenChange, 
             {playing ? <Pause className="h-5 w-5" /> : <Play className="h-5 w-5 ml-0.5" />}
           </button>
 
-          <div className="flex items-center rounded-full bg-background/60 border border-border p-1 shrink-0">
+          <div className="flex items-center gap-1 shrink-0">
             {["a", "b"].map((s) => {
               const disabled = s === "b" && (!bId || !info[bId]?.url);
+              const active = side === s;
               return (
                 <button
                   key={s}
                   onClick={() => switchSide(s)}
                   disabled={disabled}
                   title={disabled ? "Choose a second mix first" : `Listen to ${s.toUpperCase()}`}
-                  className={`h-8 w-10 rounded-full text-sm font-bold uppercase transition-colors ${
-                    side === s
-                      ? "bg-primary text-primary-foreground"
-                      : "text-zinc-400 hover:text-white disabled:opacity-30 disabled:hover:text-zinc-400"
+                  className={`h-8 w-11 rounded-md text-sm font-bold uppercase border transition-colors flex items-center justify-center gap-1.5 ${
+                    active
+                      ? "bg-primary text-primary-foreground border-primary"
+                      : "bg-transparent border-border text-zinc-400 hover:text-white disabled:opacity-30 disabled:hover:text-zinc-400"
                   }`}
                 >
+                  {active && <span className="h-1.5 w-1.5 rounded-full bg-primary-foreground animate-pulse-glow" />}
                   {s.toUpperCase()}
                 </button>
               );
@@ -572,12 +573,20 @@ export default function AudioReviewPlayer({ song, onUpdate, open, onOpenChange, 
         </div>
 
         {/* Footer */}
-        <p className="text-[10px] text-zinc-500 text-center leading-relaxed max-w-2xl mx-auto">
-          Meters show the selected file's signal before monitor volume. A/B uses one playback
-          clock — both versions start at 0:00 and only the selected version is audible. Match
-          the files' start positions before comparing. Notes are saved to the song's notes with
-          the mix and timestamp.
-        </p>
+        <div className="flex items-center justify-center gap-2 flex-wrap">
+          {[
+            "One shared clock — A and B stay in sync",
+            "Only the selected mix is audible",
+            "Notes save with mix + timestamp",
+          ].map((hint) => (
+            <span
+              key={hint}
+              className="text-[10px] text-zinc-500 border border-border rounded-full px-2.5 py-1 bg-background/40"
+            >
+              {hint}
+            </span>
+          ))}
+        </div>
 
         <audio
           ref={aRef}
