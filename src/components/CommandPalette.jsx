@@ -11,6 +11,7 @@ const ALL_ROUTES = [
   { label: "The Wall", path: "/artist-feed", icon: Flame, category: "Core" },
   { label: "Team Chat", path: "/team-chat", icon: Users, category: "Team" },
   { label: "Whiteboard", path: "/whiteboard", icon: PenTool, category: "Team" },
+  { label: "Touring", path: "/touring", icon: Route, category: "Touring" },
   { label: "Gig Finder", path: "/gig-finder", icon: Mic2, category: "Touring" },
   { label: "Tour Opportunities", path: "/tour-opportunities", icon: Megaphone, category: "Touring" },
   { label: "Tour Planner", path: "/tour-planner", icon: Route, category: "Touring" },

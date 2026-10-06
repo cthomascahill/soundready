@@ -60,11 +60,7 @@ const NAV_SECTIONS = (mode, isAdmin) => {
     id: "touring",
     label: "Touring",
     items: [
-      { to: "/gig-finder", icon: Mic2, label: "Gig Finder" },
-      { to: "/tour-opportunities", icon: Megaphone, label: "Tour Opportunities" },
-      { to: "/tour-planner", icon: Route, label: "Tour Planner" },
-      { to: "/tour-finance", icon: Wallet, label: "Tour Finance" },
-      { to: "/contracts", icon: FileText, label: "Venue Contracts" },
+      { to: "/touring", icon: Route, label: "Touring" },
     ],
   },
   {
@@ -93,7 +89,7 @@ const NAV_SECTIONS = (mode, isAdmin) => {
 // Pages locked behind Artist Pro — free users see a lock icon on these
 const PRO_ONLY = new Set([
   "/studio", "/career-roadmap", "/artist-feed", "/music-news", "/industry-intel",
-  "/gig-finder", "/tour-opportunities", "/tour-planner", "/tour-finance",
+  "/touring", "/gig-finder", "/tour-opportunities", "/tour-planner", "/tour-finance",
   "/contracts", "/team-chat", "/whiteboard", "/beat-pipeline", "/artist-match",
   "/beat-store", "/client-crm", "/producer-contracts",
 ]);
@@ -119,7 +115,9 @@ export default function SidebarNav({ activePath, onNavigate }) {
             {section.items.map((item) => {
               const active =
                 activePath === item.to ||
-                (item.to === "/history" && activePath.startsWith("/music"));
+                (item.to === "/history" && activePath.startsWith("/music")) ||
+                (item.to === "/touring" &&
+                  (activePath.startsWith("/gig-finder") || activePath.startsWith("/tour-") || activePath.startsWith("/contracts")));
               return (
                 <Link
                   key={item.to}

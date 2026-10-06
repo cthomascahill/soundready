@@ -76,6 +76,7 @@ import Storefront from './pages/Storefront';
 import StoreDownload from './pages/StoreDownload';
 import SignContract from './pages/SignContract';
 import ToolLibrary from './pages/ToolLibrary';
+import Touring from './pages/Touring';
 import CreatorProfile from './pages/CreatorProfile';
 import BuyoutLeads from './pages/BuyoutLeads';
 import AdminGate from './components/AdminGate';
@@ -168,6 +169,7 @@ const AuthenticatedApp = () => {
         <Route path="/pitch-deck" element={<PitchDeck />} />
         <Route path="/spotify" element={<SpotifyConnect />} />
         <Route path="/playlist-pitcher" element={<PlaylistPitcher />} />
+        <Route path="/touring" element={pro(Touring)} />
         <Route path="/gig-finder" element={pro(GigFinder)} />
         <Route path="/algorithm-guide" element={<AlgorithmGuide />} />
         <Route path="/link-in-bio" element={<LinkInBio />} />

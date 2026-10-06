@@ -84,7 +84,9 @@ const WORKSPACE_TABS = [
 ];
 
 const ALL_TOOLS = [
+  "Sam — Your AI Manager (weekly outbound, you approve every move)",
   "Vault & Song Workspace",
+  "Song Tracker (every release, idea to released)",
   "AI Release Strategy & Analysis (real audio processing)",
   "Spotify Algorithm Score & Outlook",
   "6-Week Release Plan Generator",
@@ -112,9 +114,9 @@ const ALL_TOOLS = [
 ];
 
 const TIERS = [
-  { name: "Artist", price: "$0", tagline: "Your music's home base. Up to 5 songs & 5 beats, plus trackers — free forever.", cta: "Start Free", badge: null },
+  { name: "AI Manager", price: "$60/mo", tagline: "Sam works your career around the clock — pitching songs and beats. You approve every move.", cta: "Start Manager", badge: "Sam Works For You" },
   { name: "Artist Pro", price: "$37/mo", tagline: "You and your team. Every tool unlocked — artist and producer — free for 7 days.", cta: "Start Pro", badge: "Most Popular" },
-  { name: "AI Manager", price: "$60/mo", tagline: "Sam works your career around the clock — pitching songs and beats. You approve every move.", cta: "Start Manager", badge: null },
+  { name: "Artist", price: "$0", tagline: "Your music's home base. Up to 5 songs & 5 beats, plus trackers — free forever.", cta: "Start Free", badge: null },
 ];
 
 export default function HowItWorks() {
@@ -147,11 +149,11 @@ export default function HowItWorks() {
             HOW IT WORKS
           </motion.div>
           <h1 className="font-heading text-6xl sm:text-8xl font-black tracking-tight leading-[0.9]">
-            Most artists are losing.<br />
-            <span className="text-primary">Producers too. Here's how to win.</span>
+            Sam works your career.<br />
+            <span className="text-primary">You make the music.</span>
           </h1>
           <p className="text-xl sm:text-2xl text-muted-foreground leading-relaxed max-w-3xl mx-auto">
-            SoundReady gives independent artists and producers the same tools, strategy, and infrastructure that signed acts get from their labels. Free to start — your Vault and Productions (up to 5 songs and 5 beats) and your trackers are yours forever. This is how it works — and why it changes everything.
+            Sam is your AI manager — outbounding every week for playlist pitches, tour support and sync opportunities, all drafted from your real numbers and all approved by you. Around Sam, your Vault and Tracker keep every song organized, and Industry Intel and Music News keep you ahead of the market. Here's how the whole system works — free to start.
           </p>
           <div className="flex flex-col sm:flex-row items-center justify-center gap-3 pt-2">
             <Button size="lg" className="gap-2 font-heading font-bold text-base px-8 h-12" onClick={handleCTA}>
@@ -316,8 +318,8 @@ export default function HowItWorks() {
       <section className="px-4 py-24 border-t border-border">
         <div className="max-w-5xl mx-auto space-y-12">
           <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="text-center space-y-4">
-            <h2 className="font-heading text-4xl sm:text-5xl font-bold">Pick your plan. Start today.</h2>
-            <p className="text-lg text-muted-foreground max-w-2xl mx-auto">Start free forever. Unlock the full toolkit with Artist Pro. Hand the work to Sam when you're ready.</p>
+            <h2 className="font-heading text-4xl sm:text-5xl font-bold">Sam is the product. Everything else comes with it.</h2>
+            <p className="text-lg text-muted-foreground max-w-2xl mx-auto">Start with Sam — or start free and grow in. Your Vault, Tracker and the full toolkit come with every plan.</p>
           </motion.div>
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-5">
             {TIERS.map((tier, i) => (

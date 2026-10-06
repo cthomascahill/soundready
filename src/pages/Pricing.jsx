@@ -152,11 +152,11 @@ export default function Pricing() {
             Built for independent artists &amp; producers
           </motion.div>
           <h1 className="font-heading text-5xl sm:text-7xl font-black tracking-tight leading-[0.95]">
-            Start free. Grow into Pro.<br />
-            <span className="text-primary">Then hand the work to Sam.</span>
+            Meet Sam.<br />
+            <span className="text-primary">Your AI manager — $60 flat.</span>
           </h1>
           <p className="text-lg sm:text-xl text-muted-foreground leading-relaxed max-w-2xl mx-auto">
-            Every serious artist — and every serious producer — needs a team. SoundReady is yours: your tools, your people, and an AI manager that actually does the work.
+            Sam outbounds for you every week — playlist pitches, tour support, sync opportunities — drafted from your real numbers, and nothing sends without your approval. Your Vault, Tracker and the full toolkit come with it. Start free and grow in.
           </p>
           {!isAuth && (
             <Button size="lg" className="gap-2 font-heading font-bold text-base px-10 h-12" onClick={() => document.getElementById("plans")?.scrollIntoView({ behavior: "smooth" })}>
@@ -275,7 +275,7 @@ export default function Pricing() {
 
             {/* AI MANAGER */}
             <motion.div initial={{ opacity: 0, y: 24 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: 0.08 }}
-              className="relative rounded-2xl border border-primary/30 bg-card p-6 flex flex-col ring-2 ring-primary/60 shadow-2xl shadow-primary/10">
+              className="relative order-first rounded-2xl border border-primary/30 bg-card p-6 flex flex-col ring-2 ring-primary/60 shadow-2xl shadow-primary/10">
               <div className="absolute -top-3 left-1/2 -translate-x-1/2 px-3 py-1 rounded-full text-xs font-bold whitespace-nowrap bg-primary text-primary-foreground">
                 Sam Works For You
               </div>

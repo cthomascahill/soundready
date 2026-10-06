@@ -6,7 +6,7 @@ import {
   ArrowRight, Flame, Zap, BarChart2, Music2, DollarSign, FileText, Users,
   CheckCircle2, Mic2, MapPin, BookOpen, Wand2, Link2, TrendingUp, Newspaper,
   Send, CalendarDays, AlertTriangle, Clock, PhoneOff, TrendingDown, Star,
-  Bot, UserCheck, ChevronRight, Sparkles, Disc3
+  Bot, UserCheck, ChevronRight, Sparkles, Disc3, Radar
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import PublicNav from "@/components/public/PublicNav";
@@ -25,6 +25,30 @@ const MANAGER_PAINS = [
 ];
 
 const TIERS = [
+  {
+    icon: Bot,
+    color: "text-primary",
+    bg: "bg-primary/10",
+    border: "border-primary/30",
+    name: "AI Manager",
+    tagline: "Your career, worked around the clock.",
+    price: "$60/mo",
+    badge: "Sam Works For You",
+    badgeStyle: "bg-primary text-primary-foreground",
+    glow: true,
+    desc: "Sam automatically outbounds on your behalf for opportunities weekly — tour support, features, sync opportunities and more. You simply approve or deny. Every move is drafted from your real numbers and waits for you in Sam's Desk.",
+    items: [
+      "Sam outbounds for you weekly — tour support, features, sync & more",
+      "You simply approve or deny — nothing sends without you",
+      "Sam chat backed by your real numbers",
+      "Auto-drafted playlist & tour-opening pitches",
+      "Sam pitches your beats to matching artists",
+      "EPKs & weekly career digests",
+    ],
+    cta: "Start Manager",
+    route: "/pricing",
+    subtext: "No percentage cuts — ever.",
+  },
   {
     icon: Zap,
     color: "text-chart-5",
@@ -67,45 +91,21 @@ const TIERS = [
     route: "/pricing",
     subtext: "Card required — charged automatically after 7 days. Cancel anytime.",
   },
-  {
-    icon: Bot,
-    color: "text-primary",
-    bg: "bg-primary/10",
-    border: "border-primary/30",
-    name: "AI Manager",
-    tagline: "Your career, worked around the clock.",
-    price: "$60/mo",
-    badge: "Sam Works For You",
-    badgeStyle: "bg-primary text-primary-foreground",
-    glow: true,
-    desc: "Sam automatically outbounds on your behalf for opportunities weekly — tour support, features, sync opportunities and more. You simply approve or deny. Every move is drafted from your real numbers and waits for you in Sam's Desk.",
-    items: [
-      "Sam outbounds for you weekly — tour support, features, sync & more",
-      "You simply approve or deny — nothing sends without you",
-      "Sam chat backed by your real numbers",
-      "Auto-drafted playlist & tour-opening pitches",
-      "Sam pitches your beats to matching artists",
-      "EPKs & weekly career digests",
-    ],
-    cta: "Start Manager",
-    route: "/pricing",
-    subtext: "No percentage cuts — ever.",
-  },
 ];
 
 const WHAT_WE_DO = [
+  { icon: Bot, color: "text-primary", title: "Sam, Your AI Manager", desc: "Sam outbounds on your behalf every week — tour support, features, sync opportunities and more. You simply approve or deny, and nothing sends without you." },
   { icon: Zap, color: "text-primary", title: "Release Strategy", desc: "Get a complete AI-powered release plan in 60 seconds, built around your actual audio data. Ideal timing, pitching timeline, algorithm outlook — no guesswork." },
   { icon: Mic2, color: "text-chart-3", title: "Playlist Pitching", desc: "Pitch to 40+ curated playlists with personalized outreach written around your song's sound and mood. More playlist adds means more streams and algorithmic momentum." },
   { icon: FileText, color: "text-purple-400", title: "Press & EPK", desc: "Generate a full Electronic Press Kit with bio, stats, and streaming links in minutes. The same professional presentation that gets artists into festivals and editorial — ready to send instantly." },
   { icon: MapPin, color: "text-orange-400", title: "Booking & Tours", desc: "Access 843+ venues, generate booking inquiries, plan your tour routing, and track every dollar of income and expenses. More shows, better margins, zero spreadsheets." },
   { icon: DollarSign, color: "text-chart-4", title: "Finance & Royalties", desc: "Upload royalty statements from every DSP and see exactly what you're earning in one place. Track expenses, send invoices, and finally understand your music business finances." },
-  { icon: Send, color: "text-teal-400", title: "Distribution", desc: "Manage ISRC codes, metadata, pre-save links, and distributor submissions in one organized checklist. Every release goes out clean, professional, and ready to perform." },
+  { icon: Music2, color: "text-teal-400", title: "Vault & Song Tracker", desc: "Your music, finally organized. Every song lives in the Vault with its files, artwork and lyrics — and the Tracker moves it from idea to release with dates, mixes and codes on record." },
 
-  { icon: BarChart2, color: "text-chart-5", title: "A&R Intelligence", desc: "Weekly briefings on what's working in your genre right now — tempos, moods, and strategies getting editorial love. Make smarter decisions before you finish the song." },
+  { icon: Radar, color: "text-chart-5", title: "Industry Intel & Music News", desc: "Label signings, playlist changes, grants, showcase deadlines and tour news in your market — plus daily briefings on what's working in your genre right now. Always know when to move." },
   { icon: FileText, color: "text-yellow-400", title: "Contract Analyzer", desc: "Upload any deal or contract and SoundReady flags every clause that could hurt you — in plain English. Know exactly what you're signing before you sign it." },
   { icon: Disc3, color: "text-purple-400", title: "Productions & Placements", desc: "Producers get their own workspace. Catalog every beat with BPM, key, and moods, track your credits and fees, and turn your placement history into the resume that lands collabs." },
   { icon: UserCheck, color: "text-teal-400", title: "Artist Match", desc: "SoundReady ranks the artists on the platform whose sound fits your beats — and Sam drafts the pitch for you. Your beats stop waiting for artists to find you." },
-  { icon: Bot, color: "text-primary", title: "Sam, Your AI Manager", desc: "Sam outbounds on your behalf every week — tour support, features, sync opportunities and more. You simply approve or deny, and nothing sends without you." },
   { icon: Users, color: "text-cyan-400", title: "Team Workspace", desc: "Bring your manager, producer, and engineer into one workspace — shared chat, whiteboards, and feedback on every version of the song. Your whole team in sync." },
 ];
 
@@ -137,17 +137,17 @@ export default function About() {
         <motion.div initial={{ opacity: 0, y: 32 }} animate={{ opacity: 1, y: 0 }} className="relative max-w-5xl mx-auto space-y-8">
           <motion.div initial={{ opacity: 0, scale: 0.9 }} animate={{ opacity: 1, scale: 1 }} transition={{ delay: 0.1 }}
             className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/10 border border-primary/30 text-primary text-xs font-bold tracking-wider uppercase">
-            <Flame className="h-3.5 w-3.5" />
-            {t("The Artist & Producer Management Revolution")}
+            <Bot className="h-3.5 w-3.5" />
+            {t("Meet Sam — Your AI Artist Manager")}
           </motion.div>
 
           <h1 className="font-heading text-6xl sm:text-8xl font-black tracking-tight leading-[0.9]">
-            {t("Your career.")}<br />
-            <span className="text-primary">{t("Finally moving.")}</span>
+            {t("Meet Sam.")}<br />
+            <span className="text-primary">{t("Your AI manager.")}</span>
           </h1>
 
           <p className="text-xl sm:text-2xl text-muted-foreground leading-relaxed max-w-3xl mx-auto font-body">
-            {t("Release strategy, booking, touring, finances, and your team — the infrastructure signed acts get from a label, in one place, free to start. Grow into Artist Pro when you need the full toolkit, and hand the day-to-day work to Sam, your AI manager.")}
+            {t("Sam outbounds for you every week — playlist pitches, tour support, sync opportunities and more — drafted from your real numbers. You just approve or deny. Your whole career is organized around it: the Vault, the Tracker, Industry Intel and Music News. $60/mo flat — start free and grow into it.")}
           </p>
 
           <div className="flex flex-col sm:flex-row items-center justify-center gap-3 pt-2">
@@ -163,6 +163,44 @@ export default function About() {
 
           <p className="text-xs text-muted-foreground">{t("Start free. No contracts. No percentage cuts — ever.")}</p>
         </motion.div>
+      </section>
+
+      {/* SAM SPOTLIGHT — the main event */}
+      <section className="px-4 py-24 border-t border-border">
+        <div className="max-w-5xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+          <motion.div initial={{ opacity: 0, x: -24 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }} className="space-y-6 order-2 lg:order-1">
+            <p className="text-xs text-primary uppercase tracking-wider font-bold">{t("The Main Event")}</p>
+            <h2 className="font-heading text-4xl sm:text-5xl font-bold">{t("Sam works your career around the clock.")}</h2>
+            <p className="text-lg text-muted-foreground leading-relaxed">
+              {t("A great manager spends every week finding opportunities and pitching on your behalf. That's Sam: real outbound, drafted from your real numbers, delivered to Sam's Desk where you approve, edit or deny every move. Nothing sends without you.")}
+            </p>
+            <div className="space-y-3">
+              {[
+                "Weekly outbound — tour support, features, sync opportunities and more",
+                "Every draft backed by your real Spotify, YouTube and catalog data",
+                "Chat with Sam anytime for advice grounded in your actual numbers",
+              ].map((item) => (
+                <div key={item} className="flex items-start gap-3">
+                  <CheckCircle2 className="h-5 w-5 text-primary shrink-0 mt-0.5" />
+                  <span className="text-sm text-foreground">{t(item)}</span>
+                </div>
+              ))}
+            </div>
+            <Button size="lg" className="gap-2 font-heading font-bold text-base px-8 h-12" onClick={handleCTA}>
+              {t("Get Sam — $60/mo")} <ArrowRight className="h-4 w-4" />
+            </Button>
+            <p className="text-xs text-muted-foreground">{t("No percentage cuts — ever. Everything on this page comes with it.")}</p>
+          </motion.div>
+          <motion.div initial={{ opacity: 0, x: 24 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }} className="relative order-1 lg:order-2 flex justify-center">
+            <motion.img
+              src="https://media.base44.com/images/public/69dcf0ecc907e43a438a626b/d124f0929_generated_f10ed4b3.png"
+              alt="Sam, the SoundReady AI manager robot"
+              className="h-64 sm:h-80 w-auto drop-shadow-2xl"
+              animate={{ y: [0, -10, 0] }}
+              transition={{ y: { repeat: Infinity, duration: 4, ease: "easeInOut" } }}
+            />
+          </motion.div>
+        </div>
       </section>
 
       {/* THE PROBLEM — two types */}
@@ -233,8 +271,8 @@ export default function About() {
         <div className="max-w-5xl mx-auto space-y-14">
           <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="text-center space-y-4">
             <p className="text-xs text-primary uppercase tracking-wider font-bold">{t("Pricing")}</p>
-            <h2 className="font-heading text-4xl sm:text-5xl font-bold">{t("Start free. Grow when you're ready.")}</h2>
-            <p className="text-lg text-muted-foreground max-w-2xl mx-auto">{t("Your Vault and Tracker are free forever. Unlock the full toolkit with Artist Pro — or hand the work to Sam when your career is moving.")}</p>
+            <h2 className="font-heading text-4xl sm:text-5xl font-bold">{t("Sam is the product. Everything else comes with it.")}</h2>
+            <p className="text-lg text-muted-foreground max-w-2xl mx-auto">{t("The AI Manager plan is the main event: Sam working your career every week, plus your Vault and Tracker to keep every song organized. Start free and grow in whenever you're ready.")}</p>
           </motion.div>
 
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-5">
