@@ -1,5 +1,3 @@
-import { useEffect } from 'react';
-import { base44 } from '@/api/base44Client';
 import { ThemeProvider } from 'next-themes';
 import { Toaster } from "@/components/ui/toaster"
 import { QueryClientProvider } from '@tanstack/react-query'
@@ -8,8 +6,11 @@ import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import PageNotFound from './lib/PageNotFound';
 import { AuthProvider, useAuth } from '@/lib/AuthContext';
 import { LanguageProvider } from '@/lib/i18n/LanguageContext';
-import UserNotRegisteredError from '@/components/UserNotRegisteredError';
-import LoginPage from './pages/Home';
+import Login from './pages/Login';
+import Register from './pages/Register';
+import ForgotPassword from './pages/ForgotPassword';
+import ResetPassword from './pages/ResetPassword';
+import ProtectedRoute from '@/components/ProtectedRoute';
 import { Navigate } from 'react-router-dom';
 import Results from './pages/Results';
 import History from './pages/History';
@@ -86,20 +87,8 @@ const pro = (Page) => (
   <ProGate><Page /></ProGate>
 );
 
-// Sends a logged-out visitor to the login page, then back where they were headed
-const LoginRedirect = () => {
-  useEffect(() => {
-    base44.auth.redirectToLogin(window.location.pathname);
-  }, []);
-  return (
-    <div className="fixed inset-0 flex items-center justify-center bg-background">
-      <div className="w-8 h-8 border-4 border-primary/20 border-t-primary rounded-full animate-spin" />
-    </div>
-  );
-};
-
 const AuthenticatedApp = () => {
-  const { user, isLoadingAuth, isLoadingPublicSettings, authError, navigateToLogin } = useAuth();
+  const { isLoadingAuth, isLoadingPublicSettings } = useAuth();
 
   if (isLoadingPublicSettings || isLoadingAuth) {
     return (
@@ -109,49 +98,24 @@ const AuthenticatedApp = () => {
     );
   }
 
-  if (authError) {
-    if (authError.type === 'user_not_registered') return <UserNotRegisteredError />;
-    if (authError.type === 'auth_required') {
-      // Allow public marketing pages even when app requires auth
-      return (
-        <Routes>
-          <Route path="/" element={<About />} />
-          <Route path="/pricing" element={<Pricing />} />
-          <Route path="/store/:producerId" element={<Storefront />} />
-          <Route path="/store/download" element={<StoreDownload />} />
-          <Route path="/contracts/sign/:token" element={<SignContract />} />
-
-          <Route path="*" element={<About />} />
-        </Routes>
-      );
-    }
-  }
-
-  // Logged-out visitors on a public app: marketing site + login for everything else
-  if (!user) {
-    return (
-      <Routes>
-        <Route path="/" element={<About />} />
-        <Route path="/pricing" element={<Pricing />} />
-        <Route path="/store/:producerId" element={<Storefront />} />
-        <Route path="/store/download" element={<StoreDownload />} />
-        <Route path="/contracts/sign/:token" element={<SignContract />} />
-        <Route path="*" element={<LoginRedirect />} />
-      </Routes>
-    );
-  }
-
   return (
     <Routes>
-      {/* Public routes */}
+      {/* Public marketing pages */}
       <Route path="/" element={<About />} />
       <Route path="/pricing" element={<Pricing />} />
       <Route path="/store/:producerId" element={<Storefront />} />
       <Route path="/store/download" element={<StoreDownload />} />
       <Route path="/contracts/sign/:token" element={<SignContract />} />
 
-      {/* Protected routes */}
-      <Route element={<AppLayout />}>
+      {/* Auth pages */}
+      <Route path="/login" element={<Login />} />
+      <Route path="/register" element={<Register />} />
+      <Route path="/forgot-password" element={<ForgotPassword />} />
+      <Route path="/reset-password" element={<ResetPassword />} />
+
+      {/* Protected routes — every app page requires login */}
+      <Route element={<ProtectedRoute unauthenticatedElement={<Navigate to="/login" replace />} />}>
+        <Route element={<AppLayout />}>
         <Route path="/" element={<Navigate to="/history" replace />} />
         <Route path="/dashboard" element={<Navigate to="/history" replace />} />
         <Route path="/tools" element={<ToolLibrary />} />
@@ -217,6 +181,7 @@ const AuthenticatedApp = () => {
         <Route path="/u/:userId" element={<CreatorProfile />} />
         <Route path="/buyout-leads" element={<AdminGate><BuyoutLeads /></AdminGate>} />
         <Route path="*" element={<PageNotFound />} />
+        </Route>
       </Route>
     </Routes>
   );
