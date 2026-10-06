@@ -357,7 +357,7 @@ export default function Pricing() {
           </h2>
           <p className="text-muted-foreground">Start free today. Upgrade when you're ready — the work is already done for you.</p>
           {isAuth ? (
-            <Link to="/dashboard"><Button size="lg" className="gap-2 font-heading font-bold text-base px-10 h-12">{t("Go to Dashboard")} <ArrowRight className="h-4 w-4" /></Button></Link>
+            <Link to="/dashboard"><Button size="lg" className="gap-2 font-heading font-bold text-base px-10 h-12">Go to Dashboard <ArrowRight className="h-4 w-4" /></Button></Link>
           ) : (
             <Button size="lg" className="gap-2 font-heading font-bold text-base px-10 h-12" onClick={() => document.getElementById("plans")?.scrollIntoView({ behavior: "smooth" })}>
               Start <ArrowRight className="h-4 w-4" />
