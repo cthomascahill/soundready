@@ -1,0 +1,134 @@
+{
+  "name": "MayaRecommendation",
+  "type": "object",
+  "properties": {
+    "user_id": {
+      "type": "string",
+      "description": "User this recommendation is for"
+    },
+    "kind": {
+      "type": "string",
+      "enum": [
+        "career_opportunity",
+        "career_move",
+        "daily_task",
+        "follow_up"
+      ],
+      "description": "career_opportunity = external chance to pursue, career_move = bigger strategic play, daily_task = day-to-day management, follow_up = build on a past action"
+    },
+    "title": {
+      "type": "string",
+      "description": "Short title of the recommendation"
+    },
+    "rationale": {
+      "type": "string",
+      "description": "Why Maya suggests this, citing the artist's real data and confirmed preferences"
+    },
+    "proposed_action": {
+      "type": "string",
+      "description": "What Maya proposes to do, in plain terms"
+    },
+    "draft_kind": {
+      "type": "string",
+      "enum": [
+        "email",
+        "manual"
+      ],
+      "default": "manual",
+      "description": "email = Maya drafted outreach she can send once approved, manual = the artist executes it themselves"
+    },
+    "draft": {
+      "type": "string",
+      "description": "Ready-to-send outreach draft starting with a Subject: line, when draft_kind is email"
+    },
+    "recipient_email": {
+      "type": "string",
+      "description": "Recipient email if one appears in the artist's data; never invented"
+    },
+    "manual_next_step": {
+      "type": "string",
+      "description": "Concrete step the artist can follow when this can't be executed automatically"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "proposed",
+        "approved",
+        "executed",
+        "dismissed"
+      ],
+      "default": "proposed",
+      "description": "proposed = awaiting decision, approved = artist took it on (manual or self-send), executed = Maya sent the approved outreach, dismissed = rejected"
+    },
+    "executed_at": {
+      "type": "string",
+      "description": "ISO timestamp when the recommendation was executed or taken on"
+    },
+    "outcome": {
+      "type": "string",
+      "enum": [
+        "replied",
+        "progressed",
+        "rejected",
+        "no_reply"
+      ],
+      "description": "What happened after the action, recorded by the artist so Maya can factor it into future plans"
+    },
+    "outcome_note": {
+      "type": "string",
+      "description": "Optional note on what happened"
+    },
+    "metadata": {
+      "type": "object",
+      "description": "Extra context, e.g. outcome_recorded_at"
+    }
+  },
+  "required": [
+    "user_id",
+    "kind",
+    "title",
+    "rationale",
+    "proposed_action"
+  ],
+  "rls": {
+    "read": {
+      "$or": [
+        {
+          "created_by_id": "{{user.id}}"
+        },
+        {
+          "user_condition": {
+            "role": "admin"
+          }
+        }
+      ]
+    },
+    "create": {
+      "created_by_id": "{{user.id}}"
+    },
+    "update": {
+      "$or": [
+        {
+          "created_by_id": "{{user.id}}"
+        },
+        {
+          "user_condition": {
+            "role": "admin"
+          }
+        }
+      ]
+    },
+    "delete": {
+      "$or": [
+        {
+          "created_by_id": "{{user.id}}"
+        },
+        {
+          "user_condition": {
+            "role": "admin"
+          }
+        }
+      ]
+    }
+  }
+}

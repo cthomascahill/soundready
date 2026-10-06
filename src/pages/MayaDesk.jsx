@@ -6,6 +6,9 @@ import { useAuth } from "@/lib/AuthContext";
 import { useMode } from "@/lib/mode";
 import { hasAIManager } from "@/lib/tier";
 import MayaQueueCard from "@/components/maya/MayaQueueCard";
+import RecommendationsPanel from "@/components/maya/RecommendationsPanel";
+import MemoryPanel from "@/components/maya/MemoryPanel";
+import OutcomeControl from "@/components/maya/OutcomeControl";
 import { Button } from "@/components/ui/button";
 import {
   Sparkles, Lock, Zap, Check, X, Mail, Loader2, Inbox, ChevronRight, RefreshCw,
@@ -14,7 +17,7 @@ import {
 const QUEUE_STATUSES = ["pending", "ready_to_send", "viewed"];
 const HISTORY_STATUSES = ["sent", "denied", "complete"];
 
-function HistoryRow({ item }) {
+function HistoryRow({ item, onRecordOutcome }) {
   const sent = item.status === "sent";
   return (
     <div className="flex items-start gap-3 rounded-xl border border-border bg-card p-4">
@@ -35,9 +38,19 @@ function HistoryRow({ item }) {
         <p className="text-xs text-muted-foreground mt-0.5 line-clamp-1">{item.description}</p>
         <p className="text-[10px] text-muted-foreground/60 mt-1">
           {sent && item.recipient_email ? `To ${item.recipient_email} · ` : ""}
+          {item.metadata?.outcome ? `Outcome: ${item.metadata.outcome.replace(/_/g, " ")} · ` : ""}
           {item.sent_at ? new Date(item.sent_at).toLocaleDateString("en-US", { month: "short", day: "numeric" })
             : new Date(item.created_date).toLocaleDateString("en-US", { month: "short", day: "numeric" })}
         </p>
+        {sent && (
+          <div className="mt-2">
+            <OutcomeControl
+              outcome={item.metadata?.outcome}
+              note={item.metadata?.outcome_note}
+              onRecord={(o, n) => onRecordOutcome(item, o, n)}
+            />
+          </div>
+        )}
       </div>
     </div>
   );
@@ -51,6 +64,7 @@ export default function MayaDesk() {
   const [tab, setTab] = useState("queue");
   const [searching, setSearching] = useState(false);
   const [searchNote, setSearchNote] = useState("");
+  const [recsPending, setRecsPending] = useState(0);
 
   const aiManager = hasAIManager(user);
 
@@ -93,6 +107,14 @@ export default function MayaDesk() {
 
   const onUpdated = (updated) => {
     setActivities(prev => prev.map(a => a.id === updated.id ? updated : a));
+  };
+
+  // The artist records what happened after Maya's outreach — she factors it into future plans
+  const recordOutcome = async (item, outcome, note) => {
+    const updated = await base44.entities.AIActivity.update(item.id, {
+      metadata: { ...(item.metadata || {}), outcome, outcome_note: note, outcome_at: new Date().toISOString() },
+    });
+    onUpdated(updated);
   };
 
   const queue = activities.filter(a => QUEUE_STATUSES.includes(a.status) && a.draft_email);
@@ -152,6 +174,8 @@ export default function MayaDesk() {
         <div className="flex gap-1">
           {[
             { key: "queue", label: `Awaiting Approval${queue.length ? ` (${queue.length})` : ""}` },
+            { key: "recs", label: `Recommendations${recsPending ? ` (${recsPending})` : ""}` },
+            { key: "memory", label: "What Maya Knows" },
             { key: "history", label: `Sent & Denied${history.length ? ` (${history.length})` : ""}` },
           ].map(t => (
             <button key={t.key} onClick={() => setTab(t.key)}
@@ -166,6 +190,10 @@ export default function MayaDesk() {
           <div className="space-y-3">
             {[1, 2, 3].map(i => <div key={i} className="h-24 rounded-xl bg-card border border-border animate-pulse" />)}
           </div>
+        ) : tab === "recs" ? (
+          <RecommendationsPanel user={user} mode={mode} onPendingChange={setRecsPending} />
+        ) : tab === "memory" ? (
+          <MemoryPanel />
         ) : tab === "queue" ? (
           queue.length === 0 ? (
             <div className="rounded-2xl bg-card border border-dashed border-border p-10 text-center space-y-3">
@@ -193,7 +221,7 @@ export default function MayaDesk() {
             </div>
           ) : (
             <div className="space-y-3">
-              {history.map(item => <HistoryRow key={item.id} item={item} />)}
+              {history.map(item => <HistoryRow key={item.id} item={item} onRecordOutcome={recordOutcome} />)}
             </div>
           )
         )}

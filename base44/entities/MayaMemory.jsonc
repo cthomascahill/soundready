@@ -1,0 +1,91 @@
+{
+  "name": "MayaMemory",
+  "type": "object",
+  "properties": {
+    "user_id": {
+      "type": "string",
+      "description": "User this memory belongs to"
+    },
+    "category": {
+      "type": "string",
+      "enum": [
+        "goals",
+        "preferences",
+        "constraints",
+        "decisions",
+        "outreach_style"
+      ],
+      "description": "What kind of durable fact this is"
+    },
+    "key": {
+      "type": "string",
+      "description": "Short label for the fact, e.g. 'Touring radius'"
+    },
+    "value": {
+      "type": "string",
+      "description": "The specific fact Maya learned, in the artist's terms"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "proposed",
+        "confirmed",
+        "dismissed"
+      ],
+      "default": "proposed",
+      "description": "proposed = waiting on the artist, confirmed = Maya applies it everywhere, dismissed = rejected, never re-proposed"
+    },
+    "source": {
+      "type": "string",
+      "description": "Where this memory came from, e.g. 'chat'"
+    }
+  },
+  "required": [
+    "user_id",
+    "category",
+    "key",
+    "value",
+    "status"
+  ],
+  "rls": {
+    "read": {
+      "$or": [
+        {
+          "created_by_id": "{{user.id}}"
+        },
+        {
+          "user_condition": {
+            "role": "admin"
+          }
+        }
+      ]
+    },
+    "create": {
+      "created_by_id": "{{user.id}}"
+    },
+    "update": {
+      "$or": [
+        {
+          "created_by_id": "{{user.id}}"
+        },
+        {
+          "user_condition": {
+            "role": "admin"
+          }
+        }
+      ]
+    },
+    "delete": {
+      "$or": [
+        {
+          "created_by_id": "{{user.id}}"
+        },
+        {
+          "user_condition": {
+            "role": "admin"
+          }
+        }
+      ]
+    }
+  }
+}

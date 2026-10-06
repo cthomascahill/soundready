@@ -1,4 +1,5 @@
 import { createClientFromRequest } from 'npm:@base44/sdk@0.8.52';
+import { sendMayaDraft, isValidEmail } from '../../shared/mayaEmail.ts';
 
 export default async function(req) {
   try {
@@ -32,23 +33,14 @@ export default async function(req) {
       const draft = (body.draft_email || activity.draft_email || '').trim();
       const recipient = (body.recipient_email || '').trim();
       if (!draft) return Response.json({ error: 'Draft is empty' }, { status: 400 });
-      if (!recipient || !/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(recipient)) {
+      if (!isValidEmail(recipient)) {
         return Response.json({ error: 'A valid recipient email address is required' }, { status: 400 });
       }
 
-      // Pull the subject from the draft's "Subject:" line, or fall back
-      let subject = (body.subject || '').trim();
-      const subjectMatch = draft.match(/^Subject:\s*(.+)$/m);
-      if (!subject && subjectMatch) subject = subjectMatch[1].trim();
-      if (!subject) subject = activity.song_title ? `New music: "${activity.song_title}" by ${artistName}` : activity.title;
-      const emailBody = draft.replace(/^Subject:\s*.+$/m, '').trim();
-
-      await base44.integrations.Core.SendEmail({
-        to: recipient,
-        subject,
-        body: `${emailBody}\n\n— ${artistName}\nReply directly to this email, or reach the artist at ${user.email}.`,
-        from_name: `Maya for ${artistName}`,
-      });
+      const fallbackSubject = activity.song_title
+        ? `New music: "${activity.song_title}" by ${artistName}`
+        : activity.title;
+      await sendMayaDraft({ base44, user, draft, recipient, fallbackSubject });
 
       const updated = await base44.entities.AIActivity.update(activity.id, {
         status: 'sent',

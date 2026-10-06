@@ -6,6 +6,7 @@ import { X, Send, Loader2, Sparkles, ChevronRight, RotateCcw } from "lucide-reac
 import { motion, AnimatePresence } from "framer-motion";
 import ReactMarkdown from "react-markdown";
 import MayaUpsellPopover from "@/components/maya/MayaUpsellPopover";
+import MemoryLearnCard from "@/components/maya/MemoryLearnCard";
 import { useMode } from "@/lib/mode";
 import { buildProducerSystemPrompt, PRODUCER_QUICK_STARTS } from "@/lib/mayaProducerPrompt";
 
@@ -223,9 +224,30 @@ function buildPipelineContext(pipelineSongs, deskActivities) {
   return lines.join("\n");
 }
 
-async function callMaya(messages, systemPrompt) {
+// Confirmed/dismissed memories travel with every conversation so Maya's
+// advice always reflects what the artist has actually told her.
+function buildMemorySection(memories) {
+  if (!memories?.length) return "";
+  const confirmed = memories.filter(m => m.status === "confirmed");
+  const dismissed = memories.filter(m => m.status === "dismissed");
+  const lines = [];
+  if (confirmed.length) {
+    lines.push("\nCONFIRMED PREFERENCES (durable things the artist told you and confirmed — apply them in every response):");
+    confirmed.forEach(m => lines.push(`  - [${m.category}] ${m.key}: ${m.value}`));
+  }
+  if (dismissed.length) {
+    lines.push("\nDISMISSED (the artist rejected these — do not propose them again):");
+    dismissed.forEach(m => lines.push(`  - [${m.category}] ${m.key}: ${m.value}`));
+  }
+  return lines.join("\n");
+}
+
+async function callMaya(messages, systemPrompt, wantLearning) {
   const history = messages.map(m => `${m.role === "user" ? "Artist" : "Maya"}: ${m.content}`).join("\n\n");
-  const lastUser = messages[messages.length - 1]?.content || "";
+
+  const learningBlock = wantLearning ? `
+
+LEARNING: While responding, check whether the artist revealed a durable preference, goal, constraint, decision, or outreach style (e.g. "I only want paid shows", "I don't cold-email curators", "I'm focusing on sync this year"). Extract up to 2 as "learned" items: {category: one of goals|preferences|constraints|decisions|outreach_style, key: a short label, value: the specific fact in the artist's terms}. Only durable facts about the artist, never one-off questions or temporary states. Never re-propose anything already in the CONFIRMED PREFERENCES or DISMISSED lists above. If nothing durable was revealed, return an empty learned array.` : "";
 
   const prompt = `${systemPrompt}
 
@@ -233,12 +255,13 @@ async function callMaya(messages, systemPrompt) {
 ${history}
 ---END HISTORY---
 
-Now respond as Maya to the artist's latest message. Also provide 2-3 follow-up suggestion chips.
+Now respond as Maya to the artist's latest message. Also provide 2-3 follow-up suggestion chips.${learningBlock}
 
 Return your response as JSON:
 {
   "response": "your full markdown response here",
-  "chips": ["suggestion 1", "suggestion 2", "suggestion 3"]
+  "chips": ["suggestion 1", "suggestion 2", "suggestion 3"],
+  "learned": [{"category": "...", "key": "...", "value": "..."}]
 }`;
 
   const result = await base44.integrations.Core.InvokeLLM({
@@ -248,7 +271,19 @@ Return your response as JSON:
       type: "object",
       properties: {
         response: { type: "string" },
-        chips: { type: "array", items: { type: "string" } }
+        chips: { type: "array", items: { type: "string" } },
+        learned: {
+          type: "array",
+          items: {
+            type: "object",
+            properties: {
+              category: { type: "string" },
+              key: { type: "string" },
+              value: { type: "string" }
+            },
+            required: ["category", "key", "value"]
+          }
+        }
       }
     }
   });
@@ -271,6 +306,9 @@ export default function MayaAssistant() {
   const [platformConns, setPlatformConns] = useState([]);
   const [profileLoaded, setProfileLoaded] = useState(false);
   const [upsellOpen, setUpsellOpen] = useState(false);
+  const [memories, setMemories] = useState([]);
+  const [learned, setLearned] = useState([]);
+  const memoriesRef = useRef([]);
   const bottomRef = useRef(null);
   const inputRef = useRef(null);
   const systemPromptRef = useRef(null);
@@ -290,7 +328,10 @@ export default function MayaAssistant() {
       base44.entities.BeatSale.filter({ producer_id: user.id }, "-created_date", 50).catch(() => []),
       base44.entities.PipelineSong.filter({ created_by_id: user.id }, "sort_order", 50).catch(() => []),
       base44.entities.AIActivity.filter({ user_id: user.id }, "-created_date", 15).catch(() => []),
-    ]).then(([profiles, chals, goalList, beats, conns, ownBeats, placements, clientList, sales, pipelineSongs, deskActivities]) => {
+      base44.entities.MayaMemory.filter({ user_id: user.id }, "-created_date", 200).catch(() => []),
+    ]).then(([profiles, chals, goalList, beats, conns, ownBeats, placements, clientList, sales, pipelineSongs, deskActivities, mayaMemories]) => {
+      memoriesRef.current = mayaMemories;
+      setMemories(mayaMemories);
       const prof = profiles[0] || null;
       const userSavedBeats = beats.filter(b => b.saves?.includes(user.id));
       setProfile(prof);
@@ -342,16 +383,17 @@ export default function MayaAssistant() {
     if (!msg || loading) return;
     setInput("");
     setChips([]);
+    setLearned([]);
 
     const userMsg = { role: "user", content: msg };
     const newMessages = [...messages, userMsg];
     setMessages(newMessages);
     setLoading(true);
 
-    const sysPrompt = systemPromptRef.current || buildSystemPrompt(null, [], [], []);
+    const sysPrompt = (systemPromptRef.current || buildSystemPrompt(null, [], [], [])) + buildMemorySection(memoriesRef.current);
     let result = null;
     try {
-      result = await callMaya(newMessages, sysPrompt);
+      result = await callMaya(newMessages, sysPrompt, isAIManager);
     } catch (err) {
       console.error("Maya chat error:", err);
     }
@@ -359,7 +401,25 @@ export default function MayaAssistant() {
     const mayaMsg = { role: "assistant", content: result?.response || "Sorry, I hit a snag responding. Try again in a moment." };
     setMessages(prev => [...prev, mayaMsg]);
     setChips(result?.chips || []);
+    setLearned((result?.learned || []).filter(l => l?.key && l?.value));
     setLoading(false);
+  };
+
+  // Maya proposes a learned preference; the artist confirms or rejects it here
+  const saveLearned = async (item, status, value) => {
+    const created = await base44.entities.MayaMemory.create({
+      user_id: user.id,
+      category: item.category,
+      key: item.key,
+      value: value || item.value,
+      status,
+      source: "chat",
+    }).catch(() => null);
+    if (created) {
+      memoriesRef.current = [...memoriesRef.current, created];
+      setMemories(prev => [...prev, created]);
+    }
+    setLearned(prev => prev.filter(l => l !== item));
   };
 
   const startNewChat = () => {
@@ -515,6 +575,20 @@ export default function MayaAssistant() {
                       <ChevronRight className="h-3 w-3 text-primary shrink-0" />
                       {chip}
                     </button>
+                  ))}
+                </div>
+              )}
+
+              {/* Learned preferences waiting on the artist's confirmation */}
+              {learned.length > 0 && !loading && (
+                <div className="flex flex-col gap-2 pl-10">
+                  {learned.map((l, i) => (
+                    <MemoryLearnCard
+                      key={i}
+                      item={l}
+                      onConfirm={(item, value) => saveLearned(item, "confirmed", value)}
+                      onDismiss={(item) => saveLearned(item, "dismissed")}
+                    />
                   ))}
                 </div>
               )}
