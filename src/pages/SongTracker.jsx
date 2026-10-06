@@ -123,9 +123,7 @@ export default function SongTracker() {
           <div>
             <p className="text-xs text-primary uppercase tracking-widest font-medium">Pipeline</p>
             <h1 className="font-heading text-4xl font-bold">Tracker</h1>
-            <p className="text-muted-foreground text-sm mt-1">
-              Your active pipeline — every song from idea to launch. Mark one Released and it's saved to your Vault automatically.
-            </p>
+            <p className="text-muted-foreground text-sm mt-1">Every song, idea to release.</p>
           </div>
           <ProjectsGrid
             songs={songs}

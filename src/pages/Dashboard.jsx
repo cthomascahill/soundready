@@ -5,7 +5,7 @@ import { base44 } from "@/api/base44Client";
 import { useAuth } from "@/lib/AuthContext";
 import { useMode } from "@/lib/mode";
 import ModeToggle from "@/components/ModeToggle";
-import { hasAIManager } from "@/lib/tier";
+import { hasAIManager, isProOrAbove } from "@/lib/tier";
 import { isLapsedPro } from "@/components/LapsedProCard";
 import { Button } from "@/components/ui/button";
 import {
@@ -18,6 +18,10 @@ import AIActivityFeed from "@/components/dashboard/AIActivityFeed";
 import MayaScoutCard from "@/components/dashboard/MayaScoutCard";
 import ConnectionFreshness from "@/components/dashboard/ConnectionFreshness";
 import LapsedProCard from "@/components/LapsedProCard";
+import DropSongZone from "@/components/vault/DropSongZone";
+import SamFileModal from "@/components/vault/SamFileModal";
+import PageDropOverlay from "@/components/vault/PageDropOverlay";
+import VaultCapPrompt, { FREE_VAULT_CAP } from "@/components/vault/VaultCapPrompt";
 
 
 const QUICK_ACTIONS = [
@@ -52,6 +56,16 @@ export default function Dashboard() {
   const [loading, setLoading] = useState(true);
   const [nextSteps, setNextSteps] = useState([]);
   const [stepsLoading, setStepsLoading] = useState(false);
+  const [dropQueue, setDropQueue] = useState([]);
+  const [showCap, setShowCap] = useState(false);
+
+  // Drag-and-drop intake for artists — Sam files dropped songs in the Vault + Tracker
+  const atCap = !isProOrAbove(user) && recentSongs.length >= FREE_VAULT_CAP;
+  const handleFiles = (files) => {
+    if (atCap) { setShowCap(true); return; }
+    setDropQueue((q) => [...q, ...files]);
+  };
+  const handleFiled = ({ song }) => setRecentSongs((prev) => [song, ...prev].slice(0, 5));
 
   useEffect(() => {
     if (!user?.id) return;
@@ -91,7 +105,6 @@ export default function Dashboard() {
             </h1>
             <ModeToggle />
           </div>
-          <p className="text-muted-foreground">Here's where everything stands today.</p>
           <ConnectionFreshness />
         </motion.div>
 
@@ -113,6 +126,7 @@ export default function Dashboard() {
               View all <ArrowRight className="h-3.5 w-3.5" />
             </Link>
           </div>
+          {!isProducer && <div className="mb-4"><DropSongZone onFiles={handleFiles} /></div>}
           {loading ? (
             <div className="flex gap-4">
               {[1,2,3].map(i => <div key={i} className="flex-1 h-32 rounded-xl bg-card border border-border animate-pulse" />)}
@@ -122,7 +136,7 @@ export default function Dashboard() {
               {isProducer
                 ? <Disc3 className="h-10 w-10 text-muted-foreground/30 mx-auto" />
                 : <Music2 className="h-10 w-10 text-muted-foreground/30 mx-auto" />}
-              <p className="text-muted-foreground">{isProducer ? "No beats yet. Upload your first beat to get started." : "No songs yet. Add your first track to get started."}</p>
+              <p className="text-muted-foreground">{isProducer ? "No beats yet. Upload your first beat to get started." : "No songs yet. Drop your first one in."}</p>
               <Link to={isProducer ? "/beat-vault" : "/history"}>
                 <Button size="sm" className="gap-2">
                   {isProducer ? <><Disc3 className="h-4 w-4" />Go to Productions</> : <><Music2 className="h-4 w-4" />Go to Vault</>}
@@ -173,7 +187,7 @@ export default function Dashboard() {
                 {[1,2,3].map(i => <div key={i} className="h-10 rounded-lg bg-secondary animate-pulse" />)}
               </div>
             ) : nextSteps.length === 0 ? (
-              <p className="text-sm text-muted-foreground">Upload a song to get personalized recommendations.</p>
+              <p className="text-sm text-muted-foreground">Drop a song to unlock these.</p>
             ) : (
               <div className="space-y-2">
                 {nextSteps.map((step, i) => (
@@ -237,6 +251,17 @@ export default function Dashboard() {
         </section>
 
       </div>
+
+      {/* Drag-and-drop anywhere on the page also starts Sam's intake (artists) */}
+      {!isProducer && <PageDropOverlay onFiles={handleFiles} />}
+      {!isProducer && dropQueue.length > 0 && (
+        <SamFileModal
+          file={dropQueue[0]}
+          onFiled={handleFiled}
+          onClose={() => setDropQueue((q) => q.slice(1))}
+        />
+      )}
+      {showCap && <VaultCapPrompt kind="song" onClose={() => setShowCap(false)} />}
     </div>
   );
 }

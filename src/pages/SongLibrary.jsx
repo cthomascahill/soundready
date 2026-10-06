@@ -15,6 +15,9 @@ import SongCardModal from "@/components/vault/SongCardModal";
 import ProjectsSidebar from "@/components/vault/ProjectsSidebar";
 import VaultCapPrompt, { VaultUsageBadge, FREE_VAULT_CAP } from "@/components/vault/VaultCapPrompt";
 import BulkAddSongs from "@/components/vault/BulkAddSongs";
+import DropSongZone from "@/components/vault/DropSongZone";
+import SamFileModal from "@/components/vault/SamFileModal";
+import PageDropOverlay from "@/components/vault/PageDropOverlay";
 import TrackerStageDots from "@/components/vault/TrackerStageDots";
 import VaultArtwork from "@/components/vault/VaultArtwork";
 import CatalogValuation from "@/components/vault/CatalogValuation";
@@ -141,6 +144,7 @@ export default function SongLibrary() {
   const [showCapPrompt, setShowCapPrompt] = useState(false);
   const [pipelineSongs, setPipelineSongs] = useState([]);
   const [showBulk, setShowBulk] = useState(false);
+  const [dropQueue, setDropQueue] = useState([]);
 
   useEffect(() => {
     if (!user?.id) return;
@@ -191,6 +195,15 @@ export default function SongLibrary() {
     if (atCap) { setShowCapPrompt(true); return; }
     setShowBulk(true);
   };
+  // Drag-and-drop intake — a dropped song goes straight to Sam's two-question flow
+  const handleFilesDropped = (files) => {
+    if (atCap) { setShowCapPrompt(true); return; }
+    setDropQueue((q) => [...q, ...files]);
+  };
+  const handleFiled = ({ song, tracker }) => {
+    setSongs((prev) => [song, ...prev]);
+    if (tracker) setPipelineSongs((prev) => [...prev, tracker]);
+  };
   const openEdit = (song) => { setModalSong(song); setShowModal(true); };
 
   let filtered = songs.filter(s => {
@@ -225,7 +238,7 @@ export default function SongLibrary() {
           <div>
             <p className="text-xs text-primary uppercase tracking-widest font-medium">Your Catalog</p>
             <h1 className="font-heading text-3xl font-bold">Vault</h1>
-            <p className="text-zinc-500 text-sm mt-0.5">{songs.length} songs · your finished catalog — every released song lives here</p>
+            <p className="text-zinc-500 text-sm mt-0.5">{songs.length} {songs.length === 1 ? "song" : "songs"}</p>
           </div>
           <div className="flex items-center gap-3">
             {isFree && <VaultUsageBadge count={songs.length} label="songs" />}
@@ -255,6 +268,9 @@ export default function SongLibrary() {
 
           {/* Main content */}
           <div className="flex-1 min-w-0 space-y-4">
+            {/* Drop a song in — Sam files it */}
+            <DropSongZone onFiles={handleFilesDropped} />
+
             {/* Toolbar */}
             <div className="flex items-center gap-2 flex-wrap">
               <div className="relative flex-1 min-w-[180px]">
@@ -330,18 +346,13 @@ export default function SongLibrary() {
                 <div className="h-8 w-8 border-2 border-primary/20 border-t-primary rounded-full animate-spin" />
               </div>
             ) : filtered.length === 0 ? (
-              <div className="text-center py-24 space-y-4">
+              <div className="text-center py-16 space-y-3">
                 <Music2 className="h-12 w-12 text-zinc-700 mx-auto" />
-                <p className="text-zinc-500">{search || hasFilters ? "No songs match your filters." : "Your catalog is empty. Bulk add your released songs below — or mark one Released in the Tracker and it lands here automatically."}</p>
+                <p className="text-zinc-500">{search || hasFilters ? "No songs match your filters." : "Drop your first song in."}</p>
                 {!search && !hasFilters && (
-                  <div className="flex flex-wrap items-center justify-center gap-3">
-                    <Button onClick={openBulk} variant="outline" className="border-zinc-700 gap-2">
-                      <ListPlus className="h-4 w-4" /> Bulk Add Released Songs
-                    </Button>
-                    <Button onClick={openNew} variant="outline" className="border-zinc-700 gap-2">
-                      <Plus className="h-4 w-4" /> Add a Single Song
-                    </Button>
-                  </div>
+                  <Button onClick={openBulk} variant="outline" size="sm" className="border-zinc-700 gap-2">
+                    <ListPlus className="h-4 w-4" /> Bulk add
+                  </Button>
                 )}
               </div>
             ) : viewMode === "grid" ? (
@@ -377,6 +388,18 @@ export default function SongLibrary() {
 
       {showCapPrompt && (
         <VaultCapPrompt kind="song" onClose={() => setShowCapPrompt(false)} />
+      )}
+
+      {/* Drag-and-drop anywhere on the page also starts Sam's intake */}
+      <PageDropOverlay onFiles={handleFilesDropped} />
+
+      {dropQueue.length > 0 && (
+        <SamFileModal
+          file={dropQueue[0]}
+          onFiled={handleFiled}
+          onAddArtwork={(song) => { setDropQueue([]); openEdit(song); }}
+          onClose={() => setDropQueue((q) => q.slice(1))}
+        />
       )}
 
       {showBulk && (
