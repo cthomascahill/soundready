@@ -1,9 +1,10 @@
 import { useState, useRef, useEffect } from "react";
 import { base44 } from "@/api/base44Client";
-import { X, Music2, Upload, Play, Pause, Tag, Plus, ImagePlus } from "lucide-react";
+import { X, Music2, Upload, Play, Pause, Tag, Plus, ImagePlus, Sparkles } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { resolvePlayableAudioUrl } from "@/lib/audioPlayback";
+import ReleasePlanDialog from "@/components/vault/ReleasePlanDialog";
 
 const GENRES = ["Hip-Hop", "R&B", "Pop", "Trap", "Drill", "Afrobeats", "Gospel", "Country", "Rock", "Electronic", "Jazz", "Soul", "Alternative", "Other"];
 const MOODS = ["Dark", "Uplifting", "Chill", "Aggressive", "Romantic", "Melancholic", "Party", "Introspective", "Hype", "Spiritual", "Nostalgic", "Cinematic"];
@@ -46,6 +47,7 @@ export default function SongCardModal({ song, onClose, onSave, projects = [] }) 
   const [newTag, setNewTag] = useState("");
   const [draggingAudio, setDraggingAudio] = useState(false);
   const [uploadingArt, setUploadingArt] = useState(false);
+  const [planOpen, setPlanOpen] = useState(false);
   const audioRef = useRef(null);
   const fileInputRef = useRef(null);
   const artworkInputRef = useRef(null);
@@ -308,14 +310,26 @@ export default function SongCardModal({ song, onClose, onSave, projects = [] }) 
         </div>
 
         {/* Footer */}
-        <div className="px-6 py-4 border-t border-zinc-800 flex justify-end gap-3">
-          <Button variant="outline" onClick={onClose} className="border-zinc-700">Cancel</Button>
-          <Button onClick={handleSave} disabled={saving || !form.title.trim()} className="gap-2">
-            {saving ? <div className="h-4 w-4 border-2 border-primary-foreground/20 border-t-primary-foreground rounded-full animate-spin" /> : null}
-            {isNew ? "Add to Vault" : "Save Changes"}
+        <div className="px-6 py-4 border-t border-zinc-800 flex items-center justify-between gap-3">
+          <Button
+            variant="outline"
+            onClick={() => setPlanOpen(true)}
+            disabled={!form.file_url || !form.title.trim()}
+            className="gap-2 border-primary/30 text-primary hover:bg-primary/10 hover:text-primary"
+          >
+            <Sparkles className="h-4 w-4" />
+            Generate Release Plan
           </Button>
+          <div className="flex gap-3">
+            <Button variant="outline" onClick={onClose} className="border-zinc-700">Cancel</Button>
+            <Button onClick={handleSave} disabled={saving || !form.title.trim()} className="gap-2">
+              {saving ? <div className="h-4 w-4 border-2 border-primary-foreground/20 border-t-primary-foreground rounded-full animate-spin" /> : null}
+              {isNew ? "Add to Vault" : "Save Changes"}
+            </Button>
+          </div>
         </div>
       </div>
+      {planOpen && <ReleasePlanDialog song={form} onClose={() => setPlanOpen(false)} />}
     </div>
   );
 }
