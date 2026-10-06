@@ -33,7 +33,7 @@ const NAV_SECTIONS = (isAdmin) => [
     items: [
       { to: "/connect-profiles", icon: Link2, label: "Connect Platforms" },
       { to: "/maya-desk", icon: Bot, label: "Sam's Desk" },
-      { to: "/tour-opportunities", icon: Sparkles, label: "Opportunities" },
+      { to: "/industry-intel", icon: Sparkles, label: "Opportunities" },
       { to: "/music-news", icon: Newspaper, label: "Music News" },
       { to: "/career-roadmap", icon: Map, label: "Career Roadmap" },
     ],
