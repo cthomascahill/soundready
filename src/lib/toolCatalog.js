@@ -4,7 +4,7 @@ import {
   Wallet, Coins, PieChart, Receipt, Calculator, Shield, Scale, MapPin,
   Megaphone, Route, PiggyBank, FileSignature, Map, Target, TrendingUp,
   Award, GraduationCap, Flame, MessageSquare, Bot, MessagesSquare,
-  Briefcase, UserCircle, Radar,
+  Briefcase, UserCircle, Radar, Handshake,
 } from "lucide-react";
 
 // Every tool on the platform, grouped by category.
@@ -46,6 +46,7 @@ export const TOOL_CATEGORIES = [
       { name: "Tax Estimator", to: "/tax-estimator", desc: "Set-aside estimates for music income", icon: Calculator, tier: "free" },
       { name: "Contract Analyzer", to: "/contract-analyzer", desc: "AI review of any deal you're offered", icon: Shield, tier: "free" },
       { name: "Legal", to: "/legal", desc: "Contract templates and guides", icon: Scale, tier: "free" },
+      { name: "Deals", to: "/deals", desc: "Catalog valuation and buyout interest", icon: Handshake, tier: "free" },
     ],
   },
   {
