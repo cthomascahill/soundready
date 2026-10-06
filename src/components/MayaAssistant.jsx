@@ -445,7 +445,7 @@ export default function MayaAssistant() {
         {upsellOpen && <MayaUpsellPopover onClose={() => setUpsellOpen(false)} />}
         <button
           onClick={() => setUpsellOpen(v => !v)}
-          className="fixed bottom-6 right-6 z-50 flex items-center gap-2.5 px-4 py-3 rounded-full bg-zinc-800 text-zinc-300 border border-zinc-600/60 shadow-2xl hover:bg-zinc-700 hover:text-white transition-all hover:scale-105 active:scale-95 font-semibold text-sm relative overflow-hidden"
+          className="fixed bottom-6 right-6 z-50 flex items-center gap-2.5 px-4 py-3 rounded-full bg-secondary text-secondary-foreground border border-border shadow-2xl hover:bg-accent hover:text-accent-foreground transition-all hover:scale-105 active:scale-95 font-semibold text-sm relative overflow-hidden"
           style={{ boxShadow: "0 0 20px rgba(34,197,94,0.1)" }}
         >
           {/* Subtle shimmer */}
@@ -486,27 +486,27 @@ export default function MayaAssistant() {
           <motion.div
             initial={{ x: "100%" }} animate={{ x: 0 }} exit={{ x: "100%" }}
             transition={{ type: "spring", damping: 28, stiffness: 280 }}
-            className="fixed right-0 top-0 bottom-0 z-50 w-full max-w-[420px] flex flex-col bg-zinc-950 border-l border-zinc-800 shadow-2xl"
+            className="fixed right-0 top-0 bottom-0 z-50 w-full max-w-[420px] flex flex-col bg-popover border-l border-border shadow-2xl"
             onClick={e => e.stopPropagation()}
           >
             {/* Header */}
-            <div className="flex items-center gap-3 px-5 py-4 border-b border-zinc-800 shrink-0">
-              <div className="h-10 w-10 rounded-full bg-gradient-to-br from-primary to-emerald-600 flex items-center justify-center shrink-0">
-                <SamLogo className="h-6 w-6 text-black" />
+            <div className="flex items-center gap-3 px-5 py-4 border-b border-border shrink-0">
+              <div className="h-12 w-12 rounded-full bg-gradient-to-br from-primary to-emerald-600 flex items-center justify-center shrink-0">
+                <SamLogo className="h-8 w-8 text-black" />
               </div>
               <div className="flex-1 min-w-0">
-                <p className="font-heading font-bold text-white">Sam</p>
-                <p className="text-[11px] text-zinc-400">SoundReady Artist Manager · {artistName}</p>
+                <p className="font-heading font-bold text-foreground">Sam</p>
+                <p className="text-[11px] text-muted-foreground">SoundReady Artist Manager · {artistName}</p>
               </div>
               <Link to="/maya-desk" onClick={() => setOpen(false)}
                 className="text-[11px] font-semibold text-primary hover:underline mr-2 shrink-0">
                 Sam's Desk →
               </Link>
               <button onClick={startNewChat} title="Start a new chat"
-                className="h-8 w-8 rounded-lg bg-zinc-800 flex items-center justify-center text-zinc-400 hover:text-white hover:bg-zinc-700 transition-colors shrink-0">
+                className="h-8 w-8 rounded-lg bg-secondary flex items-center justify-center text-muted-foreground hover:text-foreground hover:bg-accent transition-colors shrink-0">
                 <RotateCcw className="h-3.5 w-3.5" />
               </button>
-              <button onClick={() => setOpen(false)} className="h-8 w-8 rounded-lg bg-zinc-800 flex items-center justify-center text-zinc-400 hover:text-white hover:bg-zinc-700 transition-colors">
+              <button onClick={() => setOpen(false)} className="h-8 w-8 rounded-lg bg-secondary flex items-center justify-center text-muted-foreground hover:text-foreground hover:bg-accent transition-colors">
                 <X className="h-4 w-4" />
               </button>
             </div>
@@ -518,8 +518,8 @@ export default function MayaAssistant() {
                   <div className="h-14 w-14 rounded-2xl bg-primary/10 border border-primary/20 flex items-center justify-center mx-auto">
                     <SamLogo className="h-9 w-9 text-primary" />
                   </div>
-                  <p className="font-heading font-bold text-white">Hey {artistName} 👋</p>
-                  <p className="text-xs text-zinc-400 max-w-[280px] mx-auto leading-relaxed">
+                  <p className="font-heading font-bold text-foreground">Hey {artistName} 👋</p>
+                  <p className="text-xs text-muted-foreground max-w-[280px] mx-auto leading-relaxed">
                     {mode === "producer"
                       ? "I'm Sam, your AI music manager. I know your catalog, your placements, your numbers. Ask me anything."
                       : "I'm Sam, your AI music manager. I know your profile, your goals, your numbers. Ask me anything."}
@@ -543,11 +543,11 @@ export default function MayaAssistant() {
                   <div className={`max-w-[88%] rounded-2xl px-4 py-2.5 text-sm leading-relaxed ${
                     msg.role === "user"
                       ? "bg-primary text-black rounded-tr-sm font-medium"
-                      : "bg-zinc-800/80 text-zinc-100 rounded-tl-sm border border-zinc-700/50"
+                      : "bg-card text-card-foreground rounded-tl-sm border border-border"
                   }`}>
                     {msg.role === "assistant" ? (
                       <ReactMarkdown
-                        className="prose prose-sm prose-invert max-w-none [&>*:first-child]:mt-0 [&>*:last-child]:mb-0 [&_strong]:text-white [&_ul]:my-1 [&_li]:my-0.5 [&_p]:my-1"
+                        className="prose prose-sm prose-invert max-w-none [&>*:first-child]:mt-0 [&>*:last-child]:mb-0 dark:[&_strong]:text-white [&_ul]:my-1 [&_li]:my-0.5 [&_p]:my-1"
                       >
                         {msg.content}
                       </ReactMarkdown>
@@ -561,7 +561,7 @@ export default function MayaAssistant() {
                   <div className="h-7 w-7 rounded-full bg-primary/20 flex items-center justify-center shrink-0">
                     <Sparkles className="h-3.5 w-3.5 text-primary" />
                   </div>
-                  <div className="bg-zinc-800/80 border border-zinc-700/50 rounded-2xl rounded-tl-sm px-4 py-3 flex items-center gap-1.5">
+                  <div className="bg-card border border-border rounded-2xl rounded-tl-sm px-4 py-3 flex items-center gap-1.5">
                     <span className="h-1.5 w-1.5 rounded-full bg-primary animate-bounce" style={{ animationDelay: "0ms" }} />
                     <span className="h-1.5 w-1.5 rounded-full bg-primary animate-bounce" style={{ animationDelay: "150ms" }} />
                     <span className="h-1.5 w-1.5 rounded-full bg-primary animate-bounce" style={{ animationDelay: "300ms" }} />
@@ -574,7 +574,7 @@ export default function MayaAssistant() {
                 <div className="flex flex-col gap-1.5 pl-10">
                   {chips.map((chip, i) => (
                     <button key={i} onClick={() => send(chip)}
-                      className="flex items-center gap-1.5 text-left text-xs px-3 py-2 rounded-xl bg-zinc-800/60 border border-zinc-700/50 text-zinc-300 hover:bg-zinc-700/60 hover:text-white hover:border-primary/30 transition-all">
+                      className="flex items-center gap-1.5 text-left text-xs px-3 py-2 rounded-xl bg-muted border border-border text-foreground/80 hover:bg-accent hover:text-foreground hover:border-primary/30 transition-all">
                       <ChevronRight className="h-3 w-3 text-primary shrink-0" />
                       {chip}
                     </button>
@@ -602,10 +602,10 @@ export default function MayaAssistant() {
             {/* Quick starts */}
             {showQuickStarts && profileLoaded && (
               <div className="px-4 pb-2 flex flex-col gap-1.5 shrink-0">
-                <p className="text-[10px] text-zinc-500 uppercase tracking-widest px-1">Quick start</p>
+                <p className="text-[10px] text-muted-foreground uppercase tracking-widest px-1">Quick start</p>
                 {(mode === "producer" ? PRODUCER_QUICK_STARTS : QUICK_STARTS).map((q, i) => (
                   <button key={i} onClick={() => send(q)}
-                    className="text-left text-xs px-3 py-2.5 rounded-xl bg-zinc-800/60 border border-zinc-700/50 text-zinc-300 hover:bg-zinc-700/60 hover:text-white hover:border-primary/30 transition-all">
+                    className="text-left text-xs px-3 py-2.5 rounded-xl bg-muted border border-border text-foreground/80 hover:bg-accent hover:text-foreground hover:border-primary/30 transition-all">
                     {q}
                   </button>
                 ))}
@@ -614,7 +614,7 @@ export default function MayaAssistant() {
 
             {/* Input */}
             <div className="px-4 pb-5 pt-2 shrink-0 border-t border-zinc-800">
-              <div className="flex gap-2 items-end bg-zinc-800/60 border border-zinc-700/50 rounded-2xl px-4 py-3 focus-within:border-primary/40 transition-colors">
+              <div className="flex gap-2 items-end bg-muted border border-border rounded-2xl px-4 py-3 focus-within:border-primary/40 transition-colors">
                 <textarea
                   ref={inputRef}
                   value={input}
@@ -623,7 +623,7 @@ export default function MayaAssistant() {
                   placeholder="Ask Sam anything..."
                   rows={1}
                   disabled={loading || !profileLoaded}
-                  className="flex-1 bg-transparent text-sm text-white placeholder:text-zinc-500 resize-none focus:outline-none max-h-32 disabled:opacity-50"
+                  className="flex-1 bg-transparent text-sm text-foreground placeholder:text-muted-foreground resize-none focus:outline-none max-h-32 disabled:opacity-50"
                   style={{ minHeight: "22px" }}
                 />
                 <button
@@ -634,7 +634,7 @@ export default function MayaAssistant() {
                   {loading ? <Loader2 className="h-3.5 w-3.5 animate-spin" /> : <Send className="h-3.5 w-3.5" />}
                 </button>
               </div>
-              <p className="text-[10px] text-zinc-600 text-center mt-2">Enter to send · Shift+Enter for new line</p>
+              <p className="text-[10px] text-muted-foreground text-center mt-2">Enter to send · Shift+Enter for new line</p>
             </div>
           </motion.div>
         )}

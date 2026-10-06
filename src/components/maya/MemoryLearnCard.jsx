@@ -34,7 +34,7 @@ export default function MemoryLearnCard({ item, onConfirm, onDismiss }) {
           value={value}
           onChange={(e) => setValue(e.target.value)}
           rows={2}
-          className="w-full rounded-md border border-zinc-700 bg-zinc-900/70 px-2.5 py-1.5 text-xs leading-relaxed focus:outline-none focus:ring-1 focus:ring-primary/50 resize-none"
+          className="w-full rounded-md border border-border bg-muted px-2.5 py-1.5 text-xs leading-relaxed focus:outline-none focus:ring-1 focus:ring-primary/50 resize-none"
         />
       </div>
       <div className="flex gap-2">
