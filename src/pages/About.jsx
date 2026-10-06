@@ -166,7 +166,7 @@ export default function About() {
           </h1>
 
           <p className="text-xl sm:text-2xl text-muted-foreground leading-relaxed max-w-3xl mx-auto font-body">
-            SoundReady gives independent artists and producers the same tools, strategy, and infrastructure that signed acts get from their label — free to start. Your Vault (up to 5 songs), Tracker, and Productions (up to 5 beats) are free forever. When you're ready for more, Artist Pro unlocks the full toolkit — booking, touring, your whole team — and Sam, your AI manager, takes the day-to-day work off your plate: pitching your songs to playlists and your beats to the artists who need them.
+            The same infrastructure signed acts get from a label — release strategy, booking, touring, finances, and your team — in one place, free to start. When you're ready, Artist Pro unlocks the full toolkit, and Sam, your AI manager, takes the day-to-day work off your plate.
           </p>
 
           <div className="flex flex-col sm:flex-row items-center justify-center gap-3 pt-2">
@@ -273,6 +273,18 @@ export default function About() {
                 {tier.glow && (
                   <div className="absolute inset-0 rounded-2xl bg-primary/5 pointer-events-none" />
                 )}
+                {tier.name === "AI Manager" && (
+                  <motion.img
+                    src="https://media.base44.com/images/public/69dcf0ecc907e43a438a626b/84d42947d_generated_25c86301.png"
+                    alt="Sam, the SoundReady AI manager robot, hanging onto the AI Manager card"
+                    className="pointer-events-none absolute -top-9 right-3 h-20 w-auto drop-shadow-lg"
+                    initial={{ opacity: 0, y: -12 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true }}
+                    animate={{ y: [0, -4, 0] }}
+                    transition={{ y: { repeat: Infinity, duration: 3, ease: "easeInOut" } }}
+                  />
+                )}
                 <div className={`h-11 w-11 rounded-xl ${tier.bg} border ${tier.border} flex items-center justify-center mb-4 relative`}>
                   <tier.icon className={`h-5 w-5 ${tier.color}`} />
                 </div>
@@ -361,16 +373,16 @@ export default function About() {
       <section className="px-4 py-20 border-t border-border">
         <div className="max-w-5xl mx-auto space-y-8">
           <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="text-center space-y-2">
-            <p className="text-xs text-primary uppercase tracking-wider font-bold">The Results</p>
-            <h2 className="font-heading text-4xl font-bold">This is what happens when artists use SoundReady.</h2>
-            <p className="text-lg text-muted-foreground">Not promises. Outcomes.</p>
+            <p className="text-xs text-primary uppercase tracking-wider font-bold">The Toolkit</p>
+            <h2 className="font-heading text-4xl font-bold">The infrastructure of a full professional team.</h2>
+            <p className="text-lg text-muted-foreground">Real tools, real data, one login — not percentage-based management.</p>
           </motion.div>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
             {[
-              { num: "+200%", label: "Average increase in music revenue", sub: "Average revenue increase within 12 months using SoundReady's finance, pitching, and release tools." },
-              { num: "+78%", label: "Increase in streams", sub: "Stream increase for artists using SoundReady's release strategy and playlist pitching on every release." },
-              { num: "+120%", label: "More shows booked", sub: "More shows booked versus artists sending cold emails manually." },
-              { num: "10+ hrs", label: "Saved every week", sub: "Saved weekly by artists who stop manually managing playlists, venue outreach, royalty tracking, and release planning." },
+              { num: "570+", label: "Venues ready to pitch", sub: "A real booking database with venue details — generate inquiries and tour routing instead of cold-emailing blind." },
+              { num: "40+", label: "Integrated tools", sub: "Release strategy, pitching, tours, royalties, contracts, and team workspace — a full professional team's toolkit in one place." },
+              { num: "10+ hrs", label: "Back in your week", sub: "Stop manually managing playlists, venue outreach, royalty tracking, and release planning — the platform runs it." },
+              { num: "$0", label: "To get started", sub: "Vault, Tracker, and Productions are free forever. Flat pricing after that — never a percentage of what you earn." },
             ].map((s, i) => (
               <motion.div key={i} initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: i * 0.1 }}
                 className="rounded-2xl bg-card border border-primary/20 p-6 space-y-3 text-center">
@@ -381,7 +393,7 @@ export default function About() {
             ))}
           </div>
           <GrowthComparisonChart />
-          <p className="text-center text-xs text-muted-foreground">Based on average outcomes reported by SoundReady artists across all tiers.</p>
+          <p className="text-center text-xs text-muted-foreground">Illustrative comparison, not a guarantee — results depend on your releases, effort, and genre.</p>
         </div>
       </section>
 
