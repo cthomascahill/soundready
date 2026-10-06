@@ -2,6 +2,7 @@ import { useState, useEffect, useRef, useCallback } from "react";
 import { base44 } from "@/api/base44Client";
 import { X, Play, Pause, Volume2, Upload, Loader2, ChevronDown, Check } from "lucide-react";
 import { resolvePlayableAudioUrl } from "@/lib/audioPlayback";
+import SoundReadyLogo from "@/components/SoundReadyLogo";
 import WaveformDisplay from "./audioreview/WaveformDisplay";
 import LevelMeters from "./audioreview/LevelMeters";
 
@@ -456,6 +457,7 @@ export default function AudioReviewPlayer({ song, onUpdate, open, onOpenChange, 
             </p>
           </div>
           <div className="flex items-center gap-3 shrink-0">
+            <SoundReadyLogo size={24} />
             <button onClick={() => onOpenChange(false)} className="text-zinc-400 hover:text-white">
               <X className="h-5 w-5" />
             </button>

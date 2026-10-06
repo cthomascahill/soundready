@@ -3,9 +3,11 @@ import { Link } from "react-router-dom";
 import { ShieldAlert } from "lucide-react";
 
 /**
- * Wraps a page so only admin users can reach it.
- * Non-admins see a simple not-authorized screen instead of the page content.
+ * Wraps a page so only the owner's account can reach it.
+ * Everyone else sees a simple not-authorized screen instead of the page content.
  */
+const OWNER_EMAIL = "mgmt@mattcorman.com";
+
 export default function AdminGate({ children }) {
   const { user, isLoadingAuth } = useAuth();
 
@@ -17,7 +19,7 @@ export default function AdminGate({ children }) {
     );
   }
 
-  if (user?.role === "admin") return children;
+  if (user?.email === OWNER_EMAIL || user?.role === "admin") return children;
 
   return (
     <div className="min-h-[70vh] flex items-center justify-center px-4 py-16">
@@ -26,7 +28,7 @@ export default function AdminGate({ children }) {
           <ShieldAlert className="h-5 w-5 text-destructive" />
         </div>
         <div className="space-y-1">
-          <h1 className="font-heading text-xl font-bold">Admins only</h1>
+          <h1 className="font-heading text-xl font-bold">Restricted area</h1>
           <p className="text-sm text-muted-foreground leading-relaxed">
             You don't have access to this area of SoundReady.
           </p>
