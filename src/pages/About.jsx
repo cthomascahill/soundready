@@ -34,7 +34,7 @@ const TIERS = [
     name: "Artist",
     tagline: "Your music's home base. Free forever.",
     price: "$0",
-    desc: "Every serious artist — and every serious producer — needs a system before they need a team. Organize up to 5 songs in the Vault or up to 5 beats in the Productions, and track every release from idea to release — free, forever. Everything else unlocks with Artist Pro.",
+    desc: "You need a system before you need a team. Organize up to 5 songs in the Vault — or up to 5 beats in the Productions — and track every song from idea to release, free, forever. Everything else unlocks with Artist Pro.",
     items: [
       "Vault — up to 5 songs, organized",
       "Tracker — from idea to release",
@@ -54,7 +54,7 @@ const TIERS = [
     tagline: "You and your team, finally in sync.",
     price: "$37/mo",
     badge: "Most Popular · 7-Day Free Trial",
-    desc: "The full toolkit, unlocked. Book more shows, plan smarter tours, and bring your manager, producer, and engineer into one workspace — and if you make beats, move them from idea to placement with the Beat Pipeline and Artist Match. 7 days free.",
+    desc: "The full toolkit, unlocked. Book more shows, plan smarter tours, and bring your whole team into one workspace — and if you make beats, move them from idea to placement with the Beat Pipeline and Artist Match. 7 days free.",
     items: [
       "Everything in Artist, unlocked",
       "The Studio, Gig Finder & 570+ venue database",
@@ -81,12 +81,12 @@ const TIERS = [
     glow: true,
     desc: "Sam automatically outbounds on your behalf for opportunities weekly — tour support, features, sync opportunities and more. You simply approve or deny. Every move is drafted from your real numbers and waits for you in Sam's Desk.",
     items: [
-      "Everything in Artist Pro",
+      "Sam outbounds for you weekly — tour support, features, sync & more",
+      "You simply approve or deny — nothing sends without you",
       "Sam chat backed by your real numbers",
       "Auto-drafted playlist & tour-opening pitches",
       "Sam pitches your beats to matching artists",
       "EPKs & weekly career digests",
-      "Approve, edit, or deny every move Sam makes",
     ],
     cta: "Unlock Sam",
     route: "/pricing",
@@ -106,7 +106,7 @@ const WHAT_WE_DO = [
   { icon: FileText, color: "text-yellow-400", title: "Contract Analyzer", desc: "Upload any deal or contract and SoundReady flags every clause that could hurt you — in plain English. Know exactly what you're signing before you sign it." },
   { icon: Disc3, color: "text-purple-400", title: "Productions & Placements", desc: "Producers get their own workspace. Catalog every beat with BPM, key, and moods, track your credits and fees, and turn your placement history into the resume that lands collabs." },
   { icon: UserCheck, color: "text-teal-400", title: "Artist Match", desc: "SoundReady ranks the artists on the platform whose sound fits your beats — and Sam drafts the pitch for you. Your beats stop waiting for artists to find you." },
-  { icon: Bot, color: "text-primary", title: "Sam, Your AI Manager", desc: "Your AI manager drafts playlist pitches, scouts tour openings, and scans what's being said about you online — and everything waits for your approval before anything sends." },
+  { icon: Bot, color: "text-primary", title: "Sam, Your AI Manager", desc: "Sam outbounds on your behalf every week — tour support, features, sync opportunities and more. You simply approve or deny, and nothing sends without you." },
   { icon: Users, color: "text-cyan-400", title: "Team Workspace", desc: "Bring your manager, producer, and engineer into one workspace — shared chat, whiteboards, and feedback on every version of the song. Your whole team in sync." },
 ];
 
@@ -166,7 +166,7 @@ export default function About() {
           </h1>
 
           <p className="text-xl sm:text-2xl text-muted-foreground leading-relaxed max-w-3xl mx-auto font-body">
-            The same infrastructure signed acts get from a label — release strategy, booking, touring, finances, and your team — in one place, free to start. When you're ready, Artist Pro unlocks the full toolkit, and Sam, your AI manager, takes the day-to-day work off your plate.
+            Release strategy, booking, touring, finances, and your team — the infrastructure signed acts get from a label, in one place, free to start. Grow into Artist Pro when you need the full toolkit, and hand the day-to-day work to Sam, your AI manager.
           </p>
 
           <div className="flex flex-col sm:flex-row items-center justify-center gap-3 pt-2">
@@ -207,7 +207,7 @@ export default function About() {
               },
               {
                 headline: "You make beats.",
-                body: "Your best beats are sitting in a folder while artists who'd pay for them never hear them. SoundReady gives producers the same infrastructure as artists — a Productions, a pipeline from idea to placement, and matching that puts your sound in front of artists who fit it.",
+                body: "Your best beats are sitting in a folder while artists who'd pay for them never hear them. SoundReady gives producers the same infrastructure as artists — your Productions, a pipeline from idea to placement, and matching that puts your sound in front of the right artists.",
                 label: "Turn beats into placements.",
                 icon: Disc3,
               },
@@ -253,7 +253,7 @@ export default function About() {
           <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="text-center space-y-4">
             <p className="text-xs text-primary uppercase tracking-wider font-bold">Pricing</p>
             <h2 className="font-heading text-4xl sm:text-5xl font-bold">Start free. Grow when you're ready.</h2>
-            <p className="text-lg text-muted-foreground max-w-2xl mx-auto">Your Vault and Tracker are free forever. Unlock the full toolkit with Pro — or hand the work to Sam when the career is moving.</p>
+            <p className="text-lg text-muted-foreground max-w-2xl mx-auto">Your Vault and Tracker are free forever. Unlock the full toolkit with Artist Pro — or hand the work to Sam when your career is moving.</p>
           </motion.div>
 
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-5">
@@ -354,7 +354,7 @@ export default function About() {
             {[
               { level: "The Unsigned Artist", desc: "You're self-managing and the game feels rigged against you. SoundReady gives you the same tools, strategy, and infrastructure that signed artists get from their labels — from day one." },
               { level: "The Emerging Artist", desc: "You have momentum but your career isn't keeping up with your music. SoundReady organizes everything so every release works as hard as you do." },
-              { level: "The Producer", desc: "Your beats are everywhere but your placements aren't. SoundReady gives you a real producer system — a Productions, a pipeline, a credits resume, and matching that puts your sound in front of the right artists." },
+              { level: "The Producer", desc: "Your beats are everywhere but your placements aren't. SoundReady gives you a real producer system — your Productions, a pipeline, a credits resume, and matching that puts your sound in front of the right artists." },
               { level: "The Manager or Indie Label", desc: "You're responsible for multiple artists and the disorganization is costing you real opportunities. SoundReady gives your whole team one place to work — every artist, every release, every deal, from a single platform." },
             ].map((w, i) => (
               <motion.div key={w.level}
