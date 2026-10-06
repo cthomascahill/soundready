@@ -79,7 +79,7 @@ const TIERS = [
     badge: "Sam Works For You",
     badgeStyle: "bg-primary text-primary-foreground",
     glow: true,
-    desc: "A real manager takes 15–20% of everything you earn. Sam drafts your playlist pitches, tour outreach, EPKs, and digests from your real numbers — and for producers, Sam pitches your beats to the artists who fit your sound. Every move waits for your approval in Sam's Desk.",
+    desc: "Sam automatically outbounds on your behalf for opportunities weekly — tour support, features, sync opportunities and more. You simply approve or deny. Every move is drafted from your real numbers and waits for you in Sam's Desk.",
     items: [
       "Everything in Artist Pro",
       "Sam chat backed by your real numbers",
