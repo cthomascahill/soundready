@@ -9,6 +9,7 @@ import MayaQueueCard from "@/components/maya/MayaQueueCard";
 import RecommendationsPanel from "@/components/maya/RecommendationsPanel";
 import MemoryPanel from "@/components/maya/MemoryPanel";
 import ScansPanel from "@/components/maya/ScansPanel";
+import DealsDeskPanel from "@/components/deals/DealsDeskPanel";
 import OutcomeControl from "@/components/maya/OutcomeControl";
 import SamLogo from "@/components/SamLogo";
 import { Button } from "@/components/ui/button";
@@ -182,6 +183,7 @@ export default function MayaDesk() {
             { key: "recs", label: `Recommendations${recsPending ? ` (${recsPending})` : ""}` },
             { key: "memory", label: "What Sam Knows" },
             { key: "scans", label: "Reputation Scans" },
+            { key: "deals", label: "Deals" },
             { key: "history", label: `Sent & Denied${history.length ? ` (${history.length})` : ""}` },
           ].map(t => (
             <button key={t.key} onClick={() => setTab(t.key)}
@@ -202,6 +204,8 @@ export default function MayaDesk() {
           <MemoryPanel />
         ) : tab === "scans" ? (
           <ScansPanel />
+        ) : tab === "deals" ? (
+          <DealsDeskPanel />
         ) : tab === "queue" ? (
           queue.length === 0 ? (
             <div className="rounded-2xl bg-card border border-dashed border-border p-10 text-center space-y-3">

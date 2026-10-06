@@ -1,0 +1,128 @@
+{
+  "name": "DealOutreach",
+  "type": "object",
+  "properties": {
+    "user_id": {
+      "type": "string",
+      "description": "User this outreach belongs to"
+    },
+    "category": {
+      "type": "string",
+      "enum": [
+        "record_label",
+        "distributor",
+        "sync"
+      ],
+      "description": "Type of deal Sam is pursuing"
+    },
+    "company_name": {
+      "type": "string",
+      "description": "Label, distributor or sync house being pitched"
+    },
+    "company_type": {
+      "type": "string",
+      "description": "What kind of company, e.g. indie label, DIY distributor, sync library"
+    },
+    "location": {
+      "type": "string",
+      "description": "Where the company is based"
+    },
+    "why_fit": {
+      "type": "string",
+      "description": "Why Sam thinks this company fits the artist"
+    },
+    "contact_name": {
+      "type": "string",
+      "description": "Public contact person, if one was found"
+    },
+    "contact_email": {
+      "type": "string",
+      "description": "Publicly listed submissions email Sam found; empty when none is verifiable"
+    },
+    "submission_url": {
+      "type": "string",
+      "description": "Official submissions/contact page when no public email exists"
+    },
+    "source_url": {
+      "type": "string",
+      "description": "Web page where Sam found the company or its contact info"
+    },
+    "draft": {
+      "type": "string",
+      "description": "Personalized pitch email, starting with a Subject: line"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "researched",
+        "draft",
+        "approved",
+        "sent",
+        "replied",
+        "follow_up",
+        "paused",
+        "declined"
+      ],
+      "default": "draft",
+      "description": "Where this outreach stands: draft = awaiting approval, approved = artist took it on, sent = email went out, replied/follow_up/paused/declined = recorded outcomes"
+    },
+    "sent_at": {
+      "type": "string",
+      "description": "ISO timestamp when the approved pitch was sent"
+    },
+    "outcome_note": {
+      "type": "string",
+      "description": "Note on what happened after outreach"
+    },
+    "metadata": {
+      "type": "object",
+      "description": "Extra context, e.g. manual application details"
+    }
+  },
+  "required": [
+    "user_id",
+    "category",
+    "company_name"
+  ],
+  "rls": {
+    "read": {
+      "$or": [
+        {
+          "created_by_id": "{{user.id}}"
+        },
+        {
+          "user_condition": {
+            "role": "admin"
+          }
+        }
+      ]
+    },
+    "create": {
+      "created_by_id": "{{user.id}}"
+    },
+    "update": {
+      "$or": [
+        {
+          "created_by_id": "{{user.id}}"
+        },
+        {
+          "user_condition": {
+            "role": "admin"
+          }
+        }
+      ]
+    },
+    "delete": {
+      "$or": [
+        {
+          "created_by_id": "{{user.id}}"
+        },
+        {
+          "user_condition": {
+            "role": "admin"
+          }
+        }
+      ]
+    }
+  }
+}
