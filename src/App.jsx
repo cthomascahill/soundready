@@ -61,6 +61,7 @@ import ArtistFeed from './pages/ArtistFeed.jsx';
 import WhiteboardCanvas from './pages/WhiteboardCanvas';
 import ConnectProfiles from './pages/ConnectProfiles';
 import MayaDesk from './pages/MayaDesk';
+import MayaProfile from './pages/MayaProfile';
 import BeatVault from './pages/BeatVault';
 import BeatPipeline from './pages/BeatPipeline';
 import Placements from './pages/Placements';
@@ -201,6 +202,7 @@ const AuthenticatedApp = () => {
         <Route path="/whiteboard/:boardId" element={pro(WhiteboardCanvas)} />
         <Route path="/connect-profiles" element={<ConnectProfiles />} />
         <Route path="/maya-desk" element={<MayaDesk />} />
+        <Route path="/maya-profile" element={<MayaProfile />} />
         <Route path="/beat-vault" element={<BeatVault />} />
         <Route path="/beat-pipeline" element={pro(BeatPipeline)} />
         <Route path="/placements" element={<Placements />} />

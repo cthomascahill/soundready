@@ -11,7 +11,7 @@ import MemoryPanel from "@/components/maya/MemoryPanel";
 import OutcomeControl from "@/components/maya/OutcomeControl";
 import { Button } from "@/components/ui/button";
 import {
-  Sparkles, Lock, Zap, Check, X, Mail, Loader2, Inbox, ChevronRight, RefreshCw,
+  Sparkles, Lock, Zap, Check, X, Mail, Loader2, Inbox, ChevronRight, RefreshCw, UserCog,
 } from "lucide-react";
 
 const QUEUE_STATUSES = ["pending", "ready_to_send", "viewed"];
@@ -168,6 +168,9 @@ export default function MayaDesk() {
               {searchNote}
             </p>
           )}
+          <Link to="/maya-profile" className="inline-flex items-center gap-1.5 text-xs text-primary hover:underline font-medium">
+            <UserCog className="h-3.5 w-3.5" /> Define what matters to you — Maya's profile
+          </Link>
         </motion.div>
 
         {/* Tabs */}
