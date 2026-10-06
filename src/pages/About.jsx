@@ -142,11 +142,11 @@ export default function About() {
             <Button size="lg" className="gap-2 font-heading font-bold text-base px-8 h-12" onClick={handleCTA}>
               {t("Start")} <ArrowRight className="h-4 w-4" />
             </Button>
-            <Link to="/how-it-works">
+            <a href="#how-it-works">
               <Button size="lg" variant="outline" className="gap-2 font-heading font-bold text-base px-8 h-12">
-                {t("See How It Works")}
+                {t("How It Works")}
               </Button>
-            </Link>
+            </a>
           </div>
 
           <p className="text-xs text-muted-foreground">{t("Start free. No contracts. No percentage cuts — ever.")}</p>

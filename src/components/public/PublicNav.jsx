@@ -28,7 +28,6 @@ export default function PublicNav({ showHome = true }) {
         <div className="flex items-center gap-3">
           <LanguagePicker />
           {showHome && <Link to="/" className={linkClass("/")}>{t("Home")}</Link>}
-          <Link to="/how-it-works" className={linkClass("/how-it-works")}>{t("How It Works")}</Link>
           <Link to="/pricing" className={linkClass("/pricing")}>{t("Pricing")}</Link>
           <Button size="sm" variant="ghost" className="font-semibold hidden sm:inline-flex" onClick={() => base44.auth.redirectToLogin()}>
             {t("Log In")}

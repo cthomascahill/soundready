@@ -24,7 +24,6 @@ import BudgetTracker from './pages/BudgetTracker';
 import PitchDeck from './pages/PitchDeck';
 import SpotifyConnect from './pages/SpotifyConnect';
 import About from './pages/About';
-import HowItWorks from './pages/HowItWorks';
 import PlaylistPitcher from './pages/PlaylistPitcher';
 import ReleasePlanInput from './pages/ReleasePlanInput';
 import LinkInBio from './pages/LinkInBio';
@@ -117,7 +116,6 @@ const AuthenticatedApp = () => {
       return (
         <Routes>
           <Route path="/" element={<About />} />
-          <Route path="/how-it-works" element={<HowItWorks />} />
           <Route path="/pricing" element={<Pricing />} />
           <Route path="/store/:producerId" element={<Storefront />} />
           <Route path="/store/download" element={<StoreDownload />} />
@@ -134,7 +132,6 @@ const AuthenticatedApp = () => {
     return (
       <Routes>
         <Route path="/" element={<About />} />
-        <Route path="/how-it-works" element={<HowItWorks />} />
         <Route path="/pricing" element={<Pricing />} />
         <Route path="/store/:producerId" element={<Storefront />} />
         <Route path="/store/download" element={<StoreDownload />} />
@@ -148,7 +145,6 @@ const AuthenticatedApp = () => {
     <Routes>
       {/* Public routes */}
       <Route path="/" element={<About />} />
-      <Route path="/how-it-works" element={<HowItWorks />} />
       <Route path="/pricing" element={<Pricing />} />
       <Route path="/store/:producerId" element={<Storefront />} />
       <Route path="/store/download" element={<StoreDownload />} />
