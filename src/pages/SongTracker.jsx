@@ -1,7 +1,8 @@
 import { useState, useEffect, useCallback, useMemo } from "react";
+import { Link } from "react-router-dom";
 import { base44 } from "@/api/base44Client";
 import { useAuth } from "@/lib/AuthContext";
-import { ArrowLeft } from "lucide-react";
+import { ArrowLeft, Users } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import ProjectsGrid from "@/components/songtracker/ProjectsGrid";
 import TrackerList from "@/components/songtracker/TrackerList";
@@ -15,9 +16,13 @@ export default function SongTracker() {
   const [loading, setLoading] = useState(true);
   // null = project folders view; "all" / "singles" / a project id = that project's song list
   const [openProjectId, setOpenProjectId] = useState(null);
+  const [sharedOwners, setSharedOwners] = useState([]);
 
   useEffect(() => {
     if (!user?.id) return;
+    base44.functions.invoke("trackerShare", { action: "list-mine" })
+      .then((res) => setSharedOwners(res.data?.owners || []))
+      .catch(() => {});
     Promise.all([
       base44.entities.PipelineSong.filter({ created_by_id: user.id }, "sort_order", 500),
       base44.entities.ReleaseProject.filter({ created_by_id: user.id }, "-created_date", 100),
@@ -125,6 +130,13 @@ export default function SongTracker() {
             <h1 className="font-heading text-4xl font-bold">Tracker</h1>
             <p className="text-muted-foreground text-sm mt-1">Every song, idea to release.</p>
           </div>
+          {sharedOwners.length > 0 && (
+            <Link to="/tracker/shared">
+              <Button variant="outline" size="sm" className="gap-2">
+                <Users className="h-4 w-4" /> Shared with me ({sharedOwners.length})
+              </Button>
+            </Link>
+          )}
           <ProjectsGrid
             songs={songs}
             projects={projects}

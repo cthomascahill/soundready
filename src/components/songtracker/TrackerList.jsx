@@ -5,6 +5,7 @@ import SongRow from "./SongRow";
 import TrackerTabs from "./TrackerTabs";
 import StageFilter from "./StageFilter";
 import SortControl from "./SortControl";
+import InviteTeammateButton from "./InviteTeammateButton";
 import { TABS, getCurrentStage, sortSongs, compareBy } from "@/lib/songStatus";
 
 const EMPTY_MESSAGES = {
@@ -76,6 +77,7 @@ export default function TrackerList({ songs, moveTargets, onAdd, onUpdate, onDel
           <TrackerTabs value={tab} counts={counts} onChange={setTab} />
           <div className="flex items-center gap-2">
             <StageFilter value={stageFilter} onChange={setStageFilter} />
+            <InviteTeammateButton />
             <div className="md:hidden">
               <SortControl sort={sort} onChange={setSort} />
             </div>
