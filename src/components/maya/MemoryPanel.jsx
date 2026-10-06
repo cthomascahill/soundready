@@ -10,6 +10,7 @@ const CATEGORIES = {
   preferences: "Preferences",
   constraints: "Constraints",
   decisions: "Decisions",
+  projects: "Projects",
   outreach_style: "Outreach Style",
 };
 
@@ -125,7 +126,7 @@ export default function MemoryPanel() {
           <Brain className="h-4 w-4 text-primary" />
         </div>
         <p className="text-xs text-muted-foreground leading-relaxed">
-          These are the durable things you've told Sam in conversation — goals, preferences, constraints, decisions, and how you like outreach handled.
+          These are the durable things you've told Sam in conversation — goals, preferences, constraints, decisions, project details, and how you like outreach handled.
           She applies them everywhere she works for you: chat, recommendations, and drafts. Anything that's off, correct or delete — she won't take it personally.
         </p>
       </div>

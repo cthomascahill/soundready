@@ -9,7 +9,7 @@ import MemoryAddForm from "@/components/maya/MemoryAddForm";
 import MemoryEntryList from "@/components/maya/MemoryEntryList";
 import SamLogo from "@/components/SamLogo";
 import { Button } from "@/components/ui/button";
-import { Lock, Zap, Target, SlidersHorizontal, ShieldAlert, Mail, ChevronRight, Loader2 } from "lucide-react";
+import { Lock, Zap, Target, SlidersHorizontal, ShieldAlert, Mail, ChevronRight, Loader2, Disc3 } from "lucide-react";
 
 // The four areas the user defines upfront — Sam reads all of these before every suggestion
 const SECTIONS = [
@@ -50,6 +50,19 @@ const SECTIONS = [
       "My recording budget is capped at $500 per song",
       "I have a day job — weekdays only",
       "No shows further than 4 hours from home",
+    ],
+  },
+  {
+    category: "projects",
+    title: "Projects & Collaborators",
+    icon: Disc3,
+    description: "Details about your projects, collaborators, and release plans — so you never have to repeat yourself.",
+    placeholder: "e.g. My EP 'Midnight Drive' drops March 14, Rico is mixing it",
+    suggestions: [
+      "My EP 'Midnight Drive' drops March 14 — Rico is mixing it",
+      "The album has 8 tracks with 2 features",
+      "I record at Sound City with engineer Dana",
+      "The next single needs artwork before we submit it",
     ],
   },
   {

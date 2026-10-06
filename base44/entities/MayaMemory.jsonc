@@ -13,7 +13,8 @@
         "preferences",
         "constraints",
         "decisions",
-        "outreach_style"
+        "outreach_style",
+        "projects"
       ],
       "description": "What kind of durable fact this is"
     },

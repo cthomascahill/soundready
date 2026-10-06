@@ -235,7 +235,7 @@ function buildMemorySection(memories) {
   const dismissed = memories.filter(m => m.status === "dismissed");
   const lines = [];
   if (confirmed.length) {
-    lines.push("\nCONFIRMED PREFERENCES (durable things the artist told you and confirmed — apply them in every response):");
+    lines.push("\nCONFIRMED PREFERENCES & PROJECT DETAILS (durable things the artist told you and confirmed — apply them in every response, and never ask the artist to repeat any of it):");
     confirmed.forEach(m => lines.push(`  - [${m.category}] ${m.key}: ${m.value}`));
   }
   if (dismissed.length) {
@@ -299,7 +299,7 @@ async function callSam(messages, systemPrompt, wantLearning, search, profile) {
 
   const learningBlock = wantLearning ? `
 
-LEARNING: While responding, check whether the artist revealed a durable preference, goal, constraint, decision, or outreach style (e.g. "I only want paid shows", "I don't cold-email curators", "I'm focusing on sync this year"). Extract up to 2 as "learned" items: {category: one of goals|preferences|constraints|decisions|outreach_style, key: a short label, value: the specific fact in the artist's terms}. Only durable facts about the artist, never one-off questions or temporary states. Never re-propose anything already in the CONFIRMED PREFERENCES or DISMISSED lists above. If nothing durable was revealed, return an empty learned array.` : "";
+LEARNING: While responding, check whether the artist revealed a durable preference, goal, constraint, decision, outreach style, or project detail (e.g. "I only want paid shows", "I don't cold-email curators", "My EP drops March 14", "Rico is mixing the new single", "I record with engineer Dana at Sound City"). Extract up to 3 as "learned" items: {category: one of goals|preferences|constraints|decisions|outreach_style|projects, key: a short label, value: the specific fact in the artist's terms}. Project details include project/album names, track lists, collaborators and their roles, release plans and deadlines, studio setup, and current production status. Only durable facts about the artist, never one-off questions or temporary states. Never re-propose anything already in the CONFIRMED PREFERENCES or DISMISSED lists above. If nothing durable was revealed, return an empty learned array.` : "";
 
   const searchBlock = !searchQuery ? "" : search.scan ? `
 
