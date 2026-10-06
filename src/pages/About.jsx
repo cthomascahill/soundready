@@ -106,6 +106,8 @@ const WHAT_WE_DO = [
   { icon: FileText, color: "text-yellow-400", title: "Contract Analyzer", desc: "Upload any deal or contract and SoundReady flags every clause that could hurt you — in plain English. Know exactly what you're signing before you sign it." },
   { icon: Disc3, color: "text-purple-400", title: "Productions & Placements", desc: "Producers get their own workspace. Catalog every beat with BPM, key, and moods, track your credits and fees, and turn your placement history into the resume that lands collabs." },
   { icon: UserCheck, color: "text-teal-400", title: "Artist Match", desc: "SoundReady ranks the artists on the platform whose sound fits your beats — and Sam drafts the pitch for you. Your beats stop waiting for artists to find you." },
+  { icon: Bot, color: "text-primary", title: "Sam, Your AI Manager", desc: "Your AI manager drafts playlist pitches, scouts tour openings, and scans what's being said about you online — and everything waits for your approval before anything sends." },
+  { icon: Users, color: "text-cyan-400", title: "Team Workspace", desc: "Bring your manager, producer, and engineer into one workspace — shared chat, whiteboards, and feedback on every version of the song. Your whole team in sync." },
 ];
 
 export default function About() {

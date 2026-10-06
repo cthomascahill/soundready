@@ -81,6 +81,7 @@ const WORKSPACE_TABS = [
   { title: "Distribution", sell: "Every release detail tracked and organized. Go live clean, professional, and ready." },
   { title: "Release Plan", sell: "Your 6-week action plan. Check off tasks and stay on track all the way to release day." },
   { title: "Pitch", sell: "Send personalized pitches to playlists directly from your song page." },
+  { title: "Collaborate", sell: "Share versions and feedback with your team right on the song. No more email chains." },
 ];
 
 const ALL_TOOLS = [
