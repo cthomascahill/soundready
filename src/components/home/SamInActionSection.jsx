@@ -14,13 +14,13 @@ export default function SamInActionSection() {
           <p className="text-xs text-primary uppercase tracking-widest font-bold">{t("Sam in Action")}</p>
           <h2 className="font-heading text-4xl sm:text-5xl font-bold">{t("Not a chatbot. A desk with work on it.")}</h2>
           <p className="text-lg text-muted-foreground leading-relaxed">
-            {t("Every week Sam reads your real numbers — streams, markets, releases, goals — and puts finished work on your desk: a personalized pitch, researched and drafted. Your only job is the decision.")}
+            {t("Every week Sam puts finished work on your desk — a pitch, researched and drafted from your real numbers. Your only job: the decision.")}
           </p>
           <div className="space-y-3">
             {[
-              "Every draft cites your real data — no generic templates",
-              "Approve, edit or deny in one tap — you stay in control",
-              "Outcomes feed back into Sam's memory, so next week's work gets smarter",
+              "Every draft cites your real data — never generic",
+              "Approve, edit or deny in one tap",
+              "Outcomes feed back — next week gets smarter",
             ].map((item) => (
               <div key={item} className="flex items-start gap-3">
                 <CheckCircle2 className="h-5 w-5 text-primary shrink-0 mt-0.5" />
@@ -51,7 +51,7 @@ export default function SamInActionSection() {
               </span>
               <p className="font-heading font-bold text-sm">{t('Pitch "Midnight Drive" to Chill Vibes Daily (482k followers)')}</p>
               <p className="text-xs text-muted-foreground leading-relaxed">
-                {t("Your streams are up 34% in two weeks and 62% of your listeners are in Germany — this playlist's audience is a direct match. Sam drafted the pitch in your voice.")}
+                {t("Streams up 34% in two weeks. 62% of listeners in Germany — a direct audience match. Drafted in your voice.")}
               </p>
               <div className="rounded-lg bg-background border border-border p-3 text-[11px] text-muted-foreground leading-relaxed">
                 <span className="font-semibold text-foreground">Subject:</span> "Midnight Drive" — a late-night lo-fi cut for Chill Vibes Daily
@@ -74,7 +74,7 @@ export default function SamInActionSection() {
             <div className="rounded-xl border border-border p-3 flex items-center gap-3">
               <CalendarDays className="h-4 w-4 text-chart-4 shrink-0" />
               <p className="text-xs text-muted-foreground">
-                {t("Also on the desk: a tour-opening pitch for your Berlin date on Nov 14, researched and drafted.")}
+                {t("Also on the desk: a tour-opening pitch for your Berlin date, Nov 14.")}
               </p>
             </div>
             <p className="text-[10px] text-muted-foreground text-center">

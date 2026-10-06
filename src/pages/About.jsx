@@ -17,14 +17,7 @@ import CareerWorkflowSection from "@/components/home/CareerWorkflowSection";
 import SamInActionSection from "@/components/home/SamInActionSection";
 import { useLang } from "@/lib/i18n/LanguageContext";
 
-const MANAGER_PAINS = [
-  { icon: DollarSign, text: "The traditional model takes 15–20% of everything you earn — whether deals close or not" },
-  { icon: AlertTriangle, text: "Most artists have no system — no strategy, no visibility, no plan" },
-  { icon: Clock, text: "Releases happen without a real strategy and wonder why nothing moves" },
-  { icon: TrendingDown, text: "Opportunities get missed because there's no infrastructure to catch them" },
-  { icon: FileText, text: "Bad contracts get signed because there's no one reviewing the fine print" },
-  { icon: PhoneOff, text: "Teams fall out of sync and releases get disorganized at the worst moment" },
-];
+const DASH_IMG = "https://media.base44.com/images/public/69dcf0ecc907e43a438a626b/5cfdd4ed9_generated_image.png";
 
 const TIERS = [
   {
@@ -35,12 +28,11 @@ const TIERS = [
     name: "Free",
     tagline: "Your music's home base. Free forever.",
     price: "$0",
-    desc: "You need a system before you need a team. Organize up to 5 songs in the Vault and track every song from idea to release, free, forever. Everything else unlocks with Artist Pro.",
+    desc: "Your music's home base. Up to 5 songs, fully organized, free forever.",
     items: [
-      "Vault — up to 5 songs, organized",
-      "Tracker — from idea to release",
+      "Vault — up to 5 songs",
+      "Tracker — idea to release",
       "Connect Spotify & YouTube",
-      "Your artist dashboard",
     ],
     cta: "Start Free",
     subtext: "Free forever. No card required.",
@@ -54,14 +46,13 @@ const TIERS = [
     tagline: "You and your team, finally in sync.",
     price: "$37/mo",
     badge: "7-Day Free Trial",
-    desc: "The full toolkit, unlocked. Book more shows, plan smarter tours, and bring your whole team into one workspace. 7 days free.",
+    desc: "Every tool unlocked, plus your whole team in one workspace. 7 days free.",
     items: [
       "Everything in Free, unlocked",
-      "The Studio, Gig Finder & 843+ venue database",
-      "Tour Planner, Tour Finance & Venue Contracts",
-      "The Wall — the artist community",
-      "Invite your team — Team Chat",
-      "Career Roadmap & weekly music briefings",
+      "Gig Finder & 843+ venues",
+      "Tour Planner, Finance & Contracts",
+      "The Wall — artist community",
+      "Team Chat & Career Roadmap",
     ],
     cta: "Start Pro",
     route: "/pricing",
@@ -78,13 +69,12 @@ const TIERS = [
     badge: "Most Popular · Sam Works For You",
     badgeStyle: "bg-primary text-primary-foreground",
     glow: true,
-    desc: "Sam automatically outbounds on your behalf for opportunities weekly — tour support, features, sync opportunities and more. You simply approve or deny. Every move is drafted from your real numbers and waits for you in Sam's Desk.",
+    desc: "Sam outbounds for you every week — tour support, features, sync and more. You approve or deny. Nothing sends without you.",
     items: [
-      "Sam outbounds for you weekly — tour support, features, sync & more",
-      "You simply approve or deny — nothing sends without you",
+      "Sam outbounds weekly — you approve or deny",
+      "Playlist & tour pitches, drafted for you",
       "Sam chat backed by your real numbers",
-      "Auto-drafted playlist & tour-opening pitches",
-      "EPKs & weekly career digests",
+      "EPKs & weekly digests",
     ],
     cta: "Start Manager",
     route: "/pricing",
@@ -95,19 +85,18 @@ const TIERS = [
 ];
 
 const WHAT_WE_DO = [
-  { icon: Bot, color: "text-primary", title: "Sam, Your AI Manager", desc: "Sam outbounds on your behalf every week — tour support, features, sync opportunities and more. You simply approve or deny, and nothing sends without you." },
-  { icon: Zap, color: "text-primary", title: "Release Strategy", desc: "Get a complete AI-powered release plan in 60 seconds, built around your actual audio data. Ideal timing, pitching timeline, algorithm outlook — no guesswork." },
-  { icon: Mic2, color: "text-chart-3", title: "Playlist Pitching", desc: "Pitch to 40+ curated playlists with personalized outreach written around your song's sound and mood. More playlist adds means more streams and algorithmic momentum." },
-  { icon: FileText, color: "text-purple-400", title: "Press & EPK", desc: "Generate a full Electronic Press Kit with bio, stats, and streaming links in minutes. The same professional presentation that gets artists into festivals and editorial — ready to send instantly." },
-  { icon: MapPin, color: "text-orange-400", title: "Booking & Tours", desc: "Access 843+ venues, generate booking inquiries, plan your tour routing, and track every dollar of income and expenses. More shows, better margins, zero spreadsheets." },
-  { icon: DollarSign, color: "text-chart-4", title: "Finance & Royalties", desc: "Upload royalty statements from every DSP and see exactly what you're earning in one place. Track expenses, send invoices, and finally understand your music business finances." },
-  { icon: Music2, color: "text-teal-400", title: "Vault & Song Tracker", desc: "Your music, finally organized. Every song lives in the Vault with its files, artwork and lyrics — and the Tracker moves it from idea to release with dates, mixes and codes on record." },
-  { icon: BarChart2, color: "text-blue-400", title: "Streaming Analytics", desc: "Connect Spotify and YouTube and see your listeners, streams, and top markets in one dashboard. The real numbers behind every move Sam makes — no more guessing." },
-  { icon: Link2, color: "text-pink-400", title: "Sync Licensing", desc: "Sam finds sync opportunities — film, TV, games, and ads — and drafts the pitches that land your songs on screen. Turn your catalog into licensing income." },
-
-  { icon: Radar, color: "text-chart-5", title: "Industry Intel & Music News", desc: "Label signings, playlist changes, grants, showcase deadlines and tour news in your market — plus daily briefings on what's working in your genre right now. Always know when to move." },
-  { icon: FileText, color: "text-yellow-400", title: "Contract Analyzer", desc: "Upload any deal or contract and SoundReady flags every clause that could hurt you — in plain English. Know exactly what you're signing before you sign it." },
-  { icon: Users, color: "text-cyan-400", title: "Team Workspace", desc: "Bring your whole team into one workspace — shared chat and feedback on every version of the song. Your whole team in sync." },
+  { icon: Bot, color: "text-primary", title: "Sam, Your AI Manager", desc: "Weekly outbound — you approve or deny." },
+  { icon: Zap, color: "text-primary", title: "Release Strategy", desc: "A full release plan in 60 seconds." },
+  { icon: Mic2, color: "text-chart-3", title: "Playlist Pitching", desc: "40+ curated playlists, pitched personally." },
+  { icon: FileText, color: "text-purple-400", title: "Press & EPK", desc: "A full press kit, ready to send." },
+  { icon: MapPin, color: "text-orange-400", title: "Booking & Tours", desc: "843+ venues, inquiries, routing, finances." },
+  { icon: DollarSign, color: "text-chart-4", title: "Finance & Royalties", desc: "Every DSP royalty, one dashboard." },
+  { icon: Music2, color: "text-teal-400", title: "Vault & Song Tracker", desc: "Every song, file and date — organized." },
+  { icon: BarChart2, color: "text-blue-400", title: "Streaming Analytics", desc: "Listeners, streams, top markets — live." },
+  { icon: Link2, color: "text-pink-400", title: "Sync Licensing", desc: "Film, TV, games, ads — Sam drafts the pitch." },
+  { icon: Radar, color: "text-chart-5", title: "Industry Intel & Music News", desc: "Signings, grants, deadlines in your market." },
+  { icon: FileText, color: "text-yellow-400", title: "Contract Analyzer", desc: "Risky clauses flagged, plain English." },
+  { icon: Users, color: "text-cyan-400", title: "Team Workspace", desc: "One workspace, one plan, whole team." },
 ];
 
 export default function About() {
@@ -139,7 +128,7 @@ export default function About() {
           <motion.div initial={{ opacity: 0, scale: 0.9 }} animate={{ opacity: 1, scale: 1 }} transition={{ delay: 0.1 }}
             className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/10 border border-primary/30 text-primary text-xs font-bold tracking-wider uppercase">
             <Bot className="h-3.5 w-3.5" />
-            {t("One home base for your career. One AI manager working it.")}
+            {t("One home base. One AI manager.")}
           </motion.div>
 
           <h1 className="font-heading text-6xl sm:text-8xl font-black tracking-tight leading-[0.9]">
@@ -148,7 +137,7 @@ export default function About() {
           </h1>
 
           <p className="text-xl sm:text-2xl text-muted-foreground leading-relaxed max-w-3xl mx-auto font-body">
-            {t("SoundReady is the home base for your artist career — every song, show, deal and dollar in one place. Then Sam, your AI manager, outbounds for you every week: playlist pitches, tour support, sync opportunities and more, drafted from your real numbers. You just approve or deny. Start free and grow in.")}
+            {t("Every song, show, deal and dollar in one place — plus Sam, your AI manager, working your career every week. You approve or deny. Start free.")}
           </p>
 
           <div className="flex flex-col sm:flex-row items-center justify-center gap-3 pt-2">
@@ -164,6 +153,14 @@ export default function About() {
 
           <p className="text-xs text-muted-foreground">{t("Start free. No contracts. No percentage cuts — ever.")}</p>
         </motion.div>
+
+        <motion.div initial={{ opacity: 0, y: 32 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.25 }} className="relative pt-10">
+          <img
+            src={DASH_IMG}
+            alt="SoundReady — your Vault, analytics and Sam's Desk in one place"
+            className="rounded-2xl border border-border shadow-2xl w-full"
+          />
+        </motion.div>
       </section>
 
       {/* SAM SPOTLIGHT — the main event */}
@@ -173,13 +170,13 @@ export default function About() {
             <p className="text-xs text-primary uppercase tracking-wider font-bold">{t("The Main Event")}</p>
             <h2 className="font-heading text-4xl sm:text-5xl font-bold">{t("Sam works your career around the clock.")}</h2>
             <p className="text-lg text-muted-foreground leading-relaxed">
-              {t("A great manager spends every week finding opportunities and pitching on your behalf. That's Sam: real outbound, drafted from your real numbers, delivered to Sam's Desk where you approve, edit or deny every move. Nothing sends without you.")}
+              {t("A great manager finds opportunities and pitches for you every week. That's Sam — real outbound, from your real numbers, waiting for your approval.")}
             </p>
             <div className="space-y-3">
               {[
-                "Weekly outbound — tour support, features, sync opportunities and more",
-                "Every draft backed by your real Spotify, YouTube and catalog data",
-                "Chat with Sam anytime for advice grounded in your actual numbers",
+                "Weekly outbound — tour support, features, sync & more",
+                "Every draft backed by your real data",
+                "Chat with Sam anytime — advice grounded in your numbers",
               ].map((item) => (
                 <div key={item} className="flex items-start gap-3">
                   <CheckCircle2 className="h-5 w-5 text-primary shrink-0 mt-0.5" />
@@ -210,51 +207,13 @@ export default function About() {
       {/* SAM IN ACTION */}
       <SamInActionSection />
 
-      {/* THE PROBLEM — two types */}
-      <section className="px-4 py-24 border-t border-border">
-        <div className="max-w-5xl mx-auto">
-          <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="text-center mb-14 space-y-4">
-            <h2 className="font-heading text-4xl sm:text-5xl font-bold">{t("Every artist. One platform that ")}<span className="text-primary">{t("changes everything.")}</span></h2>
-          </motion.div>
-
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-5">
-            {[
-              {
-                headline: "You have a manager.",
-                body: "Your team needs one place to work from. SoundReady gives your manager the tools to move faster, pitch smarter, and keep your whole career organized — so nothing falls through the cracks.",
-                label: "Give your team the edge.",
-                icon: Users,
-              },
-              {
-                headline: "You don't have a manager.",
-                body: "You're making real music but your career isn't moving. The artists winning right now aren't more talented — they're better organized. SoundReady is the infrastructure that turns a good artist into a growing one.",
-                label: "Start moving forward.",
-                icon: TrendingUp,
-              },
-            ].map((card, i) => (
-              <motion.div key={i}
-                initial={{ opacity: 0, y: 16 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}
-                transition={{ delay: i * 0.1 }}
-                className="flex flex-col gap-4 p-7 rounded-xl bg-secondary border border-border">
-                <div className="h-9 w-9 rounded-lg bg-primary/10 flex items-center justify-center shrink-0">
-                  <card.icon className="h-4 w-4 text-primary" />
-                </div>
-                <p className="font-heading font-bold text-xl">{t(card.headline)}</p>
-                <p className="text-sm leading-relaxed text-muted-foreground">{t(card.body)}</p>
-                <div className="inline-flex px-3 py-1 rounded-full bg-primary/10 border border-primary/20 text-primary text-xs font-bold w-fit">{t(card.label)}</div>
-              </motion.div>
-            ))}
-          </div>
-        </div>
-      </section>
-
       {/* THE SOLUTION — 3 tiers */}
       <section className="px-4 py-24 border-t border-border bg-secondary/20">
         <div className="max-w-5xl mx-auto space-y-14">
           <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="text-center space-y-4">
             <p className="text-xs text-primary uppercase tracking-wider font-bold">{t("Pricing")}</p>
             <h2 className="font-heading text-4xl sm:text-5xl font-bold">{t("Sam is the product. Everything else comes with it.")}</h2>
-            <p className="text-lg text-muted-foreground max-w-2xl mx-auto">{t("The AI Manager plan is the main event: Sam working your career every week, plus your Vault and Tracker to keep every song organized. Start free and grow in whenever you're ready.")}</p>
+            <p className="text-lg text-muted-foreground max-w-2xl mx-auto">{t("Start free. Grow in whenever you're ready.")}</p>
           </motion.div>
 
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-5">
@@ -326,7 +285,7 @@ export default function About() {
           <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="text-center space-y-4">
             <p className="text-xs text-primary uppercase tracking-wider font-bold">{t("The Toolkit")}</p>
             <h2 className="font-heading text-4xl font-bold">{t("Everything a manager does. Nothing a manager doesn't.")}</h2>
-            <p className="text-lg text-muted-foreground max-w-2xl mx-auto">{t("Every tool was built to answer one question — what would a great manager do here? Then we built it into the platform so you never have to wonder.")}</p>
+            <p className="text-lg text-muted-foreground max-w-2xl mx-auto">{t("Twelve tools. One login.")}</p>
           </motion.div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
@@ -344,45 +303,19 @@ export default function About() {
         </div>
       </section>
 
-      {/* WHO IT'S FOR */}
-      <section className="px-4 py-24 border-t border-border bg-secondary/20">
-        <div className="max-w-4xl mx-auto space-y-12">
-          <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="text-center space-y-4">
-            <p className="text-xs text-primary uppercase tracking-wider font-bold">{t("Who It's For")}</p>
-            <h2 className="font-heading text-4xl font-bold">{t("Built for every artist who is serious about their career.")}</h2>
-          </motion.div>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
-            {[
-              { level: "The Unsigned Artist", desc: "You're self-managing and the game feels rigged against you. SoundReady gives you the same tools, strategy, and infrastructure that signed artists get from their labels — from day one." },
-              { level: "The Emerging Artist", desc: "You have momentum but your career isn't keeping up with your music. SoundReady organizes everything so every release works as hard as you do." },
-              { level: "The Manager or Indie Label", desc: "You're responsible for multiple artists and the disorganization is costing you real opportunities. SoundReady gives your whole team one place to work — every artist, every release, every deal, from a single platform." },
-            ].map((w, i) => (
-              <motion.div key={w.level}
-                initial={{ opacity: 0, y: 16 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}
-                transition={{ delay: i * 0.1 }}
-                className="p-6 rounded-xl bg-card border border-border space-y-3">
-                <div className="inline-flex px-2 py-1 rounded-md bg-primary/10 border border-primary/20 text-primary text-xs font-bold">{t(w.level)}</div>
-                <p className="text-sm text-muted-foreground leading-relaxed">{t(w.desc)}</p>
-              </motion.div>
-            ))}
-          </div>
-        </div>
-      </section>
-
       {/* SOCIAL PROOF STATS */}
       <section className="px-4 py-20 border-t border-border">
         <div className="max-w-5xl mx-auto space-y-8">
           <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="text-center space-y-2">
             <p className="text-xs text-primary uppercase tracking-wider font-bold">{t("The Toolkit")}</p>
             <h2 className="font-heading text-4xl font-bold">{t("The infrastructure of a full professional team.")}</h2>
-            <p className="text-lg text-muted-foreground">{t("Real tools, real data, one login — not percentage-based management.")}</p>
           </motion.div>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
             {[
-              { num: "843+", label: "Venues ready to pitch", sub: "A real booking database with venue details — generate inquiries and tour routing instead of cold-emailing blind." },
-              { num: "40+", label: "Integrated tools", sub: "Release strategy, pitching, tours, royalties, contracts, and team workspace — a full professional team's toolkit in one place." },
-              { num: "10+ hrs", label: "Back in your week", sub: "Stop manually managing playlists, venue outreach, royalty tracking, and release planning — the platform runs it." },
-              { num: "$0", label: "To get started", sub: "Vault, Tracker, and Productions are free forever. Flat pricing after that — never a percentage of what you earn." },
+              { num: "843+", label: "Venues ready to pitch", sub: "Real booking database — inquire and route." },
+              { num: "40+", label: "Integrated tools", sub: "Strategy to royalties. One login." },
+              { num: "10+ hrs", label: "Back in your week", sub: "The platform runs the busywork." },
+              { num: "$0", label: "To get started", sub: "Vault and Tracker, free forever." },
             ].map((s, i) => (
               <motion.div key={i} initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: i * 0.1 }}
                 className="rounded-2xl bg-card border border-primary/20 p-6 space-y-3 text-center">
@@ -423,7 +356,7 @@ export default function About() {
               {t("Your next release could be your biggest.")}<br />
               <span className="text-primary">{t("SoundReady makes sure of it.")}</span>
             </h2>
-            <p className="text-lg text-muted-foreground">{t("The artists winning right now aren't more talented — they're more organized and more strategic. SoundReady gives you everything you need to be both, starting today.")}</p>
+            <p className="text-lg text-muted-foreground">{t("The artists winning right now are better organized. Start today.")}</p>
           </div>
           <Button size="lg" className="gap-2 font-heading font-bold text-base px-10 h-13" onClick={handleCTA}>
             {t("Start")} <ArrowRight className="h-4 w-4" />

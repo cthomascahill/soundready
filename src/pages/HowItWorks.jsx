@@ -1,122 +1,43 @@
 import { motion } from "framer-motion";
-import { Link } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { base44 } from "@/api/base44Client";
 import {
-  ArrowRight, CheckCircle2, Zap, Users, Briefcase,
-  Upload, BarChart2, Wand2, CalendarDays, Mic2, MapPin,
-  DollarSign, FileText, TrendingUp, Radio, Star
+  ArrowRight, Upload, BarChart2, Zap, CalendarDays, Mic2, MapPin,
+  DollarSign, FileText, Radio, Users
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import PublicNav from "@/components/public/PublicNav";
 import SEO from "@/components/SEO";
 import { useLang } from "@/lib/i18n/LanguageContext";
 
+const DASH_IMG = "https://media.base44.com/images/public/69dcf0ecc907e43a438a626b/5cfdd4ed9_generated_image.png";
+
 const STEPS = [
-  {
-    n: "01",
-    title: "Upload Your Song",
-    body: "Every artist starts here. Upload your track — MP3, WAV, or AAC — and it lives in your SoundReady song library permanently. Your whole team can access it. Every tool connects to it. It becomes the center of your entire release operation.",
-    why: "Because right now your songs are sitting in a folder on your desktop going nowhere. This is the first step to changing that.",
-  },
-  {
-    n: "02",
-    title: "Get Your Release Intelligence Report",
-    body: "Click Run Analysis and SoundReady analyzes your actual audio file using real signal processing technology — not whatever mood you typed in a form. Real BPM. Real key. Real energy score. Real danceability. Your vocals get transcribed so the analysis includes your actual lyrics.\n\nAll of that real data feeds into an AI system built to think like a senior A&R rep. What comes back is a complete release intelligence report — your Spotify algorithm score, your ideal release timing, a 6-week pitching timeline, your song's strengths and weaknesses, comparable artists, playlist targets, and 10 unique TikTok script ideas written specifically for your song.\n\nThis is not generic AI output. This is a real analysis of your real song.",
-    why: "Because artists who release strategically get 78% more streams than artists who just drop and pray. SoundReady tells you exactly when, how, and where to release so every song has the best possible chance of breaking through.",
-  },
-  {
-    n: "03",
-    title: "Track Every Release from Idea to Launch",
-    body: "The Tracker keeps every release moving. Group songs into albums, EPs, and singles, then watch each one move through its stages — written, recorded, mixed, mastered, artwork, submitted, released. Upload your latest mix, attach the cover art, and store the release date, ISRC, and UPC codes right on the song. At a glance, you always know exactly where every release stands.",
-    why: "Most releases stall because nobody's tracking the details. The artists who release consistently are the ones with a system — every song has a status, a date, and a next step.",
-  },
-  {
-    n: "04",
-    title: "Execute Your Release Plan",
-    body: "Your analysis generates a complete 6-week release plan automatically. Week by week, day by day — exactly what to do before and after your release date. When to pitch playlists. When to reach out to blogs. When to post. When to submit to editorial. A real strategy built around your specific song.",
-    why: "Most artists release with no plan and wonder why nothing happens. The artists consistently landing on playlists and growing their following are following a strategy. SoundReady builds that strategy for you automatically.",
-  },
-  {
-    n: "05",
-    title: "Pitch to Playlists",
-    body: "Pitch your music to playlist curators directly from your song workspace. Every pitch is pre-written using your song's actual data — genre, mood, energy, comparable artists — so it's personalized and relevant. You review it and send it. More pitches means more placements. More placements means more streams. More streams means more everything.",
-    why: "One playlist placement can add thousands of streams overnight. SoundReady makes sure you're always pitching — because consistency is how placements happen.",
-  },
-  {
-    n: "06",
-    title: "Book Shows and Build Your Tour",
-    body: "Search 843+ venues and send professional booking inquiries directly from SoundReady. Plan your tour routing based on where your real fans are. Track every dollar of income and expenses with the Tour Finance tracker. Touring is how artists build real fanbases — SoundReady makes sure you're doing it right.",
-    why: "Artists using SoundReady's booking tools book 120% more shows than artists sending cold emails manually. More shows means more fans, more merch sold, and more money in your pocket.",
-  },
-  {
-    n: "07",
-    title: "Know Exactly What You're Earning",
-    body: "Upload your royalty statements from every DSP and see everything in one dashboard. Track your expenses, send invoices, manage your song ownership and splits, and understand your music business finances for the first time. No more wondering where your money went. No more surprises at tax time.",
-    why: "Most independent artists have no idea what they're actually earning. The ones who do make smarter decisions — about where to tour, what to release, and where to invest. SoundReady gives you that clarity.",
-  },
-  {
-    n: "08",
-    title: "Protect Every Deal You Sign",
-    body: "Upload any contract, deal, or agreement and SoundReady reads it like an entertainment lawyer — flagging every clause that could hurt you in plain English, with a risk rating and negotiation tips. The Legal Templates section gives you ready-to-use songwriter agreements, co-write splits, venue contracts, and NDAs.",
-    why: "Independent artists lose more money to bad contracts than almost anything else. One bad deal can cost you your masters, your publishing, or years of your career. SoundReady makes sure you never sign something you don't understand.",
-  },
-  {
-    n: "09",
-    title: "Stay Ahead of the Market",
-    body: "A&R Intelligence and Genre Trends give you briefings on what's actually working in your genre right now. Music News brings you daily industry briefings, and Industry Intel tracks the things you'd otherwise miss — label signings, playlist changes, grants and funding, showcase deadlines, and tour news in your market — so you always know when to move.",
-    why: "The artists winning right now are not just talented — they are strategic. They know what the market wants before they release. SoundReady gives you that intelligence so you are always one step ahead.",
-  },
-  {
-    n: "10",
-    title: "Run Your Whole Team From One Place",
-    body: "Invite your manager, producer, publicist, or label rep into your SoundReady workspace. They get their own login, their own role, and full access to everything — your songs, your release plans, your pitching history, your finances. Everyone working from the same place means nothing gets missed, nothing gets lost, and your whole team is always moving in the same direction.",
-    why: "The biggest reason artist careers stall is disorganization. Managers out of the loop. Producers not knowing the release date. Publicists pitching the wrong version of the song. SoundReady keeps everyone aligned so your career moves at full speed.",
-  },
+  { n: "01", icon: Upload, title: "Drop your song in", line: "MP3, WAV, AAC — it lives in your Vault." },
+  { n: "02", icon: BarChart2, title: "Get the report", line: "Real audio analysis, real numbers." },
+  { n: "03", icon: CalendarDays, title: "Track it", line: "Idea to released, every step on record." },
+  { n: "04", icon: Zap, title: "Run the plan", line: "A 6-week release plan, generated." },
+  { n: "05", icon: Mic2, title: "Pitch playlists", line: "Personalized pitches, ready to send." },
+  { n: "06", icon: MapPin, title: "Book shows", line: "843+ venues, inquiries, tour routing." },
+  { n: "07", icon: DollarSign, title: "See your money", line: "Every royalty and expense, one place." },
+  { n: "08", icon: FileText, title: "Protect your deals", line: "Risky clauses flagged, plain English." },
+  { n: "09", icon: Radio, title: "Stay ahead", line: "Signings, grants, deadlines in your market." },
+  { n: "10", icon: Users, title: "Bring your team", line: "One workspace, same plan." },
 ];
 
-const WORKSPACE_TABS = [
-  { title: "Analysis", sell: "Your complete release intelligence report. Know exactly how your song will perform before it ever goes live." },
-  { title: "Distribution", sell: "Every release detail tracked and organized. Go live clean, professional, and ready." },
-  { title: "Release Plan", sell: "Your 6-week action plan. Check off tasks and stay on track all the way to release day." },
-  { title: "Pitch", sell: "Send personalized pitches to playlists directly from your song page." },
-  { title: "Collaborate", sell: "Share versions and feedback with your team right on the song. No more email chains." },
-];
-
-const ALL_TOOLS = [
-  "Sam — Your AI Manager (weekly outbound, you approve every move)",
-  "Vault & Song Workspace",
-  "Song Tracker (every release, idea to released)",
-  "AI Release Strategy & Analysis (real audio processing)",
-  "Spotify Algorithm Score & Outlook",
-  "6-Week Release Plan Generator",
-  "Playlist Pitching & Curator Outreach",
-  "Gig Finder (843+ venue database)",
-  "Tour Planner & Routing",
-  "Tour Finance & P&L Tracker",
-  "EPK Builder",
-  "Finance & Royalty Tracker",
-  "Invoice Manager",
-  "Rights Manager & Song Splits",
-  "Budget Tracker",
-  "Contract Analyzer (AI entertainment lawyer)",
-  "Legal Templates (venue, songwriter, NDA)",
-  "A&R Intelligence (trend briefings)",
-  "Music News (daily industry briefings)",
-  "Industry Intel (signings, playlists, grants & tour intel)",
-  "Collaborative Team Whiteboard",
-  "Productions & Placements (producer catalog & credits)",
-  "Beat Pipeline (idea → placed)",
-  "Artist Match (beat-to-artist matching)",
-  "Team Workspace & Role Assignments",
-  "Music Academy (career A-Z guide)",
-  "Distribution Checklist & Metadata Manager",
+const STATS = [
+  { num: "+200%", sub: "Average revenue increase in 12 months" },
+  { num: "+78%", sub: "More streams with strategy + pitching" },
+  { num: "+120%", sub: "More shows booked" },
+  { num: "10+ hrs", sub: "Back in your week" },
+  { num: "40+", sub: "Tools, one login" },
+  { num: "$37/mo", sub: "Flat. Never a percentage" },
 ];
 
 const TIERS = [
-  { name: "AI Manager", price: "$60/mo", tagline: "Sam works your career around the clock — pitching songs and beats. You approve every move.", cta: "Start Manager", badge: "Sam Works For You" },
-  { name: "Artist Pro", price: "$37/mo", tagline: "You and your team. Every tool unlocked — artist and producer — free for 7 days.", cta: "Start Pro", badge: "Most Popular" },
-  { name: "Artist", price: "$0", tagline: "Your music's home base. Up to 5 songs & 5 beats, plus trackers — free forever.", cta: "Start Free", badge: null },
+  { name: "Artist", price: "$0", tagline: "Vault (5 songs) + Tracker. Free forever.", cta: "Start Free", badge: null, featured: false },
+  { name: "Artist Pro", price: "$37/mo", tagline: "Every tool unlocked, plus your team. 7 days free.", cta: "Start Pro", badge: "7-Day Free Trial", featured: false },
+  { name: "AI Manager", price: "$60/mo", tagline: "Sam outbounds for you every week. You approve.", cta: "Start Manager", badge: "Sam Works For You", featured: true },
 ];
 
 export default function HowItWorks() {
@@ -136,197 +57,95 @@ export default function HowItWorks() {
     <div className="min-h-screen bg-background font-body">
       <SEO
         title="How It Works — SoundReady"
-        description="Upload your song, get a full release intelligence report, master it, plan your release, and let Sam — your AI manager — work the outreach. See the whole workflow."
+        description="Drop a song in, get your release plan, and let Sam — your AI manager — draft the outreach. Ten steps, one system."
       />
       <PublicNav />
 
       {/* HERO */}
-      <section className="relative px-4 pt-28 pb-24 text-center overflow-hidden">
+      <section className="relative px-4 pt-28 pb-20 text-center overflow-hidden">
         <div className="absolute inset-0 bg-gradient-to-b from-primary/8 via-background to-background pointer-events-none" />
         <motion.div initial={{ opacity: 0, y: 32 }} animate={{ opacity: 1, y: 0 }} className="relative max-w-4xl mx-auto space-y-8">
           <motion.div initial={{ opacity: 0, scale: 0.9 }} animate={{ opacity: 1, scale: 1 }} transition={{ delay: 0.1 }}
             className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/10 border border-primary/30 text-primary text-xs font-bold tracking-wider uppercase">
-            HOW IT WORKS
+            {t("How It Works")}
           </motion.div>
           <h1 className="font-heading text-6xl sm:text-8xl font-black tracking-tight leading-[0.9]">
-            Sam works your career.<br />
-            <span className="text-primary">You make the music.</span>
+            {t("Sam works your career.")}<br />
+            <span className="text-primary">{t("You make the music.")}</span>
           </h1>
-          <p className="text-xl sm:text-2xl text-muted-foreground leading-relaxed max-w-3xl mx-auto">
-            Sam is your AI manager — outbounding every week for playlist pitches, tour support and sync opportunities, all drafted from your real numbers and all approved by you. Around Sam, your Vault and Tracker keep every song organized, and Industry Intel and Music News keep you ahead of the market. Here's how the whole system works — free to start.
+          <p className="text-xl text-muted-foreground leading-relaxed max-w-2xl mx-auto">
+            {t("Drop your music in. Sam drafts the outreach. You approve.")}
           </p>
-          <div className="flex flex-col sm:flex-row items-center justify-center gap-3 pt-2">
-            <Button size="lg" className="gap-2 font-heading font-bold text-base px-8 h-12" onClick={handleCTA}>
-              Start <ArrowRight className="h-4 w-4" />
-            </Button>
-          </div>
-          <p className="text-xs text-muted-foreground">No contracts. No percentage cuts. Cancel anytime.</p>
+          <Button size="lg" className="gap-2 font-heading font-bold text-base px-8 h-12" onClick={handleCTA}>
+            {t("Start")} <ArrowRight className="h-4 w-4" />
+          </Button>
+        </motion.div>
+
+        <motion.div initial={{ opacity: 0, y: 32 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.25 }} className="relative max-w-5xl mx-auto pt-10">
+          <img
+            src={DASH_IMG}
+            alt="SoundReady — your Vault, analytics and Sam's Desk in one place"
+            className="rounded-2xl border border-border shadow-2xl w-full"
+          />
         </motion.div>
       </section>
 
-      {/* SECTION 1 — THE PROBLEM */}
-      <section className="px-4 py-24 border-t border-border">
-        <div className="max-w-3xl mx-auto space-y-8">
-          <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="space-y-4">
-            <p className="text-xs text-primary uppercase tracking-wider font-bold">The Reality</p>
-            <h2 className="font-heading text-4xl sm:text-5xl font-bold">The music industry is not set up for you to win.</h2>
-          </motion.div>
-          <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="space-y-5 text-lg text-muted-foreground leading-relaxed">
-            <p>The artists getting playlisted, booked, and paid aren't more talented than you. They have better infrastructure — managers, publicists, booking agents, and lawyers reviewing every deal before it gets signed.</p>
-            <p className="text-foreground font-semibold text-xl">You have a laptop and a dream.</p>
-            <p>That gap is exactly what SoundReady was built to close. Your Vault (up to 5 songs) and Tracker are free forever. When you're ready for more, Artist Pro ($37/mo, 7 days free) unlocks every tool, strategy, and system the industry uses to build careers — and for $60 flat, Sam, your AI manager, runs the day-to-day work for you.</p>
-            <p className="text-foreground font-semibold">Just upload your music and let's get to work.</p>
-          </motion.div>
-        </div>
-      </section>
-
-      {/* SECTION 2 — THE FLOW */}
+      {/* TEN STEPS */}
       <section className="px-4 py-24 border-t border-border bg-secondary/20">
-        <div className="max-w-4xl mx-auto space-y-16">
-          <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="text-center space-y-4">
-            <p className="text-xs text-primary uppercase tracking-wider font-bold">The Process</p>
-            <h2 className="font-heading text-4xl sm:text-5xl font-bold">Ten steps from uploaded song to a growing career.</h2>
-            <p className="text-lg text-muted-foreground max-w-2xl mx-auto">This is exactly what happens when you use SoundReady. Step by step. No fluff.</p>
-          </motion.div>
-
-          <div className="space-y-10">
-            {STEPS.map((step, i) => (
-              <motion.div key={i}
-                initial={{ opacity: 0, x: -24 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }}
-                transition={{ delay: 0.05 }}
-                className="flex gap-6 sm:gap-10">
-                <div className="shrink-0">
-                  <span className="font-heading font-black text-5xl sm:text-7xl text-primary/20 leading-none select-none">{step.n}</span>
-                </div>
-                <div className="space-y-3 pt-2">
-                  <h3 className="font-heading font-bold text-xl sm:text-2xl">{step.title}</h3>
-                  <div className="text-muted-foreground leading-relaxed space-y-3">
-                    {step.body.split("\n\n").map((para, j) => <p key={j}>{para}</p>)}
-                  </div>
-                  <p className="text-primary italic font-semibold text-sm">↳ Why this matters: {step.why}</p>
-                </div>
-              </motion.div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* SECTION 3 — SONG WORKSPACE */}
-      <section className="px-4 py-24 border-t border-border">
         <div className="max-w-5xl mx-auto space-y-12">
-          <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="text-center space-y-4">
-            <p className="text-xs text-primary uppercase tracking-wider font-bold">The Command Center</p>
-            <h2 className="font-heading text-4xl sm:text-5xl font-bold">Every song gets its own headquarters.</h2>
-          </motion.div>
-          <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="max-w-3xl mx-auto space-y-5 text-lg text-muted-foreground leading-relaxed">
-            <p>Click any song in your library and it opens a dedicated Song Workspace — a single page where everything about that release lives together. Analysis, distribution checklist, release plan, pitching history. All connected. All in one place.</p>
-            <p>This is what a label does for signed artists — they build an entire operation around each release. SoundReady does it automatically for every song you upload. Every song deserves a real release. SoundReady makes sure it gets one.</p>
+          <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="text-center space-y-3">
+            <p className="text-xs text-primary uppercase tracking-widest font-bold">{t("The Process")}</p>
+            <h2 className="font-heading text-4xl sm:text-5xl font-bold">{t("Ten steps. One system.")}</h2>
           </motion.div>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4">
-            {WORKSPACE_TABS.map((tab, i) => (
-              <motion.div key={i}
+            {STEPS.map((step, i) => (
+              <motion.div key={step.n}
                 initial={{ opacity: 0, y: 16 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}
-                transition={{ delay: i * 0.07 }}
-                className="rounded-xl bg-card border border-border p-5 space-y-2 hover:border-primary/40 transition-colors text-center">
-                <p className="font-heading font-bold text-sm text-primary">{tab.title}</p>
-                <p className="text-xs text-muted-foreground leading-relaxed">{tab.sell}</p>
+                transition={{ delay: (i % 5) * 0.06 }}
+                className="rounded-xl bg-card border border-border p-5 space-y-3">
+                <div className="flex items-center justify-between">
+                  <span className="font-heading font-black text-2xl text-primary/25 leading-none select-none">{step.n}</span>
+                  <step.icon className="h-5 w-5 text-primary" />
+                </div>
+                <p className="font-heading font-bold text-sm">{t(step.title)}</p>
+                <p className="text-xs text-muted-foreground leading-relaxed">{t(step.line)}</p>
               </motion.div>
             ))}
           </div>
         </div>
       </section>
 
-      {/* SECTION 4 — THE NUMBERS */}
-      <section className="px-4 py-24 border-t border-border bg-secondary/20">
+      {/* THE NUMBERS */}
+      <section className="px-4 py-24 border-t border-border">
         <div className="max-w-5xl mx-auto space-y-10">
           <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="text-center space-y-3">
-            <p className="text-xs text-primary uppercase tracking-wider font-bold">The Results</p>
-            <h2 className="font-heading text-4xl sm:text-5xl font-bold">What actually happens when artists use SoundReady.</h2>
-            <p className="text-lg text-muted-foreground">Not promises. Real outcomes from real artists.</p>
+            <p className="text-xs text-primary uppercase tracking-widest font-bold">{t("The Results")}</p>
+            <h2 className="font-heading text-4xl sm:text-5xl font-bold">{t("Not promises. Outcomes.")}</h2>
           </motion.div>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-            {[
-              { num: "+200%", sub: "Average revenue increase within 12 months using SoundReady's finance, pitching, and release tools." },
-              { num: "+78%", sub: "Stream increase for artists using the release strategy and playlist pitching on every release." },
-              { num: "+120%", sub: "More shows booked versus artists sending cold emails manually." },
-              { num: "10+ hrs", sub: "Saved every week by artists who stop manually managing playlists, outreach, royalties, and release planning." },
-              { num: "40+", sub: "Integrated tools giving every artist and producer the infrastructure of a full professional team." },
-              { num: "$37/mo", sub: "What all of this costs. The traditional management model takes 15–20% of everything you earn — whether deals close or not." },
-            ].map((s, i) => (
+          <div className="grid grid-cols-2 lg:grid-cols-3 gap-4">
+            {STATS.map((s, i) => (
               <motion.div key={i} initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: i * 0.08 }}
                 className="rounded-2xl bg-card border border-primary/20 p-6 space-y-2 text-center">
-                <p className="font-heading text-4xl sm:text-5xl font-black text-primary">{s.num}</p>
-                <p className="text-xs text-muted-foreground leading-relaxed">{s.sub}</p>
+                <p className="font-heading text-4xl font-black text-primary">{s.num}</p>
+                <p className="text-xs text-muted-foreground">{t(s.sub)}</p>
               </motion.div>
             ))}
           </div>
         </div>
       </section>
 
-      {/* SECTION 5 — WHO IT'S FOR */}
-      <section className="px-4 py-24 border-t border-border">
-        <div className="max-w-5xl mx-auto space-y-12">
-          <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="text-center space-y-4">
-            <p className="text-xs text-primary uppercase tracking-wider font-bold">Who It's For</p>
-            <h2 className="font-heading text-4xl sm:text-5xl font-bold">Serious about your music career? SoundReady is for you.</h2>
-          </motion.div>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
-            {[
-              { level: "The Independent Artist", desc: "You're doing everything yourself and it's exhausting. SoundReady doesn't replace your hustle — it organizes it so every release has a real strategy behind it." },
-              { level: "The Producer", desc: "Your beats deserve better than a folder and a DM. The Productions, Beat Pipeline, placement tracker, and Artist Match turn your catalog into a real business — with Sam pitching for you on the AI Manager plan." },
-              { level: "The Artist With a Manager", desc: "Your team needs one place to work from. SoundReady gives your manager the tools to move faster, pitch smarter, and keep your whole career organized — so nothing falls through the cracks." },
-              { level: "The Manager or Indie Label", desc: "You're responsible for multiple artists and the disorganization is costing you real opportunities. SoundReady's Pro tier puts your entire roster in one place — every artist, every release, every deal." },
-            ].map((w, i) => (
-              <motion.div key={i}
-                initial={{ opacity: 0, y: 16 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}
-                transition={{ delay: i * 0.1 }}
-                className="p-6 rounded-xl bg-card border border-border space-y-3">
-                <div className="inline-flex px-2 py-1 rounded-md bg-primary/10 border border-primary/20 text-primary text-xs font-bold">{w.level}</div>
-                <p className="text-sm text-muted-foreground leading-relaxed">{w.desc}</p>
-              </motion.div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* SECTION 6 — EVERY TOOL */}
+      {/* PRICING */}
       <section className="px-4 py-24 border-t border-border bg-secondary/20">
-        <div className="max-w-4xl mx-auto space-y-12">
-          <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="text-center space-y-4">
-            <p className="text-xs text-primary uppercase tracking-wider font-bold">The Full Platform</p>
-            <h2 className="font-heading text-4xl sm:text-5xl font-bold">40+ tools. One subscription. Zero excuses.</h2>
-            <p className="text-lg text-muted-foreground max-w-2xl mx-auto">Your Vault and Tracker are free forever. Everything below unlocks with your 7-day free trial of Artist Pro.</p>
-          </motion.div>
-          <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}
-            className="rounded-2xl bg-card border border-border p-8">
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-              {ALL_TOOLS.map((tool, i) => (
-                <div key={i} className="flex items-start gap-2.5">
-                  <CheckCircle2 className="h-4 w-4 text-primary shrink-0 mt-0.5" />
-                  <span className="text-sm text-foreground">{tool}</span>
-                </div>
-              ))}
-            </div>
-            <div className="mt-8 pt-6 border-t border-border text-center">
-              <p className="font-heading font-black text-xl text-primary">All of this. $37 a month — free for 7 days. The infrastructure your career deserves.</p>
-            </div>
-          </motion.div>
-        </div>
-      </section>
-
-      {/* SECTION 7 — PRICING */}
-      <section className="px-4 py-24 border-t border-border">
         <div className="max-w-5xl mx-auto space-y-12">
-          <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="text-center space-y-4">
-            <h2 className="font-heading text-4xl sm:text-5xl font-bold">Sam is the product. Everything else comes with it.</h2>
-            <p className="text-lg text-muted-foreground max-w-2xl mx-auto">Start with Sam — or start free and grow in. Your Vault, Tracker and the full toolkit come with every plan.</p>
+          <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="text-center space-y-3">
+            <h2 className="font-heading text-4xl sm:text-5xl font-bold">{t("Sam is the product. Everything else comes with it.")}</h2>
           </motion.div>
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-5">
             {TIERS.map((tier, i) => (
               <motion.div key={tier.name}
                 initial={{ opacity: 0, y: 24 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}
                 transition={{ delay: i * 0.12 }}
-                className={`relative rounded-2xl border border-border p-6 flex flex-col bg-card ${tier.badge ? "ring-2 ring-primary/40 shadow-xl" : ""}`}>
+                className={`relative rounded-2xl border border-border p-6 flex flex-col bg-card ${tier.featured ? "ring-2 ring-primary/60 shadow-xl" : ""}`}>
                 {tier.badge && (
                   <div className="absolute -top-3 left-1/2 -translate-x-1/2 px-3 py-1 rounded-full bg-primary text-primary-foreground text-xs font-bold whitespace-nowrap">
                     {tier.badge}
@@ -334,14 +153,13 @@ export default function HowItWorks() {
                 )}
                 <p className="font-heading font-black text-2xl">{tier.name}</p>
                 <p className="text-2xl font-black mt-1 mb-2">{tier.price}</p>
-                <p className="text-sm text-muted-foreground leading-relaxed mb-6 flex-1">{tier.tagline}</p>
+                <p className="text-sm text-muted-foreground leading-relaxed mb-6 flex-1">{t(tier.tagline)}</p>
                 <Button
                   className="w-full font-semibold bg-primary hover:bg-primary/90 text-primary-foreground"
                   onClick={() => { window.location.href = isAuth ? "/history" : "/pricing"; }}
                 >
-                  {tier.cta}
+                  {t(tier.cta)}
                 </Button>
-                <p className="text-center text-xs text-muted-foreground mt-2">No contracts. No percentage cuts. Cancel anytime.</p>
               </motion.div>
             ))}
           </div>
@@ -352,16 +170,13 @@ export default function HowItWorks() {
       <section className="px-4 py-32 border-t border-border text-center bg-gradient-to-t from-primary/5 via-background to-background">
         <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="max-w-3xl mx-auto space-y-8">
           <h2 className="font-heading text-5xl sm:text-6xl font-black leading-[0.95]">
-            The artists and producers winning right now<br />
-            have a system. <span className="text-primary">Be one of them.</span>
+            {t("The artists winning right now")}<br />
+            <span className="text-primary">{t("have a system. Be one of them.")}</span>
           </h2>
-          <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-            SoundReady is the last tool your music career will ever need. Upload your first song today and see exactly what your music is capable of.
-          </p>
           <Button size="lg" className="gap-2 font-heading font-bold text-base px-10 h-12" onClick={handleCTA}>
-            Start <ArrowRight className="h-4 w-4" />
+            {t("Start")} <ArrowRight className="h-4 w-4" />
           </Button>
-          <p className="text-xs text-muted-foreground">No contracts. No percentage cuts. Start free — upgrade when you're ready.</p>
+          <p className="text-xs text-muted-foreground">{t("No contracts. No percentage cuts. Start free.")}</p>
         </motion.div>
       </section>
     </div>
