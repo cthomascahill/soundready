@@ -16,7 +16,7 @@
     },
     "invited_by": {
       "type": "string",
-      "description": "Email of the person who invited them"
+      "description": "Email of the account owner whose team this member belongs to"
     },
     "avatar_color": {
       "type": "string",
@@ -33,35 +33,18 @@
           "created_by_id": "{{user.id}}"
         },
         {
-          "user_condition": {
-            "role": "admin"
-          }
+          "data.email": "{{user.email}}"
         }
       ]
+    },
+    "create": {
+      "created_by_id": "{{user.id}}"
     },
     "update": {
-      "$or": [
-        {
-          "created_by_id": "{{user.id}}"
-        },
-        {
-          "user_condition": {
-            "role": "admin"
-          }
-        }
-      ]
+      "created_by_id": "{{user.id}}"
     },
     "delete": {
-      "$or": [
-        {
-          "created_by_id": "{{user.id}}"
-        },
-        {
-          "user_condition": {
-            "role": "admin"
-          }
-        }
-      ]
+      "created_by_id": "{{user.id}}"
     }
   }
 }
