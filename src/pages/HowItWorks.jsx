@@ -112,9 +112,9 @@ const ALL_TOOLS = [
 ];
 
 const TIERS = [
-  { name: "Artist", price: "$0", tagline: "Your music's home base. Up to 5 songs & 5 beats, plus trackers — free forever.", cta: "Start", badge: null },
-  { name: "Artist Pro", price: "$37/mo", tagline: "You and your team. Every tool unlocked — artist and producer — free for 7 days.", cta: "Start", badge: "Most Popular" },
-  { name: "AI Manager", price: "$60/mo", tagline: "Sam works your career around the clock — pitching songs and beats. You approve every move.", cta: "Start", badge: null },
+  { name: "Artist", price: "$0", tagline: "Your music's home base. Up to 5 songs & 5 beats, plus trackers — free forever.", cta: "Start Free", badge: null },
+  { name: "Artist Pro", price: "$37/mo", tagline: "You and your team. Every tool unlocked — artist and producer — free for 7 days.", cta: "Start Pro", badge: "Most Popular" },
+  { name: "AI Manager", price: "$60/mo", tagline: "Sam works your career around the clock — pitching songs and beats. You approve every move.", cta: "Start Manager", badge: null },
 ];
 
 export default function HowItWorks() {

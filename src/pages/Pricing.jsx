@@ -183,9 +183,9 @@ export default function Pricing() {
             </div>
             <div className="mt-6">
               {isAuth ? (
-                <Button className="font-semibold" onClick={() => navigate("/dashboard")}>Start</Button>
+                <Button className="font-semibold" onClick={() => navigate("/dashboard")}>Start Free</Button>
               ) : (
-                <Button className="font-semibold" onClick={() => base44.auth.redirectToLogin(`${window.location.origin}/pricing?tier=free`)}>Start</Button>
+                <Button className="font-semibold" onClick={() => base44.auth.redirectToLogin(`${window.location.origin}/pricing?tier=free`)}>Start Free</Button>
               )}
             </div>
           </motion.div>
@@ -213,7 +213,7 @@ export default function Pricing() {
               {(selectedTier === "pro" || selectedTier === "ai_manager") && tier === "free" && (
                 <div className="rounded-xl border border-primary/25 bg-primary/10 px-4 py-3 text-sm">
                   <span className="font-semibold text-primary">{selectedTier === "pro" ? "Artist Pro" : "AI Manager"} selected.</span>{" "}
-                  <span className="text-muted-foreground">Press Start on that plan below to begin.</span>
+                  <span className="text-muted-foreground">Press that plan's Start button below to begin.</span>
                 </div>
               )}
               {(tier === "pro" || tier === "ai_manager") && (
@@ -265,9 +265,9 @@ export default function Pricing() {
               </div>
               <div className="mt-6">
                 {!isAuth ? (
-                    <Button className="w-full font-semibold" onClick={() => base44.auth.redirectToLogin(`${window.location.origin}/pricing?tier=pro`)}>Start</Button>
+                    <Button className="w-full font-semibold" onClick={() => base44.auth.redirectToLogin(`${window.location.origin}/pricing?tier=pro`)}>Start Pro</Button>
                   )
-                  : tier === "free" ? <CheckoutButton tier="pro" className="bg-chart-5 hover:bg-chart-5/90 text-black">Start</CheckoutButton>
+                  : tier === "free" ? <CheckoutButton tier="pro" className="bg-chart-5 hover:bg-chart-5/90 text-black">Start Pro</CheckoutButton>
                   : <Button className="w-full font-semibold" disabled>{tier === "pro" ? "Your current plan" : "Included in your plan"}</Button>}
               </div>
               <p className="text-center text-xs text-muted-foreground mt-2">Card required — charged $37 automatically after 7 days. Cancel before then, pay nothing.</p>
@@ -294,10 +294,10 @@ export default function Pricing() {
               </div>
               <div className="mt-6 relative">
                 {!isAuth ? (
-                    <Button className="w-full font-semibold" onClick={() => base44.auth.redirectToLogin(`${window.location.origin}/pricing?tier=ai_manager`)}>Start</Button>
+                    <Button className="w-full font-semibold" onClick={() => base44.auth.redirectToLogin(`${window.location.origin}/pricing?tier=ai_manager`)}>Start Manager</Button>
                   )
                   : tier === "ai_manager" ? <Button className="w-full font-semibold" disabled>Your current plan</Button>
-                  : <CheckoutButton tier="ai_manager" className="bg-primary hover:bg-primary/90 text-primary-foreground gap-2"><Sparkles className="h-4 w-4" /> Start</CheckoutButton>}
+                  : <CheckoutButton tier="ai_manager" className="bg-primary hover:bg-primary/90 text-primary-foreground gap-2"><Sparkles className="h-4 w-4" /> Start Manager</CheckoutButton>}
               </div>
               <p className="text-center text-xs text-muted-foreground mt-2">Cancel anytime. No percentage cuts — ever.</p>
             </motion.div>

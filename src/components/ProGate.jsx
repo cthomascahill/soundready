@@ -71,7 +71,7 @@ export default function ProGate({ children, feature }) {
             ))}
           </div>
           <CheckoutButton tier="pro" className="bg-chart-5 hover:bg-chart-5/90 text-black">
-            Start 7-Day Free Trial
+            Start Pro
           </CheckoutButton>
           <p className="text-center text-xs text-muted-foreground">
             Card required — charged $37 automatically after 7 days. Cancel before then, pay nothing.
