@@ -11,16 +11,17 @@ export default function TikTokCard({ conn, onUpdated }) {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
 
-  // Pulls fresh stats from TikTok — also serves as the connection check
-  const sync = async () => {
-    setLoading(true);
-    setError("");
+  // Pulls fresh stats from TikTok — also serves as the connection check.
+  // silent = background check on page load: no spinner, no error, just the Connect button.
+  const sync = async ({ silent } = {}) => {
+    if (!silent) { setLoading(true); setError(""); }
     const res = await base44.functions.invoke("tiktokSync", { action: "sync" })
-      .catch(e => ({ data: { error: e.message } }));
-    setLoading(false);
+      .catch(e => ({ data: { error: e?.response?.data?.error || e.message } }));
+    if (!silent) setLoading(false);
     if (res.data?.error) {
-      if (res.data.needs_connect) { onUpdated(null); return; }
-      setError(res.data.error);
+      const msg = String(res.data.error);
+      if (res.data.needs_connect || msg.toLowerCase().includes("not connected")) { onUpdated(null); return; }
+      if (!silent) setError(msg);
       if (res.data.needs_reconnect) onUpdated(null);
       return;
     }
@@ -28,7 +29,7 @@ export default function TikTokCard({ conn, onUpdated }) {
   };
 
   // Keep stats fresh every time the profile page opens
-  useEffect(() => { sync(); }, []);
+  useEffect(() => { sync({ silent: true }); }, []);
 
   const handleConnect = async () => {
     setError("");
@@ -86,7 +87,7 @@ export default function TikTokCard({ conn, onUpdated }) {
           </div>
 
           <div className="flex gap-2">
-            <Button size="sm" variant="outline" onClick={sync} disabled={loading} className="flex-1 gap-1.5">
+            <Button size="sm" variant="outline" onClick={() => sync()} disabled={loading} className="flex-1 gap-1.5">
               {loading ? <Loader2 className="h-3.5 w-3.5 animate-spin" /> : <RefreshCw className="h-3.5 w-3.5" />}
               Sync Now
             </Button>
