@@ -5,11 +5,20 @@ import { useLang } from "@/lib/i18n/LanguageContext";
 /**
  * Global language picker — English, Español, Français, Deutsch.
  * The choice applies app-wide and persists immediately.
+ * The menu flips upward when there isn't room below the button.
  */
 export default function LanguagePicker({ className = "" }) {
   const { lang, setLang, t, languages } = useLang();
   const [open, setOpen] = useState(false);
+  const [flipUp, setFlipUp] = useState(false);
   const ref = useRef(null);
+  const btnRef = useRef(null);
+
+  const toggle = () => {
+    const rect = btnRef.current?.getBoundingClientRect();
+    if (rect) setFlipUp(window.innerHeight - rect.bottom < 220 && rect.top > 220);
+    setOpen((v) => !v);
+  };
 
   useEffect(() => {
     if (!open) return;
@@ -23,8 +32,9 @@ export default function LanguagePicker({ className = "" }) {
   return (
     <div className="relative" ref={ref}>
       <button
+        ref={btnRef}
         type="button"
-        onClick={() => setOpen((v) => !v)}
+        onClick={toggle}
         title={t("Language")}
         className={`flex items-center gap-2 px-3 py-2 rounded-lg text-sm text-muted-foreground hover:text-foreground hover:bg-secondary transition-colors ${className}`}
       >
@@ -32,7 +42,11 @@ export default function LanguagePicker({ className = "" }) {
         <span className="flex-1 text-left">{t("Language")}</span>
       </button>
       {open && (
-        <div className="absolute right-0 mt-1.5 w-44 rounded-xl border border-border bg-popover shadow-2xl py-1 z-50">
+        <div
+          className={`absolute right-0 w-44 max-h-64 overflow-y-auto rounded-xl border border-border bg-popover shadow-2xl py-1 z-50 ${
+            flipUp ? "bottom-full mb-1.5" : "top-full mt-1.5"
+          }`}
+        >
           {languages.map((l) => (
             <button
               key={l.code}
