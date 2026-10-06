@@ -9,6 +9,7 @@ import MayaQueueCard from "@/components/maya/MayaQueueCard";
 import RecommendationsPanel from "@/components/maya/RecommendationsPanel";
 import MemoryPanel from "@/components/maya/MemoryPanel";
 import ScansPanel from "@/components/maya/ScansPanel";
+import PlaylistPitchPanel from "@/components/maya/PlaylistPitchPanel";
 import DealsDeskPanel from "@/components/deals/DealsDeskPanel";
 import OutcomeControl from "@/components/maya/OutcomeControl";
 import SamLogo from "@/components/SamLogo";
@@ -180,6 +181,7 @@ export default function MayaDesk() {
         <div className="flex gap-1">
           {[
             { key: "queue", label: `Awaiting Approval${queue.length ? ` (${queue.length})` : ""}` },
+            { key: "playlists", label: "Playlists" },
             { key: "recs", label: `Recommendations${recsPending ? ` (${recsPending})` : ""}` },
             { key: "memory", label: "What Sam Knows" },
             { key: "scans", label: "Reputation Scans" },
@@ -198,6 +200,13 @@ export default function MayaDesk() {
           <div className="space-y-3">
             {[1, 2, 3].map(i => <div key={i} className="h-24 rounded-xl bg-card border border-border animate-pulse" />)}
           </div>
+        ) : tab === "playlists" ? (
+          <PlaylistPitchPanel
+            user={user}
+            activities={activities}
+            onQueued={(a) => setActivities((prev) => (prev.some((x) => x.id === a.id) ? prev : [a, ...prev]))}
+            onQueueClick={() => setTab("queue")}
+          />
         ) : tab === "recs" ? (
           <RecommendationsPanel user={user} mode={mode} onPendingChange={setRecsPending} />
         ) : tab === "memory" ? (
