@@ -74,7 +74,7 @@ const TIERS = [
       "Sam chat backed by your real numbers",
       "EPKs & weekly digests",
     ],
-    cta: "Start Manager",
+    cta: "Start AI Manager",
     route: "/pricing",
     subtext: "No percentage cuts — ever.",
   },
