@@ -281,6 +281,7 @@ export default function Pricing() {
                 Sam outbounds for you every week — playlist pitches, tour support, sync opportunities — drafted from your real numbers, and nothing sends without your approval. A traditional manager takes 15–20% of everything you earn. Sam is $60 flat, full-time.
               </p>
               <div className="flex-1">
+                <p className="font-heading text-lg font-black tracking-tight mb-2">Everything in Artist Pro.</p>
                 <TierItems items={AI_ITEMS} />
               </div>
               <div className="mt-6 relative">
