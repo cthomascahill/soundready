@@ -9,17 +9,17 @@
     --font-heading: 'Space Grotesk', sans-serif;
     --font-body: 'Inter', sans-serif;
 
-    --background: 45 30% 96%;
+    --background: 45 38% 95%;
     --foreground: 30 8% 13%;
-    --card: 45 35% 98%;
+    --card: 45 45% 98%;
     --card-foreground: 30 8% 13%;
-    --popover: 45 35% 98%;
+    --popover: 45 45% 98%;
     --popover-foreground: 30 8% 13%;
     --primary: 142 71% 45%;
     --primary-foreground: 0 0% 0%;
-    --secondary: 45 25% 91%;
+    --secondary: 45 28% 90%;
     --secondary-foreground: 30 8% 13%;
-    --muted: 45 20% 92%;
+    --muted: 45 25% 91%;
     --muted-foreground: 30 5% 36%;
     --accent: 142 71% 45%;
     --accent-foreground: 0 0% 0%;
@@ -34,11 +34,11 @@
     --chart-4: 45 90% 50%;
     --chart-5: 200 80% 45%;
     --radius: 0.75rem;
-    --sidebar-background: 45 28% 94%;
+    --sidebar-background: 45 34% 92%;
     --sidebar-foreground: 30 8% 13%;
     --sidebar-primary: 142 71% 40%;
     --sidebar-primary-foreground: 0 0% 0%;
-    --sidebar-accent: 45 22% 89%;
+    --sidebar-accent: 45 25% 87%;
     --sidebar-accent-foreground: 30 8% 13%;
     --sidebar-border: 40 8% 85%;
     --sidebar-ring: 142 71% 45%;
@@ -93,3 +93,17 @@
     @apply bg-background text-foreground;
   }
 }
+
+/* Light mode only: darken the tinted text used in stage badges, status
+   pills and other bubble elements so they read clearly on warm surfaces. */
+:not(.dark) .text-primary { color: hsl(142 71% 30%); }
+:not(.dark) .text-cyan-400 { color: hsl(190 85% 30%); }
+:not(.dark) .text-blue-400 { color: hsl(217 80% 38%); }
+:not(.dark) .text-purple-400 { color: hsl(271 65% 45%); }
+:not(.dark) .text-pink-400 { color: hsl(330 70% 42%); }
+:not(.dark) .text-orange-400 { color: hsl(25 90% 38%); }
+:not(.dark) .text-yellow-400 { color: hsl(40 85% 34%); }
+:not(.dark) .text-teal-400 { color: hsl(172 70% 28%); }
+:not(.dark) .text-red-400 { color: hsl(0 70% 42%); }
+:not(.dark) .text-green-400 { color: hsl(142 70% 32%); }
+:not(.dark) .text-green-500 { color: hsl(142 70% 32%); }
