@@ -42,11 +42,6 @@
         },
         {
           "data.to_user_id": "{{user.id}}"
-        },
-        {
-          "user_condition": {
-            "role": "admin"
-          }
         }
       ]
     },
@@ -57,11 +52,6 @@
         },
         {
           "data.to_user_id": "{{user.id}}"
-        },
-        {
-          "user_condition": {
-            "role": "admin"
-          }
         }
       ]
     },
@@ -72,25 +62,11 @@
         },
         {
           "data.to_user_id": "{{user.id}}"
-        },
-        {
-          "user_condition": {
-            "role": "admin"
-          }
         }
       ]
     },
     "delete": {
-      "$or": [
-        {
-          "data.from_user_id": "{{user.id}}"
-        },
-        {
-          "user_condition": {
-            "role": "admin"
-          }
-        }
-      ]
+      "data.from_user_id": "{{user.id}}"
     }
   }
 }

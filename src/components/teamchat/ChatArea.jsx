@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import moment from "moment";
 
-function MessageBubble({ msg, isOwn, memberRole }) {
+function MessageBubble({ msg, fileUrl, isOwn, memberRole }) {
   return (
     <div className={`flex gap-2.5 ${isOwn ? "flex-row-reverse" : ""}`}>
       <div className="h-7 w-7 rounded-full bg-primary/20 border border-primary/30 flex items-center justify-center text-xs font-bold text-primary shrink-0">
@@ -21,8 +21,8 @@ function MessageBubble({ msg, isOwn, memberRole }) {
         )}
         <div className={`rounded-2xl px-4 py-2.5 text-sm leading-relaxed ${isOwn ? "bg-primary text-primary-foreground rounded-tr-sm" : "bg-secondary text-foreground rounded-tl-sm"}`}>
           {msg.message}
-          {msg.file_url && (
-            <a href={msg.file_url} target="_blank" rel="noopener noreferrer" className="block mt-1 underline text-xs opacity-80">📎 Attachment</a>
+          {fileUrl && (
+            <a href={fileUrl} target="_blank" rel="noopener noreferrer" className="block mt-1 underline text-xs opacity-80">📎 Attachment</a>
           )}
         </div>
         {isOwn && <p className="text-[10px] text-muted-foreground px-1">{moment(msg.created_date).format("h:mm A")}</p>}
@@ -31,31 +31,39 @@ function MessageBubble({ msg, isOwn, memberRole }) {
   );
 }
 
-export default function ChatArea({ user, activeChannel, teamMembers }) {
+export default function ChatArea({ user, activeChannel, teamMembers, participants }) {
   const [messages, setMessages] = useState([]);
   const [text, setText] = useState("");
   const [sending, setSending] = useState(false);
   const [file, setFile] = useState(null);
   const [uploading, setUploading] = useState(false);
+  const [signedUrls, setSignedUrls] = useState({});
   const fileRef = useRef(null);
   const bottomRef = useRef(null);
 
-  const isDM = activeChannel.startsWith("dm|||");
-  const dmEmail = isDM ? activeChannel.split("|||").find(e => e !== user?.email) : null;
+  const parts = (activeChannel || "").split("|||");
+  const isDM = parts[0] === "dm";
+  const dmEmail = isDM ? parts.slice(1).find(e => e !== user?.email) : null;
+  const teamName = !isDM ? parts[0] : null;
+  const teamOwnerEmail = !isDM ? parts[1] : null;
+  const isOwnTeam = teamOwnerEmail === user?.email;
+
   const dmMember = dmEmail ? teamMembers.find(m => m.email === dmEmail) : null;
   const channelLabel = isDM
     ? (dmMember?.name || dmEmail?.split("@")[0] || dmEmail)
-    : `#${activeChannel}`;
+    : `#${teamName}`;
 
   const getMemberRole = (email) => teamMembers.find(m => m.email === email)?.role_label;
 
   useEffect(() => {
     setMessages([]);
+    if (!activeChannel) return;
     base44.entities.TeamMessage.filter({ channel: activeChannel }, "created_date", 100)
       .then(setMessages).catch(() => setMessages([]));
   }, [activeChannel]);
 
   useEffect(() => {
+    if (!activeChannel) return;
     const unsub = base44.entities.TeamMessage.subscribe((event) => {
       if (event.data?.channel !== activeChannel) return;
       if (event.type === "create") {
@@ -72,6 +80,20 @@ export default function ChatArea({ user, activeChannel, teamMembers }) {
     bottomRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages]);
 
+  // Chat attachments are stored privately; sign download links on demand
+  useEffect(() => {
+    const pending = messages.filter(m => m.file_url && !m.file_url.startsWith("http") && !signedUrls[m.id]);
+    if (pending.length === 0) return;
+    let cancelled = false;
+    pending.forEach(async (m) => {
+      try {
+        const res = await base44.integrations.Core.CreateFileSignedUrl({ file_uri: m.file_url, expires_in: 3600 });
+        if (!cancelled) setSignedUrls(prev => ({ ...prev, [m.id]: res.signed_url }));
+      } catch { /* link stays hidden */ }
+    });
+    return () => { cancelled = true; };
+  }, [messages]);
+
   const send = async () => {
     if (!text.trim() && !file) return;
     if (!user) return;
@@ -80,8 +102,8 @@ export default function ChatArea({ user, activeChannel, teamMembers }) {
     let fileUrl = null;
     if (file) {
       setUploading(true);
-      const res = await base44.integrations.Core.UploadFile({ file });
-      fileUrl = res.file_url;
+      const res = await base44.integrations.Core.UploadPrivateFile({ file });
+      fileUrl = res.file_uri;
       setUploading(false);
       setFile(null);
     }
@@ -92,6 +114,7 @@ export default function ChatArea({ user, activeChannel, teamMembers }) {
       sender_name: user.full_name || user.email,
       message: text.trim() || "(attachment)",
       file_url: fileUrl || undefined,
+      participants: participants || [],
     });
 
     setText("");
@@ -115,7 +138,12 @@ export default function ChatArea({ user, activeChannel, teamMembers }) {
         ) : (
           <>
             <Hash className="h-4 w-4 text-muted-foreground" />
-            <h1 className="font-heading font-bold">{activeChannel}</h1>
+            <h1 className="font-heading font-bold">{teamName}</h1>
+            {!isOwnTeam && (
+              <span className="text-[10px] text-muted-foreground border border-border rounded-full px-2 py-0.5">
+                {teamOwnerEmail?.split("@")[0]}'s workspace
+              </span>
+            )}
           </>
         )}
       </div>
@@ -134,6 +162,7 @@ export default function ChatArea({ user, activeChannel, teamMembers }) {
           <MessageBubble
             key={msg.id}
             msg={msg}
+            fileUrl={msg.file_url?.startsWith("http") ? msg.file_url : signedUrls[msg.id]}
             isOwn={user?.email === msg.sender_email}
             memberRole={getMemberRole(msg.sender_email)}
           />
@@ -155,7 +184,7 @@ export default function ChatArea({ user, activeChannel, teamMembers }) {
             <Paperclip className="h-5 w-5" />
           </button>
           <Input
-            placeholder={isDM ? `Message ${channelLabel}...` : `Message #${activeChannel}...`}
+            placeholder={isDM ? `Message ${channelLabel}...` : `Message #${teamName}...`}
             value={text}
             onChange={e => setText(e.target.value)}
             onKeyDown={e => e.key === "Enter" && !e.shiftKey && send()}

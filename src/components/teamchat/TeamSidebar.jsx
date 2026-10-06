@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Hash, MessageCircle, Users, ChevronDown, ChevronRight, UserPlus, CheckCircle2, AlertCircle } from "lucide-react";
+import { Hash, ChevronDown, ChevronRight, UserPlus, CheckCircle2, AlertCircle } from "lucide-react";
 import { base44 } from "@/api/base44Client";
 
 const CHANNELS = [
@@ -22,8 +22,9 @@ function getRoleColor(role) {
   return ROLE_COLORS[role] || ROLE_COLORS.default;
 }
 
-export default function TeamSidebar({ user, activeChannel, setActiveChannel, teamMembers, view, setView }) {
+export default function TeamSidebar({ user, activeChannel, setActiveChannel, teamMembers, teamOwners, view, setView }) {
   const [channelsOpen, setChannelsOpen] = useState(true);
+  const [teamsOpen, setTeamsOpen] = useState(true);
   const [dmsOpen, setDmsOpen] = useState(true);
   const [inviteOpen, setInviteOpen] = useState(false);
   const [inviteEmail, setInviteEmail] = useState("");
@@ -31,7 +32,11 @@ export default function TeamSidebar({ user, activeChannel, setActiveChannel, tea
   const [inviting, setInviting] = useState(false);
   const [inviteStatus, setInviteStatus] = useState(null);
 
-  const dmMembers = teamMembers.filter(m => m.email !== user?.email);
+  // People this account can DM: its own roster plus accounts that invited it in
+  const dmMembers = [
+    ...teamMembers.filter(m => m.email !== user?.email),
+    ...teamOwners.map(e => ({ email: e, name: e.split("@")[0], id: `owner-${e}` })),
+  ];
 
   const getDMChannel = (email) => {
     const sorted = [user?.email, email].sort();
@@ -68,12 +73,20 @@ export default function TeamSidebar({ user, activeChannel, setActiveChannel, tea
     setTimeout(() => setInviteStatus(null), 4000);
   };
 
+  const channelButton = (channelId, label) => (
+    <button onClick={() => { setActiveChannel(channelId); setView("chat"); }}
+      className={`w-full flex items-center gap-2 px-4 py-1.5 text-sm transition-colors rounded-md mx-1 ${activeChannel === channelId && view === "chat" ? "bg-primary/10 text-primary font-semibold" : "text-muted-foreground hover:text-foreground hover:bg-secondary/50"}`}>
+      <Hash className="h-3.5 w-3.5 shrink-0" />
+      <span className="truncate">{label}</span>
+    </button>
+  );
+
   return (
     <aside className="w-60 shrink-0 border-r border-border bg-[hsl(0,0%,5%)] flex flex-col h-screen">
       {/* Workspace header */}
       <div className="px-4 py-3 border-b border-border">
-        <p className="font-heading font-bold text-sm truncate">SoundReady</p>
-        <p className="text-[10px] text-muted-foreground">Workspace</p>
+        <p className="font-heading font-bold text-sm truncate">{user?.full_name || user?.email?.split("@")[0] || "Your Team"}</p>
+        <p className="text-[10px] text-muted-foreground">Your workspace</p>
       </div>
 
       {/* Nav tabs */}
@@ -89,7 +102,7 @@ export default function TeamSidebar({ user, activeChannel, setActiveChannel, tea
       </div>
 
       <div className="flex-1 overflow-y-auto py-2">
-        {/* Channels */}
+        {/* Your channels */}
         <div className="mb-1">
           <button onClick={() => setChannelsOpen(v => !v)}
             className="w-full flex items-center gap-1 px-3 py-1 text-[11px] font-semibold text-muted-foreground hover:text-foreground uppercase tracking-wider transition-colors">
@@ -97,13 +110,32 @@ export default function TeamSidebar({ user, activeChannel, setActiveChannel, tea
             Channels
           </button>
           {channelsOpen && CHANNELS.map(ch => (
-            <button key={ch.id} onClick={() => { setActiveChannel(ch.id); setView("chat"); }}
-              className={`w-full flex items-center gap-2 px-4 py-1.5 text-sm transition-colors rounded-md mx-1 ${activeChannel === ch.id && view === "chat" ? "bg-primary/10 text-primary font-semibold" : "text-muted-foreground hover:text-foreground hover:bg-secondary/50"}`}>
-              <Hash className="h-3.5 w-3.5 shrink-0" />
-              {ch.label}
-            </button>
+            <div key={ch.id}>
+              {channelButton(`${ch.id}|||${user?.email}`, ch.label)}
+            </div>
           ))}
         </div>
+
+        {/* Teams this account was invited into */}
+        {teamOwners.length > 0 && (
+          <div className="mt-2">
+            <button onClick={() => setTeamsOpen(v => !v)}
+              className="w-full flex items-center gap-1 px-3 py-1 text-[11px] font-semibold text-muted-foreground hover:text-foreground uppercase tracking-wider transition-colors">
+              {teamsOpen ? <ChevronDown className="h-3 w-3" /> : <ChevronRight className="h-3 w-3" />}
+              Teams you're in
+            </button>
+            {teamsOpen && teamOwners.map(owner => (
+              <div key={owner} className="mb-1">
+                <p className="px-3 pt-1 text-[10px] text-muted-foreground/70 truncate">{owner.split("@")[0]}'s workspace</p>
+                {CHANNELS.map(ch => (
+                  <div key={ch.id}>
+                    {channelButton(`${ch.id}|||${owner}`, ch.label)}
+                  </div>
+                ))}
+              </div>
+            ))}
+          </div>
+        )}
 
         {/* Direct Messages */}
         <div className="mt-2">
