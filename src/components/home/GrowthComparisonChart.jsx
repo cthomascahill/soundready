@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Legend } from "recharts";
+import { useLang } from "@/lib/i18n/LanguageContext";
 
 // Illustrative projections based on outcomes reported by SoundReady artists
 const MONTHS = ["Start", "3 mo", "6 mo", "9 mo", "12 mo"];
@@ -24,6 +25,7 @@ const METRICS = {
 };
 
 export default function GrowthComparisonChart() {
+  const { t } = useLang();
   const [metric, setMetric] = useState("revenue");
 
   const data = MONTHS.map((m, i) => ({
@@ -37,8 +39,8 @@ export default function GrowthComparisonChart() {
       className="rounded-2xl bg-card border border-border p-6 sm:p-8 space-y-5">
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         <div className="space-y-1">
-          <h3 className="font-heading font-bold text-xl">Projected growth: with SoundReady vs. going it alone</h3>
-          <p className="text-sm text-muted-foreground">Twelve-month trajectory for an independent artist with the same starting point.</p>
+          <h3 className="font-heading font-bold text-xl">{t("Projected growth: with SoundReady vs. going it alone")}</h3>
+          <p className="text-sm text-muted-foreground">{t("Twelve-month trajectory for an independent artist with the same starting point.")}</p>
         </div>
         <div className="flex gap-1.5 bg-secondary rounded-xl p-1 w-fit shrink-0">
           {Object.entries(METRICS).map(([key, m]) => (
@@ -47,7 +49,7 @@ export default function GrowthComparisonChart() {
               className={`px-3.5 py-1.5 rounded-lg text-xs font-bold transition-colors ${
                 metric === key ? "bg-primary text-primary-foreground" : "text-muted-foreground hover:text-foreground"
               }`}>
-              {m.label}
+              {t(m.label)}
             </button>
           ))}
         </div>
@@ -68,12 +70,12 @@ export default function GrowthComparisonChart() {
                 fontSize: "12px",
               }}
               labelStyle={{ color: "hsl(var(--foreground))", fontWeight: 700 }}
-              formatter={(value, name) => [`${value}% growth`, name === "with" ? "With SoundReady" : "Going it alone"]}
+              formatter={(value, name) => [`${value}% ${t("growth")}`, name === "with" ? t("With SoundReady") : t("Going it alone")]}
             />
             <Legend
               formatter={(value) => (
                 <span className="text-xs font-semibold text-foreground">
-                  {value === "with" ? "Artists using SoundReady" : "Artists going it alone"}
+                  {value === "with" ? t("Artists using SoundReady") : t("Artists going it alone")}
                 </span>
               )}
             />
@@ -84,7 +86,7 @@ export default function GrowthComparisonChart() {
       </div>
 
       <p className="text-xs text-muted-foreground text-center">
-        Illustrative projection of cumulative growth ({METRICS[metric].label.toLowerCase()}), based on average outcomes reported by SoundReady artists.
+        {t("Illustrative projection of cumulative growth")} ({t(METRICS[metric].label.toLowerCase())}), {t("based on average outcomes reported by SoundReady artists.")}
       </p>
     </motion.div>
   );

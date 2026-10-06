@@ -157,30 +157,30 @@ export default function About() {
           <motion.div initial={{ opacity: 0, scale: 0.9 }} animate={{ opacity: 1, scale: 1 }} transition={{ delay: 0.1 }}
             className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/10 border border-primary/30 text-primary text-xs font-bold tracking-wider uppercase">
             <Flame className="h-3.5 w-3.5" />
-            The Artist &amp; Producer Management Revolution
+            {t("The Artist & Producer Management Revolution")}
           </motion.div>
 
           <h1 className="font-heading text-6xl sm:text-8xl font-black tracking-tight leading-[0.9]">
-            Your career.<br />
-            <span className="text-primary">Finally moving.</span>
+            {t("Your career.")}<br />
+            <span className="text-primary">{t("Finally moving.")}</span>
           </h1>
 
           <p className="text-xl sm:text-2xl text-muted-foreground leading-relaxed max-w-3xl mx-auto font-body">
-            Release strategy, booking, touring, finances, and your team — the infrastructure signed acts get from a label, in one place, free to start. Grow into Artist Pro when you need the full toolkit, and hand the day-to-day work to Sam, your AI manager.
+            {t("Release strategy, booking, touring, finances, and your team — the infrastructure signed acts get from a label, in one place, free to start. Grow into Artist Pro when you need the full toolkit, and hand the day-to-day work to Sam, your AI manager.")}
           </p>
 
           <div className="flex flex-col sm:flex-row items-center justify-center gap-3 pt-2">
             <Button size="lg" className="gap-2 font-heading font-bold text-base px-8 h-12" onClick={handleCTA}>
-              Start Free <ArrowRight className="h-4 w-4" />
+              {t("Start Free")} <ArrowRight className="h-4 w-4" />
             </Button>
             <Link to="/how-it-works">
               <Button size="lg" variant="outline" className="gap-2 font-heading font-bold text-base px-8 h-12">
-                See How It Works
+                {t("See How It Works")}
               </Button>
             </Link>
           </div>
 
-          <p className="text-xs text-muted-foreground">Start free. No contracts. No percentage cuts — ever.</p>
+          <p className="text-xs text-muted-foreground">{t("Start free. No contracts. No percentage cuts — ever.")}</p>
         </motion.div>
       </section>
 
@@ -188,7 +188,7 @@ export default function About() {
       <section className="px-4 py-24 border-t border-border">
         <div className="max-w-5xl mx-auto">
           <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="text-center mb-14 space-y-4">
-            <h2 className="font-heading text-4xl sm:text-5xl font-bold">Artists. Producers. One platform that <span className="text-primary">changes everything.</span></h2>
+            <h2 className="font-heading text-4xl sm:text-5xl font-bold">{t("Artists. Producers. One platform that ")}<span className="text-primary">{t("changes everything.")}</span></h2>
           </motion.div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
@@ -219,9 +219,9 @@ export default function About() {
                 <div className="h-9 w-9 rounded-lg bg-primary/10 flex items-center justify-center shrink-0">
                   <card.icon className="h-4 w-4 text-primary" />
                 </div>
-                <p className="font-heading font-bold text-xl">{card.headline}</p>
-                <p className="text-sm leading-relaxed text-muted-foreground">{card.body}</p>
-                <div className="inline-flex px-3 py-1 rounded-full bg-primary/10 border border-primary/20 text-primary text-xs font-bold w-fit">{card.label}</div>
+                <p className="font-heading font-bold text-xl">{t(card.headline)}</p>
+                <p className="text-sm leading-relaxed text-muted-foreground">{t(card.body)}</p>
+                <div className="inline-flex px-3 py-1 rounded-full bg-primary/10 border border-primary/20 text-primary text-xs font-bold w-fit">{t(card.label)}</div>
               </motion.div>
             ))}
           </div>
@@ -237,11 +237,11 @@ export default function About() {
               <Users className="h-5 w-5 text-primary" />
             </div>
             <div className="space-y-1 flex-1">
-              <p className="font-heading font-bold text-lg">Already have a manager?</p>
-              <p className="text-sm text-muted-foreground leading-relaxed">SoundReady is built for them too. Invite your team, share your workspace, and give your manager the infrastructure to actually move your career forward — faster than ever.</p>
+              <p className="font-heading font-bold text-lg">{t("Already have a manager?")}</p>
+              <p className="text-sm text-muted-foreground leading-relaxed">{t("SoundReady is built for them too. Invite your team, share your workspace, and give your manager the infrastructure to actually move your career forward — faster than ever.")}</p>
             </div>
             <Button variant="outline" className="shrink-0 font-semibold" onClick={handleCTA}>
-              Invite Your Team
+              {t("Invite Your Team")}
             </Button>
           </motion.div>
         </div>
@@ -251,9 +251,9 @@ export default function About() {
       <section className="px-4 py-24 border-t border-border bg-secondary/20">
         <div className="max-w-5xl mx-auto space-y-14">
           <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="text-center space-y-4">
-            <p className="text-xs text-primary uppercase tracking-wider font-bold">Pricing</p>
-            <h2 className="font-heading text-4xl sm:text-5xl font-bold">Start free. Grow when you're ready.</h2>
-            <p className="text-lg text-muted-foreground max-w-2xl mx-auto">Your Vault and Tracker are free forever. Unlock the full toolkit with Artist Pro — or hand the work to Sam when your career is moving.</p>
+            <p className="text-xs text-primary uppercase tracking-wider font-bold">{t("Pricing")}</p>
+            <h2 className="font-heading text-4xl sm:text-5xl font-bold">{t("Start free. Grow when you're ready.")}</h2>
+            <p className="text-lg text-muted-foreground max-w-2xl mx-auto">{t("Your Vault and Tracker are free forever. Unlock the full toolkit with Artist Pro — or hand the work to Sam when your career is moving.")}</p>
           </motion.div>
 
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-5">
@@ -289,14 +289,14 @@ export default function About() {
                   <tier.icon className={`h-5 w-5 ${tier.color}`} />
                 </div>
                 <p className="font-heading font-black text-2xl">{tier.name}</p>
-                <p className={`text-sm font-semibold mt-0.5 mb-2 ${tier.color}`}>{tier.tagline}</p>
+                <p className={`text-sm font-semibold mt-0.5 mb-2 ${tier.color}`}>{t(tier.tagline)}</p>
                 <p className="text-2xl font-black mb-3">{tier.price}</p>
-                <p className="text-sm text-muted-foreground leading-relaxed mb-5">{tier.desc}</p>
+                <p className="text-sm text-muted-foreground leading-relaxed mb-5">{t(tier.desc)}</p>
                 <div className="space-y-2 flex-1">
                   {tier.items.map((item) => (
                     <div key={item} className="flex items-start gap-2.5">
                       <CheckCircle2 className={`h-4 w-4 shrink-0 mt-0.5 ${tier.color}`} />
-                      <span className="text-xs text-foreground">{item}</span>
+                      <span className="text-xs text-foreground">{t(item)}</span>
                     </div>
                   ))}
                 </div>
@@ -304,15 +304,15 @@ export default function About() {
                   <Link to={tier.route}>
                     <Button className="w-full mt-6 font-semibold">
                       {tier.name === "AI Manager" && <Sparkles className="h-3.5 w-3.5 mr-1.5" />}
-                      {tier.cta}
+                      {t(tier.cta)}
                     </Button>
                   </Link>
                 ) : (
                   <Button className="w-full mt-6 font-semibold" onClick={handleCTA}>
-                    {tier.cta}
+                    {t(tier.cta)}
                   </Button>
                 )}
-                {tier.subtext && <p className="text-center text-xs text-muted-foreground mt-2">{tier.subtext}</p>}
+                {tier.subtext && <p className="text-center text-xs text-muted-foreground mt-2">{t(tier.subtext)}</p>}
               </motion.div>
             ))}
           </div>
@@ -323,9 +323,9 @@ export default function About() {
       <section className="px-4 py-24 border-t border-border">
         <div className="max-w-5xl mx-auto space-y-12">
           <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="text-center space-y-4">
-            <p className="text-xs text-primary uppercase tracking-wider font-bold">The Toolkit</p>
-            <h2 className="font-heading text-4xl font-bold">Everything a manager does. Nothing a manager doesn't.</h2>
-            <p className="text-lg text-muted-foreground max-w-2xl mx-auto">Every tool was built to answer one question — what would a great manager do here? Then we built it into the platform so you never have to wonder.</p>
+            <p className="text-xs text-primary uppercase tracking-wider font-bold">{t("The Toolkit")}</p>
+            <h2 className="font-heading text-4xl font-bold">{t("Everything a manager does. Nothing a manager doesn't.")}</h2>
+            <p className="text-lg text-muted-foreground max-w-2xl mx-auto">{t("Every tool was built to answer one question — what would a great manager do here? Then we built it into the platform so you never have to wonder.")}</p>
           </motion.div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
@@ -335,8 +335,8 @@ export default function About() {
                 transition={{ delay: i * 0.06 }}
                 className="rounded-xl bg-card border border-border p-5 space-y-3 hover:border-primary/30 transition-colors">
                 <f.icon className={`h-6 w-6 ${f.color}`} />
-                <p className="font-heading font-bold text-sm">{f.title}</p>
-                <p className="text-xs text-muted-foreground leading-relaxed">{f.desc}</p>
+                <p className="font-heading font-bold text-sm">{t(f.title)}</p>
+                <p className="text-xs text-muted-foreground leading-relaxed">{t(f.desc)}</p>
               </motion.div>
             ))}
           </div>
@@ -347,8 +347,8 @@ export default function About() {
       <section className="px-4 py-24 border-t border-border bg-secondary/20">
         <div className="max-w-4xl mx-auto space-y-12">
           <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="text-center space-y-4">
-            <p className="text-xs text-primary uppercase tracking-wider font-bold">Who It's For</p>
-            <h2 className="font-heading text-4xl font-bold">Built for every artist who is serious about their career.</h2>
+            <p className="text-xs text-primary uppercase tracking-wider font-bold">{t("Who It's For")}</p>
+            <h2 className="font-heading text-4xl font-bold">{t("Built for every artist who is serious about their career.")}</h2>
           </motion.div>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
             {[
@@ -361,8 +361,8 @@ export default function About() {
                 initial={{ opacity: 0, y: 16 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}
                 transition={{ delay: i * 0.1 }}
                 className="p-6 rounded-xl bg-card border border-border space-y-3">
-                <div className="inline-flex px-2 py-1 rounded-md bg-primary/10 border border-primary/20 text-primary text-xs font-bold">{w.level}</div>
-                <p className="text-sm text-muted-foreground leading-relaxed">{w.desc}</p>
+                <div className="inline-flex px-2 py-1 rounded-md bg-primary/10 border border-primary/20 text-primary text-xs font-bold">{t(w.level)}</div>
+                <p className="text-sm text-muted-foreground leading-relaxed">{t(w.desc)}</p>
               </motion.div>
             ))}
           </div>
@@ -373,9 +373,9 @@ export default function About() {
       <section className="px-4 py-20 border-t border-border">
         <div className="max-w-5xl mx-auto space-y-8">
           <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="text-center space-y-2">
-            <p className="text-xs text-primary uppercase tracking-wider font-bold">The Toolkit</p>
-            <h2 className="font-heading text-4xl font-bold">The infrastructure of a full professional team.</h2>
-            <p className="text-lg text-muted-foreground">Real tools, real data, one login — not percentage-based management.</p>
+            <p className="text-xs text-primary uppercase tracking-wider font-bold">{t("The Toolkit")}</p>
+            <h2 className="font-heading text-4xl font-bold">{t("The infrastructure of a full professional team.")}</h2>
+            <p className="text-lg text-muted-foreground">{t("Real tools, real data, one login — not percentage-based management.")}</p>
           </motion.div>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
             {[
@@ -387,13 +387,13 @@ export default function About() {
               <motion.div key={i} initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: i * 0.1 }}
                 className="rounded-2xl bg-card border border-primary/20 p-6 space-y-3 text-center">
                 <CountUpStat value={s.num} />
-                <p className="font-heading font-bold text-base">{s.label}</p>
-                <p className="text-xs text-muted-foreground leading-relaxed">{s.sub}</p>
+                <p className="font-heading font-bold text-base">{t(s.label)}</p>
+                <p className="text-xs text-muted-foreground leading-relaxed">{t(s.sub)}</p>
               </motion.div>
             ))}
           </div>
           <GrowthComparisonChart />
-          <p className="text-center text-xs text-muted-foreground">Illustrative comparison, not a guarantee — results depend on your releases, effort, and genre.</p>
+          <p className="text-center text-xs text-muted-foreground">{t("Illustrative comparison, not a guarantee — results depend on your releases, effort, and genre.")}</p>
         </div>
       </section>
 
@@ -408,7 +408,7 @@ export default function About() {
             ].map((s, i) => (
               <motion.div key={i} initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: i * 0.1 }} className="space-y-2">
                 <p className="font-heading text-3xl sm:text-5xl font-black text-primary">{s.num}</p>
-                <p className="text-xs sm:text-sm text-muted-foreground">{s.sub}</p>
+                <p className="text-xs sm:text-sm text-muted-foreground">{t(s.sub)}</p>
               </motion.div>
             ))}
           </div>
@@ -420,15 +420,15 @@ export default function About() {
         <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="max-w-2xl mx-auto space-y-8">
           <div className="space-y-4">
             <h2 className="font-heading text-5xl sm:text-6xl font-black">
-              Your next release could be your biggest.<br />
-              <span className="text-primary">SoundReady makes sure of it.</span>
+              {t("Your next release could be your biggest.")}<br />
+              <span className="text-primary">{t("SoundReady makes sure of it.")}</span>
             </h2>
-            <p className="text-lg text-muted-foreground">The artists and producers winning right now aren't more talented — they're more organized and more strategic. SoundReady gives you everything you need to be both, starting today.</p>
+            <p className="text-lg text-muted-foreground">{t("The artists and producers winning right now aren't more talented — they're more organized and more strategic. SoundReady gives you everything you need to be both, starting today.")}</p>
           </div>
           <Button size="lg" className="gap-2 font-heading font-bold text-base px-10 h-13" onClick={handleCTA}>
-            Start Building My Career <ArrowRight className="h-4 w-4" />
+            {t("Start Building My Career")} <ArrowRight className="h-4 w-4" />
           </Button>
-          <p className="text-xs text-muted-foreground">Start free. No contracts. No percentage cuts — ever.</p>
+          <p className="text-xs text-muted-foreground">{t("Start free. No contracts. No percentage cuts — ever.")}</p>
         </motion.div>
       </section>
     </div>

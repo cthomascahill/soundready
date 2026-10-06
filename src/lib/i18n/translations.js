@@ -1,6 +1,8 @@
 // SoundReady interface translations.
 // Keys are the English source strings — anything missing falls back to English.
-export const CATALOG = {
+import { HOME_STRINGS } from "./homeStrings";
+
+const INTERFACE_STRINGS = {
   en: {},
   es: {
     "Home": "Inicio",
@@ -140,4 +142,12 @@ export const CATALOG = {
     "Producer": "Produzent",
     "Language": "Sprache",
   },
+};
+
+// Home (marketing) page copy is translated per-string; interface strings stay above.
+export const CATALOG = {
+  en: INTERFACE_STRINGS.en,
+  es: { ...INTERFACE_STRINGS.es, ...HOME_STRINGS.es },
+  fr: { ...INTERFACE_STRINGS.fr, ...HOME_STRINGS.fr },
+  de: { ...INTERFACE_STRINGS.de, ...HOME_STRINGS.de },
 };
