@@ -8,9 +8,8 @@ import {
   DollarSign, FileText, TrendingUp, Radio, Star
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import SoundReadyLogo from "@/components/SoundReadyLogo";
+import PublicNav from "@/components/public/PublicNav";
 import SEO from "@/components/SEO";
-import LanguagePicker from "@/components/LanguagePicker";
 import { useLang } from "@/lib/i18n/LanguageContext";
 
 const STEPS = [
@@ -113,9 +112,9 @@ const ALL_TOOLS = [
 ];
 
 const TIERS = [
-  { name: "Artist", price: "$0", tagline: "Your music's home base. Up to 5 songs & 5 beats, plus trackers — free forever.", cta: "Start Free", badge: null },
-  { name: "Artist Pro", price: "$37/mo", tagline: "You and your team. Every tool unlocked — artist and producer — free for 7 days.", cta: "Start 7-Day Free Trial", badge: "Most Popular" },
-  { name: "AI Manager", price: "$60/mo", tagline: "Sam works your career around the clock — pitching songs and beats. You approve every move.", cta: "Unlock Sam", badge: null },
+  { name: "Artist", price: "$0", tagline: "Your music's home base. Up to 5 songs & 5 beats, plus trackers — free forever.", cta: "Start", badge: null },
+  { name: "Artist Pro", price: "$37/mo", tagline: "You and your team. Every tool unlocked — artist and producer — free for 7 days.", cta: "Start", badge: "Most Popular" },
+  { name: "AI Manager", price: "$60/mo", tagline: "Sam works your career around the clock — pitching songs and beats. You approve every move.", cta: "Start", badge: null },
 ];
 
 export default function HowItWorks() {
@@ -137,26 +136,7 @@ export default function HowItWorks() {
         title="How It Works — SoundReady"
         description="Upload your song, get a full release intelligence report, master it, plan your release, and let Sam — your AI manager — work the outreach. See the whole workflow."
       />
-      {/* Public Nav */}
-      <header className="sticky top-0 z-40 border-b border-border/50 bg-background/90 backdrop-blur-xl">
-        <div className="max-w-6xl mx-auto px-4 h-14 flex items-center justify-between">
-          <Link to="/"><SoundReadyLogo size={28} /></Link>
-          <div className="flex items-center gap-4">
-            <LanguagePicker />
-            <Link to="/" className="text-sm text-muted-foreground hover:text-foreground transition-colors hidden sm:block">{t("Home")}</Link>
-            <Link to="/how-it-works" className="text-sm text-foreground font-semibold transition-colors hidden sm:block">{t("How It Works")}</Link>
-            <Link to="/pricing" className="text-sm text-muted-foreground hover:text-foreground transition-colors hidden sm:block">{t("Pricing")}</Link>
-            {!isAuth && (
-              <Button size="sm" variant="ghost" className="font-semibold" onClick={() => base44.auth.redirectToLogin()}>
-                {t("Log In")}
-              </Button>
-            )}
-            <Button size="sm" className="font-semibold" onClick={handleCTA}>
-              {isAuth ? t("Go to Dashboard") : t("Get Started")}
-            </Button>
-          </div>
-        </div>
-      </header>
+      <PublicNav />
 
       {/* HERO */}
       <section className="relative px-4 pt-28 pb-24 text-center overflow-hidden">
@@ -175,7 +155,7 @@ export default function HowItWorks() {
           </p>
           <div className="flex flex-col sm:flex-row items-center justify-center gap-3 pt-2">
             <Button size="lg" className="gap-2 font-heading font-bold text-base px-8 h-12" onClick={handleCTA}>
-              Start Building My Career <ArrowRight className="h-4 w-4" />
+              Start <ArrowRight className="h-4 w-4" />
             </Button>
           </div>
           <p className="text-xs text-muted-foreground">No contracts. No percentage cuts. Cancel anytime.</p>
@@ -377,7 +357,7 @@ export default function HowItWorks() {
             SoundReady is the last tool your music career will ever need. Upload your first song today and see exactly what your music is capable of.
           </p>
           <Button size="lg" className="gap-2 font-heading font-bold text-base px-10 h-12" onClick={handleCTA}>
-            Start Free — Build My Career <ArrowRight className="h-4 w-4" />
+            Start <ArrowRight className="h-4 w-4" />
           </Button>
           <p className="text-xs text-muted-foreground">No contracts. No percentage cuts. Start free — upgrade when you're ready.</p>
         </motion.div>

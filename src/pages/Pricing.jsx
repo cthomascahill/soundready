@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
-import { useSearchParams, Link } from "react-router-dom";
+import { useSearchParams, useNavigate, Link } from "react-router-dom";
 import {
   CheckCircle2, ArrowRight, Zap, Users, Bot, Sparkles, Flame, ShieldCheck,
 } from "lucide-react";
@@ -8,12 +8,10 @@ import { Button } from "@/components/ui/button";
 import { base44 } from "@/api/base44Client";
 import { useAuth } from "@/lib/AuthContext";
 import { getTier, trialDaysLeft } from "@/lib/tier";
-import SoundReadyLogo from "@/components/SoundReadyLogo";
+import PublicNav from "@/components/public/PublicNav";
 import CheckoutButton from "@/components/billing/CheckoutButton";
 import SEO from "@/components/SEO";
 import ManagerCostSlider from "@/components/home/ManagerCostSlider";
-import LanguagePicker from "@/components/LanguagePicker";
-import { useLang } from "@/lib/i18n/LanguageContext";
 
 // Each tier's unlocks, shown side-by-side for artists and producers
 const FREE_GROUPS = [
@@ -103,8 +101,8 @@ const FAQ = [
 ];
 
 export default function Pricing() {
-  const { user, checkAppState, navigateToLogin } = useAuth();
-  const { t } = useLang();
+  const { user, checkAppState } = useAuth();
+  const navigate = useNavigate();
   const [searchParams] = useSearchParams();
   const checkoutStatus = searchParams.get("checkout");
   const [canceling, setCanceling] = useState(false);
@@ -118,6 +116,12 @@ export default function Pricing() {
   const daysLeft = trialDaysLeft(user);
   const isAuth = !!user;
 
+  // A tier picked while logged out is preserved in the URL — finish the flow after login
+  const selectedTier = searchParams.get("tier");
+  useEffect(() => {
+    if (isAuth && selectedTier === "free") navigate("/dashboard");
+  }, [isAuth, selectedTier]);
+
   const handleCancel = async () => {
     setCanceling(true);
     setPlanMsg("");
@@ -129,10 +133,6 @@ export default function Pricing() {
     await checkAppState();
   };
 
-  const loginCta = (label) => (
-    <Button className="w-full font-semibold" onClick={navigateToLogin}>{label}</Button>
-  );
-
   return (
     <div className="min-h-screen bg-background font-body">
       <SEO
@@ -140,22 +140,7 @@ export default function Pricing() {
         description="Start free forever. Artist Pro unlocks the full toolkit for $37/mo with a 7-day free trial. AI Manager adds Sam — your AI manager — for $60/mo flat. No percentage cuts, ever."
       />
 
-      {/* Nav */}
-      <header className="sticky top-0 z-40 border-b border-border/50 bg-background/90 backdrop-blur-xl">
-        <div className="max-w-6xl mx-auto px-4 h-14 flex items-center justify-between">
-          <Link to="/"><SoundReadyLogo size={28} /></Link>
-          <div className="flex items-center gap-4">
-            <LanguagePicker />
-            <Link to="/" className="text-sm text-muted-foreground hover:text-foreground transition-colors hidden sm:block">{t("Home")}</Link>
-            <Link to="/how-it-works" className="text-sm text-muted-foreground hover:text-foreground transition-colors hidden sm:block">{t("How It Works")}</Link>
-            {isAuth ? (
-              <Link to="/dashboard"><Button size="sm" className="font-semibold">{t("Go to Dashboard")}</Button></Link>
-            ) : (
-              <Button size="sm" className="font-semibold" onClick={navigateToLogin}>{t("Get Started")}</Button>
-            )}
-          </div>
-        </div>
-      </header>
+      <PublicNav />
 
       {/* HERO — the artist journey */}
       <section className="relative px-4 pt-24 pb-16 text-center overflow-hidden">
@@ -174,15 +159,15 @@ export default function Pricing() {
             Every serious artist — and every serious producer — needs a team. SoundReady is yours: your tools, your people, and an AI manager that actually does the work.
           </p>
           {!isAuth && (
-            <Button size="lg" className="gap-2 font-heading font-bold text-base px-10 h-12" onClick={navigateToLogin}>
-              Start Free <ArrowRight className="h-4 w-4" />
+            <Button size="lg" className="gap-2 font-heading font-bold text-base px-10 h-12" onClick={() => document.getElementById("plans")?.scrollIntoView({ behavior: "smooth" })}>
+              Start <ArrowRight className="h-4 w-4" />
             </Button>
           )}
         </motion.div>
       </section>
 
       {/* FREE TIER BAND */}
-      <section className="px-4 pb-12">
+      <section id="plans" className="px-4 pb-12 scroll-mt-20">
         <div className="max-w-4xl mx-auto">
           <motion.div initial={{ opacity: 0, y: 16 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}
             className="rounded-2xl border border-border bg-secondary/30 p-6 sm:p-8">
@@ -195,6 +180,13 @@ export default function Pricing() {
               <div className="sm:w-2/3">
                 <TierItems groups={FREE_GROUPS} />
               </div>
+            </div>
+            <div className="mt-6">
+              {isAuth ? (
+                <Button className="font-semibold" onClick={() => navigate("/dashboard")}>Start</Button>
+              ) : (
+                <Button className="font-semibold" onClick={() => base44.auth.redirectToLogin(`${window.location.origin}/pricing?tier=free`)}>Start</Button>
+              )}
             </div>
           </motion.div>
         </div>
@@ -216,6 +208,12 @@ export default function Pricing() {
               {checkoutStatus === "cancelled" && (
                 <div className="rounded-xl border border-border bg-secondary/40 px-4 py-3 text-sm text-muted-foreground">
                   Checkout cancelled — no charge was made. Pick a plan whenever you're ready.
+                </div>
+              )}
+              {(selectedTier === "pro" || selectedTier === "ai_manager") && tier === "free" && (
+                <div className="rounded-xl border border-primary/25 bg-primary/10 px-4 py-3 text-sm">
+                  <span className="font-semibold text-primary">{selectedTier === "pro" ? "Artist Pro" : "AI Manager"} selected.</span>{" "}
+                  <span className="text-muted-foreground">Press Start on that plan below to begin.</span>
                 </div>
               )}
               {(tier === "pro" || tier === "ai_manager") && (
@@ -266,8 +264,10 @@ export default function Pricing() {
                 <TierItems groups={PRO_GROUPS} check="text-chart-5" />
               </div>
               <div className="mt-6">
-                {!isAuth ? loginCta("Start 7-Day Free Trial")
-                  : tier === "free" ? <CheckoutButton tier="pro" className="bg-chart-5 hover:bg-chart-5/90 text-black">Start 7-Day Free Trial</CheckoutButton>
+                {!isAuth ? (
+                    <Button className="w-full font-semibold" onClick={() => base44.auth.redirectToLogin(`${window.location.origin}/pricing?tier=pro`)}>Start</Button>
+                  )
+                  : tier === "free" ? <CheckoutButton tier="pro" className="bg-chart-5 hover:bg-chart-5/90 text-black">Start</CheckoutButton>
                   : <Button className="w-full font-semibold" disabled>{tier === "pro" ? "Your current plan" : "Included in your plan"}</Button>}
               </div>
               <p className="text-center text-xs text-muted-foreground mt-2">Card required — charged $37 automatically after 7 days. Cancel before then, pay nothing.</p>
@@ -293,9 +293,11 @@ export default function Pricing() {
                 <TierItems groups={AI_GROUPS} />
               </div>
               <div className="mt-6 relative">
-                {!isAuth ? loginCta("Unlock Sam")
+                {!isAuth ? (
+                    <Button className="w-full font-semibold" onClick={() => base44.auth.redirectToLogin(`${window.location.origin}/pricing?tier=ai_manager`)}>Start</Button>
+                  )
                   : tier === "ai_manager" ? <Button className="w-full font-semibold" disabled>Your current plan</Button>
-                  : <CheckoutButton tier="ai_manager" className="bg-primary hover:bg-primary/90 text-primary-foreground gap-2"><Sparkles className="h-4 w-4" /> Unlock Sam</CheckoutButton>}
+                  : <CheckoutButton tier="ai_manager" className="bg-primary hover:bg-primary/90 text-primary-foreground gap-2"><Sparkles className="h-4 w-4" /> Start</CheckoutButton>}
               </div>
               <p className="text-center text-xs text-muted-foreground mt-2">Cancel anytime. No percentage cuts — ever.</p>
             </motion.div>
@@ -357,8 +359,8 @@ export default function Pricing() {
           {isAuth ? (
             <Link to="/dashboard"><Button size="lg" className="gap-2 font-heading font-bold text-base px-10 h-12">{t("Go to Dashboard")} <ArrowRight className="h-4 w-4" /></Button></Link>
           ) : (
-            <Button size="lg" className="gap-2 font-heading font-bold text-base px-10 h-12" onClick={navigateToLogin}>
-              Start Free <ArrowRight className="h-4 w-4" />
+            <Button size="lg" className="gap-2 font-heading font-bold text-base px-10 h-12" onClick={() => document.getElementById("plans")?.scrollIntoView({ behavior: "smooth" })}>
+              Start <ArrowRight className="h-4 w-4" />
             </Button>
           )}
           <p className="text-xs text-muted-foreground">No contracts. No percentage cuts. Cancel anytime.</p>

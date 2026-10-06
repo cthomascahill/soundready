@@ -6,7 +6,7 @@ import { Lock } from "lucide-react";
 import { useLang } from "@/lib/i18n/LanguageContext";
 import ModeToggle from "@/components/ModeToggle";
 import {
-  Home, Music2, Users, ListChecks, Sparkles, Flame, Link2, LayoutGrid,
+  Home, LayoutDashboard, Music2, Users, ListChecks, Sparkles, Flame, Link2, LayoutGrid,
   Map, Newspaper, CreditCard, UserCircle, PenTool,
   Mic2, Megaphone, Route, Wallet, FileText, Disc3, Target,
   Store, FileSignature, Radar, Mic, Building2,
@@ -34,7 +34,8 @@ const NAV_SECTIONS = (mode, isAdmin) => {
     id: "home",
     label: "Home",
     items: [
-      { to: "/dashboard", icon: Home, label: "Dashboard" },
+      { to: "/", icon: Home, label: "Home" },
+      { to: "/dashboard", icon: LayoutDashboard, label: "Dashboard" },
       { to: "/tools", icon: LayoutGrid, label: "Tool Library" },
       ...(isAdmin ? [{ to: "/buyout-leads", icon: Building2, label: "Buyout Leads" }] : []),
     ],

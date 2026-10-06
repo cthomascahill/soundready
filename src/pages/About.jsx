@@ -9,11 +9,10 @@ import {
   Bot, UserCheck, ChevronRight, Sparkles, Disc3
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import SoundReadyLogo from "@/components/SoundReadyLogo";
+import PublicNav from "@/components/public/PublicNav";
 import SEO from "@/components/SEO";
 import GrowthComparisonChart from "@/components/home/GrowthComparisonChart";
 import CountUpStat from "@/components/home/CountUpStat";
-import LanguagePicker from "@/components/LanguagePicker";
 import { useLang } from "@/lib/i18n/LanguageContext";
 
 const MANAGER_PAINS = [
@@ -42,7 +41,7 @@ const TIERS = [
       "Connect Spotify & YouTube",
       "Your artist dashboard",
     ],
-    cta: "Start Free",
+    cta: "Start",
     subtext: "Free forever. No card required.",
   },
   {
@@ -64,7 +63,7 @@ const TIERS = [
       "Invite your team — Team Chat & Whiteboard",
       "Career Roadmap & weekly music briefings",
     ],
-    cta: "Start 7-Day Free Trial",
+    cta: "Start",
     route: "/pricing",
     subtext: "Card required — charged automatically after 7 days. Cancel anytime.",
   },
@@ -88,7 +87,7 @@ const TIERS = [
       "Sam pitches your beats to matching artists",
       "EPKs & weekly career digests",
     ],
-    cta: "Unlock Sam",
+    cta: "Start",
     route: "/pricing",
     subtext: "No percentage cuts — ever.",
   },
@@ -130,25 +129,7 @@ export default function About() {
         description="Your songs, your beats, your tours, your team — plus Sam, the AI manager that drafts your pitches and outreach from your real numbers. Start free."
       />
 
-      {/* Nav */}
-      <header className="sticky top-0 z-40 border-b border-border/50 bg-background/90 backdrop-blur-xl">
-        <div className="max-w-6xl mx-auto px-4 h-14 flex items-center justify-between">
-          <Link to="/"><SoundReadyLogo size={28} /></Link>
-          <div className="flex items-center gap-4">
-            <LanguagePicker />
-            <Link to="/how-it-works" className="text-sm text-muted-foreground hover:text-foreground transition-colors hidden sm:block">{t("How It Works")}</Link>
-            <Link to="/pricing" className="text-sm text-muted-foreground hover:text-foreground transition-colors hidden sm:block">{t("Pricing")}</Link>
-            {isAuth ? (
-              <Button size="sm" className="font-semibold" onClick={() => window.location.href = "/dashboard"}>{t("Go to Dashboard")}</Button>
-            ) : (
-              <>
-                <Button size="sm" variant="ghost" className="font-semibold" onClick={() => base44.auth.redirectToLogin()}>{t("Log In")}</Button>
-                <Button size="sm" className="font-semibold" onClick={handleCTA}>{t("Get Started")}</Button>
-              </>
-            )}
-          </div>
-        </div>
-      </header>
+      <PublicNav showHome={false} />
 
       {/* HERO */}
       <section className="relative px-4 pt-28 pb-24 text-center overflow-hidden">
@@ -171,7 +152,7 @@ export default function About() {
 
           <div className="flex flex-col sm:flex-row items-center justify-center gap-3 pt-2">
             <Button size="lg" className="gap-2 font-heading font-bold text-base px-8 h-12" onClick={handleCTA}>
-              {t("Start Free")} <ArrowRight className="h-4 w-4" />
+              {t("Start")} <ArrowRight className="h-4 w-4" />
             </Button>
             <Link to="/how-it-works">
               <Button size="lg" variant="outline" className="gap-2 font-heading font-bold text-base px-8 h-12">
@@ -426,7 +407,7 @@ export default function About() {
             <p className="text-lg text-muted-foreground">{t("The artists and producers winning right now aren't more talented — they're more organized and more strategic. SoundReady gives you everything you need to be both, starting today.")}</p>
           </div>
           <Button size="lg" className="gap-2 font-heading font-bold text-base px-10 h-13" onClick={handleCTA}>
-            {t("Start Building My Career")} <ArrowRight className="h-4 w-4" />
+            {t("Start")} <ArrowRight className="h-4 w-4" />
           </Button>
           <p className="text-xs text-muted-foreground">{t("Start free. No contracts. No percentage cuts — ever.")}</p>
         </motion.div>
