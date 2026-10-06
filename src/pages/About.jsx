@@ -15,6 +15,7 @@ import GrowthComparisonChart from "@/components/home/GrowthComparisonChart";
 import CountUpStat from "@/components/home/CountUpStat";
 import CareerWorkflowSection from "@/components/home/CareerWorkflowSection";
 import SamInActionSection from "@/components/home/SamInActionSection";
+import { TOOL_CATEGORIES } from "@/lib/toolCatalog";
 import { useLang } from "@/lib/i18n/LanguageContext";
 
 const TIERS = [
@@ -82,20 +83,8 @@ const TIERS = [
 
 ];
 
-const WHAT_WE_DO = [
-  { icon: Bot, color: "text-primary", title: "Sam, Your AI Manager", desc: "Weekly outbound — you approve or deny." },
-  { icon: Zap, color: "text-primary", title: "Release Strategy", desc: "A full release plan in 60 seconds." },
-  { icon: Mic2, color: "text-chart-3", title: "Playlist Pitching", desc: "40+ curated playlists, pitched personally." },
-  { icon: FileText, color: "text-purple-400", title: "Press & EPK", desc: "A full press kit, ready to send." },
-  { icon: MapPin, color: "text-orange-400", title: "Booking & Tours", desc: "843+ venues, inquiries, routing, finances." },
-  { icon: DollarSign, color: "text-chart-4", title: "Finance & Royalties", desc: "Every DSP royalty, one dashboard." },
-  { icon: Music2, color: "text-teal-400", title: "Vault & Song Tracker", desc: "Every song, file and date — organized." },
-  { icon: BarChart2, color: "text-blue-400", title: "Streaming Analytics", desc: "Listeners, streams, top markets — live." },
-  { icon: Link2, color: "text-pink-400", title: "Sync Licensing", desc: "Film, TV, games, ads — Sam drafts the pitch." },
-  { icon: Radar, color: "text-chart-5", title: "Industry Intel & Music News", desc: "Signings, grants, deadlines in your market." },
-  { icon: FileText, color: "text-yellow-400", title: "Contract Analyzer", desc: "Risky clauses flagged, plain English." },
-  { icon: Users, color: "text-cyan-400", title: "Team Workspace", desc: "One workspace, one plan, whole team." },
-];
+// Every tool on the platform, straight from the app's tool catalog
+const ALL_TOOLS = TOOL_CATEGORIES.flatMap((c) => c.tools);
 
 export default function About() {
   const [isAuth, setIsAuth] = useState(false);
@@ -256,24 +245,25 @@ export default function About() {
         </div>
       </section>
 
-      {/* WHAT WE DO */}
+      {/* THE TOOLKIT */}
       <section className="px-4 py-24 border-t border-border">
-        <div className="max-w-5xl mx-auto space-y-12">
+        <div className="max-w-6xl mx-auto space-y-10">
           <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="text-center space-y-4">
-            <p className="text-xs text-primary uppercase tracking-wider font-bold">{t("The Toolkit")}</p>
-            <h2 className="font-heading text-4xl font-bold">{t("Everything a manager does. Nothing a manager doesn't.")}</h2>
-            <p className="text-lg text-muted-foreground max-w-2xl mx-auto">{t("Twelve tools. One login.")}</p>
+            <h2 className="font-heading text-4xl font-bold">{t("The Toolkit")}</h2>
+            <p className="text-lg text-muted-foreground">{t("Every tool. One login.")}</p>
           </motion.div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-            {WHAT_WE_DO.map((f, i) => (
-              <motion.div key={f.title}
-                initial={{ opacity: 0, y: 16 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}
-                transition={{ delay: i * 0.06 }}
-                className="rounded-xl bg-card border border-border p-5 space-y-3 hover:border-primary/30 transition-colors">
-                <f.icon className={`h-6 w-6 ${f.color}`} />
-                <p className="font-heading font-bold text-sm">{t(f.title)}</p>
-                <p className="text-xs text-muted-foreground leading-relaxed">{t(f.desc)}</p>
+          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3">
+            {ALL_TOOLS.map((tool, i) => (
+              <motion.div key={tool.name}
+                initial={{ opacity: 0, y: 12 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}
+                transition={{ delay: Math.min(i * 0.03, 0.4) }}
+                className="rounded-xl bg-card border border-border p-4 space-y-2 hover:border-primary/30 transition-colors">
+                <div className="flex items-center gap-2.5">
+                  <tool.icon className="h-4 w-4 shrink-0 text-primary" />
+                  <p className="font-heading font-bold text-sm truncate">{t(tool.name)}</p>
+                </div>
+                <p className="text-xs text-muted-foreground leading-relaxed">{t(tool.desc)}</p>
               </motion.div>
             ))}
           </div>
