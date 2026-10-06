@@ -1,6 +1,7 @@
 import { useMode } from "@/lib/mode";
 import { useAuth } from "@/lib/AuthContext";
 import { Mic2, Disc3 } from "lucide-react";
+import { useLang } from "@/lib/i18n/LanguageContext";
 
 const OPTIONS = [
   { key: "artist", icon: Mic2, label: "Artist" },
@@ -14,6 +15,7 @@ const OPTIONS = [
  */
 export default function ModeToggle() {
   const { mode, setMode } = useMode();
+  const { t } = useLang();
   const { user } = useAuth();
   const accountType = user?.account_type;
   const options =
@@ -36,7 +38,7 @@ export default function ModeToggle() {
             }`}
           >
             <opt.icon className="h-3.5 w-3.5" />
-            {opt.label}
+            {t(opt.label)}
           </button>
         );
       })}

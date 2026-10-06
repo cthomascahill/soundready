@@ -8,6 +8,7 @@ import ReactMarkdown from "react-markdown";
 import MayaUpsellPopover from "@/components/maya/MayaUpsellPopover";
 import MemoryLearnCard from "@/components/maya/MemoryLearnCard";
 import { useMode } from "@/lib/mode";
+import { useLang } from "@/lib/i18n/LanguageContext";
 import { buildProducerSystemPrompt, PRODUCER_QUICK_STARTS } from "@/lib/mayaProducerPrompt";
 
 const QUICK_STARTS = [
@@ -294,6 +295,7 @@ Return your response as JSON:
 export default function MayaAssistant() {
   const { user } = useAuth();
   const { mode } = useMode();
+  const { t } = useLang();
   const [open, setOpen] = useState(false);
   const [messages, setMessages] = useState([]);
   const [input, setInput] = useState("");
@@ -463,7 +465,7 @@ export default function MayaAssistant() {
         style={{ boxShadow: "0 0 30px rgba(34,197,94,0.4)" }}
       >
         <Sparkles className="h-4 w-4" />
-        Talk With Maya
+        {t("Talk With Maya")}
       </button>
 
       {/* Backdrop */}

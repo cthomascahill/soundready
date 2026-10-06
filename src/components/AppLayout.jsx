@@ -9,12 +9,15 @@ import NotificationCenter from "@/components/NotificationCenter";
 import MessagesBell from "@/components/social/MessagesBell";
 import MayaAssistant from "@/components/MayaAssistant";
 import TrialBanner from "@/components/billing/TrialBanner";
+import LanguagePicker from "@/components/LanguagePicker";
+import { useLang } from "@/lib/i18n/LanguageContext";
 import { ModeProvider } from "@/lib/mode";
 
 export default function AppLayout() {
   const location = useLocation();
   const navigate = useNavigate();
   const { user } = useAuth();
+  const { t } = useLang();
   const [cmdOpen, setCmdOpen] = useState(false);
   const [drawerOpen, setDrawerOpen] = useState(false);
 
@@ -66,9 +69,10 @@ export default function AppLayout() {
             <button onClick={() => setCmdOpen(true)}
               className="w-full flex items-center gap-2 px-3 py-2 rounded-lg text-sm text-muted-foreground hover:text-foreground hover:bg-secondary transition-colors">
               <Search className="h-4 w-4" />
-              <span className="flex-1 text-left">Search…</span>
+              <span className="flex-1 text-left">{t("Search…")}</span>
               <kbd className="text-[10px] border border-border rounded px-1.5 py-0.5">⌘K</kbd>
             </button>
+            <LanguagePicker className="w-full" />
           </div>
         </aside>
 
@@ -89,8 +93,9 @@ export default function AppLayout() {
                 <div onClick={closeDrawer}><MessagesBell user={user} layout="row" /></div>
                 <button onClick={() => { closeDrawer(); setCmdOpen(true); }}
                   className="w-full flex items-center gap-2 px-3 py-2 rounded-lg text-sm text-muted-foreground hover:text-foreground hover:bg-secondary transition-colors">
-                  <Search className="h-4 w-4" /> Search…
+                  <Search className="h-4 w-4" /> {t("Search…")}
                 </button>
+                <LanguagePicker className="w-full" />
               </div>
             </div>
           </div>

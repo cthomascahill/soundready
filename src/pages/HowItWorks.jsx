@@ -10,6 +10,8 @@ import {
 import { Button } from "@/components/ui/button";
 import SoundReadyLogo from "@/components/SoundReadyLogo";
 import SEO from "@/components/SEO";
+import LanguagePicker from "@/components/LanguagePicker";
+import { useLang } from "@/lib/i18n/LanguageContext";
 
 const STEPS = [
   {
@@ -117,6 +119,7 @@ const TIERS = [
 
 export default function HowItWorks() {
   const [isAuth, setIsAuth] = useState(false);
+  const { t } = useLang();
 
   useEffect(() => {
     base44.auth.isAuthenticated().then(setIsAuth);
@@ -138,16 +141,17 @@ export default function HowItWorks() {
         <div className="max-w-6xl mx-auto px-4 h-14 flex items-center justify-between">
           <Link to="/"><SoundReadyLogo size={28} /></Link>
           <div className="flex items-center gap-4">
-            <Link to="/" className="text-sm text-muted-foreground hover:text-foreground transition-colors hidden sm:block">Home</Link>
-            <Link to="/how-it-works" className="text-sm text-foreground font-semibold transition-colors hidden sm:block">How It Works</Link>
-            <Link to="/pricing" className="text-sm text-muted-foreground hover:text-foreground transition-colors hidden sm:block">Pricing</Link>
+            <LanguagePicker />
+            <Link to="/" className="text-sm text-muted-foreground hover:text-foreground transition-colors hidden sm:block">{t("Home")}</Link>
+            <Link to="/how-it-works" className="text-sm text-foreground font-semibold transition-colors hidden sm:block">{t("How It Works")}</Link>
+            <Link to="/pricing" className="text-sm text-muted-foreground hover:text-foreground transition-colors hidden sm:block">{t("Pricing")}</Link>
             {!isAuth && (
               <Button size="sm" variant="ghost" className="font-semibold" onClick={() => base44.auth.redirectToLogin()}>
-                Log In
+                {t("Log In")}
               </Button>
             )}
             <Button size="sm" className="font-semibold" onClick={handleCTA}>
-              {isAuth ? "Go to Dashboard" : "Get Started"}
+              {isAuth ? t("Go to Dashboard") : t("Get Started")}
             </Button>
           </div>
         </div>

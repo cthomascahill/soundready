@@ -13,6 +13,8 @@ import SoundReadyLogo from "@/components/SoundReadyLogo";
 import SEO from "@/components/SEO";
 import GrowthComparisonChart from "@/components/home/GrowthComparisonChart";
 import CountUpStat from "@/components/home/CountUpStat";
+import LanguagePicker from "@/components/LanguagePicker";
+import { useLang } from "@/lib/i18n/LanguageContext";
 
 const MANAGER_PAINS = [
   { icon: DollarSign, text: "The traditional model takes 15–20% of everything you earn — whether deals close or not" },
@@ -108,6 +110,7 @@ const WHAT_WE_DO = [
 
 export default function About() {
   const [isAuth, setIsAuth] = useState(false);
+  const { t } = useLang();
 
   useEffect(() => {
     base44.auth.isAuthenticated().then(setIsAuth);
@@ -130,14 +133,15 @@ export default function About() {
         <div className="max-w-6xl mx-auto px-4 h-14 flex items-center justify-between">
           <Link to="/"><SoundReadyLogo size={28} /></Link>
           <div className="flex items-center gap-4">
-            <Link to="/how-it-works" className="text-sm text-muted-foreground hover:text-foreground transition-colors hidden sm:block">How It Works</Link>
-            <Link to="/pricing" className="text-sm text-muted-foreground hover:text-foreground transition-colors hidden sm:block">Pricing</Link>
+            <LanguagePicker />
+            <Link to="/how-it-works" className="text-sm text-muted-foreground hover:text-foreground transition-colors hidden sm:block">{t("How It Works")}</Link>
+            <Link to="/pricing" className="text-sm text-muted-foreground hover:text-foreground transition-colors hidden sm:block">{t("Pricing")}</Link>
             {isAuth ? (
-              <Button size="sm" className="font-semibold" onClick={() => window.location.href = "/dashboard"}>Go to Dashboard</Button>
+              <Button size="sm" className="font-semibold" onClick={() => window.location.href = "/dashboard"}>{t("Go to Dashboard")}</Button>
             ) : (
               <>
-                <Button size="sm" variant="ghost" className="font-semibold" onClick={() => base44.auth.redirectToLogin()}>Log In</Button>
-                <Button size="sm" className="font-semibold" onClick={handleCTA}>Get Started</Button>
+                <Button size="sm" variant="ghost" className="font-semibold" onClick={() => base44.auth.redirectToLogin()}>{t("Log In")}</Button>
+                <Button size="sm" className="font-semibold" onClick={handleCTA}>{t("Get Started")}</Button>
               </>
             )}
           </div>

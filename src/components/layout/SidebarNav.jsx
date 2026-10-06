@@ -3,6 +3,7 @@ import { useAuth } from "@/lib/AuthContext";
 import { useMode } from "@/lib/mode";
 import { isProOrAbove } from "@/lib/tier";
 import { Lock } from "lucide-react";
+import { useLang } from "@/lib/i18n/LanguageContext";
 import ModeToggle from "@/components/ModeToggle";
 import {
   Home, Music2, Users, ListChecks, Sparkles, Flame, Link2, LayoutGrid,
@@ -30,6 +31,7 @@ const MUSIC_PRODUCER = [
 const NAV_SECTIONS = (mode, isAdmin) => {
   const sections = [
   {
+    id: "home",
     label: "Home",
     items: [
       { to: "/dashboard", icon: Home, label: "Dashboard" },
@@ -38,10 +40,12 @@ const NAV_SECTIONS = (mode, isAdmin) => {
     ],
   },
   {
+    id: "music",
     label: "Music",
     items: mode === "producer" ? MUSIC_PRODUCER : MUSIC_ARTIST,
   },
   {
+    id: "career",
     label: "Career",
     items: [
       { to: "/connect-profiles", icon: Link2, label: "Connect Platforms" },
@@ -52,6 +56,7 @@ const NAV_SECTIONS = (mode, isAdmin) => {
     ],
   },
   {
+    id: "touring",
     label: "Touring",
     items: [
       { to: "/gig-finder", icon: Mic2, label: "Gig Finder" },
@@ -62,6 +67,7 @@ const NAV_SECTIONS = (mode, isAdmin) => {
     ],
   },
   {
+    id: "team",
     label: "Team",
     items: [
       { to: "/team-chat", icon: Users, label: "Team Chat" },
@@ -70,6 +76,7 @@ const NAV_SECTIONS = (mode, isAdmin) => {
     ],
   },
   {
+    id: "account",
     label: "Account",
     items: [
       { to: "/pricing-account", icon: CreditCard, label: "Your Plan" },
@@ -79,7 +86,7 @@ const NAV_SECTIONS = (mode, isAdmin) => {
   },
   ];
   // Touring doesn't apply to producers — hide it in Producer mode (Career stays for both)
-  return mode === "producer" ? sections.filter((s) => s.label !== "Touring") : sections;
+  return mode === "producer" ? sections.filter((s) => s.id !== "touring") : sections;
 };
 
 // Pages locked behind Artist Pro — free users see a lock icon on these
@@ -93,6 +100,7 @@ const PRO_ONLY = new Set([
 export default function SidebarNav({ activePath, onNavigate }) {
   const { user } = useAuth();
   const { mode } = useMode();
+  const { t } = useLang();
   const showLocks = !isProOrAbove(user);
   const sections = NAV_SECTIONS(mode, user?.role === "admin");
 
@@ -104,7 +112,7 @@ export default function SidebarNav({ activePath, onNavigate }) {
       {sections.map((section) => (
         <div key={section.label}>
           <p className="px-3 mb-1.5 text-[10px] font-bold uppercase tracking-widest text-muted-foreground/60">
-            {section.label}
+            {t(section.label)}
           </p>
           <div className="space-y-0.5">
             {section.items.map((item) => {
@@ -123,7 +131,7 @@ export default function SidebarNav({ activePath, onNavigate }) {
                   }`}
                 >
                   <item.icon className="h-4 w-4 shrink-0" />
-                  {item.label}
+                  {t(item.label)}
                   {showLocks && PRO_ONLY.has(item.to) && (
                     <Lock className="h-3 w-3 ml-auto text-muted-foreground/50 shrink-0" />
                   )}

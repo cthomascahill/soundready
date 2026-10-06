@@ -12,6 +12,8 @@ import SoundReadyLogo from "@/components/SoundReadyLogo";
 import CheckoutButton from "@/components/billing/CheckoutButton";
 import SEO from "@/components/SEO";
 import ManagerCostSlider from "@/components/home/ManagerCostSlider";
+import LanguagePicker from "@/components/LanguagePicker";
+import { useLang } from "@/lib/i18n/LanguageContext";
 
 // Each tier's unlocks, shown side-by-side for artists and producers
 const FREE_GROUPS = [
@@ -102,6 +104,7 @@ const FAQ = [
 
 export default function Pricing() {
   const { user, checkAppState, navigateToLogin } = useAuth();
+  const { t } = useLang();
   const [searchParams] = useSearchParams();
   const checkoutStatus = searchParams.get("checkout");
   const [canceling, setCanceling] = useState(false);
@@ -142,12 +145,13 @@ export default function Pricing() {
         <div className="max-w-6xl mx-auto px-4 h-14 flex items-center justify-between">
           <Link to="/"><SoundReadyLogo size={28} /></Link>
           <div className="flex items-center gap-4">
-            <Link to="/" className="text-sm text-muted-foreground hover:text-foreground transition-colors hidden sm:block">Home</Link>
-            <Link to="/how-it-works" className="text-sm text-muted-foreground hover:text-foreground transition-colors hidden sm:block">How It Works</Link>
+            <LanguagePicker />
+            <Link to="/" className="text-sm text-muted-foreground hover:text-foreground transition-colors hidden sm:block">{t("Home")}</Link>
+            <Link to="/how-it-works" className="text-sm text-muted-foreground hover:text-foreground transition-colors hidden sm:block">{t("How It Works")}</Link>
             {isAuth ? (
-              <Link to="/dashboard"><Button size="sm" className="font-semibold">Go to Dashboard</Button></Link>
+              <Link to="/dashboard"><Button size="sm" className="font-semibold">{t("Go to Dashboard")}</Button></Link>
             ) : (
-              <Button size="sm" className="font-semibold" onClick={navigateToLogin}>Get Started</Button>
+              <Button size="sm" className="font-semibold" onClick={navigateToLogin}>{t("Get Started")}</Button>
             )}
           </div>
         </div>
@@ -351,7 +355,7 @@ export default function Pricing() {
           </h2>
           <p className="text-muted-foreground">Start free today. Upgrade when you're ready — the work is already done for you.</p>
           {isAuth ? (
-            <Link to="/dashboard"><Button size="lg" className="gap-2 font-heading font-bold text-base px-10 h-12">Go to Dashboard <ArrowRight className="h-4 w-4" /></Button></Link>
+            <Link to="/dashboard"><Button size="lg" className="gap-2 font-heading font-bold text-base px-10 h-12">{t("Go to Dashboard")} <ArrowRight className="h-4 w-4" /></Button></Link>
           ) : (
             <Button size="lg" className="gap-2 font-heading font-bold text-base px-10 h-12" onClick={navigateToLogin}>
               Start Free <ArrowRight className="h-4 w-4" />
