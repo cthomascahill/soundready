@@ -613,7 +613,7 @@ export default function MayaAssistant() {
             )}
 
             {/* Input */}
-            <div className="px-4 pb-5 pt-2 shrink-0 border-t border-zinc-800">
+            <div className="px-4 pb-5 pt-2 shrink-0 border-t border-border">
               <div className="flex gap-2 items-end bg-muted border border-border rounded-2xl px-4 py-3 focus-within:border-primary/40 transition-colors">
                 <textarea
                   ref={inputRef}
