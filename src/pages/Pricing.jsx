@@ -60,7 +60,7 @@ const TierItems = ({ groups, check = "text-primary" }) => (
     {groups.map((group) => (
       <div key={group.label}>
         <p className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground/70 mb-1.5">{group.label}</p>
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-2">
+        <div className="grid grid-cols-1 gap-y-2">
           {group.items.map((item) => (
             <div key={item} className="flex items-start gap-2.5">
               <CheckCircle2 className={`h-4 w-4 shrink-0 mt-0.5 ${check}`} />
@@ -166,34 +166,8 @@ export default function Pricing() {
         </motion.div>
       </section>
 
-      {/* FREE TIER BAND */}
-      <section id="plans" className="px-4 pb-12 scroll-mt-20">
-        <div className="max-w-4xl mx-auto">
-          <motion.div initial={{ opacity: 0, y: 16 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}
-            className="rounded-2xl border border-border bg-secondary/30 p-6 sm:p-8">
-            <div className="flex flex-col sm:flex-row sm:items-center gap-6">
-              <div className="sm:w-1/3">
-                <p className="font-heading font-black text-2xl">Artist</p>
-                <p className="text-3xl font-black mt-1">$0<span className="text-sm text-muted-foreground font-medium"> / forever</span></p>
-                <p className="text-xs text-muted-foreground mt-2">Your music's home base — songs or beats. Free — because organizing your catalog should never cost money. The free plan holds up to 5 songs and 5 beats; everything you add stays yours. Everything else unlocks with Artist Pro.</p>
-              </div>
-              <div className="sm:w-2/3">
-                <TierItems groups={FREE_GROUPS} />
-              </div>
-            </div>
-            <div className="mt-6">
-              {isAuth ? (
-                <Button className="font-semibold" onClick={() => navigate("/history")}>Start Free</Button>
-              ) : (
-                <Button className="font-semibold" onClick={() => base44.auth.redirectToLogin(`${window.location.origin}/pricing?tier=free`)}>Start Free</Button>
-              )}
-            </div>
-          </motion.div>
-        </div>
-      </section>
-
-      {/* PAID TIERS */}
-      <section className="px-4 pb-16">
+      {/* PLANS — three tiles, mirroring the homepage */}
+      <section id="plans" className="px-4 pb-16 scroll-mt-20">
         <div className="max-w-5xl mx-auto space-y-6">
 
           {/* Current plan / checkout status (auth only) */}
@@ -244,10 +218,35 @@ export default function Pricing() {
             </div>
           )}
 
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-5">
-            {/* ARTIST PRO */}
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-5">
+            {/* FREE */}
             <motion.div initial={{ opacity: 0, y: 24 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}
               className="relative rounded-2xl border border-chart-5/20 bg-card p-6 flex flex-col">
+              <div className="h-11 w-11 rounded-xl bg-chart-5/10 border border-chart-5/20 flex items-center justify-center mb-4">
+                <Zap className="h-5 w-5 text-chart-5" />
+              </div>
+              <p className="font-heading font-black text-2xl">Free</p>
+              <p className="text-sm font-semibold mt-0.5 mb-2 text-chart-5">Your music's home base. Free forever.</p>
+              <p className="text-2xl font-black mb-3">$0</p>
+              <p className="text-sm text-muted-foreground leading-relaxed mb-5">
+                Your music's home base. The Vault and Tracker keep up to 5 songs fully organized, from idea to release — and everything you add stays yours. Organizing your catalog should never cost money. Everything else unlocks with Artist Pro.
+              </p>
+              <div className="flex-1">
+                <TierItems groups={FREE_GROUPS} check="text-chart-5" />
+              </div>
+              <div className="mt-6">
+                {isAuth ? (
+                  <Button className="w-full font-semibold" onClick={() => navigate("/history")}>Start Free</Button>
+                ) : (
+                  <Button className="w-full font-semibold" onClick={() => base44.auth.redirectToLogin(`${window.location.origin}/pricing?tier=free`)}>Start Free</Button>
+                )}
+              </div>
+              <p className="text-center text-xs text-muted-foreground mt-2">Free forever. No card required.</p>
+            </motion.div>
+
+            {/* ARTIST PRO */}
+            <motion.div initial={{ opacity: 0, y: 24 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: 0.06 }}
+              className="relative rounded-2xl border border-chart-5/20 bg-card p-6 flex flex-col ring-2 ring-chart-5/40 shadow-xl">
               <div className="absolute -top-3 left-1/2 -translate-x-1/2 px-3 py-1 rounded-full text-xs font-bold whitespace-nowrap bg-chart-5 text-black">
                 7-Day Free Trial
               </div>
@@ -258,27 +257,37 @@ export default function Pricing() {
               <p className="text-sm font-semibold mt-0.5 mb-2 text-chart-5">You and your team, finally in sync.</p>
               <p className="text-2xl font-black mb-3">$37<span className="text-sm text-muted-foreground font-medium">/mo</span></p>
               <p className="text-sm text-muted-foreground leading-relaxed mb-5">
-                You're growing — bring your people. Your manager, producer, and engineer work from the same songs, same strategy, same plan. No missed emails, no dropped balls.
+                Every tool unlocked, plus your whole team in one workspace. Your manager, producer, and engineer work from the same songs, same strategy, same plan. No missed emails, no dropped balls. 7 days free.
               </p>
               <div className="flex-1">
                 <TierItems groups={PRO_GROUPS} check="text-chart-5" />
               </div>
               <div className="mt-6">
                 {!isAuth ? (
-                    <Button className="w-full font-semibold" onClick={() => base44.auth.redirectToLogin(`${window.location.origin}/pricing?tier=pro`)}>Start Pro</Button>
-                  )
-                  : tier === "free" ? <CheckoutButton tier="pro" className="bg-chart-5 hover:bg-chart-5/90 text-black">Start Pro</CheckoutButton>
-                  : <Button className="w-full font-semibold" disabled>{tier === "pro" ? "Your current plan" : "Included in your plan"}</Button>}
+                  <Button className="w-full font-semibold" onClick={() => base44.auth.redirectToLogin(`${window.location.origin}/pricing?tier=pro`)}>Start Pro</Button>
+                )
+                : tier === "free" ? <CheckoutButton tier="pro" className="w-full bg-chart-5 hover:bg-chart-5/90 text-black">Start Pro</CheckoutButton>
+                : <Button className="w-full font-semibold" disabled>{tier === "pro" ? "Your current plan" : "Included in your plan"}</Button>}
               </div>
               <p className="text-center text-xs text-muted-foreground mt-2">Card required — charged $37 automatically after 7 days. Cancel before then, pay nothing.</p>
             </motion.div>
 
             {/* AI MANAGER */}
-            <motion.div initial={{ opacity: 0, y: 24 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: 0.08 }}
+            <motion.div initial={{ opacity: 0, y: 24 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: 0.12 }}
               className="relative rounded-2xl border border-primary/30 bg-card p-6 flex flex-col ring-2 ring-primary/60 shadow-2xl shadow-primary/10">
               <div className="absolute -top-3 left-1/2 -translate-x-1/2 px-3 py-1 rounded-full text-xs font-bold whitespace-nowrap bg-primary text-primary-foreground">
                 Most Popular · Sam Works For You
               </div>
+              <motion.img
+                src="https://media.base44.com/images/public/69dcf0ecc907e43a438a626b/d124f0929_generated_f10ed4b3.png"
+                alt="Sam, the SoundReady AI manager robot"
+                className="pointer-events-none absolute -right-3 xl:-right-14 top-8 h-32 sm:h-44 w-auto drop-shadow-xl z-10"
+                initial={{ opacity: 0, x: 16 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                viewport={{ once: true }}
+                animate={{ y: [0, -5, 0] }}
+                transition={{ y: { repeat: Infinity, duration: 3, ease: "easeInOut" } }}
+              />
               <div className="absolute inset-0 rounded-2xl bg-primary/5 pointer-events-none" />
               <div className="h-11 w-11 rounded-xl bg-primary/10 border border-primary/30 flex items-center justify-center mb-4 relative">
                 <Bot className="h-5 w-5 text-primary" />
@@ -287,17 +296,17 @@ export default function Pricing() {
               <p className="text-sm font-semibold mt-0.5 mb-2 text-primary">Your career, worked around the clock.</p>
               <p className="text-2xl font-black mb-3">$60<span className="text-sm text-muted-foreground font-medium">/mo</span></p>
               <p className="text-sm text-muted-foreground leading-relaxed mb-5">
-                A real manager takes 15–20% of everything you earn. Sam drafts your playlist pitches, tour outreach, EPKs, and digests from your real numbers — and for producers, Sam pitches your beats to the artists who fit your sound. Every move waits for your approval.
+                Sam outbounds for you every week — playlist pitches, tour support, sync opportunities — drafted from your real numbers, and nothing sends without your approval. A traditional manager takes 15–20% of everything you earn. Sam is $60 flat, full-time.
               </p>
               <div className="flex-1">
                 <TierItems groups={AI_GROUPS} />
               </div>
               <div className="mt-6 relative">
                 {!isAuth ? (
-                    <Button className="w-full font-semibold" onClick={() => base44.auth.redirectToLogin(`${window.location.origin}/pricing?tier=ai_manager`)}>Start Manager</Button>
-                  )
-                  : tier === "ai_manager" ? <Button className="w-full font-semibold" disabled>Your current plan</Button>
-                  : <CheckoutButton tier="ai_manager" className="bg-primary hover:bg-primary/90 text-primary-foreground gap-2"><Sparkles className="h-4 w-4" /> Start Manager</CheckoutButton>}
+                  <Button className="w-full font-semibold" onClick={() => base44.auth.redirectToLogin(`${window.location.origin}/pricing?tier=ai_manager`)}>Start AI Manager</Button>
+                )
+                : tier === "ai_manager" ? <Button className="w-full font-semibold" disabled>Your current plan</Button>
+                : <CheckoutButton tier="ai_manager" className="w-full bg-primary hover:bg-primary/90 text-primary-foreground gap-2"><Sparkles className="h-4 w-4" /> Start AI Manager</CheckoutButton>}
               </div>
               <p className="text-center text-xs text-muted-foreground mt-2">Cancel anytime. No percentage cuts — ever.</p>
             </motion.div>
@@ -353,14 +362,14 @@ export default function Pricing() {
         <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="max-w-2xl mx-auto space-y-8">
           <h2 className="font-heading text-4xl sm:text-5xl font-black leading-[0.95]">
             Your next release could be your biggest.<br />
-            <span className="text-primary">Sam makes sure of it.</span>
+            <span className="text-primary">SoundReady makes sure of it.</span>
           </h2>
-          <p className="text-muted-foreground">Start free today. Upgrade when you're ready — the work is already done for you.</p>
+          <p className="text-muted-foreground">Start free today. Upgrade when you're ready. The work is already done for you.</p>
           {isAuth ? (
             <Link to="/history"><Button size="lg" className="gap-2 font-heading font-bold text-base px-10 h-12">Go to Vault <ArrowRight className="h-4 w-4" /></Button></Link>
           ) : (
             <Button size="lg" className="gap-2 font-heading font-bold text-base px-10 h-12" onClick={() => document.getElementById("plans")?.scrollIntoView({ behavior: "smooth" })}>
-              Start <ArrowRight className="h-4 w-4" />
+              Start right there <ArrowRight className="h-4 w-4" />
             </Button>
           )}
           <p className="text-xs text-muted-foreground">No contracts. No percentage cuts. Cancel anytime.</p>
