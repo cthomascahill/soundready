@@ -82,6 +82,10 @@
         "following": {
           "type": "number"
         },
+        "video_count": {
+          "type": "number",
+          "description": "Number of TikTok videos"
+        },
         "top_tracks": {
           "type": "array",
           "items": {

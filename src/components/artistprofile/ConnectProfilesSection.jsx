@@ -10,6 +10,7 @@ import {
   LogOut, AlertCircle, AlertTriangle, ArrowRight,
 } from "lucide-react";
 import AccountTypePicker from "@/components/AccountTypePicker";
+import TikTokCard from "@/components/artistprofile/TikTokCard";
 
 // ── Freshness helpers ─────────────────────────────────────────────────────────
 function getFreshness(last_synced) {
@@ -295,6 +296,7 @@ function PlatformCard({ platform, conn, onUpdated, oauthLoading, oauthError }) {
             <p className="text-xs text-muted-foreground mt-0.5">
               {platform.id === "spotify" ? "OAuth · Auto-synced daily"
                 : platform.id === "youtube" ? "YouTube Data API v3 · Auto-synced daily"
+                : platform.id === "tiktok" ? "TikTok OAuth · Auto-synced on every visit"
                 : "Manual entry"}
             </p>
           </div>
@@ -304,15 +306,14 @@ function PlatformCard({ platform, conn, onUpdated, oauthLoading, oauthError }) {
           : platform.id === "youtube" ? "bg-red-500/10 text-red-400 border-red-500/20"
           : "bg-secondary text-muted-foreground border-border"
         }`}>
-          {platform.id === "spotify" ? "OAuth" : platform.id === "youtube" ? "API" : "Manual"}
+          {platform.id === "spotify" || platform.id === "tiktok" ? "OAuth" : platform.id === "youtube" ? "API" : "Manual"}
         </span>
       </div>
 
       {platform.id === "spotify" && <SpotifyCard conn={conn} onUpdated={onUpdated} oauthLoading={oauthLoading} oauthError={oauthError} />}
       {platform.id === "youtube" && <YouTubeCard conn={conn} onUpdated={onUpdated} />}
-      {(platform.id === "tiktok" || platform.id === "apple_music") && (
-        <ManualForm platform={platform} conn={conn} onUpdated={onUpdated} />
-      )}
+      {platform.id === "tiktok" && <TikTokCard conn={conn} onUpdated={onUpdated} />}
+      {platform.id === "apple_music" && <ManualForm platform={platform} conn={conn} onUpdated={onUpdated} />}
     </motion.div>
   );
 }
@@ -335,27 +336,6 @@ function ManualForm({ platform, conn, onUpdated }) {
     setLoading(false);
     if (res.data?.data) onUpdated(res.data.data);
   };
-
-  if (platform.id === "tiktok") return (
-    <div className="space-y-3">
-      {conn && (
-        <div className="rounded-xl bg-secondary/40 border border-border p-3 grid grid-cols-2 gap-2">
-          <Stat label="Followers" value={(existing.followers || 0).toLocaleString()} />
-          <Stat label="Total Likes" value={(existing.total_likes || 0).toLocaleString()} />
-          {conn.last_synced && <p className="col-span-2"><FreshnessBadge last_synced={conn.last_synced} /></p>}
-        </div>
-      )}
-      <div className="grid grid-cols-2 gap-3">
-        <Field label="Handle" value={form.tiktok_handle || ""} onChange={v => set("tiktok_handle", v)} placeholder="@handle" />
-        <Field label="Followers" value={form.followers || ""} onChange={v => set("followers", Number(v))} placeholder="12000" type="number" />
-        <Field label="Total Likes" value={form.total_likes || ""} onChange={v => set("total_likes", Number(v))} placeholder="50000" type="number" />
-        <Field label="Avg Views/Video" value={form.avg_views_per_video || ""} onChange={v => set("avg_views_per_video", Number(v))} placeholder="5000" type="number" />
-      </div>
-      <Button size="sm" onClick={handleSave} disabled={loading} className="gap-2">
-        {loading ? <Loader2 className="h-3.5 w-3.5 animate-spin" /> : null} Save TikTok Stats
-      </Button>
-    </div>
-  );
 
   if (platform.id === "apple_music") return (
     <div className="space-y-3">
@@ -573,7 +553,7 @@ export default function ConnectProfilesSection() {
             <p className="font-heading font-bold text-lg">Connect your profiles.</p>
           </div>
           <p className="text-sm text-muted-foreground leading-relaxed">
-            Everything below — Sam's advice, your roadmap, your release strategy — runs on this data. Connect Spotify or YouTube (TikTok and Apple Music can be entered manually).
+            Everything below — Sam's advice, your roadmap, your release strategy — runs on this data. Connect Spotify, YouTube or TikTok — Apple Music stats are entered manually.
           </p>
           <Button
             onClick={async () => {
@@ -608,7 +588,7 @@ export default function ConnectProfilesSection() {
         </div>
         <div className="flex-1">
           <p className="font-semibold">Sam has access to <span className="text-primary">{totalDataPoints} data points</span> about your career</p>
-          <p className="text-xs text-muted-foreground mt-0.5">Spotify and YouTube sync automatically every 24 hours.</p>
+          <p className="text-xs text-muted-foreground mt-0.5">Spotify, YouTube and TikTok sync automatically. Apple Music is entered manually.</p>
         </div>
         <div className="text-right shrink-0">
           <p className="text-2xl font-bold text-primary">{connectedCount}</p>
