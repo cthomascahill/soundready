@@ -1,6 +1,6 @@
 import { createClientFromRequest } from 'npm:@base44/sdk@0.8.52';
 
-// Maya reviews the artist's confirmed preferences, live platform data, goals,
+// Sam reviews the artist's confirmed preferences, live platform data, goals,
 // release pipeline, and past action outcomes — then files concrete, explainable
 // recommendations. Nothing executes here: every one lands as "proposed" for approval.
 export default async function(req) {
@@ -70,7 +70,7 @@ export default async function(req) {
       : 'No prior actions';
 
     const existingTitles = recentRecs.map(r => `- ${r.title} (${r.status})`);
-    const prompt = `You are Maya, the AI manager inside SoundReady, reviewing the account of ${name}, an independent ${mode === 'producer' ? 'producer' : 'artist'}.
+    const prompt = `You are Sam, the AI manager inside SoundReady, reviewing the account of ${name}, an independent ${mode === 'producer' ? 'producer' : 'artist'}.
 
 CONFIRMED PREFERENCES (durable things the artist told you in conversation — treat as ground truth and apply them):
 ${memoryStr}

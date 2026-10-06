@@ -102,7 +102,7 @@ export default function Dashboard() {
           </div>
         )}
 
-        {/* On-demand Maya scouting for AI Manager producers */}
+        {/* On-demand Sam scouting for AI Manager producers */}
         {isProducer && hasAIManager(user) && <MayaScoutCard />}
 
         {/* Your Music Row */}
@@ -214,7 +214,7 @@ export default function Dashboard() {
           </div>
         </div>
 
-        {/* AI Activity Feed (includes Maya Suggestions) */}
+        {/* AI Activity Feed (includes Sam Suggestions) */}
         <AIActivityFeed user={user} />
 
         {/* Quick Actions */}

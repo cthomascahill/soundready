@@ -171,7 +171,7 @@ export default function Profile() {
             <div className="space-y-1.5">
               <label className="text-xs text-muted-foreground font-medium">Artist Name</label>
               <Input
-                placeholder="e.g. Maya Lane"
+                placeholder="e.g. Sam Lane"
                 value={form.artist_name}
                 onChange={handleInputChange("artist_name")}
               />

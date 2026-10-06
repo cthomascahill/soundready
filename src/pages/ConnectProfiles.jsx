@@ -416,7 +416,7 @@ function SelfReportedCard({ conn, onUpdated }) {
           <div className="h-10 w-10 rounded-xl bg-primary/10 flex items-center justify-center text-xl">📊</div>
           <div>
             <p className="font-semibold text-sm">Live / Business Stats</p>
-            <p className="text-xs text-muted-foreground mt-0.5">Update monthly for best Maya results</p>
+            <p className="text-xs text-muted-foreground mt-0.5">Update monthly for best Sam results</p>
           </div>
         </div>
         <span className="text-[10px] font-bold px-2 py-0.5 rounded-full border bg-secondary text-muted-foreground border-border">Manual</span>
@@ -589,7 +589,7 @@ export default function ConnectProfiles() {
               <p className="font-heading font-bold text-lg">Welcome to SoundReady — connect your profiles first.</p>
             </div>
             <p className="text-sm text-muted-foreground leading-relaxed">
-              Everything in the app — Maya's advice, your roadmap, your release strategy — runs on this data. Connect Spotify or YouTube below (TikTok and Apple Music can be entered manually). You can come back anytime to add more.
+              Everything in the app — Sam's advice, your roadmap, your release strategy — runs on this data. Connect Spotify or YouTube below (TikTok and Apple Music can be entered manually). You can come back anytime to add more.
             </p>
             <Button
               onClick={async () => {
@@ -605,11 +605,11 @@ export default function ConnectProfiles() {
           </div>
         )}
 
-        {/* Maya upgrade banner for non-AI-Manager users */}
+        {/* Sam upgrade banner for non-AI-Manager users */}
         {!(user?.role === "admin" || user?.subscription_tier === "ai_manager") && (
           <div className="rounded-xl border border-primary/20 bg-primary/5 px-4 py-3 flex items-center justify-between gap-4">
             <p className="text-sm text-muted-foreground">
-              <span className="text-foreground font-medium">Your connected data powers Maya.</span> Upgrade to AI Manager to unlock her.
+              <span className="text-foreground font-medium">Your connected data powers Sam.</span> Upgrade to AI Manager to unlock Sam.
             </p>
             <Link to="/pricing-account" className="text-xs font-semibold text-primary whitespace-nowrap hover:underline">
               Upgrade →
@@ -621,7 +621,7 @@ export default function ConnectProfiles() {
         <motion.div initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }} className="space-y-1">
           <p className="text-xs text-primary uppercase tracking-widest font-medium">AI Manager Data Layer</p>
           <h1 className="font-heading text-4xl font-bold">Connect Your Profiles</h1>
-          <p className="text-muted-foreground text-sm max-w-xl">Give Maya access to your real platform data. Spotify and YouTube sync automatically every 24 hours.</p>
+          <p className="text-muted-foreground text-sm max-w-xl">Give Sam access to your real platform data. Spotify and YouTube sync automatically every 24 hours.</p>
         </motion.div>
 
         {/* Data summary */}
@@ -630,7 +630,7 @@ export default function ConnectProfiles() {
             <Zap className="h-6 w-6 text-primary" />
           </div>
           <div className="flex-1">
-            <p className="font-semibold">Maya has access to <span className="text-primary">{totalDataPoints} data points</span> about your career</p>
+            <p className="font-semibold">Sam has access to <span className="text-primary">{totalDataPoints} data points</span> about your career</p>
             <p className="text-xs text-muted-foreground mt-0.5">Spotify and YouTube sync automatically every 24 hours.</p>
           </div>
           <div className="text-right shrink-0">
@@ -694,9 +694,9 @@ export default function ConnectProfiles() {
                 <div className="h-full rounded-full bg-primary transition-all" style={{ width: `${Math.round((connectedCount / allPlatforms.length) * 100)}%` }} />
               </div>
               <p className="text-xs text-muted-foreground mt-2">
-                {connectedCount === 0 && "Connect at least Spotify or YouTube to get real data into Maya."}
+                {connectedCount === 0 && "Connect at least Spotify or YouTube to get real data into Sam."}
                 {connectedCount > 0 && connectedCount < 3 && "Good start! Connect more platforms for richer AI advice."}
-                {connectedCount >= 3 && "🔥 Maya has strong context about your career."}
+                {connectedCount >= 3 && "🔥 Sam has strong context about your career."}
               </p>
             </div>
           </div>

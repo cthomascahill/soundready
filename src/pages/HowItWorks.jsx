@@ -114,7 +114,7 @@ const ALL_TOOLS = [
 const TIERS = [
   { name: "Artist", price: "$0", tagline: "Your music's home base. Up to 5 songs & 5 beats, plus trackers — free forever.", cta: "Start Free", badge: null },
   { name: "Artist Pro", price: "$37/mo", tagline: "You and your team. Every tool unlocked — artist and producer — free for 7 days.", cta: "Start 7-Day Free Trial", badge: "Most Popular" },
-  { name: "AI Manager", price: "$60/mo", tagline: "Maya works your career around the clock — pitching songs and beats. You approve every move.", cta: "Unlock Maya", badge: null },
+  { name: "AI Manager", price: "$60/mo", tagline: "Sam works your career around the clock — pitching songs and beats. You approve every move.", cta: "Unlock Sam", badge: null },
 ];
 
 export default function HowItWorks() {
@@ -134,7 +134,7 @@ export default function HowItWorks() {
     <div className="min-h-screen bg-background font-body">
       <SEO
         title="How It Works — SoundReady"
-        description="Upload your song, get a full release intelligence report, master it, plan your release, and let Maya — your AI manager — work the outreach. See the whole workflow."
+        description="Upload your song, get a full release intelligence report, master it, plan your release, and let Sam — your AI manager — work the outreach. See the whole workflow."
       />
       {/* Public Nav */}
       <header className="sticky top-0 z-40 border-b border-border/50 bg-background/90 backdrop-blur-xl">
@@ -191,7 +191,7 @@ export default function HowItWorks() {
           <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="space-y-5 text-lg text-muted-foreground leading-relaxed">
             <p>The artists getting playlisted, booked, and paid aren't more talented than you. They have better infrastructure — managers, publicists, booking agents, and lawyers reviewing every deal before it gets signed.</p>
             <p className="text-foreground font-semibold text-xl">You have a laptop and a dream.</p>
-            <p>That gap is exactly what SoundReady was built to close. Your Vault (up to 5 songs) and Tracker are free forever. When you're ready for more, Artist Pro ($37/mo, 7 days free) unlocks every tool, strategy, and system the industry uses to build careers — and for $60 flat, Maya, your AI manager, runs the day-to-day work for you.</p>
+            <p>That gap is exactly what SoundReady was built to close. Your Vault (up to 5 songs) and Tracker are free forever. When you're ready for more, Artist Pro ($37/mo, 7 days free) unlocks every tool, strategy, and system the industry uses to build careers — and for $60 flat, Sam, your AI manager, runs the day-to-day work for you.</p>
             <p className="text-foreground font-semibold">Just upload your music and let's get to work.</p>
           </motion.div>
         </div>
@@ -290,7 +290,7 @@ export default function HowItWorks() {
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
             {[
               { level: "The Independent Artist", desc: "You're doing everything yourself and it's exhausting. SoundReady doesn't replace your hustle — it organizes it so every release has a real strategy behind it." },
-              { level: "The Producer", desc: "Your beats deserve better than a folder and a DM. The Productions, Beat Pipeline, placement tracker, and Artist Match turn your catalog into a real business — with Maya pitching for you on the AI Manager plan." },
+              { level: "The Producer", desc: "Your beats deserve better than a folder and a DM. The Productions, Beat Pipeline, placement tracker, and Artist Match turn your catalog into a real business — with Sam pitching for you on the AI Manager plan." },
               { level: "The Artist With a Manager", desc: "Your team needs one place to work from. SoundReady gives your manager the tools to move faster, pitch smarter, and keep your whole career organized — so nothing falls through the cracks." },
               { level: "The Manager or Indie Label", desc: "You're responsible for multiple artists and the disorganization is costing you real opportunities. SoundReady's Pro tier puts your entire roster in one place — every artist, every release, every deal." },
             ].map((w, i) => (
@@ -336,7 +336,7 @@ export default function HowItWorks() {
         <div className="max-w-5xl mx-auto space-y-12">
           <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="text-center space-y-4">
             <h2 className="font-heading text-4xl sm:text-5xl font-bold">Pick your plan. Start today.</h2>
-            <p className="text-lg text-muted-foreground max-w-2xl mx-auto">Start free forever. Unlock the full toolkit with Artist Pro. Hand the work to Maya when you're ready.</p>
+            <p className="text-lg text-muted-foreground max-w-2xl mx-auto">Start free forever. Unlock the full toolkit with Artist Pro. Hand the work to Sam when you're ready.</p>
           </motion.div>
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-5">
             {TIERS.map((tier, i) => (

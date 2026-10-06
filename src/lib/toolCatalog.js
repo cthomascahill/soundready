@@ -72,7 +72,7 @@ export const TOOL_CATEGORIES = [
       { name: "A&R Intelligence", to: "/ar-intelligence", desc: "What labels are looking for", icon: TrendingUp, tier: "free" },
       { name: "The Wall", to: "/artist-feed", desc: "The artist community feed", icon: Flame, tier: "pro" },
       { name: "Community", to: "/community", desc: "Chat with other artists and producers", icon: MessageSquare, tier: "free" },
-      { name: "Maya's Desk", to: "/maya-desk", desc: "Maya's drafted emails, ready to approve", icon: Bot, tier: "ai" },
+      { name: "Sam's Desk", to: "/maya-desk", desc: "Sam's drafted emails, ready to approve", icon: Bot, tier: "ai" },
     ],
   },
   {

@@ -105,7 +105,7 @@ export default function BeatVault() {
             <p className="font-heading font-bold text-lg">Your vault is empty</p>
             <p className="text-sm text-muted-foreground max-w-sm mx-auto">
               Upload your first beat with its genre, BPM, key, and pricing. Every beat you add also powers
-              Artist Match and Maya's pitching.
+              Artist Match and Sam's pitching.
             </p>
             <Button
               size="sm"

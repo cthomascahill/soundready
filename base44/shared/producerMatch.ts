@@ -1,6 +1,6 @@
 // Shared beat-vs-artist matching logic.
 // Used by the producerMatching function (artist + producer views)
-// and the aiProducerPitch function (Maya's auto drafts).
+// and the aiProducerPitch function (Sam's auto drafts).
 
 const norm = (s: any): string =>
   s === null || s === undefined ? "" : String(s).toLowerCase().trim();

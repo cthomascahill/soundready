@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import { base44 } from "@/api/base44Client";
 import { useAuth } from "@/lib/AuthContext";
 import { X, Send, Loader2, Sparkles, ChevronRight, RotateCcw } from "lucide-react";
+import SamLogo from "@/components/SamLogo";
 import { motion, AnimatePresence } from "framer-motion";
 import ReactMarkdown from "react-markdown";
 import MayaUpsellPopover from "@/components/maya/MayaUpsellPopover";
@@ -20,7 +21,7 @@ const QUICK_STARTS = [
 
 function buildSystemPrompt(profile, challenges, goals, savedBeats) {
   if (!profile) {
-    return `You are Maya, an AI music industry manager built into SoundReady. The artist hasn't set up their profile yet. Encourage them to complete their Artist Profile for personalized advice. You speak like a real, direct manager — no fluff, no generic advice. Be concise and actionable.`;
+    return `You are Sam, an AI music industry manager built into SoundReady. The artist hasn't set up their profile yet. Encourage them to complete their Artist Profile for personalized advice. You speak like a real, direct manager — no fluff, no generic advice. Be concise and actionable.`;
   }
 
   const ap = profile;
@@ -72,7 +73,7 @@ function buildSystemPrompt(profile, challenges, goals, savedBeats) {
     ? `Has a brand kit with ${ap.brand_kit.logos?.length || 0} logos, ${ap.brand_kit.palettes?.length || 0} palettes, ${ap.brand_kit.font_combos?.length || 0} font combos saved.`
     : "No brand kit saved yet";
 
-  return `You are Maya, an AI music industry manager built into SoundReady. You are speaking with ${name}, an independent ${genre} artist based in ${city}.
+  return `You are Sam, an AI music industry manager built into SoundReady. You are speaking with ${name}, an independent ${genre} artist based in ${city}.
 
 ARTIST PROFILE:
 - Genre: ${genre}
@@ -225,8 +226,8 @@ function buildPipelineContext(pipelineSongs, deskActivities) {
   return lines.join("\n");
 }
 
-// Confirmed/dismissed memories travel with every conversation so Maya's
-// advice always reflects what the artist has actually told her.
+// Confirmed/dismissed memories travel with every conversation so Sam's
+// advice always reflects what the artist has actually told them.
 function buildMemorySection(memories) {
   if (!memories?.length) return "";
   const confirmed = memories.filter(m => m.status === "confirmed");
@@ -243,8 +244,8 @@ function buildMemorySection(memories) {
   return lines.join("\n");
 }
 
-async function callMaya(messages, systemPrompt, wantLearning) {
-  const history = messages.map(m => `${m.role === "user" ? "Artist" : "Maya"}: ${m.content}`).join("\n\n");
+async function callSam(messages, systemPrompt, wantLearning) {
+  const history = messages.map(m => `${m.role === "user" ? "Artist" : "Sam"}: ${m.content}`).join("\n\n");
 
   const learningBlock = wantLearning ? `
 
@@ -256,7 +257,7 @@ LEARNING: While responding, check whether the artist revealed a durable preferen
 ${history}
 ---END HISTORY---
 
-Now respond as Maya to the artist's latest message. Also provide 2-3 follow-up suggestion chips.${learningBlock}
+Now respond as Sam to the artist's latest message. Also provide 2-3 follow-up suggestion chips.${learningBlock}
 
 Return your response as JSON:
 {
@@ -350,7 +351,7 @@ export default function MayaAssistant() {
     });
   }, [open, profileLoaded, user, mode]);
 
-  // Switching Artist/Producer mode rebuilds Maya's context with the right career data
+  // Switching Artist/Producer mode rebuilds Sam's context with the right career data
   useEffect(() => {
     setProfileLoaded(false);
   }, [mode]);
@@ -395,9 +396,9 @@ export default function MayaAssistant() {
     const sysPrompt = (systemPromptRef.current || buildSystemPrompt(null, [], [], [])) + buildMemorySection(memoriesRef.current);
     let result = null;
     try {
-      result = await callMaya(newMessages, sysPrompt, isAIManager);
+      result = await callSam(newMessages, sysPrompt, isAIManager);
     } catch (err) {
-      console.error("Maya chat error:", err);
+      console.error("Sam chat error:", err);
     }
 
     const mayaMsg = { role: "assistant", content: result?.response || "Sorry, I hit a snag responding. Try again in a moment." };
@@ -407,7 +408,7 @@ export default function MayaAssistant() {
     setLoading(false);
   };
 
-  // Maya proposes a learned preference; the artist confirms or rejects it here
+  // Sam proposes a learned preference; the artist confirms or rejects it here
   const saveLearned = async (item, status, value) => {
     const created = await base44.entities.MayaMemory.create({
       user_id: user.id,
@@ -449,8 +450,8 @@ export default function MayaAssistant() {
         >
           {/* Subtle shimmer */}
           <span className="absolute inset-0 bg-gradient-to-r from-transparent via-white/5 to-transparent -translate-x-full animate-shimmer" />
-          <Sparkles className="h-4 w-4 text-primary/70" />
-          Meet Maya
+          <SamLogo className="h-5 w-5 text-primary/70" />
+          Meet Sam
         </button>
       </>
     );
@@ -464,8 +465,8 @@ export default function MayaAssistant() {
         className="fixed bottom-6 right-6 z-50 flex items-center gap-2.5 px-4 py-3 rounded-full bg-primary text-primary-foreground shadow-2xl hover:bg-primary/90 transition-all hover:scale-105 active:scale-95 font-semibold text-sm"
         style={{ boxShadow: "0 0 30px rgba(34,197,94,0.4)" }}
       >
-        <Sparkles className="h-4 w-4" />
-        {t("Talk With Maya")}
+        <SamLogo className="h-5 w-5" />
+        {t("Talk With Sam")}
       </button>
 
       {/* Backdrop */}
@@ -491,15 +492,15 @@ export default function MayaAssistant() {
             {/* Header */}
             <div className="flex items-center gap-3 px-5 py-4 border-b border-zinc-800 shrink-0">
               <div className="h-10 w-10 rounded-full bg-gradient-to-br from-primary to-emerald-600 flex items-center justify-center shrink-0">
-                <Sparkles className="h-5 w-5 text-black" />
+                <SamLogo className="h-6 w-6 text-black" />
               </div>
               <div className="flex-1 min-w-0">
-                <p className="font-heading font-bold text-white">Maya</p>
-                <p className="text-[11px] text-zinc-400">AI Music Industry Manager · {artistName}</p>
+                <p className="font-heading font-bold text-white">Sam</p>
+                <p className="text-[11px] text-zinc-400">SoundReady Artist Manager · {artistName}</p>
               </div>
               <Link to="/maya-desk" onClick={() => setOpen(false)}
                 className="text-[11px] font-semibold text-primary hover:underline mr-2 shrink-0">
-                Maya's Desk →
+                Sam's Desk →
               </Link>
               <button onClick={startNewChat} title="Start a new chat"
                 className="h-8 w-8 rounded-lg bg-zinc-800 flex items-center justify-center text-zinc-400 hover:text-white hover:bg-zinc-700 transition-colors shrink-0">
@@ -515,13 +516,13 @@ export default function MayaAssistant() {
               {messages.length === 0 && profileLoaded && (
                 <div className="text-center space-y-2 pt-8">
                   <div className="h-14 w-14 rounded-2xl bg-primary/10 border border-primary/20 flex items-center justify-center mx-auto">
-                    <Sparkles className="h-7 w-7 text-primary" />
+                    <SamLogo className="h-9 w-9 text-primary" />
                   </div>
                   <p className="font-heading font-bold text-white">Hey {artistName} 👋</p>
                   <p className="text-xs text-zinc-400 max-w-[280px] mx-auto leading-relaxed">
                     {mode === "producer"
-                      ? "I'm Maya, your AI music manager. I know your catalog, your placements, your numbers. Ask me anything."
-                      : "I'm Maya, your AI music manager. I know your profile, your goals, your numbers. Ask me anything."}
+                      ? "I'm Sam, your AI music manager. I know your catalog, your placements, your numbers. Ask me anything."
+                      : "I'm Sam, your AI music manager. I know your profile, your goals, your numbers. Ask me anything."}
                   </p>
                 </div>
               )}
@@ -619,7 +620,7 @@ export default function MayaAssistant() {
                   value={input}
                   onChange={e => setInput(e.target.value)}
                   onKeyDown={e => { if (e.key === "Enter" && !e.shiftKey) { e.preventDefault(); send(); } }}
-                  placeholder="Ask Maya anything..."
+                  placeholder="Ask Sam anything..."
                   rows={1}
                   disabled={loading || !profileLoaded}
                   className="flex-1 bg-transparent text-sm text-white placeholder:text-zinc-500 resize-none focus:outline-none max-h-32 disabled:opacity-50"

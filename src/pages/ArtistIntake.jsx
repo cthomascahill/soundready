@@ -79,7 +79,7 @@ export default function ArtistIntake() {
     setProfile(record);
     setSaving(false);
     setSaved(true);
-    // Clear Maya suggestions cache so dashboard regenerates with fresh profile data
+    // Clear Sam suggestions cache so dashboard regenerates with fresh profile data
     localStorage.removeItem(`maya_suggestions_${user?.id}`);
     localStorage.removeItem(`maya_suggestions_ts_${user?.id}`);
     setTimeout(() => setSaved(false), 2500);
@@ -181,7 +181,7 @@ export default function ArtistIntake() {
 function Block0({ p, u }) {
   return (
     <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-      <TextField label="Stage Name / Artist Name *" placeholder="e.g. Maya Lane" value={p.stage_name} onChange={(v) => u("stage_name", v)} />
+      <TextField label="Stage Name / Artist Name *" placeholder="e.g. Sam Lane" value={p.stage_name} onChange={(v) => u("stage_name", v)} />
       <TextField label="Real Name (private)" placeholder="Used for legal context only" value={p.real_name} onChange={(v) => u("real_name", v)} />
       <div className="sm:col-span-2">
         <MultiSelectField label="Genre(s)" value={p.genres} onChange={(v) => u("genres", v)} options={GENRES} />

@@ -3,8 +3,8 @@ import { Button } from "@/components/ui/button";
 import { Brain, Check, X, Loader2 } from "lucide-react";
 
 /**
- * Shown in chat when Maya picks up a durable preference from the conversation.
- * The artist confirms (with edits) or rejects it before Maya remembers it.
+ * Shown in chat when Sam picks up a durable preference from the conversation.
+ * The artist confirms (with edits) or rejects it before Sam remembers it.
  */
 export default function MemoryLearnCard({ item, onConfirm, onDismiss }) {
   const [value, setValue] = useState(item.value);
@@ -25,7 +25,7 @@ export default function MemoryLearnCard({ item, onConfirm, onDismiss }) {
       <div className="flex items-center gap-2">
         <Brain className="h-3.5 w-3.5 text-primary shrink-0" />
         <p className="text-[11px] font-semibold text-primary">
-          Maya wants to remember this — edit it if she's off
+          Sam wants to remember this — edit it if they're off
         </p>
       </div>
       <div className="space-y-1">

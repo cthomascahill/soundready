@@ -16,7 +16,7 @@ const TEMPLATES = [
     description: "Define ownership percentages between songwriters, producers, and co-writers for master and publishing rights.",
     fields: [
       { key: "song_title", label: "Song Title", placeholder: "e.g. Midnight Run" },
-      { key: "artist_name", label: "Artist / Band Name", placeholder: "e.g. Maya Lane" },
+      { key: "artist_name", label: "Artist / Band Name", placeholder: "e.g. Sam Lane" },
       { key: "recording_date", label: "Recording Date", placeholder: "e.g. April 15, 2026" },
       { key: "contributor_1_name", label: "Contributor 1 Name", placeholder: "e.g. John Smith" },
       { key: "contributor_1_role", label: "Contributor 1 Role", placeholder: "e.g. Lead Songwriter" },
@@ -142,7 +142,7 @@ Assignee: ___________________________ Date: ___________
     description: "Define the relationship between an artist and producer — including beat licensing, royalty splits, credits, and deliverables.",
     fields: [
       { key: "song_title", label: "Song / Project Title", placeholder: "e.g. Midnight Run" },
-      { key: "artist_name", label: "Artist Name", placeholder: "e.g. Maya Lane" },
+      { key: "artist_name", label: "Artist Name", placeholder: "e.g. Sam Lane" },
       { key: "producer_name", label: "Producer Name", placeholder: "e.g. DJ Beats" },
       { key: "producer_split", label: "Producer Royalty Split %", placeholder: "e.g. 20" },
       { key: "artist_split", label: "Artist Royalty Split %", placeholder: "e.g. 80" },
@@ -209,7 +209,7 @@ Producer: ___________________________ Date: ___________
     description: "A general-purpose agreement between two or more artists collaborating on a joint project, defining creative contributions and revenue sharing.",
     fields: [
       { key: "project_title", label: "Project / Song Title", placeholder: "e.g. Summer Sessions EP" },
-      { key: "party_1_name", label: "Party 1 Name", placeholder: "e.g. Maya Lane" },
+      { key: "party_1_name", label: "Party 1 Name", placeholder: "e.g. Sam Lane" },
       { key: "party_1_role", label: "Party 1 Role", placeholder: "e.g. Lead Artist / Vocalist" },
       { key: "party_2_name", label: "Party 2 Name", placeholder: "e.g. Alex Rowe" },
       { key: "party_2_role", label: "Party 2 Role", placeholder: "e.g. Featured Artist" },

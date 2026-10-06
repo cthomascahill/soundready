@@ -18,7 +18,7 @@ export default async function(req) {
       return Response.json({ error: 'This beat does not belong to you' }, { status: 403 });
     }
 
-    // Maya's producer pitching is an AI Manager feature
+    // Sam's producer pitching is an AI Manager feature
     const isAIManager = user.role === 'admin' || user.subscription_tier === 'ai_manager';
     if (!isAIManager) return Response.json({ skipped: true, reason: 'ai_manager_required' });
 
@@ -67,8 +67,8 @@ Then the body. Sign off as ${producerName}.`,
     await base44.entities.AIActivity.create({
       user_id: user.id,
       action_type: "producer_pitch",
-      title: `Maya matched "${beat.title}" with ${artistName}`,
-      description: `Maya found ${artistName} on SoundReady — ${((best.reasons || [])[0] || 'their sound fits your beat').toLowerCase()} — and drafted the collab pitch for your approval.`,
+      title: `Sam matched "${beat.title}" with ${artistName}`,
+      description: `Sam found ${artistName} on SoundReady — ${((best.reasons || [])[0] || 'their sound fits your beat').toLowerCase()} — and drafted the collab pitch for your approval.`,
       song_title: beat.title,
       status: "ready_to_send",
       draft_email: typeof draft === 'string' ? draft.trim() : String(draft || '').trim(),
@@ -85,8 +85,8 @@ Then the body. Sign off as ${producerName}.`,
     if (user.email) {
       await base44.integrations.Core.SendEmail({
         to: user.email,
-        subject: `Maya drafted a pitch for your beat "${beat.title}"`,
-        body: `Your AI Manager went to work.\n\nMaya matched your beat "${beat.title}" with ${artistName} on SoundReady and drafted a collab pitch email for you to review.\n\nOpen Maya's Desk in SoundReady to approve, edit, or deny it.\n\n— SoundReady AI Manager`,
+        subject: `Sam drafted a pitch for your beat "${beat.title}"`,
+        body: `Your AI Manager went to work.\n\nSam matched your beat "${beat.title}" with ${artistName} on SoundReady and drafted a collab pitch email for you to review.\n\nOpen Sam's Desk in SoundReady to approve, edit, or deny it.\n\n— SoundReady AI Manager`,
       });
     }
 

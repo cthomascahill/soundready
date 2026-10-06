@@ -19,7 +19,7 @@ const ACTION_META = {
 };
 
 /**
- * One Maya draft awaiting the artist's decision.
+ * One Sam draft awaiting the artist's decision.
  * Nothing sends until the artist approves — the draft is editable first.
  */
 export default function MayaQueueCard({ item, user, onUpdated }) {
@@ -43,7 +43,7 @@ export default function MayaQueueCard({ item, user, onUpdated }) {
   const approve = async () => {
     setError("");
     if (!recipient.trim()) {
-      setError("Enter the recipient's email address — Maya never guesses who to send to.");
+      setError("Enter the recipient's email address — Sam never guesses who to send to.");
       return;
     }
     setBusy(true);
@@ -113,7 +113,7 @@ export default function MayaQueueCard({ item, user, onUpdated }) {
                 value={draft}
                 onChange={e => setDraft(e.target.value)}
                 className="text-xs leading-relaxed min-h-48 bg-secondary/50"
-                placeholder="Edit Maya's draft before sending..."
+                placeholder="Edit Sam's draft before sending..."
               />
             ) : (
               <div className="rounded-lg bg-secondary/50 border border-border p-3 text-xs whitespace-pre-wrap leading-relaxed max-h-56 overflow-y-auto">
@@ -150,7 +150,7 @@ export default function MayaQueueCard({ item, user, onUpdated }) {
           <div className="space-y-1.5">
             {!prefilledRecipient && (
               <p className="text-[10px] text-muted-foreground/70">
-                Maya couldn't find a published contact email — add one to send, or submit manually via the opportunity's link.
+                Sam couldn't find a published contact email — add one to send, or submit manually via the opportunity's link.
               </p>
             )}
             <div className="flex items-center gap-2">
@@ -187,7 +187,7 @@ export default function MayaQueueCard({ item, user, onUpdated }) {
           </Button>
         </div>
         <p className="text-[10px] text-muted-foreground/70">
-          Sent as "Maya for {user?.artist_name || user?.full_name || "you"}" — replies go straight to you at {user?.email}.
+          Sent as "Sam for {user?.artist_name || user?.full_name || "you"}" — replies go straight to you at {user?.email}.
         </p>
       </div>
     </div>

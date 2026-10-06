@@ -1,7 +1,7 @@
 import { createClientFromRequest } from 'npm:@base44/sdk@0.8.52';
 import { sendMayaDraft, isValidEmail } from '../../shared/mayaEmail.ts';
 
-// The approval gate for Maya's recommendations. Dismiss archives a proposal.
+// The approval gate for Sam's recommendations. Dismiss archives a proposal.
 // Approve either sends the (possibly edited) outreach draft — nothing goes out
 // before this call, which the artist triggers — or marks it taken on when the
 // artist chooses to handle it manually.

@@ -9,9 +9,10 @@ import MayaQueueCard from "@/components/maya/MayaQueueCard";
 import RecommendationsPanel from "@/components/maya/RecommendationsPanel";
 import MemoryPanel from "@/components/maya/MemoryPanel";
 import OutcomeControl from "@/components/maya/OutcomeControl";
+import SamLogo from "@/components/SamLogo";
 import { Button } from "@/components/ui/button";
 import {
-  Sparkles, Lock, Zap, Check, X, Mail, Loader2, Inbox, ChevronRight, RefreshCw, UserCog,
+  Lock, Zap, Check, X, Mail, Loader2, Inbox, ChevronRight, RefreshCw, UserCog,
 } from "lucide-react";
 
 const QUEUE_STATUSES = ["pending", "ready_to_send", "viewed"];
@@ -68,7 +69,7 @@ export default function MayaDesk() {
 
   const aiManager = hasAIManager(user);
 
-  // Have Maya run a fresh scouting sweep right now, on demand
+  // Have Sam run a fresh scouting sweep right now, on demand
   const runSearch = async () => {
     setSearching(true);
     setSearchNote("");
@@ -77,14 +78,14 @@ export default function MayaDesk() {
     setSearching(false);
     if (res.data?.error) {
       setSearchNote(res.data.reason === "no_beats"
-        ? "Maya needs at least one beat in your Productions to scout placements."
-        : "Maya's search hit a snag — try again in a moment.");
+        ? "Sam needs at least one beat in your Productions to scout placements."
+        : "Sam's search hit a snag — try again in a moment.");
       return;
     }
     const found = res.data?.found ?? res.data?.opportunities_found ?? 0;
     setSearchNote(found > 0
-      ? `Maya found ${found} new ${found === 1 ? "opportunity" : "opportunities"} — filed to your queue below.`
-      : "Maya searched but found nothing new right now. She also sweeps weekly on her own.");
+      ? `Sam found ${found} new ${found === 1 ? "opportunity" : "opportunities"} — filed to your queue below.`
+      : "Sam searched but found nothing new right now. They also sweep weekly on their own.");
   };
 
   useEffect(() => {
@@ -109,7 +110,7 @@ export default function MayaDesk() {
     setActivities(prev => prev.map(a => a.id === updated.id ? updated : a));
   };
 
-  // The artist records what happened after Maya's outreach — she factors it into future plans
+  // The artist records what happened after Sam's outreach — Sam factors it into future plans
   const recordOutcome = async (item, outcome, note) => {
     const updated = await base44.entities.AIActivity.update(item.id, {
       metadata: { ...(item.metadata || {}), outcome, outcome_note: note, outcome_at: new Date().toISOString() },
@@ -128,13 +129,13 @@ export default function MayaDesk() {
           <div className="h-14 w-14 rounded-2xl bg-primary/10 border border-primary/20 flex items-center justify-center mx-auto">
             <Lock className="h-7 w-7 text-primary" />
           </div>
-          <p className="font-heading font-bold text-lg">Maya's Desk is part of the AI Manager plan</p>
+          <p className="font-heading font-bold text-lg">Sam's Desk is part of the AI Manager plan</p>
           <p className="text-sm text-muted-foreground leading-relaxed">
-            Maya drafts your playlist pitches, tour outreach, EPKs, beat pitches, and weekly digests — and nothing sends until you approve it here.
+            Sam drafts your playlist pitches, tour outreach, EPKs, beat pitches, and weekly digests — and nothing sends until you approve it here.
           </p>
           <Link to="/pricing-account">
             <Button className="w-full gap-2 font-semibold">
-              <Zap className="h-4 w-4" /> Unlock Maya — $60/mo
+              <Zap className="h-4 w-4" /> Unlock Sam — $60/mo
             </Button>
           </Link>
           <p className="text-[10px] text-muted-foreground/60">Cancel anytime</p>
@@ -149,18 +150,18 @@ export default function MayaDesk() {
 
         {/* Header */}
         <motion.div initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }} className="space-y-1">
-          <p className="text-xs text-primary uppercase tracking-widest font-medium">AI Manager</p>
+          <p className="text-xs text-primary uppercase tracking-widest font-medium">SAM · SoundReady Artist Manager</p>
           <h1 className="font-heading text-4xl font-bold flex items-center gap-3">
-            <Sparkles className="h-7 w-7 text-primary" /> Maya's Desk
+            <SamLogo className="h-8 w-8 text-primary" /> Sam's Desk
           </h1>
           <div className="flex items-start justify-between gap-4">
             <p className="text-muted-foreground text-sm max-w-xl">
-              Everything Maya has drafted for you, based on your real connected data. Nothing goes out without your approval — edit any draft before you send it.
+              Everything Sam has drafted for you, based on your real connected data. Nothing goes out without your approval — edit any draft before you send it.
             </p>
             <Button onClick={runSearch} disabled={searching} variant="outline" size="sm"
               className="gap-2 font-semibold shrink-0 border-primary/30 text-primary hover:bg-primary/10">
               {searching ? <Loader2 className="h-4 w-4 animate-spin" /> : <RefreshCw className="h-4 w-4" />}
-              {searching ? "Maya is searching…" : "New search"}
+              {searching ? "Sam is searching…" : "New search"}
             </Button>
           </div>
           {searchNote && (
@@ -169,7 +170,7 @@ export default function MayaDesk() {
             </p>
           )}
           <Link to="/maya-profile" className="inline-flex items-center gap-1.5 text-xs text-primary hover:underline font-medium">
-            <UserCog className="h-3.5 w-3.5" /> Define what matters to you — Maya's profile
+            <UserCog className="h-3.5 w-3.5" /> Define what matters to you — Sam's profile
           </Link>
         </motion.div>
 
@@ -178,7 +179,7 @@ export default function MayaDesk() {
           {[
             { key: "queue", label: `Awaiting Approval${queue.length ? ` (${queue.length})` : ""}` },
             { key: "recs", label: `Recommendations${recsPending ? ` (${recsPending})` : ""}` },
-            { key: "memory", label: "What Maya Knows" },
+            { key: "memory", label: "What Sam Knows" },
             { key: "history", label: `Sent & Denied${history.length ? ` (${history.length})` : ""}` },
           ].map(t => (
             <button key={t.key} onClick={() => setTab(t.key)}
@@ -203,7 +204,7 @@ export default function MayaDesk() {
               <Inbox className="h-10 w-10 text-muted-foreground/30 mx-auto" />
               <p className="font-semibold">Nothing waiting on you right now</p>
               <p className="text-sm text-muted-foreground max-w-sm mx-auto">
-                Maya files drafts here the moment she finds playlist matches, tour openings, or your weekly digest. Upload a song and connect your Spotify to give her more to work with.
+                Sam files drafts here the moment they find playlist matches, tour openings, or your weekly digest. Upload a song and connect your Spotify to give Sam more to work with.
               </p>
               <Link to="/connect-profiles" className="inline-flex items-center gap-1 text-xs text-primary hover:underline font-medium">
                 Connect your platforms <ChevronRight className="h-3 w-3" />

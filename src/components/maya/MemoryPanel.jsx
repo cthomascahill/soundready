@@ -92,8 +92,8 @@ function MemoryRow({ memory, onUpdated, onRemoved }) {
 }
 
 /**
- * "What Maya knows" — every durable preference she's confirmed from chat.
- * Artists can correct, edit, or make Maya forget any of it.
+ * "What Sam knows" — every durable preference they've confirmed from chat.
+ * Artists can correct, edit, or make Sam forget any of it.
  */
 export default function MemoryPanel() {
   const { user } = useAuth();
@@ -125,7 +125,7 @@ export default function MemoryPanel() {
           <Brain className="h-4 w-4 text-primary" />
         </div>
         <p className="text-xs text-muted-foreground leading-relaxed">
-          These are the durable things you've told Maya in conversation — goals, preferences, constraints, decisions, and how you like outreach handled.
+          These are the durable things you've told Sam in conversation — goals, preferences, constraints, decisions, and how you like outreach handled.
           She applies them everywhere she works for you: chat, recommendations, and drafts. Anything that's off, correct or delete — she won't take it personally.
         </p>
       </div>
@@ -146,9 +146,9 @@ export default function MemoryPanel() {
           {grouped.length === 0 && proposed.length === 0 ? (
             <div className="rounded-2xl bg-card border border-dashed border-border p-10 text-center space-y-3">
               <Brain className="h-10 w-10 text-muted-foreground/30 mx-auto" />
-              <p className="font-semibold">Maya hasn't learned anything yet</p>
+              <p className="font-semibold">Sam hasn't learned anything yet</p>
               <p className="text-sm text-muted-foreground max-w-sm mx-auto">
-                Tell her about your goals, what you will and won't do, and how you like to be pitched — chat with Maya and she'll remember it here.
+                Tell Sam about your goals, what you will and won't do, and how you like to be pitched — chat with Sam and they'll remember it here.
               </p>
             </div>
           ) : (

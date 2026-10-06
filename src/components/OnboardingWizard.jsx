@@ -146,7 +146,7 @@ export default function OnboardingWizard({ user, onComplete }) {
                 <div className="space-y-2">
                   <Label>Artist Name / Stage Name *</Label>
                   <Input
-                    placeholder="e.g. Maya Lane"
+                    placeholder="e.g. Sam Lane"
                     value={form.artist_name}
                     onChange={set("artist_name")}
                     className="h-11"

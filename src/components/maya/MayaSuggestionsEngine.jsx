@@ -61,7 +61,7 @@ Platform Numbers:
 Songs in Library: ${recentSongs || "none uploaded yet"}
 `.trim();
 
-  return `You are Maya, an AI music industry manager. Based on this artist's profile below, use web search to find REAL, CURRENT, SPECIFIC opportunities they should pursue right now.
+  return `You are Sam, an AI music industry manager. Based on this artist's profile below, use web search to find REAL, CURRENT, SPECIFIC opportunities they should pursue right now.
 
 ARTIST PROFILE:
 ${profileStr}
@@ -256,7 +256,7 @@ export default function MayaSuggestionsEngine({ user }) {
     // 90s timeout guard
     timeoutRef.current = setTimeout(() => {
       setLoading(false);
-      setError("Maya took too long to respond. Try again.");
+      setError("Sam took too long to respond. Try again.");
     }, 90000);
 
     try {
@@ -286,8 +286,8 @@ export default function MayaSuggestionsEngine({ user }) {
         parsed = JSON.parse(cleaned);
         if (!Array.isArray(parsed)) throw new Error("Not an array");
       } catch (e) {
-        console.error("Maya raw response:", raw);
-        setError("Maya ran into an issue generating suggestions. Try refreshing.");
+        console.error("Sam raw response:", raw);
+        setError("Sam ran into an issue generating suggestions. Try refreshing.");
         setLoading(false);
         return;
       }
@@ -322,8 +322,8 @@ export default function MayaSuggestionsEngine({ user }) {
       }
     } catch (err) {
       clearTimeout(timeoutRef.current);
-      console.error("Maya suggestions error:", err);
-      setError("Maya ran into an issue generating suggestions. Try refreshing.");
+      console.error("Sam suggestions error:", err);
+      setError("Sam ran into an issue generating suggestions. Try refreshing.");
     }
 
     setLoading(false);
@@ -359,7 +359,7 @@ export default function MayaSuggestionsEngine({ user }) {
             <Sparkles className="h-4 w-4 text-primary" />
           </div>
           <div>
-            <h2 className="font-heading font-semibold text-base leading-tight">Maya's Suggestions</h2>
+            <h2 className="font-heading font-semibold text-base leading-tight">Sam's Suggestions</h2>
             {lastGenerated && (
               <p className="text-[10px] text-muted-foreground flex items-center gap-1 mt-0.5">
                 <Clock className="h-2.5 w-2.5" />
@@ -406,7 +406,7 @@ export default function MayaSuggestionsEngine({ user }) {
       {!loading && !error && suggestions.length === 0 && (
         <div className="rounded-xl border border-dashed border-border bg-card/50 p-8 text-center space-y-3">
           <Sparkles className="h-8 w-8 text-muted-foreground/30 mx-auto" />
-          <p className="text-sm text-muted-foreground">Maya is ready to find opportunities for you.</p>
+          <p className="text-sm text-muted-foreground">Sam is ready to find opportunities for you.</p>
           <p className="text-xs text-muted-foreground/60">Complete your Artist Profile and connect your platforms for the most personalized results.</p>
         </div>
       )}

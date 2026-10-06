@@ -46,14 +46,14 @@ const PRO_GROUPS = [
 
 const AI_GROUPS = [
   { label: "For artists", items: [
-    "Maya chat — advice backed by your real numbers",
+    "Sam chat — advice backed by your real numbers",
     "Auto-drafted playlist & tour-opening pitches",
     "EPKs & weekly career digests",
     "Nothing sends without your approval",
   ] },
   { label: "For producers", items: [
-    "Maya pitches your beats to matching artists",
-    "Approve, edit, or deny every move Maya makes",
+    "Sam pitches your beats to matching artists",
+    "Approve, edit, or deny every move Sam makes",
   ] },
 ];
 
@@ -82,15 +82,15 @@ const FAQ = [
   },
   {
     q: "Does SoundReady take a percentage of my income?",
-    a: "Never. A traditional manager takes 15–20% of everything you earn, forever. Maya is $60 flat — and you keep 100% of your earnings, always.",
+    a: "Never. A traditional manager takes 15–20% of everything you earn, forever. Sam is $60 flat — and you keep 100% of your earnings, always.",
   },
   {
-    q: "What exactly does Maya do?",
-    a: "Maya watches your connected Spotify and YouTube data, matches your songs to real playlist and tour opportunities, and drafts the emails — pitches, outreach, EPKs, digests. Every draft lands in Maya's Desk where you approve, edit, or deny it. She does the work; you stay in control.",
+    q: "What exactly does Sam do?",
+    a: "Sam watches your connected Spotify and YouTube data, matches your songs to real playlist and tour opportunities, and drafts the emails — pitches, outreach, EPKs, digests. Every draft lands in Sam's Desk where you approve, edit, or deny it. Sam does the work; you stay in control.",
   },
   {
     q: "I'm a producer — is SoundReady for me?",
-    a: "Yes — every account has both an artist side and a producer side. Producers get the Productions, the Beat Pipeline from idea to placement, a placement and credits tracker, and Artist Match, which ranks artists on the platform whose sound fits your beats. On AI Manager, Maya even drafts the pitch emails for you.",
+    a: "Yes — every account has both an artist side and a producer side. Producers get the Productions, the Beat Pipeline from idea to placement, a placement and credits tracker, and Artist Match, which ranks artists on the platform whose sound fits your beats. On AI Manager, Sam even drafts the pitch emails for you.",
   },
   {
     q: "Can I cancel anytime?",
@@ -137,7 +137,7 @@ export default function Pricing() {
     <div className="min-h-screen bg-background font-body">
       <SEO
         title="Pricing — SoundReady"
-        description="Start free forever. Artist Pro unlocks the full toolkit for $37/mo with a 7-day free trial. AI Manager adds Maya — your AI manager — for $60/mo flat. No percentage cuts, ever."
+        description="Start free forever. Artist Pro unlocks the full toolkit for $37/mo with a 7-day free trial. AI Manager adds Sam — your AI manager — for $60/mo flat. No percentage cuts, ever."
       />
 
       {/* Nav */}
@@ -168,7 +168,7 @@ export default function Pricing() {
           </motion.div>
           <h1 className="font-heading text-5xl sm:text-7xl font-black tracking-tight leading-[0.95]">
             Start free. Grow into Pro.<br />
-            <span className="text-primary">Then hand the work to Maya.</span>
+            <span className="text-primary">Then hand the work to Sam.</span>
           </h1>
           <p className="text-lg sm:text-xl text-muted-foreground leading-relaxed max-w-2xl mx-auto">
             Every serious artist — and every serious producer — needs a team. SoundReady is yours: your tools, your people, and an AI manager that actually does the work.
@@ -277,7 +277,7 @@ export default function Pricing() {
             <motion.div initial={{ opacity: 0, y: 24 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: 0.08 }}
               className="relative rounded-2xl border border-primary/30 bg-card p-6 flex flex-col ring-2 ring-primary/60 shadow-2xl shadow-primary/10">
               <div className="absolute -top-3 left-1/2 -translate-x-1/2 px-3 py-1 rounded-full text-xs font-bold whitespace-nowrap bg-primary text-primary-foreground">
-                Maya Works For You
+                Sam Works For You
               </div>
               <div className="absolute inset-0 rounded-2xl bg-primary/5 pointer-events-none" />
               <div className="h-11 w-11 rounded-xl bg-primary/10 border border-primary/30 flex items-center justify-center mb-4 relative">
@@ -287,15 +287,15 @@ export default function Pricing() {
               <p className="text-sm font-semibold mt-0.5 mb-2 text-primary">Your career, worked around the clock.</p>
               <p className="text-2xl font-black mb-3">$60<span className="text-sm text-muted-foreground font-medium">/mo</span></p>
               <p className="text-sm text-muted-foreground leading-relaxed mb-5">
-                A real manager takes 15–20% of everything you earn. Maya drafts your playlist pitches, tour outreach, EPKs, and digests from your real numbers — and for producers, she pitches your beats to the artists who fit your sound. Every move waits for your approval.
+                A real manager takes 15–20% of everything you earn. Sam drafts your playlist pitches, tour outreach, EPKs, and digests from your real numbers — and for producers, Sam pitches your beats to the artists who fit your sound. Every move waits for your approval.
               </p>
               <div className="flex-1">
                 <TierItems groups={AI_GROUPS} />
               </div>
               <div className="mt-6 relative">
-                {!isAuth ? loginCta("Unlock Maya")
+                {!isAuth ? loginCta("Unlock Sam")
                   : tier === "ai_manager" ? <Button className="w-full font-semibold" disabled>Your current plan</Button>
-                  : <CheckoutButton tier="ai_manager" className="bg-primary hover:bg-primary/90 text-primary-foreground gap-2"><Sparkles className="h-4 w-4" /> Unlock Maya</CheckoutButton>}
+                  : <CheckoutButton tier="ai_manager" className="bg-primary hover:bg-primary/90 text-primary-foreground gap-2"><Sparkles className="h-4 w-4" /> Unlock Sam</CheckoutButton>}
               </div>
               <p className="text-center text-xs text-muted-foreground mt-2">Cancel anytime. No percentage cuts — ever.</p>
             </motion.div>
@@ -317,7 +317,7 @@ export default function Pricing() {
               </div>
               <div className="rounded-xl bg-primary/10 border border-primary/20 p-4 space-y-1">
                 <p className="font-heading text-2xl font-black text-primary">$60 flat</p>
-                <p className="text-xs text-muted-foreground">Maya — full-time work, zero cuts</p>
+                <p className="text-xs text-muted-foreground">Sam — full-time work, zero cuts</p>
               </div>
             </div>
             <ManagerCostSlider />
@@ -351,7 +351,7 @@ export default function Pricing() {
         <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="max-w-2xl mx-auto space-y-8">
           <h2 className="font-heading text-4xl sm:text-5xl font-black leading-[0.95]">
             Your next release could be your biggest.<br />
-            <span className="text-primary">Maya makes sure of it.</span>
+            <span className="text-primary">Sam makes sure of it.</span>
           </h2>
           <p className="text-muted-foreground">Start free today. Upgrade when you're ready — the work is already done for you.</p>
           {isAuth ? (

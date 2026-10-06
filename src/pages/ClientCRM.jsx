@@ -67,7 +67,7 @@ export default function ClientCRM() {
             <Users className="h-12 w-12 text-muted-foreground/30 mx-auto" />
             <p className="font-heading font-bold text-lg">Your pipeline is empty</p>
             <p className="text-sm text-muted-foreground max-w-sm mx-auto">
-              Add artists you've pitched or worked with — or find new ones in Artist Match and Maya's scouting.
+              Add artists you've pitched or worked with — or find new ones in Artist Match and Sam's scouting.
             </p>
             <Button size="sm" className="gap-2 mx-auto" onClick={() => setFormOpen(true)}>
               <Plus className="h-4 w-4" /> Add Your First Client

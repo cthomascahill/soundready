@@ -38,9 +38,9 @@ export default function ManagerCostSlider() {
 
       <p className="text-center text-sm font-semibold">
         {savings > 0 ? (
-          <span className="text-primary">You keep an extra {fmt(savings)} every year with Maya.</span>
+          <span className="text-primary">You keep an extra {fmt(savings)} every year with Sam.</span>
         ) : (
-          <span className="text-muted-foreground">Maya costs less than a manager the moment you earn over $343/mo — and never takes a cut of your next raise.</span>
+          <span className="text-muted-foreground">Sam costs less than a manager the moment you earn over $343/mo — and never takes a cut of your next raise.</span>
         )}
       </p>
     </div>

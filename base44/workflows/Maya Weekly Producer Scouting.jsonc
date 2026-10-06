@@ -1,6 +1,6 @@
 {
   "name": "Maya Weekly Producer Scouting",
-  "description": "Every Tuesday morning, Maya scouts the web for sync calls, A&R calls, and labels seeking beats for every AI Manager producer, drafting pitches into Maya's Desk for approval.",
+  "description": "Every Tuesday morning, Sam (SoundReady Artist Manager) scouts the web for sync calls, A&R calls, and labels seeking beats for every AI Manager producer, drafting pitches into Sam's Desk for approval.",
   "trigger": {
     "condition": null,
     "config": {

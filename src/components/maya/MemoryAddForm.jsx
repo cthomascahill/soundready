@@ -4,7 +4,7 @@ import { Input } from "@/components/ui/input";
 import { Plus, Loader2 } from "lucide-react";
 
 /**
- * Input row + tappable suggestion chips for adding a new Maya memory entry.
+ * Input row + tappable suggestion chips for adding a new Sam memory entry.
  */
 export default function MemoryAddForm({ suggestions, onAdd, placeholder }) {
   const [value, setValue] = useState("");

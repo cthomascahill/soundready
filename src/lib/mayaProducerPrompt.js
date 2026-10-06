@@ -1,5 +1,5 @@
 /**
- * Maya's producer-mode system prompt — built from the producer's real
+ * Sam's producer-mode system prompt — built from the producer's real
  * catalog, placements, client pipeline, and beat store sales.
  */
 export function buildProducerSystemPrompt(user, profile, beats, placements, clients, sales) {
@@ -38,7 +38,7 @@ export function buildProducerSystemPrompt(user, profile, beats, placements, clie
     ? `${sales.length} beat store sale(s), total revenue $${(sales.reduce((s, x) => s + (x.amount || 0), 0)).toLocaleString()}`
     : "No beat store sales yet";
 
-  return `You are Maya, an AI music industry manager built into SoundReady. You are speaking with ${name}, a music producer.
+  return `You are Sam, an AI music industry manager built into SoundReady. You are speaking with ${name}, a music producer.
 
 PRODUCER CATALOG (Productions):
 - Total beats: ${(beats || []).length}; by stage: ${stageStr}

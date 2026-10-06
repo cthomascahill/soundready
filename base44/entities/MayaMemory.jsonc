@@ -23,7 +23,7 @@
     },
     "value": {
       "type": "string",
-      "description": "The specific fact Maya learned, in the artist's terms"
+      "description": "The specific fact Sam learned, in the artist's terms"
     },
     "status": {
       "type": "string",
@@ -33,7 +33,7 @@
         "dismissed"
       ],
       "default": "proposed",
-      "description": "proposed = waiting on the artist, confirmed = Maya applies it everywhere, dismissed = rejected, never re-proposed"
+      "description": "proposed = waiting on the artist, confirmed = Sam applies it everywhere, dismissed = rejected, never re-proposed"
     },
     "source": {
       "type": "string",

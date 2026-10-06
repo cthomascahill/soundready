@@ -1,4 +1,4 @@
-// Shared helpers for Maya's outreach drafts — used by mayaSendDraft and
+// Shared helpers for Sam's outreach drafts — used by mayaSendDraft and
 // mayaApprove so both approval paths send identically.
 
 export function isValidEmail(value) {
@@ -19,6 +19,6 @@ export async function sendMayaDraft({ base44, user, draft, recipient, fallbackSu
     to: recipient,
     subject,
     body: `${body}\n\n— ${artistName}\nReply directly to this email, or reach the artist at ${user.email}.`,
-    from_name: `Maya for ${artistName}`,
+    from_name: `Sam for ${artistName}`,
   });
 }

@@ -1,4 +1,5 @@
 import { X, Sparkles, Lock } from "lucide-react";
+import SamLogo from "@/components/SamLogo";
 import { motion, AnimatePresence } from "framer-motion";
 import { Link } from "react-router-dom";
 
@@ -25,16 +26,16 @@ export default function MayaUpsellPopover({ onClose }) {
         <div className="flex flex-col items-center pt-7 pb-5 px-5 text-center">
           <div className="relative mb-4">
             <div className="h-16 w-16 rounded-2xl bg-gradient-to-br from-primary/30 to-emerald-600/20 border border-primary/30 flex items-center justify-center">
-              <Sparkles className="h-8 w-8 text-primary" />
+              <SamLogo className="h-10 w-10 text-primary" />
             </div>
             <div className="absolute -bottom-1 -right-1 h-5 w-5 rounded-full bg-zinc-950 border border-zinc-700 flex items-center justify-center">
               <Lock className="h-2.5 w-2.5 text-zinc-400" />
             </div>
           </div>
 
-          <p className="font-heading font-bold text-white text-base mb-1">Chat with Maya, your AI manager</p>
+          <p className="font-heading font-bold text-white text-base mb-1">Chat with Sam, your AI manager</p>
 
-          {/* Maya speaking in first person */}
+          {/* Sam speaking in first person */}
           <div className="space-y-2 mt-3 text-left">
             <p className="text-[13px] text-zinc-400 leading-relaxed">
               I know your Spotify numbers, your city, your sound.
@@ -57,7 +58,7 @@ export default function MayaUpsellPopover({ onClose }) {
             Upgrade to AI Manager — $60/mo
           </Link>
 
-          <p className="text-[10px] text-zinc-600 mt-2">Cancel anytime · Unlimited Maya access</p>
+          <p className="text-[10px] text-zinc-600 mt-2">Cancel anytime · Unlimited Sam access</p>
         </div>
       </motion.div>
     </AnimatePresence>

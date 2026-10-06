@@ -1,4 +1,4 @@
-// Shared Maya helper. The whole point of Maya is that SHE figures out who
+// Shared Sam helper. The whole point of Sam is that they figure out who
 // to contact — drafts land on the artist's desk with a real recipient.
 
 const BAD_EMAIL_WORDS = ["null", "none", "n/a", "unknown", "undefined", "not found", "no email"];
@@ -32,7 +32,7 @@ export async function findContactEmail(base44, { org, opportunity, link, context
     });
     const email = sanitizeEmail(result?.email);
     if (!email) return { email: undefined, source: undefined };
-    return { email, source: String(result?.source || "found by Maya").trim() };
+    return { email, source: String(result?.source || "found by Sam").trim() };
   } catch (err) {
     console.log(`mayaContact: email hunt failed for "${opportunity}": ${err.message}`);
     return { email: undefined, source: undefined };

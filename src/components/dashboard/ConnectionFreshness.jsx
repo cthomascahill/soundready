@@ -14,7 +14,7 @@ const PLATFORM_LABELS = {
 };
 
 // Compact badges showing how old each connected platform's stats are,
-// so Maya's advice is always based on fresh numbers. Click to update.
+// so Sam's advice is always based on fresh numbers. Click to update.
 export default function ConnectionFreshness() {
   const { user } = useAuth();
   const navigate = useNavigate();

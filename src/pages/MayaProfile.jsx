@@ -7,16 +7,17 @@ import { hasAIManager } from "@/lib/tier";
 import { useToast } from "@/components/ui/use-toast";
 import MemoryAddForm from "@/components/maya/MemoryAddForm";
 import MemoryEntryList from "@/components/maya/MemoryEntryList";
+import SamLogo from "@/components/SamLogo";
 import { Button } from "@/components/ui/button";
-import { Sparkles, Lock, Zap, Target, SlidersHorizontal, ShieldAlert, Mail, ChevronRight, Loader2 } from "lucide-react";
+import { Lock, Zap, Target, SlidersHorizontal, ShieldAlert, Mail, ChevronRight, Loader2 } from "lucide-react";
 
-// The four areas the user defines upfront — Maya reads all of these before every suggestion
+// The four areas the user defines upfront — Sam reads all of these before every suggestion
 const SECTIONS = [
   {
     category: "goals",
     title: "Goals",
     icon: Target,
-    description: "What you're working toward. Maya shapes every plan around these.",
+    description: "What you're working toward. Sam shapes every plan around these.",
     placeholder: "e.g. Reach 10,000 monthly listeners in 6 months",
     suggestions: [
       "Reach 10,000 monthly listeners in 6 months",
@@ -29,7 +30,7 @@ const SECTIONS = [
     category: "preferences",
     title: "Management Preferences",
     icon: SlidersHorizontal,
-    description: "How you like to work and what you want Maya to prioritize.",
+    description: "How you like to work and what you want Sam to prioritize.",
     placeholder: "e.g. I prefer festivals over club gigs",
     suggestions: [
       "I prefer festivals over club gigs",
@@ -42,7 +43,7 @@ const SECTIONS = [
     category: "constraints",
     title: "Constraints",
     icon: ShieldAlert,
-    description: "Your hard limits — time, money, geography. Maya won't suggest past these.",
+    description: "Your hard limits — time, money, geography. Sam won't suggest past these.",
     placeholder: "e.g. I can only tour regionally (Southeast)",
     suggestions: [
       "I can only tour regionally (Southeast)",
@@ -55,7 +56,7 @@ const SECTIONS = [
     category: "outreach_style",
     title: "Outreach Style",
     icon: Mail,
-    description: "How Maya should sound when she writes pitches and emails on your behalf.",
+    description: "How Sam should sound when they write pitches and emails on your behalf.",
     placeholder: "e.g. Keep emails short and confident",
     suggestions: [
       "Keep emails short and confident",
@@ -87,7 +88,7 @@ export default function MayaProfile() {
   const showError = () =>
     toast({ title: "Couldn't save that", description: "Please try again in a moment.", variant: "destructive" });
 
-  // Everything defined here is a confirmed fact Maya applies everywhere
+  // Everything defined here is a confirmed fact Sam applies everywhere
   const addMemory = async (category, value) => {
     try {
       const created = await base44.entities.MayaMemory.create({
@@ -133,13 +134,13 @@ export default function MayaProfile() {
           <div className="h-14 w-14 rounded-2xl bg-primary/10 border border-primary/20 flex items-center justify-center mx-auto">
             <Lock className="h-7 w-7 text-primary" />
           </div>
-          <p className="font-heading font-bold text-lg">Maya's profile is part of the AI Manager plan</p>
+          <p className="font-heading font-bold text-lg">Sam's profile is part of the AI Manager plan</p>
           <p className="text-sm text-muted-foreground leading-relaxed">
-            Define your goals, preferences, and constraints once — and Maya factors them into every suggestion, draft, and plan she makes.
+            Define your goals, preferences, and constraints once — and Sam factors them into every suggestion, draft, and plan they make.
           </p>
           <Link to="/pricing-account">
             <Button className="w-full gap-2 font-semibold">
-              <Zap className="h-4 w-4" /> Unlock Maya — $60/mo
+              <Zap className="h-4 w-4" /> Unlock Sam — $60/mo
             </Button>
           </Link>
           <p className="text-[10px] text-muted-foreground/60">Cancel anytime</p>
@@ -154,22 +155,22 @@ export default function MayaProfile() {
 
         {/* Header */}
         <motion.div initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }} className="space-y-1">
-          <p className="text-xs text-primary uppercase tracking-widest font-medium">AI Manager</p>
+          <p className="text-xs text-primary uppercase tracking-widest font-medium">SAM · SoundReady Artist Manager</p>
           <h1 className="font-heading text-4xl font-bold flex items-center gap-3">
-            <Sparkles className="h-7 w-7 text-primary" /> Maya's Profile
+            <SamLogo className="h-8 w-8 text-primary" /> Sam's Profile
           </h1>
           <p className="text-muted-foreground text-sm max-w-xl">
-            Tell Maya what matters most to you before she makes a single suggestion. Everything you define here becomes a
-            confirmed fact she applies to every plan, draft, and recommendation.
+            Tell Sam what matters most to you before they make a single suggestion. Everything you define here becomes a
+            confirmed fact Sam applies to every plan, draft, and recommendation.
           </p>
           <Link to="/maya-desk" className="inline-flex items-center gap-1 text-xs text-primary hover:underline font-medium">
-            Back to Maya's Desk <ChevronRight className="h-3 w-3" />
+            Back to Sam's Desk <ChevronRight className="h-3 w-3" />
           </Link>
         </motion.div>
 
         {loading ? (
           <div className="flex items-center justify-center gap-2 text-sm text-muted-foreground py-16">
-            <Loader2 className="h-4 w-4 animate-spin" /> Loading what Maya knows about you…
+            <Loader2 className="h-4 w-4 animate-spin" /> Loading what Sam knows about you…
           </div>
         ) : (
           <div className="space-y-6">

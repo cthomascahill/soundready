@@ -86,7 +86,7 @@ async function findOpportunities(base44, userId, user) {
       : 'The artist has no known markets — suggest realistic starter markets for their genre.';
 
   const result = await client.integrations.Core.InvokeLLM({
-    prompt: `You are Maya, an AI music manager. Find 4 real, current tour, festival, and venue opportunities for "${artistName}", a ${primaryGenre} artist.
+    prompt: `You are Sam, an AI music manager. Find 4 real, current tour, festival, and venue opportunities for "${artistName}", a ${primaryGenre} artist.
 
 Genre focus: ${genres.join(', ') || primaryGenre}
 ${marketLine}
@@ -128,7 +128,7 @@ For each opportunity provide: name, type (tour opener / venue / festival), why i
     if (!nameKey || existingNames.has(nameKey)) continue;
     existingNames.add(nameKey);
 
-    // Maya finds who to contact — never the artist
+    // Sam finds who to contact — never the artist
     let contactEmail = sanitizeEmail(opp.contact_email);
     let emailSource = opp.email_source;
     if (!contactEmail) {
@@ -145,7 +145,7 @@ For each opportunity provide: name, type (tour opener / venue / festival), why i
       user_id: userId,
       action_type: "tour_opportunity",
       title: `Tour opportunity: ${opp.name}`,
-      description: `${opp.type} — ${opp.why_it_fits}${contactEmail ? ` Maya found their contact email (${emailSource || 'published contact'}).` : ' No published contact email found — check the opportunity before sending.'}`,
+      description: `${opp.type} — ${opp.why_it_fits}${contactEmail ? ` Sam found their contact email (${emailSource || 'published contact'}).` : ' No published contact email found — check the opportunity before sending.'}`,
       status: contactEmail ? "ready_to_send" : "pending",
       draft_email: opp.draft_email,
       recipient_email: contactEmail,

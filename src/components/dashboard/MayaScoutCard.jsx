@@ -5,9 +5,9 @@ import { Button } from "@/components/ui/button";
 import { Radar, Loader2, Sparkles, ChevronRight } from "lucide-react";
 
 /**
- * On-demand Maya scouting for producers on the AI Manager tier — Maya hits
+ * On-demand Sam scouting for producers on the AI Manager tier — Sam hits
  * the web for sync calls, A&R calls, and labels seeking beats right now,
- * and queues drafts to Maya's Desk.
+ * and queues drafts to Sam's Desk.
  */
 export default function MayaScoutCard() {
   const [scouting, setScouting] = useState(false);
@@ -24,11 +24,11 @@ export default function MayaScoutCard() {
       const found = res.data?.found ?? 0;
       setResult(
         found > 0
-          ? `Maya found ${found} opportunit${found === 1 ? "y" : "ies"} and queued ${found === 1 ? "it" : "them"} to your Desk for approval.`
-          : "Maya couldn't find any open opportunities this time — she'll look again on her weekly run."
+          ? `Sam found ${found} opportunit${found === 1 ? "y" : "ies"} and queued ${found === 1 ? "it" : "them"} to your Desk for approval.`
+          : "Sam couldn't find any open opportunities this time — they'll look again on their weekly run."
       );
     } catch (e) {
-      setError(e?.response?.data?.error || "Maya couldn't run the scout right now.");
+      setError(e?.response?.data?.error || "Sam couldn't run the scout right now.");
     } finally {
       setScouting(false);
     }
@@ -42,16 +42,16 @@ export default function MayaScoutCard() {
             <Radar className="h-5 w-5 text-primary" />
           </div>
           <div className="min-w-0">
-            <p className="font-heading font-semibold">Maya Scouting</p>
+            <p className="font-heading font-semibold">Sam Scouting</p>
             <p className="text-xs text-muted-foreground leading-relaxed">
-              Have Maya search the web right now for sync calls, A&R submissions, and labels openly seeking beats —
-              she drafts the pitches for your approval.
+              Have Sam search the web right now for sync calls, A&R submissions, and labels openly seeking beats —
+              they draft the pitches for your approval.
             </p>
           </div>
         </div>
         <Button size="sm" className="gap-2 font-semibold shrink-0" onClick={scout} disabled={scouting}>
           {scouting ? <Loader2 className="h-3.5 w-3.5 animate-spin" /> : <Sparkles className="h-3.5 w-3.5" />}
-          {scouting ? "Maya is scouting…" : "Scout for me"}
+          {scouting ? "Sam is scouting…" : "Scout for me"}
         </Button>
       </div>
       {result && (

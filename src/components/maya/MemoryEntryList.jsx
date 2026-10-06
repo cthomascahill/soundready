@@ -4,7 +4,7 @@ import { Input } from "@/components/ui/input";
 import { Check, Pencil, Trash2, X } from "lucide-react";
 
 /**
- * Lists a user's Maya memory entries for one category with inline edit and delete.
+ * Lists a user's Sam memory entries for one category with inline edit and delete.
  */
 export default function MemoryEntryList({ entries, onUpdate, onDelete }) {
   const [editingId, setEditingId] = useState(null);

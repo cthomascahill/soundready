@@ -18,14 +18,14 @@ const KIND_META = {
 
 const STATUS_BADGE = {
   approved: { label: "You're on it", cls: "bg-teal-500/10 text-teal-400 border-teal-500/25" },
-  executed: { label: "Sent by Maya", cls: "bg-primary/10 text-primary border-primary/20" },
+  executed: { label: "Sent by Sam", cls: "bg-primary/10 text-primary border-primary/20" },
   dismissed: { label: "Dismissed", cls: "bg-red-500/10 text-red-400 border-red-500/20" },
 };
 
 const EMAIL_RE = /^[^@\s]+@[^@\s]+\.[^@\s]+$/;
 
 /**
- * One recommendation Maya filed. The rationale is always visible, drafts are
+ * One recommendation Sam filed. The rationale is always visible, drafts are
  * editable, and nothing sends until the artist approves it here.
  */
 export default function RecommendationCard({ rec, onUpdated }) {
@@ -79,7 +79,7 @@ export default function RecommendationCard({ rec, onUpdated }) {
               </span>
             ) : (
               <span className="text-[10px] font-bold px-2 py-0.5 rounded-full border bg-yellow-500/10 text-yellow-400 border-yellow-500/25">
-                Suggested by Maya
+                Suggested by Sam
               </span>
             )}
           </div>
@@ -87,9 +87,9 @@ export default function RecommendationCard({ rec, onUpdated }) {
         </div>
       </div>
 
-      {/* Why Maya suggests this */}
+      {/* Why Sam suggests this */}
       <div className="rounded-lg bg-secondary/40 border border-border/60 p-2.5">
-        <p className="text-[10px] font-bold uppercase tracking-wider text-muted-foreground mb-1">Why Maya suggests this</p>
+        <p className="text-[10px] font-bold uppercase tracking-wider text-muted-foreground mb-1">Why Sam suggests this</p>
         <p className="text-xs text-muted-foreground leading-relaxed">{rec.rationale}</p>
       </div>
 
@@ -127,7 +127,7 @@ export default function RecommendationCard({ rec, onUpdated }) {
                 value={draft}
                 onChange={(e) => setDraft(e.target.value)}
                 className="text-xs leading-relaxed min-h-48 bg-secondary/50"
-                placeholder="Edit Maya's draft before sending..."
+                placeholder="Edit Sam's draft before sending..."
               />
             ) : (
               <div className="rounded-lg bg-secondary/50 border border-border p-3 text-xs whitespace-pre-wrap leading-relaxed max-h-56 overflow-y-auto">
@@ -141,7 +141,7 @@ export default function RecommendationCard({ rec, onUpdated }) {
               type="email"
               value={recipient}
               onChange={(e) => setRecipient(e.target.value)}
-              placeholder="Recipient's email (Maya never invents one)"
+              placeholder="Recipient's email (Sam never invents one)"
               className="h-8 text-xs flex-1"
             />
           </div>

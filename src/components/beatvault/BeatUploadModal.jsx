@@ -79,7 +79,7 @@ export default function BeatUploadModal({ open, onClose, onSaved, beat }) {
           play_count: 0,
           saves: [],
         });
-        // Maya drafts a pitch to a matching artist for AI Manager producers
+        // Sam drafts a pitch to a matching artist for AI Manager producers
         if (hasAIManager(user)) {
           base44.functions.invoke("aiProducerPitch", { beat_id: saved.id }).catch(() => {});
         }

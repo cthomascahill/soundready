@@ -1,6 +1,6 @@
 {
   "name": "AI Manager Tour Opportunity Scout",
-  "description": "Every Wednesday morning, Maya scans the web for tours, festivals, and venue booking windows matching each AI Manager artist's genre and key markets, and queues draft outreach pitches in Maya's Desk for approval.",
+  "description": "Every Wednesday morning, Sam (SoundReady Artist Manager) scans the web for tours, festivals, and venue booking windows matching each AI Manager artist's genre and key markets, and queues draft outreach pitches in Sam's Desk for approval.",
   "trigger": {
     "condition": null,
     "config": {

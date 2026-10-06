@@ -10,8 +10,8 @@ import {
 } from "lucide-react";
 
 /**
- * Real-World Artist Match: Maya searches the open web for artists whose
- * sound fits one of the producer's beats, and drafts pitches to Maya's Desk
+ * Real-World Artist Match: Sam searches the open web for artists whose
+ * sound fits one of the producer's beats, and drafts pitches to Sam's Desk
  * where a publicly listed contact email exists.
  */
 export default function ExternalMatchTab() {
@@ -50,7 +50,7 @@ export default function ExternalMatchTab() {
       });
       setResults(res.data?.artists || []);
     } catch (e) {
-      setError(e?.response?.data?.error || "Maya couldn't complete the search. Try again in a moment.");
+      setError(e?.response?.data?.error || "Sam couldn't complete the search. Try again in a moment.");
       setSearched(false);
     } finally {
       setSearching(false);
@@ -69,7 +69,7 @@ export default function ExternalMatchTab() {
       });
       if (res.data?.success) setDraftedFor((p) => [...p, artist.name]);
     } catch (e) {
-      setError(e?.response?.data?.error || "Maya couldn't draft that pitch.");
+      setError(e?.response?.data?.error || "Sam couldn't draft that pitch.");
     } finally {
       setDrafting("");
     }
@@ -81,7 +81,7 @@ export default function ExternalMatchTab() {
       <div className="rounded-2xl bg-card border border-border p-5 space-y-4">
         <div className="flex flex-col sm:flex-row gap-3">
           <div className="flex-1 space-y-1.5">
-            <label className="text-xs text-muted-foreground">Which beat should Maya find artists for?</label>
+            <label className="text-xs text-muted-foreground">Which beat should Sam find artists for?</label>
             <select
               value={beatId}
               onChange={(e) => setBeatId(e.target.value)}
@@ -101,11 +101,11 @@ export default function ExternalMatchTab() {
             disabled={!beatId || searching || beats.length === 0}
           >
             {searching ? <Loader2 className="h-4 w-4 animate-spin" /> : <Search className="h-4 w-4" />}
-            {searching ? "Maya is searching the web…" : "Search the World"}
+            {searching ? "Sam is searching the web…" : "Search the World"}
           </Button>
         </div>
         <p className="text-xs text-muted-foreground">
-          Maya searches the open web for real, independent artists whose sound fits this beat — not just artists on
+          Sam searches the open web for real, independent artists whose sound fits this beat — not just artists on
           SoundReady. She only drafts emails to publicly listed contact addresses, never guesses.
         </p>
       </div>
@@ -128,7 +128,7 @@ export default function ExternalMatchTab() {
           <Globe className="h-12 w-12 text-muted-foreground/30 mx-auto" />
           <p className="font-heading font-bold text-lg">No artists found for this one</p>
           <p className="text-sm text-muted-foreground max-w-sm mx-auto">
-            Add more detail to the beat — genre, BPM, and mood tags all sharpen Maya's search.
+            Add more detail to the beat — genre, BPM, and mood tags all sharpen Sam's search.
           </p>
         </div>
       ) : (
@@ -181,25 +181,25 @@ export default function ExternalMatchTab() {
                     to="/maya-desk"
                     className="flex items-center gap-2 text-xs text-primary bg-primary/10 border border-primary/20 rounded-lg px-3 py-2 font-medium"
                   >
-                    <Sparkles className="h-3.5 w-3.5" /> Draft ready — review it in Maya's Desk
+                    <Sparkles className="h-3.5 w-3.5" /> Draft ready — review it in Sam's Desk
                     <ChevronRight className="h-3 w-3" />
                   </Link>
                 ) : hasEmail ? (
                   canDraft ? (
                     <Button size="sm" className="w-full gap-2" onClick={() => draftPitch(a)} disabled={drafting === a.name}>
                       {drafting === a.name ? <Loader2 className="h-3.5 w-3.5 animate-spin" /> : <PenTool className="h-3.5 w-3.5" />}
-                      {drafting === a.name ? "Maya is drafting…" : "Draft Pitch with Maya"}
+                      {drafting === a.name ? "Sam is drafting…" : "Draft Pitch with Sam"}
                     </Button>
                   ) : (
                     <Link to="/pricing-account">
                       <Button size="sm" variant="outline" className="w-full gap-2 text-primary">
-                        <Lock className="h-3.5 w-3.5" /> Maya drafts pitches on AI Manager
+                        <Lock className="h-3.5 w-3.5" /> Sam drafts pitches on AI Manager
                       </Button>
                     </Link>
                   )
                 ) : (
                   <p className="text-[10px] text-muted-foreground/70 leading-relaxed">
-                    No public email listed — reach out through their links above. Maya never guesses contact addresses.
+                    No public email listed — reach out through their links above. Sam never guesses contact addresses.
                   </p>
                 )}
               </div>

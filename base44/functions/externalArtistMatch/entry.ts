@@ -77,7 +77,7 @@ For each artist return:
       const beatId = body.beat_id;
       const artist = body.artist || {};
       if (!beatId || !artist.name) return Response.json({ error: 'beat_id and artist are required' }, { status: 400 });
-      // Maya only drafts to publicly listed contact addresses
+      // Sam only drafts to publicly listed contact addresses
       if (!artist.public_email) {
         return Response.json({ error: 'No public contact email was found for this artist' }, { status: 400 });
       }
@@ -118,8 +118,8 @@ Then the body. Sign off as ${producerName}.`,
       await base44.entities.AIActivity.create({
         user_id: user.id,
         action_type: 'producer_pitch',
-        title: `Maya found ${artist.name} for "${beat.title}"`,
-        description: `Maya searched the web and found ${artist.name}${artist.email_source ? ` (contact found: ${artist.email_source})` : ''} — a real-world artist whose sound fits "${beat.title}" — and drafted the pitch for your approval.`,
+        title: `Sam found ${artist.name} for "${beat.title}"`,
+        description: `Sam searched the web and found ${artist.name}${artist.email_source ? ` (contact found: ${artist.email_source})` : ''} — a real-world artist whose sound fits "${beat.title}" — and drafted the pitch for your approval.`,
         song_title: beat.title,
         status: 'ready_to_send',
         draft_email: draftText,
@@ -135,8 +135,8 @@ Then the body. Sign off as ${producerName}.`,
       if (user.email) {
         await base44.integrations.Core.SendEmail({
           to: user.email,
-          subject: `Maya drafted a pitch to ${artist.name} for "${beat.title}"`,
-          body: `Your AI Manager went to work.\n\nMaya found ${artist.name} — a real-world artist who fits your beat "${beat.title}" — and drafted a pitch email for you to review.\n\nOpen Maya's Desk in SoundReady to approve, edit, or deny it.\n\n— SoundReady AI Manager`,
+          subject: `Sam drafted a pitch to ${artist.name} for "${beat.title}"`,
+          body: `Your AI Manager went to work.\n\nSam found ${artist.name} — a real-world artist who fits your beat "${beat.title}" — and drafted a pitch email for you to review.\n\nOpen Sam's Desk in SoundReady to approve, edit, or deny it.\n\n— SoundReady AI Manager`,
         });
       }
 

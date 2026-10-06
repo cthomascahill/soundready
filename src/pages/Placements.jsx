@@ -67,7 +67,7 @@ export default function Placements() {
             <p className="text-xs text-primary uppercase tracking-widest font-medium">Producer</p>
             <h1 className="font-heading text-3xl font-bold">Placements</h1>
             <p className="text-muted-foreground text-sm mt-1">
-              Your credits — every beat that landed. This is the resume Maya attaches to your pitches.
+              Your credits — every beat that landed. This is the resume Sam attaches to your pitches.
             </p>
           </div>
           <Button className="gap-2 font-semibold" onClick={() => setFormOpen(!formOpen)}>
@@ -165,7 +165,7 @@ export default function Placements() {
             <Trophy className="h-12 w-12 text-muted-foreground/30 mx-auto" />
             <p className="font-heading font-bold text-lg">No placements yet</p>
             <p className="text-sm text-muted-foreground max-w-sm mx-auto">
-              When a beat lands with an artist, log it here. Your credits build the resume Maya uses to pitch you.
+              When a beat lands with an artist, log it here. Your credits build the resume Sam uses to pitch you.
             </p>
           </div>
         ) : (

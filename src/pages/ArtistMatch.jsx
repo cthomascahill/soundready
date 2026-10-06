@@ -5,7 +5,7 @@ import ExternalMatchTab from "@/components/artistmatch/ExternalMatchTab";
 
 /**
  * Artist Match — two sources of artists whose sound fits the producer's beats:
- * artists on SoundReady, and real-world artists Maya finds on the open web.
+ * artists on SoundReady, and real-world artists Sam finds on the open web.
  */
 export default function ArtistMatch() {
   const [tab, setTab] = useState("soundready");

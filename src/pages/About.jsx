@@ -76,19 +76,19 @@ const TIERS = [
     name: "AI Manager",
     tagline: "Your career, worked around the clock.",
     price: "$60/mo",
-    badge: "Maya Works For You",
+    badge: "Sam Works For You",
     badgeStyle: "bg-primary text-primary-foreground",
     glow: true,
-    desc: "A real manager takes 15–20% of everything you earn. Maya drafts your playlist pitches, tour outreach, EPKs, and digests from your real numbers — and for producers, she pitches your beats to the artists who fit your sound. Every move waits for your approval in Maya's Desk.",
+    desc: "A real manager takes 15–20% of everything you earn. Sam drafts your playlist pitches, tour outreach, EPKs, and digests from your real numbers — and for producers, Sam pitches your beats to the artists who fit your sound. Every move waits for your approval in Sam's Desk.",
     items: [
       "Everything in Artist Pro",
-      "Maya chat backed by your real numbers",
+      "Sam chat backed by your real numbers",
       "Auto-drafted playlist & tour-opening pitches",
-      "Maya pitches your beats to matching artists",
+      "Sam pitches your beats to matching artists",
       "EPKs & weekly career digests",
-      "Approve, edit, or deny every move Maya makes",
+      "Approve, edit, or deny every move Sam makes",
     ],
-    cta: "Unlock Maya",
+    cta: "Unlock Sam",
     route: "/pricing",
     subtext: "No percentage cuts — ever.",
   },
@@ -105,7 +105,7 @@ const WHAT_WE_DO = [
   { icon: BarChart2, color: "text-chart-5", title: "A&R Intelligence", desc: "Weekly briefings on what's working in your genre right now — tempos, moods, and strategies getting editorial love. Make smarter decisions before you finish the song." },
   { icon: FileText, color: "text-yellow-400", title: "Contract Analyzer", desc: "Upload any deal or contract and SoundReady flags every clause that could hurt you — in plain English. Know exactly what you're signing before you sign it." },
   { icon: Disc3, color: "text-purple-400", title: "Productions & Placements", desc: "Producers get their own workspace. Catalog every beat with BPM, key, and moods, track your credits and fees, and turn your placement history into the resume that lands collabs." },
-  { icon: UserCheck, color: "text-teal-400", title: "Artist Match", desc: "SoundReady ranks the artists on the platform whose sound fits your beats — and Maya drafts the pitch for you. Your beats stop waiting for artists to find you." },
+  { icon: UserCheck, color: "text-teal-400", title: "Artist Match", desc: "SoundReady ranks the artists on the platform whose sound fits your beats — and Sam drafts the pitch for you. Your beats stop waiting for artists to find you." },
 ];
 
 export default function About() {
@@ -125,7 +125,7 @@ export default function About() {
     <div className="min-h-screen bg-background">
       <SEO
         title="SoundReady — AI Career Management for Independent Artists & Producers"
-        description="Your songs, your beats, your tours, your team — plus Maya, the AI manager that drafts your pitches and outreach from your real numbers. Start free."
+        description="Your songs, your beats, your tours, your team — plus Sam, the AI manager that drafts your pitches and outreach from your real numbers. Start free."
       />
 
       {/* Nav */}
@@ -164,7 +164,7 @@ export default function About() {
           </h1>
 
           <p className="text-xl sm:text-2xl text-muted-foreground leading-relaxed max-w-3xl mx-auto font-body">
-            SoundReady gives independent artists and producers the same tools, strategy, and infrastructure that signed acts get from their label — free to start. Your Vault (up to 5 songs), Tracker, and Productions (up to 5 beats) are free forever. When you're ready for more, Artist Pro unlocks the full toolkit — booking, touring, your whole team — and Maya, your AI manager, takes the day-to-day work off your plate: pitching your songs to playlists and your beats to the artists who need them.
+            SoundReady gives independent artists and producers the same tools, strategy, and infrastructure that signed acts get from their label — free to start. Your Vault (up to 5 songs), Tracker, and Productions (up to 5 beats) are free forever. When you're ready for more, Artist Pro unlocks the full toolkit — booking, touring, your whole team — and Sam, your AI manager, takes the day-to-day work off your plate: pitching your songs to playlists and your beats to the artists who need them.
           </p>
 
           <div className="flex flex-col sm:flex-row items-center justify-center gap-3 pt-2">
@@ -251,7 +251,7 @@ export default function About() {
           <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="text-center space-y-4">
             <p className="text-xs text-primary uppercase tracking-wider font-bold">Pricing</p>
             <h2 className="font-heading text-4xl sm:text-5xl font-bold">Start free. Grow when you're ready.</h2>
-            <p className="text-lg text-muted-foreground max-w-2xl mx-auto">Your Vault and Tracker are free forever. Unlock the full toolkit with Pro — or hand the work to Maya when the career is moving.</p>
+            <p className="text-lg text-muted-foreground max-w-2xl mx-auto">Your Vault and Tracker are free forever. Unlock the full toolkit with Pro — or hand the work to Sam when the career is moving.</p>
           </motion.div>
 
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-5">

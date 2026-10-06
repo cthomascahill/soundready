@@ -150,7 +150,7 @@ function MayaSuggestions({ user }) {
     const nextRelease = p.next_release_title;
     const careerStage = p.career_stage || "Developing";
 
-    const prompt = `You are Maya, an AI music industry manager. Based on this artist's complete profile, generate exactly 5 specific, prioritized action suggestions for what they should focus on RIGHT NOW in their career. 
+    const prompt = `You are Sam, an AI music industry manager. Based on this artist's complete profile, generate exactly 5 specific, prioritized action suggestions for what they should focus on RIGHT NOW in their career. 
 
 ARTIST: ${name}
 Genre: ${genre}
@@ -241,7 +241,7 @@ Return JSON:
     <div className="rounded-2xl bg-card border border-dashed border-border p-8 text-center space-y-3">
       <Sparkles className="h-10 w-10 text-muted-foreground/30 mx-auto" />
       <p className="font-semibold">Complete Your Artist Profile</p>
-      <p className="text-sm text-muted-foreground max-w-sm mx-auto">Maya needs to know about you before she can give you personalized career suggestions.</p>
+      <p className="text-sm text-muted-foreground max-w-sm mx-auto">Sam needs to know about you before they can give you personalized career suggestions.</p>
       <Link to="/artist-profile"><Button size="sm" className="gap-2 mt-1"><ArrowRight className="h-3.5 w-3.5" />Set Up Profile</Button></Link>
     </div>
   );
@@ -254,7 +254,7 @@ Return JSON:
             <Loader2 className="h-5 w-5 text-primary animate-spin" />
           </div>
           <div>
-            <p className="font-semibold text-sm">Maya is analyzing your profile...</p>
+            <p className="font-semibold text-sm">Sam is analyzing your profile...</p>
             <p className="text-xs text-muted-foreground">Generating personalized career suggestions based on your data.</p>
           </div>
         </div>
@@ -336,7 +336,7 @@ export default function AIActivityFeed({ user }) {
         {isAIManager && (
           <div className="ml-auto flex items-center gap-3">
             <Link to="/maya-desk" className="text-xs font-medium text-primary hover:underline">
-              Maya's Desk →
+              Sam's Desk →
             </Link>
             <span className="px-2.5 py-0.5 rounded-full bg-primary/10 border border-primary/20 text-primary text-[10px] font-bold uppercase tracking-wider">
               AI Manager
@@ -350,7 +350,7 @@ export default function AIActivityFeed({ user }) {
         {["suggestions", "activity"].map(t => (
           <button key={t} onClick={() => setActiveTab(t)}
             className={`px-3 py-1.5 rounded-lg text-xs font-medium transition-colors capitalize ${activeTab === t ? "bg-primary/10 text-primary border border-primary/20" : "text-muted-foreground hover:text-foreground border border-transparent"}`}>
-            {t === "suggestions" ? "✦ Maya's Suggestions" : "Activity Log"}
+            {t === "suggestions" ? "✦ Sam's Suggestions" : "Activity Log"}
           </button>
         ))}
       </div>

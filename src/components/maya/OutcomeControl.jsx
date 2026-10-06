@@ -10,7 +10,7 @@ const OUTCOMES = [
 
 /**
  * Records what happened after an approved action — replies, progress, rejection.
- * Maya feeds these outcomes back into future recommendations.
+ * Sam feeds these outcomes back into future recommendations.
  */
 export default function OutcomeControl({ outcome, note, onRecord }) {
   const [draftNote, setDraftNote] = useState(note || "");
@@ -52,7 +52,7 @@ export default function OutcomeControl({ outcome, note, onRecord }) {
       />
       {outcome && (
         <p className="text-[10px] text-muted-foreground/70">
-          Outcome recorded — Maya factors this into her next plan.
+          Outcome recorded — Sam factors this into their next plan.
         </p>
       )}
     </div>

@@ -22,11 +22,11 @@
     },
     "rationale": {
       "type": "string",
-      "description": "Why Maya suggests this, citing the artist's real data and confirmed preferences"
+      "description": "Why Sam suggests this, citing the artist's real data and confirmed preferences"
     },
     "proposed_action": {
       "type": "string",
-      "description": "What Maya proposes to do, in plain terms"
+      "description": "What Sam proposes to do, in plain terms"
     },
     "draft_kind": {
       "type": "string",
@@ -35,7 +35,7 @@
         "manual"
       ],
       "default": "manual",
-      "description": "email = Maya drafted outreach she can send once approved, manual = the artist executes it themselves"
+      "description": "email = Sam drafted outreach they can send once approved, manual = the artist executes it themselves"
     },
     "draft": {
       "type": "string",
@@ -58,7 +58,7 @@
         "dismissed"
       ],
       "default": "proposed",
-      "description": "proposed = awaiting decision, approved = artist took it on (manual or self-send), executed = Maya sent the approved outreach, dismissed = rejected"
+      "description": "proposed = awaiting decision, approved = artist took it on (manual or self-send), executed = Sam sent the approved outreach, dismissed = rejected"
     },
     "executed_at": {
       "type": "string",
@@ -72,7 +72,7 @@
         "rejected",
         "no_reply"
       ],
-      "description": "What happened after the action, recorded by the artist so Maya can factor it into future plans"
+      "description": "What happened after the action, recorded by the artist so Sam can factor it into future plans"
     },
     "outcome_note": {
       "type": "string",

@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 import { Sparkles, Search, Mail, Mic2, TrendingUp } from "lucide-react";
+import SamLogo from "@/components/SamLogo";
 import { Button } from "@/components/ui/button";
 
 export default function MayaUpgradeCard() {
@@ -8,17 +9,17 @@ export default function MayaUpgradeCard() {
       {/* Avatar + headline */}
       <div className="flex items-start gap-4">
         <div className="h-14 w-14 rounded-2xl bg-gradient-to-br from-primary to-emerald-600 flex items-center justify-center shrink-0 shadow-lg" style={{ boxShadow: "0 0 24px rgba(34,197,94,0.3)" }}>
-          <Sparkles className="h-7 w-7 text-black" />
+          <SamLogo className="h-8 w-8 text-black" />
         </div>
         <div className="space-y-1">
-          <p className="font-heading font-bold text-lg leading-tight">Meet Maya, your AI music manager</p>
+          <p className="font-heading font-bold text-lg leading-tight">Meet Sam, your SoundReady Artist Manager</p>
           <p className="text-sm text-muted-foreground leading-relaxed">
-            Every artist on the come-up needs a manager in their corner. Maya knows your numbers, searches for your opportunities, and does the outreach work while you focus on the music.
+            Every artist on the come-up needs a manager in their corner. Sam knows your numbers, searches for your opportunities, and does the outreach work while you focus on the music.
           </p>
         </div>
       </div>
 
-      {/* What she does */}
+      {/* What Sam does */}
       <ul className="space-y-2.5">
         {[
           { icon: Search, text: "Searches for gigs and festivals in your city — with real venue names and submission links" },
@@ -44,7 +45,7 @@ export default function MayaUpgradeCard() {
       </Link>
 
       <p className="text-[10px] text-muted-foreground/60 text-center">
-        AI Manager tier · Unlock Maya + all proactive outbound tools
+        AI Manager tier · Unlock Sam + all proactive outbound tools
       </p>
     </div>
   );

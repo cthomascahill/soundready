@@ -1,9 +1,9 @@
 import { createClientFromRequest } from 'npm:@base44/sdk@0.8.52';
 import { findContactEmail, sanitizeEmail } from '../../shared/mayaContact.ts';
 
-// Maya scouting: finds sync calls, A&R calls, and labels openly seeking beats,
+// Sam scouting: finds sync calls, A&R calls, and labels openly seeking beats,
 // drafts pitches where a public contact email exists, and queues everything to
-// Maya's Desk. Runs on demand (logged-in producer) and weekly via workflow.
+// Sam's Desk. Runs on demand (logged-in producer) and weekly via workflow.
 export default async function(req) {
   try {
     const base44 = createClientFromRequest(req);
@@ -99,8 +99,8 @@ Find 3 opportunities. For each return:
     let contactEmail = sanitizeEmail(opp.public_email);
     let emailSource = opp.email_source;
 
-    // Maya's whole job is finding WHO to contact — if the opportunity didn't
-    // list an email, she goes looking for the org's published contact address.
+    // Sam's whole job is finding WHO to contact — if the opportunity didn't
+    // list an email, they go looking for the org's published contact address.
     if (!contactEmail) {
       const hunted = await findContactEmail(base44, {
         org: opp.org,
@@ -133,8 +133,8 @@ Then the body. Sign off as ${producerName}.`,
     await base44.entities.AIActivity.create({
       user_id: user.id,
       action_type: 'beat_scout',
-      title: `Maya found ${opp.title}${opp.org ? ` — ${opp.org}` : ''}`,
-      description: `${opp.what_they_want || 'An opportunity for your beats.'}${opp.deadline && opp.deadline !== 'Open' ? ` Deadline: ${opp.deadline}.` : ''}${contactEmail ? ` Maya found their contact email (${emailSource || 'published contact'}) and drafted the submission for your approval.` : ' No published email found — submit via the link in the draft.'}`,
+      title: `Sam found ${opp.title}${opp.org ? ` — ${opp.org}` : ''}`,
+      description: `${opp.what_they_want || 'An opportunity for your beats.'}${opp.deadline && opp.deadline !== 'Open' ? ` Deadline: ${opp.deadline}.` : ''}${contactEmail ? ` Sam found their contact email (${emailSource || 'published contact'}) and drafted the submission for your approval.` : ' No published email found — submit via the link in the draft.'}`,
       status: contactEmail ? 'ready_to_send' : 'pending',
       draft_email: draftText,
       recipient_email: contactEmail,
@@ -150,8 +150,8 @@ Then the body. Sign off as ${producerName}.`,
   if (found > 0 && user.email) {
     await base44.integrations.Core.SendEmail({
       to: user.email,
-      subject: `Maya found ${found} beat opportunit${found === 1 ? 'y' : 'ies'} for you`,
-      body: `Your AI Manager went to work.\n\nMaya found ${found} current opportunit${found === 1 ? 'y' : 'ies'} to pitch your beats${opportunities[0]?.public_email ? '' : ''} and queued them to Maya's Desk for your approval.\n\nOpen SoundReady to review.\n\n— SoundReady AI Manager`,
+      subject: `Sam found ${found} beat opportunit${found === 1 ? 'y' : 'ies'} for you`,
+      body: `Your AI Manager went to work.\n\nSam found ${found} current opportunit${found === 1 ? 'y' : 'ies'} to pitch your beats${opportunities[0]?.public_email ? '' : ''} and queued them to Sam's Desk for your approval.\n\nOpen SoundReady to review.\n\n— SoundReady AI Manager`,
     });
   }
 
