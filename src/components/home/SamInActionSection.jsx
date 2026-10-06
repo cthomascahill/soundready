@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import { Bot, CheckCircle2, Pencil, X, Send, Sparkles, CalendarDays } from "lucide-react";
+import { Bot, Pencil, X, Send, Sparkles, CalendarDays } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useLang } from "@/lib/i18n/LanguageContext";
 
@@ -9,33 +9,13 @@ export default function SamInActionSection() {
   const { t } = useLang();
   return (
     <section className="px-4 py-24 border-t border-border">
-      <div className="max-w-5xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-        <motion.div initial={{ opacity: 0, x: -24 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }} className="space-y-6">
-          <p className="text-xs text-primary uppercase tracking-widest font-bold">{t("Sam in Action")}</p>
-          <h2 className="font-heading text-4xl sm:text-5xl font-bold">{t("Not a chatbot. A desk with work on it.")}</h2>
-          <p className="text-lg text-muted-foreground leading-relaxed">
-            {t("Every week Sam puts finished work on your desk — a pitch, researched and drafted from your real numbers. Your only job: the decision.")}
-          </p>
-          <div className="space-y-3">
-            {[
-              "Every draft cites your real data — never generic",
-              "Approve, edit or deny in one tap",
-              "Outcomes feed back — next week gets smarter",
-            ].map((item) => (
-              <div key={item} className="flex items-start gap-3">
-                <CheckCircle2 className="h-5 w-5 text-primary shrink-0 mt-0.5" />
-                <span className="text-sm text-foreground">{t(item)}</span>
-              </div>
-            ))}
-          </div>
-        </motion.div>
-
-        <motion.div initial={{ opacity: 0, x: 24 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }} className="relative">
-          <img
-            src={SAM_IMG}
-            alt="Sam, the SoundReady AI manager robot"
-            className="absolute -top-10 -right-2 h-20 w-auto drop-shadow-xl z-10 pointer-events-none hidden sm:block"
-          />
+      <div className="max-w-2xl mx-auto relative">
+        <img
+          src={SAM_IMG}
+          alt="Sam, the SoundReady AI manager robot"
+          className="absolute -top-10 -right-2 sm:-right-10 h-20 w-auto drop-shadow-xl z-10 pointer-events-none"
+        />
+        <motion.div initial={{ opacity: 0, y: 24 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}>
           <div className="rounded-2xl border border-border bg-card p-5 space-y-4 shadow-xl">
             <div className="flex items-center gap-2 pb-2 border-b border-border">
               <Bot className="h-4 w-4 text-primary" />

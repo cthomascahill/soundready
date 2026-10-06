@@ -130,8 +130,8 @@ export default function About() {
           </motion.div>
 
           <h1 className="font-heading text-6xl sm:text-8xl font-black tracking-tight leading-[0.9]">
-            {t("Your career, organized.")}<br />
-            <span className="text-primary">{t("Sam works it every week.")}</span>
+            {t("Your career,")}<br />
+            <span className="text-primary">{t("in motion.")}</span>
           </h1>
 
           <p className="text-xl sm:text-2xl text-muted-foreground leading-relaxed max-w-3xl mx-auto font-body">
@@ -159,22 +159,10 @@ export default function About() {
         <div className="max-w-5xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
           <motion.div initial={{ opacity: 0, x: -24 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }} className="space-y-6 order-2 lg:order-1">
             <p className="text-xs text-primary uppercase tracking-wider font-bold">{t("The Main Event")}</p>
-            <h2 className="font-heading text-4xl sm:text-5xl font-bold">{t("Sam works your career around the clock.")}</h2>
+            <h2 className="font-heading text-4xl sm:text-5xl font-bold">{t("Meet Sam.")}</h2>
             <p className="text-lg text-muted-foreground leading-relaxed">
-              {t("A great manager finds opportunities and pitches for you every week. That's Sam — real outbound, from your real numbers, waiting for your approval.")}
+              {t("Sam is your AI manager. Sam automatically finds opportunities and pitches you for them every week — real outbound, from your real numbers, waiting for your approval. Just log in, approve or deny.")}
             </p>
-            <div className="space-y-3">
-              {[
-                "Weekly outbound — tour support, features, sync & more",
-                "Every draft backed by your real data",
-                "Chat with Sam anytime — advice grounded in your numbers",
-              ].map((item) => (
-                <div key={item} className="flex items-start gap-3">
-                  <CheckCircle2 className="h-5 w-5 text-primary shrink-0 mt-0.5" />
-                  <span className="text-sm text-foreground">{t(item)}</span>
-                </div>
-              ))}
-            </div>
             <Button size="lg" className="gap-2 font-heading font-bold text-base px-8 h-12" onClick={handleCTA}>
               {t("Get Sam — $60/mo")} <ArrowRight className="h-4 w-4" />
             </Button>
@@ -203,8 +191,6 @@ export default function About() {
         <div className="max-w-5xl mx-auto space-y-14">
           <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="text-center space-y-4">
             <p className="text-xs text-primary uppercase tracking-wider font-bold">{t("Pricing")}</p>
-            <h2 className="font-heading text-4xl sm:text-5xl font-bold">{t("Sam is the product. Everything else comes with it.")}</h2>
-            <p className="text-lg text-muted-foreground max-w-2xl mx-auto">{t("Start free. Grow in whenever you're ready.")}</p>
           </motion.div>
 
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-5">
@@ -298,26 +284,25 @@ export default function About() {
       <section className="px-4 py-20 border-t border-border">
         <div className="max-w-5xl mx-auto space-y-8">
           <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="text-center space-y-2">
-            <p className="text-xs text-primary uppercase tracking-wider font-bold">{t("The Toolkit")}</p>
             <h2 className="font-heading text-4xl font-bold">{t("The infrastructure of a full professional team.")}</h2>
           </motion.div>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+          <GrowthComparisonChart />
+          <p className="text-center text-xs text-muted-foreground">{t("Illustrative comparison, not a guarantee — results depend on your releases, effort, and genre.")}</p>
+          <div className="grid grid-cols-2 lg:grid-cols-5 gap-4">
             {[
-              { num: "843+", label: "Venues ready to pitch", sub: "Real booking database — inquire and route." },
-              { num: "40+", label: "Integrated tools", sub: "Strategy to royalties. One login." },
-              { num: "10+ hrs", label: "Back in your week", sub: "The platform runs the busywork." },
-              { num: "$0", label: "To get started", sub: "Vault and Tracker, free forever." },
+              { num: "843+", label: "venues ready to pitch" },
+              { num: "40+", label: "integrated tools" },
+              { num: "10+ hrs", label: "back in your week" },
+              { num: "$0", label: "to get started" },
+              { num: "15–20%", label: "traditional management takes" },
             ].map((s, i) => (
-              <motion.div key={i} initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: i * 0.1 }}
-                className="rounded-2xl bg-card border border-primary/20 p-6 space-y-3 text-center">
-                <CountUpStat value={s.num} />
-                <p className="font-heading font-bold text-base">{t(s.label)}</p>
-                <p className="text-xs text-muted-foreground leading-relaxed">{t(s.sub)}</p>
+              <motion.div key={i} initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: i * 0.08 }}
+                className="rounded-2xl bg-card border border-primary/20 p-6 space-y-2 text-center">
+                <p className="font-heading text-3xl sm:text-4xl font-black text-primary">{s.num}</p>
+                <p className="text-xs text-muted-foreground">{t(s.label)}</p>
               </motion.div>
             ))}
           </div>
-          <GrowthComparisonChart />
-          <p className="text-center text-xs text-muted-foreground">{t("Illustrative comparison, not a guarantee — results depend on your releases, effort, and genre.")}</p>
         </div>
       </section>
 
