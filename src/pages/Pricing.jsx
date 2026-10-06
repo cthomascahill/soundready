@@ -13,61 +13,43 @@ import CheckoutButton from "@/components/billing/CheckoutButton";
 import SEO from "@/components/SEO";
 import ManagerCostSlider from "@/components/home/ManagerCostSlider";
 
-// Each tier's unlocks, shown side-by-side for artists and producers
-const FREE_GROUPS = [
-  { label: "For artists", items: [
-    "Vault — up to 5 songs, organized",
-    "Tracker — from idea to release",
-    "Connect Spotify & YouTube",
-    "Your dashboard & analytics",
-  ] },
-  { label: "For producers", items: [
-    "Productions & Placements — up to 5 beats",
-    "Full producer mode in every account",
-  ] },
+// Each tier's unlocks — artists and their teams
+const FREE_ITEMS = [
+  "Vault — up to 5 songs, organized",
+  "Tracker — from idea to release",
+  "Connect Spotify & YouTube",
+  "Your dashboard & analytics",
 ];
 
-const PRO_GROUPS = [
-  { label: "For artists", items: [
-    "The Studio, Gig Finder & 843+ venue database",
-    "Tour Planner, Tour Finance & Venue Contracts",
-    "The Wall — the artist community",
-    "Team Chat & shared Whiteboard",
-    "Career Roadmap & weekly music briefings",
-  ] },
-  { label: "For producers", items: [
-    "Beat Pipeline & Artist Match — producer tools",
-    "Beat Store — sell leases & exclusives",
-    "Client CRM & producer contracts",
-  ] },
+const PRO_ITEMS = [
+  "Everything in Free, unlocked",
+  "Gig Finder — 843+ venues ready to pitch",
+  "Tour Planner, Tour Finance & Venue Contracts",
+  "The Wall — the artist community",
+  "Team Chat & Career Roadmap",
+  "Weekly music briefings & Music News",
+  "Genre Trends & Lyric Room",
+  "Invoices, Revenue Splits & Royalty Dashboard",
+  "Budget Tracker & full Analytics",
+  "Link in Bio & Branding Studio",
 ];
 
-const AI_GROUPS = [
-  { label: "For artists", items: [
-    "Sam chat — advice backed by your real numbers",
-    "Auto-drafted playlist & tour-opening pitches",
-    "EPKs & weekly career digests",
-    "Nothing sends without your approval",
-  ] },
-  { label: "For producers", items: [
-    "Sam pitches your beats to matching artists",
-    "Approve, edit, or deny every move Sam makes",
-  ] },
+const AI_ITEMS = [
+  "Weekly outbound on your behalf — you approve or deny",
+  "Nothing sends without your approval",
+  "Auto-drafted playlist & tour-opening pitches",
+  "Tour & sync opportunities, outbounded for you",
+  "Sam chat — advice backed by your real numbers",
+  "Electronic press kit (EPK) creator",
+  "Weekly career digest",
 ];
 
-const TierItems = ({ groups, check = "text-primary" }) => (
-  <div className="space-y-4">
-    {groups.map((group) => (
-      <div key={group.label}>
-        <p className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground/70 mb-1.5">{group.label}</p>
-        <div className="grid grid-cols-1 gap-y-2">
-          {group.items.map((item) => (
-            <div key={item} className="flex items-start gap-2.5">
-              <CheckCircle2 className={`h-4 w-4 shrink-0 mt-0.5 ${check}`} />
-              <span className="text-xs text-foreground">{item}</span>
-            </div>
-          ))}
-        </div>
+const TierItems = ({ items, check = "text-primary" }) => (
+  <div className="grid grid-cols-1 gap-y-2">
+    {items.map((item) => (
+      <div key={item} className="flex items-start gap-2.5">
+        <CheckCircle2 className={`h-4 w-4 shrink-0 mt-0.5 ${check}`} />
+        <span className="text-xs text-foreground">{item}</span>
       </div>
     ))}
   </div>
@@ -232,7 +214,7 @@ export default function Pricing() {
                 Your music's home base. The Vault and Tracker keep up to 5 songs fully organized, from idea to release — and everything you add stays yours. Organizing your catalog should never cost money. Everything else unlocks with Artist Pro.
               </p>
               <div className="flex-1">
-                <TierItems groups={FREE_GROUPS} check="text-chart-5" />
+                <TierItems items={FREE_ITEMS} check="text-chart-5" />
               </div>
               <div className="mt-6">
                 {isAuth ? (
@@ -257,10 +239,10 @@ export default function Pricing() {
               <p className="text-sm font-semibold mt-0.5 mb-2 text-chart-5">You and your team, finally in sync.</p>
               <p className="text-2xl font-black mb-3">$37<span className="text-sm text-muted-foreground font-medium">/mo</span></p>
               <p className="text-sm text-muted-foreground leading-relaxed mb-5">
-                Every tool unlocked, plus your whole team in one workspace. Your manager, producer, and engineer work from the same songs, same strategy, same plan. No missed emails, no dropped balls. 7 days free.
+                Every tool unlocked, plus your whole team in one workspace. Your manager, engineer and collaborators work from the same songs, same strategy, same plan. No missed emails, no dropped balls. 7 days free.
               </p>
               <div className="flex-1">
-                <TierItems groups={PRO_GROUPS} check="text-chart-5" />
+                <TierItems items={PRO_ITEMS} check="text-chart-5" />
               </div>
               <div className="mt-6">
                 {!isAuth ? (
@@ -299,7 +281,7 @@ export default function Pricing() {
                 Sam outbounds for you every week — playlist pitches, tour support, sync opportunities — drafted from your real numbers, and nothing sends without your approval. A traditional manager takes 15–20% of everything you earn. Sam is $60 flat, full-time.
               </p>
               <div className="flex-1">
-                <TierItems groups={AI_GROUPS} />
+                <TierItems items={AI_ITEMS} />
               </div>
               <div className="mt-6 relative">
                 {!isAuth ? (
