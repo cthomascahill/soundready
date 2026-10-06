@@ -18,7 +18,7 @@ export default function DropSongZone({ onFiles }) {
       onDragLeave={() => setDragging(false)}
       onDrop={(e) => { e.preventDefault(); setDragging(false); handle(e.dataTransfer.files); }}
       onClick={() => inputRef.current?.click()}
-      className={`flex items-center justify-center gap-3 h-20 rounded-2xl border-2 border-dashed cursor-pointer transition-all
+      className={`flex flex-col items-center justify-center gap-1.5 h-32 rounded-2xl border-2 border-dashed cursor-pointer transition-all
         ${dragging ? "border-primary bg-primary/10 scale-[1.005]" : "border-border hover:border-primary/40 hover:bg-secondary/40"}`}
     >
       <input
@@ -29,9 +29,12 @@ export default function DropSongZone({ onFiles }) {
         className="hidden"
         onChange={(e) => { handle(e.target.files); e.target.value = ""; }}
       />
-      <Upload className="h-4 w-4 text-primary shrink-0" />
-      <p className="text-sm text-muted-foreground">
-        <span className="text-foreground font-medium">Drop a song</span> — Sam files it, or{" "}
+      <Upload className="h-5 w-5 text-primary shrink-0" />
+      <p className="font-heading text-2xl sm:text-3xl font-bold text-foreground text-center leading-tight">
+        Drop a song.
+      </p>
+      <p className="text-sm text-muted-foreground text-center">
+        Your AI manager will organize it for you — or{" "}
         <span className="underline underline-offset-2">browse</span>
       </p>
     </div>

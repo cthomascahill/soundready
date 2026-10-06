@@ -63,7 +63,7 @@ function SongCard({ song, onEdit, viewMode, pipeline }) {
       <motion.div initial={{ opacity: 0, y: 6 }} animate={{ opacity: 1, y: 0 }}
         onClick={() => onEdit(song)}
         className="flex items-center gap-3 px-4 py-3 rounded-xl bg-card border border-border hover:border-primary/30 hover:bg-card/80 transition-all cursor-pointer">
-        <VaultArtwork url={song.artwork_url} title={song.title} className="h-12 w-12 rounded-lg shrink-0 object-cover" />
+        <VaultArtwork url={song.artwork_url} title={song.title} className="h-10 w-10 rounded-lg shrink-0 object-cover" />
         <div className="flex-1 min-w-0">
           <p className="font-semibold text-sm truncate">{song.title}</p>
           <p className="text-xs text-zinc-500 truncate">
@@ -91,36 +91,39 @@ function SongCard({ song, onEdit, viewMode, pipeline }) {
   return (
     <motion.div initial={{ opacity: 0, scale: 0.97 }} animate={{ opacity: 1, scale: 1 }}
       onClick={() => onEdit(song)}
-      className="rounded-2xl bg-card border border-border hover:border-primary/30 transition-all cursor-pointer overflow-hidden group">
-      <div className="relative">
-        <VaultArtwork url={song.artwork_url} title={song.title} className="w-full aspect-square" iconClass="h-10 w-10" />
-        <span className={`absolute top-2 right-2 text-[10px] font-semibold px-2 py-0.5 rounded-full border shrink-0 ${STATUS_COLORS[song.status] || STATUS_COLORS.Demo}`}>
-          {song.status}
-        </span>
+      className="rounded-xl bg-card border border-border hover:border-primary/30 transition-all cursor-pointer p-3 flex items-start gap-3 group">
+      <div className="relative shrink-0">
+        <VaultArtwork url={song.artwork_url} title={song.title} className="h-12 w-12 rounded-lg shrink-0 object-cover" iconClass="h-5 w-5" />
         {song.file_url && (
-          <div className="absolute bottom-2 right-2" onClick={(e) => e.stopPropagation()}>
+          <div className="absolute -bottom-1.5 -right-1.5" onClick={(e) => e.stopPropagation()}>
             <AudioMiniPlayer url={song.file_url} name={song.title} />
           </div>
         )}
       </div>
-      <div className="p-4 space-y-3">
-      <div>
-        <p className="font-heading font-semibold truncate">{song.title}</p>
-        {song.producer && <p className="text-xs text-zinc-500 truncate">Prod. {song.producer}</p>}
-        {song.genre && <p className="text-xs text-zinc-600">{song.genre}</p>}
-      </div>
-      <div className="flex flex-wrap gap-1">
-        {song.moods?.slice(0, 3).map(m => (
-          <span key={m} className="text-[10px] px-2 py-0.5 rounded-full bg-primary/10 text-primary border border-primary/20">{m}</span>
-        ))}
-        {song.tags?.slice(0, 2).map(t => (
-          <span key={t} className="text-[10px] px-2 py-0.5 rounded-full bg-zinc-800 text-zinc-400 border border-zinc-700 flex items-center gap-1">
-            <Tag className="h-2.5 w-2.5" />{t}
+      <div className="flex-1 min-w-0 space-y-1.5">
+        <div className="flex items-start justify-between gap-2">
+          <p className="font-heading font-semibold text-sm truncate">{song.title}</p>
+          <span className={`text-[9px] font-semibold px-1.5 py-0.5 rounded-full border shrink-0 ${STATUS_COLORS[song.status] || STATUS_COLORS.Demo}`}>
+            {song.status}
           </span>
-        ))}
-      </div>
+        </div>
+        {(song.producer || song.genre) && (
+          <p className="text-[11px] text-zinc-500 truncate">
+            {[song.producer && `Prod. ${song.producer}`, song.genre].filter(Boolean).join(" · ")}
+          </p>
+        )}
+        <div className="flex flex-wrap gap-1">
+          {song.moods?.slice(0, 2).map(m => (
+            <span key={m} className="text-[9px] px-1.5 py-0.5 rounded-full bg-primary/10 text-primary border border-primary/20">{m}</span>
+          ))}
+          {song.tags?.slice(0, 1).map(t => (
+            <span key={t} className="text-[9px] px-1.5 py-0.5 rounded-full bg-zinc-800 text-zinc-400 border border-zinc-700 flex items-center gap-1">
+              <Tag className="h-2.5 w-2.5" />{t}
+            </span>
+          ))}
+        </div>
         {pipeline && <TrackerStageDots song={pipeline} />}
-        <p className="text-[10px] text-zinc-600">{moment(song.created_date).format("MMM D, YYYY")}</p>
+        <p className="text-[10px] text-zinc-600">{moment(song.created_date).format("MMM D")}</p>
       </div>
     </motion.div>
   );
@@ -356,7 +359,7 @@ export default function SongLibrary() {
                 )}
               </div>
             ) : viewMode === "grid" ? (
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3">
                 {filtered.map(song => (
                   <SongCard key={song.id} song={song} onEdit={openEdit} viewMode="grid"
                     pipeline={pipelineByTitle.get(song.title?.toLowerCase().trim())} />
