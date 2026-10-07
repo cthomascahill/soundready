@@ -48,20 +48,34 @@ Deno.serve(async (req) => {
 
     const publishedAfter = new Date(Date.now() - 28 * 24 * 60 * 60 * 1000).toISOString();
 
-    // Search each query in parallel
-    const searchResults = await Promise.all(queries.map(async (q) => {
+    // Search each query in parallel — order by viewCount so the biggest
+    // videos of the window come back, not just the newest uploads.
+    const searchYouTube = async (q) => {
       const url = new URL("https://www.googleapis.com/youtube/v3/search");
       url.searchParams.set("part", "snippet");
       url.searchParams.set("type", "video");
       url.searchParams.set("q", q);
-      url.searchParams.set("order", "date");
-      url.searchParams.set("maxResults", "10");
+      url.searchParams.set("order", "viewCount");
+      url.searchParams.set("maxResults", "15");
       url.searchParams.set("publishedAfter", publishedAfter);
       url.searchParams.set("key", YOUTUBE_API_KEY);
-      const res = await fetch(url.toString());
-      const data = await res.json();
-      return data.error ? [] : data.items || [];
-    }));
+      // One retry: googleapis occasionally returns a 5xx/timeout that must
+      // not take the whole refresh down with it.
+      for (let attempt = 0; attempt < 2; attempt++) {
+        try {
+          const res = await fetch(url.toString());
+          if (!res.ok) throw new Error(`HTTP ${res.status}`);
+          const data = await res.json();
+          return data.error ? [] : data.items || [];
+        } catch (e) {
+          if (attempt === 0) await new Promise(r => setTimeout(r, 500));
+          else console.log(`search failed for "${q}": ${e?.message || e}`);
+        }
+      }
+      return [];
+    };
+
+    const searchResults = await Promise.all(queries.map(searchYouTube));
 
     // Merge + dedupe by video id
     const seen = new Set();
@@ -82,8 +96,18 @@ Deno.serve(async (req) => {
     statsUrl.searchParams.set("part", "snippet,statistics,contentDetails");
     statsUrl.searchParams.set("id", ids);
     statsUrl.searchParams.set("key", YOUTUBE_API_KEY);
-    const statsRes = await fetch(statsUrl);
-    const statsData = await statsRes.json();
+    let statsData = { items: [] };
+    for (let attempt = 0; attempt < 2; attempt++) {
+      try {
+        const statsRes = await fetch(statsUrl);
+        if (!statsRes.ok) throw new Error(`HTTP ${statsRes.status}`);
+        statsData = await statsRes.json();
+        break;
+      } catch (e) {
+        if (attempt === 0) await new Promise(r => setTimeout(r, 500));
+        else console.log(`stats lookup failed: ${e?.message || e}`);
+      }
+    }
 
     const byId = new Map((statsData.items || []).map(v => [v.id, v]));
 
@@ -108,7 +132,7 @@ Deno.serve(async (req) => {
         };
       })
       .filter(v => v.longForm && isMusicVideo(v))
-      .sort((a, b) => new Date(b.publishedAt) - new Date(a.publishedAt))
+      .sort((a, b) => (b.views || 0) - (a.views || 0))
       .slice(0, 36);
 
     console.log(`fetchMusicVideos: ${videos.length} videos across ${queries.length} queries`);
