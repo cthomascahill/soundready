@@ -4,6 +4,7 @@ import { X, Music2, Upload, Play, Pause, Tag, Plus, ImagePlus, Sparkles } from "
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { resolvePlayableAudioUrl } from "@/lib/audioPlayback";
+import { awardPoints } from "@/lib/awardPoints";
 import ReleasePlanDialog from "@/components/vault/ReleasePlanDialog";
 
 const GENRES = ["Hip-Hop", "R&B", "Pop", "Trap", "Drill", "Afrobeats", "Gospel", "Country", "Rock", "Electronic", "Jazz", "Soul", "Alternative", "Other"];
@@ -120,6 +121,7 @@ export default function SongCardModal({ song, onClose, onSave, projects = [] }) 
     };
     if (isNew) {
       const created = await base44.entities.SongVault.create(data);
+      awardPoints("song_uploaded", created.id, `Added "${created.title}" to the Vault`);
       onSave(created, "create");
     } else {
       const updated = await base44.entities.SongVault.update(song.id, data);

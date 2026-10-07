@@ -1,0 +1,44 @@
+{
+  "trigger": {
+    "condition": null,
+    "config": {
+      "trigger_type": "scheduled",
+      "events": [],
+      "schedule_mode": "recurring",
+      "cron_expression": "0 8 * * *",
+      "one_time_date": null,
+      "timezone": "America/New_York",
+      "interval_value": null,
+      "interval_unit": null,
+      "interval_anchor": null,
+      "ends_type": "never",
+      "ends_on_date": null,
+      "ends_after_count": null
+    }
+  },
+  "description": "Every morning at 8am, Sam emails each artist their open to-dos for the week.",
+  "name": "Sam Morning To-Do Reminder",
+  "definition": {
+    "document": {
+      "dsl": "1.0.0",
+      "name": "sam_morning_todo_reminder",
+      "version": "1.0",
+      "namespace": "base44"
+    },
+    "do": [
+      {
+        "send_morning_reminders": {
+          "call": "invoke_backend_function",
+          "with": {
+            "function_name": "morningTodoReminder"
+          },
+          "then": "end",
+          "x-base44": {
+            "title": "Send morning to-do emails",
+            "description": "Emails every artist their open to-dos"
+          }
+        }
+      }
+    ]
+  }
+}

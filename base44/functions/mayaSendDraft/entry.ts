@@ -1,5 +1,6 @@
 import { createClientFromRequest } from 'npm:@base44/sdk@0.8.52';
 import { sendMayaDraft, isValidEmail } from '../../shared/mayaEmail.ts';
+import { awardPointsFor } from '../../shared/points.ts';
 
 export default async function(req) {
   try {
@@ -48,6 +49,7 @@ export default async function(req) {
         recipient_email: recipient,
         sent_at: new Date().toISOString(),
       });
+      await awardPointsFor(base44, user.id, { source_type: 'email_approved', source_id: activity.id, reason: `Sent: ${activity.title}` });
       console.log(`mayaSendDraft: activity ${activity.id} sent to ${recipient}`);
       return Response.json({ success: true, data: updated });
     }

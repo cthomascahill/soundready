@@ -51,6 +51,7 @@ import MusicNews from './pages/MusicNews';
 import IndustryIntel from './pages/IndustryIntel';
 import Deals from './pages/Deals';
 import TellSam from './pages/TellSam';
+import Todos from './pages/Todos';
 import Storage from './pages/Storage';
 
 import MusicAcademy from './pages/MusicAcademy';
@@ -175,6 +176,7 @@ const AuthenticatedApp = () => {
         <Route path="/maya-desk" element={<MayaDesk />} />
         <Route path="/deals" element={<Deals />} />
         <Route path="/tell-sam" element={<TellSam />} />
+        <Route path="/todos" element={<Todos />} />
         <Route path="/maya-profile" element={<MayaProfile />} />
         <Route path="/beat-vault" element={<BeatVault />} />
         <Route path="/beat-pipeline" element={pro(BeatPipeline)} />

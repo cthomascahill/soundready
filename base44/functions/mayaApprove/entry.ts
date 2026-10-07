@@ -1,5 +1,6 @@
 import { createClientFromRequest } from 'npm:@base44/sdk@0.8.52';
 import { sendMayaDraft, isValidEmail } from '../../shared/mayaEmail.ts';
+import { awardPointsFor } from '../../shared/points.ts';
 
 // The approval gate for Sam's recommendations. Dismiss archives a proposal.
 // Approve either sends the (possibly edited) outreach draft — nothing goes out
@@ -51,6 +52,7 @@ export default async function(req) {
           recipient_email: recipient,
           executed_at: new Date().toISOString(),
         });
+        await awardPointsFor(base44, user.id, { source_type: 'email_approved', source_id: rec.id, reason: `Approved: ${rec.title}` });
         console.log(`mayaApprove: recommendation ${rec.id} sent to ${recipient}`);
         return Response.json({ success: true, data: updated });
       }
@@ -60,6 +62,7 @@ export default async function(req) {
         status: 'approved',
         executed_at: new Date().toISOString(),
       });
+      await awardPointsFor(base44, user.id, { source_type: 'email_approved', source_id: rec.id, reason: `Took on: ${rec.title}` });
       console.log(`mayaApprove: recommendation ${rec.id} taken on by artist`);
       return Response.json({ success: true, data: updated });
     }

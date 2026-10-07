@@ -2,6 +2,7 @@ import { useState, useEffect, useCallback, useMemo } from "react";
 import { Link } from "react-router-dom";
 import { base44 } from "@/api/base44Client";
 import { useAuth } from "@/lib/AuthContext";
+import { awardPoints } from "@/lib/awardPoints";
 import { ArrowLeft, Users } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import ProjectsGrid from "@/components/songtracker/ProjectsGrid";
@@ -65,6 +66,11 @@ export default function SongTracker() {
     const wasReleased = !!song?.stage_released;
     setSongs((prev) => prev.map((s) => s.id === id ? { ...s, ...changes } : s));
     await base44.entities.PipelineSong.update(id, changes);
+
+    // A brand-new release is a full action — Sound Ready Points for shipping it
+    if (changes.stage_released && !wasReleased) {
+      awardPoints("song_released", id, `Released: ${song?.song_name || "song"}`);
+    }
 
     // Keep the Vault in unison: the tracker's checked-off stages drive the vault status
     const touchedStages = Object.keys(changes).some((k) => k.startsWith("stage_"));

@@ -1,0 +1,52 @@
+{
+  "name": "PointsEvent",
+  "type": "object",
+  "description": "One SoundReady Points award: checking off to-dos, uploading songs, approving emails, releasing music. Same action never awards twice.",
+  "properties": {
+    "user_id": {
+      "type": "string",
+      "description": "User these points belong to"
+    },
+    "points": {
+      "type": "number",
+      "description": "How many SoundReady Points were earned"
+    },
+    "reason": {
+      "type": "string",
+      "description": "Human-readable note, e.g. Released: Midnight Drive"
+    },
+    "source_type": {
+      "type": "string",
+      "enum": [
+        "todo_done",
+        "song_uploaded",
+        "email_approved",
+        "song_released"
+      ],
+      "description": "The kind of full action that earned the points"
+    },
+    "source_id": {
+      "type": "string",
+      "description": "ID of the action's record, used so the same action never awards twice"
+    }
+  },
+  "required": [
+    "user_id",
+    "points",
+    "source_type"
+  ],
+  "rls": {
+    "read": {
+      "created_by_id": "{{user.id}}"
+    },
+    "create": {
+      "created_by_id": "{{user.id}}"
+    },
+    "update": {
+      "created_by_id": "{{user.id}}"
+    },
+    "delete": {
+      "created_by_id": "{{user.id}}"
+    }
+  }
+}

@@ -1,0 +1,55 @@
+{
+  "name": "ArtistTodo",
+  "type": "object",
+  "description": "An artist's to-do list for the week. Sam reads these every morning and emails what's left until it's done.",
+  "properties": {
+    "user_id": {
+      "type": "string",
+      "description": "User this to-do belongs to"
+    },
+    "title": {
+      "type": "string",
+      "description": "What needs to get done"
+    },
+    "notes": {
+      "type": "string",
+      "description": "Optional details, links or context"
+    },
+    "done": {
+      "type": "boolean",
+      "default": false,
+      "description": "Whether the artist checked it off"
+    },
+    "done_at": {
+      "type": "string",
+      "description": "ISO timestamp when it was checked off"
+    },
+    "week_of": {
+      "type": "string",
+      "description": "Monday of the week this to-do belongs to (ISO date)"
+    },
+    "points_awarded": {
+      "type": "boolean",
+      "default": false,
+      "description": "Whether SoundReady Points were already earned for finishing it"
+    }
+  },
+  "required": [
+    "user_id",
+    "title"
+  ],
+  "rls": {
+    "read": {
+      "created_by_id": "{{user.id}}"
+    },
+    "create": {
+      "created_by_id": "{{user.id}}"
+    },
+    "update": {
+      "created_by_id": "{{user.id}}"
+    },
+    "delete": {
+      "created_by_id": "{{user.id}}"
+    }
+  }
+}

@@ -8,6 +8,7 @@ import CommandPalette from "@/components/CommandPalette";
 import NotificationCenter from "@/components/NotificationCenter";
 import MayaAssistant from "@/components/MayaAssistant";
 import TrialBanner from "@/components/billing/TrialBanner";
+import PointsBadge from "@/components/PointsBadge";
 import LanguagePicker from "@/components/LanguagePicker";
 import ThemeToggle from "@/components/ThemeToggle";
 import { useLang } from "@/lib/i18n/LanguageContext";
@@ -43,6 +44,11 @@ export default function AppLayout() {
   return (
     <ModeProvider>
     <div className="min-h-screen bg-background font-body">
+      {/* Always-visible points total, top right */}
+      <div className="hidden lg:block fixed top-3 right-4 z-40">
+        <PointsBadge />
+      </div>
+
       {/* Mobile top bar */}
       <div className="lg:hidden sticky top-0 z-40 border-b border-border bg-background/90 backdrop-blur-xl">
         <div className="h-14 px-4 flex items-center justify-between">
@@ -52,6 +58,7 @@ export default function AppLayout() {
         </button>
         <div className="flex items-center gap-1">
           <NotificationCenter user={user} />
+          <PointsBadge />
         </div>
         </div>
       </div>

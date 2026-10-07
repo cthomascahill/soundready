@@ -4,6 +4,7 @@ import { base44 } from "@/api/base44Client";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { mirrorVaultSongsToTracker } from "@/lib/vaultTrackerSync";
+import { awardPoints } from "@/lib/awardPoints";
 import { cleanSongTitle } from "@/lib/audioFiles";
 import SamLogo from "@/components/SamLogo";
 
@@ -42,6 +43,7 @@ export default function SamFileModal({ file, onFiled, onAddArtwork, onClose }) {
         file_name: file.name,
         ...(duration ? { duration } : {}),
       });
+      awardPoints("song_uploaded", song.id, `Added "${song.title}" to the Vault`);
       const [tracker] = await mirrorVaultSongsToTracker([song]);
       const result = { song, tracker: tracker || null };
       setFiled(result);

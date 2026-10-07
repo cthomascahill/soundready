@@ -1,5 +1,6 @@
 import { createClientFromRequest } from 'npm:@base44/sdk@0.8.52';
 import { sendMayaDraft, isValidEmail } from '../../shared/mayaEmail.ts';
+import { awardPointsFor } from '../../shared/points.ts';
 
 // Per-draft actions for "Tell Sam what to do" tasks. Every draft is reviewed
 // and approved individually: send emails it out, approve marks it taken on,
@@ -38,6 +39,7 @@ export default async function(req) {
         status: 'approved',
         draft: text,
       });
+      await awardPointsFor(base44, user.id, { source_type: 'email_approved', source_id: draft.id, reason: `Approved draft: ${draft.target_name}` });
       console.log(`samTaskDraft: draft ${draft.id} approved by artist`);
       return Response.json({ success: true, data: updated });
     }
@@ -73,6 +75,7 @@ export default async function(req) {
         target_email: recipient,
         sent_at: new Date().toISOString(),
       });
+      await awardPointsFor(base44, user.id, { source_type: 'email_approved', source_id: draft.id, reason: `Sent outreach to ${draft.target_name}` });
       console.log(`samTaskDraft: draft ${draft.id} sent to ${recipient}`);
       return Response.json({ success: true, data: updated });
     }

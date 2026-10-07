@@ -6,7 +6,7 @@ import { useLang } from "@/lib/i18n/LanguageContext";
 import {
   Home, Music2, Users, ListChecks, LayoutGrid, FolderOpen,
   Map, Newspaper, CreditCard, UserCircle,
-  Route, Mic, Building2, Bot, Sparkles, Handshake, Wand2,
+  Route, Mic, Building2, Bot, Sparkles, Handshake, Wand2, ListTodo,
 } from "lucide-react";
 
 const NAV_SECTIONS = (isAdmin) => [
@@ -34,6 +34,7 @@ const NAV_SECTIONS = (isAdmin) => [
     items: [
       { to: "/artist-profile", icon: Mic, label: "Artist Profile" },
       { to: "/tell-sam", icon: Wand2, label: "Tell Sam" },
+      { to: "/todos", icon: ListTodo, label: "This Week" },
       { to: "/maya-desk", icon: Bot, label: "Sam's Desk" },
       { to: "/deals", icon: Handshake, label: "Deals" },
       { to: "/industry-intel", icon: Sparkles, label: "Opportunities" },

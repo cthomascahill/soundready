@@ -3,6 +3,7 @@ import { X, ListPlus } from "lucide-react";
 import { base44 } from "@/api/base44Client";
 import { Button } from "@/components/ui/button";
 import { FREE_VAULT_CAP } from "@/components/vault/VaultCapPrompt";
+import { awardPoints } from "@/lib/awardPoints";
 
 // Paste a list of song titles — every line becomes a Released song in the vault.
 export default function BulkAddSongs({ max, onClose, onCreated }) {
@@ -19,6 +20,7 @@ export default function BulkAddSongs({ max, onClose, onCreated }) {
     const created = await base44.entities.SongVault.bulkCreate(
       allowed.map((title) => ({ title, status: "Released" }))
     );
+    created.forEach((song) => awardPoints("song_uploaded", song.id, `Added "${song.title}" to the Vault`));
     onCreated(created);
     setSaving(false);
     onClose();
