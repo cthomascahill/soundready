@@ -4,6 +4,7 @@ import { base44 } from "@/api/base44Client";
 import { useAuth } from "@/lib/AuthContext";
 import { X, Send, Loader2, Sparkles, ChevronRight, RotateCcw, ExternalLink, Globe, ScanLine } from "lucide-react";
 import SamLogo from "@/components/SamLogo";
+import VoiceButton from "@/components/VoiceButton";
 import { motion, AnimatePresence } from "framer-motion";
 import ReactMarkdown from "react-markdown";
 import MayaUpsellPopover from "@/components/maya/MayaUpsellPopover";
@@ -789,6 +790,9 @@ export default function MayaAssistant() {
                   disabled={loading || !profileLoaded}
                   className="flex-1 bg-transparent text-sm text-foreground placeholder:text-muted-foreground resize-none focus:outline-none max-h-32 disabled:opacity-50"
                   style={{ minHeight: "22px" }}
+                />
+                <VoiceButton
+                  onText={text => setInput(prev => (prev ? prev.trim() + " " : "") + text.trim())}
                 />
                 <button
                   onClick={() => send()}

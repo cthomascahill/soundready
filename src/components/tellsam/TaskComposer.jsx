@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { Input } from "@/components/ui/input";
 import SamLogo from "@/components/SamLogo";
+import VoiceButton from "@/components/VoiceButton";
 import { Paperclip, X, Loader2, Send, Upload } from "lucide-react";
 
 const EXAMPLES = [
@@ -83,6 +84,14 @@ export default function TaskComposer({ user, onCreated }) {
           placeholder="e.g. Book me a 5-stop tour through New York City, Boston and Ohio this spring — find venues that fit my sound and draft the booking emails."
           className="border-none bg-secondary/40 p-4 text-sm leading-relaxed focus-visible:ring-0 resize-none"
         />
+      </div>
+
+      {/* Use your voice — talk the task instead of typing it */}
+      <div className="px-5 pb-3 flex flex-wrap items-center gap-3">
+        <VoiceButton size="lg" onText={text => setPrompt(prev => (prev ? prev.trim() + " " : "") + text.trim())} />
+        <p className="text-[11px] text-muted-foreground/80 leading-snug">
+          Don't feel like typing? Just talk — Sam transcribes as you speak.
+        </p>
       </div>
 
       {/* Example prompts */}
