@@ -11,6 +11,7 @@ import TrialBanner from "@/components/billing/TrialBanner";
 import PointsBadge from "@/components/PointsBadge";
 import LanguagePicker from "@/components/LanguagePicker";
 import ThemeToggle from "@/components/ThemeToggle";
+import PreviewTierSwitcher from "@/components/PreviewTierSwitcher";
 import { useLang } from "@/lib/i18n/LanguageContext";
 import { ModeProvider } from "@/lib/mode";
 
@@ -70,6 +71,7 @@ export default function AppLayout() {
             <Link to="/history"><SoundReadyLogo size={28} /></Link>
           </div>
           <SidebarNav activePath={location.pathname} />
+          <PreviewTierSwitcher />
           <div className="border-t border-border p-3 space-y-1">
             <button onClick={() => setCmdOpen(true)}
               className="w-full flex items-center gap-2 px-3 py-2 rounded-lg text-sm text-muted-foreground hover:text-foreground hover:bg-secondary transition-colors">
