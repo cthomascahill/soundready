@@ -343,5 +343,235 @@
   "email": "booking@whiskyagogo.com",
   "kind": "verified",
   "source": "https://www.whiskyagogo.com/contact"
+ },
+ "August Hall|San Francisco, CA": {
+  "email": "info@ticketweb.com",
+  "kind": "verified",
+  "source": "https://www.augusthallsf.com"
+ },
+ "Acme Feed & Seed|Nashville, TN": {
+  "email": "info@theacmenashville.com",
+  "kind": "verified",
+  "source": "https://www.acmefeedandseed.com"
+ },
+ "The Palladium Hollywood|Los Angeles, CA": {
+  "email": "thehollywoodpalladium@livenation.com",
+  "kind": "verified",
+  "source": "https://www.hollywoodpalladium.com"
+ },
+ "The Fillmore|San Francisco, CA": {
+  "email": "thefillmore@livenation.com",
+  "kind": "verified",
+  "source": "https://www.thefillmore.com"
+ },
+ "Hideout|Chicago, IL": {
+  "email": "booking@hideoutchicago.com",
+  "kind": "verified",
+  "source": "https://www.hideoutchicago.com/contact"
+ },
+ "The New Parish|Oakland, CA": {
+  "email": "book@thenewparish.com",
+  "kind": "verified",
+  "source": "https://www.thenewparish.com"
+ },
+ "Austin City Limits Live|Austin, TX": {
+  "email": "info@acllive.com",
+  "kind": "verified",
+  "source": "https://www.acl-live.com"
+ },
+ "Echostage|Washington, DC": {
+  "email": "info@echostage.com",
+  "kind": "verified",
+  "source": "https://www.echostage.com"
+ },
+ "Continental Club|Austin, TX": {
+  "email": "bookings@continentalclub.com",
+  "kind": "verified",
+  "source": "https://www.continentalclub.com/contact"
+ },
+ "Granada Theater|Dallas, TX": {
+  "email": "booking@granadatheater.com",
+  "kind": "verified",
+  "source": "https://www.granadatheater.com"
+ },
+ "Cafe Du Nord|San Francisco, CA": {
+  "email": "concerts@cafedunord.com",
+  "kind": "verified",
+  "source": "https://www.cafedunord.com/contact"
+ },
+ "Beat Kitchen|Chicago, IL": {
+  "email": "info@beatkitchen.com",
+  "kind": "verified",
+  "source": "https://www.beatkitchen.com"
+ },
+ "Rickshaw Stop|San Francisco, CA": {
+  "email": "info@rickshawstop.com",
+  "kind": "verified",
+  "source": "https://www.rickshawstop.com/contact"
+ },
+ "Fillmore Silver Spring|Silver Spring, MD": {
+  "email": "fillmoress.boxoffice@livenation.com",
+  "kind": "verified",
+  "source": "https://www.fillmoresilverspring.com"
+ },
+ "40 Watt Club|Athens, GA": {
+  "email": "velenavego@gmail.com",
+  "kind": "verified",
+  "source": "https://www.40watt.com"
+ },
+ "The Nick|Birmingham, AL": {
+  "email": "info@ticketweb.com",
+  "kind": "verified",
+  "source": "https://www.thenickrocks.com"
+ },
+ "Dosey Doe|The Woodlands, TX": {
+  "email": "tickettimeinc@gmail.com",
+  "kind": "verified",
+  "source": "https://www.doseydoe.com"
+ },
+ "Clock-Out Lounge|Seattle, WA": {
+  "email": "booking@clockoutlounge.com",
+  "kind": "verified",
+  "source": "https://www.clockoutlounge.com/contact"
+ },
+ "Motorco Music Hall|Durham, NC": {
+  "email": "showinfo@motorcomusic.com",
+  "kind": "verified",
+  "source": "https://www.motorcomusic.com/contact"
+ },
+ "Liberty Hall|Lawrence, KS": {
+  "email": "libertyhallevents@gmail.com",
+  "kind": "verified",
+  "source": "https://www.libertyhall.net/contact"
+ },
+ "The Depot|Salt Lake City, UT": {
+  "email": "thedepot@livenation.com",
+  "kind": "verified",
+  "source": "https://www.depotslc.com"
+ },
+ "Music Farm|Charleston, SC": {
+  "email": "info@musicfarm.com",
+  "kind": "verified",
+  "source": "https://www.musicfarm.com"
+ },
+ "Toad's Place|New Haven, CT": {
+  "email": "hollis@toadsplace.com",
+  "kind": "verified",
+  "source": "https://www.toadsplace.com"
+ },
+ "Holocene|Portland, OR": {
+  "email": "hc@holocene.org",
+  "kind": "verified",
+  "source": "https://www.holocene.org/contact"
+ },
+ "The Baltimore Soundstage|Baltimore, MD": {
+  "email": "boxoffice@baltimoresoundstage.com",
+  "kind": "verified",
+  "source": "https://www.baltimoresoundstage.com/contact"
+ },
+ "The Patchogue Theatre|Patchogue, NY": {
+  "email": "info@patchoguetheatre.org",
+  "kind": "verified",
+  "source": "https://www.patchoguetheatre.org"
+ },
+ "Slim's San Francisco|San Francisco, CA": {
+  "email": "info@gamh.com",
+  "kind": "verified",
+  "source": "https://www.slimspresents.com/contact"
+ },
+ "Coachella Valley Brewing|Thousand Palms, CA": {
+  "email": "wes@cvbco.com",
+  "kind": "verified",
+  "source": "https://www.cvbco.com"
+ },
+ "Lestat's Coffee House|San Diego, CA": {
+  "email": "admin@lestats.com",
+  "kind": "verified",
+  "source": "https://www.lestats.com"
+ },
+ "Terrapin Crossroads|San Rafael, CA": {
+  "email": "info@terrapincrossroads.net",
+  "kind": "verified",
+  "source": "https://www.terrapincrossroads.net"
+ },
+ "3Ten Austin City Limits Live|Austin, TX": {
+  "email": "info@acllive.com",
+  "kind": "verified",
+  "source": "https://www.acl-live.com"
+ },
+ "Belly Up Aspen|Aspen, CO": {
+  "email": "booking@bellyupaspen.com",
+  "kind": "verified",
+  "source": "https://www.bellyupaspen.com/contact"
+ },
+ "Soul Kitchen Music Hall|Mobile, AL": {
+  "email": "info@ticketweb.com",
+  "kind": "verified",
+  "source": "https://www.soulkitchenmobile.com"
+ },
+ "Lincoln Theatre|Raleigh, NC": {
+  "email": "info@lincolntheatre.com",
+  "kind": "verified",
+  "source": "https://www.lincolntheatre.com/contact"
+ },
+ "Antone's|Austin, TX": {
+  "email": "booking@antonesnightclub.com",
+  "kind": "verified",
+  "source": "https://www.antonesnightclub.com/contact"
+ },
+ "Jannus Live|St. Petersburg, FL": {
+  "email": "%20info@jannuslive.com",
+  "kind": "verified",
+  "source": "https://www.jannuslive.com/contact"
+ },
+ "Grizzly Rose|Denver, CO": {
+  "email": "twoleftbootsllc@gmail.com",
+  "kind": "verified",
+  "source": "https://www.grizzlyrose.com/contact"
+ },
+ "State Theatre|Portland, ME": {
+  "email": "info@statetheatreportland.com",
+  "kind": "verified",
+  "source": "https://www.statetheatreportland.com/contact"
+ },
+ "The Orange Peel|Asheville, NC": {
+  "email": "info@theorangepeel.net",
+  "kind": "verified",
+  "source": "https://www.theorangepeel.net/contact"
+ },
+ "The Rev Room|Little Rock, AR": {
+  "email": "events@flemingsultimategarage.com",
+  "kind": "verified",
+  "source": "https://www.therevroom.com/contact"
+ },
+ "Grey Eagle|Asheville, NC": {
+  "email": "info@thegreyeagle.com",
+  "kind": "verified",
+  "source": "https://www.thegreyeagle.com"
+ },
+ "The Belly Up Hermosa Beach|Hermosa Beach, CA": {
+  "email": "booking@bellyup.com",
+  "kind": "verified",
+  "source": "https://www.bellyup.com/contact"
+ },
+ "The UC Theatre|Berkeley, CA": {
+  "email": "specialevents@theuctheatre.org",
+  "kind": "verified",
+  "source": "https://www.theuctheatre.org/contact"
+ },
+ "Mystic Theatre|Petaluma, CA": {
+  "email": "mystictheatreinfo@gmail.com",
+  "kind": "verified",
+  "source": "https://www.mystictheatre.com/contact"
+ },
+ "The Phoenix Theater|Petaluma, CA": {
+  "email": "info@phoenixtheatre.com",
+  "kind": "verified",
+  "source": "https://www.phoenixtheater.com"
+ },
+ "WOW Hall|Eugene, OR": {
+  "email": "booking@wowhall.org",
+  "kind": "verified",
+  "source": "https://www.wowhall.org/booking"
  }
 }
