@@ -1,10 +1,11 @@
 import { useState, useEffect, useCallback, useRef } from "react";
 import { base44 } from "@/api/base44Client";
 import { useAuth } from "@/lib/AuthContext";
-import { RefreshCw, Newspaper, Bookmark, BookmarkCheck, X } from "lucide-react";
+import { RefreshCw, Newspaper, Bookmark, BookmarkCheck, X, Sparkles } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import NewsCard from "@/components/news/NewsCard";
 import DailyBriefing from "@/components/news/DailyBriefing";
+import DeepDiveCard from "@/components/news/DeepDiveCard";
 
 const CATEGORIES = [
   "All News",
@@ -15,6 +16,8 @@ const CATEGORIES = [
   "Independent Artists",
   "Charts & Sales",
   "Publishing & Sync",
+  "Legal & Policy",
+  "AI & Tech",
 ];
 
 const CACHE_KEY = "soundready_news_cache";
@@ -24,12 +27,13 @@ export default function MusicNews() {
   const { user } = useAuth();
   const [articles, setArticles] = useState([]);
   const [briefing, setBriefing] = useState(null);
+  const [deepDives, setDeepDives] = useState(null);
   const [lastUpdated, setLastUpdated] = useState(null);
   const [loading, setLoading] = useState(true);
   const [loadingMore, setLoadingMore] = useState(false);
   const [error, setError] = useState(null);
   const [activeCategory, setActiveCategory] = useState("All News");
-  const [activeTab, setActiveTab] = useState("feed"); // "feed" | "saved"
+  const [activeTab, setActiveTab] = useState("feed"); // "feed" | "dives" | "saved"
   const [saved, setSaved] = useState(() => {
     try { return JSON.parse(localStorage.getItem("soundready_saved_news") || "[]"); }
     catch { return []; }
@@ -55,6 +59,7 @@ export default function MusicNews() {
         if (cached && Date.now() - cached.timestamp < CACHE_TTL) {
           setArticles(cached.articles);
           setBriefing(cached.briefing);
+          setDeepDives(cached.deepDives || null);
           setLastUpdated(cached.lastUpdated);
           setLoading(false);
           return;
@@ -74,16 +79,17 @@ export default function MusicNews() {
         page: pageNum,
       });
 
-      const { articles: newArticles, briefing: newBriefing, totalResults, lastUpdated: lu } = res.data;
+      const { articles: newArticles, briefing: newBriefing, deepDives: newDeepDives, totalResults, lastUpdated: lu } = res.data;
 
       if (pageNum === 1) {
         setArticles(newArticles);
         setBriefing(newBriefing);
+        setDeepDives(newDeepDives || null);
         setLastUpdated(lu);
         // Cache
         try {
           localStorage.setItem(CACHE_KEY, JSON.stringify({
-            articles: newArticles, briefing: newBriefing, lastUpdated: lu, timestamp: Date.now(),
+            articles: newArticles, briefing: newBriefing, deepDives: newDeepDives || null, lastUpdated: lu, timestamp: Date.now(),
           }));
         } catch {}
       } else {
@@ -94,7 +100,7 @@ export default function MusicNews() {
         });
       }
 
-      setHasMore(newArticles.length === 30 && pageNum * 30 < Math.min(totalResults, 100));
+      setHasMore(newArticles.length >= 30 && pageNum * 30 < Math.min(totalResults, 300));
       setPage(pageNum);
     } catch (err) {
       setError(err.message || "Failed to load news");
@@ -167,6 +173,11 @@ export default function MusicNews() {
             className={`px-4 py-1.5 rounded-lg text-sm font-medium transition-colors ${activeTab === "feed" ? "bg-primary text-black" : "text-zinc-400 hover:text-white"}`}>
             Feed
           </button>
+          <button onClick={() => setActiveTab("dives")}
+            className={`flex items-center gap-1.5 px-4 py-1.5 rounded-lg text-sm font-medium transition-colors ${activeTab === "dives" ? "bg-primary text-black" : "text-zinc-400 hover:text-white"}`}>
+            <Sparkles className="h-3.5 w-3.5" />
+            Deep Dives
+          </button>
           <button onClick={() => setActiveTab("saved")}
             className={`flex items-center gap-1.5 px-4 py-1.5 rounded-lg text-sm font-medium transition-colors ${activeTab === "saved" ? "bg-primary text-black" : "text-zinc-400 hover:text-white"}`}>
             <Bookmark className="h-3.5 w-3.5" />
@@ -195,6 +206,37 @@ export default function MusicNews() {
                 </div>
                 {saved.map(a => (
                   <NewsCard key={a.id} article={a} saved={true} onSave={toggleSave} />
+                ))}
+              </>
+            )}
+          </div>
+        ) : activeTab === "dives" ? (
+          <div className="space-y-4">
+            {loading ? (
+              <div className="space-y-4">
+                {[1, 2, 3].map(i => (
+                  <div key={i} className="rounded-2xl bg-card border border-border p-5 space-y-3 animate-pulse">
+                    <div className="h-3 bg-zinc-800 rounded w-1/3" />
+                    <div className="h-5 bg-zinc-800 rounded w-3/4" />
+                    <div className="h-3 bg-zinc-800 rounded w-full" />
+                    <div className="h-3 bg-zinc-800 rounded w-2/3" />
+                  </div>
+                ))}
+              </div>
+            ) : !deepDives || deepDives.length === 0 ? (
+              <div className="text-center py-20 space-y-4">
+                <Sparkles className="h-10 w-10 text-zinc-700 mx-auto" />
+                <p className="text-zinc-500 text-sm">Sam hasn't put together today's deep dives yet.</p>
+                <Button onClick={() => fetchNews(1, true)} variant="outline" className="border-zinc-700">Research Now</Button>
+              </div>
+            ) : (
+              <>
+                <p className="text-xs text-zinc-500 leading-relaxed">
+                  Sam combs the entire web — news sites, court filings and YouTube — for the biggest stories unfolding right now,
+                  and breaks down what each one means for independent artists. Sources included, nothing invented.
+                </p>
+                {deepDives.map((d, i) => (
+                  <DeepDiveCard key={i} dive={d} />
                 ))}
               </>
             )}
