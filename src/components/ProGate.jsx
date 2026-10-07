@@ -47,7 +47,7 @@ export default function ProGate({ children, feature }) {
   return (
     <div className="min-h-[70vh] flex items-center justify-center px-4 py-16">
       <motion.div initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} className="max-w-lg w-full">
-        <div className="rounded-2xl border border-chart-5/20 bg-card p-8 space-y-6 relative overflow-hidden pt-10">
+        <div className="rounded-2xl border border-chart-5/20 bg-card p-8 space-y-6 relative pt-10">
           <div className="absolute -top-3 left-1/2 -translate-x-1/2 px-3 py-1 rounded-full text-xs font-bold whitespace-nowrap bg-chart-5 text-black">
             7-Day Free Trial
           </div>
