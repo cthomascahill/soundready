@@ -139,9 +139,10 @@ export default function ContractAnalyzer() {
     const file = e.target.files?.[0];
     if (!file) return;
     setUploading(true);
-    const uploadRes = await base44.integrations.Core.UploadFile({ file });
+    const { file_uri } = await base44.integrations.Core.UploadPrivateFile({ file });
+    const { signed_url } = await base44.integrations.Core.CreateFileSignedUrl({ file_uri, expires_in: 900 });
     const extracted = await base44.integrations.Core.ExtractDataFromUploadedFile({
-      file_url: uploadRes.file_url,
+      file_url: signed_url,
       json_schema: { type: "object", properties: { text: { type: "string" } } }
     });
     if (extracted.status === "success" && extracted.output?.text) {
@@ -215,16 +216,16 @@ Provide a thorough analysis.`,
     <div className="min-h-screen bg-background px-4 py-10">
       <div className="max-w-4xl mx-auto space-y-8">
         <motion.div initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }} className="space-y-1">
-          <p className="text-xs text-primary uppercase tracking-widest font-medium">Finances & Legal</p>
+          <p className="text-xs text-primary uppercase tracking-widest font-medium">AI Manager</p>
           <h1 className="font-heading text-4xl font-bold">Contract Analyzer</h1>
-          <p className="text-muted-foreground">Upload or paste any music industry contract. Get a plain-English analysis of every clause that could hurt you.</p>
+          <p className="text-muted-foreground">Have Sam analyze any contract you have — label deals, distribution agreements, sync licenses, venue contracts. Sam reads every clause and tells you, in plain English, what could hurt you.</p>
         </motion.div>
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
           {/* Input Panel */}
           <div className="lg:col-span-2 space-y-4">
             <div className="rounded-2xl bg-card border border-border p-6 space-y-4">
-              <h2 className="font-heading font-semibold">Upload Contract</h2>
+              <h2 className="font-heading font-semibold">Give Sam a Contract</h2>
 
               <label className="block cursor-pointer">
                 <input type="file" accept=".pdf,.txt,.doc,.docx" onChange={handleFileUpload} className="hidden" />
@@ -250,9 +251,9 @@ Provide a thorough analysis.`,
 
               <Button onClick={analyze} disabled={analyzing || !contractText.trim()} className="w-full gap-2 font-heading font-bold">
                 {analyzing ? (
-                  <><Loader2 className="h-4 w-4 animate-spin" />Analyzing Contract...</>
+                  <><Loader2 className="h-4 w-4 animate-spin" />Sam is analyzing your contract...</>
                 ) : (
-                  <><Shield className="h-4 w-4" />Analyze Contract</>
+                  <><Shield className="h-4 w-4" />Sam, Analyze This Contract</>
                 )}
               </Button>
             </div>
@@ -285,7 +286,7 @@ Provide a thorough analysis.`,
         {analyzing && (
           <div className="rounded-2xl bg-card border border-border p-12 text-center space-y-4">
             <Loader2 className="h-8 w-8 text-primary animate-spin mx-auto" />
-            <p className="font-heading font-semibold">Reviewing contract...</p>
+            <p className="font-heading font-semibold">Sam is reviewing your contract...</p>
             <p className="text-sm text-muted-foreground">This takes 15–30 seconds. Reading every clause carefully.</p>
           </div>
         )}

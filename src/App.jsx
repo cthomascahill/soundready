@@ -139,7 +139,7 @@ const AuthenticatedApp = () => {
         <Route path="/history" element={<SongLibrary />} />
         <Route path="/music/:songId" element={<SongWorkspace />} />
         <Route path="/ar-intelligence" element={<ARIntelligence />} />
-        <Route path="/contract-analyzer" element={<ContractAnalyzer />} />
+        <Route path="/contract-analyzer" element={ai(ContractAnalyzer)} />
         <Route path="/analytics" element={<Analytics />} />
         <Route path="/distribution" element={<Distribution />} />
         <Route path="/budget" element={<BudgetTracker />} />

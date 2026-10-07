@@ -6,7 +6,7 @@ import { useLang } from "@/lib/i18n/LanguageContext";
 import {
   Home, Music2, Users, ListChecks, LayoutGrid, FolderOpen,
   Map, Newspaper, CreditCard, UserCircle,
-  Route, Mic, Building2, Bot, Sparkles, Handshake, Wand2, ListTodo,
+  Route, Mic, Building2, Bot, Sparkles, Handshake, Wand2, ListTodo, Shield,
 } from "lucide-react";
 
 const NAV_SECTIONS = (isAdmin) => [
@@ -37,6 +37,7 @@ const NAV_SECTIONS = (isAdmin) => [
       { to: "/todos", icon: ListTodo, label: "This Week" },
       { to: "/maya-desk", icon: Bot, label: "Sam's Desk" },
       { to: "/deals", icon: Handshake, label: "Deals" },
+      { to: "/contract-analyzer", icon: Shield, label: "Contract Analyzer" },
       { to: "/industry-intel", icon: Sparkles, label: "Opportunities" },
       { to: "/music-news", icon: Newspaper, label: "Music News" },
       { to: "/career-roadmap", icon: Map, label: "Career Roadmap" },
@@ -77,7 +78,7 @@ const PRO_ONLY = new Set([
 // Pages under the AI Manager tab — AI Manager subscribers only
 const AI_ONLY = new Set([
   "/tell-sam", "/todos", "/maya-desk", "/deals", "/industry-intel",
-  "/music-news", "/career-roadmap",
+  "/music-news", "/career-roadmap", "/contract-analyzer",
 ]);
 
 export default function SidebarNav({ activePath, onNavigate }) {
