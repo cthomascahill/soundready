@@ -22,7 +22,7 @@ export default function PointsBadge() {
   return (
     <button
       onClick={() => navigate("/todos")}
-      title="Sound Ready Points — what you earn for getting things done"
+      title="SoundReady Points: what you earn for getting things done"
       className="flex items-center gap-1.5 rounded-full border border-primary/30 bg-primary/10 px-3 py-1.5 text-sm font-bold text-primary hover:bg-primary/20 transition-colors"
     >
       <Zap className="h-4 w-4" />

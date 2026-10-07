@@ -140,7 +140,7 @@ export const HOME_STRINGS = {
     "The artists and producers winning right now aren't more talented — they're more organized and more strategic. SoundReady gives you everything you need to be both, starting today.":
       "Los artistas y productores que están ganando hoy no son más talentosos — están mejor organizados y son más estratégicos. SoundReady te da todo lo que necesitas para ser ambas cosas, empezando hoy.",
     "Start Building My Career": "Empezar a Construir Mi Carrera",
-    "Projected growth: with SoundReady vs. going it alone": "Crecimiento proyectado: con SoundReady vs. ir por tu cuenta",
+    "Projected growth: with SoundReady vs. doing it alone": "Crecimiento proyectado: con SoundReady vs. hacerlo por tu cuenta",
     "Twelve-month trajectory for an independent artist with the same starting point.":
       "Trayectoria de doce meses para un artista independiente con el mismo punto de partida.",
     "Revenue": "Ingresos",
@@ -148,7 +148,7 @@ export const HOME_STRINGS = {
     "With SoundReady": "Con SoundReady",
     "Going it alone": "En solitario",
     "Artists using SoundReady": "Artistas que usan SoundReady",
-    "Artists going it alone": "Artistas que van solos",
+    "Artists doing it alone": "Artistas que lo hacen solos",
     "growth": "crecimiento",
     "Illustrative projection of cumulative growth": "Proyección ilustrativa del crecimiento acumulado",
     "based on average outcomes reported by SoundReady artists.": "basada en los resultados promedio reportados por artistas de SoundReady.",
@@ -293,7 +293,7 @@ export const HOME_STRINGS = {
     "The artists and producers winning right now aren't more talented — they're more organized and more strategic. SoundReady gives you everything you need to be both, starting today.":
       "Les artistes et producteurs qui gagnent aujourd'hui ne sont pas plus talentueux — ils sont plus organisés et plus stratégiques. SoundReady vous donne tout ce qu'il faut pour être les deux, dès aujourd'hui.",
     "Start Building My Career": "Commencer à Bâtir Ma Carrière",
-    "Projected growth: with SoundReady vs. going it alone": "Croissance projetée : avec SoundReady vs. tout seul",
+    "Projected growth: with SoundReady vs. doing it alone": "Croissance projetée : avec SoundReady vs. tout seul",
     "Twelve-month trajectory for an independent artist with the same starting point.":
       "Trajectoire sur douze mois pour un artiste indépendant au même point de départ.",
     "Revenue": "Revenus",
@@ -301,7 +301,7 @@ export const HOME_STRINGS = {
     "With SoundReady": "Avec SoundReady",
     "Going it alone": "Tout seul",
     "Artists using SoundReady": "Artistes qui utilisent SoundReady",
-    "Artists going it alone": "Artistes qui vont seuls",
+    "Artists doing it alone": "Artistes qui le font seuls",
     "growth": "croissance",
     "Illustrative projection of cumulative growth": "Projection illustrative de la croissance cumulée",
     "based on average outcomes reported by SoundReady artists.": "basée sur les résultats moyens rapportés par les artistes SoundReady.",
@@ -446,7 +446,7 @@ export const HOME_STRINGS = {
     "The artists and producers winning right now aren't more talented — they're more organized and more strategic. SoundReady gives you everything you need to be both, starting today.":
       "Die Künstler und Producer, die heute gewinnen, sind nicht talentierter — sie sind organisierter und strategischer. SoundReady gibt dir alles, was du brauchst, um beides zu sein, ab heute.",
     "Start Building My Career": "Meine Karriere Aufbauen",
-    "Projected growth: with SoundReady vs. going it alone": "Prognostiziertes Wachstum: mit SoundReady vs. auf eigene Faust",
+    "Projected growth: with SoundReady vs. doing it alone": "Prognostiziertes Wachstum: mit SoundReady vs. auf eigene Faust",
     "Twelve-month trajectory for an independent artist with the same starting point.":
       "Zwölf-Monats-Verlauf für einen Independent-Künstler mit demselben Startpunkt.",
     "Revenue": "Einnahmen",
@@ -454,7 +454,7 @@ export const HOME_STRINGS = {
     "With SoundReady": "Mit SoundReady",
     "Going it alone": "Auf eigene Faust",
     "Artists using SoundReady": "Künstler, die SoundReady nutzen",
-    "Artists going it alone": "Künstler, die es allein versuchen",
+    "Artists doing it alone": "Künstler, die es allein machen",
     "growth": "Wachstum",
     "Illustrative projection of cumulative growth": "Illustrative Projektion des kumulierten Wachstums",
     "based on average outcomes reported by SoundReady artists.": "basierend auf den durchschnittlichen Ergebnissen von SoundReady-Künstlern.",

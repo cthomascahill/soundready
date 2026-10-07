@@ -75,7 +75,7 @@ function Sidebar({ onClose }) {
         <Link to="/" onClick={onClose} className="flex items-center">
           <img
             src="https://media.base44.com/images/public/69dcf0ecc907e43a438a626b/35e40cce1_Soundreadylogowithvibrantsoundwave1.png"
-            alt="Sound Ready"
+            alt="SoundReady"
             className="h-10 w-auto object-contain"
           />
         </Link>
@@ -151,7 +151,7 @@ export default function Layout() {
           </button>
           <img
             src="https://media.base44.com/images/public/69dcf0ecc907e43a438a626b/35e40cce1_Soundreadylogowithvibrantsoundwave1.png"
-            alt="Sound Ready"
+            alt="SoundReady"
             className="h-8 w-auto object-contain"
           />
         </header>

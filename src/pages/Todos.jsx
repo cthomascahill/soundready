@@ -68,7 +68,7 @@ export default function Todos() {
         <h1 className="font-heading text-4xl font-bold">Tell Sam what needs to get done</h1>
         <p className="text-sm text-muted-foreground max-w-xl">
           Load up your week here. Sam emails you every morning with what's left until it's all
-          checked off — and every box you tick earns Sound Ready Points.
+          checked off, and every box you tick earns SoundReady Points.
         </p>
       </div>
 

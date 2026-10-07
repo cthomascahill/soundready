@@ -37,7 +37,7 @@ export default function RewardsCard() {
             <Zap className="h-5 w-5 text-primary" />
           </div>
           <div>
-            <h3 className="font-heading font-bold">Sound Ready Points</h3>
+            <h3 className="font-heading font-bold">SoundReady Points</h3>
             <p className="text-xs text-muted-foreground">Earned by actually getting things done</p>
           </div>
         </div>
