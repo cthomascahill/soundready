@@ -187,7 +187,7 @@ const AuthenticatedApp = () => {
         <Route path="/whiteboard/:boardId" element={pro(WhiteboardCanvas)} />
         <Route path="/connect-profiles" element={<ArtistIntake />} />
         <Route path="/maya-desk" element={ai(MayaDesk)} />
-        <Route path="/deals" element={pro(Deals)} />
+        <Route path="/deals" element={ai(Deals)} />
         <Route path="/tell-sam" element={ai(TellSam)} />
         <Route path="/todos" element={ai(Todos)} />
         <Route path="/maya-profile" element={<MayaProfile />} />

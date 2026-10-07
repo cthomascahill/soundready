@@ -34,7 +34,7 @@ export const TOOL_CATEGORIES = [
     label: "Money",
     tools: [
       { name: "Legal", to: "/legal", desc: "Contract templates and guides", icon: Scale, tier: "free" },
-      { name: "Deals", to: "/deals", desc: "Catalog valuation and buyout interest", icon: Handshake, tier: "pro" },
+      { name: "Deals", to: "/deals", desc: "Catalog valuation and buyout interest", icon: Handshake, tier: "ai_manager" },
     ],
   },
   {
