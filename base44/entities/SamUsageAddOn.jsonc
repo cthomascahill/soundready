@@ -1,0 +1,59 @@
+{
+  "name": "SamUsageAddOn",
+  "type": "object",
+  "description": "A purchased pack of extra Sam research usage. Created by the Stripe webhook after a successful one-time payment; units never expire and draw only after the monthly included allowance runs out.",
+  "properties": {
+    "user_id": {
+      "type": "string",
+      "description": "User who bought this pack"
+    },
+    "units": {
+      "type": "number",
+      "description": "Extra workload units this purchase adds to the artist's balance"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "paid"
+      ],
+      "description": "paid = units are on the artist's balance"
+    },
+    "amount": {
+      "type": "number",
+      "description": "USD amount paid for this pack"
+    },
+    "stripe_session_id": {
+      "type": "string",
+      "description": "Stripe checkout session that paid for this pack; used so a replayed webhook never credits twice"
+    },
+    "purchased_at": {
+      "type": "string",
+      "description": "ISO timestamp of the purchase"
+    }
+  },
+  "required": [
+    "user_id",
+    "units",
+    "status"
+  ],
+  "rls": {
+    "read": {
+      "data.user_id": "{{user.id}}"
+    },
+    "create": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "update": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "delete": {
+      "user_condition": {
+        "role": "admin"
+      }
+    }
+  }
+}

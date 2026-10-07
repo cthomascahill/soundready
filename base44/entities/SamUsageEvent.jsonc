@@ -1,0 +1,62 @@
+{
+  "name": "SamUsageEvent",
+  "type": "object",
+  "description": "One fair-use accounting entry for a Sam task: reserved before the task runs, settled to the actual workload after, or released when the task fails or was refused. Units are an internal workload estimate, not a currency.",
+  "properties": {
+    "user_id": {
+      "type": "string",
+      "description": "User this usage belongs to"
+    },
+    "task_id": {
+      "type": "string",
+      "description": "SamTask this usage was reserved for"
+    },
+    "units": {
+      "type": "number",
+      "description": "Estimated workload units when reserved; actual workload units once settled"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "reserved",
+        "released",
+        "settled"
+      ],
+      "description": "reserved = held while the task runs, released = returned without running (failed or concurrent overrun), settled = task finished and the actual workload is recorded"
+    },
+    "covered_by": {
+      "type": "string",
+      "enum": [
+        "included",
+        "addon"
+      ],
+      "description": "Whether these units draw from the monthly included allowance or from purchased extra usage"
+    },
+    "note": {
+      "type": "string",
+      "description": "Why the entry changed, e.g. estimate reserved, task complete, released on failure"
+    }
+  },
+  "required": [
+    "user_id",
+    "task_id",
+    "units",
+    "status"
+  ],
+  "rls": {
+    "read": {
+      "data.user_id": "{{user.id}}"
+    },
+    "create": {
+      "data.user_id": "{{user.id}}"
+    },
+    "update": {
+      "data.user_id": "{{user.id}}"
+    },
+    "delete": {
+      "user_condition": {
+        "role": "admin"
+      }
+    }
+  }
+}
