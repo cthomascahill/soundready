@@ -2,8 +2,9 @@ import { createClientFromRequest } from 'npm:@base44/sdk@0.8.52';
 import { CURATED_VENUES, matchVenuesForText } from '../../shared/venueDirectory.ts';
 
 // Sam executes an open-ended task the artist typed in "Tell Sam what to do".
-// Two passes: (1) research + drafting with the artist's constraints as hard
-// filters, informed by the shared venue directory and past artist feedback;
+// Two passes: (1) web-informed research + drafting — the web is searched on
+// EVERY task, with the artist's constraints as hard filters, informed by the
+// shared venue directory and past artist feedback;
 // (2) a quality-control audit that flags or excludes drafts that break the
 // artist's requirements. Nothing sends here — drafts land as "draft" status
 // for per-draft approval in samTaskDraft.
@@ -107,10 +108,7 @@ export default async function(req) {
       .filter(r => r.status === 'fulfilled' && r.value?.signed_url)
       .map(r => r.value.signed_url);
 
-    // ── Does this task need live web research? ──────────────────────────
     const namedTargets = (task.targets || '').trim();
-    const researchWords = /tour|venue|book|label|pitch|send|outreach|contact|distributor|sync|press|playlist|festival|radio|agent|manager|spreads/i;
-    const needsResearch = !!namedTargets || researchWords.test(task.prompt || '');
 
     const prompt = `You are Sam, the AI manager inside SoundReady, working for ${artistName}, an independent artist. You are thorough, precise, and honest about what you did and did not verify.
 
@@ -153,7 +151,7 @@ ${venueLines.join('\n') || 'No directory matches for this task'}
 HOW TO WORK:
 1. First extract every explicit constraint the artist stated or implied (city, capacity min/max, budget, dates, genre fit, deal type) into "constraints". Capacity and city constraints are HARD FILTERS: a target that breaks them is disqualified, not merely mentioned. Example: if the artist says "100 capacity in Denver", a 400-cap Denver venue FAILS and must not appear. Restate the requirements you applied in a result section titled "Your requirements".
 2. Decide the task type: "analysis" (a question or report-crunching that needs an answer, no external outreach), "outreach" (contacting real external targets), or "both".
-3. For analysis: answer from the attached files and the context above. Clearly separate figures that come straight from the artist's files or data from estimates you calculate, double-check your arithmetic, and list every assumption in "assumptions". For tax estimates, state the rate assumptions and that this is an estimate, not tax advice. Cite web sources for facts you looked up.
+3. For every task — including analysis — first search the web for current, relevant information (recent news, rates, prices, market figures, local scenes, whatever the task touches) and use it to make the answer current. Web research SUPPLEMENTS the artist's attached files, profile and platform data — it never overrides them: where they conflict, trust the artist's own data and say so. Every factual claim that comes from the web must be backed by a real source listed in "sources" with its URL — never state a web-derived fact you cannot source. Clearly separate figures that come straight from the artist's files or data from figures you found on the web or estimated; double-check your arithmetic and list every assumption in "assumptions". For tax estimates, state the rate assumptions and that this is an estimate, not tax advice.
 4. For outreach: research real, specific targets. Search BROADLY — build lists by city ("small venues in Denver", "DIY venues Chicago 100 capacity"), venue directories, local scene coverage — not just the first page of results. Prefer independent/DIY venues for early-career artists. For each target: verify its city and capacity (venue site, local press); find a verifiable public contact email — NEVER invent or guess one. If none is verifiable, leave target_email empty, put the official booking/submissions page in source_url and set contact_route to "submission_page". Write one personalized draft per target, starting with a "Subject:" line, 120-220 words, no placeholders like [Name] or [Venue]. Choose no more than 10 targets unless the artist explicitly asked for more, prioritized by fit. Fill target_location and target_capacity for every target (estimate and say so if not published), and in verification_note state exactly what you verified (city, capacity, contact route) and how fresh it is.
 5. "result" is always filled in: "summary" is a one-paragraph answer to the task; "sections" carry the detail (findings, numbers, venue shortlist, estimates, your requirements); "assumptions" lists estimates and assumptions; "sources" lists the web pages you used as {title, url}; "follow_up" is what you suggest the artist does next.
 6. If the task is genuinely ambiguous, make the most reasonable interpretation, state it in "summary", and note what extra info would sharpen the result in "follow_up".`;
@@ -161,7 +159,7 @@ HOW TO WORK:
     const llm = await base44.integrations.Core.InvokeLLM({
       model: 'gemini_3_1_pro',
       prompt,
-      add_context_from_internet: needsResearch,
+      add_context_from_internet: true,
       ...(fileUrls.length ? { file_urls: fileUrls } : {}),
       response_json_schema: {
         type: 'object',
