@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import { Mic, Square } from "lucide-react";
 import { useVoiceDictation } from "@/hooks/useVoiceDictation";
 import { cn } from "@/lib/utils";
@@ -5,9 +6,11 @@ import { cn } from "@/lib/utils";
 // "Use your voice" — talks to Sam without typing. onText receives each
 // finalized phrase as the artist speaks. size="lg" is the prominent
 // composer button; size="sm" fits inside chat input bars.
-export default function VoiceButton({ onText, size = "sm", className }) {
+export default function VoiceButton({ onText, onListeningChange, size = "sm", className }) {
   const { supported, listening, interim, error, start, stop } = useVoiceDictation(onText);
   const big = size === "lg";
+
+  useEffect(() => { onListeningChange?.(listening); }, [listening, onListeningChange]);
 
   const label = listening
     ? (interim ? `"${interim}"` : "Listening… tap to stop")
