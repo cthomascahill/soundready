@@ -31,7 +31,7 @@ export default function ManagerCostSlider() {
         </div>
         <div className="rounded-xl bg-primary/10 border border-primary/20 p-4 space-y-1.5">
           <p className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground">SoundReady AI Manager</p>
-          <p className="font-heading text-2xl font-black text-primary">$59<span className="text-xs font-bold text-muted-foreground">/mo</span></p>
+          <p className="font-heading text-2xl font-black text-primary"><span className="text-xs line-through opacity-60 font-bold text-muted-foreground mr-1">$79</span>$59<span className="text-xs font-bold text-muted-foreground">/mo</span></p>
           <p className="text-xs text-muted-foreground">{fmt(mayaYearly)} every year — flat, forever</p>
         </div>
       </div>

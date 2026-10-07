@@ -69,7 +69,7 @@ export default function DealsOutreach() {
         </p>
         <div className="flex justify-center">
           <Link to="/pricing-account">
-            <Button className="gap-2 font-semibold"><Zap className="h-4 w-4" /> Start Manager — $59/mo</Button>
+            <Button className="gap-2 font-semibold"><Zap className="h-4 w-4" /> Start Manager — <span className="line-through opacity-60">$79</span> $59/mo</Button>
           </Link>
         </div>
       </div>
