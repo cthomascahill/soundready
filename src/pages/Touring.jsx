@@ -13,7 +13,7 @@ const TOOLS = [
     bg: "bg-orange-500/10",
     border: "border-orange-500/20",
     title: "Gig Finder",
-    desc: "843+ venues that book independent artists, with contacts, capacity and genre fit — generate a booking inquiry in seconds.",
+    desc: "1,341+ venues that book independent artists, with contacts, capacity and genre fit — generate a booking inquiry in seconds.",
   },
   {
     to: "/tour-opportunities",

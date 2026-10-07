@@ -635,7 +635,7 @@ export default function GigFinder() {
         <motion.div initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }}>
           <p className="text-xs text-primary uppercase tracking-widest font-medium">Touring & Bookings</p>
           <h1 className="font-heading text-4xl font-bold">Gig Finder</h1>
-          <p className="text-muted-foreground">Browse independent venues, filter by genre and city, and get an AI-written booking inquiry in seconds.</p>
+          <p className="text-muted-foreground">Browse 1,341+ independent venues, filter by genre and city, and get an AI-written booking inquiry in seconds.</p>
         </motion.div>
 
         {/* Artist name + filters */}

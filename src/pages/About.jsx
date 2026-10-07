@@ -49,7 +49,7 @@ const TIERS = [
     desc: "Every tool unlocked, plus your whole team in one workspace. 7 days free.",
     items: [
       "Everything in Free, unlocked",
-      "Gig Finder & 843+ venues",
+      "Gig Finder & 1,341+ venues",
       "Tour Planner, Finance & Contracts",
       "The Wall — artist community",
       "Team Chat & shared Whiteboard",
@@ -277,7 +277,7 @@ export default function About() {
           <p className="text-center text-xs text-muted-foreground">{t("Illustrative comparison, not a guarantee — results depend on your releases, effort, and genre.")}</p>
           <div className="grid grid-cols-2 lg:grid-cols-5 gap-4">
             {[
-              { num: "843+", label: "venues ready to pitch" },
+              { num: "1,341+", label: "venues ready to pitch" },
               { num: "24", label: "integrated tools" },
               { num: "10+ hrs", label: "back in your week" },
               { num: "$0", label: "to get started" },

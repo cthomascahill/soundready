@@ -41,7 +41,7 @@ export const TOOL_CATEGORIES = [
     label: "Touring",
     tools: [
       { name: "Touring", to: "/touring", desc: "Gigs, routes and tour money in one hub", icon: Route, tier: "pro" },
-      { name: "Gig Finder", to: "/gig-finder", desc: "843+ venues that book indie artists", icon: MapPin, tier: "pro" },
+      { name: "Gig Finder", to: "/gig-finder", desc: "1,341+ venues that book indie artists", icon: MapPin, tier: "pro" },
       { name: "Tour Opportunities", to: "/tour-opportunities", desc: "Shows looking for opening acts", icon: Megaphone, tier: "pro" },
       { name: "Tour Planner", to: "/tour-planner", desc: "Routes, dates and logistics", icon: Route, tier: "pro" },
       { name: "Tour Finance", to: "/tour-finance", desc: "Tour budgets, payouts and taxes", icon: PiggyBank, tier: "pro" },

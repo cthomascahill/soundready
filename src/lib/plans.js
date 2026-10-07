@@ -11,7 +11,7 @@ export const FREE_ITEMS = [
 
 export const PRO_ITEMS = [
   "Everything in Free, unlocked",
-  "Gig Finder — 843+ venues ready to pitch",
+  "Gig Finder — 1,341+ venues ready to pitch",
   "Tour Planner, Tour Finance & Venue Contracts",
   "The Wall — the artist community",
   "Team Chat, Whiteboard & Studio",
