@@ -12,13 +12,17 @@ export function parseEmailDraft(draft, fallbackSubject) {
   return { subject, body };
 }
 
-export async function sendMayaDraft({ base44, user, draft, recipient, fallbackSubject }) {
+export async function sendMayaDraft({ base44, user, draft, recipient, fallbackSubject, attachments = [] }) {
   const artistName = user.artist_name || user.full_name || 'The Artist';
   const { subject, body } = parseEmailDraft(draft, fallbackSubject);
-  await base44.integrations.Core.SendEmail({
+  const payload = {
     to: recipient,
     subject,
     body: `${body}\n\n— ${artistName}\nReply directly to this email, or reach the artist at ${user.email}.`,
     from_name: `Sam for ${artistName}`,
-  });
+  };
+  // Optional files the task attached (song, report) ride along with the pitch
+  const atts = (attachments || []).filter(a => a?.filename && a?.file_url).slice(0, 5);
+  if (atts.length) payload.attachments = atts;
+  await base44.integrations.Core.SendEmail(payload);
 }
