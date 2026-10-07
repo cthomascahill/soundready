@@ -6,13 +6,7 @@ import { Mic2, Send, Check, Copy, ChevronDown, ChevronUp, Music } from "lucide-r
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { PLAYLIST_DB, DEFAULT_PLAYLISTS } from "@/lib/playlistDatabase";
-
-function matchScore(playlist, song) {
-  let score = 0;
-  if (playlist.genres?.includes(song.genre) || playlist.genres?.includes("All")) score += 3;
-  if (playlist.mood?.includes(song.mood) || playlist.mood?.includes("All")) score += 2;
-  return score;
-}
+import { matchPlaylists } from "@/lib/playlistMatch";
 
 function PitchModal({ playlist, song, onClose, onSent }) {
   const [pitch, setPitch] = useState("");
@@ -145,11 +139,7 @@ export default function PlaylistPitcher() {
 
   const findMatches = () => {
     if (!activeSong?.genre) return;
-    const pool = [...(PLAYLIST_DB[activeSong.genre] || []), ...DEFAULT_PLAYLISTS];
-    const unique = pool.filter((p, i, arr) => arr.findIndex((x) => x.name === p.name) === i);
-    const scored = unique.map((p) => ({ ...p, score: matchScore(p, activeSong) }))
-      .sort((a, b) => b.score - a.score);
-    setMatched(scored);
+    setMatched(matchPlaylists(activeSong, { limit: 20 }));
   };
 
   useEffect(() => {

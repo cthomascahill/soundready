@@ -2,29 +2,15 @@ import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { base44 } from "@/api/base44Client";
 import { Button } from "@/components/ui/button";
-import { PLAYLIST_DB, DEFAULT_PLAYLISTS } from "@/lib/playlistDatabase";
+import { matchPlaylists } from "@/lib/playlistMatch";
 import {
   Music2, Loader2, Users, CheckCircle2, AlertTriangle, ChevronRight, Inbox,
 } from "lucide-react";
 
-const followersNum = (f) => {
-  const n = typeof f === "string" ? parseInt(f.replace(/[^0-9]/g, ""), 10) : f;
-  return n || 0;
+const MATCH_BADGE = {
+  "Genre match": "bg-primary/10 text-primary border-primary/20",
+  "Close genre": "bg-cyan-500/5 text-cyan-400 border-cyan-500/20",
 };
-// "Hip-Hop" in the Vault matches "Hip Hop" in the playlist database
-const norm = (g) => (g || "").toLowerCase().replace(/[^a-z]/g, "");
-
-// Genre-matched playlists first, then the biggest all-genre lists
-function matchPlaylists(song) {
-  const key = Object.keys(PLAYLIST_DB).find((k) => norm(k) === norm(song.genre));
-  const genreLists = key ? PLAYLIST_DB[key] : [];
-  const seen = new Set();
-  const pool = [...genreLists, ...DEFAULT_PLAYLISTS].filter((p) => (seen.has(p.name) ? false : seen.add(p.name)));
-  return pool
-    .map((p) => ({ ...p, genreMatch: genreLists.includes(p) }))
-    .sort((a, b) => (b.genreMatch - a.genreMatch) || (followersNum(b.followers) - followersNum(a.followers)))
-    .slice(0, 12);
-}
 
 const STATUS_PILL = {
   pending: { label: "In your queue", cls: "bg-yellow-500/10 text-yellow-400 border-yellow-500/25" },
@@ -56,7 +42,7 @@ export default function PlaylistPitchPanel({ user, activities = [], onQueued, on
   }, [user]);
 
   const song = (songs || []).find((s) => s.id === songId);
-  const matches = song ? matchPlaylists(song) : [];
+  const matches = song ? matchPlaylists(song, { limit: 12 }) : [];
 
   // What Sam has already drafted or sent for this song
   const pitchedFor = (name) =>
@@ -121,7 +107,7 @@ export default function PlaylistPitchPanel({ user, activities = [], onQueued, on
             </button>
           ))}
         </div>
-        {song && !norm(song.genre) && (
+        {song && !song.genre && (
           <p className="text-[11px] text-muted-foreground">
             This song has no genre set — add one in the Vault for closer playlist matches.
           </p>
@@ -138,7 +124,7 @@ export default function PlaylistPitchPanel({ user, activities = [], onQueued, on
       <div className="space-y-3">
         <div className="flex items-center justify-between gap-3">
           <p className="text-xs text-muted-foreground">
-            Sam matched {matches.length} playlists for this song — genre first, then the biggest open lists.
+            Sam matched {matches.length} playlists for this song — closest genre matches first, then the biggest open lists.
           </p>
         </div>
 
@@ -157,11 +143,9 @@ export default function PlaylistPitchPanel({ user, activities = [], onQueued, on
                 <div className="min-w-0 space-y-1.5">
                   <div className="flex items-center gap-2 flex-wrap">
                     <p className="text-sm font-semibold">{p.name}</p>
-                    {p.genreMatch ? (
-                      <span className="text-[10px] font-bold px-2 py-0.5 rounded-full border bg-primary/10 text-primary border-primary/20">Genre match</span>
-                    ) : (
-                      <span className="text-[10px] font-bold px-2 py-0.5 rounded-full border bg-secondary text-muted-foreground border-border">All genres</span>
-                    )}
+                    <span className={`text-[10px] font-bold px-2 py-0.5 rounded-full border ${
+                      MATCH_BADGE[p.matchLabel] || "bg-secondary text-muted-foreground border-border"
+                    }`}>{p.matchLabel}</span>
                     {pill && (
                       <span className={`text-[10px] font-bold px-2 py-0.5 rounded-full border ${pill.cls}`}>{pill.label}</span>
                     )}
