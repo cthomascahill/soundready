@@ -1,11 +1,12 @@
 import { useState, useEffect, useCallback, useRef } from "react";
 import { base44 } from "@/api/base44Client";
 import { useAuth } from "@/lib/AuthContext";
-import { RefreshCw, Newspaper, Bookmark, BookmarkCheck, X, Sparkles } from "lucide-react";
+import { RefreshCw, Newspaper, Bookmark, BookmarkCheck, X, Sparkles, PlayCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import NewsCard from "@/components/news/NewsCard";
 import DailyBriefing from "@/components/news/DailyBriefing";
 import DeepDiveCard from "@/components/news/DeepDiveCard";
+import ScrollTab from "@/components/news/ScrollTab";
 
 const CATEGORIES = [
   "All News",
@@ -173,6 +174,11 @@ export default function MusicNews() {
             className={`px-4 py-1.5 rounded-lg text-sm font-medium transition-colors ${activeTab === "feed" ? "bg-primary text-black" : "text-zinc-400 hover:text-white"}`}>
             Feed
           </button>
+          <button onClick={() => setActiveTab("scroll")}
+            className={`flex items-center gap-1.5 px-4 py-1.5 rounded-lg text-sm font-medium transition-colors ${activeTab === "scroll" ? "bg-primary text-black" : "text-zinc-400 hover:text-white"}`}>
+            <PlayCircle className="h-3.5 w-3.5" />
+            Scroll
+          </button>
           <button onClick={() => setActiveTab("dives")}
             className={`flex items-center gap-1.5 px-4 py-1.5 rounded-lg text-sm font-medium transition-colors ${activeTab === "dives" ? "bg-primary text-black" : "text-zinc-400 hover:text-white"}`}>
             <Sparkles className="h-3.5 w-3.5" />
@@ -210,6 +216,8 @@ export default function MusicNews() {
               </>
             )}
           </div>
+        ) : activeTab === "scroll" ? (
+          <ScrollTab genre={artistProfile?.genres?.[0] || artistProfile?.subgenre_vibe} />
         ) : activeTab === "dives" ? (
           <div className="space-y-4">
             {loading ? (
