@@ -135,8 +135,8 @@ export const HOME_STRINGS = {
       "Lo que cuesta empezar en SoundReady — herramientas esenciales gratis para siempre",
     "Integrated tools giving every artist and producer the infrastructure of a full professional team":
       "Herramientas integradas que dan a cada artista y productor la infraestructura de un equipo profesional completo",
-    "Your next release could be your biggest.": "Tu próximo lanzamiento podría ser el más grande.",
-    "SoundReady makes sure of it.": "SoundReady se encarga de ello.",
+    "Your biggest release ": "Tu mayor lanzamiento ",
+    "is next.": "está por venir.",
     "The artists and producers winning right now aren't more talented — they're more organized and more strategic. SoundReady gives you everything you need to be both, starting today.":
       "Los artistas y productores que están ganando hoy no son más talentosos — están mejor organizados y son más estratégicos. SoundReady te da todo lo que necesitas para ser ambas cosas, empezando hoy.",
     "Start Building My Career": "Empezar a Construir Mi Carrera",
@@ -288,8 +288,8 @@ export const HOME_STRINGS = {
       "Ce que coûte le démarrage sur SoundReady — les outils de base gratuits pour toujours",
     "Integrated tools giving every artist and producer the infrastructure of a full professional team":
       "Des outils intégrés qui donnent à chaque artiste et producteur l'infrastructure d'une équipe professionnelle complète",
-    "Your next release could be your biggest.": "Votre prochaine sortie pourrait être la plus grosse.",
-    "SoundReady makes sure of it.": "SoundReady s'en assure.",
+    "Your biggest release ": "Votre plus grande sortie ",
+    "is next.": "arrive ensuite.",
     "The artists and producers winning right now aren't more talented — they're more organized and more strategic. SoundReady gives you everything you need to be both, starting today.":
       "Les artistes et producteurs qui gagnent aujourd'hui ne sont pas plus talentueux — ils sont plus organisés et plus stratégiques. SoundReady vous donne tout ce qu'il faut pour être les deux, dès aujourd'hui.",
     "Start Building My Career": "Commencer à Bâtir Ma Carrière",
@@ -441,8 +441,8 @@ export const HOME_STRINGS = {
       "Was der Start auf SoundReady kostet — Kern-Tools für immer kostenlos",
     "Integrated tools giving every artist and producer the infrastructure of a full professional team":
       "Integrierte Tools, die jedem Künstler und Producer die Infrastruktur eines ganzen professionellen Teams geben",
-    "Your next release could be your biggest.": "Dein nächster Release könnte dein größter sein.",
-    "SoundReady makes sure of it.": "SoundReady sorgt dafür.",
+    "Your biggest release ": "Dein größter Release ",
+    "is next.": "kommt als Nächstes.",
     "The artists and producers winning right now aren't more talented — they're more organized and more strategic. SoundReady gives you everything you need to be both, starting today.":
       "Die Künstler und Producer, die heute gewinnen, sind nicht talentierter — sie sind organisierter und strategischer. SoundReady gibt dir alles, was du brauchst, um beides zu sein, ab heute.",
     "Start Building My Career": "Meine Karriere Aufbauen",
