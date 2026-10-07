@@ -34,7 +34,7 @@ const FAQ = [
   },
   {
     q: "Does SoundReady take a percentage of my income?",
-    a: "Never. A traditional manager takes 15–20% of everything you earn, forever. Sam is $59/mo flat for founding artists ($79/mo after) — and you keep 100% of your earnings, always.",
+    a: "Never. A traditional manager takes 15–20% of everything you earn, forever. Sam is $59/mo flat for the first 100 artists ($79/mo after) — and you keep 100% of your earnings, always.",
   },
   {
     q: "What exactly does Sam do?",
@@ -92,7 +92,7 @@ export default function Pricing() {
     <div className="min-h-screen bg-background font-body">
       <SEO
         title="Pricing — SoundReady"
-        description="Start free forever. Artist Pro unlocks the full toolkit for $39/mo or $374/yr with a 7-day free trial. AI Manager adds Sam — your AI manager — for $59/mo founding ($79/mo regular). No percentage cuts, ever."
+        description="Start free forever. Artist Pro unlocks the full toolkit for $39/mo or $374/yr with a 7-day free trial. AI Manager adds Sam — your AI manager — for $59/mo for the first 100 artists ($79/mo after). No percentage cuts, ever."
       />
 
       <PublicNav />
@@ -108,7 +108,7 @@ export default function Pricing() {
           </motion.div>
           <h1 className="font-heading text-5xl sm:text-7xl font-black tracking-tight leading-[0.95]">
             Meet Sam.<br />
-            <span className="text-primary">Your AI manager — $59/mo, founding price.</span>
+            <span className="text-primary">Your AI manager — $59/mo for the first 100 artists.</span>
           </h1>
           <p className="text-lg sm:text-xl text-muted-foreground leading-relaxed max-w-2xl mx-auto">
             Sam outbounds for you every week — playlist pitches, tour support, sync opportunities — drafted from your real numbers, and nothing sends without your approval. Your Vault, Tracker and the full toolkit come with it. Start free and grow in.
@@ -175,7 +175,7 @@ export default function Pricing() {
 
           <div className="space-y-3 text-center">
             <BillingToggle value={billing} onChange={setBilling} yearlyNote="2 mo free" />
-            <p className="text-xs text-primary font-semibold">Founding artist pricing — the first few hundred artists lock these prices in for life.</p>
+            <p className="text-xs text-primary font-semibold">First 100 artists — these prices lock in for life. $79/mo for everyone after.</p>
           </div>
 
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-5">
@@ -255,10 +255,10 @@ export default function Pricing() {
               <div className="mb-3 flex items-baseline gap-2 flex-wrap">
                 <span className="text-base text-muted-foreground line-through font-semibold">{billing === "yearly" ? "$699" : "$79"}</span>
                 <p className="text-2xl font-black">{billing === "yearly" ? "$569" : "$59"}<span className="text-sm text-muted-foreground font-medium">{billing === "yearly" ? "/yr" : "/mo"}</span></p>
-                <span className="px-2 py-0.5 rounded-full bg-primary/15 text-primary text-[10px] font-bold uppercase tracking-wide">Founding</span>
+                <span className="px-2 py-0.5 rounded-full bg-primary/15 text-primary text-[10px] font-bold uppercase tracking-wide">First 100 Artists</span>
               </div>
               <p className="text-sm text-muted-foreground leading-relaxed mb-5">
-                Sam outbounds for you every week — playlist pitches, tour support, sync opportunities — drafted from your real numbers, and nothing sends without your approval. A traditional manager takes 15–20% of everything you earn. Sam is $59/mo flat for founding artists — $79/mo after.
+                Sam outbounds for you every week — playlist pitches, tour support, sync opportunities — drafted from your real numbers, and nothing sends without your approval. A traditional manager takes 15–20% of everything you earn. Sam is $59/mo flat for the first 100 artists — $79/mo after.
               </p>
               <div className="flex-1">
                 <p className="font-heading text-lg font-black tracking-tight mb-2">Everything in Artist Pro.</p>
@@ -269,7 +269,7 @@ export default function Pricing() {
                   <Button className="w-full font-semibold gap-2"><Sparkles className="h-4 w-4" /> Start AI Manager</Button>
                 </Link>
               </div>
-              <p className="text-center text-xs text-muted-foreground mt-2">Founding price locked for life while you stay subscribed. Cancel anytime. No percentage cuts — ever.</p>
+              <p className="text-center text-xs text-muted-foreground mt-2">First-100 price locked for life while you stay subscribed. Cancel anytime. No percentage cuts — ever.</p>
             </motion.div>
           </div>
         </div>

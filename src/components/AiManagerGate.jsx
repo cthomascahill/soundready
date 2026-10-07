@@ -28,7 +28,7 @@ export default function AiManagerGate({ children, feature }) {
       <motion.div initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} className="max-w-lg w-full">
         <div className="rounded-2xl border border-primary/30 bg-card p-8 space-y-6 relative overflow-hidden pt-10">
           <div className="absolute -top-3 left-1/2 -translate-x-1/2 px-3 py-1 rounded-full text-xs font-bold whitespace-nowrap bg-primary text-primary-foreground">
-            Founding Artist Price — Locked For Life
+            First 100 Artists — Price Locked For Life
           </div>
           <div className="h-12 w-12 rounded-xl bg-primary/10 border border-primary/30 flex items-center justify-center">
             <Lock className="h-5 w-5 text-primary" />
@@ -54,10 +54,10 @@ export default function AiManagerGate({ children, feature }) {
             <span className="font-heading text-3xl font-black text-primary">$59<span className="text-sm text-muted-foreground font-medium">/mo</span></span>
           </div>
           <CheckoutButton tier="ai_manager">
-            Start AI Manager — $59/mo founding
+            Start AI Manager — $59/mo, first 100 artists
           </CheckoutButton>
           <p className="text-center text-xs text-muted-foreground">
-            Founding price locked for life while you stay subscribed. Everything in Artist Pro included. Cancel anytime.
+            First-100 price locked for life while you stay subscribed. Everything in Artist Pro included. Cancel anytime.
           </p>
           <p className="text-center">
             <Link to="/pricing-account" className="text-xs text-muted-foreground hover:text-foreground transition-colors inline-flex items-center gap-1">

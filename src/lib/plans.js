@@ -92,7 +92,7 @@ export const PLANS = {
     periodYearly: "/yr",
     founding: true,
     items: AI_ITEMS,
-    note: "Founding artist price — locked for life while you stay subscribed. Everything in Artist Pro included. Cancel anytime. No percentage cuts — ever.",
+    note: "First 100 artists price — locked for life while you stay subscribed. Everything in Artist Pro included. Cancel anytime. No percentage cuts — ever.",
   },
   "sam-extra-usage": {
     slug: "sam-extra-usage",
