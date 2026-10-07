@@ -22,6 +22,27 @@
       "type": "string",
       "description": "Booking/submissions page or web page Sam found the contact on"
     },
+    "target_location": {
+      "type": "string",
+      "description": "City/state where the target is, e.g. Denver, CO"
+    },
+    "target_capacity": {
+      "type": "number",
+      "description": "Venue capacity when the target is a venue; approximate when unpublished"
+    },
+    "contact_route": {
+      "type": "string",
+      "enum": [
+        "email",
+        "submission_page",
+        "unknown"
+      ],
+      "description": "How the artist reaches this target: verifiable email, official submissions page, or neither found"
+    },
+    "verification_note": {
+      "type": "string",
+      "description": "What Sam (or the quality check) verified about this target, and any caveat to know before sending"
+    },
     "why_fit": {
       "type": "string",
       "description": "Why Sam thinks this target fits the artist"

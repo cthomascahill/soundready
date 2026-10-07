@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { base44 } from "@/api/base44Client";
 import TaskDraftCard from "@/components/tellsam/TaskDraftCard";
+import FeedbackControl from "@/components/tellsam/FeedbackControl";
 import { Button } from "@/components/ui/button";
 import {
   Paperclip, ExternalLink, Lightbulb, AlertCircle, Loader2, RefreshCw,
@@ -124,6 +125,9 @@ export default function TaskDetail({ task, onChanged }) {
               )}
             </div>
           )}
+
+          {/* Was this answer good? Sam learns for next time */}
+          <FeedbackControl taskId={task.id} />
 
           {/* Outreach drafts */}
           <div className="space-y-3">

@@ -1,0 +1,75 @@
+{
+  "name": "VenueRecord",
+  "type": "object",
+  "description": "Shared, growable directory of verified venues Sam researches against. Corrections from artists land here and benefit everyone.",
+  "properties": {
+    "venue_name": {
+      "type": "string",
+      "description": "Venue name as it's publicly known"
+    },
+    "city": {
+      "type": "string",
+      "description": "City the venue is in"
+    },
+    "state": {
+      "type": "string",
+      "description": "State or region code, e.g. IL, CO"
+    },
+    "capacity": {
+      "type": "number",
+      "description": "Approximate capacity; null when unpublished"
+    },
+    "genres": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "contact_email": {
+      "type": "string",
+      "description": "Publicly verifiable booking email; empty when none is verified"
+    },
+    "submission_page": {
+      "type": "string",
+      "description": "Official booking/contact or submissions page URL"
+    },
+    "website": {
+      "type": "string"
+    },
+    "notes": {
+      "type": "string",
+      "description": "Booking quirks, door deals, anything useful to Sam"
+    },
+    "verified": {
+      "type": "boolean",
+      "default": false
+    },
+    "verified_by": {
+      "type": "string",
+      "enum": [
+        "artist",
+        "sam_web",
+        "seeded"
+      ],
+      "description": "Who verified this record last"
+    },
+    "source_url": {
+      "type": "string",
+      "description": "Web page the details were verified on"
+    }
+  },
+  "required": [
+    "venue_name",
+    "city"
+  ],
+  "rls": {
+    "read": {},
+    "create": {},
+    "update": {},
+    "delete": {
+      "user_condition": {
+        "role": "admin"
+      }
+    }
+  }
+}

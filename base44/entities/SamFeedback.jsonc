@@ -1,0 +1,61 @@
+{
+  "name": "SamFeedback",
+  "type": "object",
+  "description": "The artist's rating of Sam's task results and outreach drafts. Sam reads past feedback on every new task and adjusts.",
+  "properties": {
+    "user_id": {
+      "type": "string",
+      "description": "User this feedback belongs to"
+    },
+    "task_id": {
+      "type": "string",
+      "description": "SamTask the feedback is about"
+    },
+    "draft_id": {
+      "type": "string",
+      "description": "SamTaskDraft the feedback is about, when rating a draft"
+    },
+    "feedback_on": {
+      "type": "string",
+      "enum": [
+        "task_result",
+        "draft"
+      ]
+    },
+    "rating": {
+      "type": "string",
+      "enum": [
+        "useful",
+        "incorrect",
+        "missing_detail"
+      ]
+    },
+    "comment": {
+      "type": "string",
+      "description": "What was wrong, missing, or great, in the artist's words"
+    },
+    "venue_name": {
+      "type": "string",
+      "description": "Venue the feedback concerns, when it's about a venue target"
+    }
+  },
+  "required": [
+    "user_id",
+    "feedback_on",
+    "rating"
+  ],
+  "rls": {
+    "read": {
+      "created_by_id": "{{user.id}}"
+    },
+    "create": {
+      "created_by_id": "{{user.id}}"
+    },
+    "update": {
+      "created_by_id": "{{user.id}}"
+    },
+    "delete": {
+      "created_by_id": "{{user.id}}"
+    }
+  }
+}

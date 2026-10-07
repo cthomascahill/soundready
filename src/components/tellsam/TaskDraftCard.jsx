@@ -3,8 +3,9 @@ import { base44 } from "@/api/base44Client";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { useToast } from "@/components/ui/use-toast";
+import FeedbackControl from "@/components/tellsam/FeedbackControl";
 import {
-  Mail, ExternalLink, Pencil, Check, X, Loader2, Copy, CheckCircle2, Trash2, Send,
+  Mail, ExternalLink, Pencil, Check, X, Loader2, Copy, CheckCircle2, Trash2, Send, MapPin, Users,
 } from "lucide-react";
 
 const STATUS_BADGE = {
@@ -84,6 +85,27 @@ export default function TaskDraftCard({ draft }) {
         )}
       </div>
 
+      {/* Verified details from Sam's research */}
+      {(draft.target_location || draft.target_capacity) && (
+        <div className="flex flex-wrap gap-1.5">
+          {draft.target_location && (
+            <span className="inline-flex items-center gap-1 text-[11px] text-muted-foreground bg-secondary/60 border border-border rounded-full px-2 py-0.5">
+              <MapPin className="h-3 w-3 text-primary" /> {draft.target_location}
+            </span>
+          )}
+          {draft.target_capacity ? (
+            <span className="inline-flex items-center gap-1 text-[11px] text-muted-foreground bg-secondary/60 border border-border rounded-full px-2 py-0.5">
+              <Users className="h-3 w-3 text-primary" /> ~{draft.target_capacity} cap
+            </span>
+          ) : null}
+        </div>
+      )}
+      {draft.verification_note && (
+        <p className="text-[11px] text-yellow-500/90 leading-relaxed bg-yellow-500/5 border border-yellow-500/20 rounded-lg px-2.5 py-1.5">
+          Quality check: {draft.verification_note}
+        </p>
+      )}
+
       {/* Draft body */}
       {editing ? (
         <div className="space-y-2">
@@ -143,6 +165,9 @@ export default function TaskDraftCard({ draft }) {
           </Button>
         </div>
       )}
+
+      {/* Teach Sam: rate this find, correct the venue */}
+      <FeedbackControl taskId={draft.task_id} draftId={draft.id} targetName={draft.target_name} />
     </div>
   );
 }
