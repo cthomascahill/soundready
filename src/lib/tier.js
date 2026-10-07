@@ -3,6 +3,10 @@
 
 export function getTier(user) {
   if (!user) return "free";
+  // Admin-only preview: ?previewTier=pro (or free) shows exactly what that plan sees.
+  // Safe because admins already have full access; this only changes the view.
+  const preview = new URLSearchParams(window.location.search).get("previewTier");
+  if (user.role === "admin" && ["free", "pro"].includes(preview)) return preview;
   if (user.role === "admin") return "ai_manager";
   return user.subscription_tier || "free";
 }
