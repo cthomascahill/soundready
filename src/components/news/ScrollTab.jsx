@@ -84,9 +84,13 @@ export default function ScrollTab({ genre }) {
       {/* Inline player */}
       {playing && (
         <div ref={playerRef} className="rounded-2xl bg-card border border-primary/30 overflow-hidden">
-          <div className="flex items-center justify-between px-4 py-2 border-b border-border">
-            <p className="text-xs font-semibold text-primary truncate">{playing.title}</p>
-            <button onClick={() => setPlaying(null)} className="text-zinc-500 hover:text-white">
+          <div className="flex items-center justify-between px-4 py-2 border-b border-border gap-2">
+            <p className="text-xs font-semibold text-primary truncate flex-1">{playing.title}</p>
+            <a href={`https://www.youtube.com/watch?v=${playing.id}`} target="_blank" rel="noopener noreferrer"
+              className="text-xs text-zinc-400 hover:text-primary flex items-center gap-1 shrink-0">
+              <Youtube className="h-3.5 w-3.5" /> YouTube
+            </a>
+            <button onClick={() => setPlaying(null)} className="text-zinc-500 hover:text-white shrink-0">
               <X className="h-4 w-4" />
             </button>
           </div>

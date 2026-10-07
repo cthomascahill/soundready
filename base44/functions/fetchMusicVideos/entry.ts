@@ -4,11 +4,24 @@ const YOUTUBE_API_KEY = Deno.env.get("YOUTUBE_API_KEY");
 const BASE_QUERIES = [
   '"DJ Akademiks" interview',
   '"The Manager\'s Playbook"',
-  '"Million Dollaz Worth of Game"',
-  '"Breakfast Club" interview',
-  'music industry podcast',
-  'music news interview',
+  '"Million Dollaz Worth of Game" rapper',
+  '"Breakfast Club" artist interview',
+  'hip hop interview',
+  'music industry advice',
 ];
+
+// Music-culture shows: their artist/industry content stays in.
+const KNOWN_MUSIC_CHANNELS = /breakfast club|akademiks|million dollaz|manager's playbook|no jumper|drink champs|rap radar|math hoffman|ebro|big facts/i;
+// Anything else has to be clearly about music.
+const MUSIC_WORDS = /music|song|album|artist|rap(per)?\b|hip ?hop|producer|dj\b|record label|streaming|spotify|billboard|grammy|singer|rapper|tour|beat|r&b|interview/i;
+// Hard off-topic: sports, comedy, movies — even on music channels.
+const OFF_TOPIC = /nba|nfl|football|basketball|boxing|ufc|comedy|comedian|chris rock|kevin hart|movie|film|actor|actress|trailer/i;
+
+function isMusicVideo(v) {
+  if (OFF_TOPIC.test(v.title)) return false;
+  if (KNOWN_MUSIC_CHANNELS.test(v.channel)) return true;
+  return MUSIC_WORDS.test(v.title);
+}
 
 // ISO-8601 duration (PT1H2M3S) -> "1:02:03"
 function formatDuration(iso) {
@@ -94,7 +107,7 @@ Deno.serve(async (req) => {
           longForm: secs >= 60,
         };
       })
-      .filter(v => v.longForm)
+      .filter(v => v.longForm && isMusicVideo(v))
       .sort((a, b) => new Date(b.publishedAt) - new Date(a.publishedAt))
       .slice(0, 36);
 
