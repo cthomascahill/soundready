@@ -518,6 +518,14 @@ const ALL_VENUES = (() => {
       if (seen.has(key)) return false;
       seen.add(key);
       return true;
+    })
+    // Emails verified by crawling each venue's real website override the
+    // listed address; everything else keeps its address but shows no badge.
+    .map((v) => {
+      const ov = verifiedEmails[`${v.name}|${v.city}`];
+      return ov
+        ? { ...v, booking_email: ov.email, email_verified: true, email_source: ov.source }
+        : { ...v, email_verified: false };
     });
 })();
 
@@ -575,8 +583,15 @@ Write 3-4 short paragraphs: (1) introduce the artist and their sound, (2) explai
             className="w-full rounded-xl border border-input bg-secondary/20 px-4 py-3 text-sm text-foreground focus:outline-none focus:ring-1 focus:ring-ring resize-none" />
         )}
         <div className="flex items-center justify-between gap-2 flex-wrap">
-          <a href={`mailto:${venue.booking_email}?subject=Booking Inquiry — ${artist.name}`}
-            className="text-xs text-primary underline">{venue.booking_email}</a>
+          <div className="flex items-center gap-2 flex-wrap">
+            <a href={`mailto:${venue.booking_email}?subject=Booking Inquiry — ${artist.name}`}
+              className="text-xs text-primary underline">{venue.booking_email}</a>
+            {venue.email_verified && (
+              <span className="flex items-center gap-1 text-[10px] text-primary font-medium" title={`Email published on ${venue.email_source}`}>
+                <BadgeCheck className="h-3 w-3" />Verified
+              </span>
+            )}
+          </div>
           <div className="flex gap-2">
             <Button size="sm" variant="outline" onClick={copy}>
               {copied ? <><Check className="h-3.5 w-3.5 mr-1" />Copied</> : <><Copy className="h-3.5 w-3.5 mr-1" />Copy</>}
@@ -660,6 +675,11 @@ export default function GigFinder() {
                   <span className="flex items-center gap-1 text-xs text-muted-foreground"><MapPin className="h-3 w-3" />{venue.city}</span>
                   <span className="flex items-center gap-1 text-xs text-muted-foreground"><Music className="h-3 w-3" />{venue.capacity} cap</span>
                   <span className="flex items-center gap-1 text-xs text-primary font-medium"><DollarSign className="h-3 w-3" />{venue.pay}</span>
+                  {venue.email_verified && (
+                    <span className="flex items-center gap-1 text-xs text-primary font-medium" title={`Email published on ${venue.email_source}`}>
+                      <BadgeCheck className="h-3 w-3" />Verified email
+                    </span>
+                  )}
                 </div>
               </div>
               <div className="flex flex-wrap gap-1">
