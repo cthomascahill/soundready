@@ -1,7 +1,7 @@
 {
   "name": "DemoLink",
   "type": "object",
-  "description": "A private, shareable listening link for one Vault song. Anyone with the link hears the song in the SoundReady demo player \u2014 no account needed. The secret token in the URL is the only gate.",
+  "description": "A private, shareable listening link for one Vault song or an entire project (album/EP). Anyone with the link hears it in the SoundReady demo player \u2014 no account needed. The secret token in the URL is the only gate.",
   "properties": {
     "user_id": {
       "type": "string",
@@ -9,7 +9,11 @@
     },
     "song_id": {
       "type": "string",
-      "description": "SongVault song this link plays"
+      "description": "SongVault song this link plays; empty for project (album) links"
+    },
+    "project_id": {
+      "type": "string",
+      "description": "SongProject this link plays in full (album mode); empty for single-song links"
     },
     "token": {
       "type": "string",
@@ -21,7 +25,7 @@
     },
     "song_title": {
       "type": "string",
-      "description": "Song title snapshot at creation; the live song title wins when it exists"
+      "description": "Song or project title snapshot at creation; the live title wins when it exists"
     },
     "plays": {
       "type": "number",

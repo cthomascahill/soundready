@@ -12,6 +12,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import moment from "moment";
 import SongCardModal from "@/components/vault/SongCardModal";
+import AlbumDemoLinkCard from "@/components/vault/AlbumDemoLinkCard";
 import ProjectsSidebar from "@/components/vault/ProjectsSidebar";
 import VaultCapPrompt, { VaultUsageBadge, FREE_VAULT_CAP } from "@/components/vault/VaultCapPrompt";
 import BulkAddSongs from "@/components/vault/BulkAddSongs";
@@ -340,6 +341,14 @@ export default function SongLibrary() {
                 <span className="text-sm font-medium">{activeProjectName}</span>
                 <button onClick={() => setActiveProject(null)} className="text-zinc-600 hover:text-zinc-400"><X className="h-3.5 w-3.5" /></button>
               </div>
+            )}
+
+            {/* Album demo link for this project */}
+            {activeProject && (
+              <AlbumDemoLinkCard
+                project={projects.find(p => p.id === activeProject)}
+                songs={songs}
+              />
             )}
 
             {/* Song Grid/List */}

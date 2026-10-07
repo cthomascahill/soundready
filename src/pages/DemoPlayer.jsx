@@ -3,7 +3,7 @@ import { useParams } from "react-router-dom";
 import { base44 } from "@/api/base44Client";
 import SoundReadyLogo from "@/components/SoundReadyLogo";
 import { resolvePlayableAudioUrl } from "@/lib/audioPlayback";
-import { Play, Pause, Loader2, Music2, Headphones, AlertTriangle } from "lucide-react";
+import { Play, Pause, Loader2, Music2, Headphones, AlertTriangle, Disc3 } from "lucide-react";
 
 const fmt = (s) => {
   if (!s || !isFinite(s)) return "0:00";
@@ -13,7 +13,8 @@ const fmt = (s) => {
 };
 
 // Public demo player — an artist shares a /demo/<token> link and anyone
-// can listen in the browser. No SoundReady account needed.
+// can listen in the browser. No SoundReady account needed. Works for one
+// song or an entire project (album), which plays every track in order.
 export default function DemoPlayer() {
   const { token } = useParams();
   const [meta, setMeta] = useState(null);
@@ -23,8 +24,12 @@ export default function DemoPlayer() {
   const [starting, setStarting] = useState(false);
   const [currentTime, setCurrentTime] = useState(0);
   const [duration, setDuration] = useState(null);
+  const [currentTrackId, setCurrentTrackId] = useState(null);
   const audioRef = useRef(null);
   const barRef = useRef(null);
+
+  const isAlbum = !!meta?.is_album;
+  const tracks = meta?.tracks || [];
 
   useEffect(() => {
     base44.functions.invoke("demoLink", { action: "get", token })
@@ -33,28 +38,53 @@ export default function DemoPlayer() {
       .finally(() => setLoading(false));
   }, [token]);
 
+  const loadTrack = async (trackId) => {
+    setStarting(true);
+    setError("");
+    const audio = audioRef.current;
+    if (audio) {
+      audio.pause();
+      audio.removeAttribute("src");
+    }
+    try {
+      const res = await base44.functions.invoke("demoLink", { action: "play", token, track_id: trackId });
+      audio.src = await resolvePlayableAudioUrl(res.data?.audio_url);
+      setCurrentTrackId(trackId || (isAlbum ? res.data?.tracks?.[0]?.id : null));
+      setCurrentTime(0);
+      setDuration(null);
+      await audio.play();
+    } catch (e) {
+      setError(e?.response?.data?.error || "Couldn't load this demo — try again.");
+      setPlaying(false);
+    } finally {
+      setStarting(false);
+    }
+  };
+
   const toggle = async () => {
     const audio = audioRef.current;
     if (!audio) return;
-    if (playing) { audio.pause(); setPlaying(false); return; }
-
+    if (playing) { audio.pause(); return; }
     if (!audio.src) {
-      setStarting(true);
-      setError("");
-      try {
-        const res = await base44.functions.invoke("demoLink", { action: "play", token });
-        audio.src = await resolvePlayableAudioUrl(res.data?.audio_url);
-        await audio.play();
-        setPlaying(true);
-      } catch (e) {
-        setError(e?.response?.data?.error || "Couldn't load this demo — try again.");
-        setPlaying(false);
-      } finally {
-        setStarting(false);
-      }
+      await loadTrack(isAlbum ? tracks[0]?.id : undefined);
       return;
     }
-    try { await audio.play(); setPlaying(true); } catch { setPlaying(false); }
+    try { await audio.play(); } catch { setPlaying(false); }
+  };
+
+  const selectTrack = async (trackId) => {
+    if (trackId === currentTrackId && playing) return;
+    await loadTrack(trackId);
+  };
+
+  const handleEnded = () => {
+    if (isAlbum && tracks.length > 1) {
+      const idx = tracks.findIndex(t => t.id === currentTrackId);
+      const next = tracks[idx + 1];
+      if (next) { loadTrack(next.id); return; }
+    }
+    setPlaying(false);
+    setCurrentTime(0);
   };
 
   const seek = (e) => {
@@ -68,6 +98,7 @@ export default function DemoPlayer() {
   };
 
   const audioDur = duration || meta?.duration || 0;
+  const currentTrack = tracks.find(t => t.id === currentTrackId);
 
   return (
     <div className="min-h-screen bg-[#0a0a0a] text-zinc-100 relative overflow-hidden flex flex-col">
@@ -101,8 +132,9 @@ export default function DemoPlayer() {
             <div className="rounded-3xl border border-zinc-800 bg-[#111] p-6 sm:p-8 shadow-2xl shadow-black/60">
               {/* Artwork */}
               <div className="mx-auto w-44 h-44 sm:w-52 sm:h-52 mb-6">
-                {meta.artwork_url ? (
-                  <img src={meta.artwork_url} alt={meta.title} className="w-full h-full object-cover rounded-2xl border border-zinc-800" />
+                {(currentTrack?.artwork_url || meta.artwork_url) ? (
+                  <img src={currentTrack?.artwork_url || meta.artwork_url} alt={meta.title}
+                    className="w-full h-full object-cover rounded-2xl border border-zinc-800" />
                 ) : (
                   <div className="w-full h-full rounded-2xl border border-zinc-800 bg-gradient-to-br from-primary/15 to-transparent flex items-center justify-center">
                     <Music2 className="h-14 w-14 text-primary/60" />
@@ -112,15 +144,25 @@ export default function DemoPlayer() {
 
               {/* Title */}
               <div className="text-center mb-6">
-                <h1 className="font-heading text-2xl font-bold truncate">{meta.title}</h1>
+                {isAlbum && (
+                  <p className="text-[10px] font-bold uppercase tracking-widest text-primary flex items-center justify-center gap-1.5 mb-1.5">
+                    <Disc3 className="h-3 w-3" /> Album · {meta.track_count} track{meta.track_count === 1 ? "" : "s"}
+                  </p>
+                )}
+                <h1 className="font-heading text-2xl font-bold truncate">{isAlbum ? (currentTrack?.title || meta.title) : meta.title}</h1>
                 <p className="text-sm text-zinc-400 mt-1 truncate">
-                  {meta.artist || "Independent artist"}{meta.featured_artists ? ` · ft. ${meta.featured_artists}` : ""}
+                  {isAlbum
+                    ? (meta.artist || "Independent artist") + (currentTrack?.featured_artists ? ` · ft. ${currentTrack.featured_artists}` : "")
+                    : (meta.artist || "Independent artist") + (meta.featured_artists ? ` · ft. ${meta.featured_artists}` : "")}
                 </p>
+                {isAlbum && currentTrack && (
+                  <p className="text-xs text-zinc-600 mt-1 truncate">from “{meta.title}”</p>
+                )}
               </div>
 
               {/* Controls */}
               <div className="flex items-center gap-3 rounded-2xl border border-zinc-800 bg-zinc-900/60 p-3">
-                <button onClick={toggle} disabled={starting}
+                <button onClick={toggle} disabled={starting || (isAlbum && tracks.length === 0)}
                   className="h-12 w-12 rounded-full bg-primary text-black flex items-center justify-center hover:bg-primary/90 active:scale-95 transition-all shrink-0 disabled:opacity-60">
                   {starting
                     ? <Loader2 className="h-5 w-5 animate-spin" />
@@ -138,6 +180,33 @@ export default function DemoPlayer() {
                   </div>
                 </div>
               </div>
+
+              {/* Album track list */}
+              {isAlbum && tracks.length > 0 && (
+                <div className="mt-4 rounded-2xl border border-zinc-800 bg-zinc-900/40 p-1.5 max-h-56 overflow-y-auto">
+                  {tracks.map((t, i) => (
+                    <button key={t.id} onClick={() => selectTrack(t.id)}
+                      className={`w-full flex items-center gap-3 px-3 py-2 rounded-xl text-left transition-colors ${
+                        currentTrackId === t.id ? "bg-primary/10" : "hover:bg-zinc-800/60"
+                      }`}>
+                      <span className={`text-[10px] font-semibold tabular-nums w-4 text-center ${
+                        currentTrackId === t.id ? "text-primary" : "text-zinc-600"
+                      }`}>{i + 1}</span>
+                      <span className={`flex-1 min-w-0 truncate text-sm ${currentTrackId === t.id ? "text-primary font-semibold" : "text-zinc-300"}`}>
+                        {t.title}
+                      </span>
+                      {t.duration ? (
+                        <span className="text-[10px] text-zinc-600 tabular-nums">{fmt(t.duration)}</span>
+                      ) : null}
+                      {currentTrackId === t.id && playing ? (
+                        <Pause className="h-3 w-3 text-primary" />
+                      ) : (
+                        <Play className="h-3 w-3 text-zinc-600" />
+                      )}
+                    </button>
+                  ))}
+                </div>
+              )}
 
               {error && <p className="text-xs text-red-400 mt-3 text-center">{error}</p>}
 
@@ -157,7 +226,7 @@ export default function DemoPlayer() {
         ref={audioRef}
         onTimeUpdate={(e) => setCurrentTime(e.currentTarget.currentTime)}
         onLoadedMetadata={(e) => setDuration(e.currentTarget.duration)}
-        onEnded={() => { setPlaying(false); setCurrentTime(0); }}
+        onEnded={handleEnded}
         onPause={() => setPlaying(false)}
         onPlay={() => setPlaying(true)}
       />
