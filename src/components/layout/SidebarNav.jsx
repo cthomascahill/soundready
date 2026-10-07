@@ -1,7 +1,6 @@
 import { Link } from "react-router-dom";
 import { useAuth } from "@/lib/AuthContext";
-import { isProOrAbove, hasAIManager } from "@/lib/tier";
-import { Lock } from "lucide-react";
+import { hasAIManager } from "@/lib/tier";
 import { useLang } from "@/lib/i18n/LanguageContext";
 import {
   Home, Music2, Users, ListChecks, LayoutGrid, FolderOpen,
@@ -67,7 +66,10 @@ const NAV_SECTIONS = (isAdmin) => [
   },
 ];
 
-// Pages locked behind Artist Pro — free users see a lock icon on these
+// Music section tools ship with Artist Pro (full Vault, Tracker, Artist Profile)
+const MUSIC_PRO = new Set(["/history", "/song-tracker", "/artist-profile"]);
+
+// Pages locked behind Artist Pro
 const PRO_ONLY = new Set([
   "/studio", "/artist-feed",
   "/touring", "/gig-finder", "/tour-opportunities", "/tour-planner", "/tour-finance",
@@ -85,8 +87,15 @@ const AI_ONLY = new Set([
 export default function SidebarNav({ activePath, onNavigate }) {
   const { user } = useAuth();
   const { t } = useLang();
-  const showLocks = !isProOrAbove(user);
   const sections = NAV_SECTIONS(user?.role === "admin");
+
+  // AI Manager subscribers have everything unlocked, so no badges are needed
+  const tierBadge = (to) => {
+    if (hasAIManager(user)) return null;
+    if (AI_ONLY.has(to)) return "AI";
+    if (PRO_ONLY.has(to) || MUSIC_PRO.has(to)) return "Pro";
+    return null;
+  };
 
   return (
     <div className="flex-1 overflow-y-auto px-3 py-4 space-y-5">
@@ -115,8 +124,16 @@ export default function SidebarNav({ activePath, onNavigate }) {
                 >
                   <item.icon className="h-4 w-4 shrink-0" />
                   {t(item.label)}
-                  {((showLocks && PRO_ONLY.has(item.to)) || (!hasAIManager(user) && AI_ONLY.has(item.to))) && (
-                    <Lock className="h-3 w-3 ml-auto text-muted-foreground/50 shrink-0" />
+                  {tierBadge(item.to) && (
+                    <span
+                      className={`ml-auto shrink-0 rounded-full border px-1.5 py-0.5 text-[9px] font-bold uppercase tracking-wide ${
+                        tierBadge(item.to) === "AI"
+                          ? "bg-primary/15 border-primary/25 text-primary"
+                          : "bg-chart-5/10 border-chart-5/25 text-chart-5"
+                      }`}
+                    >
+                      {tierBadge(item.to)}
+                    </span>
                   )}
                 </Link>
               );
