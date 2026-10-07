@@ -818,5 +818,10 @@
   "email": "booking@velourlive.com",
   "kind": "verified",
   "source": "https://www.velourlive.com/contact"
+ },
+ "The Bomb Factory|Dallas, TX": {
+  "email": "contact@thebombfactory.com",
+  "kind": "verified",
+  "source": "https://www.thebombfactory.com/contact-us"
  }
 }
