@@ -15,7 +15,6 @@ export default function SamInActionSection() {
           <h2 className="font-heading text-4xl sm:text-5xl font-bold leading-tight">
             {t("Your AI manager automatically outbounds on ")}
             <span className="text-primary font-black">{t("your behalf")}</span>
-            {t(".")}
           </h2>
           <p className="text-lg text-muted-foreground leading-relaxed">
             {t("This is Sam's Desk: a finished pitch, researched and drafted from your real numbers, waiting for your decision.")}

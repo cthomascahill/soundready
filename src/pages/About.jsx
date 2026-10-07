@@ -152,7 +152,7 @@ export default function About() {
         <div className="max-w-5xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
           <motion.div initial={{ opacity: 0, x: -24 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }} className="space-y-6 order-2 lg:order-1">
             <p className="text-xs text-primary uppercase tracking-wider font-bold">{t("AI Manager")}</p>
-            <h2 className="font-heading text-4xl sm:text-5xl font-bold">{t("Meet Sam.")}</h2>
+            <h2 className="font-heading text-4xl sm:text-5xl font-bold">{t("Meet Sam")}</h2>
             <p className="text-lg text-muted-foreground leading-relaxed">
               {t("Sam is your AI manager. Sam automatically finds opportunities and pitches you for them every week: real outbound from your real numbers, waiting for your approval. Just log in, approve or deny.")}
             </p>
@@ -278,7 +278,7 @@ export default function About() {
       <section className="px-4 py-20 border-t border-border">
         <div className="max-w-5xl mx-auto space-y-8">
           <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="text-center space-y-2">
-            <h2 className="font-heading text-4xl font-bold">{t("The results speak for themselves.")}</h2>
+            <h2 className="font-heading text-4xl font-bold">{t("The results speak for themselves")}</h2>
           </motion.div>
           <GrowthComparisonChart />
           <p className="text-center text-xs text-muted-foreground">{t("Illustrative comparison, not a guarantee, results depend on your releases, effort, and genre.")}</p>
@@ -305,7 +305,7 @@ export default function About() {
         <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="max-w-5xl mx-auto space-y-8">
           <div className="space-y-4">
             <h2 className="font-heading text-5xl sm:text-6xl font-black lg:whitespace-nowrap">
-              {t("Your biggest release ")}<span className="text-primary">{t("is next.")}</span>
+              {t("Your biggest release ")}<span className="text-primary">{t("is next")}</span>
             </h2>
           </div>
           <Button size="lg" className="gap-2 font-heading font-bold text-base px-10 h-13" onClick={handleCTA}>

@@ -36,7 +36,7 @@ export default function CareerWorkflowSection() {
       <div className="max-w-5xl mx-auto space-y-12">
         <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="text-center space-y-4">
           <p className="text-xs text-primary uppercase tracking-widest font-bold">{t("How It Works")}</p>
-          <h2 className="font-heading text-4xl sm:text-5xl font-bold">{t("Four simple steps.")}</h2>
+          <h2 className="font-heading text-4xl sm:text-5xl font-bold">{t("Four simple steps")}</h2>
         </motion.div>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
           {STEPS.map((s, i) => (

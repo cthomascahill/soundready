@@ -107,8 +107,8 @@ export default function Pricing() {
             Built for independent artists &amp; producers
           </motion.div>
           <h1 className="font-heading text-5xl sm:text-7xl font-black tracking-tight leading-[0.95]">
-            Meet Sam.<br />
-            <span className="text-primary">Your AI manager: $59/mo for the first 100 artists.</span>
+            Meet Sam<br />
+            <span className="text-primary">Your AI manager: $59/mo for the first 100 artists</span>
           </h1>
           <p className="text-lg sm:text-xl text-muted-foreground leading-relaxed max-w-2xl mx-auto">
             Sam outbounds for you every week: playlist pitches, tour support, sync opportunities, drafted from your real numbers, and nothing sends without your approval. Your Vault, Tracker and the full toolkit come with it. Start free and grow in.
@@ -281,7 +281,7 @@ export default function Pricing() {
           <motion.div initial={{ opacity: 0, y: 16 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}
             className="rounded-2xl bg-secondary border border-border p-8 text-center space-y-5">
             <ShieldCheck className="h-8 w-8 text-primary mx-auto" />
-            <h3 className="font-heading text-2xl font-bold">The math doesn't lie.</h3>
+            <h3 className="font-heading text-2xl font-bold">The math doesn't lie</h3>
             <div className="grid grid-cols-2 gap-4 text-center max-w-md mx-auto">
               <div className="rounded-xl bg-destructive/10 border border-destructive/25 p-4 space-y-1">
                 <p className="font-heading text-2xl font-black text-destructive">15–20%</p>
@@ -302,7 +302,7 @@ export default function Pricing() {
         <div className="max-w-2xl mx-auto space-y-8">
           <motion.div initial={{ opacity: 0, y: 16 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="text-center space-y-2">
             <p className="text-xs text-primary uppercase tracking-widest font-bold">Common Questions</p>
-            <h2 className="font-heading text-4xl font-bold">Straight answers.</h2>
+            <h2 className="font-heading text-4xl font-bold">Straight answers</h2>
           </motion.div>
           <div className="space-y-3">
             {FAQ.map((item, i) => (
@@ -322,16 +322,12 @@ export default function Pricing() {
       <section className="px-4 py-28 border-t border-border text-center bg-gradient-to-t from-primary/8 via-background to-background">
         <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="max-w-4xl mx-auto space-y-8">
           <h2 className="font-heading text-4xl sm:text-5xl font-black leading-[0.95] lg:whitespace-nowrap">
-            Your biggest release <span className="text-primary">is next.</span>
+            Your biggest release <span className="text-primary">is next</span>
           </h2>
           <p className="text-muted-foreground">Start free today. Upgrade when you're ready. The work is already done for you.</p>
-          {isAuth ? (
-            <Link to="/history"><Button size="lg" className="gap-2 font-heading font-bold text-base px-10 h-12">Go to Vault <ArrowRight className="h-4 w-4" /></Button></Link>
-          ) : (
-            <Button size="lg" className="gap-2 font-heading font-bold text-base px-10 h-12" onClick={() => document.getElementById("plans")?.scrollIntoView({ behavior: "smooth" })}>
-              Start right there <ArrowRight className="h-4 w-4" />
-            </Button>
-          )}
+          <Button size="lg" className="gap-2 font-heading font-bold text-base px-10 h-12" onClick={() => document.getElementById("plans")?.scrollIntoView({ behavior: "smooth" })}>
+            Start <ArrowRight className="h-4 w-4" />
+          </Button>
           <p className="text-xs text-muted-foreground">No contracts. No percentage cuts. Cancel anytime.</p>
         </motion.div>
       </section>

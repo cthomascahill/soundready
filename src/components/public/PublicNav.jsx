@@ -37,7 +37,7 @@ export default function PublicNav({ showHome = true }) {
           </Button>
           {user && (
             <Link to="/history">
-              <Button size="sm" className="font-semibold">{t("Vault")}</Button>
+              <Button size="sm" className="font-semibold">{t("Dashboard")}</Button>
             </Link>
           )}
         </div>
