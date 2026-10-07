@@ -5,11 +5,12 @@ import { useToast } from "@/components/ui/use-toast";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
-import { ThumbsUp, ThumbsDown, HelpCircle, Loader2, CheckCircle2, Building2 } from "lucide-react";
+import { ThumbsUp, ThumbsDown, HelpCircle, Loader2, CheckCircle2, Building2, Disc3 } from "lucide-react";
 
 // Lets the artist rate Sam's work (useful / off target / missing info) and,
-// for venue targets, correct or add the venue — corrections land in the
-// shared venue directory and feedback feeds Sam's next task.
+// for venue targets, correct or add the venue; for label/distributor/sync
+// targets, correct or add the company — corrections land in the shared
+// directories and feedback feeds Sam's next task.
 export default function FeedbackControl({ taskId, draftId = null, targetName = "" }) {
   const { user } = useAuth();
   const { toast } = useToast();
@@ -20,6 +21,11 @@ export default function FeedbackControl({ taskId, draftId = null, targetName = "
   const [venueCity, setVenueCity] = useState("");
   const [venueCapacity, setVenueCapacity] = useState("");
   const [venueContact, setVenueContact] = useState("");
+  const [fixCompany, setFixCompany] = useState(false);
+  const [companyName, setCompanyName] = useState(targetName);
+  const [companyKind, setCompanyKind] = useState("label");
+  const [companyContact, setCompanyContact] = useState("");
+  const [companyNote, setCompanyNote] = useState("");
   const [sending, setSending] = useState(false);
   const [done, setDone] = useState(false);
 
@@ -52,6 +58,23 @@ export default function FeedbackControl({ taskId, draftId = null, targetName = "
         };
         if (match) await base44.entities.VenueRecord.update(match.id, payload);
         else await base44.entities.VenueRecord.create(payload);
+      }
+
+      // Artist-corrected company → shared directory, verified by the artist
+      if (fixCompany && companyName.trim()) {
+        const existing = await base44.entities.CompanyRecord.filter({ company_name: companyName.trim() }).catch(() => []);
+        const match = existing.find(c => (c.kind || "label") === companyKind);
+        const contact = companyContact.trim();
+        const payload = {
+          company_name: companyName.trim(),
+          kind: companyKind,
+          verified: true,
+          verified_by: "artist",
+          ...(contact.includes("@") ? { contact_email: contact } : contact ? { submission_page: contact } : {}),
+          ...(companyNote.trim() ? { notes: companyNote.trim() } : {}),
+        };
+        if (match) await base44.entities.CompanyRecord.update(match.id, payload);
+        else await base44.entities.CompanyRecord.create(payload);
       }
       setDone(true);
       toast({ description: "Thanks — Sam will factor that into future work." });
@@ -104,7 +127,7 @@ export default function FeedbackControl({ taskId, draftId = null, targetName = "
             placeholder="What was wrong or missing? (optional)"
             className="text-xs bg-background/60"
           />
-          <button onClick={() => setFixVenue(!fixVenue)}
+          <button onClick={() => { setFixVenue(!fixVenue); if (!fixVenue) setFixCompany(false); }}
             className="inline-flex items-center gap-1.5 text-[11px] text-muted-foreground hover:text-primary transition-colors">
             <Building2 className="h-3.5 w-3.5" />
             {fixVenue ? "— Skip venue correction" : "+ Add or correct a venue (helps Sam everywhere)"}
@@ -115,6 +138,24 @@ export default function FeedbackControl({ taskId, draftId = null, targetName = "
               <Input value={venueCity} onChange={(e) => setVenueCity(e.target.value)} placeholder="City, ST" className="text-xs h-8" />
               <Input value={venueCapacity} onChange={(e) => setVenueCapacity(e.target.value)} placeholder="Capacity (optional)" className="text-xs h-8" />
               <Input value={venueContact} onChange={(e) => setVenueContact(e.target.value)} placeholder="Booking email or page (optional)" className="text-xs h-8" />
+            </div>
+          )}
+          <button onClick={() => { setFixCompany(!fixCompany); if (!fixCompany) setFixVenue(false); }}
+            className="inline-flex items-center gap-1.5 text-[11px] text-muted-foreground hover:text-primary transition-colors">
+            <Disc3 className="h-3.5 w-3.5" />
+            {fixCompany ? "— Skip company correction" : "+ Add or correct a label, distributor or sync company"}
+          </button>
+          {fixCompany && (
+            <div className="grid grid-cols-2 gap-2">
+              <Input value={companyName} onChange={(e) => setCompanyName(e.target.value)} placeholder="Company name" className="text-xs h-8" />
+              <select value={companyKind} onChange={(e) => setCompanyKind(e.target.value)}
+                className="h-8 text-xs rounded-md border border-input bg-background/60 px-2">
+                <option value="label">Record label</option>
+                <option value="distributor">Distributor</option>
+                <option value="sync">Sync / licensing</option>
+              </select>
+              <Input value={companyContact} onChange={(e) => setCompanyContact(e.target.value)} placeholder="Submissions email or page (optional)" className="text-xs h-8" />
+              <Input value={companyNote} onChange={(e) => setCompanyNote(e.target.value)} placeholder="Note for Sam (optional)" className="text-xs h-8" />
             </div>
           )}
           <Button size="sm" disabled={sending} onClick={() => send(rating)} className="gap-1.5 text-xs h-8">

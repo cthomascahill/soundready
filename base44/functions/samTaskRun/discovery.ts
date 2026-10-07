@@ -146,13 +146,27 @@ Return up to 10 REAL, currently active ${kindLabel} that genuinely fit this arti
   });
 
   const genresText = `${(profile.genres || []).join(' ')} ${[profile.sounds_like_1, profile.sounds_like_2, profile.sounds_like_3].filter(Boolean).join(' ')} ${task.prompt || ''}`;
+
+  // The shared company directory — artist corrections land here and outrank
+  // everything else (they're the freshest, artist-verified facts).
+  const records = await base44.entities.CompanyRecord.list('-updated_date', 300).catch(() => []);
+  const recordEntries = records
+    .filter(r => r.kind === plan.category && r.company_name)
+    .map(r => ({
+      name: r.company_name,
+      website: r.website || '',
+      location: r.location || '',
+      note: [r.contact_email ? `contact: ${r.contact_email}` : '', r.submission_page ? `submissions: ${r.submission_page}` : '', r.notes].filter(Boolean).join(' — '),
+      from: 'artist directory',
+    }));
+
   const directory = matchCompanies(CURATED_COMPANIES, plan.category, genresText).map(c => ({
     name: c.name, website: c.website, location: c.location, note: c.notes, from: 'directory',
   }));
 
   const seen = new Set();
   const pool = [];
-  for (const c of [...found, ...directory]) {
+  for (const c of [...recordEntries, ...found, ...directory]) {
     const key = dedupeKey(c);
     if (!key || seen.has(key)) continue;
     seen.add(key);

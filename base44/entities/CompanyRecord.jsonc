@@ -1,0 +1,78 @@
+{
+  "name": "CompanyRecord",
+  "type": "object",
+  "description": "Shared, growable directory of record labels, distributors and sync companies Sam researches against. Artist corrections land here and benefit everyone.",
+  "properties": {
+    "company_name": {
+      "type": "string",
+      "description": "Company name as it's publicly known"
+    },
+    "kind": {
+      "type": "string",
+      "enum": [
+        "label",
+        "distributor",
+        "sync"
+      ],
+      "description": "What kind of company this is"
+    },
+    "location": {
+      "type": "string",
+      "description": "Where the company is based, e.g. Minneapolis, MN"
+    },
+    "genres": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Genres the company works with; empty when genre-agnostic"
+    },
+    "website": {
+      "type": "string",
+      "description": "Official website URL"
+    },
+    "contact_email": {
+      "type": "string",
+      "description": "Publicly verifiable submissions/A&R email; empty when none is verified"
+    },
+    "submission_page": {
+      "type": "string",
+      "description": "Official demo/submissions form or contact page URL"
+    },
+    "notes": {
+      "type": "string",
+      "description": "Submission quirks, deal reputation, anything useful to Sam"
+    },
+    "verified": {
+      "type": "boolean",
+      "default": false
+    },
+    "verified_by": {
+      "type": "string",
+      "enum": [
+        "artist",
+        "sam_web",
+        "seeded"
+      ],
+      "description": "Who verified this record last"
+    },
+    "source_url": {
+      "type": "string",
+      "description": "Web page the details were verified on"
+    }
+  },
+  "required": [
+    "company_name",
+    "kind"
+  ],
+  "rls": {
+    "read": {},
+    "create": {},
+    "update": {},
+    "delete": {
+      "user_condition": {
+        "role": "admin"
+      }
+    }
+  }
+}
