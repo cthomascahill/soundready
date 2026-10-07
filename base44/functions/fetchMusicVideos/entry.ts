@@ -46,7 +46,7 @@ Deno.serve(async (req) => {
     const queries = [...BASE_QUERIES];
     if (genre) queries.push(`"${genre} music" interview`);
 
-    const publishedAfter = new Date(Date.now() - 7 * 24 * 60 * 60 * 1000).toISOString();
+    const publishedAfter = new Date(Date.now() - 28 * 24 * 60 * 60 * 1000).toISOString();
 
     // Search each query in parallel
     const searchResults = await Promise.all(queries.map(async (q) => {

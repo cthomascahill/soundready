@@ -80,7 +80,7 @@ export default function ScrollTab({ genre }) {
       <div className="flex items-start justify-between gap-4">
         <p className="text-xs text-zinc-500 leading-relaxed">
           Fresh long-form music content from across YouTube — interviews, industry podcasts and artist
-          conversations, pulled from the last 7 days. Click any video to watch it here.
+          conversations, pulled from the last 28 days. Click any video to watch it here.
         </p>
         <Button variant="outline" size="sm" onClick={() => fetchVideos(true)} disabled={loading}
           className="border-zinc-700 gap-2 shrink-0">
@@ -143,7 +143,7 @@ export default function ScrollTab({ genre }) {
       {!loading && !error && videos.length === 0 && (
         <div className="text-center py-16 space-y-3">
           <PlayCircle className="h-10 w-10 text-zinc-700 mx-auto" />
-          <p className="text-zinc-500 text-sm">No new videos in the last 7 days — check back soon.</p>
+          <p className="text-zinc-500 text-sm">No new videos in the last 28 days — check back soon.</p>
         </div>
       )}
 
