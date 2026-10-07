@@ -138,14 +138,14 @@ const AuthenticatedApp = () => {
         <Route path="/results" element={<Results />} /> 
         <Route path="/history" element={<SongLibrary />} />
         <Route path="/music/:songId" element={<SongWorkspace />} />
-        <Route path="/ar-intelligence" element={<ARIntelligence />} />
+        <Route path="/ar-intelligence" element={ai(ARIntelligence)} />
         <Route path="/contract-analyzer" element={ai(ContractAnalyzer)} />
         <Route path="/analytics" element={<Analytics />} />
         <Route path="/distribution" element={<Distribution />} />
         <Route path="/budget" element={<BudgetTracker />} />
         <Route path="/pitch-deck" element={<PitchDeck />} />
         <Route path="/spotify" element={<SpotifyConnect />} />
-        <Route path="/playlist-pitcher" element={<PlaylistPitcher />} />
+        <Route path="/playlist-pitcher" element={pro(PlaylistPitcher)} />
         <Route path="/touring" element={pro(Touring)} />
         <Route path="/gig-finder" element={pro(GigFinder)} />
         <Route path="/algorithm-guide" element={<AlgorithmGuide />} />
@@ -165,7 +165,7 @@ const AuthenticatedApp = () => {
         <Route path="/song-versions/:songId" element={<SongVersions />} />
         <Route path="/artist-profile" element={<ArtistIntake />} />
         <Route path="/studio" element={pro(Studio)} />
-        <Route path="/music-news" element={ai(MusicNews)} />
+        <Route path="/music-news" element={pro(MusicNews)} />
         <Route path="/industry-intel" element={ai(IndustryIntel)} />
 
         <Route path="/music-academy" element={<MusicAcademy />} />
@@ -183,7 +183,7 @@ const AuthenticatedApp = () => {
         <Route path="/whiteboard/:boardId" element={pro(WhiteboardCanvas)} />
         <Route path="/connect-profiles" element={<ArtistIntake />} />
         <Route path="/maya-desk" element={ai(MayaDesk)} />
-        <Route path="/deals" element={ai(Deals)} />
+        <Route path="/deals" element={pro(Deals)} />
         <Route path="/tell-sam" element={ai(TellSam)} />
         <Route path="/todos" element={ai(Todos)} />
         <Route path="/maya-profile" element={<MayaProfile />} />

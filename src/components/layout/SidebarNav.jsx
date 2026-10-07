@@ -73,12 +73,13 @@ const PRO_ONLY = new Set([
   "/touring", "/gig-finder", "/tour-opportunities", "/tour-planner", "/tour-finance",
   "/contracts", "/team-chat", "/beat-pipeline", "/artist-match",
   "/beat-store", "/client-crm", "/producer-contracts",
+  "/playlist-pitcher", "/deals", "/music-news",
 ]);
 
 // Pages under the AI Manager tab — AI Manager subscribers only
 const AI_ONLY = new Set([
-  "/tell-sam", "/todos", "/maya-desk", "/deals", "/industry-intel",
-  "/music-news", "/career-roadmap", "/contract-analyzer",
+  "/tell-sam", "/todos", "/maya-desk", "/industry-intel",
+  "/career-roadmap", "/contract-analyzer", "/ar-intelligence",
 ]);
 
 export default function SidebarNav({ activePath, onNavigate }) {

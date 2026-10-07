@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import { base44 } from "@/api/base44Client";
 import { useAuth } from "@/lib/AuthContext";
-import { hasAIManager } from "@/lib/tier";
+import { isProOrAbove } from "@/lib/tier";
 import { Button } from "@/components/ui/button";
 import ProspectPicker from "@/components/deals/ProspectPicker";
 import OutreachList from "@/components/deals/OutreachList";
@@ -57,19 +57,19 @@ export default function DealsOutreach() {
   const onCreated = (created) => setRecords(prev => [...created, ...prev]);
   const onUpdated = (updated) => setRecords(prev => prev.map(r => (r.id === updated.id ? updated : r)));
 
-  if (!hasAIManager(user)) {
+  if (!isProOrAbove(user)) {
     return (
       <div className="rounded-2xl border border-primary/20 bg-card p-8 text-center space-y-4">
         <div className="h-14 w-14 rounded-2xl bg-primary/10 border border-primary/20 flex items-center justify-center mx-auto">
           <Lock className="h-7 w-7 text-primary" />
         </div>
-        <p className="font-heading font-bold text-lg">Sam's deal outreach is part of the AI Manager plan</p>
+        <p className="font-heading font-bold text-lg">Deals is part of the Artist Pro plan</p>
         <p className="text-sm text-muted-foreground leading-relaxed max-w-sm mx-auto">
-          Sam researches labels, distributors and sync houses, drafts the pitches, and sends them once you approve — nothing goes out without you.
+          Research labels, distributors and sync houses, draft the pitches, and track every deal in one place.
         </p>
         <div className="flex justify-center">
           <Link to="/pricing-account">
-            <Button className="gap-2 font-semibold"><Zap className="h-4 w-4" /> Start Manager — <span className="line-through opacity-60">$79</span> $59/mo</Button>
+            <Button className="gap-2 font-semibold"><Zap className="h-4 w-4" /> Upgrade to Artist Pro</Button>
           </Link>
         </div>
       </div>
