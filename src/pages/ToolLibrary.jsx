@@ -45,6 +45,14 @@ export default function ToolLibrary() {
   const unlocked = (tier) =>
     tier === "free" || (tier === "pro" && isProOrAbove(user)) || (tier === "ai" && hasAIManager(user));
 
+  // Same tier badges as the sidebar; AI Manager subscribers have everything unlocked, so no badges
+  const tierBadge = (tier) => {
+    if (hasAIManager(user)) return null;
+    if (tier === "ai") return "AI";
+    if (tier === "pro") return "Pro";
+    return null;
+  };
+
   const groups = useMemo(() => {
     const q = query.trim().toLowerCase();
     const match = (t) =>
@@ -118,7 +126,19 @@ export default function ToolLibrary() {
                           <div className="h-10 w-10 rounded-xl bg-primary/10 flex items-center justify-center shrink-0">
                             <tool.icon className="h-4 w-4 text-primary" />
                           </div>
-                          {!open && <Lock className="h-3.5 w-3.5 text-muted-foreground/50 shrink-0 mt-1" />}
+                          {tierBadge(tool.tier) ? (
+                            <span
+                              className={`shrink-0 mt-1 rounded-full border px-1.5 py-0.5 text-[9px] font-bold uppercase tracking-wide ${
+                                tierBadge(tool.tier) === "AI"
+                                  ? "bg-primary/15 border-primary/25 text-primary"
+                                  : "bg-chart-5/10 border-chart-5/25 text-chart-5"
+                              }`}
+                            >
+                              {tierBadge(tool.tier)}
+                            </span>
+                          ) : !open ? (
+                            <Lock className="h-3.5 w-3.5 text-muted-foreground/50 shrink-0 mt-1" />
+                          ) : null}
                         </div>
                         <p className="font-heading font-semibold mt-3 group-hover:text-primary transition-colors">{tool.name}</p>
                         <p className="text-xs text-muted-foreground mt-1 leading-relaxed">{tool.desc}</p>
