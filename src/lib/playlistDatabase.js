@@ -1,7 +1,24 @@
 // Comprehensive Spotify Playlist Curator Database — 1,000+ playlists
+// Core entries live here; genre expansions live in ./playlists/* and merge in below.
+
+import { HIP_HOP_EXTRA } from "./playlists/hipHop.js";
+import { POP_EXTRA } from "./playlists/pop.js";
+import { RNB_EXTRA } from "./playlists/rnb.js";
+import { INDIE_EXTRA } from "./playlists/indie.js";
+import { EDM_EXTRA } from "./playlists/edm.js";
+import { COUNTRY_EXTRA } from "./playlists/country.js";
+import { ROCK_EXTRA } from "./playlists/rock.js";
+import { LATIN_EXTRA } from "./playlists/latin.js";
+import { FOLK_EXTRA } from "./playlists/folk.js";
+import { JAZZ_EXTRA } from "./playlists/jazz.js";
+import { SOUL_EXTRA, GOSPEL_EXTRA, REGGAE_EXTRA } from "./playlists/soulGospelReggae.js";
+import { METAL_EXTRA } from "./playlists/metal.js";
+import { CLASSICAL_EXTRA, ELECTRONIC_EXTRA, AFROBEATS_EXTRA, SINGER_SONGWRITER_EXTRA } from "./playlists/classicalElectronicAfrobeats.js";
+import { DEFAULT_EXTRA } from "./playlists/defaults.js";
 
 export const PLAYLIST_DB = {
   "Hip Hop": [
+    ...HIP_HOP_EXTRA,
     { name: "Underground Heat", curator: "DJKrispyBeats", followers: "42K", email: "djkrispybeats@gmail.com", genres: ["Hip Hop", "Trap"], mood: ["Hype", "Dark"], submithub: true, note: "Prefers raw, authentic lyricism. No mumble rap." },
     { name: "Bars & Hooks Weekly", curator: "BarsCurator", followers: "18K", email: "barshooks.playlist@gmail.com", genres: ["Hip Hop", "R&B"], mood: ["Hype", "Melancholic"], submithub: true, note: "Strong hooks are mandatory. Production quality matters." },
     { name: "Lyrical Flex", curator: "TheRealCurator", followers: "31K", email: "lyricalflexspotify@gmail.com", genres: ["Hip Hop"], mood: ["Hype", "Inspirational"], submithub: false, note: "Independent artists only. Submit with SoundCloud or Spotify link." },
@@ -35,6 +52,7 @@ export const PLAYLIST_DB = {
   ],
 
   "Pop": [
+    ...POP_EXTRA,
     { name: "Fresh Indie Pop", curator: "IndiePopCurator", followers: "88K", email: "freshindiepopcurator@gmail.com", genres: ["Pop", "Indie"], mood: ["Happy", "Melancholic"], submithub: true, note: "Looking for that euphoric bedroom pop sound." },
     { name: "Sad Bops", curator: "SadBopsPlaylist", followers: "134K", email: "sadbopsplaylist@gmail.com", genres: ["Pop", "Indie"], mood: ["Melancholic"], submithub: true, note: "High traffic. Be concise in your pitch." },
     { name: "Alt Pop Rising", curator: "AltPopCurates", followers: "45K", email: "altpoprising@gmail.com", genres: ["Pop"], mood: ["Happy", "Dark"], submithub: false, note: "Experimental and crossover pop welcome." },
@@ -69,6 +87,7 @@ export const PLAYLIST_DB = {
   ],
 
   "R&B": [
+    ...RNB_EXTRA,
     { name: "Late Night R&B", curator: "LateNightSoul", followers: "96K", email: "latenightrnbplaylist@gmail.com", genres: ["R&B"], mood: ["Romantic", "Melancholic"], submithub: true, note: "Must have soulful vocals and emotional depth." },
     { name: "Neo-Soul Collective", curator: "NeoSoulCo", followers: "51K", email: "neosoulcollective@gmail.com", genres: ["R&B"], mood: ["Chill", "Romantic"], submithub: false, note: "Live instruments and organic production preferred." },
     { name: "RnB Sauce Weekly", curator: "RnBSaucepl", followers: "78K", email: "rnbsauceweekly@gmail.com", genres: ["R&B", "Hip Hop"], mood: ["Romantic", "Hype"], submithub: true, note: "Accepts trap-soul and melodic crossovers." },
@@ -102,6 +121,7 @@ export const PLAYLIST_DB = {
   ],
 
   "Indie": [
+    ...INDIE_EXTRA,
     { name: "Indie Gems Weekly", curator: "IndieGemsCurator", followers: "62K", email: "indiegemsweekly@gmail.com", genres: ["Indie", "Pop"], mood: ["Chill", "Happy"], submithub: true, note: "Accepts indie-pop, folk, and alt-rock crossovers." },
     { name: "Dreamy Indie", curator: "DreamyIndie", followers: "48K", email: "dreamyindieplaylist@gmail.com", genres: ["Indie"], mood: ["Melancholic", "Chill"], submithub: true, note: "Shoegaze, dream pop, and ambient indie preferred." },
     { name: "The Indie Underground", curator: "IndieUndergroundPL", followers: "35K", email: "theindieunderground@gmail.com", genres: ["Indie", "Rock"], mood: ["Dark", "Melancholic"], submithub: false, note: "Unsigned and truly independent only." },
@@ -135,6 +155,7 @@ export const PLAYLIST_DB = {
   ],
 
   "EDM": [
+    ...EDM_EXTRA,
     { name: "Bass House Rising", curator: "BassHousePL", followers: "57K", email: "basshousecurator@gmail.com", genres: ["EDM"], mood: ["Hype"], submithub: true, note: "High energy bass music only. No exceptions." },
     { name: "Melodic House Collective", curator: "MelodicHousePL", followers: "83K", email: "melodichousecollective@gmail.com", genres: ["EDM"], mood: ["Happy", "Chill"], submithub: true, note: "Melodic, emotional, progressive house. 124-128 BPM ideal." },
     { name: "Future Bass Drops", curator: "FutureBassCurator", followers: "44K", email: "futurebassdropspL@gmail.com", genres: ["EDM"], mood: ["Hype", "Happy"], submithub: false, note: "Future bass, trap, and hybrid genres welcome." },
@@ -168,6 +189,7 @@ export const PLAYLIST_DB = {
   ],
 
   "Country": [
+    ...COUNTRY_EXTRA,
     { name: "New Country Picks", curator: "NewCountryCurator", followers: "71K", email: "newcountrypicks@gmail.com", genres: ["Country"], mood: ["Happy", "Melancholic"], submithub: true, note: "Modern country and country-pop welcome." },
     { name: "Americana Underground", curator: "AmericanaUG", followers: "28K", email: "americanacurator@gmail.com", genres: ["Country", "Indie"], mood: ["Melancholic", "Chill"], submithub: false, note: "Americana, folk, and alt-country only." },
     { name: "Country Rising Stars", curator: "CountryRisingPL", followers: "54K", email: "countryrising@gmail.com", genres: ["Country"], mood: ["Happy", "Inspirational"], submithub: true, note: "Up and coming country artists. Under 50K listeners." },
@@ -191,6 +213,7 @@ export const PLAYLIST_DB = {
   ],
 
   "Rock": [
+    ...ROCK_EXTRA,
     { name: "Indie Rock Rising", curator: "IndieRockRising", followers: "66K", email: "indierockrisingpl@gmail.com", genres: ["Rock", "Indie"], mood: ["Hype", "Dark"], submithub: true, note: "Guitar-driven indie and alt-rock. Gen Z sound appreciated." },
     { name: "Alt Rock Anthology", curator: "AltRockAnthology", followers: "49K", email: "altRockAnthology@gmail.com", genres: ["Rock"], mood: ["Dark", "Melancholic"], submithub: true, note: "Grunge, shoegaze, and post-punk accepted." },
     { name: "New Rock Energy", curator: "NewRockEnergy", followers: "38K", email: "newrockenergy@gmail.com", genres: ["Rock"], mood: ["Hype", "Inspirational"], submithub: false, note: "High energy rock and punk. Live sound preferred." },
@@ -219,6 +242,7 @@ export const PLAYLIST_DB = {
   ],
 
   "Latin": [
+    ...LATIN_EXTRA,
     { name: "Latin Vibes Weekly", curator: "LatinVibesCurator", followers: "105K", email: "latinvibesweekly@gmail.com", genres: ["Latin"], mood: ["Happy", "Romantic"], submithub: true, note: "Reggaeton, latin pop, and cumbia all accepted." },
     { name: "Fuego Latino", curator: "FuegoLatinoPL", followers: "76K", email: "fuegolatinoPL@gmail.com", genres: ["Latin"], mood: ["Hype", "Romantic"], submithub: true, note: "High energy Latin only. Must have dance floor appeal." },
     { name: "Reggaeton Hits Daily", curator: "ReggaetonHitsPL", followers: "213K", email: "reggaetonhitsdaily@gmail.com", genres: ["Latin"], mood: ["Hype", "Romantic"], submithub: false, note: "Current reggaeton. Must be radio-ready." },
@@ -242,6 +266,7 @@ export const PLAYLIST_DB = {
   ],
 
   "Folk": [
+    ...FOLK_EXTRA,
     { name: "Folk Rising Weekly", curator: "FolkRisingPL", followers: "47K", email: "folkrisingweekly@gmail.com", genres: ["Folk", "Indie"], mood: ["Chill", "Melancholic", "Inspirational"], submithub: true, note: "New folk artists. Acoustic and heartfelt." },
     { name: "Campfire Folk", curator: "CampfireFolkPL", followers: "83K", email: "campfirefolk@gmail.com", genres: ["Folk"], mood: ["Chill", "Happy", "Inspirational"], submithub: true, note: "Singalong folk and campfire music." },
     { name: "Modern Folk Collective", curator: "ModernFolkPL", followers: "61K", email: "modernfolkcollective@gmail.com", genres: ["Folk", "Indie"], mood: ["Melancholic", "Chill"], submithub: false, note: "Fleet Foxes, Bon Iver-adjacent modern folk." },
@@ -262,6 +287,7 @@ export const PLAYLIST_DB = {
   ],
 
   "Jazz": [
+    ...JAZZ_EXTRA,
     { name: "Jazz Discoveries Weekly", curator: "JazzDiscWPL", followers: "38K", email: "jazzdiscoveries@gmail.com", genres: ["Jazz"], mood: ["Chill", "Happy", "Dark"], submithub: true, note: "New jazz artists and jazz fusion welcome." },
     { name: "Smooth Jazz Sessions", curator: "SmoothJazzPL", followers: "112K", email: "smoothjazzsessions@gmail.com", genres: ["Jazz"], mood: ["Chill", "Romantic"], submithub: true, note: "Smooth jazz and contemporary jazz." },
     { name: "Jazz Café Vibes", curator: "JazzCafePL", followers: "87K", email: "jazzcafevibes@gmail.com", genres: ["Jazz"], mood: ["Chill", "Happy", "Romantic"], submithub: false, note: "Background jazz for cafés and lounges." },
@@ -280,6 +306,7 @@ export const PLAYLIST_DB = {
   ],
 
   "Soul": [
+    ...SOUL_EXTRA,
     { name: "Soul Music Collective", curator: "SoulMusicPL", followers: "74K", email: "soulmusiccollective@gmail.com", genres: ["Soul", "R&B"], mood: ["Inspirational", "Romantic", "Melancholic"], submithub: true, note: "Modern and classic soul. Vocals must be extraordinary." },
     { name: "Deep Soul Weekly", curator: "DeepSoulPL", followers: "52K", email: "deepsoulweekly@gmail.com", genres: ["Soul", "R&B"], mood: ["Melancholic", "Inspirational"], submithub: true, note: "Raw, emotional soul music." },
     { name: "Retro Soul Revivalists", curator: "RetroSoulRevPL", followers: "43K", email: "retroSoulrevivalists@gmail.com", genres: ["Soul"], mood: ["Happy", "Romantic", "Inspirational"], submithub: false, note: "60s-70s soul sounds in modern production." },
@@ -291,6 +318,7 @@ export const PLAYLIST_DB = {
   ],
 
   "Gospel": [
+    ...GOSPEL_EXTRA,
     { name: "Praise & Worship Daily", curator: "PraiseWorshipPL", followers: "118K", email: "praiseandworship.daily@gmail.com", genres: ["Gospel"], mood: ["Inspirational", "Happy"], submithub: true, note: "Contemporary Christian and worship music." },
     { name: "Gospel Essentials", curator: "GospelEssentials", followers: "89K", email: "gospelessentials@gmail.com", genres: ["Gospel"], mood: ["Inspirational", "Happy"], submithub: true, note: "Traditional and modern gospel." },
     { name: "Urban Gospel Fire", curator: "UrbanGospelPL", followers: "63K", email: "urbangospelfire@gmail.com", genres: ["Gospel", "R&B", "Hip Hop"], mood: ["Inspirational", "Hype"], submithub: false, note: "Urban and hip hop gospel crossover." },
@@ -299,6 +327,7 @@ export const PLAYLIST_DB = {
   ],
 
   "Reggae": [
+    ...REGGAE_EXTRA,
     { name: "Reggae Roots Weekly", curator: "ReggaeRootsPL", followers: "84K", email: "reggaerootsweekly@gmail.com", genres: ["Reggae"], mood: ["Chill", "Happy", "Inspirational"], submithub: true, note: "Roots reggae and conscious reggae." },
     { name: "Dancehall King", curator: "DancehallKingPL", followers: "121K", email: "dancehallkingpl@gmail.com", genres: ["Reggae"], mood: ["Hype", "Romantic"], submithub: true, note: "Dancehall bangers. Must have riddim." },
     { name: "Island Vibes", curator: "IslandVibesPL", followers: "143K", email: "islandvibespl@gmail.com", genres: ["Reggae", "Latin"], mood: ["Happy", "Chill", "Romantic"], submithub: false, note: "Caribbean and island music across genres." },
@@ -309,6 +338,7 @@ export const PLAYLIST_DB = {
   ],
 
   "Metal": [
+    ...METAL_EXTRA,
     { name: "Metal Hammer Radio", curator: "MetalHammerPL", followers: "88K", email: "metalhammer.radio@gmail.com", genres: ["Metal"], mood: ["Hype", "Dark"], submithub: true, note: "All metal subgenres. Production matters." },
     { name: "Blackened Hearts", curator: "BlackenedHeartsPL", followers: "41K", email: "blackenedhearts@gmail.com", genres: ["Metal"], mood: ["Dark"], submithub: false, note: "Black metal, post-black metal, and blackgaze." },
     { name: "Metalcore Rising", curator: "MetalcoreRisingPL", followers: "67K", email: "metalcorerisingpl@gmail.com", genres: ["Metal", "Rock"], mood: ["Hype", "Dark"], submithub: true, note: "Metalcore, deathcore, and hardcore breakdowns." },
@@ -320,6 +350,7 @@ export const PLAYLIST_DB = {
   ],
 
   "Classical": [
+    ...CLASSICAL_EXTRA,
     { name: "Classical Rising Artists", curator: "ClassicalRisingPL", followers: "44K", email: "classicalrisingartists@gmail.com", genres: ["Classical"], mood: ["Chill", "Inspirational", "Dark"], submithub: true, note: "Classical music by living composers and performers." },
     { name: "Piano Classics Daily", curator: "PianoClassicsPL", followers: "132K", email: "pianoclassics.daily@gmail.com", genres: ["Classical"], mood: ["Chill", "Melancholic", "Inspirational"], submithub: true, note: "Piano music, from études to sonatas." },
     { name: "Contemporary Classical", curator: "ContClassicalPL", followers: "36K", email: "contemporaryclassical@gmail.com", genres: ["Classical"], mood: ["Dark", "Chill", "Inspirational"], submithub: false, note: "Philip Glass, Arvo Pärt, Max Richter territory." },
@@ -329,6 +360,7 @@ export const PLAYLIST_DB = {
   ],
 
   "Electronic": [
+    ...ELECTRONIC_EXTRA,
     { name: "Electronica Weekly", curator: "ElectronicaWklyPL", followers: "57K", email: "electronicaweekly@gmail.com", genres: ["Electronic", "EDM"], mood: ["Chill", "Dark", "Hype"], submithub: true, note: "Broad electronica. IDM to ambient to glitch." },
     { name: "Trip Hop Files", curator: "TripHopFilesPL", followers: "43K", email: "triphopfiles@gmail.com", genres: ["Electronic", "Hip Hop"], mood: ["Dark", "Chill", "Melancholic"], submithub: true, note: "Trip hop and downtempo. Portishead, Massive Attack vibes." },
     { name: "Glitch & IDM Collective", curator: "GlitchIDMPL", followers: "21K", email: "glitchidmcollective@gmail.com", genres: ["Electronic"], mood: ["Dark", "Hype", "Chill"], submithub: false, note: "IDM, glitch, and experimental electronic music." },
@@ -342,6 +374,7 @@ export const PLAYLIST_DB = {
   ],
 
   "Afrobeats": [
+    ...AFROBEATS_EXTRA,
     { name: "Afrobeats Chart Weekly", curator: "AfrobeatsChartPL", followers: "183K", email: "afrobeatschartweekly@gmail.com", genres: ["Afrobeats"], mood: ["Happy", "Hype", "Romantic"], submithub: true, note: "Top afrobeats and afropop. High production." },
     { name: "Afropop Rising", curator: "AfropopRisingPL", followers: "97K", email: "afropoprising@gmail.com", genres: ["Afrobeats"], mood: ["Happy", "Romantic"], submithub: true, note: "Fresh afropop from emerging artists." },
     { name: "Naija Vibes Daily", curator: "NaijaVibesPL", followers: "142K", email: "naijavibes.daily@gmail.com", genres: ["Afrobeats"], mood: ["Happy", "Hype", "Romantic"], submithub: false, note: "Nigerian Afrobeats and Afroswing." },
@@ -355,6 +388,7 @@ export const PLAYLIST_DB = {
   ],
 
   "Singer-Songwriter": [
+    ...SINGER_SONGWRITER_EXTRA,
     { name: "Singer-Songwriter Gems", curator: "SingerSongPL", followers: "79K", email: "singersongwritergems@gmail.com", genres: ["Singer-Songwriter", "Indie", "Folk"], mood: ["Melancholic", "Inspirational", "Chill"], submithub: true, note: "Authentic songwriting. Every lyric must be felt." },
     { name: "Confessional Songs", curator: "ConfessionalPL", followers: "53K", email: "confessionalsongs@gmail.com", genres: ["Singer-Songwriter"], mood: ["Melancholic", "Dark", "Inspirational"], submithub: true, note: "Vulnerable, diary-like songwriting." },
     { name: "Acoustic Sessions", curator: "AcousticSessPL", followers: "118K", email: "acousticsessionspl@gmail.com", genres: ["Singer-Songwriter", "Folk", "Indie"], mood: ["Chill", "Melancholic", "Happy"], submithub: false, note: "Live acoustic or studio acoustic recordings." },
@@ -372,6 +406,7 @@ export const PLAYLIST_DB = {
 
 // Cross-genre and general playlists
 export const DEFAULT_PLAYLISTS = [
+  ...DEFAULT_EXTRA,
   { name: "Fresh Finds All Genres", curator: "FreshFindsPL", followers: "122K", email: "freshfindsallgenres@gmail.com", genres: ["All"], mood: ["All"], submithub: true, note: "Accepts all genres. Strong production and hook required." },
   { name: "Rising Independents", curator: "RisingIndiesPL", followers: "88K", email: "risingindependents@gmail.com", genres: ["All"], mood: ["All"], submithub: true, note: "Indie artists only. Active and responsive curator." },
   { name: "New This Week", curator: "NewThisWeekPL", followers: "200K", email: "newthisweekplaylist@gmail.com", genres: ["All"], mood: ["All"], submithub: false, note: "High traffic. New releases only, within 2 weeks of drop." },
