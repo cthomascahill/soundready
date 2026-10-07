@@ -14,6 +14,7 @@ export const PRO_ITEMS = [
   "Release Plan: an AI plan for your next release",
   "EPK Builder: an electronic press kit that books shows",
   "Contracts: templates and guides",
+  "Career Roadmap: your personalized growth plan",
   "Playlist Pitcher: find and pitch matching playlists",
   "Gig Finder: 1,341+ venues ready to pitch",
   "Tour Planner, Tour Finance & Venue Contracts",
@@ -31,7 +32,6 @@ export const AI_ITEMS = [
   "Contract Analyzer: Sam reads every contract before you sign",
   "Opportunities: signings, grants, playlists & tour intel",
   "A&R Intelligence: what labels are looking for",
-  "Career Roadmap: your personalized growth plan",
   "Deals: catalog valuation and buyout interest",
   "This Week: your to-dos, with Sam's morning reminders",
 ];

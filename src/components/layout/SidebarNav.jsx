@@ -90,12 +90,13 @@ const PRO_ONLY = new Set([
   "/beat-store", "/client-crm", "/producer-contracts",
   "/playlist-pitcher", "/music-news",
   "/release-plan", "/analytics", "/pitch-deck", "/legal",
+  "/career-roadmap",
 ]);
 
 // Pages under the AI Manager tab — AI Manager subscribers only
 const AI_ONLY = new Set([
   "/tell-sam", "/todos", "/maya-desk", "/industry-intel",
-  "/career-roadmap", "/contract-analyzer", "/ar-intelligence", "/deals",
+  "/contract-analyzer", "/ar-intelligence", "/deals",
 ]);
 
 export default function SidebarNav({ activePath, onNavigate }) {

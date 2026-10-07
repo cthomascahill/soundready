@@ -49,7 +49,7 @@ export const TOOL_CATEGORIES = [
   {
     label: "Career",
     tools: [
-      { name: "Career Roadmap", to: "/career-roadmap", desc: "Your personalized growth plan", icon: Map, tier: "ai" },
+      { name: "Career Roadmap", to: "/career-roadmap", desc: "Your personalized growth plan", icon: Map, tier: "pro" },
       { name: "Release Plan", to: "/release-plan", desc: "An AI plan for your next release", icon: Calendar, tier: "pro" },
       { name: "Contracts", to: "/legal", desc: "Contract templates and guides", icon: Scale, tier: "pro" },
       { name: "Artist Profile", to: "/artist-profile", desc: "Your full career intake", icon: UserCircle, tier: "free" },

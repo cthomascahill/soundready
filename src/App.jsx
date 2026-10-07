@@ -178,7 +178,7 @@ const AuthenticatedApp = () => {
         <Route path="/whiteboard" element={pro(Whiteboard)} />
         <Route path="/team-chat" element={pro(TeamChat)} />
         <Route path="/branding-studio" element={<BrandingStudio />} />
-        <Route path="/career-roadmap" element={ai(CareerRoadmap)} />
+        <Route path="/career-roadmap" element={pro(CareerRoadmap)} />
         <Route path="/revenue-splits" element={<RevenueSplits />} />
         <Route path="/lyric-room" element={<LyricRoom />} />
         <Route path="/genre-trends" element={<GenreTrends />} />
