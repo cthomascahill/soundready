@@ -49,6 +49,7 @@ const TIERS = [
     desc: "Every tool unlocked, plus your whole team in one workspace. 7 days free.",
     items: [
       "Everything in Free, unlocked",
+      "Playlist Pitcher, Deals & Music News",
       "Gig Finder & 1,341+ venues",
       "Tour Planner, Finance & Contracts",
       "The Wall — artist community",
@@ -74,9 +75,9 @@ const TIERS = [
     desc: "Sam outbounds for you every week — tour support, features, sync and more. You approve or deny. Nothing sends without you.",
     items: [
       "Sam outbounds weekly — you approve or deny",
-      "Playlist & tour pitches, drafted for you",
-      "Sam chat backed by your real numbers",
-      "EPKs & weekly digests",
+      "Contract Analyzer — Sam reads any contract",
+      "Opportunities, A&R Intel & Career Roadmap",
+      "Tell Sam, This Week & Sam's Desk",
     ],
     cta: "Start AI Manager",
     checkout: "/checkout/ai-manager",
@@ -160,7 +161,7 @@ export default function About() {
                 {t("Get Sam —")} <span className="line-through opacity-60 font-medium">$79</span> {t("$59/mo — first 100 artists")} <ArrowRight className="h-4 w-4" />
               </Button>
             </Link>
-            <p className="text-xs text-muted-foreground">{t("First 100 artists get $59/mo — $79/mo for everyone after. Locked for life while you stay subscribed. No percentage cuts — ever. Everything on this page comes with it.")}</p>
+            <p className="text-xs text-muted-foreground">{t("First 100 artists get $59/mo — discounted forever. $79/mo for everyone after. Locked for life while you stay subscribed. No percentage cuts — ever. Everything on this page comes with it.")}</p>
           </motion.div>
           <motion.div initial={{ opacity: 0, x: 24 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }} className="relative order-1 lg:order-2 flex justify-center">
             <motion.img
@@ -224,7 +225,7 @@ export default function About() {
                 <div className="flex items-baseline gap-2 flex-wrap mb-3">
                   {tier.strike && <span className="text-sm text-muted-foreground line-through font-semibold">{tier.strike}</span>}
                   <p className="text-2xl font-black">{tier.price}</p>
-                  {tier.founding && <span className="px-2 py-0.5 rounded-full bg-primary/15 text-primary text-[10px] font-bold uppercase tracking-wide">First 100 Artists</span>}
+                  {tier.founding && <span className="px-2 py-0.5 rounded-full bg-primary/15 text-primary text-[10px] font-bold uppercase tracking-wide">First 100 Artists — Discounted Forever</span>}
                 </div>
                 <p className="text-sm text-muted-foreground leading-relaxed mb-5">{t(tier.desc)}</p>
                 <div className="space-y-2 flex-1">

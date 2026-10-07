@@ -11,26 +11,26 @@ export const FREE_ITEMS = [
 
 export const PRO_ITEMS = [
   "Everything in Free, unlocked",
+  "Playlist Pitcher — find and pitch matching playlists",
   "Gig Finder — 1,341+ venues ready to pitch",
   "Tour Planner, Tour Finance & Venue Contracts",
+  "Deals — track pitches to labels, distributors & sync houses",
+  "Music News — daily industry briefings",
   "The Wall — the artist community",
   "Team Chat, Whiteboard & Studio",
-  "Music Academy & legal guides",
-  "Genre Trends & Lyric Room",
+  "Beat Pipeline, Beat Store & Client CRM",
   "Invoices, Revenue Splits & Royalty Dashboard",
-  "Budget Tracker & full Analytics",
-  "Link in Bio & Branding Studio",
 ];
 
 export const AI_ITEMS = [
-  "Weekly outbound on your behalf — you approve or deny",
+  "Sam's Desk — weekly outbound drafted for you, you approve or deny",
   "Nothing sends without your approval",
-  "Auto-drafted playlist & tour-opening pitches",
-  "Tour & sync opportunities, outbounded for you",
-  "Sam chat — advice backed by your real numbers",
-  "Electronic press kit (EPK) creator",
-  "Weekly career digest",
-  "Tell Sam, Sam's Desk, Deals & This Week",
+  "Tell Sam — Sam researches anything: venues, labels, deals",
+  "Contract Analyzer — Sam reads every contract before you sign",
+  "Opportunities — signings, grants, playlists & tour intel",
+  "A&R Intelligence — what labels are looking for",
+  "Career Roadmap — your personalized growth plan",
+  "This Week — your to-dos, with Sam's morning reminders",
 ];
 
 export const BOOST_ITEMS = [

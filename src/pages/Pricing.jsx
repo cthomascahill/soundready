@@ -175,7 +175,7 @@ export default function Pricing() {
 
           <div className="space-y-3 text-center">
             <BillingToggle value={billing} onChange={setBilling} yearlyNote="2 mo free" />
-            <p className="text-xs text-primary font-semibold">First 100 artists — these prices lock in for life. $79/mo for everyone after.</p>
+            <p className="text-xs text-primary font-bold tracking-wider uppercase">First 100 artists — discounted forever. $79/mo for everyone after.</p>
           </div>
 
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-5">
@@ -189,7 +189,7 @@ export default function Pricing() {
               <p className="text-sm font-semibold mt-0.5 mb-2 text-chart-5">Your music's home base. Free forever.</p>
               <p className="text-2xl font-black mb-3">$0</p>
               <p className="text-sm text-muted-foreground leading-relaxed mb-5">
-                Your music's home base. The Vault and Tracker keep up to 5 songs fully organized, from idea to release — and everything you add stays yours. Organizing your catalog should never cost money. Everything else unlocks with Artist Pro.
+                Your music's home base. The Vault and Tracker keep up to 5 songs fully organized, from idea to release — and everything you add stays yours. Organizing your catalog should never cost money. Everything else unlocks with Artist Pro — and Sam comes with AI Manager.
               </p>
               <div className="flex-1">
                 <TierItems items={FREE_ITEMS} check="text-chart-5" />
@@ -255,7 +255,7 @@ export default function Pricing() {
               <div className="mb-3 flex items-baseline gap-2 flex-wrap">
                 <span className="text-base text-muted-foreground line-through font-semibold">{billing === "yearly" ? "$699" : "$79"}</span>
                 <p className="text-2xl font-black">{billing === "yearly" ? "$569" : "$59"}<span className="text-sm text-muted-foreground font-medium">{billing === "yearly" ? "/yr" : "/mo"}</span></p>
-                <span className="px-2 py-0.5 rounded-full bg-primary/15 text-primary text-[10px] font-bold uppercase tracking-wide">First 100 Artists</span>
+                <span className="px-2 py-0.5 rounded-full bg-primary/15 text-primary text-[10px] font-bold uppercase tracking-wide">First 100 Artists — Discounted Forever</span>
               </div>
               <p className="text-sm text-muted-foreground leading-relaxed mb-5">
                 Sam outbounds for you every week — playlist pitches, tour support, sync opportunities — drafted from your real numbers, and nothing sends without your approval. A traditional manager takes 15–20% of everything you earn. Sam is $59/mo flat for the first 100 artists — $79/mo after.
