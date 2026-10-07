@@ -60,7 +60,15 @@ export default function ScrollTab({ genre }) {
 
   useEffect(() => { fetchVideos(); }, [fetchVideos]);
 
+  const isFramed = typeof window !== "undefined" && window.self !== window.top;
+
   const openPlayer = (v) => {
+    // YouTube blocks embeds inside the builder preview frame (error 153).
+    // When framed, just open the video on YouTube in a new tab instead.
+    if (isFramed) {
+      window.open(`https://www.youtube.com/watch?v=${v.id}`, "_blank");
+      return;
+    }
     setPlaying(v);
     // Let the iframe mount, then scroll it into view
     setTimeout(() => playerRef.current?.scrollIntoView({ behavior: "smooth", block: "center" }), 50);
