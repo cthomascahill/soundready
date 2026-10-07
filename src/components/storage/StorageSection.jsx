@@ -1,7 +1,7 @@
 import { DollarSign, Newspaper, Send, FileText, ScanLine, Scale, StickyNote } from "lucide-react";
 import StorageCard from "./StorageCard";
 
-const CATEGORY_META = {
+export const CATEGORY_META = {
   money: { label: "Money & Taxes", icon: DollarSign },
   press: { label: "Press Kit & EPK", icon: Newspaper },
   outreach: { label: "Outreach & Drafts", icon: Send },
