@@ -10,6 +10,10 @@ import { SOUTH_VENUES } from "@/lib/venues/south";
 import { MIDWEST_VENUES } from "@/lib/venues/midwest";
 import { WEST_VENUES } from "@/lib/venues/west";
 import { MORE_VENUES } from "@/lib/venues/more";
+import { NORTHEAST_VENUES_2 } from "@/lib/venues/northeast2";
+import { SOUTH_VENUES_2 } from "@/lib/venues/south2";
+import { MIDWEST_VENUES_2 } from "@/lib/venues/midwest2";
+import { WEST_VENUES_2 } from "@/lib/venues/west2";
 
 const VENUE_DB = [
   // New York, NY
@@ -507,7 +511,7 @@ const VENUE_DB = [
 // Nationwide directory: core list + expansion files, deduped by name+city
 const ALL_VENUES = (() => {
   const seen = new Set();
-  return [...VENUE_DB, ...EXPANDED_VENUE_DB, ...NORTHEAST_VENUES, ...SOUTH_VENUES, ...MIDWEST_VENUES, ...WEST_VENUES, ...MORE_VENUES]
+  return [...VENUE_DB, ...EXPANDED_VENUE_DB, ...NORTHEAST_VENUES, ...SOUTH_VENUES, ...MIDWEST_VENUES, ...WEST_VENUES, ...MORE_VENUES, ...NORTHEAST_VENUES_2, ...SOUTH_VENUES_2, ...MIDWEST_VENUES_2, ...WEST_VENUES_2]
     .filter((v) => {
       const key = `${v.name}|${v.city}`;
       if (seen.has(key)) return false;
