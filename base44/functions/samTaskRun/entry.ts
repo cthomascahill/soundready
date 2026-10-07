@@ -1,9 +1,12 @@
 import { createClientFromRequest } from 'npm:@base44/sdk@0.8.52';
 import { CURATED_VENUES, matchVenuesForText } from '../../shared/venueDirectory.ts';
-import { huntBookingEmail } from './contactScrape.ts';
+import { huntBookingEmail, isUsableEmail } from './contactScrape.ts';
+import { planProspecting, isProspecting, discoverTargets, poolToLines, siteForName } from './discovery.ts';
 
 // Sam executes an open-ended task the artist typed in "Tell Sam what to do".
-// Two passes: (1) web-informed research + drafting — the web is searched on
+// For non-venue prospecting (labels, distributors, sync, press...) a wide
+// multi-search sweep builds a big candidate pool first (see discovery.ts).
+// Then two passes: (1) web-informed research + drafting — the web is searched on
 // EVERY task, with the artist's constraints as hard filters, informed by the
 // shared venue directory and past artist feedback;
 // (2) a quality-control audit that flags or excludes drafts that break the
@@ -111,6 +114,30 @@ export default async function(req) {
 
     const namedTargets = (task.targets || '').trim();
 
+    // ── Wide research sweep for non-venue prospecting ────────────────────
+    // One web search only surfaces a few names, so for labels, distributors,
+    // sync, press etc. Sam runs several different searches first and merges
+    // them with the curated directory into one big candidate pool.
+    const plan = await planProspecting(base44, { task, profile, artistName, namedTargets })
+      .catch(err => { console.log('samTaskRun plan skipped:', err?.message || err); return null; });
+    const prospecting = isProspecting(plan);
+    const targetCap = prospecting ? plan.target_count : 10;
+    const pool = prospecting
+      ? await discoverTargets(base44, { plan, task, profile, artistName, namedTargets })
+          .catch(err => { console.log('samTaskRun discovery skipped:', err?.message || err); return []; })
+      : [];
+    console.log(`samTaskRun: category=${plan?.category || 'unplanned'} target_cap=${targetCap} pool=${pool.length}`);
+
+    const poolSection = prospecting
+      ? `CANDIDATE POOL — ${pool.length} companies surfaced by Sam's wide research sweep for this task. These are leads, not verified facts: check each against the web before drafting, drop any that are defunct, closed to submissions or a poor fit, and add your own finds to reach the target count:
+${poolToLines(pool).join('\n') || 'None found by the sweep — research broadly yourself'}
+
+`
+      : '';
+    const targetInstruction = prospecting
+      ? `Aim for ${targetCap} targets: the artist expects a full, broad list, not a handful. Work through the CANDIDATE POOL first and verify each, then add your own finds until you reach ${targetCap}. Deliver every real, fitting company you can verify, and only fall short when there truly are not enough real ones (say so in the summary); never pad with invented or poor-fit companies. Prioritize by fit. These targets are not venues: leave target_capacity empty, use target_location for the company's home city, and in verification_note state what the company does, whether it currently takes submissions and how.`
+      : 'Choose no more than 10 targets unless the artist explicitly asked for more, prioritized by fit.';
+
     const prompt = `You are Sam, the AI manager inside SoundReady, working for ${artistName}, an independent artist. You are thorough, precise, and honest about what you did and did not verify.
 
 THE ARTIST'S TASK, VERBATIM:
@@ -149,11 +176,11 @@ ${songLines}
 SOUNDREADY VENUE DIRECTORY — known real venues that match the places named in this task. Verify current contact details live before using them, and treat these as strong candidates (when they fit the requirements):
 ${venueLines.join('\n') || 'No directory matches for this task'}
 
-HOW TO WORK:
+${poolSection}HOW TO WORK:
 1. First extract every explicit constraint the artist stated or implied (city, capacity min/max, budget, dates, genre fit, deal type) into "constraints". Capacity and city constraints are HARD FILTERS: a target that breaks them is disqualified, not merely mentioned. Example: if the artist says "100 capacity in Denver", a 400-cap Denver venue FAILS and must not appear. Restate the requirements you applied in a result section titled "Your requirements".
 2. Decide the task type: "analysis" (a question or report-crunching that needs an answer, no external outreach), "outreach" (contacting real external targets), or "both".
 3. For every task — including analysis — first search the web for current, relevant information (recent news, rates, prices, market figures, local scenes, whatever the task touches) and use it to make the answer current. Web research SUPPLEMENTS the artist's attached files, profile and platform data — it never overrides them: where they conflict, trust the artist's own data and say so. Every factual claim that comes from the web must be backed by a real source listed in "sources" with its URL — never state a web-derived fact you cannot source. Clearly separate figures that come straight from the artist's files or data from figures you found on the web or estimated; double-check your arithmetic and list every assumption in "assumptions". For tax estimates, state the rate assumptions and that this is an estimate, not tax advice.
-4. For outreach: research real, specific targets. Search BROADLY — build lists by city ("small venues in Denver", "DIY venues Chicago 100 capacity"), venue directories, local scene coverage — not just the first page of results. Prefer independent/DIY venues for early-career artists. For each target: verify its city and capacity (venue site, local press); find a verifiable public contact email — NEVER invent or guess one. If none is verifiable, leave target_email empty, put the official booking/submissions page in source_url and set contact_route to "submission_page". Write one personalized draft per target, starting with a "Subject:" line, 120-220 words, no placeholders like [Name] or [Venue]. Choose no more than 10 targets unless the artist explicitly asked for more, prioritized by fit. Fill target_location and target_capacity for every target (estimate and say so if not published), and in verification_note state exactly what you verified (city, capacity, contact route) and how fresh it is. Also fill target_website with the target's official website URL for every target — find it via search when needed; the platform then visits the site itself to pull the real booking email, so the website URL matters even when you cannot see the email in search results.
+4. For outreach: research real, specific targets. Search BROADLY — build lists by city ("small venues in Denver", "DIY venues Chicago 100 capacity"), venue directories, local scene coverage — not just the first page of results. Prefer independent/DIY venues for early-career artists. For each target: verify its city and capacity (venue site, local press); find a verifiable public contact email — NEVER invent or guess one. If none is verifiable, leave target_email empty, put the official booking/submissions page in source_url and set contact_route to "submission_page". Write one personalized draft per target, starting with a "Subject:" line, 120-220 words, no placeholders like [Name] or [Venue]. ${targetInstruction} Fill target_location and target_capacity for every target (estimate and say so if not published), and in verification_note state exactly what you verified (city, capacity, contact route) and how fresh it is. Also fill target_website with the target's official website URL for every target — find it via search when needed; the platform then visits the site itself to pull the real booking email, so the website URL matters even when you cannot see the email in search results.
 5. "result" is always filled in: "summary" is a one-paragraph answer to the task; "sections" carry the detail (findings, numbers, venue shortlist, estimates, your requirements); "assumptions" lists estimates and assumptions; "sources" lists the web pages you used as {title, url}; "follow_up" is what you suggest the artist does next.
 6. If the task is genuinely ambiguous, make the most reasonable interpretation, state it in "summary", and note what extra info would sharpen the result in "follow_up".`;
 
@@ -233,13 +260,17 @@ HOW TO WORK:
     const outType = ['analysis', 'outreach', 'both'].includes(llm?.task_type) ? llm.task_type : 'analysis';
     let drafts = (llm?.drafts || [])
       .filter(d => d?.target_name && d?.draft)
-      .slice(0, 12)
+      // drop placeholder / non-booking emails the model may have echoed back
+      .map(d => isUsableEmail(d.target_email)
+        ? d
+        : { ...d, target_email: '', contact_route: d.contact_route === 'email' ? undefined : d.contact_route })
+      .slice(0, Math.max(12, targetCap))
       .map(d => ({
         task_id: task.id,
         user_id: user.id,
         target_name: String(d.target_name).slice(0, 200),
         target_email: String(d.target_email || '').trim(),
-        target_website: String(d.target_website || ''),
+        target_website: String(d.target_website || siteForName(pool, d.target_name) || ''),
         source_url: String(d.source_url || ''),
         target_location: String(d.target_location || ''),
         target_capacity: typeof d.target_capacity === 'number' ? d.target_capacity : null,
@@ -259,7 +290,7 @@ HOW TO WORK:
       const url = d.target_website || d.source_url;
       if (url && /^https?:\/\//.test(url) && !huntSites.has(url)) huntSites.set(url, null);
     }
-    const huntUrls = [...huntSites.keys()].slice(0, 8);
+    const huntUrls = [...huntSites.keys()].slice(0, Math.max(8, targetCap));
     const huntResults = await Promise.allSettled(huntUrls.map(u => huntBookingEmail(u)));
     huntUrls.forEach((u, i) => {
       if (huntResults[i].status === 'fulfilled') huntSites.set(u, huntResults[i].value);
@@ -310,6 +341,7 @@ For each target return a verdict:
 - "pass": meets every stated requirement (right city, within capacity range, sensible fit) and has a real contact route.
 - "flag": usable but with a caveat (capacity unknown, fit uncertain, contact route weak) — put the caveat in "issue".
 - "exclude": breaks a hard requirement (wrong city, capacity over the artist's stated max, wrong genre entirely) — put the reason in "issue".
+Capacity only applies to venues: ignore it for labels, distributors, sync companies, press and other non-venue targets.
 
 Also return "summary": one short paragraph for the artist, in plain words, describing what you checked and what you flagged or excluded.`,
         response_json_schema: {

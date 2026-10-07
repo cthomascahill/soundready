@@ -5,14 +5,26 @@
 const EMAIL_RE = /[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}/g;
 const JUNK = /\.(png|jpe?g|gif|webp|svg|css|js|mp3|wav)$/i;
 const BAD = /(sentry\.io|wixpress\.com|squarespace\.com|example\.com|schema\.org|w3\.org|godaddy)/i;
+const PLACEHOLDER_LOCAL = /^(name|your|yourname|youremail|email|user|username|test|john|jane|johndoe|someone|example|first|firstname|firstlast|you)$/i;
+const PLACEHOLDER_DOMAIN = /@(email|domain|yourdomain|mail|example|test|company|website)\.(com|org|net)$/i;
+const NON_BOOKING_LOCAL = /^(shop|store|merch|orders?|support|help|privacy|legal|abuse|noreply|no-reply|donotreply|webmaster|careers?|jobs|hr|billing|sales|returns|customerservice|customer-service|unsubscribe)$/i;
 const CONTACT_LINK = /(book|contact|shows|press|submis|hire|inquir)/i;
+
+// True for a real-looking contact address: not a form placeholder
+// (name@gmail.com), not a store/support/legal inbox, not an asset or tracker.
+export function isUsableEmail(email) {
+  const e = String(email || '').trim().toLowerCase();
+  if (!/^[^@\s]+@[^@\s]+\.[a-z]{2,}$/.test(e)) return false;
+  if (JUNK.test(e) || BAD.test(e)) return false;
+  const [local] = e.split('@');
+  return !PLACEHOLDER_LOCAL.test(local) && !PLACEHOLDER_DOMAIN.test(e) && !NON_BOOKING_LOCAL.test(local);
+}
 
 function extractEmails(html) {
   const found = new Set();
   for (const m of String(html || '').matchAll(EMAIL_RE)) {
     const e = m[0].toLowerCase();
-    if (JUNK.test(e) || BAD.test(e)) continue;
-    found.add(e);
+    if (isUsableEmail(e)) found.add(e);
   }
   return [...found];
 }
