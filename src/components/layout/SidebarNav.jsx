@@ -6,6 +6,7 @@ import {
   Home, Music2, Users, ListChecks, LayoutGrid, FolderOpen,
   Map, Newspaper, CreditCard, UserCircle,
   Route, Mic, Building2, Bot, Sparkles, Handshake, Wand2, ListTodo, Shield,
+  Flame, Calendar, Scale,
 } from "lucide-react";
 
 const NAV_SECTIONS = (isAdmin) => [
@@ -29,6 +30,22 @@ const NAV_SECTIONS = (isAdmin) => [
     ],
   },
   {
+    id: "wall",
+    label: "The Wall",
+    items: [
+      { to: "/artist-feed", icon: Flame, label: "The Wall" },
+    ],
+  },
+  {
+    id: "career",
+    label: "Career",
+    items: [
+      { to: "/career-roadmap", icon: Map, label: "Career Roadmap" },
+      { to: "/release-plan", icon: Calendar, label: "Release Plan" },
+      { to: "/legal", icon: Scale, label: "Contracts" },
+    ],
+  },
+  {
     id: "ai-manager",
     label: "AI Manager",
     items: [
@@ -39,7 +56,6 @@ const NAV_SECTIONS = (isAdmin) => [
       { to: "/contract-analyzer", icon: Shield, label: "Contract Analyzer" },
       { to: "/industry-intel", icon: Sparkles, label: "Opportunities" },
       { to: "/music-news", icon: Newspaper, label: "Music News" },
-      { to: "/career-roadmap", icon: Map, label: "Career Roadmap" },
     ],
   },
   {
@@ -66,9 +82,6 @@ const NAV_SECTIONS = (isAdmin) => [
   },
 ];
 
-// Music section tools ship with Artist Pro (full Vault, Tracker, Artist Profile)
-const MUSIC_PRO = new Set(["/history", "/song-tracker", "/artist-profile"]);
-
 // Pages locked behind Artist Pro
 const PRO_ONLY = new Set([
   "/studio", "/artist-feed",
@@ -76,6 +89,7 @@ const PRO_ONLY = new Set([
   "/contracts", "/team-chat", "/beat-pipeline", "/artist-match",
   "/beat-store", "/client-crm", "/producer-contracts",
   "/playlist-pitcher", "/music-news",
+  "/release-plan", "/analytics", "/pitch-deck", "/legal",
 ]);
 
 // Pages under the AI Manager tab — AI Manager subscribers only
@@ -93,7 +107,7 @@ export default function SidebarNav({ activePath, onNavigate }) {
   const tierBadge = (to) => {
     if (hasAIManager(user)) return null;
     if (AI_ONLY.has(to)) return "AI";
-    if (PRO_ONLY.has(to) || MUSIC_PRO.has(to)) return "Pro";
+    if (PRO_ONLY.has(to)) return "Pro";
     return null;
   };
 

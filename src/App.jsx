@@ -37,7 +37,7 @@ import Pricing from './pages/Pricing';
 import Checkout from './pages/Checkout';
 import Profile from './pages/Profile';
 import VenueContracts from './pages/VenueContracts';
-import Community from './pages/Community';
+
 import TourFinance from './pages/TourFinance';
 import TourFinanceCanvas from './pages/TourFinanceCanvas';
 import TourPlanner from './pages/TourPlanner';
@@ -138,16 +138,16 @@ const AuthenticatedApp = () => {
         <Route path="/dashboard" element={<Navigate to="/history" replace />} />
         <Route path="/tools" element={<ToolLibrary />} />
         <Route path="/storage" element={<Storage />} />
-        <Route path="/release-plan" element={<ReleasePlanInput />} />
+        <Route path="/release-plan" element={pro(ReleasePlanInput)} />
         <Route path="/results" element={<Results />} /> 
         <Route path="/history" element={<SongLibrary />} />
         <Route path="/music/:songId" element={<SongWorkspace />} />
         <Route path="/ar-intelligence" element={ai(ARIntelligence)} />
         <Route path="/contract-analyzer" element={ai(ContractAnalyzer)} />
-        <Route path="/analytics" element={<Analytics />} />
+        <Route path="/analytics" element={pro(Analytics)} />
         <Route path="/distribution" element={<Distribution />} />
         <Route path="/budget" element={<BudgetTracker />} />
-        <Route path="/pitch-deck" element={<PitchDeck />} />
+        <Route path="/pitch-deck" element={pro(PitchDeck)} />
         <Route path="/spotify" element={<SpotifyConnect />} />
         <Route path="/playlist-pitcher" element={pro(PlaylistPitcher)} />
         <Route path="/touring" element={pro(Touring)} />
@@ -173,7 +173,7 @@ const AuthenticatedApp = () => {
         <Route path="/industry-intel" element={ai(IndustryIntel)} />
 
         <Route path="/music-academy" element={<MusicAcademy />} />
-        <Route path="/legal" element={<Legal />} />
+        <Route path="/legal" element={pro(Legal)} />
         <Route path="/invoices" element={<InvoiceManager />} />
         <Route path="/whiteboard" element={pro(Whiteboard)} />
         <Route path="/team-chat" element={pro(TeamChat)} />
@@ -198,7 +198,6 @@ const AuthenticatedApp = () => {
         <Route path="/beat-store" element={pro(BeatStore)} />
         <Route path="/client-crm" element={pro(ClientCRM)} />
         <Route path="/producer-contracts" element={pro(ProducerContracts)} />
-        <Route path="/community" element={<Community />} />
         <Route path="/u/:userId" element={<CreatorProfile />} />
         <Route path="/buyout-leads" element={<AdminGate><BuyoutLeads /></AdminGate>} />
         <Route path="/sam-usage-admin" element={<AdminGate><SamUsageAdmin /></AdminGate>} />

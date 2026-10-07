@@ -1,7 +1,7 @@
 import {
-  Music2, ListChecks, FileText, Calendar, Mic2, BarChart2, Scale, Handshake,
+  Music2, ListChecks, Calendar, Mic2, BarChart2, Scale, Handshake,
   MapPin, Megaphone, Route, PiggyBank, FileSignature, Map, UserCircle,
-  Newspaper, Radar, TrendingUp, Flame, MessageSquare, Bot, MessagesSquare, Shield,
+  Newspaper, Radar, TrendingUp, Flame, Bot, MessagesSquare, Shield,
 } from "lucide-react";
 
 // Every tool on the platform, grouped by category.
@@ -12,15 +12,14 @@ export const TOOL_CATEGORIES = [
     tools: [
       { name: "Vault", to: "/history", desc: "Your entire catalog, organized", icon: Music2, tier: "free" },
       { name: "Tracker", to: "/song-tracker", desc: "Every release from idea to launch", icon: ListChecks, tier: "free" },
-      { name: "Release Plan", to: "/release-plan", desc: "An AI plan for your next release", icon: Calendar, tier: "free" },
     ],
   },
   {
     label: "AI Manager",
     tools: [
       { name: "Sam's Desk", to: "/maya-desk", desc: "Sam's drafted emails, ready to approve", icon: Bot, tier: "ai" },
-      { name: "EPK Builder", to: "/pitch-deck", desc: "An electronic press kit that books shows", icon: FileText, tier: "free" },
-      { name: "Analytics", to: "/analytics", desc: "Streams, followers and growth", icon: BarChart2, tier: "free" },
+      { name: "EPK Builder", to: "/pitch-deck", desc: "An electronic press kit that books shows", icon: FileSignature, tier: "pro" },
+      { name: "Analytics", to: "/analytics", desc: "Streams, followers and growth", icon: BarChart2, tier: "pro" },
       { name: "Contract Analyzer", to: "/contract-analyzer", desc: "AI review of any deal you're offered", icon: Shield, tier: "ai" },
     ],
   },
@@ -33,7 +32,6 @@ export const TOOL_CATEGORIES = [
   {
     label: "Money",
     tools: [
-      { name: "Legal", to: "/legal", desc: "Contract templates and guides", icon: Scale, tier: "free" },
       { name: "Deals", to: "/deals", desc: "Catalog valuation and buyout interest", icon: Handshake, tier: "ai" },
     ],
   },
@@ -52,12 +50,13 @@ export const TOOL_CATEGORIES = [
     label: "Career",
     tools: [
       { name: "Career Roadmap", to: "/career-roadmap", desc: "Your personalized growth plan", icon: Map, tier: "ai" },
+      { name: "Release Plan", to: "/release-plan", desc: "An AI plan for your next release", icon: Calendar, tier: "pro" },
+      { name: "Contracts", to: "/legal", desc: "Contract templates and guides", icon: Scale, tier: "pro" },
       { name: "Artist Profile", to: "/artist-profile", desc: "Your full career intake", icon: UserCircle, tier: "free" },
       { name: "Music News", to: "/music-news", desc: "Daily industry briefings", icon: Newspaper, tier: "pro" },
       { name: "Industry Intel", to: "/industry-intel", desc: "Signings, playlists, trends, grants and tour intel", icon: Radar, tier: "ai" },
       { name: "A&R Intelligence", to: "/ar-intelligence", desc: "What labels are looking for", icon: TrendingUp, tier: "ai" },
-      { name: "The Wall", to: "/artist-feed", desc: "The artist community feed", icon: Flame, tier: "pro" },
-      { name: "Community", to: "/community", desc: "Chat with other artists", icon: MessageSquare, tier: "free" },
+      { name: "The Wall", to: "/artist-feed", desc: "Chat with other artists", icon: Flame, tier: "pro" },
     ],
   },
   {

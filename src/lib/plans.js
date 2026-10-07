@@ -5,16 +5,18 @@ import { Bot, Users, Zap } from "lucide-react";
 export const FREE_ITEMS = [
   "Vault: up to 5 songs, organized",
   "Tracker: from idea to release",
-  "Connect Spotify & YouTube",
-  "Your dashboard & analytics",
+  "Artist Profile: connect Spotify & YouTube",
 ];
 
 export const PRO_ITEMS = [
   "Everything in Free, unlocked",
+  "Analytics: streams, followers and growth",
+  "Release Plan: an AI plan for your next release",
+  "EPK Builder: an electronic press kit that books shows",
+  "Contracts: templates and guides",
   "Playlist Pitcher: find and pitch matching playlists",
   "Gig Finder: 1,341+ venues ready to pitch",
   "Tour Planner, Tour Finance & Venue Contracts",
-  "Deals: track pitches to labels, distributors & sync houses",
   "Music News: daily industry briefings",
   "The Wall: the artist community",
   "Team Chat, Whiteboard & Studio",
@@ -30,6 +32,7 @@ export const AI_ITEMS = [
   "Opportunities: signings, grants, playlists & tour intel",
   "A&R Intelligence: what labels are looking for",
   "Career Roadmap: your personalized growth plan",
+  "Deals: catalog valuation and buyout interest",
   "This Week: your to-dos, with Sam's morning reminders",
 ];
 
