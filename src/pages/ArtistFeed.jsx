@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef } from "react";
 import { base44 } from "@/api/base44Client";
 import { useAuth } from "@/lib/AuthContext";
-import { Heart, MessageCircle, Repeat2, Send, ChevronDown, ChevronUp, X, UserPlus, Users } from "lucide-react";
+import { Heart, MessageCircle, Repeat2, Send, ChevronDown, ChevronUp, X, UserPlus, Users, Trash2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { motion, AnimatePresence } from "framer-motion";
 import moment from "moment";
@@ -18,7 +18,7 @@ const MOOD_MAP = Object.fromEntries(MOOD_TAGS.map(m => [m.id, m]));
 
 const FILTERS = ["Everyone", "New Music", "W", "Collab", "Question", "Show", "Motivation"];
 
-function PostCard({ post, currentUser, onLike, onComment, onRepost, friendEmails, onAddFriend }) {
+function PostCard({ post, currentUser, onLike, onComment, onRepost, friendEmails, onAddFriend, onDelete }) {
   const [showComments, setShowComments] = useState(false);
   const [comments, setComments] = useState([]);
   const [commentsLoaded, setCommentsLoaded] = useState(false);
@@ -67,6 +67,12 @@ function PostCard({ post, currentUser, onLike, onComment, onRepost, friendEmails
             {post.author_genre && <span className="text-[10px] px-2 py-0.5 rounded-full bg-secondary text-muted-foreground border border-border">{post.author_genre}</span>}
             {mood && <span className={`text-[10px] px-2 py-0.5 rounded-full border ${mood.color}`}>{mood.label}</span>}
             <span className="text-[10px] text-muted-foreground ml-auto">{moment(post.created_date).fromNow()}</span>
+            {post.author_id === currentUser?.id && onDelete && (
+              <button onClick={() => onDelete(post)}
+                className="text-muted-foreground hover:text-destructive transition-colors" title="Delete post">
+                <Trash2 className="h-3.5 w-3.5" />
+              </button>
+            )}
           </div>
           <p className="text-sm mt-1.5 leading-relaxed">{post.text}</p>
           {post.link && <a href={post.link} target="_blank" rel="noreferrer" className="text-xs text-primary hover:underline break-all">{post.link}</a>}
@@ -173,6 +179,11 @@ export default function ArtistFeed() {
     const reposts = post.reposts || [];
     const newReposts = reposts.includes(user.id) ? reposts.filter(id => id !== user.id) : [...reposts, user.id];
     await base44.entities.ArtistPost.update(post.id, { reposts: newReposts });
+  };
+
+  const handleDelete = async (post) => {
+    await base44.entities.ArtistPost.delete(post.id);
+    setPosts(prev => prev.filter(p => p.id !== post.id));
   };
 
   const friendEmails = new Set(friends.map(f => f.friend_email));
@@ -320,7 +331,7 @@ export default function ArtistFeed() {
               <div className="space-y-3">
                 {filteredPosts.map(post => (
                   <PostCard key={post.id} post={post} currentUser={user} onLike={handleLike} onComment={() => {}} onRepost={handleRepost}
-                    friendEmails={friendEmails} onAddFriend={addFriend} />
+                    friendEmails={friendEmails} onAddFriend={addFriend} onDelete={handleDelete} />
                 ))}
               </div>
             )}

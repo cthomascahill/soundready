@@ -43,5 +43,10 @@
   "required": [
     "author_id",
     "text"
-  ]
+  ],
+  "rls": {
+    "delete": {
+      "created_by_id": "{{user.id}}"
+    }
+  }
 }
