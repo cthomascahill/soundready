@@ -44,7 +44,7 @@ const TIERS = [
     border: "border-chart-5/20",
     name: "Artist Pro",
     tagline: "You and your team, finally in sync.",
-    price: "$37/mo",
+    price: "$39/mo",
     badge: "7-Day Free Trial",
     desc: "Every tool unlocked, plus your whole team in one workspace. 7 days free.",
     items: [
@@ -52,7 +52,7 @@ const TIERS = [
       "Gig Finder & 843+ venues",
       "Tour Planner, Finance & Contracts",
       "The Wall — artist community",
-      "Team Chat & Career Roadmap",
+      "Team Chat & shared Whiteboard",
     ],
     cta: "Start Pro",
     checkout: "/checkout/artist-pro",
@@ -65,7 +65,7 @@ const TIERS = [
     border: "border-primary/30",
     name: "AI Manager",
     tagline: "Your career, worked around the clock.",
-    price: "$60/mo",
+    price: "$59/mo",
     badge: "Most Popular · Sam Works For You",
     badgeStyle: "bg-primary text-primary-foreground",
     glow: true,
@@ -155,7 +155,7 @@ export default function About() {
             </p>
             <Link to="/checkout/ai-manager">
               <Button size="lg" className="gap-2 font-heading font-bold text-base px-8 h-12">
-                {t("Get Sam — $60/mo")} <ArrowRight className="h-4 w-4" />
+                {t("Get Sam — $59/mo")} <ArrowRight className="h-4 w-4" />
               </Button>
             </Link>
             <p className="text-xs text-muted-foreground">{t("No percentage cuts — ever. Everything on this page comes with it.")}</p>

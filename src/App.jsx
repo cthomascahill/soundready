@@ -74,6 +74,7 @@ import BeatPipeline from './pages/BeatPipeline';
 import Placements from './pages/Placements';
 import ArtistMatch from './pages/ArtistMatch';
 import ProGate from './components/ProGate';
+import AiManagerGate from './components/AiManagerGate';
 import BeatStore from './pages/BeatStore';
 import ClientCRM from './pages/ClientCRM';
 import ProducerContracts from './pages/ProducerContracts';
@@ -85,11 +86,17 @@ import ToolLibrary from './pages/ToolLibrary';
 import Touring from './pages/Touring';
 import CreatorProfile from './pages/CreatorProfile';
 import BuyoutLeads from './pages/BuyoutLeads';
+import SamUsageAdmin from './pages/SamUsageAdmin';
 import AdminGate from './components/AdminGate';
 
 // Wraps a page so free-tier users see the Artist Pro upgrade screen
 const pro = (Page) => (
   <ProGate><Page /></ProGate>
+);
+
+// Wraps a page so non-AI-Manager users see the AI Manager upgrade screen
+const ai = (Page) => (
+  <AiManagerGate><Page /></AiManagerGate>
 );
 
 const AuthenticatedApp = () => {
@@ -158,8 +165,8 @@ const AuthenticatedApp = () => {
         <Route path="/song-versions/:songId" element={<SongVersions />} />
         <Route path="/artist-profile" element={<ArtistIntake />} />
         <Route path="/studio" element={pro(Studio)} />
-        <Route path="/music-news" element={pro(MusicNews)} />
-        <Route path="/industry-intel" element={pro(IndustryIntel)} />
+        <Route path="/music-news" element={ai(MusicNews)} />
+        <Route path="/industry-intel" element={ai(IndustryIntel)} />
 
         <Route path="/music-academy" element={<MusicAcademy />} />
         <Route path="/legal" element={<Legal />} />
@@ -167,7 +174,7 @@ const AuthenticatedApp = () => {
         <Route path="/whiteboard" element={pro(Whiteboard)} />
         <Route path="/team-chat" element={pro(TeamChat)} />
         <Route path="/branding-studio" element={<BrandingStudio />} />
-        <Route path="/career-roadmap" element={pro(CareerRoadmap)} />
+        <Route path="/career-roadmap" element={ai(CareerRoadmap)} />
         <Route path="/revenue-splits" element={<RevenueSplits />} />
         <Route path="/lyric-room" element={<LyricRoom />} />
         <Route path="/genre-trends" element={<GenreTrends />} />
@@ -175,10 +182,10 @@ const AuthenticatedApp = () => {
         <Route path="/artist-feed" element={pro(ArtistFeed)} />
         <Route path="/whiteboard/:boardId" element={pro(WhiteboardCanvas)} />
         <Route path="/connect-profiles" element={<ArtistIntake />} />
-        <Route path="/maya-desk" element={<MayaDesk />} />
-        <Route path="/deals" element={<Deals />} />
-        <Route path="/tell-sam" element={<TellSam />} />
-        <Route path="/todos" element={<Todos />} />
+        <Route path="/maya-desk" element={ai(MayaDesk)} />
+        <Route path="/deals" element={ai(Deals)} />
+        <Route path="/tell-sam" element={ai(TellSam)} />
+        <Route path="/todos" element={ai(Todos)} />
         <Route path="/maya-profile" element={<MayaProfile />} />
         <Route path="/beat-vault" element={<BeatVault />} />
         <Route path="/beat-pipeline" element={pro(BeatPipeline)} />
@@ -190,6 +197,7 @@ const AuthenticatedApp = () => {
         <Route path="/community" element={<Community />} />
         <Route path="/u/:userId" element={<CreatorProfile />} />
         <Route path="/buyout-leads" element={<AdminGate><BuyoutLeads /></AdminGate>} />
+        <Route path="/sam-usage-admin" element={<AdminGate><SamUsageAdmin /></AdminGate>} />
         <Route path="*" element={<PageNotFound />} />
         </Route>
       </Route>

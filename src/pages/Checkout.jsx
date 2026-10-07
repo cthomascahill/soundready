@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { Link, Navigate, useParams, useSearchParams } from "react-router-dom";
 import { motion } from "framer-motion";
 import {
@@ -11,15 +11,18 @@ import CheckoutButton from "@/components/billing/CheckoutButton";
 import { useAuth } from "@/lib/AuthContext";
 import { getTier } from "@/lib/tier";
 import { PLANS } from "@/lib/plans";
+import BillingToggle from "@/components/billing/BillingToggle";
 
 // Shown right after Stripe redirects back from a successful payment.
 function CheckoutSuccess() {
   const { user, checkAppState } = useAuth();
+  const [searchParams] = useSearchParams();
 
   useEffect(() => { checkAppState(); }, []);
 
   const tier = getTier(user);
-  const destination = tier === "ai_manager" ? "/maya-desk" : "/history";
+  const boosted = searchParams.get("boosted") === "1";
+  const destination = boosted ? "/tell-sam" : tier === "ai_manager" ? "/maya-desk" : "/history";
 
   return (
     <div className="min-h-screen bg-background font-body">
@@ -35,13 +38,15 @@ function CheckoutSuccess() {
           <div className="mx-auto h-14 w-14 rounded-2xl bg-primary/10 border border-primary/30 flex items-center justify-center">
             <CheckCircle2 className="h-7 w-7 text-primary" />
           </div>
-          <h1 className="font-heading text-3xl font-black tracking-tight">You're in.</h1>
+          <h1 className="font-heading text-3xl font-black tracking-tight">{boosted ? "Extra usage added." : "You're in."}</h1>
           <p className="text-sm text-muted-foreground leading-relaxed">
-            Payment received — your plan is activating right now. If anything still looks locked, give it a minute and refresh.
+            {boosted
+              ? "Payment received — the extra Sam research usage is on your balance now. If the meter hasn't updated yet, give it a minute and refresh."
+              : "Payment received — your plan is activating right now. If anything still looks locked, give it a minute and refresh."}
           </p>
           <Link to={destination}>
             <Button size="lg" className="w-full gap-2 font-heading font-bold h-12">
-              {tier === "ai_manager" ? "Go to Sam's Desk" : "Go to your Vault"} <ArrowRight className="h-4 w-4" />
+              {boosted ? "Back to Sam" : tier === "ai_manager" ? "Go to Sam's Desk" : "Go to your Vault"} <ArrowRight className="h-4 w-4" />
             </Button>
           </Link>
           <p className="text-xs text-muted-foreground">No percentage cuts — ever. Cancel anytime from your plan page.</p>
@@ -57,6 +62,7 @@ export default function Checkout() {
   const { plan } = useParams();
   const [searchParams] = useSearchParams();
   const { user, isLoadingAuth } = useAuth();
+  const [interval, setInterval] = useState("monthly");
 
   if (plan === "success") return <CheckoutSuccess />;
 
@@ -67,6 +73,12 @@ export default function Checkout() {
   const tier = getTier(user);
   const cancelled = searchParams.get("cancelled") === "1";
   const returnTo = encodeURIComponent(`/checkout/${plan}`);
+
+  const isSub = meta.tierKey === "pro" || meta.tierKey === "ai_manager";
+  const yearly = isSub && interval === "yearly";
+  const price = yearly ? meta.priceYearly : meta.price;
+  const period = yearly ? meta.periodYearly : meta.period;
+  const note = yearly ? (meta.noteYearly || meta.note) : meta.note;
 
   const hasThisOrBetter =
     meta.tierKey === "pro" || meta.tierKey === "ai_manager"
@@ -102,12 +114,21 @@ export default function Checkout() {
                 <p className="font-heading font-black text-2xl">{meta.name}</p>
                 <p className="text-xs text-muted-foreground mt-0.5">{meta.tagline}</p>
               </div>
-              <p className="font-heading text-3xl font-black shrink-0">
-                {meta.price}<span className="text-sm text-muted-foreground font-medium">{meta.period}</span>
+              <p className="font-heading text-3xl font-black shrink-0 flex items-baseline gap-1.5">
+                {meta.founding && (
+                  <span className="text-base text-muted-foreground line-through font-medium">{yearly ? meta.strikeYearly : meta.strikePrice}</span>
+                )}
+                {price}<span className="text-sm text-muted-foreground font-medium">{period}</span>
               </p>
             </div>
 
             <div className="h-px bg-border" />
+
+            {isSub && (
+              <div className="flex justify-center">
+                <BillingToggle value={interval} onChange={setInterval} yearlyNote="2 mo free" />
+              </div>
+            )}
 
             <div className="grid grid-cols-1 gap-y-2">
               {meta.items.map((item) => (
@@ -164,14 +185,15 @@ export default function Checkout() {
               ) : (
                 <CheckoutButton
                   tier={meta.tierKey}
+                  interval={interval}
                   className={`h-12 font-heading font-bold text-base ${meta.tierKey === "pro" ? "bg-chart-5 hover:bg-chart-5/90 text-black" : "gap-2"}`}
                 >
                   {meta.tierKey === "ai_manager" && <Sparkles className="h-4 w-4" />}
-                  Start {meta.name}
+                  {meta.checkoutLabel || `Start ${meta.name}`}
                 </CheckoutButton>
               )}
 
-              <p className="text-center text-xs text-muted-foreground">{meta.note}</p>
+              <p className="text-center text-xs text-muted-foreground">{note}</p>
             </div>
           </div>
         </motion.div>

@@ -29,7 +29,19 @@ export default async function(req) {
     // ── Start a subscription checkout ──────────────────────────────────────
     if (action === 'create_checkout') {
       const tier = body.tier === 'ai_manager' ? 'ai_manager' : 'pro';
-      const lookupKey = tier === 'pro' ? 'artist_pro_monthly' : 'ai_manager_monthly';
+      const interval = body.interval === 'yearly' ? 'yearly' : 'monthly';
+
+      // Founding-member pricing: while the founding prices are active in
+      // Stripe, AI Manager checkouts use them. Deactivate those prices in
+      // Stripe to end the founding offer — no code change needed.
+      let lookupKey;
+      if (tier === 'pro') {
+        lookupKey = interval === 'yearly' ? 'artist_pro_yearly_v2' : 'artist_pro_monthly_v2';
+      } else {
+        const foundingKey = interval === 'yearly' ? 'ai_manager_founding_yearly' : 'ai_manager_founding_monthly';
+        const founding = await stripeRequest('GET', `/prices?lookup_keys[]=${foundingKey}&active=true&limit=1`);
+        lookupKey = founding.data?.[0] ? foundingKey : (interval === 'yearly' ? 'ai_manager_yearly_v2' : 'ai_manager_monthly_v2');
+      }
 
       const priceData = await stripeRequest('GET', `/prices?lookup_keys[]=${lookupKey}&active=true&limit=1`);
       const priceId = priceData.data?.[0]?.id;
@@ -50,6 +62,7 @@ export default async function(req) {
         'metadata[base44_app_id]': appId,
         'metadata[user_id]': user.id,
         'metadata[tier]': tier,
+        'metadata[interval]': interval,
         'subscription_data[metadata][base44_app_id]': appId,
         'subscription_data[metadata][user_id]': user.id,
         'subscription_data[metadata][tier]': tier,
@@ -58,7 +71,33 @@ export default async function(req) {
       if (tier === 'pro') params['subscription_data[trial_period_days]'] = '7';
 
       const session = await stripeRequest('POST', '/checkout/sessions', params);
-      console.log(`stripeCheckout: session created for user ${user.id} (tier: ${tier})`);
+      console.log(`stripeCheckout: session created for user ${user.id} (tier: ${tier}, interval: ${interval}, price: ${priceId})`);
+      return Response.json({ url: session.url });
+    }
+
+    // ── Start a one-time Sam extra usage checkout ──────────────────────────
+    if (action === 'create_usage_checkout') {
+      const priceData = await stripeRequest('GET', '/prices?lookup_keys[]=sam_extra_usage&active=true&limit=1');
+      const priceId = priceData.data?.[0]?.id;
+      if (!priceId) return Response.json({ error: 'Extra usage price not found (sam_extra_usage)' }, { status: 500 });
+
+      let appUrl = body.app_url || 'https://soundready.base44.app';
+      if (!/^https?:\/\//.test(appUrl)) appUrl = 'https://soundready.base44.app';
+
+      const appId = secrets.get('BASE44_APP_ID') || '';
+      const session = await stripeRequest('POST', '/checkout/sessions', {
+        mode: 'payment',
+        'line_items[0][price]': priceId,
+        'line_items[0][quantity]': '1',
+        customer_email: user.email,
+        client_reference_id: user.id,
+        success_url: `${appUrl}/checkout/success?boosted=1`,
+        cancel_url: `${appUrl}/tell-sam?cancelled=1`,
+        'metadata[base44_app_id]': appId,
+        'metadata[user_id]': user.id,
+        'metadata[usage_addon]': 'sam_extra_usage',
+      });
+      console.log(`stripeCheckout: usage add-on session created for user ${user.id}`);
       return Response.json({ url: session.url });
     }
 

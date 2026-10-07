@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 import { useAuth } from "@/lib/AuthContext";
-import { isProOrAbove } from "@/lib/tier";
+import { isProOrAbove, hasAIManager } from "@/lib/tier";
 import { Lock } from "lucide-react";
 import { useLang } from "@/lib/i18n/LanguageContext";
 import {
@@ -26,13 +26,13 @@ const NAV_SECTIONS = (isAdmin) => [
     items: [
       { to: "/history", icon: Music2, label: "Vault" },
       { to: "/song-tracker", icon: ListChecks, label: "Tracker" },
+      { to: "/artist-profile", icon: Mic, label: "Artist Profile" },
     ],
   },
   {
     id: "ai-manager",
     label: "AI Manager",
     items: [
-      { to: "/artist-profile", icon: Mic, label: "Artist Profile" },
       { to: "/tell-sam", icon: Wand2, label: "Tell Sam" },
       { to: "/todos", icon: ListTodo, label: "This Week" },
       { to: "/maya-desk", icon: Bot, label: "Sam's Desk" },
@@ -68,10 +68,16 @@ const NAV_SECTIONS = (isAdmin) => [
 
 // Pages locked behind Artist Pro — free users see a lock icon on these
 const PRO_ONLY = new Set([
-  "/studio", "/career-roadmap", "/artist-feed", "/music-news", "/industry-intel",
+  "/studio", "/artist-feed",
   "/touring", "/gig-finder", "/tour-opportunities", "/tour-planner", "/tour-finance",
   "/contracts", "/team-chat", "/beat-pipeline", "/artist-match",
   "/beat-store", "/client-crm", "/producer-contracts",
+]);
+
+// Pages under the AI Manager tab — AI Manager subscribers only
+const AI_ONLY = new Set([
+  "/tell-sam", "/todos", "/maya-desk", "/deals", "/industry-intel",
+  "/music-news", "/career-roadmap",
 ]);
 
 export default function SidebarNav({ activePath, onNavigate }) {
@@ -107,7 +113,7 @@ export default function SidebarNav({ activePath, onNavigate }) {
                 >
                   <item.icon className="h-4 w-4 shrink-0" />
                   {t(item.label)}
-                  {showLocks && PRO_ONLY.has(item.to) && (
+                  {((showLocks && PRO_ONLY.has(item.to)) || (!hasAIManager(user) && AI_ONLY.has(item.to))) && (
                     <Lock className="h-3 w-3 ml-auto text-muted-foreground/50 shrink-0" />
                   )}
                 </Link>

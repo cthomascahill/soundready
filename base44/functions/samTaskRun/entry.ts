@@ -2,6 +2,7 @@ import { createClientFromRequest } from 'npm:@base44/sdk@0.8.52';
 import { CURATED_VENUES, matchVenuesForText } from '../../shared/venueDirectory.ts';
 import { huntBookingEmail, isUsableEmail } from './contactScrape.ts';
 import { planProspecting, isProspecting, discoverTargets, poolToLines, siteForName } from './discovery.ts';
+import { SAM_USAGE, getUsageState, estimateTaskUnits, adaptiveTargetCap, firstExplicitTargetCount, reserveTaskUnits, settleTaskUnits, releaseTaskUnits } from '../../shared/samUsage.ts';
 
 // Sam executes an open-ended task the artist typed in "Tell Sam what to do".
 // For non-venue prospecting (labels, distributors, sync, press...) a wide
@@ -15,6 +16,7 @@ import { planProspecting, isProspecting, discoverTargets, poolToLines, siteForNa
 export default async function(req) {
   let base44Ref = null;
   let taskId = null;
+  let usageEventId = null;
   try {
     const base44 = createClientFromRequest(req);
     base44Ref = base44;
@@ -32,6 +34,21 @@ export default async function(req) {
     const task = tasks[0];
     if (!task) return Response.json({ error: 'Task not found' }, { status: 404 });
     if (task.user_id !== user.id) return Response.json({ error: 'This task does not belong to you' }, { status: 403 });
+
+    // ── Soft fair-use gate: check the artist's monthly Sam balance ────────
+    const usageState = await getUsageState(base44, user.id);
+    if (usageState.paused) {
+      await base44.entities.SamTask.update(task.id, {
+        status: 'failed',
+        error: 'Sam is taking a breather: this account has used its full research allowance for this month. It resets at the start of next month, or add extra usage anytime.',
+      }).catch(() => {});
+      return Response.json({
+        success: false,
+        usage_paused: true,
+        message: 'You have used your full Sam research allowance for this month. It resets at the start of next month, or you can add extra usage.',
+        resets_at: usageState.resetsAt,
+      });
+    }
 
     await base44.entities.SamTask.update(task.id, { status: 'working' }).catch(() => {});
 
@@ -121,7 +138,47 @@ export default async function(req) {
     const plan = await planProspecting(base44, { task, profile, artistName, namedTargets })
       .catch(err => { console.log('samTaskRun plan skipped:', err?.message || err); return null; });
     const prospecting = isProspecting(plan);
-    const targetCap = prospecting ? plan.target_count : 10;
+
+    // ── Adaptive target cap + workload reservation ────────────────────────
+    // The cap adapts to the task's complexity and the artist's remaining
+    // fair-use headroom. A deliberately oversized request is bounced back so
+    // the artist can narrow or split it; an ordinary one is just trimmed.
+    const complex = (task.prompt || '').length > 600 || attachments.length > 3;
+    const usageCap = adaptiveTargetCap({ plannedCount: plan?.target_count || 20, remaining: usageState.remaining, complex });
+    const explicitCount = firstExplicitTargetCount(`${task.prompt || ''} ${task.targets || ''}`);
+    if (prospecting && explicitCount && explicitCount > usageCap) {
+      await base44.entities.SamTask.update(task.id, {
+        status: 'failed',
+        error: `Sam caps each task at ${usageCap} targets right now (remaining usage this month: ${usageState.remaining} workload units). Narrow this to ${usageCap} targets, split it into smaller tasks, or add extra usage for a bigger allowance.`,
+      }).catch(() => {});
+      return Response.json({
+        success: false,
+        target_cap: usageCap,
+        message: `Sam can research up to ${usageCap} targets per task right now. Narrow or split the task, or add extra usage for a bigger allowance.`,
+      });
+    }
+    const cappedFrom = prospecting && plan.target_count > usageCap ? plan.target_count : null;
+    const targetCap = prospecting ? Math.min(plan.target_count, usageCap) : Math.min(10, usageCap);
+
+    const estimatedUnits = estimateTaskUnits({
+      prospecting,
+      targets: prospecting ? targetCap : 0,
+      attachments: attachments.length,
+    });
+    const reservation = await reserveTaskUnits(base44, { userId: user.id, taskId: task.id, units: estimatedUnits });
+    usageEventId = reservation.event?.id || null;
+    if (!reservation.allowed) {
+      await base44.entities.SamTask.update(task.id, {
+        status: 'failed',
+        error: 'Sam is taking a breather: this account hit its monthly research allowance mid-task. It resets at the start of next month, or add extra usage anytime.',
+      }).catch(() => {});
+      return Response.json({
+        success: false,
+        usage_paused: true,
+        message: 'You have used your full Sam research allowance for this month. It resets at the start of next month, or you can add extra usage.',
+        resets_at: usageState.resetsAt,
+      });
+    }
     const pool = prospecting
       ? await discoverTargets(base44, { plan, task, profile, artistName, namedTargets })
           .catch(err => { console.log('samTaskRun discovery skipped:', err?.message || err); return []; })
@@ -412,6 +469,13 @@ Also return "summary": one short paragraph for the artist, in plain words, descr
       resultObj.sections = qcSections;
     }
 
+    if (cappedFrom) {
+      resultObj.sections = [...(resultObj.sections || []), {
+        heading: 'Research scope',
+        body: `This task was capped at ${targetCap} targets because of its workload and your remaining monthly usage (you asked for roughly ${cappedFrom}). Split the rest into another task, for example by city or region, or add extra usage for a larger allowance.`,
+      }];
+    }
+
     await base44.entities.SamTask.update(task.id, {
       task_type: drafts.length ? (outType === 'analysis' ? 'both' : outType) : outType,
       result: resultObj,
@@ -419,10 +483,27 @@ Also return "summary": one short paragraph for the artist, in plain words, descr
       status: 'complete',
     });
 
+    // Settle the reservation to the actual workload the task consumed.
+    const actualUnits = estimateTaskUnits({
+      prospecting: drafts.length > 0,
+      targets: drafts.length,
+      attachments: attachments.length,
+    }) + (drafts.length ? SAM_USAGE.units.contactCheck * huntUrls.length : 0);
+    await settleTaskUnits(base44, usageEventId, actualUnits, `task complete: ${drafts.length} drafts`);
+
     console.log(`samTaskRun: task ${task.id} complete, ${drafts.length} drafts filed (${flaggedCount} flagged, ${excludedCount} excluded by QC)`);
-    return Response.json({ success: true, drafts_created: drafts.length, flagged: flaggedCount, excluded: excludedCount });
+    return Response.json({
+      success: true,
+      drafts_created: drafts.length,
+      flagged: flaggedCount,
+      excluded: excludedCount,
+      ...(usageState.warn ? { usage_warning: { remaining: usageState.remaining, resets_at: usageState.resetsAt } } : {}),
+    });
   } catch (error) {
     console.error('samTaskRun error:', error.message);
+    if (base44Ref && usageEventId) {
+      await releaseTaskUnits(base44Ref, usageEventId, `released: ${error.message}`).catch(() => {});
+    }
     if (base44Ref && taskId) {
       await base44Ref.entities.SamTask.update(taskId, { status: 'failed', error: error.message })
         .catch(() => {});

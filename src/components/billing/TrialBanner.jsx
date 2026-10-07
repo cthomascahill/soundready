@@ -35,7 +35,7 @@ export default function TrialBanner() {
           <Clock className="h-4 w-4 text-primary shrink-0" />
           <span>
             <span className="font-semibold text-primary">Artist Pro free trial</span>
-            <span className="text-muted-foreground"> — {daysLeft} {daysLeft === 1 ? "day" : "days"} left. Your card is charged $37 on {chargeDate}.</span>
+            <span className="text-muted-foreground"> — {daysLeft} {daysLeft === 1 ? "day" : "days"} left. Your card is charged $39 on {chargeDate}.</span>
           </span>
         </div>
         <button

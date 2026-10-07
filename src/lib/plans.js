@@ -14,8 +14,8 @@ export const PRO_ITEMS = [
   "Gig Finder — 843+ venues ready to pitch",
   "Tour Planner, Tour Finance & Venue Contracts",
   "The Wall — the artist community",
-  "Team Chat & Career Roadmap",
-  "Weekly music briefings & Music News",
+  "Team Chat, Whiteboard & Studio",
+  "Music Academy & legal guides",
   "Genre Trends & Lyric Room",
   "Invoices, Revenue Splits & Royalty Dashboard",
   "Budget Tracker & full Analytics",
@@ -30,9 +30,19 @@ export const AI_ITEMS = [
   "Sam chat — advice backed by your real numbers",
   "Electronic press kit (EPK) creator",
   "Weekly career digest",
+  "Tell Sam, Sam's Desk, Deals & This Week",
+];
+
+export const BOOST_ITEMS = [
+  "Adds 200 extra Sam workload units to your balance",
+  "Never expires — extra units stay until you use them",
+  "Used only after your monthly included allowance",
+  "One-time payment — your subscription is unchanged",
 ];
 
 // Keyed by checkout URL slug. tierKey matches the Stripe checkout function's tier.
+// Founding prices ($59/mo, $569/yr) apply while the founding prices are active
+// in Stripe — deactivate them there to end the offer.
 export const PLANS = {
   free: {
     slug: "free",
@@ -57,10 +67,13 @@ export const PLANS = {
     bg: "bg-chart-5/10",
     border: "border-chart-5/20",
     tagline: "You and your team, finally in sync.",
-    price: "$37",
+    price: "$39",
     period: "/mo",
+    priceYearly: "$374",
+    periodYearly: "/yr",
     items: PRO_ITEMS,
-    note: "7-day free trial — card required, charged $37 automatically on day 7. Cancel before then, pay nothing.",
+    note: "7-day free trial — card required, charged $39 automatically on day 7. Cancel before then, pay nothing.",
+    noteYearly: "7-day free trial — card required, charged $374 automatically on day 7. Cancel before then, pay nothing.",
   },
   "ai-manager": {
     slug: "ai-manager",
@@ -71,9 +84,29 @@ export const PLANS = {
     bg: "bg-primary/10",
     border: "border-primary/30",
     tagline: "Your career, worked around the clock.",
-    price: "$60",
+    price: "$59",
+    strikePrice: "$79",
     period: "/mo",
+    priceYearly: "$569",
+    strikeYearly: "$699",
+    periodYearly: "/yr",
+    founding: true,
     items: AI_ITEMS,
-    note: "Everything in Artist Pro included. Cancel anytime. No percentage cuts — ever.",
+    note: "Founding artist price — locked for life while you stay subscribed. Everything in Artist Pro included. Cancel anytime. No percentage cuts — ever.",
+  },
+  "sam-extra-usage": {
+    slug: "sam-extra-usage",
+    name: "Sam Extra Usage",
+    tierKey: "sam_extra_usage",
+    icon: Zap,
+    color: "text-primary",
+    bg: "bg-primary/10",
+    border: "border-primary/30",
+    tagline: "A one-time boost when Sam's monthly research allowance runs low.",
+    price: "$12",
+    period: "",
+    checkoutLabel: "Add extra usage",
+    items: BOOST_ITEMS,
+    note: "One-time payment — not a subscription. Your plan and price are unchanged.",
   },
 };

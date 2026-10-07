@@ -1,5 +1,6 @@
 import { createClientFromRequest } from 'npm:@base44/sdk@0.8.52';
 import { secrets } from "base44:runtime";
+import { SAM_USAGE } from '../../shared/samUsage.ts';
 
 // Verifies the Stripe-Signature header (t=...,v1=...) against the raw payload.
 async function verifySignature(payload, sigHeader, secret) {
@@ -36,6 +37,26 @@ export default async function(req) {
 
     if (event.type === 'checkout.session.completed') {
       const session = event.data.object;
+
+      // One-time Sam extra usage pack — credit the artist's balance.
+      // Deduped on the Stripe session id so a replayed event never credits twice.
+      if (session.metadata?.usage_addon === 'sam_extra_usage') {
+        const userId = session.metadata?.user_id || session.client_reference_id;
+        if (!userId) throw new Error('usage addon checkout: no user_id in metadata');
+        const existing = await base44.asServiceRole.entities.SamUsageAddOn.filter({ stripe_session_id: session.id }, '', 1);
+        if (existing.length === 0) {
+          await base44.asServiceRole.entities.SamUsageAddOn.create({
+            user_id: userId,
+            units: SAM_USAGE.addOnUnits,
+            status: 'paid',
+            amount: (session.amount_total || 0) / 100,
+            stripe_session_id: session.id,
+            purchased_at: new Date().toISOString(),
+          });
+          console.log(`stripeWebhook: ${SAM_USAGE.addOnUnits} extra usage units credited to user ${userId}`);
+        }
+        return Response.json({ received: true });
+      }
 
       // One-time Beat Store purchase — record the sale, no subscription involved
       if (session.metadata?.beat_id) {

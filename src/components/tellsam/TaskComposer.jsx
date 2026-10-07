@@ -5,7 +5,10 @@ import { Textarea } from "@/components/ui/textarea";
 import { Input } from "@/components/ui/input";
 import SamLogo from "@/components/SamLogo";
 import VoiceButton from "@/components/VoiceButton";
-import { Paperclip, X, Loader2, Send, Upload } from "lucide-react";
+import UsageMeter from "@/components/tellsam/UsageMeter";
+import useSamUsage from "@/hooks/useSamUsage";
+import { Link } from "react-router-dom";
+import { Paperclip, X, Loader2, Send, Upload, Zap } from "lucide-react";
 
 const EXAMPLES = [
   "Book me a tour across New York City, Boston and Ohio — find the right venues and draft the booking emails.",
@@ -21,7 +24,9 @@ export default function TaskComposer({ user, onCreated }) {
   const [uploading, setUploading] = useState(false);
   const [working, setWorking] = useState(false);
   const [error, setError] = useState("");
+  const [notice, setNotice] = useState(null);
   const fileInput = useRef(null);
+  const { usage, loading: usageLoading, refresh: refreshUsage } = useSamUsage();
 
   const pickFiles = async (e) => {
     const picked = Array.from(e.target.files || []).slice(0, 5 - files.length);
@@ -46,9 +51,14 @@ export default function TaskComposer({ user, onCreated }) {
   const submit = async () => {
     const trimmed = prompt.trim();
     if (!trimmed || working) return;
+    if (usage?.paused) {
+      setNotice({ type: "paused", message: "You've used your full Sam research allowance this month. Add extra usage to keep going, or wait for it to reset next month." });
+      return;
+    }
     setWorking(true);
     setError("");
     let created = null;
+    let ran = false;
     try {
       created = await base44.entities.SamTask.create({
         user_id: user.id,
@@ -57,15 +67,25 @@ export default function TaskComposer({ user, onCreated }) {
         attachments: files,
         status: "working",
       });
-      await base44.functions.invoke("samTaskRun", { task_id: created.id });
-      setPrompt("");
-      setTargets("");
-      setFiles([]);
+      const res = await base44.functions.invoke("samTaskRun", { task_id: created.id });
+      const d = res.data || {};
+      if (d.usage_paused || d.target_cap) {
+        setNotice({ type: d.usage_paused ? "paused" : "cap", message: d.message || "Sam paused this task." });
+      } else {
+        ran = true;
+        setPrompt("");
+        setTargets("");
+        setFiles([]);
+        setNotice(d.usage_warning
+          ? { type: "warn", message: `Done — heads up, only ${d.usage_warning.remaining} workload units left in this month's Sam allowance.` }
+          : null);
+      }
     } catch (err) {
       setError(err.message || "Sam hit a snag — try again.");
     } finally {
       setWorking(false);
-      if (created) onCreated(created.id);
+      refreshUsage();
+      if (created && ran) onCreated(created.id);
     }
   };
 
@@ -161,6 +181,23 @@ export default function TaskComposer({ user, onCreated }) {
         </p>
       )}
       {error && !working && <p className="px-5 pb-4 -mt-1 text-xs text-red-400">{error}</p>}
+
+      {notice && !working && (
+        <div className={`mx-5 mb-4 rounded-xl border px-4 py-3 space-y-2.5 ${notice.type === "paused" ? "border-red-500/30 bg-red-500/5" : notice.type === "warn" ? "border-yellow-500/30 bg-yellow-500/5" : "border-primary/30 bg-primary/5"}`}>
+          <p className={`text-xs leading-relaxed ${notice.type === "paused" ? "text-red-400" : notice.type === "warn" ? "text-yellow-400" : "text-foreground"}`}>
+            {notice.message}
+          </p>
+          {(notice.type === "paused" || notice.type === "cap") && (
+            <Link to="/checkout/sam-extra-usage">
+              <Button size="sm" className="h-7 text-[11px] gap-1.5">
+                <Zap className="h-3 w-3" /> Add extra usage — $12
+              </Button>
+            </Link>
+          )}
+        </div>
+      )}
+
+      <UsageMeter state={usage} loading={usageLoading} />
     </div>
   );
 }

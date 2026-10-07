@@ -12,7 +12,7 @@ const UNLOCKS = [
   "Tour Planner, Tour Finance & Venue Contracts",
   "The Wall — the artist community",
   "Team Chat + shared Whiteboard",
-  "Career Roadmap & weekly music news",
+  "Genre Trends, Lyric Room & Studio",
   "Beat Pipeline & Artist Match — producer tools",
 ];
 
@@ -74,7 +74,7 @@ export default function ProGate({ children, feature }) {
             Start Pro
           </CheckoutButton>
           <p className="text-center text-xs text-muted-foreground">
-            Card required — charged $37 automatically after 7 days. Cancel before then, pay nothing.
+            Card required — charged $39 automatically after 7 days. Cancel before then, pay nothing.
           </p>
           <p className="text-center">
             <Link to="/pricing-account" className="text-xs text-muted-foreground hover:text-foreground transition-colors inline-flex items-center gap-1">

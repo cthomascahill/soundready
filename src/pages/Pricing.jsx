@@ -11,6 +11,7 @@ import { getTier, trialDaysLeft } from "@/lib/tier";
 import PublicNav from "@/components/public/PublicNav";
 import SEO from "@/components/SEO";
 import ManagerCostSlider from "@/components/home/ManagerCostSlider";
+import BillingToggle from "@/components/billing/BillingToggle";
 import { FREE_ITEMS, PRO_ITEMS, AI_ITEMS } from "@/lib/plans";
 
 
@@ -29,11 +30,11 @@ const TierItems = ({ items, check = "text-primary" }) => (
 const FAQ = [
   {
     q: "How does the 7-day free trial work?",
-    a: "Start Artist Pro with your card on file and use everything free for 7 days. Your card is automatically charged $37 on day 7 — cancel anytime before then and you pay nothing. Cancel after that and you keep access until the end of your billing period.",
+    a: "Start Artist Pro with your card on file and use everything free for 7 days. Your card is automatically charged $39 on day 7 (or $374 yearly) — cancel anytime before then and you pay nothing. Cancel after that and you keep access until the end of your billing period.",
   },
   {
     q: "Does SoundReady take a percentage of my income?",
-    a: "Never. A traditional manager takes 15–20% of everything you earn, forever. Sam is $60 flat — and you keep 100% of your earnings, always.",
+    a: "Never. A traditional manager takes 15–20% of everything you earn, forever. Sam is $59/mo flat for founding artists ($79/mo after) — and you keep 100% of your earnings, always.",
   },
   {
     q: "What exactly does Sam do?",
@@ -60,6 +61,7 @@ export default function Pricing() {
   const checkoutStatus = searchParams.get("checkout");
   const [canceling, setCanceling] = useState(false);
   const [planMsg, setPlanMsg] = useState("");
+  const [billing, setBilling] = useState("monthly");
 
   useEffect(() => {
     if (checkoutStatus === "success") checkAppState();
@@ -90,7 +92,7 @@ export default function Pricing() {
     <div className="min-h-screen bg-background font-body">
       <SEO
         title="Pricing — SoundReady"
-        description="Start free forever. Artist Pro unlocks the full toolkit for $37/mo with a 7-day free trial. AI Manager adds Sam — your AI manager — for $60/mo flat. No percentage cuts, ever."
+        description="Start free forever. Artist Pro unlocks the full toolkit for $39/mo or $374/yr with a 7-day free trial. AI Manager adds Sam — your AI manager — for $59/mo founding ($79/mo regular). No percentage cuts, ever."
       />
 
       <PublicNav />
@@ -106,7 +108,7 @@ export default function Pricing() {
           </motion.div>
           <h1 className="font-heading text-5xl sm:text-7xl font-black tracking-tight leading-[0.95]">
             Meet Sam.<br />
-            <span className="text-primary">Your AI manager — $60 flat.</span>
+            <span className="text-primary">Your AI manager — $59/mo, founding price.</span>
           </h1>
           <p className="text-lg sm:text-xl text-muted-foreground leading-relaxed max-w-2xl mx-auto">
             Sam outbounds for you every week — playlist pitches, tour support, sync opportunities — drafted from your real numbers, and nothing sends without your approval. Your Vault, Tracker and the full toolkit come with it. Start free and grow in.
@@ -171,6 +173,11 @@ export default function Pricing() {
             </div>
           )}
 
+          <div className="space-y-3 text-center">
+            <BillingToggle value={billing} onChange={setBilling} yearlyNote="2 mo free" />
+            <p className="text-xs text-primary font-semibold">Founding artist pricing — the first few hundred artists lock these prices in for life.</p>
+          </div>
+
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-5">
             {/* FREE */}
             <motion.div initial={{ opacity: 0, y: 24 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}
@@ -206,7 +213,9 @@ export default function Pricing() {
               </div>
               <p className="font-heading font-black text-2xl">Artist Pro</p>
               <p className="text-sm font-semibold mt-0.5 mb-2 text-chart-5">You and your team, finally in sync.</p>
-              <p className="text-2xl font-black mb-3">$37<span className="text-sm text-muted-foreground font-medium">/mo</span></p>
+              <p className="text-2xl font-black mb-3">
+                {billing === "yearly" ? "$374" : "$39"}<span className="text-sm text-muted-foreground font-medium">{billing === "yearly" ? "/yr" : "/mo"}</span>
+              </p>
               <p className="text-sm text-muted-foreground leading-relaxed mb-5">
                 Every tool unlocked, plus your whole team in one workspace. Your manager, engineer and collaborators work from the same songs, same strategy, same plan. No missed emails, no dropped balls. 7 days free.
               </p>
@@ -218,7 +227,7 @@ export default function Pricing() {
                   <Button className="w-full font-semibold bg-chart-5 hover:bg-chart-5/90 text-black">Start Pro</Button>
                 </Link>
               </div>
-              <p className="text-center text-xs text-muted-foreground mt-2">Card required — charged $37 automatically after 7 days. Cancel before then, pay nothing.</p>
+              <p className="text-center text-xs text-muted-foreground mt-2">Card required — charged {billing === "yearly" ? "$374" : "$39"} automatically after 7 days. Cancel before then, pay nothing.</p>
             </motion.div>
 
             {/* AI MANAGER */}
@@ -243,9 +252,13 @@ export default function Pricing() {
               </div>
               <p className="font-heading font-black text-2xl">AI Manager</p>
               <p className="text-sm font-semibold mt-0.5 mb-2 text-primary">Your career, worked around the clock.</p>
-              <p className="text-2xl font-black mb-3">$60<span className="text-sm text-muted-foreground font-medium">/mo</span></p>
+              <div className="mb-3 flex items-baseline gap-2 flex-wrap">
+                <span className="text-base text-muted-foreground line-through font-semibold">{billing === "yearly" ? "$699" : "$79"}</span>
+                <p className="text-2xl font-black">{billing === "yearly" ? "$569" : "$59"}<span className="text-sm text-muted-foreground font-medium">{billing === "yearly" ? "/yr" : "/mo"}</span></p>
+                <span className="px-2 py-0.5 rounded-full bg-primary/15 text-primary text-[10px] font-bold uppercase tracking-wide">Founding</span>
+              </div>
               <p className="text-sm text-muted-foreground leading-relaxed mb-5">
-                Sam outbounds for you every week — playlist pitches, tour support, sync opportunities — drafted from your real numbers, and nothing sends without your approval. A traditional manager takes 15–20% of everything you earn. Sam is $60 flat, full-time.
+                Sam outbounds for you every week — playlist pitches, tour support, sync opportunities — drafted from your real numbers, and nothing sends without your approval. A traditional manager takes 15–20% of everything you earn. Sam is $59/mo flat for founding artists — $79/mo after.
               </p>
               <div className="flex-1">
                 <p className="font-heading text-lg font-black tracking-tight mb-2">Everything in Artist Pro.</p>
@@ -256,7 +269,7 @@ export default function Pricing() {
                   <Button className="w-full font-semibold gap-2"><Sparkles className="h-4 w-4" /> Start AI Manager</Button>
                 </Link>
               </div>
-              <p className="text-center text-xs text-muted-foreground mt-2">Cancel anytime. No percentage cuts — ever.</p>
+              <p className="text-center text-xs text-muted-foreground mt-2">Founding price locked for life while you stay subscribed. Cancel anytime. No percentage cuts — ever.</p>
             </motion.div>
           </div>
         </div>
@@ -275,7 +288,7 @@ export default function Pricing() {
                 <p className="text-xs text-muted-foreground">What a traditional manager takes — of everything, forever</p>
               </div>
               <div className="rounded-xl bg-primary/10 border border-primary/20 p-4 space-y-1">
-                <p className="font-heading text-2xl font-black text-primary">$60 flat</p>
+                <p className="font-heading text-2xl font-black text-primary">$59 flat</p>
                 <p className="text-xs text-muted-foreground">Sam — full-time work, zero cuts</p>
               </div>
             </div>

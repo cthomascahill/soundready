@@ -8,7 +8,7 @@ import { Loader2 } from "lucide-react";
  * Works inside the builder preview (opens a new tab) and on the published
  * app (navigates the current page).
  */
-export default function CheckoutButton({ tier, children, className = "", disabled = false }) {
+export default function CheckoutButton({ tier, interval, children, className = "", disabled = false }) {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
 
@@ -32,8 +32,9 @@ export default function CheckoutButton({ tier, children, className = "", disable
       try { appUrl = window.top.location.origin; } catch (e) { /* cross-origin iframe */ }
 
       const res = await base44.functions.invoke("stripeCheckout", {
-        action: "create_checkout",
+        action: tier === "sam_extra_usage" ? "create_usage_checkout" : "create_checkout",
         tier,
+        interval,
         app_url: appUrl,
       });
       const url = res.data?.url;
