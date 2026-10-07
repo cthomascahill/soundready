@@ -4,7 +4,7 @@ import { isProOrAbove } from "@/lib/tier";
 import { Lock } from "lucide-react";
 import { useLang } from "@/lib/i18n/LanguageContext";
 import {
-  Home, Music2, Users, ListChecks, LayoutGrid,
+  Home, Music2, Users, ListChecks, LayoutGrid, FolderOpen,
   Map, Newspaper, CreditCard, UserCircle,
   Route, Mic, Building2, Bot, Sparkles, Handshake, Wand2,
 } from "lucide-react";
@@ -16,6 +16,7 @@ const NAV_SECTIONS = (isAdmin) => [
     items: [
       { to: "/", icon: Home, label: "Home" },
       { to: "/tools", icon: LayoutGrid, label: "Tool Library" },
+      { to: "/storage", icon: FolderOpen, label: "Storage" },
       ...(isAdmin ? [{ to: "/buyout-leads", icon: Building2, label: "Buyout Leads" }] : []),
     ],
   },

@@ -51,6 +51,7 @@ import MusicNews from './pages/MusicNews';
 import IndustryIntel from './pages/IndustryIntel';
 import Deals from './pages/Deals';
 import TellSam from './pages/TellSam';
+import Storage from './pages/Storage';
 
 import MusicAcademy from './pages/MusicAcademy';
 import Legal from './pages/Legal';
@@ -122,6 +123,7 @@ const AuthenticatedApp = () => {
         <Route path="/" element={<Navigate to="/history" replace />} />
         <Route path="/dashboard" element={<Navigate to="/history" replace />} />
         <Route path="/tools" element={<ToolLibrary />} />
+        <Route path="/storage" element={<Storage />} />
         <Route path="/release-plan" element={<ReleasePlanInput />} />
         <Route path="/results" element={<Results />} /> 
         <Route path="/history" element={<SongLibrary />} />

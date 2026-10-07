@@ -18,6 +18,12 @@ export default function TellSam() {
   const [loading, setLoading] = useState(true);
   const [selectedId, setSelectedId] = useState(null);
 
+  // Deep-link from Storage — /tell-sam?task=<id> opens that task directly
+  useEffect(() => {
+    const taskId = new URLSearchParams(window.location.search).get("task");
+    if (taskId) setSelectedId(taskId);
+  }, []);
+
   const refresh = useCallback(async () => {
     if (!user?.id) return;
     const list = await base44.entities.SamTask.filter({ user_id: user.id }, "-created_date", 30).catch(() => []);
@@ -83,7 +89,7 @@ export default function TellSam() {
 
         {selected ? (
           <motion.div initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} className="space-y-5">
-            <button onClick={() => setSelectedId(null)}
+            <button onClick={() => { setSelectedId(null); try { window.history.replaceState(null, "", "/tell-sam"); } catch {} }}
               className="inline-flex items-center gap-1.5 text-sm text-muted-foreground hover:text-foreground transition-colors">
               <ChevronLeft className="h-4 w-4" /> All tasks
             </button>
