@@ -88,7 +88,7 @@ export default function MayaDesk() {
     const found = res.data?.found ?? res.data?.opportunities_found ?? 0;
     setSearchNote(found > 0
       ? `Sam found ${found} new ${found === 1 ? "opportunity" : "opportunities"} — filed to your queue below.`
-      : "Sam searched but found nothing new right now. They also sweep weekly on their own.");
+      : "Sam searched but found nothing new right now. Sam also sweeps weekly automatically.");
   };
 
   useEffect(() => {

@@ -70,7 +70,7 @@ export default function GrowthComparisonChart() {
                 fontSize: "12px",
               }}
               labelStyle={{ color: "hsl(var(--foreground))", fontWeight: 700 }}
-              formatter={(value, name) => [`${value}% ${t("growth")}`, name === "with" ? t("With SoundReady") : t("Going it alone")]}
+              formatter={(value, name) => [`${value}% ${t("growth")}`, name === "with" ? t("With SoundReady") : t("Doing it alone")]}
             />
             <Legend
               formatter={(value) => (

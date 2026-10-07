@@ -42,7 +42,7 @@ const FAQ = [
   },
   {
     q: "I'm a producer. Is SoundReady for me?",
-    a: "Yes. Every account has both an artist side and a producer side. Producers get the Productions, the Beat Pipeline from idea to placement, a placement and credits tracker, and Artist Match, which ranks artists on the platform whose sound fits your beats. On AI Manager, Sam even drafts the pitch emails for you.",
+    a: "Yes. Every account has both an artist side and a producer side. Producers get the Beat Pipeline from idea to placement, plus a placement and credits tracker and Artist Match, which ranks artists on the platform whose sound fits your beats. On AI Manager, Sam even drafts the pitch emails for you.",
   },
   {
     q: "Can I cancel anytime?",
