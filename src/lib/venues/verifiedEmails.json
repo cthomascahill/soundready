@@ -573,5 +573,250 @@
   "email": "booking@wowhall.org",
   "kind": "verified",
   "source": "https://www.wowhall.org/booking"
+ },
+ "eTown Hall|Boulder, CO": {
+  "email": "info@etown.org",
+  "kind": "verified",
+  "source": "https://www.etown.org"
+ },
+ "Cafe Nine|New Haven, CT": {
+  "email": "cafeninebooking@gmail.com",
+  "kind": "verified",
+  "source": "https://www.cafenine.com"
+ },
+ "The Klein Memorial Auditorium|Bridgeport, CT": {
+  "email": "jeanette@theklein.org",
+  "kind": "verified",
+  "source": "https://www.theklein.org"
+ },
+ "Rusty Rudder|Dewey Beach, DE": {
+  "email": "megginholtzclaw@hotmail.com",
+  "kind": "verified",
+  "source": "https://www.rustyrudder.com"
+ },
+ "Black Sheep|Colorado Springs, CO": {
+  "email": "info@ndiscovered.com",
+  "kind": "verified",
+  "source": "https://www.blacksheephq.com"
+ },
+ "Stargazers Theatre|Colorado Springs, CO": {
+  "email": "booking@stargazerstheatre.com",
+  "kind": "verified",
+  "source": "https://www.stargazerstheatre.com/contact"
+ },
+ "Churchill's Pub|Miami, FL": {
+  "email": "booking@churchillspub.com",
+  "kind": "verified",
+  "source": "https://www.churchillspub.com"
+ },
+ "Caledonia Lounge|Athens, GA": {
+  "email": "booking@caledonialounge.com",
+  "kind": "verified",
+  "source": "https://www.caledonialounge.com"
+ },
+ "SPACE|Evanston, IL": {
+  "email": "info@evanstonspace.com",
+  "kind": "verified",
+  "source": "https://www.evanstonspace.com"
+ },
+ "Ball & Chain|Miami, FL": {
+  "email": "info@ballandchainmiami.com",
+  "kind": "verified",
+  "source": "https://www.ballandchainmiami.com"
+ },
+ "John's Alley Tavern|Moscow, ID": {
+  "email": "hello@brand.com",
+  "kind": "verified",
+  "source": "https://www.johnsalley.com"
+ },
+ "The Madison Theater|Covington, KY": {
+  "email": "info@madisontheater.com",
+  "kind": "verified",
+  "source": "https://www.madisontheater.com/contact"
+ },
+ "Siberia|New Orleans, LA": {
+  "email": "booking@siberianola.com",
+  "kind": "verified",
+  "source": "https://www.siberianola.com"
+ },
+ "The Blue Moon Saloon|Lafayette, LA": {
+  "email": "bandbooking@bluemoonpresents.com",
+  "kind": "verified",
+  "source": "https://www.bluemoonpresents.com/contact"
+ },
+ "The Canopy Club|Urbana, IL": {
+  "email": "info@canopyclub.com",
+  "kind": "verified",
+  "source": "https://www.canopyclub.com/contact"
+ },
+ "Proud Larry's|Oxford, MS": {
+  "email": "info@proudlarrys.com",
+  "kind": "verified",
+  "source": "https://www.proudlarrys.com"
+ },
+ "Sacred Heart Music Center|Duluth, MN": {
+  "email": "hello@sacredheartmusic.org",
+  "kind": "verified",
+  "source": "https://www.sacredheartmusic.org"
+ },
+ "The Palladium|Worcester, MA": {
+  "email": "info@thepalladium.net",
+  "kind": "verified",
+  "source": "https://www.thepalladium.net/contact"
+ },
+ "The Saint|Reno, NV": {
+  "email": "admin@thesaintreno.com",
+  "kind": "verified",
+  "source": "https://www.thesaintreno.com"
+ },
+ "Anchor Rock Club|Atlantic City, NJ": {
+  "email": "info@anchorrockclub.com",
+  "kind": "verified",
+  "source": "https://www.anchorrockclub.com/contact"
+ },
+ "The Blue Note|Columbia, MO": {
+  "email": "info@thebluenote.com",
+  "kind": "verified",
+  "source": "https://www.thebluenote.com"
+ },
+ "Rose Music Hall|Columbia, MO": {
+  "email": "info@thebluenote.com",
+  "kind": "verified",
+  "source": "https://www.rosemusichall.com"
+ },
+ "The Press Room|Portsmouth, NH": {
+  "email": "info@pressroomnh.com",
+  "kind": "verified",
+  "source": "https://www.pressroomnh.com"
+ },
+ "The Lost Horizon|Syracuse, NY": {
+  "email": "info@losthorizonlive.com",
+  "kind": "verified",
+  "source": "https://www.losthorizonlive.com"
+ },
+ "The Lensic Performing Arts Center|Santa Fe, NM": {
+  "email": "info@lensic.org",
+  "kind": "verified",
+  "source": "https://www.lensic.org"
+ },
+ "Replay Lounge|Lawrence, KS": {
+  "email": "replaybooking@gmail.com",
+  "kind": "verified",
+  "source": "https://www.replaylounge.com/contact"
+ },
+ "The Stone Pony|Asbury Park, NJ": {
+  "email": "booking@stoneponyonline.com",
+  "kind": "verified",
+  "source": "https://www.stoneponyonline.com/booking"
+ },
+ "The Hollow Bar + Kitchen|Albany, NY": {
+  "email": "dp@thehollowalbany.com",
+  "kind": "verified",
+  "source": "https://www.thehollowalbany.com"
+ },
+ "The Blind Tiger|Greensboro, NC": {
+  "email": "info.hangar1819@gmail.com",
+  "kind": "verified",
+  "source": "https://www.theblindtiger.com"
+ },
+ "Cain's Ballroom|Tulsa, OK": {
+  "email": "info@cainsballroom.com",
+  "kind": "verified",
+  "source": "https://www.cainsballroom.com"
+ },
+ "The Vanguard|Tulsa, OK": {
+  "email": "info@thevanguardtulsa.com",
+  "kind": "verified",
+  "source": "https://www.thevanguardtulsa.com/contact"
+ },
+ "The Tower Theatre|Oklahoma City, OK": {
+  "email": "privateevents@towertheatreokc.com",
+  "kind": "verified",
+  "source": "https://www.towertheatreokc.com/contact"
+ },
+ "The Ramkat|Winston-Salem, NC": {
+  "email": "info@theramkat.com",
+  "kind": "verified",
+  "source": "https://www.theramkat.com"
+ },
+ "Bob's Java Jive|Tacoma, WA": {
+  "email": "owner@bobsjavajive.com",
+  "kind": "verified",
+  "source": "https://www.bobsjavajive.com"
+ },
+ "Bearsville Theater|Woodstock, NY": {
+  "email": "info@bearsvilletheater.com",
+  "kind": "verified",
+  "source": "https://www.bearsvilletheater.com/about"
+ },
+ "The Domino Room|Bend, OR": {
+  "email": "jim@midtownballroom.com",
+  "kind": "verified",
+  "source": "https://www.dominoroom.com"
+ },
+ "New Brookland Tavern|West Columbia, SC": {
+  "email": "booking@newbrooklandtavern.com",
+  "kind": "verified",
+  "source": "https://www.newbrooklandtavern.com/contact"
+ },
+ "The Signal|Chattanooga, TN": {
+  "email": "info@thesignaltn.com",
+  "kind": "verified",
+  "source": "https://www.thesignaltn.com"
+ },
+ "Tin Roof|Columbia, SC": {
+  "email": "infocolumbia@tinroofbars.com",
+  "kind": "verified",
+  "source": "https://www.tinroofcolumbia.com"
+ },
+ "The Wild Buffalo|Bellingham, WA": {
+  "email": "wb.booking@gmail.com",
+  "kind": "verified",
+  "source": "https://www.wildbuffalo.net/contact"
+ },
+ "The Mill & Mine|Knoxville, TN": {
+  "email": "info@themillandmine.com",
+  "kind": "verified",
+  "source": "https://www.themillandmine.com"
+ },
+ "The Bijou Theatre|Knoxville, TN": {
+  "email": "info@knoxbijou.org",
+  "kind": "verified",
+  "source": "https://www.knoxbijou.com"
+ },
+ "The Blue Light Live|Lubbock, TX": {
+  "email": "blbooking@thebluelightlive.com",
+  "kind": "verified",
+  "source": "https://www.thebluelightlive.com"
+ },
+ "The Empty Glass|Charleston, WV": {
+  "email": "seeyou@theemptyglass.com",
+  "kind": "verified",
+  "source": "https://www.theemptyglass.com"
+ },
+ "Godfrey Daniels|Bethlehem, PA": {
+  "email": "info@godfreydaniels.org",
+  "kind": "verified",
+  "source": "https://www.godfreydaniels.org/contact"
+ },
+ "The Lincoln|Cheyenne, WY": {
+  "email": "thelincolncheyenne@gmail.com",
+  "kind": "verified",
+  "source": "https://www.thelincolncheyenne.com"
+ },
+ "Dan's Silverleaf|Denton, TX": {
+  "email": "booking@danssilverleaf.com",
+  "kind": "verified",
+  "source": "https://www.danssilverleaf.com/contact"
+ },
+ "The Grand 1894 Opera House|Galveston, TX": {
+  "email": "tickets@thegrand.com",
+  "kind": "verified",
+  "source": "https://www.thegrand.com"
+ },
+ "Velour Live Music Gallery|Provo, UT": {
+  "email": "booking@velourlive.com",
+  "kind": "verified",
+  "source": "https://www.velourlive.com/contact"
  }
 }
