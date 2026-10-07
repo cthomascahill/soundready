@@ -819,9 +819,34 @@
   "kind": "verified",
   "source": "https://www.velourlive.com/contact"
  },
- "The Bomb Factory|Dallas, TX": {
-  "email": "contact@thebombfactory.com",
+ "El Club|Detroit, MI": {
+  "email": "info@elclubdetroit.com",
   "kind": "verified",
-  "source": "https://www.thebombfactory.com/contact-us"
+  "source": "https://www.elclubdetroit.com/about"
+ },
+ "The Southern Cafe and Music Hall|Charlottesville, VA": {
+  "email": "bookings@thesoutherncville.com",
+  "kind": "verified",
+  "source": "https://www.thesoutherncville.com/contact-us"
+ },
+ "The Jefferson Theater|Charlottesville, VA": {
+  "email": "booking@jeffersontheater.com",
+  "kind": "verified",
+  "source": "https://www.jeffersontheater.com/contact-us"
+ },
+ "The Back Room at Colectivo|Milwaukee, WI": {
+  "email": "info@colectivocoffee.com",
+  "kind": "verified",
+  "source": "https://www.colectivocoffee.com/pages/contact"
+ },
+ "Rams Head On Stage|Annapolis, MD": {
+  "email": "booking@ramsheadgroup.com",
+  "kind": "verified",
+  "source": "https://www.ramsheadonstage.com/pages/contact"
+ },
+ "Alex's Bar|Long Beach, CA": {
+  "email": "info@alexsbar.com",
+  "kind": "verified",
+  "source": "https://www.alexsbar.com/contact-us"
  }
 }

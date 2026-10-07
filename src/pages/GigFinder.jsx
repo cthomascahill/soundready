@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { base44 } from "@/api/base44Client";
 import { motion } from "framer-motion";
-import { MapPin, Music, DollarSign, Calendar, Send, Check, ExternalLink, Search, Star, ChevronDown, ChevronUp } from "lucide-react";
+import { MapPin, Music, DollarSign, Calendar, Send, Check, ExternalLink, Search, Star, ChevronDown, ChevronUp, BadgeCheck } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { EXPANDED_VENUE_DB } from "@/lib/venueDatabase";
@@ -14,6 +14,7 @@ import { NORTHEAST_VENUES_2 } from "@/lib/venues/northeast2";
 import { SOUTH_VENUES_2 } from "@/lib/venues/south2";
 import { MIDWEST_VENUES_2 } from "@/lib/venues/midwest2";
 import { WEST_VENUES_2 } from "@/lib/venues/west2";
+import verifiedEmails from "@/lib/venues/verifiedEmails.json";
 
 const VENUE_DB = [
   // New York, NY
