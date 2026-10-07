@@ -4,6 +4,8 @@ import { QueryClientProvider } from '@tanstack/react-query'
 import { queryClientInstance } from '@/lib/query-client'
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import PageNotFound from './lib/PageNotFound';
+import Privacy from './pages/Privacy';
+import Terms from './pages/Terms';
 import { AuthProvider, useAuth } from '@/lib/AuthContext';
 import { LanguageProvider } from '@/lib/i18n/LanguageContext';
 import Login from './pages/Login';
@@ -115,6 +117,8 @@ const AuthenticatedApp = () => {
       {/* Public marketing pages */}
       <Route path="/" element={<About />} />
       <Route path="/pricing" element={<Pricing />} />
+      <Route path="/privacy" element={<Privacy />} />
+      <Route path="/terms" element={<Terms />} />
       <Route path="/checkout/:plan" element={<Checkout />} />
       <Route path="/store/:producerId" element={<Storefront />} />
       <Route path="/store/download" element={<StoreDownload />} />

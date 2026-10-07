@@ -9,6 +9,7 @@ import { base44 } from "@/api/base44Client";
 import { useAuth } from "@/lib/AuthContext";
 import { getTier, trialDaysLeft } from "@/lib/tier";
 import PublicNav from "@/components/public/PublicNav";
+import PublicFooter from "@/components/public/PublicFooter";
 import SEO from "@/components/SEO";
 import ManagerCostSlider from "@/components/home/ManagerCostSlider";
 import BillingToggle from "@/components/billing/BillingToggle";
@@ -331,6 +332,8 @@ export default function Pricing() {
           <p className="text-xs text-muted-foreground">No contracts. No percentage cuts. Cancel anytime.</p>
         </motion.div>
       </section>
+
+      <PublicFooter />
     </div>
   );
 }

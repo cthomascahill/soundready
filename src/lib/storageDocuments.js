@@ -146,5 +146,16 @@ export function buildDocuments(data) {
     sourceLabel: "Contracts",
   }));
 
+  (data.epks || []).forEach(k => push({
+    id: `epk-${k.id}`,
+    category: "press",
+    title: `Electronic Press Kit for ${k.artist_name || "you"}`,
+    subtitle: clip(k.tagline || k.one_liner || k.bio),
+    status: k.active === false ? "Replaced" : "Current",
+    date: k.created_date,
+    link: "/pitch-deck",
+    sourceLabel: "EPK Builder",
+  }));
+
   return docs.sort((a, b) => new Date(b.date || 0) - new Date(a.date || 0));
 }
