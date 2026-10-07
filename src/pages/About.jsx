@@ -305,8 +305,7 @@ export default function About() {
         <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="max-w-2xl mx-auto space-y-8">
           <div className="space-y-4">
             <h2 className="font-heading text-5xl sm:text-6xl font-black">
-              {t("Your next release could be your biggest.")}<br />
-              <span className="text-primary">{t("SoundReady makes sure of it.")}</span>
+              {t("Your biggest release ")}<span className="text-primary">{t("is next.")}</span>
             </h2>
           </div>
           <Button size="lg" className="gap-2 font-heading font-bold text-base px-10 h-13" onClick={handleCTA}>

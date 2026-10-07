@@ -322,8 +322,7 @@ export default function Pricing() {
       <section className="px-4 py-28 border-t border-border text-center bg-gradient-to-t from-primary/8 via-background to-background">
         <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="max-w-2xl mx-auto space-y-8">
           <h2 className="font-heading text-4xl sm:text-5xl font-black leading-[0.95]">
-            Your next release could be your biggest.<br />
-            <span className="text-primary">SoundReady makes sure of it.</span>
+            Your biggest release <span className="text-primary">is next.</span>
           </h2>
           <p className="text-muted-foreground">Start free today. Upgrade when you're ready. The work is already done for you.</p>
           {isAuth ? (
