@@ -1,0 +1,72 @@
+{
+  "name": "SamTaskDraft",
+  "type": "object",
+  "properties": {
+    "task_id": {
+      "type": "string",
+      "description": "SamTask this draft belongs to"
+    },
+    "user_id": {
+      "type": "string",
+      "description": "User this draft belongs to"
+    },
+    "target_name": {
+      "type": "string",
+      "description": "Venue, label, distributor or company this draft is aimed at"
+    },
+    "target_email": {
+      "type": "string",
+      "description": "Publicly verifiable contact email Sam found; empty when none is verifiable"
+    },
+    "source_url": {
+      "type": "string",
+      "description": "Booking/submissions page or web page Sam found the contact on"
+    },
+    "why_fit": {
+      "type": "string",
+      "description": "Why Sam thinks this target fits the artist"
+    },
+    "draft": {
+      "type": "string",
+      "description": "Personalized outreach draft starting with a Subject: line"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "draft",
+        "approved",
+        "sent",
+        "dismissed"
+      ],
+      "default": "draft",
+      "description": "draft = awaiting the artist's review, approved = artist took it on / cleared it, sent = Sam emailed it out after approval, dismissed = rejected"
+    },
+    "sent_at": {
+      "type": "string",
+      "description": "ISO timestamp when the approved draft was emailed"
+    },
+    "outcome_note": {
+      "type": "string",
+      "description": "What happened after the outreach, noted by the artist"
+    }
+  },
+  "required": [
+    "task_id",
+    "target_name",
+    "draft"
+  ],
+  "rls": {
+    "read": {
+      "created_by_id": "{{user.id}}"
+    },
+    "create": {
+      "created_by_id": "{{user.id}}"
+    },
+    "update": {
+      "created_by_id": "{{user.id}}"
+    },
+    "delete": {
+      "created_by_id": "{{user.id}}"
+    }
+  }
+}

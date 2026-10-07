@@ -1,0 +1,139 @@
+{
+  "name": "SamTask",
+  "type": "object",
+  "properties": {
+    "user_id": {
+      "type": "string",
+      "description": "User this task belongs to"
+    },
+    "prompt": {
+      "type": "string",
+      "description": "The task the artist gave Sam, in their own words"
+    },
+    "targets": {
+      "type": "string",
+      "description": "Named companies, venues, places or people to focus on"
+    },
+    "task_type": {
+      "type": "string",
+      "enum": [
+        "analysis",
+        "outreach",
+        "both"
+      ],
+      "description": "What kind of work Sam decided the task needs"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "working",
+        "complete",
+        "failed"
+      ],
+      "default": "working"
+    },
+    "attachments": {
+      "type": "array",
+      "description": "Files the artist attached (streaming reports, songs, etc.)",
+      "items": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "Original file name"
+          },
+          "file_uri": {
+            "type": "string",
+            "description": "Private storage URI from UploadPrivateFile"
+          }
+        },
+        "required": [
+          "name",
+          "file_uri"
+        ]
+      }
+    },
+    "result": {
+      "type": "object",
+      "description": "Sam's answer to the task",
+      "properties": {
+        "summary": {
+          "type": "string",
+          "description": "One-paragraph answer to the task"
+        },
+        "sections": {
+          "type": "array",
+          "description": "Detail sections: findings, numbers, venue lists, estimates",
+          "items": {
+            "type": "object",
+            "properties": {
+              "heading": {
+                "type": "string"
+              },
+              "body": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "heading",
+              "body"
+            ]
+          }
+        },
+        "assumptions": {
+          "type": "array",
+          "description": "Estimates and assumptions behind the numbers",
+          "items": {
+            "type": "string"
+          }
+        },
+        "sources": {
+          "type": "array",
+          "description": "Web pages Sam used",
+          "items": {
+            "type": "object",
+            "properties": {
+              "title": {
+                "type": "string"
+              },
+              "url": {
+                "type": "string"
+              }
+            }
+          }
+        },
+        "follow_up": {
+          "type": "string",
+          "description": "What Sam suggests doing next"
+        }
+      }
+    },
+    "drafts_created": {
+      "type": "number",
+      "default": 0,
+      "description": "How many outreach drafts Sam filed for this task"
+    },
+    "error": {
+      "type": "string",
+      "description": "Why the task failed, when status is failed"
+    }
+  },
+  "required": [
+    "user_id",
+    "prompt"
+  ],
+  "rls": {
+    "read": {
+      "created_by_id": "{{user.id}}"
+    },
+    "create": {
+      "created_by_id": "{{user.id}}"
+    },
+    "update": {
+      "created_by_id": "{{user.id}}"
+    },
+    "delete": {
+      "created_by_id": "{{user.id}}"
+    }
+  }
+}
