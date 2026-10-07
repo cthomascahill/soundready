@@ -6,6 +6,7 @@ import { Input } from "@/components/ui/input";
 import { resolvePlayableAudioUrl } from "@/lib/audioPlayback";
 import { awardPoints } from "@/lib/awardPoints";
 import ReleasePlanDialog from "@/components/vault/ReleasePlanDialog";
+import DemoLinkCard from "@/components/vault/DemoLinkCard";
 
 const GENRES = ["Hip-Hop", "R&B", "Pop", "Trap", "Drill", "Afrobeats", "Gospel", "Country", "Rock", "Electronic", "Jazz", "Soul", "Alternative", "Other"];
 const MOODS = ["Dark", "Uplifting", "Chill", "Aggressive", "Romantic", "Melancholic", "Party", "Introspective", "Hype", "Spiritual", "Nostalgic", "Cinematic"];
@@ -187,6 +188,9 @@ export default function SongCardModal({ song, onClose, onSave, projects = [] }) 
             )}
             <input ref={fileInputRef} type="file" accept="audio/*" className="hidden" onChange={e => handleAudioFile(e.target.files[0])} />
           </div>
+
+          {/* Private demo link — shareable listen link, no account needed */}
+          {!isNew && <DemoLinkCard song={song} />}
 
           {/* Cover Artwork */}
           <div>

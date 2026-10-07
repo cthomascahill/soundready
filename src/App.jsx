@@ -80,6 +80,7 @@ import ProducerContracts from './pages/ProducerContracts';
 import Storefront from './pages/Storefront';
 import StoreDownload from './pages/StoreDownload';
 import SignContract from './pages/SignContract';
+import DemoPlayer from './pages/DemoPlayer';
 import ToolLibrary from './pages/ToolLibrary';
 import Touring from './pages/Touring';
 import CreatorProfile from './pages/CreatorProfile';
@@ -111,6 +112,7 @@ const AuthenticatedApp = () => {
       <Route path="/store/:producerId" element={<Storefront />} />
       <Route path="/store/download" element={<StoreDownload />} />
       <Route path="/contracts/sign/:token" element={<SignContract />} />
+      <Route path="/demo/:token" element={<DemoPlayer />} />
 
       {/* Auth pages */}
       <Route path="/login" element={<Login />} />

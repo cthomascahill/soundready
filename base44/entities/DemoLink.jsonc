@@ -1,0 +1,60 @@
+{
+  "name": "DemoLink",
+  "type": "object",
+  "description": "A private, shareable listening link for one Vault song. Anyone with the link hears the song in the SoundReady demo player \u2014 no account needed. The secret token in the URL is the only gate.",
+  "properties": {
+    "user_id": {
+      "type": "string",
+      "description": "Artist who owns this link"
+    },
+    "song_id": {
+      "type": "string",
+      "description": "SongVault song this link plays"
+    },
+    "token": {
+      "type": "string",
+      "description": "Secret code in the share URL \u2014 unguessable, never sequential"
+    },
+    "artist_name": {
+      "type": "string",
+      "description": "Artist name shown in the player (snapshot at creation)"
+    },
+    "song_title": {
+      "type": "string",
+      "description": "Song title snapshot at creation; the live song title wins when it exists"
+    },
+    "plays": {
+      "type": "number",
+      "default": 0,
+      "description": "How many times a listener pressed play"
+    },
+    "active": {
+      "type": "boolean",
+      "default": true,
+      "description": "false once the artist turns the link off \u2014 the player then shows link not found"
+    },
+    "last_played_at": {
+      "type": "string",
+      "description": "ISO timestamp of the most recent play"
+    }
+  },
+  "required": [
+    "user_id",
+    "song_id",
+    "token"
+  ],
+  "rls": {
+    "read": {
+      "created_by_id": "{{user.id}}"
+    },
+    "create": {
+      "created_by_id": "{{user.id}}"
+    },
+    "update": {
+      "created_by_id": "{{user.id}}"
+    },
+    "delete": {
+      "created_by_id": "{{user.id}}"
+    }
+  }
+}

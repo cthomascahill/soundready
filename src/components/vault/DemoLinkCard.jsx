@@ -1,0 +1,121 @@
+import { useState, useEffect } from "react";
+import { Link2, Copy, Check, Loader2, Ban, ExternalLink } from "lucide-react";
+import { base44 } from "@/api/base44Client";
+import { Button } from "@/components/ui/button";
+
+// "Demo link" — a private listen link for one song. Anyone with the URL
+// hears it in the SoundReady player, no account needed.
+export default function DemoLinkCard({ song }) {
+  const [link, setLink] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [creating, setCreating] = useState(false);
+  const [copied, setCopied] = useState(false);
+  const [error, setError] = useState("");
+
+  useEffect(() => {
+    if (!song?.id) return;
+    setLoading(true);
+    base44.functions.invoke("demoLink", { action: "get_by_song", song_id: song.id })
+      .then((res) => setLink(res.data?.link || null))
+      .catch(() => setLink(null))
+      .finally(() => setLoading(false));
+  }, [song?.id]);
+
+  const create = async () => {
+    if (creating) return;
+    setCreating(true);
+    setError("");
+    try {
+      const res = await base44.functions.invoke("demoLink", { action: "create", song_id: song.id });
+      setLink(res.data?.link || null);
+    } catch (e) {
+      setError(e?.response?.data?.error || "Couldn't create the link — try again.");
+    } finally {
+      setCreating(false);
+    }
+  };
+
+  const revoke = async () => {
+    if (!link) return;
+    await base44.functions.invoke("demoLink", { action: "revoke", link_id: link.id }).catch(() => {});
+    setLink(null);
+  };
+
+  const copy = async () => {
+    const url = `${window.location.origin}/demo/${link.token}`;
+    try { await navigator.clipboard.writeText(url); } catch {}
+    setCopied(true);
+    setTimeout(() => setCopied(false), 2000);
+  };
+
+  const hasAudio = !!(song?.file_url);
+
+  if (loading) {
+    return (
+      <div className="rounded-xl border border-zinc-800 bg-zinc-900/40 p-3 flex items-center gap-2 text-sm text-zinc-500">
+        <Loader2 className="h-4 w-4 animate-spin" /> Checking demo link…
+      </div>
+    );
+  }
+
+  if (!hasAudio) {
+    return (
+      <div className="rounded-xl border border-zinc-800 bg-zinc-900/40 p-3 flex items-center gap-2 text-sm text-zinc-500">
+        <Link2 className="h-4 w-4 text-zinc-600" />
+        Add an audio file to share a private demo link for this song.
+      </div>
+    );
+  }
+
+  if (!link) {
+    return (
+      <div className="rounded-xl border border-zinc-800 bg-zinc-900/40 p-3">
+        <div className="flex items-center justify-between gap-3 flex-wrap">
+          <div className="flex items-center gap-2 text-sm text-zinc-400">
+            <Link2 className="h-4 w-4 text-primary" />
+            Private demo link — let anyone listen, no account needed
+          </div>
+          <Button size="sm" onClick={create} disabled={creating} className="gap-2 font-semibold">
+            {creating ? <Loader2 className="h-4 w-4 animate-spin" /> : <Link2 className="h-4 w-4" />}
+            Create demo link
+          </Button>
+        </div>
+        {error && <p className="text-xs text-red-400 mt-2">{error}</p>}
+      </div>
+    );
+  }
+
+  const shareUrl = `${window.location.origin}/demo/${link.token}`;
+
+  return (
+    <div className="rounded-xl border border-primary/30 bg-primary/5 p-3 space-y-2">
+      <div className="flex items-center justify-between gap-3">
+        <div className="flex items-center gap-2 text-sm font-medium text-primary">
+          <Link2 className="h-4 w-4" /> Demo link is live
+        </div>
+        <div className="flex items-center gap-2">
+          <span className="text-xs text-zinc-500">{link.plays || 0} play{(link.plays || 0) === 1 ? "" : "s"}</span>
+          <Button size="sm" variant="outline" onClick={revoke}
+            className="gap-1.5 border-red-500/30 text-red-400 hover:bg-red-500/10 hover:text-red-400 h-7 px-2 text-xs">
+            <Ban className="h-3 w-3" /> Turn off
+          </Button>
+        </div>
+      </div>
+      <div className="flex items-center gap-2">
+        <code className="flex-1 min-w-0 truncate rounded-lg bg-zinc-900 border border-zinc-800 px-3 py-2 text-xs text-zinc-300">
+          {shareUrl}
+        </code>
+        <Button size="sm" onClick={copy} className="gap-1.5 shrink-0">
+          {copied ? <Check className="h-3.5 w-3.5" /> : <Copy className="h-3.5 w-3.5" />}
+          {copied ? "Copied" : "Copy"}
+        </Button>
+        <a href={shareUrl} target="_blank" rel="noreferrer"
+          className="h-8 w-8 rounded-md border border-zinc-700 flex items-center justify-center text-zinc-400 hover:text-primary hover:border-primary/40 transition-colors shrink-0"
+          title="Open the player">
+          <ExternalLink className="h-3.5 w-3.5" />
+        </a>
+      </div>
+      <p className="text-[11px] text-zinc-600">Anyone with this link can listen. Turn it off anytime and it stops working.</p>
+    </div>
+  );
+}
