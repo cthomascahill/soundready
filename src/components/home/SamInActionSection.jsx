@@ -18,7 +18,7 @@ export default function SamInActionSection() {
             {t(".")}
           </h2>
           <p className="text-lg text-muted-foreground leading-relaxed">
-            {t("This is Sam's Desk — a finished pitch, researched and drafted from your real numbers, waiting for your decision.")}
+            {t("This is Sam's Desk: a finished pitch, researched and drafted from your real numbers, waiting for your decision.")}
           </p>
         </motion.div>
         <motion.div initial={{ opacity: 0, x: 24 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }} className="relative order-1 lg:order-2">
@@ -42,12 +42,12 @@ export default function SamInActionSection() {
               </span>
               <p className="font-heading font-bold text-sm">{t('Pitch "Midnight Drive" to Chill Vibes Daily (482k followers)')}</p>
               <p className="text-xs text-muted-foreground leading-relaxed">
-                {t("Streams up 34% in two weeks. 62% of listeners in Germany — a direct audience match. Drafted in your voice.")}
+                {t("Streams up 34% in two weeks. 62% of listeners in Germany, a direct audience match. Drafted in your voice.")}
               </p>
               <div className="rounded-lg bg-background border border-border p-3 text-[11px] text-muted-foreground leading-relaxed">
-                <span className="font-semibold text-foreground">Subject:</span> "Midnight Drive" — a late-night lo-fi cut for Chill Vibes Daily
+                <span className="font-semibold text-foreground">Subject:</span> "Midnight Drive", a late-night lo-fi cut for Chill Vibes Daily
                 <br /><br />
-                Hi Sofia — I'm Nova, an indie electronic artist. "Midnight Drive" has been quietly climbing in Germany...
+                Hi Sofia, I'm Nova, an indie electronic artist. "Midnight Drive" has been quietly climbing in Germany...
               </div>
               <div className="flex flex-wrap gap-2">
                 <Button size="sm" className="h-8 gap-1.5">
@@ -69,7 +69,7 @@ export default function SamInActionSection() {
               </p>
             </div>
             <p className="text-[10px] text-muted-foreground text-center">
-              {t("Illustrative example — Sam's Desk shows your real drafts, built from your real numbers.")}
+              {t("Illustrative example: Sam's Desk shows your real drafts, built from your real numbers.")}
             </p>
           </div>
         </motion.div>

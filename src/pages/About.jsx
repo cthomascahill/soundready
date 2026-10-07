@@ -29,8 +29,8 @@ const TIERS = [
     price: "$0",
     desc: "Your music's home base. Up to 5 songs, fully organized, free forever.",
     items: [
-      "Vault — up to 5 songs",
-      "Tracker — idea to release",
+      "Vault: up to 5 songs",
+      "Tracker: idea to release",
       "Connect Spotify & YouTube",
     ],
     cta: "Start Free",
@@ -52,12 +52,12 @@ const TIERS = [
       "Playlist Pitcher, Deals & Music News",
       "Gig Finder & 1,341+ venues",
       "Tour Planner, Finance & Contracts",
-      "The Wall — artist community",
+      "The Wall: artist community",
       "Team Chat & shared Whiteboard",
     ],
     cta: "Start Pro",
     checkout: "/checkout/artist-pro",
-    subtext: "Card required — charged automatically after 7 days. Cancel anytime.",
+    subtext: "Card required, charged automatically after 7 days. Cancel anytime.",
   },
   {
     icon: Bot,
@@ -72,16 +72,16 @@ const TIERS = [
     badge: "Most Popular · Sam Works For You",
     badgeStyle: "bg-primary text-primary-foreground",
     glow: true,
-    desc: "Sam outbounds for you every week — tour support, features, sync and more. You approve or deny. Nothing sends without you.",
+    desc: "Sam outbounds for you every week: tour support, features, sync and more. You approve or deny. Nothing sends without you.",
     items: [
-      "Sam outbounds weekly — you approve or deny",
-      "Contract Analyzer — Sam reads any contract",
+      "Sam outbounds weekly, you approve or deny",
+      "Contract Analyzer: Sam reads any contract",
       "Opportunities, A&R Intel & Career Roadmap",
       "Tell Sam, This Week & Sam's Desk",
     ],
     cta: "Start AI Manager",
     checkout: "/checkout/ai-manager",
-    subtext: "No percentage cuts — ever.",
+    subtext: "No percentage cuts, ever.",
   },
 
 
@@ -106,8 +106,8 @@ export default function About() {
   return (
     <div className="min-h-screen bg-background">
       <SEO
-        title="SoundReady — AI Career Management for Independent Artists"
-        description="Your songs, your tours, your team — plus Sam, the AI manager that drafts your pitches and outreach from your real numbers. Start free."
+        title="SoundReady: AI Career Management for Independent Artists"
+        description="Your songs, your tours, your team, plus Sam, the AI manager that drafts your pitches and outreach from your real numbers. Start free."
       />
 
       <PublicNav showHome={false} />
@@ -123,12 +123,12 @@ export default function About() {
           </motion.div>
 
           <h1 className="font-heading text-6xl sm:text-8xl font-black tracking-tight leading-[0.9]">
-            {t("Your career,")}<br />
-            <span className="text-primary">{t("in motion.")}</span>
+            {t("Your career ")}<br />
+            <span className="text-primary">{t("in motion")}</span>
           </h1>
 
           <p className="text-xl sm:text-2xl text-muted-foreground leading-relaxed max-w-3xl mx-auto font-body">
-            {t("Every song, show, deal and dollar in one place — plus Sam, your AI manager, working your career every week. You approve or deny. Start free.")}
+            {t("Every song, show, deal and dollar in one place, plus Sam, your AI manager, working your career every week. You approve or deny. Start free.")}
           </p>
 
           <div className="flex flex-col sm:flex-row items-center justify-center gap-3 pt-2">
@@ -142,26 +142,26 @@ export default function About() {
             </a>
           </div>
 
-          <p className="text-xs text-muted-foreground">{t("Start free. No contracts. No percentage cuts — ever.")}</p>
+          <p className="text-xs text-muted-foreground">{t("Start free. No contracts. No percentage cuts, ever.")}</p>
         </motion.div>
 
       </section>
 
-      {/* SAM SPOTLIGHT — the main event */}
+      {/* SAM SPOTLIGHT, the main event */}
       <section className="px-4 py-24 border-t border-border">
         <div className="max-w-5xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
           <motion.div initial={{ opacity: 0, x: -24 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }} className="space-y-6 order-2 lg:order-1">
             <p className="text-xs text-primary uppercase tracking-wider font-bold">{t("AI Manager")}</p>
             <h2 className="font-heading text-4xl sm:text-5xl font-bold">{t("Meet Sam.")}</h2>
             <p className="text-lg text-muted-foreground leading-relaxed">
-              {t("Sam is your AI manager. Sam automatically finds opportunities and pitches you for them every week — real outbound, from your real numbers, waiting for your approval. Just log in, approve or deny.")}
+              {t("Sam is your AI manager. Sam automatically finds opportunities and pitches you for them every week: real outbound from your real numbers, waiting for your approval. Just log in, approve or deny.")}
             </p>
             <Link to="/checkout/ai-manager">
               <Button size="lg" className="gap-2 font-heading font-bold text-base px-8 h-12">
-                {t("Get Sam —")} <span className="line-through opacity-60 font-medium">$79</span> {t("$59/mo — first 100 artists")} <ArrowRight className="h-4 w-4" />
+                {t("Get Sam:")} <span className="line-through opacity-60 font-medium">$79</span> {t("$59/mo for the first 100 artists")} <ArrowRight className="h-4 w-4" />
               </Button>
             </Link>
-            <p className="text-xs text-muted-foreground">{t("First 100 artists get $59/mo — discounted forever. $79/mo for everyone after. Locked for life while you stay subscribed. No percentage cuts — ever. Everything on this page comes with it.")}</p>
+            <p className="text-xs text-muted-foreground">{t("First 100 artists get $59/mo, discounted forever. $79/mo for everyone after. Locked for life while you stay subscribed. No percentage cuts, ever. Everything on this page comes with it.")}</p>
           </motion.div>
           <motion.div initial={{ opacity: 0, x: 24 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }} className="relative order-1 lg:order-2 flex justify-center">
             <motion.img
@@ -181,7 +181,7 @@ export default function About() {
       {/* THE WEEKLY LOOP */}
       <CareerWorkflowSection />
 
-      {/* THE SOLUTION — 3 tiers */}
+      {/* THE SOLUTION, 3 tiers */}
       <section className="px-4 py-24 border-t border-border bg-secondary/20">
         <div className="max-w-5xl mx-auto space-y-14">
           <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="text-center space-y-4">
@@ -225,7 +225,7 @@ export default function About() {
                 <div className="flex items-baseline gap-2 flex-wrap mb-3">
                   {tier.strike && <span className="text-sm text-muted-foreground line-through font-semibold">{tier.strike}</span>}
                   <p className="text-2xl font-black">{tier.price}</p>
-                  {tier.founding && <span className="px-2 py-0.5 rounded-full bg-primary/15 text-primary text-[10px] font-bold uppercase tracking-wide">First 100 Artists — Discounted Forever</span>}
+                  {tier.founding && <span className="px-2 py-0.5 rounded-full bg-primary/15 text-primary text-[10px] font-bold uppercase tracking-wide">First 100 Artists · Discounted Forever</span>}
                 </div>
                 <p className="text-sm text-muted-foreground leading-relaxed mb-5">{t(tier.desc)}</p>
                 <div className="space-y-2 flex-1">
@@ -281,7 +281,7 @@ export default function About() {
             <h2 className="font-heading text-4xl font-bold">{t("The results speak for themselves.")}</h2>
           </motion.div>
           <GrowthComparisonChart />
-          <p className="text-center text-xs text-muted-foreground">{t("Illustrative comparison, not a guarantee — results depend on your releases, effort, and genre.")}</p>
+          <p className="text-center text-xs text-muted-foreground">{t("Illustrative comparison, not a guarantee, results depend on your releases, effort, and genre.")}</p>
           <div className="grid grid-cols-2 lg:grid-cols-5 gap-4">
             {[
               { num: "1,341+", label: "venues ready to pitch" },
@@ -302,16 +302,16 @@ export default function About() {
 
       {/* CTA */}
       <section className="px-4 py-32 border-t border-border text-center bg-gradient-to-t from-primary/8 via-background to-background">
-        <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="max-w-2xl mx-auto space-y-8">
+        <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="max-w-5xl mx-auto space-y-8">
           <div className="space-y-4">
-            <h2 className="font-heading text-5xl sm:text-6xl font-black">
+            <h2 className="font-heading text-5xl sm:text-6xl font-black lg:whitespace-nowrap">
               {t("Your biggest release ")}<span className="text-primary">{t("is next.")}</span>
             </h2>
           </div>
           <Button size="lg" className="gap-2 font-heading font-bold text-base px-10 h-13" onClick={handleCTA}>
             {t("Start")} <ArrowRight className="h-4 w-4" />
           </Button>
-          <p className="text-xs text-muted-foreground">{t("Start free. No contracts. No percentage cuts — ever.")}</p>
+          <p className="text-xs text-muted-foreground">{t("Start free. No contracts. No percentage cuts, ever.")}</p>
         </motion.div>
       </section>
     </div>

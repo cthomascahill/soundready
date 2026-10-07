@@ -27,12 +27,12 @@ export default function ManagerCostSlider() {
         <div className="rounded-xl bg-destructive/10 border border-destructive/25 p-4 space-y-1.5">
           <p className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground">Traditional manager</p>
           <p className="font-heading text-2xl font-black text-destructive">{fmt(managerMonthly)}<span className="text-xs font-bold text-muted-foreground">/mo</span></p>
-          <p className="text-xs text-muted-foreground">{fmt(managerYearly)} every year — and it grows with every raise</p>
+          <p className="text-xs text-muted-foreground">{fmt(managerYearly)} every year, and it grows with every raise</p>
         </div>
         <div className="rounded-xl bg-primary/10 border border-primary/20 p-4 space-y-1.5">
           <p className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground">SoundReady AI Manager</p>
           <p className="font-heading text-2xl font-black text-primary"><span className="text-xs line-through opacity-60 font-bold text-muted-foreground mr-1">$79</span>$59<span className="text-xs font-bold text-muted-foreground">/mo</span></p>
-          <p className="text-xs text-muted-foreground">{fmt(mayaYearly)} every year — flat, forever</p>
+          <p className="text-xs text-muted-foreground">{fmt(mayaYearly)} every year, flat, forever</p>
         </div>
       </div>
 
@@ -40,7 +40,7 @@ export default function ManagerCostSlider() {
         {savings > 0 ? (
           <span className="text-primary">You keep an extra {fmt(savings)} every year with Sam.</span>
         ) : (
-          <span className="text-muted-foreground">Earning under $343/mo? Then your problem isn't the fee — it's revenue. Sam is built to fix exactly that, working your career every week until you clear it. And at over $343/mo, Sam costs less than a manager — forever.</span>
+          <span className="text-muted-foreground">Earning under $343/mo? Then your problem isn't the fee, it's revenue. Sam is built to fix exactly that, working your career every week until you clear it. And at over $343/mo, Sam costs less than a manager, forever.</span>
         )}
       </p>
     </div>

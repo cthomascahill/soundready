@@ -3,41 +3,41 @@
 import { Bot, Users, Zap } from "lucide-react";
 
 export const FREE_ITEMS = [
-  "Vault — up to 5 songs, organized",
-  "Tracker — from idea to release",
+  "Vault: up to 5 songs, organized",
+  "Tracker: from idea to release",
   "Connect Spotify & YouTube",
   "Your dashboard & analytics",
 ];
 
 export const PRO_ITEMS = [
   "Everything in Free, unlocked",
-  "Playlist Pitcher — find and pitch matching playlists",
-  "Gig Finder — 1,341+ venues ready to pitch",
+  "Playlist Pitcher: find and pitch matching playlists",
+  "Gig Finder: 1,341+ venues ready to pitch",
   "Tour Planner, Tour Finance & Venue Contracts",
-  "Deals — track pitches to labels, distributors & sync houses",
-  "Music News — daily industry briefings",
-  "The Wall — the artist community",
+  "Deals: track pitches to labels, distributors & sync houses",
+  "Music News: daily industry briefings",
+  "The Wall: the artist community",
   "Team Chat, Whiteboard & Studio",
   "Beat Pipeline, Beat Store & Client CRM",
   "Invoices, Revenue Splits & Royalty Dashboard",
 ];
 
 export const AI_ITEMS = [
-  "Sam's Desk — weekly outbound drafted for you, you approve or deny",
+  "Sam's Desk: weekly outbound drafted for you, you approve or deny",
   "Nothing sends without your approval",
-  "Tell Sam — Sam researches anything: venues, labels, deals",
-  "Contract Analyzer — Sam reads every contract before you sign",
-  "Opportunities — signings, grants, playlists & tour intel",
-  "A&R Intelligence — what labels are looking for",
-  "Career Roadmap — your personalized growth plan",
-  "This Week — your to-dos, with Sam's morning reminders",
+  "Tell Sam: Sam researches anything, venues, labels, deals",
+  "Contract Analyzer: Sam reads every contract before you sign",
+  "Opportunities: signings, grants, playlists & tour intel",
+  "A&R Intelligence: what labels are looking for",
+  "Career Roadmap: your personalized growth plan",
+  "This Week: your to-dos, with Sam's morning reminders",
 ];
 
 export const BOOST_ITEMS = [
   "Adds 200 extra Sam workload units to your balance",
-  "Never expires — extra units stay until you use them",
+  "Never expires, extra units stay until you use them",
   "Used only after your monthly included allowance",
-  "One-time payment — your subscription is unchanged",
+  "One-time payment, your subscription is unchanged",
 ];
 
 // Keyed by checkout URL slug. tierKey matches the Stripe checkout function's tier.
@@ -72,8 +72,8 @@ export const PLANS = {
     priceYearly: "$374",
     periodYearly: "/yr",
     items: PRO_ITEMS,
-    note: "7-day free trial — card required, charged $39 automatically on day 7. Cancel before then, pay nothing.",
-    noteYearly: "7-day free trial — card required, charged $374 automatically on day 7. Cancel before then, pay nothing.",
+    note: "7-day free trial. Card required, charged $39 automatically on day 7. Cancel before then, pay nothing.",
+    noteYearly: "7-day free trial. Card required, charged $374 automatically on day 7. Cancel before then, pay nothing.",
   },
   "ai-manager": {
     slug: "ai-manager",
@@ -92,7 +92,7 @@ export const PLANS = {
     periodYearly: "/yr",
     founding: true,
     items: AI_ITEMS,
-    note: "First 100 artists price — locked for life while you stay subscribed. Everything in Artist Pro included. Cancel anytime. No percentage cuts — ever.",
+    note: "First 100 artists price, locked for life while you stay subscribed. Everything in Artist Pro included. Cancel anytime. No percentage cuts, ever.",
   },
   "sam-extra-usage": {
     slug: "sam-extra-usage",
@@ -107,6 +107,6 @@ export const PLANS = {
     period: "",
     checkoutLabel: "Add extra usage",
     items: BOOST_ITEMS,
-    note: "One-time payment — not a subscription. Your plan and price are unchanged.",
+    note: "One-time payment, not a subscription. Your plan and price are unchanged.",
   },
 };
