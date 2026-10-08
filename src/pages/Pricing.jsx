@@ -13,7 +13,7 @@ import PublicFooter from "@/components/public/PublicFooter";
 import SEO from "@/components/SEO";
 import ManagerCostSlider from "@/components/home/ManagerCostSlider";
 import BillingToggle from "@/components/billing/BillingToggle";
-import { FREE_ITEMS, PRO_ITEMS, AI_ITEMS } from "@/lib/plans";
+import { FREE_ITEMS, PRO_ITEMS, AI_ITEMS, CARD_FREE_ITEMS, CARD_PRO_ITEMS, CARD_AI_ITEMS } from "@/lib/plans";
 
 
 
@@ -183,20 +183,21 @@ export default function Pricing() {
                 <Zap className="h-5 w-5 text-chart-5" />
               </div>
               <p className="font-heading font-black text-2xl">Free</p>
-              <p className="text-sm font-semibold mt-0.5 mb-2 text-chart-5">Your music's home base. Free forever.</p>
-              <p className="text-2xl font-black mb-3">$0</p>
+              <p className="text-sm font-semibold mt-0.5 mb-2 text-chart-5">Your music, organized.</p>
+              <p className="text-2xl font-black mb-1">$0</p>
+              <p className="text-sm font-semibold text-chart-5 mb-3">Free forever</p>
               <p className="text-sm text-muted-foreground leading-relaxed mb-5">
-                Your music's home base. The Vault and Tracker keep up to 5 songs fully organized, from idea to release, and everything you add stays yours. Organizing your catalog should never cost money. Everything else unlocks with Artist Pro. SAM comes with AI Manager.
+                Keep your songs and releases in one place.
               </p>
               <div className="flex-1">
-                <TierItems items={FREE_ITEMS} check="text-chart-5" />
+                <TierItems items={CARD_FREE_ITEMS} check="text-chart-5" />
               </div>
               <div className="mt-6">
                 <Link to="/checkout/free">
                   <Button className="w-full font-semibold">Start Free</Button>
                 </Link>
               </div>
-              <p className="text-center text-xs text-muted-foreground mt-2">Free forever. No card required.</p>
+              <p className="text-center text-xs text-muted-foreground mt-2">No card required.</p>
             </motion.div>
 
             {/* ARTIST PRO */}
@@ -209,29 +210,30 @@ export default function Pricing() {
                 <Users className="h-5 w-5 text-chart-5" />
               </div>
               <p className="font-heading font-black text-2xl">Artist Pro</p>
-              <p className="text-sm font-semibold mt-0.5 mb-2 text-chart-5">You and your team, finally in sync.</p>
-              <p className="text-2xl font-black mb-3">
-                {billing === "yearly" ? "$374" : "$39"}<span className="text-sm text-muted-foreground font-medium">{billing === "yearly" ? "/yr" : "/mo"}</span>
+              <p className="text-sm font-semibold mt-0.5 mb-2 text-chart-5">Your career toolkit.</p>
+              <p className="text-2xl font-black mb-1">
+                {billing === "yearly" ? "$374" : "$39"}<span className="text-sm text-muted-foreground font-medium">{billing === "yearly" ? "/year" : "/month"}</span>
               </p>
+              <p className="text-sm font-semibold text-chart-5 mb-3">7-day free trial</p>
               <p className="text-sm text-muted-foreground leading-relaxed mb-5">
-                The tools to manage your career, plus your whole team in one workspace. Your manager, engineer and collaborators work from the same songs, same strategy, same plan. No missed emails, no dropped balls. 7 days free.
+                Plan releases, find opportunities, and work with your team in one workspace.
               </p>
               <div className="flex-1">
-                <TierItems items={PRO_ITEMS} check="text-chart-5" />
+                <TierItems items={CARD_PRO_ITEMS} check="text-chart-5" />
               </div>
               <div className="mt-6">
                 <Link to="/checkout/artist-pro">
                   <Button className="w-full font-semibold bg-chart-5 hover:bg-chart-5/90 text-black">Start Pro</Button>
                 </Link>
               </div>
-              <p className="text-center text-xs text-muted-foreground mt-2">Card required, charged {billing === "yearly" ? "$374" : "$39"} automatically after 7 days. Cancel before then, pay nothing.</p>
+              <p className="text-center text-xs text-muted-foreground mt-2">Card required. {billing === "yearly" ? "$374/year" : "$39/month"} after 7 days unless canceled.</p>
             </motion.div>
 
             {/* AI MANAGER */}
             <motion.div initial={{ opacity: 0, y: 24 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: 0.12 }}
               className="relative rounded-2xl border border-primary/30 bg-card p-6 flex flex-col ring-2 ring-primary/60 shadow-2xl shadow-primary/10">
               <div className="absolute -top-3 left-1/2 -translate-x-1/2 px-3 py-1 rounded-full text-xs font-bold whitespace-nowrap bg-primary text-primary-foreground">
-                Recommended · SAM Works For You
+                Recommended · Founding Artist Offer
               </div>
               <motion.img
                 src="https://media.base44.com/images/public/69dcf0ecc907e43a438a626b/d124f0929_generated_f10ed4b3.png"
@@ -248,25 +250,25 @@ export default function Pricing() {
                 <Bot className="h-5 w-5 text-primary" />
               </div>
               <p className="font-heading font-black text-2xl">AI Manager</p>
-              <p className="text-sm font-semibold mt-0.5 mb-2 text-primary">Your career, worked around the clock.</p>
+              <p className="text-sm font-semibold mt-0.5 mb-2 text-primary">Meet SAM. Your own AI music manager.</p>
               <div className="mb-3 flex items-baseline gap-2 flex-wrap">
                 <span className="text-base text-muted-foreground line-through font-semibold">{billing === "yearly" ? "$699" : "$79"}</span>
-                <p className="text-2xl font-black">{billing === "yearly" ? "$569" : "$59"}<span className="text-sm text-muted-foreground font-medium">{billing === "yearly" ? "/yr" : "/mo"}</span></p>
-                <span className="px-2 py-0.5 rounded-full bg-primary/15 text-primary text-[10px] font-bold uppercase tracking-wide">First 100 Artists · Discounted Forever</span>
+                <p className="text-2xl font-black">{billing === "yearly" ? "$569" : "$59"}<span className="text-sm text-muted-foreground font-medium">{billing === "yearly" ? "/year" : "/month"}</span></p>
+                <span className="px-2 py-0.5 rounded-full bg-primary/15 text-primary text-[10px] font-bold uppercase tracking-wide">First 100 Artists · Regular price {billing === "yearly" ? "$699/yr" : "$79/mo"}</span>
               </div>
               <p className="text-sm text-muted-foreground leading-relaxed mb-5">
-                SAM does the outreach work for you: every week, SAM finds opportunities and drafts the pitches, playlist placements, tour support and sync, built from your real numbers. Nothing sends without your approval. $59/mo flat for the first 100 artists, $79/mo after.
+                SAM uses your music, stats, and goals to research opportunities and prepare personalized pitches. You stay in control.
               </p>
               <div className="flex-1">
-                <p className="font-heading text-lg font-black tracking-tight mb-2">Everything in Artist Pro.</p>
-                <TierItems items={AI_ITEMS} />
+                <TierItems items={CARD_AI_ITEMS} />
               </div>
               <div className="mt-6 relative">
                 <Link to="/checkout/ai-manager">
                   <Button className="w-full font-semibold gap-2"><Sparkles className="h-4 w-4" /> Start AI Manager</Button>
                 </Link>
               </div>
-              <p className="text-center text-xs text-muted-foreground mt-2">No free trial. First-100 price locked for life while you stay subscribed. Cancel anytime. No percentage cuts, ever.</p>
+              <p className="text-center text-xs text-muted-foreground mt-2">No percentage cuts. Cancel anytime. Founding price stays locked while subscribed.</p>
+              <p className="text-center text-[11px] text-muted-foreground mt-1 leading-relaxed">Includes 600 research units each month. Add 200 extra units anytime for $12 — they never expire. Some opportunities require manual submission.</p>
             </motion.div>
           </div>
         </div>

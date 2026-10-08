@@ -35,6 +35,34 @@ export const AI_ITEMS = [
   "This Week: your to-dos, with Sam's morning reminders",
 ];
 
+// Concise card lists for the pricing-page cards. The full lists above stay
+// the detailed comparison below the cards (and the checkout pages).
+export const CARD_FREE_ITEMS = [
+  "Store up to 5 songs in your Vault",
+  "Track songs from idea to release",
+  "Connect Spotify and YouTube to your artist profile",
+];
+
+export const CARD_PRO_ITEMS = [
+  "Everything in Free, unlocked",
+  "Unlimited songs in your Vault",
+  "Release planning and career tools",
+  "Playlist discovery and venue search",
+  "Tour planning, finances, and contracts",
+  "Team chat and collaboration",
+];
+
+export const CARD_AI_ITEMS = [
+  "Everything in Artist Pro",
+  "Ask SAM to research venues, playlists, labels, press, and sync opportunities",
+  "Get personalized outreach drafts ready to review",
+  "Approve, edit, or deny pitches. SAM sends supported emails after approval",
+  "Nothing sends without your approval",
+  "Weekly career recommendations and digests",
+  "Analyze attached files and reports",
+  "Build on saved preferences and track outreach outcomes",
+];
+
 export const BOOST_ITEMS = [
   "Adds 200 extra Sam workload units to your balance",
   "Never expires, extra units stay until you use them",

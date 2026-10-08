@@ -28,17 +28,17 @@ const TIERS = [
     bg: "bg-chart-5/10",
     border: "border-chart-5/20",
     name: "Free",
-    tagline: "Your music's home base. Free forever.",
-    price: "$0",
-    desc: "Your music's home base. Up to 5 songs, fully organized, free forever.",
+    tagline: "Your music, organized.",
+    price: "$0 — Free forever",
+    desc: "Keep your songs and releases in one place.",
     items: [
-      "Vault: up to 5 songs",
-      "Tracker: idea to release",
-      "Connect Spotify & YouTube",
+      "Store up to 5 songs in your Vault",
+      "Track songs from idea to release",
+      "Connect Spotify and YouTube to your artist profile",
     ],
     cta: "Start Free",
     checkout: "/checkout/free",
-    subtext: "Free forever. No card required.",
+    subtext: "No card required.",
   },
   {
     icon: Users,
@@ -46,21 +46,21 @@ const TIERS = [
     bg: "bg-chart-5/10",
     border: "border-chart-5/20",
     name: "Artist Pro",
-    tagline: "You and your team, finally in sync.",
-    price: "$39/mo",
+    tagline: "Your career toolkit.",
+    price: "$39/month",
     badge: "7-Day Free Trial",
-    desc: "Every tool unlocked, plus your whole team in one workspace. 7 days free.",
+    desc: "Plan releases, find opportunities, and work with your team in one workspace.",
     items: [
       "Everything in Free, unlocked",
-      "Playlist Pitcher, Deals & Music News",
-      "Gig Finder & 1,341+ venues",
-      "Tour Planner, Finance & Contracts",
-      "The Wall: artist community",
-      "Team Chat & shared team workspace",
+      "Unlimited songs in your Vault",
+      "Release planning and career tools",
+      "Playlist discovery and venue search",
+      "Tour planning, finances, and contracts",
+      "Team chat and collaboration",
     ],
     cta: "Start Pro",
     checkout: "/checkout/artist-pro",
-    subtext: "Card required, charged automatically after 7 days. Cancel anytime.",
+    subtext: "Card required. $39/month after 7 days unless canceled.",
   },
   {
     icon: Bot,
@@ -68,26 +68,29 @@ const TIERS = [
     bg: "bg-primary/10",
     border: "border-primary/30",
     name: "AI Manager",
-    tagline: "Your career, worked around the clock.",
-    price: "$59/mo",
-    strike: "$79/mo",
+    tagline: "Meet SAM. Your own AI music manager.",
+    price: "$59/month",
+    strike: "$79/month",
     founding: true,
-    badge: "Most Popular · SAM Works For You",
+    badge: "Founding Artist Offer",
     badgeStyle: "bg-primary text-primary-foreground",
     glow: true,
-    desc: "SAM finds opportunities and writes pitches for you every week: tour support, features, sync and more. You approve or deny. Nothing sends without you.",
+    desc: "SAM uses your music, stats, and goals to research opportunities and prepare personalized pitches. You stay in control.",
     items: [
-      "SAM finds opportunities and writes pitches weekly, you approve or deny",
-      "Contract Analyzer: SAM reads any contract",
-      "Opportunities, A&R Intel & Career Roadmap",
-      "Tell SAM, This Week & SAM's Desk",
+      "Everything in Artist Pro",
+      "Ask SAM to research venues, playlists, labels, press, and sync opportunities",
+      "Get personalized outreach drafts ready to review",
+      "Approve, edit, or deny pitches. SAM sends supported emails after approval",
+      "Nothing sends without your approval",
+      "Weekly career recommendations and digests",
+      "Analyze attached files and reports",
+      "Build on saved preferences and track outreach outcomes",
     ],
     cta: "Start AI Manager",
     checkout: "/checkout/ai-manager",
-    subtext: "No percentage cuts, ever.",
+    subtext: "No percentage cuts. Cancel anytime. Founding price stays locked while subscribed.",
+    smallPrint: "Includes 600 research units each month. Add 200 extra units anytime for $12 — they never expire. Some opportunities require manual submission.",
   },
-
-
 ];
 
 export default function About() {
@@ -219,6 +222,7 @@ export default function About() {
                   </Button>
                 </Link>
                 {tier.subtext && <p className="text-center text-sm text-muted-foreground mt-2">{t(tier.subtext)}</p>}
+                {tier.smallPrint && <p className="text-center text-xs text-muted-foreground mt-1 leading-relaxed">{t(tier.smallPrint)}</p>}
               </motion.div>
             ))}
           </div>
