@@ -1,7 +1,7 @@
 import {
   Music2, ListChecks, Calendar, Mic2, BarChart2, Scale, Handshake,
   MapPin, Megaphone, Route, PiggyBank, FileSignature, Map, UserCircle,
-  Newspaper, Radar, TrendingUp, Flame, Bot, MessagesSquare, Shield,
+  Newspaper, Radar, TrendingUp, Flame, Bot, MessagesSquare, Shield, DollarSign,
 } from "lucide-react";
 
 // Every tool on the platform, grouped by category.
@@ -33,6 +33,7 @@ export const TOOL_CATEGORIES = [
     label: "Money",
     tools: [
       { name: "Deals", to: "/deals", desc: "Catalog valuation and buyout interest", icon: Handshake, tier: "ai" },
+      { name: "Royalties", to: "/royalties", desc: "See what every release actually earns", icon: DollarSign, tier: "free" },
     ],
   },
   {
