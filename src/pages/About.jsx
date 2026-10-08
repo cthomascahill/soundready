@@ -72,15 +72,15 @@ const TIERS = [
     price: "$59/mo",
     strike: "$79/mo",
     founding: true,
-    badge: "Most Popular · Sam Works For You",
+    badge: "Most Popular · SAM Works For You",
     badgeStyle: "bg-primary text-primary-foreground",
     glow: true,
-    desc: "Sam outbounds for you every week: tour support, features, sync and more. You approve or deny. Nothing sends without you.",
+    desc: "SAM outbounds for you every week: tour support, features, sync and more. You approve or deny. Nothing sends without you.",
     items: [
-      "Sam outbounds weekly, you approve or deny",
-      "Contract Analyzer: Sam reads any contract",
+      "SAM outbounds weekly, you approve or deny",
+      "Contract Analyzer: SAM reads any contract",
       "Opportunities, A&R Intel & Career Roadmap",
-      "Tell Sam, This Week & Sam's Desk",
+      "Tell SAM, This Week & SAM's Desk",
     ],
     cta: "Start AI Manager",
     checkout: "/checkout/ai-manager",
@@ -110,7 +110,7 @@ export default function About() {
     <div className="min-h-screen bg-background">
       <SEO
         title="SoundReady: AI Career Management for Independent Artists"
-        description="Your songs, your tours, your team, plus Sam, the AI manager that drafts your pitches and outreach from your real numbers. Start free."
+        description="Your songs, your tours, your team, plus SAM, the AI manager that drafts your pitches and outreach from your real numbers. Start free."
       />
 
       <PublicNav showHome={false} />
@@ -139,7 +139,7 @@ export default function About() {
             </Button>
             <a href="#sam-in-action">
               <Button size="lg" variant="outline" className="gap-2 font-heading font-bold text-base px-8 h-12">
-                {t("See How Sam Works")}
+                {t("See How SAM Works")}
               </Button>
             </a>
           </div>
@@ -210,7 +210,7 @@ export default function About() {
                 {tier.name === "AI Manager" && (
                   <motion.img
                     src="https://media.base44.com/images/public/69dcf0ecc907e43a438a626b/d124f0929_generated_f10ed4b3.png"
-                    alt="Sam, the SoundReady AI manager robot, grabbing the side of the AI Manager card"
+                    alt="SAM, the SoundReady AI manager robot, grabbing the side of the AI Manager card"
                     className="pointer-events-none absolute -right-3 xl:-right-14 top-8 h-32 sm:h-44 w-auto drop-shadow-xl z-10"
                     initial={{ opacity: 0, x: 16 }}
                     whileInView={{ opacity: 1, x: 0 }}

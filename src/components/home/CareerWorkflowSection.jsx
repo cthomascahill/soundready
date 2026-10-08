@@ -7,7 +7,7 @@ const STEPS = [
     icon: UserRound,
     color: "text-teal-400",
     title: "Connect your profile",
-    desc: "Connect your Spotify, YouTube, and Apple Music. Tell Sam who you are and let Sam go to work.",
+    desc: "Connect your Spotify, YouTube, and Apple Music. Tell SAM who you are and let SAM go to work.",
   },
   {
     icon: UploadCloud,
@@ -18,8 +18,8 @@ const STEPS = [
   {
     icon: Bot,
     color: "text-primary",
-    title: "Grow with Sam",
-    desc: "Sam finds opportunities and automatically pitches you for them every week. You approve or deny.",
+    title: "Grow with SAM",
+    desc: "SAM finds opportunities and automatically pitches you for them every week. You approve or deny.",
   },
   {
     icon: TrendingUp,

@@ -6,8 +6,8 @@ export const HOME_STRINGS = {
     "The Artist & Producer Management Revolution": "La revolución de la gestión para artistas y productores",
     "Your career.": "Tu carrera.",
     "Finally moving.": "Por fin en marcha.",
-    "Release strategy, booking, touring, finances, and your team — the infrastructure signed acts get from a label, in one place, free to start. Grow into Artist Pro when you need the full toolkit, and hand the day-to-day work to Sam, your AI manager.":
-      "Estrategia de lanzamiento, reservas, giras, finanzas y tu equipo — la infraestructura que los artistas firmados reciben de un sello, en un solo lugar, gratis para empezar. Crece hasta Artist Pro cuando necesites el kit completo, y delega el trabajo diario a Sam, tu mánager de IA.",
+    "Release strategy, booking, touring, finances, and your team — the infrastructure signed acts get from a label, in one place, free to start. Grow into Artist Pro when you need the full toolkit, and hand the day-to-day work to SAM, your AI manager.":
+      "Estrategia de lanzamiento, reservas, giras, finanzas y tu equipo — la infraestructura que los artistas firmados reciben de un sello, en un solo lugar, gratis para empezar. Crece hasta Artist Pro cuando necesites el kit completo, y delega el trabajo diario a SAM, tu mánager de IA.",
     "Start Free": "Empieza Gratis",
     "See How It Works": "Mira Cómo Funciona",
     "Start free. No contracts. No percentage cuts — ever.": "Empieza gratis. Sin contratos. Sin comisiones porcentuales — nunca.",
@@ -30,8 +30,8 @@ export const HOME_STRINGS = {
       "SoundReady también está hecho para ellos. Invita a tu equipo, comparte tu espacio de trabajo y dale a tu mánager la infraestructura para impulsar de verdad tu carrera — más rápido que nunca.",
     "Invite Your Team": "Invita a Tu Equipo",
     "Start free. Grow when you're ready.": "Empieza gratis. Crece cuando estés listo.",
-    "Your Vault and Tracker are free forever. Unlock the full toolkit with Artist Pro — or hand the work to Sam when your career is moving.":
-      "Tu Vault y tu Tracker son gratis para siempre. Desbloquea el kit completo con Artist Pro — o delega el trabajo a Sam cuando tu carrera esté en marcha.",
+    "Your Vault and Tracker are free forever. Unlock the full toolkit with Artist Pro — or hand the work to SAM when your career is moving.":
+      "Tu Vault y tu Tracker son gratis para siempre. Desbloquea el kit completo con Artist Pro — o delega el trabajo a SAM cuando tu carrera esté en marcha.",
     "Your music's home base. Free forever.": "La base de tu música. Gratis para siempre.",
     "You need a system before you need a team. Organize up to 5 songs in the Vault — or up to 5 beats in the Productions — and track every song from idea to release, free, forever. Everything else unlocks with Artist Pro.":
       "Necesitas un sistema antes que un equipo. Organiza hasta 5 canciones en el Vault — o hasta 5 beats en las Producciones — y sigue cada canción de la idea al lanzamiento, gratis, para siempre. Todo lo demás se desbloquea con Artist Pro.",
@@ -55,15 +55,15 @@ export const HOME_STRINGS = {
     "Card required — charged automatically after 7 days. Cancel anytime.":
       "Se requiere tarjeta — se cobra automáticamente tras 7 días. Cancela cuando quieras.",
     "Your career, worked around the clock.": "Tu carrera, trabajada las 24 horas.",
-    "Sam automatically outbounds on your behalf for opportunities weekly — tour support, features, sync opportunities and more. You simply approve or deny. Every move is drafted from your real numbers and waits for you in Sam's Desk.":
-      "Sam hace outreach automáticamente en tu nombre cada semana — apoyo de gira, colaboraciones, oportunidades de sync y más. Tú solo apruebas o rechazas. Cada movimiento se redacta con tus números reales y te espera en el Desk de Sam.",
-    "Sam outbounds for you weekly — tour support, features, sync & more": "Sam hace outreach por ti cada semana — giras, features, sync y más",
+    "SAM automatically outbounds on your behalf for opportunities weekly — tour support, features, sync opportunities and more. You simply approve or deny. Every move is drafted from your real numbers and waits for you in SAM's Desk.":
+      "SAM hace outreach automáticamente en tu nombre cada semana — apoyo de gira, colaboraciones, oportunidades de sync y más. Tú solo apruebas o rechazas. Cada movimiento se redacta con tus números reales y te espera en el Desk de SAM.",
+    "SAM outbounds for you weekly — tour support, features, sync & more": "SAM hace outreach por ti cada semana — giras, features, sync y más",
     "You simply approve or deny — nothing sends without you": "Tú solo apruebas o rechazas — nada se envía sin ti",
-    "Sam chat backed by your real numbers": "Chat con Sam basado en tus números reales",
+    "SAM chat backed by your real numbers": "Chat con SAM basado en tus números reales",
     "Auto-drafted playlist & tour-opening pitches": "Pitches de playlists y aperturas de gira redactados automáticamente",
-    "Sam pitches your beats to matching artists": "Sam presenta tus beats a artistas compatibles",
+    "SAM pitches your beats to matching artists": "SAM presenta tus beats a artistas compatibles",
     "EPKs & weekly career digests": "EPKs y resúmenes semanales de carrera",
-    "Unlock Sam": "Desbloquea a Sam",
+    "Unlock SAM": "Desbloquea a SAM",
     "No percentage cuts — ever.": "Sin comisiones porcentuales — nunca.",
     "The Toolkit": "El Kit de Herramientas",
     "Everything a manager does. Nothing a manager doesn't.": "Todo lo que hace un mánager. Nada de lo que no hace.",
@@ -96,9 +96,9 @@ export const HOME_STRINGS = {
     "Productions & Placements": "Producciones y Colocaciones",
     "Producers get their own workspace. Catalog every beat with BPM, key, and moods, track your credits and fees, and turn your placement history into the resume that lands collabs.":
       "Los productores tienen su propio espacio. Cataloga cada beat con BPM, tonalidad y moods, sigue tus créditos y honorarios, y convierte tu historial de colocaciones en el currículum que consigue colaboraciones.",
-    "Sam, Your AI Manager": "Sam, Tu Mánager de IA",
-    "Sam outbounds on your behalf every week — tour support, features, sync opportunities and more. You simply approve or deny, and nothing sends without you.":
-      "Sam hace outreach en tu nombre cada semana — apoyo de gira, colaboraciones, oportunidades de sync y más. Tú solo apruebas o rechazas, y nada se envía sin ti.",
+    "SAM, Your AI Manager": "SAM, Tu Mánager de IA",
+    "SAM outbounds on your behalf every week — tour support, features, sync opportunities and more. You simply approve or deny, and nothing sends without you.":
+      "SAM hace outreach en tu nombre cada semana — apoyo de gira, colaboraciones, oportunidades de sync y más. Tú solo apruebas o rechazas, y nada se envía sin ti.",
     "Team Workspace": "Espacio de Equipo",
     "Bring your manager, producer, and engineer into one workspace — shared chat, whiteboards, and feedback on every version of the song. Your whole team in sync.":
       "Reúne a tu mánager, productor e ingeniero en un solo espacio — chat compartido, pizarras y feedback en cada versión de la canción. Todo tu equipo en sincronía.",
@@ -159,8 +159,8 @@ export const HOME_STRINGS = {
     "The Artist & Producer Management Revolution": "La révolution du management pour artistes et producteurs",
     "Your career.": "Ta carrière.",
     "Finally moving.": "Enfin en mouvement.",
-    "Release strategy, booking, touring, finances, and your team — the infrastructure signed acts get from a label, in one place, free to start. Grow into Artist Pro when you need the full toolkit, and hand the day-to-day work to Sam, your AI manager.":
-      "Stratégie de sortie, booking, tournées, finances et équipe — l'infrastructure que les artistes signés reçoivent d'un label, en un seul endroit, gratuit pour commencer. Passez à Artist Pro quand vous avez besoin de la boîte à outils complète, et confiez le quotidien à Sam, votre manager IA.",
+    "Release strategy, booking, touring, finances, and your team — the infrastructure signed acts get from a label, in one place, free to start. Grow into Artist Pro when you need the full toolkit, and hand the day-to-day work to SAM, your AI manager.":
+      "Stratégie de sortie, booking, tournées, finances et équipe — l'infrastructure que les artistes signés reçoivent d'un label, en un seul endroit, gratuit pour commencer. Passez à Artist Pro quand vous avez besoin de la boîte à outils complète, et confiez le quotidien à SAM, votre manager IA.",
     "Start Free": "Commencer Gratuitement",
     "See How It Works": "Voir Comment Ça Marche",
     "Start free. No contracts. No percentage cuts — ever.": "Commencez gratuitement. Sans contrat. Aucune commission sur vos revenus — jamais.",
@@ -183,8 +183,8 @@ export const HOME_STRINGS = {
       "SoundReady est aussi fait pour eux. Invitez votre équipe, partagez votre espace de travail et donnez à votre manager l'infrastructure pour vraiment faire avancer votre carrière — plus vite que jamais.",
     "Invite Your Team": "Invitez Votre Équipe",
     "Start free. Grow when you're ready.": "Commencez gratuitement. Grandissez quand vous êtes prêt.",
-    "Your Vault and Tracker are free forever. Unlock the full toolkit with Artist Pro — or hand the work to Sam when your career is moving.":
-      "Votre Vault et votre Tracker sont gratuits pour toujours. Débloquez la boîte à outils complète avec Artist Pro — ou confiez le travail à Sam quand votre carrière décolle.",
+    "Your Vault and Tracker are free forever. Unlock the full toolkit with Artist Pro — or hand the work to SAM when your career is moving.":
+      "Votre Vault et votre Tracker sont gratuits pour toujours. Débloquez la boîte à outils complète avec Artist Pro — ou confiez le travail à SAM quand votre carrière décolle.",
     "Your music's home base. Free forever.": "Le camp de base de votre musique. Gratuit pour toujours.",
     "You need a system before you need a team. Organize up to 5 songs in the Vault — or up to 5 beats in the Productions — and track every song from idea to release, free, forever. Everything else unlocks with Artist Pro.":
       "Vous avez besoin d'un système avant d'avoir besoin d'une équipe. Organisez jusqu'à 5 morceaux dans le Vault — ou 5 beats dans les Productions — et suivez chaque morceau de l'idée à la sortie, gratuitement, pour toujours. Tout le reste se débloque avec Artist Pro.",
@@ -208,15 +208,15 @@ export const HOME_STRINGS = {
     "Card required — charged automatically after 7 days. Cancel anytime.":
       "Carte requise — débitée automatiquement après 7 jours. Annulez à tout moment.",
     "Your career, worked around the clock.": "Votre carrière, travaillée 24h/24.",
-    "Sam automatically outbounds on your behalf for opportunities weekly — tour support, features, sync opportunities and more. You simply approve or deny. Every move is drafted from your real numbers and waits for you in Sam's Desk.":
-      "Sam fait du outreach automatiquement en votre nom chaque semaine — premières parties, featurings, opportunités de sync et plus. Vous approuvez ou refusez, tout simplement. Chaque action est rédigée à partir de vos chiffres réels et vous attend dans le Desk de Sam.",
-    "Sam outbounds for you weekly — tour support, features, sync & more": "Sam fait du outreach chaque semaine — tournées, featurings, sync et plus",
+    "SAM automatically outbounds on your behalf for opportunities weekly — tour support, features, sync opportunities and more. You simply approve or deny. Every move is drafted from your real numbers and waits for you in SAM's Desk.":
+      "SAM fait du outreach automatiquement en votre nom chaque semaine — premières parties, featurings, opportunités de sync et plus. Vous approuvez ou refusez, tout simplement. Chaque action est rédigée à partir de vos chiffres réels et vous attend dans le Desk de SAM.",
+    "SAM outbounds for you weekly — tour support, features, sync & more": "SAM fait du outreach chaque semaine — tournées, featurings, sync et plus",
     "You simply approve or deny — nothing sends without you": "Vous approuvez ou refusez, tout simplement — rien ne part sans vous",
-    "Sam chat backed by your real numbers": "Chat avec Sam basé sur vos chiffres réels",
+    "SAM chat backed by your real numbers": "Chat avec SAM basé sur vos chiffres réels",
     "Auto-drafted playlist & tour-opening pitches": "Pitchs playlists et premières parties rédigés automatiquement",
-    "Sam pitches your beats to matching artists": "Sam pitch vos beats aux artistes correspondants",
+    "SAM pitches your beats to matching artists": "SAM pitch vos beats aux artistes correspondants",
     "EPKs & weekly career digests": "EPK et résumés hebdomadaires de carrière",
-    "Unlock Sam": "Débloquer Sam",
+    "Unlock SAM": "Débloquer SAM",
     "No percentage cuts — ever.": "Aucune commission — jamais.",
     "The Toolkit": "La Boîte à Outils",
     "Everything a manager does. Nothing a manager doesn't.": "Tout ce qu'un manager fait. Rien de ce qu'il ne fait pas.",
@@ -249,9 +249,9 @@ export const HOME_STRINGS = {
     "Productions & Placements": "Productions et Placements",
     "Producers get their own workspace. Catalog every beat with BPM, key, and moods, track your credits and fees, and turn your placement history into the resume that lands collabs.":
       "Les producteurs ont leur propre espace. Cataloguez chaque beat avec BPM, tonalité et ambiances, suivez vos crédits et vos fees, et transformez votre historique de placements en CV qui décroche des collabs.",
-    "Sam, Your AI Manager": "Sam, Votre Manager IA",
-    "Sam outbounds on your behalf every week — tour support, features, sync opportunities and more. You simply approve or deny, and nothing sends without you.":
-      "Sam fait du outreach en votre nom chaque semaine — premières parties, featurings, opportunités de sync et plus. Vous approuvez ou refusez, et rien ne part sans vous.",
+    "SAM, Your AI Manager": "SAM, Votre Manager IA",
+    "SAM outbounds on your behalf every week — tour support, features, sync opportunities and more. You simply approve or deny, and nothing sends without you.":
+      "SAM fait du outreach en votre nom chaque semaine — premières parties, featurings, opportunités de sync et plus. Vous approuvez ou refusez, et rien ne part sans vous.",
     "Team Workspace": "Espace d'Équipe",
     "Bring your manager, producer, and engineer into one workspace — shared chat, whiteboards, and feedback on every version of the song. Your whole team in sync.":
       "Réunissez votre manager, producteur et ingénieur dans un seul espace — chat partagé, whiteboards et retours sur chaque version du morceau. Toute votre équipe en phase.",
@@ -312,8 +312,8 @@ export const HOME_STRINGS = {
     "The Artist & Producer Management Revolution": "Die Revolution im Management für Künstler und Producer",
     "Your career.": "Deine Karriere.",
     "Finally moving.": "Endlich in Bewegung.",
-    "Release strategy, booking, touring, finances, and your team — the infrastructure signed acts get from a label, in one place, free to start. Grow into Artist Pro when you need the full toolkit, and hand the day-to-day work to Sam, your AI manager.":
-      "Release-Strategie, Booking, Touring, Finanzen und dein Team — die Infrastruktur, die unter Vertrag stehende Acts von einem Label bekommen, an einem Ort, kostenlos zum Start. Wachse zu Artist Pro, wenn du das volle Toolkit brauchst, und übergib den Alltag an Sam, deinen KI-Manager.",
+    "Release strategy, booking, touring, finances, and your team — the infrastructure signed acts get from a label, in one place, free to start. Grow into Artist Pro when you need the full toolkit, and hand the day-to-day work to SAM, your AI manager.":
+      "Release-Strategie, Booking, Touring, Finanzen und dein Team — die Infrastruktur, die unter Vertrag stehende Acts von einem Label bekommen, an einem Ort, kostenlos zum Start. Wachse zu Artist Pro, wenn du das volle Toolkit brauchst, und übergib den Alltag an SAM, deinen KI-Manager.",
     "Start Free": "Kostenlos Starten",
     "See How It Works": "So Funktioniert Es",
     "Start free. No contracts. No percentage cuts — ever.": "Kostenlos starten. Keine Verträge. Keine prozentualen Abzüge — niemals.",
@@ -336,8 +336,8 @@ export const HOME_STRINGS = {
       "SoundReady ist auch für sie gebaut. Lade dein Team ein, teile deinen Workspace und gib deinem Management die Infrastruktur, um deine Karriere wirklich voranzutreiben — schneller als je zuvor.",
     "Invite Your Team": "Team Einladen",
     "Start free. Grow when you're ready.": "Kostenlos starten. Wachse, wenn du bereit bist.",
-    "Your Vault and Tracker are free forever. Unlock the full toolkit with Artist Pro — or hand the work to Sam when your career is moving.":
-      "Dein Vault und dein Tracker sind für immer kostenlos. Schalte das volle Toolkit mit Artist Pro frei — oder übergib die Arbeit an Sam, wenn deine Karriere Fahrt aufnimmt.",
+    "Your Vault and Tracker are free forever. Unlock the full toolkit with Artist Pro — or hand the work to SAM when your career is moving.":
+      "Dein Vault und dein Tracker sind für immer kostenlos. Schalte das volle Toolkit mit Artist Pro frei — oder übergib die Arbeit an SAM, wenn deine Karriere Fahrt aufnimmt.",
     "Your music's home base. Free forever.": "Das Zuhause deiner Musik. Für immer kostenlos.",
     "You need a system before you need a team. Organize up to 5 songs in the Vault — or up to 5 beats in the Productions — and track every song from idea to release, free, forever. Everything else unlocks with Artist Pro.":
       "Du brauchst ein System, bevor du ein Team brauchst. Organisiere bis zu 5 Songs im Vault — oder bis zu 5 Beats in den Productions — und verfolge jeden Song von der Idee bis zum Release, kostenlos, für immer. Alles andere schaltest du mit Artist Pro frei.",
@@ -361,15 +361,15 @@ export const HOME_STRINGS = {
     "Card required — charged automatically after 7 days. Cancel anytime.":
       "Karte erforderlich — wird nach 7 Tagen automatisch abgebucht. Jederzeit kündbar.",
     "Your career, worked around the clock.": "Deine Karriere, rund um die Uhr bearbeitet.",
-    "Sam automatically outbounds on your behalf for opportunities weekly — tour support, features, sync opportunities and more. You simply approve or deny. Every move is drafted from your real numbers and waits for you in Sam's Desk.":
-      "Sam macht automatisch wöchentlich Outreach in deinem Namen — Tour-Support, Features, Sync-Möglichkeiten und mehr. Du stimmst einfach zu oder lehnst ab. Jeder Schritt wird aus deinen echten Zahlen entworfen und wartet in Sam's Desk auf dich.",
-    "Sam outbounds for you weekly — tour support, features, sync & more": "Sam macht wöchentlich Outreach für dich — Tour, Features, Sync und mehr",
+    "SAM automatically outbounds on your behalf for opportunities weekly — tour support, features, sync opportunities and more. You simply approve or deny. Every move is drafted from your real numbers and waits for you in SAM's Desk.":
+      "SAM macht automatisch wöchentlich Outreach in deinem Namen — Tour-Support, Features, Sync-Möglichkeiten und mehr. Du stimmst einfach zu oder lehnst ab. Jeder Schritt wird aus deinen echten Zahlen entworfen und wartet in SAM's Desk auf dich.",
+    "SAM outbounds for you weekly — tour support, features, sync & more": "SAM macht wöchentlich Outreach für dich — Tour, Features, Sync und mehr",
     "You simply approve or deny — nothing sends without you": "Du stimmst zu oder lehnst ab — nichts wird ohne dich gesendet",
-    "Sam chat backed by your real numbers": "Sam-Chat auf Basis deiner echten Zahlen",
+    "SAM chat backed by your real numbers": "SAM-Chat auf Basis deiner echten Zahlen",
     "Auto-drafted playlist & tour-opening pitches": "Automatisch entworfene Playlist- und Tour-Eröffnungs-Pitches",
-    "Sam pitches your beats to matching artists": "Sam pichted deine Beats an passende Künstler",
+    "SAM pitches your beats to matching artists": "SAM pichted deine Beats an passende Künstler",
     "EPKs & weekly career digests": "EPKs und wöchentliche Karriere-Zusammenfassungen",
-    "Unlock Sam": "Sam Freischalten",
+    "Unlock SAM": "SAM Freischalten",
     "No percentage cuts — ever.": "Keine prozentualen Abzüge — niemals.",
     "The Toolkit": "Das Toolkit",
     "Everything a manager does. Nothing a manager doesn't.": "Alles, was ein Manager tut. Nichts, was er nicht tut.",
@@ -402,9 +402,9 @@ export const HOME_STRINGS = {
     "Productions & Placements": "Productions und Placements",
     "Producers get their own workspace. Catalog every beat with BPM, key, and moods, track your credits and fees, and turn your placement history into the resume that lands collabs.":
       "Producer bekommen ihren eigenen Workspace. Katalogisiere jeden Beat mit BPM, Tonart und Moods, verfolge deine Credits und Fees und mach aus deiner Placement-Historik den Lebenslauf, der Collabs bringt.",
-    "Sam, Your AI Manager": "Sam, Dein KI-Manager",
-    "Sam outbounds on your behalf every week — tour support, features, sync opportunities and more. You simply approve or deny, and nothing sends without you.":
-      "Sam macht jede Woche Outreach in deinem Namen — Tour-Support, Features, Sync-Möglichkeiten und mehr. Du stimmst einfach zu oder lehnst ab, und nichts wird ohne dich gesendet.",
+    "SAM, Your AI Manager": "SAM, Dein KI-Manager",
+    "SAM outbounds on your behalf every week — tour support, features, sync opportunities and more. You simply approve or deny, and nothing sends without you.":
+      "SAM macht jede Woche Outreach in deinem Namen — Tour-Support, Features, Sync-Möglichkeiten und mehr. Du stimmst einfach zu oder lehnst ab, und nichts wird ohne dich gesendet.",
     "Team Workspace": "Team-Workspace",
     "Bring your manager, producer, and engineer into one workspace — shared chat, whiteboards, and feedback on every version of the song. Your whole team in sync.":
       "Bringe Manager, Producer und Engineer in einen Workspace — gemeinsamer Chat, Whiteboards und Feedback zu jeder Version des Songs. Dein ganzes Team im Takt.",

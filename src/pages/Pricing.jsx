@@ -35,15 +35,15 @@ const FAQ = [
   },
   {
     q: "Does SoundReady take a percentage of my income?",
-    a: "Never. A traditional manager takes 15–20% of everything you earn, forever. Sam is $59/mo flat for the first 100 artists ($79/mo after), and you keep 100% of your earnings, always.",
+    a: "Never. A traditional manager takes 15–20% of everything you earn, forever. SAM is $59/mo flat for the first 100 artists ($79/mo after), and you keep 100% of your earnings, always.",
   },
   {
-    q: "What exactly does Sam do?",
-    a: "Sam watches your connected Spotify and YouTube data, matches your songs to real playlist and tour opportunities, and drafts the emails: pitches, outreach, EPKs, digests. Every draft lands in Sam's Desk where you approve, edit, or deny it. Sam does the work; you stay in control.",
+    q: "What exactly does SAM do?",
+    a: "SAM watches your connected Spotify and YouTube data, matches your songs to real playlist and tour opportunities, and drafts the emails: pitches, outreach, EPKs, digests. Every draft lands in SAM's Desk where you approve, edit, or deny it. SAM does the work; you stay in control.",
   },
   {
     q: "I'm a producer. Is SoundReady for me?",
-    a: "Yes. Every account has both an artist side and a producer side. Producers get the Beat Pipeline from idea to placement, plus a placement and credits tracker and Artist Match, which ranks artists on the platform whose sound fits your beats. On AI Manager, Sam even drafts the pitch emails for you.",
+    a: "Yes. Every account has both an artist side and a producer side. Producers get the Beat Pipeline from idea to placement, plus a placement and credits tracker and Artist Match, which ranks artists on the platform whose sound fits your beats. On AI Manager, SAM even drafts the pitch emails for you.",
   },
   {
     q: "Can I cancel anytime?",
@@ -93,7 +93,7 @@ export default function Pricing() {
     <div className="min-h-screen bg-background font-body">
       <SEO
         title="SoundReady Pricing"
-        description="Start free forever. Artist Pro unlocks the full toolkit for $39/mo or $374/yr with a 7-day free trial. AI Manager adds Sam, your AI manager, for $59/mo for the first 100 artists ($79/mo after). No percentage cuts, ever."
+        description="Start free forever. Artist Pro unlocks the full toolkit for $39/mo or $374/yr with a 7-day free trial. AI Manager adds SAM, your AI manager, for $59/mo for the first 100 artists ($79/mo after). No percentage cuts, ever."
       />
 
       <PublicNav />
@@ -108,11 +108,11 @@ export default function Pricing() {
             Built for independent artists &amp; producers
           </motion.div>
           <h1 className="font-heading text-5xl sm:text-7xl font-black tracking-tight leading-[0.95]">
-            Meet Sam<br />
+            Meet SAM<br />
             <span className="text-primary">Your AI manager: $59/mo for the first 100 artists</span>
           </h1>
           <p className="text-lg sm:text-xl text-muted-foreground leading-relaxed max-w-2xl mx-auto">
-            Sam outbounds for you every week: playlist pitches, tour support, sync opportunities, drafted from your real numbers, and nothing sends without your approval. Your Vault, Tracker and the full toolkit come with it. Start free and grow in.
+            SAM outbounds for you every week: playlist pitches, tour support, sync opportunities, drafted from your real numbers, and nothing sends without your approval. Your Vault, Tracker and the full toolkit come with it. Start free and grow in.
           </p>
           {!isAuth && (
             <Button size="lg" className="gap-2 font-heading font-bold text-base px-10 h-12" onClick={() => document.getElementById("plans")?.scrollIntoView({ behavior: "smooth" })}>
@@ -190,7 +190,7 @@ export default function Pricing() {
               <p className="text-sm font-semibold mt-0.5 mb-2 text-chart-5">Your music's home base. Free forever.</p>
               <p className="text-2xl font-black mb-3">$0</p>
               <p className="text-sm text-muted-foreground leading-relaxed mb-5">
-                Your music's home base. The Vault and Tracker keep up to 5 songs fully organized, from idea to release, and everything you add stays yours. Organizing your catalog should never cost money. Everything else unlocks with Artist Pro. Sam comes with AI Manager.
+                Your music's home base. The Vault and Tracker keep up to 5 songs fully organized, from idea to release, and everything you add stays yours. Organizing your catalog should never cost money. Everything else unlocks with Artist Pro. SAM comes with AI Manager.
               </p>
               <div className="flex-1">
                 <TierItems items={FREE_ITEMS} check="text-chart-5" />
@@ -235,11 +235,11 @@ export default function Pricing() {
             <motion.div initial={{ opacity: 0, y: 24 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: 0.12 }}
               className="relative rounded-2xl border border-primary/30 bg-card p-6 flex flex-col ring-2 ring-primary/60 shadow-2xl shadow-primary/10">
               <div className="absolute -top-3 left-1/2 -translate-x-1/2 px-3 py-1 rounded-full text-xs font-bold whitespace-nowrap bg-primary text-primary-foreground">
-                Most Popular · Sam Works For You
+                Most Popular · SAM Works For You
               </div>
               <motion.img
                 src="https://media.base44.com/images/public/69dcf0ecc907e43a438a626b/d124f0929_generated_f10ed4b3.png"
-                alt="Sam, the SoundReady AI manager robot"
+                alt="SAM, the SoundReady AI manager robot"
                 className="pointer-events-none absolute -right-3 xl:-right-14 top-8 h-32 sm:h-44 w-auto drop-shadow-xl z-10"
                 initial={{ opacity: 0, x: 16 }}
                 whileInView={{ opacity: 1, x: 0 }}
@@ -259,7 +259,7 @@ export default function Pricing() {
                 <span className="px-2 py-0.5 rounded-full bg-primary/15 text-primary text-[10px] font-bold uppercase tracking-wide">First 100 Artists · Discounted Forever</span>
               </div>
               <p className="text-sm text-muted-foreground leading-relaxed mb-5">
-                Sam outbounds for you every week: playlist pitches, tour support, sync opportunities, drafted from your real numbers, and nothing sends without your approval. A traditional manager takes 15–20% of everything you earn. Sam is $59/mo flat for the first 100 artists, $79/mo after.
+                SAM outbounds for you every week: playlist pitches, tour support, sync opportunities, drafted from your real numbers, and nothing sends without your approval. A traditional manager takes 15–20% of everything you earn. SAM is $59/mo flat for the first 100 artists, $79/mo after.
               </p>
               <div className="flex-1">
                 <p className="font-heading text-lg font-black tracking-tight mb-2">Everything in Artist Pro.</p>
@@ -290,7 +290,7 @@ export default function Pricing() {
               </div>
               <div className="rounded-xl bg-primary/10 border border-primary/20 p-4 space-y-1">
                 <p className="font-heading text-2xl font-black text-primary">$59 flat</p>
-                <p className="text-xs text-muted-foreground">Sam: full-time work, zero cuts</p>
+                <p className="text-xs text-muted-foreground">SAM: full-time work, zero cuts</p>
               </div>
             </div>
             <ManagerCostSlider />

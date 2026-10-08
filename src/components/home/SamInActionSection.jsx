@@ -6,7 +6,7 @@ import { useLang } from "@/lib/i18n/LanguageContext";
 const SAM_IMG = "https://media.base44.com/images/public/69dcf0ecc907e43a438a626b/d124f0929_generated_f10ed4b3.png";
 
 // Screen recording of Sam pitching a song to a Spotify playlist
-const SAM_DEMO_VIDEO_URL = "https://media.base44.com/videos/public/69dcf0ecc907e43a438a626b/0b5474617_copy_B90592E5-E2E1-4191-A831-23F510A1F7162.MOV";
+const SAM_DEMO_VIDEO_URL = "https://media.base44.com/videos/public/69dcf0ecc907e43a438a626b/a5116fd22_copy_AA5027FF-0523-458D-9215-A4ACC9B351A1.MOV";
 
 export default function SamInActionSection() {
   const { t } = useLang();
@@ -14,13 +14,13 @@ export default function SamInActionSection() {
     <section id="sam-in-action" className="px-4 py-24 border-t border-border scroll-mt-20">
       <div className="max-w-5xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
         <motion.div initial={{ opacity: 0, x: -24 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }} className="space-y-5 order-2 lg:order-1">
-          <p className="text-xs text-primary uppercase tracking-wider font-bold">{t("Sam In Action")}</p>
+          <p className="text-xs text-primary uppercase tracking-wider font-bold">{t("SAM In Action")}</p>
           <h2 className="font-heading text-4xl sm:text-5xl font-bold leading-tight">
             {t("Your AI manager automatically outbounds on ")}
             <span className="text-primary font-black">{t("your behalf")}</span>
           </h2>
           <p className="text-lg text-muted-foreground leading-relaxed">
-            {t("This is Sam's Desk: a finished pitch, researched and drafted from your real numbers, waiting for your decision.")}
+            {t("This is SAM's Desk: a finished pitch, researched and drafted from your real numbers, waiting for your decision.")}
           </p>
         </motion.div>
         <motion.div initial={{ opacity: 0, x: 24 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }} className="relative order-1 lg:order-2">
@@ -32,13 +32,13 @@ export default function SamInActionSection() {
           </div>
           <img
             src={SAM_IMG}
-            alt="Sam, the SoundReady AI manager robot"
+            alt="SAM, the SoundReady AI manager robot"
             className="absolute -top-12 -right-2 sm:-right-6 h-16 w-auto drop-shadow-xl z-10 pointer-events-none"
           />
           <div className="rounded-2xl border border-border bg-card p-5 space-y-4 shadow-xl">
             <div className="flex items-center gap-2 pb-2 border-b border-border">
               <Bot className="h-4 w-4 text-primary" />
-              <p className="font-heading font-bold text-sm">{t("Sam's Desk")}</p>
+              <p className="font-heading font-bold text-sm">{t("SAM's Desk")}</p>
               <span className="ml-auto text-[10px] font-bold uppercase tracking-widest text-primary bg-primary/10 border border-primary/20 rounded-full px-2 py-0.5">
                 {t("This week")}
               </span>
@@ -77,7 +77,7 @@ export default function SamInActionSection() {
               </p>
             </div>
             <p className="text-[10px] text-muted-foreground text-center">
-              {t("Illustrative example: Sam's Desk shows your real drafts, built from your real numbers.")}
+              {t("Illustrative example: SAM's Desk shows your real drafts, built from your real numbers.")}
             </p>
           </div>
         </motion.div>
@@ -85,15 +85,15 @@ export default function SamInActionSection() {
 
       {SAM_DEMO_VIDEO_URL && (
         <motion.div initial={{ opacity: 0, y: 24 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="max-w-4xl mx-auto mt-12 space-y-3">
-          <p className="font-heading font-bold text-lg text-center">{t("A real walkthrough: Sam automatically pitches a song to a Spotify playlist")}</p>
+          <p className="font-heading font-bold text-lg text-center">{t("A real walkthrough: SAM automatically pitches a song to a Spotify playlist")}</p>
+          <p className="text-sm font-semibold text-foreground text-center">
+            {t("You simply Approve or Deny.")}
+          </p>
           <video
             src={SAM_DEMO_VIDEO_URL}
             autoPlay muted loop playsInline controls
             className="w-full rounded-2xl border border-border shadow-xl"
           />
-          <p className="text-xs text-muted-foreground text-center">
-            {t("You simply Approve or Deny.")}
-          </p>
         </motion.div>
       )}
     </section>

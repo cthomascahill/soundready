@@ -38,9 +38,9 @@ export default function ManagerCostSlider() {
 
       <p className="text-center text-sm font-semibold">
         {savings > 0 ? (
-          <span className="text-primary">You keep an extra {fmt(savings)} every year with Sam.</span>
+          <span className="text-primary">You keep an extra {fmt(savings)} every year with SAM.</span>
         ) : (
-          <span className="text-muted-foreground">Earning under $343/mo? Then your problem isn't the fee, it's revenue. Sam is built to fix exactly that, working your career every week until you clear it. And at over $343/mo, Sam costs less than a manager, forever.</span>
+          <span className="text-muted-foreground">Earning under $343/mo? Then your problem isn't the fee, it's revenue. SAM is built to fix exactly that, working your career every week until you clear it. And at over $343/mo, SAM costs less than a manager, forever.</span>
         )}
       </p>
     </div>
