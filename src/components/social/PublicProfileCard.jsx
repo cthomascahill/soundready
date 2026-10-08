@@ -63,7 +63,7 @@ export default function PublicProfileCard() {
         city: form.city.trim(),
         genres: form.genres.split(",").map((g) => g.trim()).filter(Boolean),
         avatar_url: form.avatar_url,
-        account_type: user.account_type || "artist_producer",
+        account_type: user.account_type || "artist",
       };
       const result = profileId
         ? await base44.entities.PublicProfile.update(profileId, payload)

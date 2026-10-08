@@ -1,5 +1,5 @@
 import {
-  TrendingUp, ListMusic, Activity, Mic, PiggyBank, Bus, ShoppingBag, Sparkles,
+  TrendingUp, ListMusic, Activity, Mic, PiggyBank, Bus, Sparkles,
   Clapperboard, Trophy,
 } from "lucide-react";
 
@@ -61,11 +61,3 @@ export const INTEL_FEEDS = [
     description: "An AI-written weekly digest of your genre, city and platforms.",
   },
 ];
-
-// Producer mode only: who's shopping for beats right now
-export const PRODUCER_FEED = {
-  id: "producer_market",
-  label: "Marketplace Watch",
-  icon: ShoppingBag,
-  description: "Artists shopping for beats, A&R beat calls and 'looking for production' posts.",
-};

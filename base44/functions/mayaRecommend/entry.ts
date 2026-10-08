@@ -12,9 +12,6 @@ export default async function(req) {
     const isAIManager = user.role === 'admin' || user.subscription_tier === 'ai_manager';
     if (!isAIManager) return Response.json({ error: 'AI Manager subscription required' }, { status: 403 });
 
-    const body = await req.json().catch(() => ({}));
-    const mode = body.mode === 'producer' ? 'producer' : 'artist';
-
     const [memories, profiles, goals, conns, pipeline, activities, recentRecs] = await Promise.all([
       base44.entities.MayaMemory.filter({ user_id: user.id }, '-created_date', 100).catch(() => []),
       base44.entities.ArtistProfile.filter({ created_by_id: user.id }, '-created_date', 1).catch(() => []),
@@ -70,7 +67,7 @@ export default async function(req) {
       : 'No prior actions';
 
     const existingTitles = recentRecs.map(r => `- ${r.title} (${r.status})`);
-    const prompt = `You are Sam, the AI manager inside SoundReady, reviewing the account of ${name}, an independent ${mode === 'producer' ? 'producer' : 'artist'}.
+    const prompt = `You are Sam, the AI manager inside SoundReady, reviewing the account of ${name}, an independent artist.
 
 CONFIRMED PREFERENCES (durable things the artist told you in conversation — treat as ground truth and apply them):
 ${memoryStr}

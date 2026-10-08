@@ -13,7 +13,6 @@ import LanguagePicker from "@/components/LanguagePicker";
 import ThemeToggle from "@/components/ThemeToggle";
 import PreviewTierSwitcher from "@/components/PreviewTierSwitcher";
 import { useLang } from "@/lib/i18n/LanguageContext";
-import { ModeProvider } from "@/lib/mode";
 
 export default function AppLayout() {
   const location = useLocation();
@@ -43,7 +42,6 @@ export default function AppLayout() {
   const closeDrawer = () => setDrawerOpen(false);
 
   return (
-    <ModeProvider>
     <div className="min-h-screen bg-background font-body">
       {/* Always-visible points total, top right */}
       <div className="hidden lg:block fixed top-3 right-4 z-40">
@@ -118,6 +116,5 @@ export default function AppLayout() {
       <CommandPalette open={cmdOpen} onClose={() => setCmdOpen(false)} />
       <MayaAssistant />
       </div>
-    </ModeProvider>
   );
 }

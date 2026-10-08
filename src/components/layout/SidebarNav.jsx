@@ -86,8 +86,7 @@ const NAV_SECTIONS = (isAdmin) => [
 const PRO_ONLY = new Set([
   "/studio", "/artist-feed",
   "/touring", "/gig-finder", "/tour-opportunities", "/tour-planner", "/tour-finance",
-  "/contracts", "/team-chat", "/beat-pipeline", "/artist-match",
-  "/beat-store", "/client-crm", "/producer-contracts",
+  "/contracts", "/team-chat",
   "/playlist-pitcher", "/music-news",
   "/release-plan", "/analytics", "/pitch-deck", "/legal",
   "/career-roadmap",

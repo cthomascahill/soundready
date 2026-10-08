@@ -3,7 +3,6 @@ import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import { base44 } from "@/api/base44Client";
 import { useAuth } from "@/lib/AuthContext";
-import { useMode } from "@/lib/mode";
 import { hasAIManager } from "@/lib/tier";
 import MayaQueueCard from "@/components/maya/MayaQueueCard";
 import RecommendationsPanel from "@/components/maya/RecommendationsPanel";
@@ -87,7 +86,6 @@ function HistoryRow({ item, onRecordOutcome }) {
 
 export default function MayaDesk() {
   const { user } = useAuth();
-  const { mode } = useMode();
   const [activities, setActivities] = useState([]);
   const [loading, setLoading] = useState(true);
   const [tab, setTab] = useState("queue");
@@ -101,13 +99,10 @@ export default function MayaDesk() {
   const runSearch = async () => {
     setSearching(true);
     setSearchNote("");
-    const fn = mode === "producer" ? "mayaScoutBeats" : "aiTourOpportunities";
-    const res = await base44.functions.invoke(fn, {}).catch(e => ({ data: { error: e.message } }));
+    const res = await base44.functions.invoke("aiTourOpportunities", {}).catch(e => ({ data: { error: e.message } }));
     setSearching(false);
     if (res.data?.error) {
-      setSearchNote(res.data.reason === "no_beats"
-        ? "Sam needs at least one beat in your Productions to scout placements."
-        : "Sam's search hit a snag — try again in a moment.");
+      setSearchNote("Sam's search hit a snag — try again in a moment.");
       return;
     }
     const found = res.data?.found ?? res.data?.opportunities_found ?? 0;
@@ -159,7 +154,7 @@ export default function MayaDesk() {
           </div>
           <p className="font-heading font-bold text-lg">Sam's Desk is part of the AI Manager plan</p>
           <p className="text-sm text-muted-foreground leading-relaxed">
-            Sam drafts your playlist pitches, tour outreach, EPKs, beat pitches, and weekly digests — and nothing sends until you approve it here.
+            Sam drafts your playlist pitches, tour outreach, EPKs and weekly digests — and nothing sends until you approve it here.
           </p>
           <Link to="/pricing-account">
             <Button className="w-full gap-2 font-semibold">
@@ -233,7 +228,7 @@ export default function MayaDesk() {
             onQueueClick={() => setTab("queue")}
           />
         ) : tab === "recs" ? (
-          <RecommendationsPanel user={user} mode={mode} onPendingChange={setRecsPending} />
+          <RecommendationsPanel user={user} onPendingChange={setRecsPending} />
         ) : tab === "memory" ? (
           <MemoryPanel />
         ) : tab === "scans" ? (

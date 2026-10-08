@@ -71,18 +71,8 @@ import ArtistFeed from './pages/ArtistFeed.jsx';
 import WhiteboardCanvas from './pages/WhiteboardCanvas';
 import MayaDesk from './pages/MayaDesk';
 import MayaProfile from './pages/MayaProfile';
-import BeatVault from './pages/BeatVault';
-import BeatPipeline from './pages/BeatPipeline';
-import Placements from './pages/Placements';
-import ArtistMatch from './pages/ArtistMatch';
 import ProGate from './components/ProGate';
 import AiManagerGate from './components/AiManagerGate';
-import BeatStore from './pages/BeatStore';
-import ClientCRM from './pages/ClientCRM';
-import ProducerContracts from './pages/ProducerContracts';
-import Storefront from './pages/Storefront';
-import StoreDownload from './pages/StoreDownload';
-import SignContract from './pages/SignContract';
 import DemoPlayer from './pages/DemoPlayer';
 import ToolLibrary from './pages/ToolLibrary';
 import Touring from './pages/Touring';
@@ -120,9 +110,6 @@ const AuthenticatedApp = () => {
       <Route path="/privacy" element={<Privacy />} />
       <Route path="/terms" element={<Terms />} />
       <Route path="/checkout/:plan" element={<Checkout />} />
-      <Route path="/store/:producerId" element={<Storefront />} />
-      <Route path="/store/download" element={<StoreDownload />} />
-      <Route path="/contracts/sign/:token" element={<SignContract />} />
       <Route path="/demo/:token" element={<DemoPlayer />} />
 
       {/* Auth pages */}
@@ -190,13 +177,6 @@ const AuthenticatedApp = () => {
         <Route path="/tell-sam" element={ai(TellSam)} />
         <Route path="/todos" element={ai(Todos)} />
         <Route path="/maya-profile" element={<MayaProfile />} />
-        <Route path="/beat-vault" element={<BeatVault />} />
-        <Route path="/beat-pipeline" element={pro(BeatPipeline)} />
-        <Route path="/placements" element={<Placements />} />
-        <Route path="/artist-match" element={pro(ArtistMatch)} />
-        <Route path="/beat-store" element={pro(BeatStore)} />
-        <Route path="/client-crm" element={pro(ClientCRM)} />
-        <Route path="/producer-contracts" element={pro(ProducerContracts)} />
         <Route path="/u/:userId" element={<CreatorProfile />} />
         <Route path="/buyout-leads" element={<AdminGate><BuyoutLeads /></AdminGate>} />
         <Route path="/sam-usage-admin" element={<AdminGate><SamUsageAdmin /></AdminGate>} />

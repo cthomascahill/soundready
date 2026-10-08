@@ -19,7 +19,7 @@ export default function Profile() {
   const [saving, setSaving] = useState(false);
   const [saved, setSaved] = useState(false);
   const [analysisCount, setAnalysisCount] = useState(0);
-  const [accountType, setAccountType] = useState("artist_producer");
+  const [accountType, setAccountType] = useState("artist");
   const [form, setForm] = useState({
     artist_name: "",
     bio: "",
@@ -31,7 +31,7 @@ export default function Profile() {
     base44.auth.me()
       .then(async (u) => {
         setUser(u);
-        setAccountType(u.account_type || "artist_producer");
+        setAccountType(u.account_type || "artist");
         setForm({
           artist_name: u.artist_name || "",
           bio: u.bio || "",
@@ -57,10 +57,7 @@ export default function Profile() {
 
   const handleAccountType = async (key) => {
     setAccountType(key);
-    await base44.auth.updateMe({
-      account_type: key,
-      active_mode: key === "producer" ? "producer" : "artist",
-    }).catch(() => {});
+    await base44.auth.updateMe({ account_type: key }).catch(() => {});
   };
 
   const handleInputChange = (field) => (e) => {

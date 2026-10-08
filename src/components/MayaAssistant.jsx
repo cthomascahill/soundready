@@ -9,9 +9,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import ReactMarkdown from "react-markdown";
 import MayaUpsellPopover from "@/components/maya/MayaUpsellPopover";
 import MemoryLearnCard from "@/components/maya/MemoryLearnCard";
-import { useMode } from "@/lib/mode";
 import { useLang } from "@/lib/i18n/LanguageContext";
-import { buildProducerSystemPrompt, PRODUCER_QUICK_STARTS } from "@/lib/mayaProducerPrompt";
 
 const QUICK_STARTS = [
   "Scan what's being said about me online right now",
@@ -21,7 +19,7 @@ const QUICK_STARTS = [
   "What's my biggest opportunity right now?",
 ];
 
-function buildSystemPrompt(profile, challenges, goals, savedBeats) {
+function buildSystemPrompt(profile, challenges, goals) {
   if (!profile) {
     return `You are Sam, an AI music industry manager built into SoundReady. The artist hasn't set up their profile yet. Encourage them to complete their Artist Profile for personalized advice. You speak like a real, direct manager — no fluff, no generic advice. Be concise and actionable.`;
   }
@@ -67,10 +65,6 @@ function buildSystemPrompt(profile, challenges, goals, savedBeats) {
 
   const earnedBadges = challenges?.filter(c => c.badge_earned).map(c => c.title).join(", ") || "none";
 
-  const beatStr = savedBeats?.length > 0
-    ? `Saved ${savedBeats.length} beat(s) including: ${savedBeats.slice(0, 3).map(b => `"${b.title}" by ${b.producer_name} (${b.bpm || "?"}BPM, ${b.genre || "?"})`).join(", ")}`
-    : "No saved beats";
-
   const brandStr = ap.brand_kit
     ? `Has a brand kit with ${ap.brand_kit.logos?.length || 0} logos, ${ap.brand_kit.palettes?.length || 0} palettes, ${ap.brand_kit.font_combos?.length || 0} font combos saved.`
     : "No brand kit saved yet";
@@ -110,9 +104,6 @@ GOALS:
 ACTIVE CHALLENGES:
 - ${challengeStr}
 - Earned badges: ${earnedBadges}
-
-BEATS:
-- ${beatStr}
 
 BRANDING:
 - ${brandStr}
@@ -395,7 +386,6 @@ Return your response as JSON:
 
 export default function MayaAssistant() {
   const { user } = useAuth();
-  const { mode } = useMode();
   const { t } = useLang();
   const [open, setOpen] = useState(false);
   const [messages, setMessages] = useState([]);
@@ -405,7 +395,6 @@ export default function MayaAssistant() {
   const [profile, setProfile] = useState(null);
   const [challenges, setChallenges] = useState([]);
   const [goals, setGoals] = useState([]);
-  const [savedBeats, setSavedBeats] = useState([]);
   const [platformConns, setPlatformConns] = useState([]);
   const [profileLoaded, setProfileLoaded] = useState(false);
   const [upsellOpen, setUpsellOpen] = useState(false);
@@ -417,45 +406,31 @@ export default function MayaAssistant() {
   const inputRef = useRef(null);
   const systemPromptRef = useRef(null);
 
-  // Load artist/producer context once on open (rebuilds when the profile mode switches)
+  // Load artist context once on open
   useEffect(() => {
     if (!open || profileLoaded || !user?.id) return;
     Promise.all([
       base44.entities.ArtistProfile.filter({ created_by_id: user.id }, "-created_date", 1).catch(() => []),
       base44.entities.ArtistChallenge.filter({ created_by_id: user.id }, "-created_date", 20).catch(() => []),
       base44.entities.ArtistGoal.filter({ created_by_id: user.id }, "-created_date", 20).catch(() => []),
-      base44.entities.Beat.list("-created_date", 50).catch(() => []),
       base44.entities.PlatformConnection.filter({ created_by_id: user.id }, "-created_date", 20).catch(() => []),
-      base44.entities.Beat.filter({ created_by_id: user.id }, "-created_date", 100).catch(() => []),
-      base44.entities.BeatPlacement.filter({ created_by_id: user.id }, "-created_date", 50).catch(() => []),
-      base44.entities.ProducerClient.filter({ created_by_id: user.id }, "-created_date", 50).catch(() => []),
-      base44.entities.BeatSale.filter({ producer_id: user.id }, "-created_date", 50).catch(() => []),
       base44.entities.PipelineSong.filter({ created_by_id: user.id }, "sort_order", 50).catch(() => []),
       base44.entities.AIActivity.filter({ user_id: user.id }, "-created_date", 15).catch(() => []),
       base44.entities.MayaMemory.filter({ user_id: user.id }, "-created_date", 200).catch(() => []),
-    ]).then(([profiles, chals, goalList, beats, conns, ownBeats, placements, clientList, sales, pipelineSongs, deskActivities, mayaMemories]) => {
+    ]).then(([profiles, chals, goalList, conns, pipelineSongs, deskActivities, mayaMemories]) => {
       memoriesRef.current = mayaMemories;
       setMemories(mayaMemories);
       const prof = profiles[0] || null;
-      const userSavedBeats = beats.filter(b => b.saves?.includes(user.id));
       setProfile(prof);
       setChallenges(chals);
       setGoals(goalList);
-      setSavedBeats(userSavedBeats);
       setPlatformConns(conns);
       const platformContext = buildPlatformDataContext(conns);
       const pipelineContext = buildPipelineContext(pipelineSongs, deskActivities);
-      systemPromptRef.current = mode === "producer"
-        ? buildProducerSystemPrompt(user, prof, ownBeats, placements, clientList, sales) + platformContext + pipelineContext
-        : buildSystemPrompt(prof, chals, goalList, userSavedBeats) + platformContext + pipelineContext;
+      systemPromptRef.current = buildSystemPrompt(prof, chals, goalList) + platformContext + pipelineContext;
       setProfileLoaded(true);
     });
-  }, [open, profileLoaded, user, mode]);
-
-  // Switching Artist/Producer mode rebuilds Sam's context with the right career data
-  useEffect(() => {
-    setProfileLoaded(false);
-  }, [mode]);
+  }, [open, profileLoaded, user]);
 
   // Chat memory — restore this user's last conversation
   useEffect(() => {
@@ -662,9 +637,7 @@ export default function MayaAssistant() {
                   </div>
                   <p className="font-heading font-bold text-foreground">Hey {artistName} 👋</p>
                   <p className="text-xs text-muted-foreground max-w-[280px] mx-auto leading-relaxed">
-                    {mode === "producer"
-                      ? "I'm Sam, your AI music manager. I know your catalog, your placements, your numbers. Ask me anything."
-                      : "I'm Sam, your AI music manager. I know your profile, your goals, your numbers. Ask me anything."}
+                    I'm Sam, your AI music manager. I know your profile, your goals, your numbers. Ask me anything.
                   </p>
                 </div>
               )}
@@ -768,7 +741,7 @@ export default function MayaAssistant() {
             {showQuickStarts && profileLoaded && (
               <div className="px-4 pb-2 flex flex-col gap-1.5 shrink-0">
                 <p className="text-[10px] text-muted-foreground uppercase tracking-widest px-1">Quick start</p>
-                {(mode === "producer" ? PRODUCER_QUICK_STARTS : QUICK_STARTS).map((q, i) => (
+                {QUICK_STARTS.map((q, i) => (
                   <button key={i} onClick={() => send(q)}
                     className="text-left text-xs px-3 py-2.5 rounded-xl bg-muted border border-border text-foreground/80 hover:bg-accent hover:text-foreground hover:border-primary/30 transition-all">
                     {q}

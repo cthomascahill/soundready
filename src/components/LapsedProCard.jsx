@@ -20,12 +20,11 @@ export default function LapsedProCard({ feature }) {
     Promise.all([
       base44.entities.PipelineSong.filter({ created_by_id: user.id }, null, 500),
       base44.entities.Venue.filter({ created_by_id: user.id }, null, 500),
-      base44.entities.ProducerClient.filter({ created_by_id: user.id }, null, 500),
     ])
-      .then(([songs, venues, clients]) =>
-        setCounts({ songs: songs.length, venues: venues.length, clients: clients.length })
+      .then(([songs, venues]) =>
+        setCounts({ songs: songs.length, venues: venues.length })
       )
-      .catch(() => setCounts({ songs: 0, venues: 0, clients: 0 }));
+      .catch(() => setCounts({ songs: 0, venues: 0 }));
   }, [user]);
 
   if (!isLapsedPro(user)) return null;
@@ -33,7 +32,6 @@ export default function LapsedProCard({ feature }) {
   const items = [
     { label: "songs in your Tracker", n: counts?.songs },
     { label: "venues and tours you were working", n: counts?.venues },
-    { label: "producer clients in your CRM", n: counts?.clients },
   ].filter((i) => i.n > 0);
 
   return (

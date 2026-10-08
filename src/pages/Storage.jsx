@@ -32,15 +32,14 @@ export default function Storage() {
       base44.entities.RoyaltyStatement.filter(byMe, "-created_date", 50).catch(() => []),
       base44.entities.Invoice.filter(byMe, "-created_date", 50).catch(() => []),
       base44.entities.VenueContract.filter(byMe, "-created_date", 50).catch(() => []),
-      base44.entities.ProducerContract.filter(byMe, "-created_date", 50).catch(() => []),
       base44.entities.EPK.filter(byMe, "-created_date", 20).catch(() => []),
     ]).then(([
       tasks, drafts, deals, recommendations, activities, scans, memories,
-      royalties, invoices, venueContracts, producerContracts, epks,
+      royalties, invoices, venueContracts, epks,
     ]) => {
       setDocs(buildDocuments({
         tasks, drafts, deals, recommendations, activities, scans, memories,
-        royalties, invoices, venueContracts, producerContracts, epks,
+        royalties, invoices, venueContracts, epks,
       }));
       setLoading(false);
     });

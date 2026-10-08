@@ -58,26 +58,6 @@ export default async function(req) {
         return Response.json({ received: true });
       }
 
-      // One-time Beat Store purchase — record the sale, no subscription involved
-      if (session.metadata?.beat_id) {
-        const existing = await base44.asServiceRole.entities.BeatSale.filter({ stripe_session_id: session.id }, '', 1);
-        if (existing.length === 0) {
-          await base44.asServiceRole.entities.BeatSale.create({
-            beat_id: session.metadata.beat_id,
-            beat_title: session.metadata.beat_title || '',
-            producer_id: session.metadata.producer_id || '',
-            producer_name: session.metadata.producer_name || '',
-            buyer_email: session.customer_details?.email || session.customer_email || '',
-            deal_type: session.metadata.deal_type === 'Exclusive' ? 'Exclusive' : 'Lease',
-            amount: (session.amount_total || 0) / 100,
-            stripe_session_id: session.id,
-            status: 'paid',
-          });
-          console.log(`stripeWebhook: beat sale recorded for beat ${session.metadata.beat_id}`);
-        }
-        return Response.json({ received: true });
-      }
-
       const userId = session.metadata?.user_id || session.client_reference_id;
       const tier = session.metadata?.tier || 'pro';
       if (!userId) throw new Error('checkout.session.completed: no user_id in metadata');

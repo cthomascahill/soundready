@@ -12,11 +12,9 @@
     "account_type": {
       "type": "string",
       "enum": [
-        "artist",
-        "producer",
-        "artist_producer"
+        "artist"
       ],
-      "default": "artist_producer"
+      "default": "artist"
     },
     "bio": {
       "type": "string"

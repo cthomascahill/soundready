@@ -13,7 +13,6 @@ const UNLOCKS = [
   "The Wall — the artist community",
   "Team Chat + shared Whiteboard",
   "Genre Trends, Lyric Room & Studio",
-  "Beat Pipeline & Artist Match — producer tools",
 ];
 
 /**

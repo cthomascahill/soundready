@@ -2,12 +2,11 @@ import { useState, useEffect, useMemo } from "react";
 import { ArrowLeft, Bot } from "lucide-react";
 import { base44 } from "@/api/base44Client";
 import { useAuth } from "@/lib/AuthContext";
-import { useMode } from "@/lib/mode";
 import IntelFeed from "@/components/intel/IntelFeed";
 import FeedCard from "@/components/intel/FeedCard";
 import HotOpportunityCard from "@/components/intel/HotOpportunityCard";
 import useIntelHighlights from "@/components/intel/useIntelHighlights";
-import { INTEL_FEEDS, PRODUCER_FEED } from "@/lib/intelFeeds";
+import { INTEL_FEEDS } from "@/lib/intelFeeds";
 
 function daysUntil(deadline) {
   if (!deadline) return Infinity;
@@ -20,8 +19,7 @@ function daysUntil(deadline) {
 // moves, trends, local events, grants, tour routing, and a weekly digest.
 export default function IndustryIntel() {
   const { user } = useAuth();
-  const { mode } = useMode();
-  const feeds = mode === "producer" ? [PRODUCER_FEED, ...INTEL_FEEDS] : INTEL_FEEDS;
+  const feeds = INTEL_FEEDS;
   const [activeId, setActiveId] = useState(null); // null = the card grid
   const [genreText, setGenreText] = useState("");
   const [city, setCity] = useState("");

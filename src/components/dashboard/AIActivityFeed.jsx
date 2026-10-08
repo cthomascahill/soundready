@@ -11,8 +11,6 @@ const ACTION_ICONS = {
   epk_generated: { icon: FileText, color: "text-purple-400 bg-purple-500/10" },
   digest_sent: { icon: Mail, color: "text-chart-5 bg-chart-5/10" },
   booking_outreach: { icon: Send, color: "text-teal-400 bg-teal-500/10" },
-  producer_pitch: { icon: Disc3, color: "text-purple-400 bg-purple-500/10" },
-  beat_scout: { icon: Radar, color: "text-chart-5 bg-chart-5/10" },
 };
 
 const STATUS_STYLES = {

@@ -476,11 +476,11 @@ export default function ConnectProfilesSection() {
   const [connections, setConnections] = useState({});
   const [oauthLoading, setOauthLoading] = useState(false);
   const [oauthError, setOauthError] = useState("");
-  const [accountType, setAccountType] = useState("artist_producer");
+  const [accountType, setAccountType] = useState("artist");
   const [searchParams, setSearchParams] = useSearchParams();
 
   useEffect(() => {
-    if (user?.id) setAccountType(user.account_type || "artist_producer");
+    if (user?.id) setAccountType(user.account_type || "artist");
   }, [user?.id, user?.account_type]);
 
   // Handle Spotify OAuth callback (Spotify redirects back to /connect-profiles,
@@ -521,10 +521,7 @@ export default function ConnectProfilesSection() {
 
   const handleAccountType = async (key) => {
     setAccountType(key);
-    await base44.auth.updateMe({
-      account_type: key,
-      active_mode: key === "producer" ? "producer" : "artist",
-    }).catch(() => {});
+    await base44.auth.updateMe({ account_type: key }).catch(() => {});
     await checkAppState();
   };
 

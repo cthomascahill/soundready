@@ -143,17 +143,6 @@ export function buildDocuments(data) {
     sourceLabel: "Contracts",
   }));
 
-  (data.producerContracts || []).forEach(c => push({
-    id: `pc-${c.id}`,
-    category: "legal",
-    title: `${c.beat_title || "Agreement"} — ${c.artist_name}`,
-    subtitle: (c.deal_type || (c.template_type || "agreement").replace(/_/g, " ")) + (c.fee ? ` · $${c.fee.toLocaleString()}` : ""),
-    status: c.status,
-    date: c.created_date,
-    link: "/producer-contracts",
-    sourceLabel: "Contracts",
-  }));
-
   (data.epks || []).forEach(k => push({
     id: `epk-${k.id}`,
     category: "press",

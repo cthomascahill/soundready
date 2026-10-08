@@ -8,7 +8,7 @@ import RecommendationCard from "./RecommendationCard";
  * Sam's proactive game plan: recommendations across career opportunities and
  * day-to-day management, each with its reasoning and an approve/dismiss gate.
  */
-export default function RecommendationsPanel({ user, mode, onPendingChange }) {
+export default function RecommendationsPanel({ user, onPendingChange }) {
   const [recs, setRecs] = useState([]);
   const [loading, setLoading] = useState(true);
   const [generating, setGenerating] = useState(false);
@@ -32,7 +32,7 @@ export default function RecommendationsPanel({ user, mode, onPendingChange }) {
   const generate = async () => {
     setGenerating(true);
     setNote("");
-    const res = await base44.functions.invoke("mayaRecommend", { mode })
+    const res = await base44.functions.invoke("mayaRecommend", {})
       .catch((e) => ({ data: { error: e.message } }));
     setGenerating(false);
     if (res.data?.error) {
