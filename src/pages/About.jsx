@@ -137,9 +137,9 @@ export default function About() {
             <Button size="lg" className="gap-2 font-heading font-bold text-base px-8 h-12" onClick={handleCTA}>
               {t("Start")} <ArrowRight className="h-4 w-4" />
             </Button>
-            <a href="#how-it-works">
+            <a href="#sam-in-action">
               <Button size="lg" variant="outline" className="gap-2 font-heading font-bold text-base px-8 h-12">
-                {t("How It Works")}
+                {t("See How Sam Works")}
               </Button>
             </a>
           </div>
@@ -152,41 +152,38 @@ export default function About() {
       {/* CREATED BY MATT CORMAN */}
       <MattCormanSection />
 
-      {/* SAM SPOTLIGHT, the main event */}
-      <section className="px-4 py-24 border-t border-border">
-        <div className="max-w-5xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-          <motion.div initial={{ opacity: 0, x: -24 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }} className="space-y-6 order-2 lg:order-1">
-            <p className="text-xs text-primary uppercase tracking-wider font-bold">{t("AI Manager")}</p>
-            <h2 className="font-heading text-4xl sm:text-5xl font-bold">{t("Meet Sam")}</h2>
-            <p className="text-lg text-muted-foreground leading-relaxed">
-              {t("Sam is your AI manager. Sam automatically finds opportunities and pitches you for them every week: real outbound from your real numbers, waiting for your approval. Just log in, approve or deny.")}
-            </p>
-            <Link to="/checkout/ai-manager">
-              <Button size="lg" className="gap-2 font-heading font-bold text-base px-8 h-12">
-                {t("Get Sam:")} <span className="line-through opacity-60 font-medium">$79</span> {t("$59/mo for the first 100 artists")} <ArrowRight className="h-4 w-4" />
-              </Button>
-            </Link>
-            <p className="text-xs text-muted-foreground">{t("First 100 artists get $59/mo, discounted forever. $79/mo for everyone after. Locked for life while you stay subscribed. No percentage cuts, ever. Everything on this page comes with it.")}</p>
-          </motion.div>
-          <motion.div initial={{ opacity: 0, x: 24 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }} className="relative order-1 lg:order-2 flex justify-center">
-            <motion.img
-              src="https://media.base44.com/images/public/69dcf0ecc907e43a438a626b/d124f0929_generated_f10ed4b3.png"
-              alt="Sam, the SoundReady AI manager robot"
-              className="h-64 sm:h-80 w-auto drop-shadow-2xl"
-              animate={{ y: [0, -10, 0] }}
-              transition={{ y: { repeat: Infinity, duration: 4, ease: "easeInOut" } }}
-            />
-          </motion.div>
-        </div>
-      </section>
-
       {/* SAM IN ACTION */}
       <SamInActionSection />
 
       {/* THE WEEKLY LOOP */}
       <CareerWorkflowSection />
 
-      {/* THE SOLUTION, 3 tiers */}
+      {/* WHAT'S INCLUDED, the toolkit */}
+      <section className="px-4 py-24 border-t border-border">
+        <div className="max-w-6xl mx-auto space-y-10">
+          <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="text-center space-y-4">
+            <h2 className="font-heading text-4xl font-bold">{t("What's included")}</h2>
+            <p className="text-lg text-muted-foreground">{t("Every tool. One login.")}</p>
+          </motion.div>
+
+          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3">
+            {ALL_TOOLS.map((tool, i) => (
+              <motion.div key={tool.name}
+                initial={{ opacity: 0, y: 12 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}
+                transition={{ delay: Math.min(i * 0.03, 0.4) }}
+                className="rounded-xl bg-card border border-border p-4 space-y-2 hover:border-primary/30 transition-colors">
+                <div className="flex items-center gap-2.5">
+                  <tool.icon className="h-4 w-4 shrink-0 text-primary" />
+                  <p className="font-heading font-bold text-sm truncate">{t(tool.name)}</p>
+                </div>
+                <p className="text-xs text-muted-foreground leading-relaxed">{t(tool.desc)}</p>
+              </motion.div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* PRICING, 3 tiers */}
       <section className="px-4 py-24 border-t border-border bg-secondary/20">
         <div className="max-w-5xl mx-auto space-y-14">
           <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="text-center space-y-4">
@@ -248,31 +245,6 @@ export default function About() {
                   </Button>
                 </Link>
                 {tier.subtext && <p className="text-center text-xs text-muted-foreground mt-2">{t(tier.subtext)}</p>}
-              </motion.div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* THE TOOLKIT */}
-      <section className="px-4 py-24 border-t border-border">
-        <div className="max-w-6xl mx-auto space-y-10">
-          <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="text-center space-y-4">
-            <h2 className="font-heading text-4xl font-bold">{t("The Toolkit")}</h2>
-            <p className="text-lg text-muted-foreground">{t("Every tool. One login.")}</p>
-          </motion.div>
-
-          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3">
-            {ALL_TOOLS.map((tool, i) => (
-              <motion.div key={tool.name}
-                initial={{ opacity: 0, y: 12 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}
-                transition={{ delay: Math.min(i * 0.03, 0.4) }}
-                className="rounded-xl bg-card border border-border p-4 space-y-2 hover:border-primary/30 transition-colors">
-                <div className="flex items-center gap-2.5">
-                  <tool.icon className="h-4 w-4 shrink-0 text-primary" />
-                  <p className="font-heading font-bold text-sm truncate">{t(tool.name)}</p>
-                </div>
-                <p className="text-xs text-muted-foreground leading-relaxed">{t(tool.desc)}</p>
               </motion.div>
             ))}
           </div>

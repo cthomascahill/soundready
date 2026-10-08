@@ -5,10 +5,13 @@ import { useLang } from "@/lib/i18n/LanguageContext";
 
 const SAM_IMG = "https://media.base44.com/images/public/69dcf0ecc907e43a438a626b/d124f0929_generated_f10ed4b3.png";
 
+// Screen recording of Sam drafting an outreach email. Set this once the video is uploaded.
+const SAM_DEMO_VIDEO_URL = "";
+
 export default function SamInActionSection() {
   const { t } = useLang();
   return (
-    <section className="px-4 py-24 border-t border-border">
+    <section id="sam-in-action" className="px-4 py-24 border-t border-border scroll-mt-20">
       <div className="max-w-5xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
         <motion.div initial={{ opacity: 0, x: -24 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }} className="space-y-5 order-2 lg:order-1">
           <p className="text-xs text-primary uppercase tracking-wider font-bold">{t("Sam In Action")}</p>
@@ -79,6 +82,13 @@ export default function SamInActionSection() {
           </div>
         </motion.div>
       </div>
+
+      {SAM_DEMO_VIDEO_URL && (
+        <div className="max-w-4xl mx-auto mt-12">
+          <video src={SAM_DEMO_VIDEO_URL} autoPlay muted loop playsInline controls className="w-full rounded-2xl border border-border shadow-xl" />
+          <p className="text-xs text-muted-foreground text-center mt-3">{t("Watch Sam research, draft and file an outreach email for your approval")}</p>
+        </div>
+      )}
     </section>
   );
 }
