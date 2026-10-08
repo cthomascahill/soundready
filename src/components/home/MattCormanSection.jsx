@@ -3,9 +3,9 @@ import { ArrowRight } from "lucide-react";
 import { useLang } from "@/lib/i18n/LanguageContext";
 
 const BEFORE_IMG =
-  "https://media.base44.com/images/public/69dcf0ecc907e43a438a626b/54e270f35_IMG_2118.JPG";
+  "https://media.base44.com/images/public/69dcf0ecc907e43a438a626b/433528c43_IMG_2118.JPG";
 const AFTER_IMG =
-  "https://media.base44.com/images/public/69dcf0ecc907e43a438a626b/2fea0ae19_IMG_7601.jpg";
+  "https://media.base44.com/images/public/69dcf0ecc907e43a438a626b/eeb6b43c8_IMG_7601.jpg";
 
 export default function MattCormanSection() {
   const { t } = useLang();
