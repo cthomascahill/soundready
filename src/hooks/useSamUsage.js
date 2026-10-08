@@ -2,8 +2,8 @@ import { useCallback, useEffect, useState } from "react";
 import { base44 } from "@/api/base44Client";
 
 /**
- * Loads the artist's Sam fair-use balance (included monthly usage plus any
- * purchased extra units) from the server, which is the single source of
+ * Loads the artist's Sam credit balance (included monthly usage plus any
+ * purchased extra credits) from the server, which is the single source of
  * truth for the numbers. Returns refresh() to re-fetch after a task runs.
  */
 export default function useSamUsage() {

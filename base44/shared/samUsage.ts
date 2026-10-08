@@ -1,60 +1,69 @@
-// Fair-use accounting for ALL AI features. "Units" are an internal estimate of
-// AI workload: a research sweep is heavy, a pitch draft is light. They are NOT
-// a currency, an integration-credit conversion, or a dollar amount.
+// SAM credit accounting for ALL AI features. One "SAM credit" tracks one
+// Base44 integration credit of AI work done on a user's behalf. The planning
+// rate is $0.004 per integration credit (see SAM_USAGE.creditRate).
 //
-// Every limit, unit weight and feature cost lives in this one config: every
+// Base44 does not expose per-user integration-credit consumption, so the
+// per-step costs below are conservative calibrated estimates per billable
+// step (LLM calls, web research sweeps, contact verification, attachments,
+// emails, retries), sized to overestimate rather than underestimate. They
+// are planning figures, not a guaranteed dollar cap.
+//
+// Every limit, credit weight and feature cost lives in this one config: every
 // metered function (samTaskRun, mayaRecommend, dealOutreach, ...) reads it
-// from here, so tuning the fair-use policy means editing this file only.
+// from here, so tuning the credit policy means editing this file only.
 //
 // HARD LIMIT: every AI call made on a user's behalf, manual or scheduled,
-// reserves units here BEFORE it runs and is refused when the balance can't
+// reserves credits here BEFORE it runs and is refused when the balance can't
 // cover it. Usage records are written with the service role only (users can
 // read their own, but not edit them), so the balance can't be tampered with.
 
 export const SAM_USAGE = {
-  // Workload units included with AI Manager every calendar month, shared
+  // SAM credits included with AI Manager every calendar month, shared
   // across every AI feature (research, recommendations, pitches, EPK...)
-  monthlyIncluded: 600,
+  monthlyIncluded: 2500,
   // Hard monthly ceiling for every other account (Free / Artist Pro) on the
   // few AI tools they have (news briefing, tour search, weekly email)
-  otherTierIncluded: 100,
-  // Heads-up point (fraction of the included allowance)
+  otherTierIncluded: 400,
+  // Heads-up point (fraction of the included allowance) — warn at 80%
   warnRatio: 0.8,
-  // Units added by one "Sam Extra Usage" purchase
-  addOnUnits: 200,
+  // Credits added by one "Sam Extra Usage" purchase, and its price
+  addOnUnits: 1500,
+  addOnPriceUsd: 15,
+  // Planning rate: what one Base44 integration credit costs us
+  creditRate: 0.004,
   units: {
-    analysisBase: 10,
-    prospectingBase: 10,
-    perTarget: 3,
-    perAttachment: 2,
-    contactCheck: 1,
-    qcPass: 5,
+    analysisBase: 40,
+    prospectingBase: 40,
+    perTarget: 12,
+    perAttachment: 8,
+    contactCheck: 4,
+    qcPass: 20,
     // One extra web search to find a missing booking email (tour scout)
-    contactHunt: 5,
+    contactHunt: 20,
   },
 };
 
-// Fixed workload cost per AI feature (research tasks are estimated dynamically
+// Fixed credit cost per AI feature (research tasks are estimated dynamically
 // in samTaskRun instead). All of them draw from the same monthly allowance.
 // anyTier = also available to non-AI-Manager accounts (drawn from their
 // smaller otherTierIncluded ceiling); everything else is AI Manager only.
 export const AI_FEATURES = {
   research: { label: 'Sam research tasks', units: 0, dynamic: true },
-  recommendations: { label: 'Career recommendations', units: 15 },
-  playlist_pitch: { label: 'Playlist pitches', units: 10 },
-  epk: { label: 'EPK generation', units: 15 },
-  tour_opportunities: { label: 'Tour opportunity scout', units: 25 },
-  weekly_digest: { label: 'Weekly digests', units: 10 },
-  intel_feed: { label: 'Industry intel feeds', units: 25 },
-  deal_research: { label: 'Deal prospect research', units: 40 },
-  deal_draft: { label: 'Deal pitch drafts', units: 10 },
-  music_news: { label: 'Music news AI briefing', units: 20, anyTier: true },
-  tour_search: { label: 'Tour search', units: 10, anyTier: true },
-  intel_email: { label: 'Weekly intelligence email', units: 5, anyTier: true },
+  recommendations: { label: 'Career recommendations', units: 60 },
+  playlist_pitch: { label: 'Playlist pitches', units: 40 },
+  epk: { label: 'EPK generation', units: 60 },
+  tour_opportunities: { label: 'Tour opportunity scout', units: 100 },
+  weekly_digest: { label: 'Weekly digests', units: 40 },
+  intel_feed: { label: 'Industry intel feeds', units: 100 },
+  deal_research: { label: 'Deal prospect research', units: 160 },
+  deal_draft: { label: 'Deal pitch drafts', units: 40 },
+  music_news: { label: 'Music news AI briefing', units: 80, anyTier: true },
+  tour_search: { label: 'Tour search', units: 40, anyTier: true },
+  intel_email: { label: 'Weekly intelligence email', units: 20, anyTier: true },
 };
 
 export function featureUnits(feature) {
-  return AI_FEATURES[feature]?.units || 10;
+  return AI_FEATURES[feature]?.units || 40;
 }
 
 export function isAIManagerUser(u) {
@@ -78,9 +87,9 @@ export function usagePausedResponse(state) {
     }, { status: 403 });
   }
   return Response.json({
-    error: 'Your monthly AI allowance is used up. It resets at the start of next month, or you can add extra usage anytime.',
+    error: 'Your monthly SAM credits are used up. They reset at the start of next month, or you can add extra credits anytime.',
     usage_paused: true,
-    message: 'Your monthly AI allowance is used up. It resets at the start of next month, or you can add extra usage anytime.',
+    message: 'Your monthly SAM credits are used up. They reset at the start of next month, or you can add extra credits anytime.',
     resets_at: state.resetsAt,
   }, { status: 402 });
 }
@@ -93,9 +102,9 @@ export function nextMonthStartISO(now = new Date()) {
   return new Date(Date.UTC(now.getUTCFullYear(), now.getUTCMonth() + 1, 1)).toISOString();
 }
 
-// Rough workload estimate for one research task. Reserved before the run so a
-// paused account can't start heavy work, then settled to the actual numbers
-// after.
+// Conservative credit estimate for one research task. Reserved before the run
+// so a paused account can't start heavy work, then settled to the actual
+// numbers after.
 export function estimateTaskUnits({ prospecting, targets, attachments }) {
   const u = SAM_USAGE.units;
   let n = u.analysisBase + u.perAttachment * (attachments || 0);
@@ -108,7 +117,7 @@ export function estimateTaskUnits({ prospecting, targets, attachments }) {
 
 // Worst case for a task that may contact up to `targets` outside targets: the
 // most it can possibly settle to. Reserving this up front is what keeps the
-// limit hard, since the actual workload is only known after the run.
+// limit hard, since the actual consumption is only known after the run.
 export function maxTaskUnits({ targets, attachments }) {
   const t = Math.max(0, targets || 0);
   return estimateTaskUnits({ prospecting: true, targets: t, attachments })
@@ -126,7 +135,7 @@ export function firstExplicitTargetCount(text) {
 }
 
 // Adaptive cap: how many targets one task may research, given its complexity
-// and the artist's remaining fair-use headroom this month. Each target costs
+// and the artist's remaining credit headroom this month. Each target costs
 // its draft, its contact check and its website email hunt.
 export function adaptiveTargetCap({ plannedCount, remaining, complex }) {
   const u = SAM_USAGE.units;
@@ -137,7 +146,7 @@ export function adaptiveTargetCap({ plannedCount, remaining, complex }) {
 }
 
 // The user's current balance: included usage this month plus any purchased
-// extra units (which never expire). The included allowance depends on the
+// extra credits (which never expire). The included allowance depends on the
 // plan; a failed account lookup counts as "not AI Manager" (fail closed).
 export async function getUsageState(base44, userId) {
   const svc = serviceClient(base44);
@@ -188,11 +197,13 @@ export function computeUsageState(events, addOns, monthStart = monthStartISO(), 
   };
 }
 
-// Reserve units for an AI action before it runs. Used by research tasks
+// Reserve credits for an AI action before it runs. Used by research tasks
 // (dynamic estimate) and every other AI feature (fixed feature cost). Allowed
 // only when the account is entitled to the feature and the estimate fits in
 // the remaining balance; after writing the reservation the balance is
 // re-checked so two concurrent actions can't push past the budget together.
+// A retry is just a new reservation — the failed attempt's credits are
+// released first, so retries never leak balance.
 export async function reserveAiUnits(base44, { userId, taskId, feature = 'research', units }) {
   const svc = serviceClient(base44);
   const cost = typeof units === 'number' ? units : featureUnits(feature);
@@ -219,13 +230,13 @@ export async function reserveAiUnits(base44, { userId, taskId, feature = 'resear
   return { state, allowed: true, event };
 }
 
-// Settle a finished action's reservation to its actual workload.
+// Settle a finished action's reservation to its actual consumption.
 export async function settleTaskUnits(base44, eventId, actualUnits, note = '') {
   if (!eventId) return;
   await serviceClient(base44).entities.SamUsageEvent.update(eventId, {
     status: 'settled',
     units: Math.max(1, Math.round(actualUnits)),
-    note: note || 'settled to actual workload',
+    note: note || 'settled to actual consumption',
   }).catch(() => {});
 }
 

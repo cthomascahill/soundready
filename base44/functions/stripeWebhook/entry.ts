@@ -53,7 +53,7 @@ export default async function(req) {
             stripe_session_id: session.id,
             purchased_at: new Date().toISOString(),
           });
-          console.log(`stripeWebhook: ${SAM_USAGE.addOnUnits} extra usage units credited to user ${userId}`);
+          console.log(`stripeWebhook: ${SAM_USAGE.addOnUnits} extra SAM credits credited to user ${userId}`);
         }
         return Response.json({ received: true });
       }

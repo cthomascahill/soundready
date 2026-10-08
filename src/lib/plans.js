@@ -64,8 +64,8 @@ export const CARD_AI_ITEMS = [
 ];
 
 export const BOOST_ITEMS = [
-  "Adds 200 extra Sam workload units to your balance",
-  "Never expires, extra units stay until you use them",
+  "Adds 1,500 extra SAM credits to your balance",
+  "Never expires, extra credits stay until you use them",
   "Used only after your monthly included allowance",
   "One-time payment, your subscription is unchanged",
 ];
@@ -126,16 +126,16 @@ export const PLANS = {
   },
   "sam-extra-usage": {
     slug: "sam-extra-usage",
-    name: "Sam Extra Usage",
+    name: "Sam Extra Credits",
     tierKey: "sam_extra_usage",
     icon: Zap,
     color: "text-primary",
     bg: "bg-primary/10",
     border: "border-primary/30",
-    tagline: "A one-time boost when your monthly AI allowance runs low.",
-    price: "$12",
+    tagline: "A one-time boost of 1,500 SAM credits when your monthly allowance runs low.",
+    price: "$15",
     period: "",
-    checkoutLabel: "Add extra usage",
+    checkoutLabel: "Add extra credits",
     items: BOOST_ITEMS,
     note: "One-time payment, not a subscription. Your plan and price are unchanged.",
   },

@@ -17,7 +17,7 @@ export default async function(req) {
 
     return Response.json({
       ...state,
-      unitLabel: 'workload units',
+      unitLabel: 'SAM credits',
       addOnUnits: SAM_USAGE.addOnUnits,
       features: AI_FEATURES,
       usageByFeature: computeFeatureBreakdown(events, monthStartISO()),

@@ -32,7 +32,7 @@ export default function UsageMeter({ state, loading }) {
 
       <div className="flex items-center justify-between gap-2 flex-wrap">
         <p className="text-[10px] text-muted-foreground/80">
-          {state.addonRemaining > 0 ? `+${state.addonRemaining} extra units available · ` : ""}Resets {resets}
+          {state.addonRemaining > 0 ? `+${state.addonRemaining} extra credits available · ` : ""}Resets {resets}
         </p>
         {state.paused ? (
           <span className="text-[10px] text-red-400 font-medium">Allowance used up</span>
@@ -48,7 +48,7 @@ export default function UsageMeter({ state, loading }) {
           </p>
           <Link to="/checkout/sam-extra-usage" className="shrink-0">
             <Button size="sm" className="h-7 text-[11px] gap-1.5 shrink-0">
-              <Zap className="h-3 w-3" /> Add extra — $12
+              <Zap className="h-3 w-3" /> Add extra — $15
             </Button>
           </Link>
         </div>
@@ -56,7 +56,7 @@ export default function UsageMeter({ state, loading }) {
 
       <p className="text-[10px] text-muted-foreground/60 leading-snug">
         One allowance covers every SAM feature: research, pitches, EPK, recommendations, industry intel, deals and digests.
-        Usage is a workload estimate, not a dollar amount.
+        1 SAM credit tracks 1 estimated Base44 integration credit of AI work. Purchased credits never expire.
       </p>
     </div>
   );

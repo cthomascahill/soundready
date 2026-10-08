@@ -1,7 +1,7 @@
 {
   "name": "SamUsageEvent",
   "type": "object",
-  "description": "One fair-use accounting entry for any AI action: reserved before the action runs, settled to the actual workload after, or released when it fails or was refused. Units are an internal workload estimate, not a currency. Written only by backend functions (service role); users can read their own entries but never edit them.",
+  "description": "One SAM credit accounting entry for any AI action: reserved before the action runs, settled to the actual consumption after, or released when it fails or was refused. One SAM credit tracks one estimated Base44 integration credit of AI work at the $0.004 planning rate. Written only by backend functions (service role); users can read their own entries but never edit them.",
   "properties": {
     "user_id": {
       "type": "string",
@@ -32,7 +32,7 @@
     },
     "units": {
       "type": "number",
-      "description": "Estimated workload units when reserved; actual workload units once settled"
+      "description": "Estimated SAM credits when reserved; actual SAM credits once settled"
     },
     "status": {
       "type": "string",
@@ -41,7 +41,7 @@
         "released",
         "settled"
       ],
-      "description": "reserved = held while the action runs, released = returned without running (failed or concurrent overrun), settled = action finished and the actual workload is recorded"
+      "description": "reserved = held while the action runs, released = returned without running (failed, retried or concurrent overrun), settled = action finished and the actual consumption is recorded"
     },
     "covered_by": {
       "type": "string",
@@ -49,7 +49,7 @@
         "included",
         "addon"
       ],
-      "description": "Whether these units draw from the monthly included allowance or from purchased extra usage"
+      "description": "Whether these credits draw from the monthly included allowance or from purchased extra credits"
     },
     "note": {
       "type": "string",

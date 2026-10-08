@@ -77,7 +77,7 @@ export default function TaskComposer({ user, onCreated }) {
         setTargets("");
         setFiles([]);
         setNotice(d.usage_warning
-          ? { type: "warn", message: `Done — heads up, only ${d.usage_warning.remaining} workload units left in this month's AI allowance.` }
+          ? { type: "warn", message: `Done — heads up, only ${d.usage_warning.remaining} SAM credits left in this month's AI allowance.` }
           : null);
       }
     } catch (err) {
@@ -190,7 +190,7 @@ export default function TaskComposer({ user, onCreated }) {
           {(notice.type === "paused" || notice.type === "cap") && (
             <Link to="/checkout/sam-extra-usage">
               <Button size="sm" className="h-7 text-[11px] gap-1.5">
-                <Zap className="h-3 w-3" /> Add extra usage — $12
+                <Zap className="h-3 w-3" /> Add extra credits — $15
               </Button>
             </Link>
           )}

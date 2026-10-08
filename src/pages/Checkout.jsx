@@ -41,7 +41,7 @@ function CheckoutSuccess() {
           <h1 className="font-heading text-3xl font-black tracking-tight">{boosted ? "Extra usage added." : "You're in."}</h1>
           <p className="text-sm text-muted-foreground leading-relaxed">
             {boosted
-              ? "Payment received — the extra Sam research usage is on your balance now. If the meter hasn't updated yet, give it a minute and refresh."
+              ? "Payment received — the extra 1,500 SAM credits are on your balance now. If the meter hasn't updated yet, give it a minute and refresh."
               : "Payment received — your plan is activating right now. If anything still looks locked, give it a minute and refresh."}
           </p>
           <Link to={destination}>

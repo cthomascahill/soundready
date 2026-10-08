@@ -89,7 +89,7 @@ const TIERS = [
     cta: "Start AI Manager",
     checkout: "/checkout/ai-manager",
     subtext: "No percentage cuts. Cancel anytime. Founding price stays locked while subscribed.",
-    smallPrint: "Includes 600 AI units each month, shared across all SAM features. Add 200 extra units anytime for $12 — they never expire. Some opportunities require manual submission.",
+    smallPrint: "Includes 2,500 SAM credits each month, shared across all SAM features. Add 1,500 extra credits anytime for $15 — they never expire. Some opportunities require manual submission.",
   },
 ];
 

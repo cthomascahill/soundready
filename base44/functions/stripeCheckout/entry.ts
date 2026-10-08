@@ -77,9 +77,9 @@ export default async function(req) {
 
     // ── Start a one-time Sam extra usage checkout ──────────────────────────
     if (action === 'create_usage_checkout') {
-      const priceData = await stripeRequest('GET', '/prices?lookup_keys[]=sam_extra_usage&active=true&limit=1');
+      const priceData = await stripeRequest('GET', '/prices?lookup_keys[]=sam_extra_usage_v2&active=true&limit=1');
       const priceId = priceData.data?.[0]?.id;
-      if (!priceId) return Response.json({ error: 'Extra usage price not found (sam_extra_usage)' }, { status: 500 });
+      if (!priceId) return Response.json({ error: 'Extra credits price not found (sam_extra_usage_v2)' }, { status: 500 });
 
       let appUrl = body.app_url || 'https://soundready.base44.app';
       if (!/^https?:\/\//.test(appUrl)) appUrl = 'https://soundready.base44.app';

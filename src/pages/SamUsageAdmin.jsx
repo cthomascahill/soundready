@@ -1,11 +1,12 @@
 import { useEffect, useState } from "react";
 import { base44 } from "@/api/base44Client";
 import { motion } from "framer-motion";
-import { Loader2, Gauge, AlertTriangle } from "lucide-react";
+import { Loader2, Gauge, AlertTriangle, TrendingUp } from "lucide-react";
 
-// Admin view of Sam fair-use usage across all artists: per-month workload,
-// purchased extra units, and recent task failures. Numbers only — one
-// artist's task content is never shown here.
+// Admin view of Sam credit usage across all artists: workspace capacity
+// (usage, remaining, projection), per-month credits, purchased extra
+// credits, and recent task failures. Numbers only — one artist's task
+// content is never shown here.
 export default function SamUsageAdmin() {
   const [data, setData] = useState(null);
   const [error, setError] = useState("");
@@ -29,23 +30,52 @@ export default function SamUsageAdmin() {
   if (error) return <div className="max-w-5xl mx-auto px-4 py-10 text-sm text-red-400">{error}</div>;
   if (!data) return <div className="flex justify-center py-24"><Loader2 className="h-6 w-6 animate-spin text-primary" /></div>;
 
-  const { config, rows, recent_failures: failures, byId } = data;
+  const { config, rows, workspace, recent_failures: failures, byId } = data;
+  const usd = (n) => `$${n.toFixed(2)}`;
 
   return (
     <div className="max-w-5xl mx-auto px-4 py-10 space-y-8">
       <motion.div initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }}>
-        <p className="text-xs text-primary uppercase tracking-widest font-medium">Sam · Fair-use</p>
+        <p className="text-xs text-primary uppercase tracking-widest font-medium">Sam · Credits</p>
         <h1 className="font-heading text-3xl font-bold">Usage overview</h1>
         <p className="text-sm text-muted-foreground">How much AI capacity each artist is using this month, across every AI feature.</p>
       </motion.div>
 
+      {/* Workspace capacity — the owner's cost view */}
+      {workspace && (
+        <div className="rounded-2xl bg-card border border-primary/20 overflow-hidden">
+          <div className="px-5 py-3.5 border-b border-border flex items-center gap-2">
+            <TrendingUp className="h-4 w-4 text-primary" />
+            <p className="font-heading font-bold text-sm">Workspace capacity this month</p>
+          </div>
+          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 divide-x divide-border">
+            {[
+              { label: "AI Manager subscribers", value: workspace.aiManagerCount },
+              { label: "Included capacity", value: `${config.monthlyIncluded * workspace.aiManagerCount} credits` },
+              { label: "Used this month", value: `${workspace.usedThisMonth} · ${usd(workspace.monthCostUsd)}` },
+              { label: "Remaining included", value: `${workspace.remainingIncluded} credits` },
+              { label: "Projected month-end", value: `${workspace.projectedMonthEnd} · ${usd(workspace.projectedCostUsd)}` },
+            ].map(c => (
+              <div key={c.label} className="p-4">
+                <p className="text-[10px] uppercase tracking-wider text-muted-foreground">{c.label}</p>
+                <p className="font-heading font-bold text-sm mt-1">{c.value}</p>
+              </div>
+            ))}
+          </div>
+          <p className="px-5 py-3 text-[11px] text-muted-foreground/70 leading-relaxed border-t border-border">
+            Credits are projected linearly from month-to-date usage at the planning rate of ${config.creditRate} per Base44 integration
+            credit. Purchased top-ups fund our Base44 bill — they don't automatically add workspace capacity.
+          </p>
+        </div>
+      )}
+
       {/* Current policy */}
       <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
         {[
-          { label: "Included / month", value: config.monthlyIncluded },
-          { label: "Warn threshold", value: config.warnAt },
-          { label: "Extra pack", value: `+${config.addOnUnits} units` },
-          { label: "Per target", value: `${config.units.perTarget} units` },
+          { label: "Included / month", value: `${config.monthlyIncluded} credits` },
+          { label: "Warn threshold", value: `80% (${config.warnAt})` },
+          { label: "Extra pack", value: `+${config.addOnUnits} credits · $${config.addOnPriceUsd}` },
+          { label: "Per target", value: `${config.units.perTarget} credits` },
         ].map(c => (
           <div key={c.label} className="rounded-2xl bg-card border border-border p-4">
             <p className="text-[10px] uppercase tracking-wider text-muted-foreground">{c.label}</p>
@@ -79,8 +109,8 @@ export default function SamUsageAdmin() {
                 <thead>
                   <tr className="text-left text-muted-foreground border-b border-border">
                     <th className="px-5 py-2.5 font-medium">Feature</th>
-                    <th className="px-3 py-2.5 font-medium">Units this month</th>
-                    <th className="px-3 py-2.5 font-medium">Units all time</th>
+                    <th className="px-3 py-2.5 font-medium">Credits this month</th>
+                    <th className="px-3 py-2.5 font-medium">Credits all time</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -112,7 +142,7 @@ export default function SamUsageAdmin() {
               <thead>
                 <tr className="text-left text-muted-foreground border-b border-border">
                   <th className="px-5 py-2.5 font-medium">Artist</th>
-                  <th className="px-3 py-2.5 font-medium">This month</th>
+                  <th className="px-3 py-2.5 font-medium">Credits this month</th>
                   <th className="px-3 py-2.5 font-medium">Extra bought</th>
                   <th className="px-3 py-2.5 font-medium">Extra left</th>
                   <th className="px-3 py-2.5 font-medium">Tasks done</th>
@@ -157,7 +187,10 @@ export default function SamUsageAdmin() {
       </div>
 
       <p className="text-[11px] text-muted-foreground/70 leading-relaxed">
-        One shared allowance covers every AI feature: research, recommendations, playlist pitches, EPK, tour scouts, digests, intel feeds and deal research. Units are an internal workload estimate — they are not integration credits or dollars. To adjust the policy — monthly allowance, warn threshold, feature costs, or extra-pack size — just say the word and they'll be updated everywhere at once.
+        One shared allowance covers every AI feature: research, recommendations, playlist pitches, EPK, tour scouts, digests, intel feeds
+        and deal research. 1 SAM credit tracks 1 estimated Base44 integration credit of AI work at the ${config.creditRate} planning rate —
+        a conservative calibrated estimate, not a guaranteed dollar cap. Purchased credits never expire. To adjust the policy — monthly
+        allowance, warn threshold, feature costs, or extra-pack size — just say the word and they'll be updated everywhere at once.
       </p>
     </div>
   );
