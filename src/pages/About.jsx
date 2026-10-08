@@ -5,7 +5,7 @@ import { base44 } from "@/api/base44Client";
 import {
   ArrowRight, Flame, Zap, BarChart2, Music2, DollarSign, FileText, Users,
   CheckCircle2, Mic2, MapPin, BookOpen, Wand2, Link2, TrendingUp, Newspaper,
-  Send, CalendarDays, AlertTriangle, Clock, PhoneOff, TrendingDown, Star,
+  Send, CalendarDays, AlertTriangle, Clock, PhoneOff, TrendingDown, Star, ArrowDown,
   Bot, ChevronRight, Sparkles, Radar
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -131,8 +131,13 @@ export default function About() {
           </h1>
 
           <p className="text-xl sm:text-2xl text-muted-foreground leading-relaxed max-w-3xl mx-auto font-body">
-            {t("Every song, show, deal and dollar in one place, plus Sam, your AI manager, working your career every week. You approve or deny. Start free.")}
+            {t("Every song, show and deal. Plus Sam.")}
           </p>
+
+          <div className="flex items-center justify-center gap-2 text-primary font-heading font-bold text-base">
+            {t("Search your artist name now")}
+            <ArrowDown className="h-5 w-5 animate-bounce" />
+          </div>
 
           <HeroArtistSearch />
 
