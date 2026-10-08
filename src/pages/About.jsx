@@ -18,7 +18,7 @@ import CareerWorkflowSection from "@/components/home/CareerWorkflowSection";
 import SamInActionSection from "@/components/home/SamInActionSection";
 import MattCormanSection from "@/components/home/MattCormanSection";
 import HeroArtistSearch from "@/components/home/HeroArtistSearch";
-import { TOOL_CATEGORIES } from "@/lib/toolCatalog";
+import IncludedSection from "@/components/home/IncludedSection";
 import { useLang } from "@/lib/i18n/LanguageContext";
 
 const TIERS = [
@@ -90,9 +90,6 @@ const TIERS = [
 
 ];
 
-// Every tool on the platform, straight from the app's tool catalog
-const ALL_TOOLS = TOOL_CATEGORIES.flatMap((c) => c.tools);
-
 export default function About() {
   const [isAuth, setIsAuth] = useState(false);
   const { t } = useLang();
@@ -120,8 +117,8 @@ export default function About() {
         <div className="absolute inset-0 bg-gradient-to-b from-primary/8 via-background to-background pointer-events-none" />
         <motion.div initial={{ opacity: 0, y: 32 }} animate={{ opacity: 1, y: 0 }} className="relative max-w-5xl mx-auto space-y-8">
           <h1 className="font-heading text-6xl sm:text-8xl font-black tracking-tight leading-[0.9]">
-            {t("Your career ")}<br />
-            <span className="text-primary">{t("in motion")}</span>
+            {t("Your own AI")}<br />
+            <span className="text-primary">{t("music manager")}</span>
           </h1>
 
           <div className="flex flex-col items-center gap-2">
@@ -144,44 +141,21 @@ export default function About() {
             </a>
           </div>
 
-          <p className="text-xs text-muted-foreground">{t("Start free. No contracts. No percentage cuts, ever.")}</p>
+          <p className="text-sm text-muted-foreground">{t("Start free. No contracts. No percentage cuts, ever.")}</p>
         </motion.div>
 
       </section>
 
-      {/* CREATED BY MATT CORMAN */}
-      <MattCormanSection />
-
       {/* SAM IN ACTION */}
       <SamInActionSection />
+
+      {/* CREATED BY MATT CORMAN */}
+      <MattCormanSection />
 
       {/* THE WEEKLY LOOP */}
       <CareerWorkflowSection />
 
-      {/* WHAT'S INCLUDED, the toolkit */}
-      <section className="px-4 py-24 border-t border-border">
-        <div className="max-w-6xl mx-auto space-y-10">
-          <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="text-center space-y-4">
-            <h2 className="font-heading text-4xl font-bold">{t("What's included")}</h2>
-            <p className="text-lg text-muted-foreground">{t("Every tool. One login.")}</p>
-          </motion.div>
-
-          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3">
-            {ALL_TOOLS.map((tool, i) => (
-              <motion.div key={tool.name}
-                initial={{ opacity: 0, y: 12 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}
-                transition={{ delay: Math.min(i * 0.03, 0.4) }}
-                className="rounded-xl bg-card border border-border p-4 space-y-2 hover:border-primary/30 transition-colors">
-                <div className="flex items-center gap-2.5">
-                  <tool.icon className="h-4 w-4 shrink-0 text-primary" />
-                  <p className="font-heading font-bold text-sm truncate">{t(tool.name)}</p>
-                </div>
-                <p className="text-xs text-muted-foreground leading-relaxed">{t(tool.desc)}</p>
-              </motion.div>
-            ))}
-          </div>
-        </div>
-      </section>
+      <IncludedSection />
 
       {/* PRICING, 3 tiers */}
       <section className="px-4 py-24 border-t border-border bg-secondary/20">
@@ -234,7 +208,7 @@ export default function About() {
                   {tier.items.map((item) => (
                     <div key={item} className="flex items-start gap-2.5">
                       <CheckCircle2 className={`h-4 w-4 shrink-0 mt-0.5 ${tier.color}`} />
-                      <span className="text-xs text-foreground">{t(item)}</span>
+                      <span className="text-sm text-foreground">{t(item)}</span>
                     </div>
                   ))}
                 </div>
@@ -244,7 +218,7 @@ export default function About() {
                     {t(tier.cta)}
                   </Button>
                 </Link>
-                {tier.subtext && <p className="text-center text-xs text-muted-foreground mt-2">{t(tier.subtext)}</p>}
+                {tier.subtext && <p className="text-center text-sm text-muted-foreground mt-2">{t(tier.subtext)}</p>}
               </motion.div>
             ))}
           </div>
@@ -258,7 +232,7 @@ export default function About() {
             <h2 className="font-heading text-4xl font-bold">{t("The results speak for themselves")}</h2>
           </motion.div>
           <GrowthComparisonChart />
-          <p className="text-center text-xs text-muted-foreground">{t("Illustrative comparison, not a guarantee, results depend on your releases, effort, and genre.")}</p>
+          <p className="text-center text-sm text-muted-foreground">{t("Illustrative comparison, not a guarantee, results depend on your releases, effort, and genre.")}</p>
           <div className="grid grid-cols-2 lg:grid-cols-5 gap-4">
             {[
               { num: "1,341+", label: "venues ready to pitch" },
@@ -270,7 +244,7 @@ export default function About() {
               <motion.div key={i} initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: i * 0.08 }}
                 className="rounded-2xl bg-card border border-primary/20 p-6 space-y-2 text-center">
                 <p className="font-heading text-3xl sm:text-4xl font-black text-primary">{s.num}</p>
-                <p className="text-xs text-muted-foreground">{t(s.label)}</p>
+                <p className="text-sm text-muted-foreground">{t(s.label)}</p>
               </motion.div>
             ))}
           </div>
@@ -288,7 +262,7 @@ export default function About() {
           <Button size="lg" className="gap-2 font-heading font-bold text-base px-10 h-13" onClick={handleCTA}>
             {t("Start")} <ArrowRight className="h-4 w-4" />
           </Button>
-          <p className="text-xs text-muted-foreground">{t("Start free. No contracts. No percentage cuts, ever.")}</p>
+          <p className="text-sm text-muted-foreground">{t("Start free. No contracts. No percentage cuts, ever.")}</p>
         </motion.div>
       </section>
 

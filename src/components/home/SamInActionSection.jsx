@@ -16,8 +16,8 @@ export default function SamInActionSection() {
         <motion.div initial={{ opacity: 0, x: -24 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }} className="space-y-5 order-2 lg:order-1">
           <p className="text-xs text-primary uppercase tracking-wider font-bold">{t("SAM In Action")}</p>
           <h2 className="font-heading text-4xl sm:text-5xl font-bold leading-tight">
-            {t("Your AI manager automatically outbounds on ")}
-            <span className="text-primary font-black">{t("your behalf")}</span>
+            {t("SAM finds opportunities and writes the pitches. ")}
+            <span className="text-primary font-black">{t("You approve. SAM sends.")}</span>
           </h2>
           <p className="text-lg text-muted-foreground leading-relaxed">
             {t("This is SAM's Desk: a finished pitch, researched and drafted from your real numbers, waiting for your decision.")}
@@ -28,7 +28,7 @@ export default function SamInActionSection() {
             <p className="font-heading text-5xl sm:text-6xl font-black uppercase tracking-tight text-foreground leading-none">
               {t("Example")}
             </p>
-            <p className="text-xs text-muted-foreground mt-1">{t("of your AI manager at work")}</p>
+            <p className="text-sm text-muted-foreground mt-1">{t("of your AI manager at work")}</p>
           </div>
           <img
             src={SAM_IMG}
@@ -49,7 +49,7 @@ export default function SamInActionSection() {
                 <Sparkles className="h-3 w-3" /> {t("Playlist pitch · drafted from your Spotify data")}
               </span>
               <p className="font-heading font-bold text-sm">{t('Pitch "Midnight Drive" to Chill Vibes Daily (482k followers)')}</p>
-              <p className="text-xs text-muted-foreground leading-relaxed">
+              <p className="text-sm text-muted-foreground leading-relaxed">
                 {t("Streams up 34% in two weeks. 62% of listeners in Germany, a direct audience match. Drafted in your voice.")}
               </p>
               <div className="rounded-lg bg-background border border-border p-3 text-[11px] text-muted-foreground leading-relaxed">
@@ -72,11 +72,11 @@ export default function SamInActionSection() {
 
             <div className="rounded-xl border border-border p-3 flex items-center gap-3">
               <CalendarDays className="h-4 w-4 text-chart-4 shrink-0" />
-              <p className="text-xs text-muted-foreground">
+              <p className="text-sm text-muted-foreground">
                 {t("Also on the desk: a tour-opening pitch for your Berlin date, Nov 14.")}
               </p>
             </div>
-            <p className="text-[10px] text-muted-foreground text-center">
+            <p className="text-xs text-muted-foreground text-center">
               {t("Illustrative example: SAM's Desk shows your real drafts, built from your real numbers.")}
             </p>
           </div>
