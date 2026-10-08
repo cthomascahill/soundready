@@ -39,7 +39,7 @@ export default function GrowthComparisonChart() {
       className="rounded-2xl bg-card border border-border p-6 sm:p-8 space-y-5">
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         <div className="space-y-1">
-          <h3 className="font-heading font-bold text-xl">{t("Projected growth: with SoundReady vs. doing it alone")}</h3>
+          <h3 className="font-heading font-bold text-xl">{t("Illustrative growth scenario")}</h3>
           <p className="text-sm text-muted-foreground">{t("Twelve-month trajectory for an independent artist with the same starting point.")}</p>
         </div>
         <div className="flex gap-1.5 bg-secondary rounded-xl p-1 w-fit shrink-0">
