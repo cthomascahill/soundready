@@ -92,7 +92,7 @@ export default function SamInActionSection() {
           <video
             src={SAM_DEMO_VIDEO_URL}
             autoPlay muted loop playsInline controls
-            className="w-full rounded-2xl border border-border shadow-xl"
+            className="w-full rounded-2xl border border-border shadow-xl mt-8"
           />
         </motion.div>
       )}
