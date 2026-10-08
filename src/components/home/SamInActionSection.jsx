@@ -21,6 +21,12 @@ export default function SamInActionSection() {
           </p>
         </motion.div>
         <motion.div initial={{ opacity: 0, x: 24 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }} className="relative order-1 lg:order-2">
+          <div className="mb-3 sm:-mt-10 lg:-mt-14 relative z-20">
+            <p className="font-heading text-5xl sm:text-6xl font-black uppercase tracking-tight text-foreground leading-none">
+              {t("Example")}
+            </p>
+            <p className="text-xs text-muted-foreground mt-1">{t("of your AI manager at work")}</p>
+          </div>
           <img
             src={SAM_IMG}
             alt="Sam, the SoundReady AI manager robot"
