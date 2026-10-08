@@ -7,7 +7,7 @@ import IntelCard from "./IntelCard";
 const CACHE_TTL = 12 * 60 * 60 * 1000; // 12h
 
 // Loads and renders one Industry Intel feed, with a local cache per feed
-export default function IntelFeed({ feed, genres, city, mode }) {
+export default function IntelFeed({ feed, genres, city }) {
   const [items, setItems] = useState(null);
   const [briefing, setBriefing] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -35,7 +35,6 @@ export default function IntelFeed({ feed, genres, city, mode }) {
           feed: feed.id,
           genres,
           city,
-          mode,
         });
         const data = res.data || {};
         const nextItems = data.items || [];
@@ -54,7 +53,7 @@ export default function IntelFeed({ feed, genres, city, mode }) {
         setLoading(false);
       }
     },
-    [feed.id, genres, city, mode, cacheKey]
+    [feed.id, genres, city, cacheKey]
   );
 
   useEffect(() => {

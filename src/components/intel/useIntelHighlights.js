@@ -36,7 +36,7 @@ export function pickHot(items) {
 
 // Loads one highlight per feed, cache-first, fetching any feed that isn't
 // cached yet. Returns { [feedId]: { hot, loading } }.
-export default function useIntelHighlights(feeds, genres, city, mode, ready) {
+export default function useIntelHighlights(feeds, genres, city, ready) {
   const [state, setState] = useState({});
 
   const feedIds = feeds.map((f) => f.id).join(",");
@@ -56,7 +56,7 @@ export default function useIntelHighlights(feeds, genres, city, mode, ready) {
       }
       setState((s) => ({ ...s, [feedId]: s[feedId] || { hot: null, loading: true } }));
       try {
-        const res = await base44.functions.invoke("fetchIndustryIntel", { feed: feedId, genres, city, mode });
+        const res = await base44.functions.invoke("fetchIndustryIntel", { feed: feedId, genres, city });
         const data = res.data || {};
         const items = data.items || [];
         try {
@@ -78,7 +78,7 @@ export default function useIntelHighlights(feeds, genres, city, mode, ready) {
     return () => {
       cancelled = true;
     };
-  }, [ready, feedIds, genres, city, mode]);
+  }, [ready, feedIds, genres, city]);
 
   return state;
 }

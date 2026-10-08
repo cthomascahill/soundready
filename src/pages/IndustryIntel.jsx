@@ -43,7 +43,7 @@ export default function IndustryIntel() {
       .finally(() => setProfileLoaded(true));
   }, [user]);
 
-  const highlights = useIntelHighlights(feeds, genreText, city, mode, profileLoaded);
+  const highlights = useIntelHighlights(feeds, genreText, city, profileLoaded);
 
   // Sam's one overall pick: the most urgent opportunity across every feed
   const samPick = useMemo(() => {
@@ -89,7 +89,7 @@ export default function IndustryIntel() {
             <p className="text-sm text-muted-foreground -mt-4">{active.description}</p>
 
             {profileLoaded && (
-              <IntelFeed key={`${active.id}-${genreText}-${city}`} feed={active} genres={genreText} city={city} mode={mode} />
+              <IntelFeed key={`${active.id}-${genreText}-${city}`} feed={active} genres={genreText} city={city} />
             )}
           </>
         ) : (
