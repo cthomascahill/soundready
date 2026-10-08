@@ -26,7 +26,7 @@ export const PRO_ITEMS = [
 ];
 
 export const AI_ITEMS = [
-  "Sam's Desk: weekly outbound drafted for you, you approve or deny",
+  "Sam's Desk: SAM finds opportunities and drafts pitches for you weekly, you approve or deny",
   "Nothing sends without your approval",
   "Tell Sam: Sam researches anything, venues, labels, deals",
   "Contract Analyzer: Sam reads every contract before you sign",
