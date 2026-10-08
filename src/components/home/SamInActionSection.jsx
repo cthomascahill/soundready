@@ -85,14 +85,14 @@ export default function SamInActionSection() {
 
       {SAM_DEMO_VIDEO_URL && (
         <motion.div initial={{ opacity: 0, y: 24 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="max-w-4xl mx-auto mt-12 space-y-3">
-          <p className="font-heading font-bold text-lg text-center">{t("A real walkthrough: Sam pitches a song to a Spotify playlist")}</p>
+          <p className="font-heading font-bold text-lg text-center">{t("A real walkthrough: Sam automatically pitches a song to a Spotify playlist")}</p>
           <video
             src={SAM_DEMO_VIDEO_URL}
             autoPlay muted loop playsInline controls
             className="w-full rounded-2xl border border-border shadow-xl"
           />
           <p className="text-xs text-muted-foreground text-center">
-            {t("Watch Sam research the playlist, draft the pitch from real numbers and file it for approval. Nothing sends without you.")}
+            {t("You simply Approve or Deny.")}
           </p>
         </motion.div>
       )}
