@@ -1,5 +1,7 @@
 import { motion } from "framer-motion";
-import { MoveRight } from "lucide-react";
+import {
+  ResponsiveContainer, AreaChart, Area, YAxis,
+} from "recharts";
 import { useLang } from "@/lib/i18n/LanguageContext";
 
 const BEFORE_IMG =
@@ -7,15 +9,43 @@ const BEFORE_IMG =
 const AFTER_IMG =
   "https://media.base44.com/images/public/69dcf0ecc907e43a438a626b/eeb6b43c8_IMG_7601.jpg";
 
-// The white arrow gliding back and forth between the two profiles
-const GrowthArrow = () => (
-  <motion.div
-    className="w-full sm:w-44 lg:w-56 shrink-0 flex justify-center overflow-visible"
-    animate={{ x: ["0%", "100%", "0%"] }}
-    transition={{ duration: 2.4, repeat: Infinity, ease: "easeInOut" }}
-  >
-    <MoveRight className="h-10 w-10 text-foreground" strokeWidth={2.5} />
-  </motion.div>
+// Matt's real climb: zero monthly listeners to 1.2 million
+const GROWTH_DATA = [
+  { listeners: 0 },
+  { listeners: 54647 },
+  { listeners: 120000 },
+  { listeners: 260000 },
+  { listeners: 430000 },
+  { listeners: 640000 },
+  { listeners: 860000 },
+  { listeners: 1050000 },
+  { listeners: 1200000 },
+];
+
+// Small green growth curve between the two profiles
+const GrowthChart = () => (
+  <div className="w-full sm:w-48 lg:w-56 h-24 sm:h-28 shrink-0">
+    <ResponsiveContainer width="100%" height="100%">
+      <AreaChart data={GROWTH_DATA} margin={{ top: 4, right: 4, bottom: 0, left: 4 }}>
+        <defs>
+          <linearGradient id="growthFill" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stopColor="#21c45d" stopOpacity={0.35} />
+            <stop offset="100%" stopColor="#21c45d" stopOpacity={0} />
+          </linearGradient>
+        </defs>
+        <YAxis hide domain={[0, 1300000]} />
+        <Area
+          type="monotone"
+          dataKey="listeners"
+          stroke="#21c45d"
+          strokeWidth={2.5}
+          fill="url(#growthFill)"
+          dot={false}
+          isAnimationActive={false}
+        />
+      </AreaChart>
+    </ResponsiveContainer>
+  </div>
 );
 
 export default function MattCormanSection() {
@@ -61,11 +91,11 @@ export default function MattCormanSection() {
         >
           {shot(BEFORE_IMG, "Matt Corman's Spotify profile with 54,647 monthly listeners", "From this", false)}
 
-          <div className="flex flex-col items-center gap-4 rotate-90 sm:rotate-0">
+          <div className="flex flex-col items-center gap-3 shrink-0">
             <p className="font-heading text-xl sm:text-2xl font-black text-primary whitespace-nowrap">
               {t("+1,000,000 monthly listeners")}
             </p>
-            <GrowthArrow />
+            <GrowthChart />
           </div>
 
           {shot(AFTER_IMG, "Matt Corman's Spotify profile with 1.2 million monthly listeners", "To this", true)}
