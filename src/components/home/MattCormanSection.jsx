@@ -7,36 +7,28 @@ const BEFORE_IMG =
 const AFTER_IMG =
   "https://media.base44.com/images/public/69dcf0ecc907e43a438a626b/eeb6b43c8_IMG_7601.jpg";
 
-// The long green arrow between the two profiles, with a head that glides
-// back and forth along the shaft
+// The white arrow gliding back and forth between the two profiles
 const GrowthArrow = () => (
-  <div className="relative flex items-center w-full sm:w-44 lg:w-56 shrink-0">
-    <div className="h-1.5 w-full rounded-full bg-primary" />
-    <motion.div
-      className="absolute -top-4 left-0"
-      animate={{ x: ["0%", "100%", "0%"] }}
-      transition={{ duration: 2.4, repeat: Infinity, ease: "easeInOut" }}
-      style={{ width: "fit-content" }}
-    >
-      <MoveRight className="h-10 w-10 text-primary" strokeWidth={2.5} />
-    </motion.div>
-  </div>
+  <motion.div
+    className="w-full sm:w-44 lg:w-56 shrink-0 flex justify-center overflow-visible"
+    animate={{ x: ["0%", "100%", "0%"] }}
+    transition={{ duration: 2.4, repeat: Infinity, ease: "easeInOut" }}
+  >
+    <MoveRight className="h-10 w-10 text-foreground" strokeWidth={2.5} />
+  </motion.div>
 );
 
 export default function MattCormanSection() {
   const { t } = useLang();
 
-  const shot = (img, alt, label, listeners, highlight) => (
+  const shot = (img, alt, label, highlight) => (
     <div className="flex-1 min-w-0">
-      <p className={`text-center mb-3 font-heading text-2xl sm:text-3xl font-black tracking-tight ${highlight ? "text-primary" : "text-muted-foreground"}`}>
+      <p className={`text-center mb-3 font-heading text-2xl sm:text-3xl font-black tracking-tight ${highlight ? "text-primary" : "text-foreground"}`}>
         {t(label)}
       </p>
       <div className={`rounded-2xl border overflow-hidden shadow-xl ${highlight ? "border-primary/40 ring-2 ring-primary/30" : "border-border"}`}>
         <img src={img} alt={alt} className="w-full h-auto block" />
       </div>
-      <p className={`text-center mt-3 text-xs font-bold uppercase tracking-widest ${highlight ? "text-primary" : "text-muted-foreground"}`}>
-        {t(listeners)}
-      </p>
     </div>
   );
 
@@ -67,7 +59,7 @@ export default function MattCormanSection() {
           viewport={{ once: true }}
           className="flex flex-col sm:flex-row items-center gap-8 sm:gap-10 lg:gap-16"
         >
-          {shot(BEFORE_IMG, "Matt Corman's Spotify profile with 54,647 monthly listeners", "From this", "54,647 monthly listeners", false)}
+          {shot(BEFORE_IMG, "Matt Corman's Spotify profile with 54,647 monthly listeners", "From this", false)}
 
           <div className="flex flex-col items-center gap-4 rotate-90 sm:rotate-0">
             <p className="font-heading text-xl sm:text-2xl font-black text-primary whitespace-nowrap">
@@ -76,7 +68,7 @@ export default function MattCormanSection() {
             <GrowthArrow />
           </div>
 
-          {shot(AFTER_IMG, "Matt Corman's Spotify profile with 1.2 million monthly listeners", "To this", "1.2M monthly listeners", true)}
+          {shot(AFTER_IMG, "Matt Corman's Spotify profile with 1.2 million monthly listeners", "To this", true)}
         </motion.div>
       </div>
     </section>
