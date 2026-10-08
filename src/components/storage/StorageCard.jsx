@@ -6,6 +6,10 @@ const GREEN = new Set(["sent", "paid", "signed", "approved", "executed", "comple
 const RED = new Set(["failed", "denied", "declined", "dismissed", "overdue", "cancelled"]);
 const YELLOW = new Set(["draft", "drafts", "pending", "ready_to_send", "working", "proposed", "researched", "in progress", "follow_up"]);
 
+// Statuses that mean the outreach already went out — clicking those opens
+// the proof-of-send dialog instead of navigating away
+const SENT_PROOF = new Set(["sent", "executed", "replied", "follow_up"]);
+
 function StatusPill({ status }) {
   if (!status) return null;
   const s = String(status).toLowerCase();
@@ -23,12 +27,9 @@ function StatusPill({ status }) {
   );
 }
 
-export default function StorageCard({ doc }) {
+function CardBody({ doc }) {
   return (
-    <Link
-      to={doc.link}
-      className="group flex flex-col rounded-xl border border-border bg-card p-4 hover:border-primary/40 hover:bg-accent/40 transition-colors"
-    >
+    <>
       <div className="flex items-start justify-between gap-2">
         <p className="font-semibold text-sm leading-snug line-clamp-2">{doc.title}</p>
         <ChevronRight className="h-4 w-4 text-muted-foreground/50 shrink-0 mt-0.5 group-hover:text-primary transition-colors" />
@@ -44,6 +45,24 @@ export default function StorageCard({ doc }) {
         </span>
         <span className="ml-auto"><StatusPill status={doc.status} /></span>
       </div>
+    </>
+  );
+}
+
+export default function StorageCard({ doc, onOpenSent }) {
+  const sentForProof = doc.category === "outreach" && SENT_PROOF.has(String(doc.status || "").toLowerCase());
+  const cls = "group flex flex-col rounded-xl border border-border bg-card p-4 hover:border-primary/40 hover:bg-accent/40 transition-colors text-left w-full";
+
+  if (sentForProof) {
+    return (
+      <button type="button" onClick={() => onOpenSent?.(doc)} className={cls} title="See the sent email and its proof of delivery">
+        <CardBody doc={doc} />
+      </button>
+    );
+  }
+  return (
+    <Link to={doc.link} className={cls}>
+      <CardBody doc={doc} />
     </Link>
   );
 }

@@ -15,13 +15,14 @@ import OutcomeControl from "@/components/maya/OutcomeControl";
 import SamLogo from "@/components/SamLogo";
 import { Button } from "@/components/ui/button";
 import {
-  Lock, Zap, Check, X, Mail, Loader2, Inbox, ChevronRight, RefreshCw, UserCog,
+  Lock, Zap, Check, X, Mail, Loader2, Inbox, ChevronRight, RefreshCw, UserCog, CheckCircle2,
 } from "lucide-react";
 
 const QUEUE_STATUSES = ["pending", "ready_to_send", "viewed"];
 const HISTORY_STATUSES = ["sent", "denied", "complete"];
 
 function HistoryRow({ item, onRecordOutcome }) {
+  const [expanded, setExpanded] = useState(false);
   const sent = item.status === "sent";
   return (
     <div className="flex items-start gap-3 rounded-xl border border-border bg-card p-4">
@@ -46,6 +47,30 @@ function HistoryRow({ item, onRecordOutcome }) {
           {item.sent_at ? new Date(item.sent_at).toLocaleDateString("en-US", { month: "short", day: "numeric" })
             : new Date(item.created_date).toLocaleDateString("en-US", { month: "short", day: "numeric" })}
         </p>
+        {sent && item.draft_email && (
+          <button
+            onClick={() => setExpanded(!expanded)}
+            className="mt-1.5 text-xs text-primary hover:underline flex items-center gap-1 font-medium"
+          >
+            {expanded ? "Hide sent email" : "View sent email"}
+            <ChevronRight className={`h-3 w-3 transition-transform ${expanded ? "rotate-90" : ""}`} />
+          </button>
+        )}
+        {expanded && item.draft_email && (
+          <div className="mt-2 space-y-2">
+            <p className="text-[11px] text-muted-foreground flex items-start gap-1.5">
+              <CheckCircle2 className="h-3.5 w-3.5 text-primary shrink-0 mt-0.5" />
+              <span>
+                Emailed to {item.recipient_email || "the contact on file"}
+                {item.sent_at ? ` on ${new Date(item.sent_at).toLocaleString("en-US", { month: "short", day: "numeric", hour: "numeric", minute: "2-digit" })}` : ""}
+                {" "}— sent by Sam from your SoundReady account.
+              </span>
+            </p>
+            <div className="rounded-lg bg-secondary/50 border border-border p-3 text-xs text-foreground whitespace-pre-wrap leading-relaxed max-h-56 overflow-y-auto">
+              {item.draft_email}
+            </div>
+          </div>
+        )}
         {sent && (
           <div className="mt-2">
             <OutcomeControl

@@ -43,6 +43,8 @@ export function buildDocuments(data) {
     date: d.created_date,
     link: `/tell-sam?task=${d.task_id}`,
     sourceLabel: "Tell Sam",
+    kind: "draft",
+    record: d,
   }));
 
   (data.deals || []).forEach(d => push({
@@ -54,6 +56,8 @@ export function buildDocuments(data) {
     date: d.created_date,
     link: "/deals",
     sourceLabel: "Deals",
+    kind: "deal",
+    record: d,
   }));
 
   (data.recommendations || []).forEach(r => push({
@@ -65,6 +69,8 @@ export function buildDocuments(data) {
     date: r.created_date,
     link: "/maya-desk",
     sourceLabel: "Sam's Desk",
+    kind: "rec",
+    record: r,
   }));
 
   (data.activities || []).filter(a => a.title !== "__maya_suggestions__").forEach(a => {
@@ -79,6 +85,8 @@ export function buildDocuments(data) {
       date: a.created_date,
       link: "/maya-desk",
       sourceLabel: "Sam's Desk",
+      kind: "activity",
+      record: a,
     });
   });
 

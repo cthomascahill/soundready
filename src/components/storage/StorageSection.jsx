@@ -11,7 +11,7 @@ export const CATEGORY_META = {
   notes: { label: "Sam's Notes", icon: StickyNote },
 };
 
-export default function StorageSection({ category, docs }) {
+export default function StorageSection({ category, docs, onOpenSent }) {
   const meta = CATEGORY_META[category];
   if (!meta || !docs.length) return null;
   const Icon = meta.icon;
@@ -23,7 +23,7 @@ export default function StorageSection({ category, docs }) {
         <span className="text-[10px] text-muted-foreground/70">{docs.length}</span>
       </div>
       <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
-        {docs.map(d => <StorageCard key={d.id} doc={d} />)}
+        {docs.map(d => <StorageCard key={d.id} doc={d} onOpenSent={onOpenSent} />)}
       </div>
     </section>
   );

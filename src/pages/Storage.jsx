@@ -5,6 +5,7 @@ import { Search, FolderOpen, ArrowLeft } from "lucide-react";
 import { buildDocuments, CATEGORY_ORDER } from "@/lib/storageDocuments";
 import StorageSection from "@/components/storage/StorageSection";
 import StorageTile from "@/components/storage/StorageTile";
+import SentEmailDialog from "@/components/storage/SentEmailDialog";
 
 export default function Storage() {
   const { user } = useAuth();
@@ -13,6 +14,8 @@ export default function Storage() {
   const [query, setQuery] = useState("");
   // null = tile overview; a category id = that section's documents
   const [openCategory, setOpenCategory] = useState(null);
+  // Sent outreach doc whose proof-of-send dialog is open
+  const [sentDoc, setSentDoc] = useState(null);
 
   useEffect(() => {
     if (!user?.id) return;
@@ -114,7 +117,7 @@ export default function Storage() {
           ) : (
             <div className="space-y-8">
               {CATEGORY_ORDER.map(cat => (
-                <StorageSection key={cat} category={cat} docs={searchResults.filter(d => d.category === cat)} />
+                <StorageSection key={cat} category={cat} docs={searchResults.filter(d => d.category === cat)} onOpenSent={setSentDoc} />
               ))}
             </div>
           )
@@ -156,9 +159,12 @@ export default function Storage() {
             <StorageSection
               category={openCategory}
               docs={docs.filter(d => d.category === openCategory)}
+              onOpenSent={setSentDoc}
             />
           </div>
         )}
+
+        <SentEmailDialog doc={sentDoc} onClose={() => setSentDoc(null)} />
       </div>
     </div>
   );
