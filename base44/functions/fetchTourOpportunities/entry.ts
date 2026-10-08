@@ -1,8 +1,11 @@
 import { createClientFromRequest } from 'npm:@base44/sdk@0.8.25';
+import { reserveAiUnits, settleTaskUnits, releaseTaskUnits, featureUnits, usagePausedResponse } from '../../shared/samUsage.ts';
 
 Deno.serve(async (req) => {
+  let base44 = null;
+  let reservationEventId = null;
   try {
-    const base44 = createClientFromRequest(req);
+    base44 = createClientFromRequest(req);
     const user = await base44.auth.me();
 
     if (!user) {
@@ -14,6 +17,11 @@ Deno.serve(async (req) => {
     if (!query || query.trim().length === 0) {
       return Response.json({ error: 'Query is required' }, { status: 400 });
     }
+
+    // ── Shared AI allowance: tour search draws from the same monthly pool ──
+    const reservation = await reserveAiUnits(base44, { userId: user.id, feature: 'tour_search' });
+    reservationEventId = reservation.event?.id || null;
+    if (!reservation.allowed) return usagePausedResponse(reservation.state);
 
     // Six-month lookback window for "recently announced" and past shows
     const now = new Date();
@@ -73,6 +81,8 @@ Format as JSON array with objects containing: artist_name, tour_name, dates, loc
       },
     });
 
+    await settleTaskUnits(base44, reservationEventId, featureUnits('tour_search'), 'tour search complete');
+
     return Response.json({
       tours: response.tours || [],
       query,
@@ -80,6 +90,7 @@ Format as JSON array with objects containing: artist_name, tour_name, dates, loc
       location
     });
   } catch (error) {
+    await releaseTaskUnits(base44, reservationEventId, `released: ${error.message}`).catch(() => {});
     console.error("fetchTourOpportunities error:", error);
     return Response.json({ error: error.message }, { status: 500 });
   }

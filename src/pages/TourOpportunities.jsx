@@ -15,6 +15,7 @@ export default function TourOpportunities() {
   const [modalOpen, setModalOpen] = useState(false);
   const [selectedTour, setSelectedTour] = useState(null);
   const [artistData, setArtistData] = useState(null);
+  const [searchError, setSearchError] = useState(null);
 
   useEffect(() => {
     Promise.all([
@@ -29,15 +30,22 @@ export default function TourOpportunities() {
   const handleSearch = async () => {
     if (!searchQuery.trim()) return;
     setLoading(true);
+    setSearchError(null);
 
-    const response = await base44.functions.invoke("fetchTourOpportunities", {
-      query: searchQuery,
-      genre: filters.genre || undefined,
-      location: filters.location || undefined,
-    });
+    try {
+      const response = await base44.functions.invoke("fetchTourOpportunities", {
+        query: searchQuery,
+        genre: filters.genre || undefined,
+        location: filters.location || undefined,
+      });
 
-    setTours(response.data?.tours || []);
-    setLoading(false);
+      setTours(response.data?.tours || []);
+    } catch (err) {
+      setTours([]);
+      setSearchError(err?.response?.data?.message || err.message || "Search failed. Try again in a moment.");
+    } finally {
+      setLoading(false);
+    }
   };
 
   const filteredTours = tours.filter((tour) => {
@@ -169,7 +177,13 @@ export default function TourOpportunities() {
             <div className="rounded-2xl border border-dashed border-border p-12 text-center">
               <Music2 className="h-12 w-12 text-muted-foreground/30 mx-auto mb-3" />
               <p className="text-muted-foreground">
-                {tours.length === 0 ? "Search for tours to get started" : "No tours match your filters"}
+                {searchError ? (
+                  <span className="text-foreground">{searchError}</span>
+                ) : tours.length === 0 ? (
+                  "Search for tours to get started"
+                ) : (
+                  "No tours match your filters"
+                )}
               </p>
             </div>
           ) : (

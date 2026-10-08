@@ -1,4 +1,5 @@
 import { createClientFromRequest } from 'npm:@base44/sdk@0.8.31';
+import { reserveAiUnits, settleTaskUnits, releaseTaskUnits, featureUnits } from '../../shared/samUsage.ts';
 
 const NEWS_API_KEY = Deno.env.get("NEWS_API_KEY");
 
@@ -51,8 +52,10 @@ function isMusicRelated(a) {
 }
 
 Deno.serve(async (req) => {
+  let base44 = null;
+  let aiEventId = null;
   try {
-    const base44 = createClientFromRequest(req);
+    base44 = createClientFromRequest(req);
     const body = await req.json().catch(() => ({}));
     const { genre, distributor, interested_in_sync, page = 1 } = body;
 
@@ -104,9 +107,25 @@ Deno.serve(async (req) => {
       ),
     }));
 
+    // ── Shared AI allowance: the AI briefing and deep dives draw from the
+    // signed-in user's monthly pool. Anonymous visitors, and accounts whose
+    // allowance is used up, still get the raw articles without the AI.
+    let aiReservation = null;
+    if (page === 1 && articles.length > 0) {
+      let user = null;
+      try { user = await base44.auth.me(); } catch {}
+      if (user) {
+        const reservation = await reserveAiUnits(base44, { userId: user.id, feature: 'music_news' });
+        if (reservation.allowed) {
+          aiReservation = reservation;
+          aiEventId = reservation.event?.id || null;
+        }
+      }
+    }
+
     // AI daily briefing (only on page 1)
     let briefing = null;
-    if (page === 1 && articles.length > 0) {
+    if (aiReservation) {
       const top5 = articles.slice(0, 5).map(a => `- ${a.title}`).join("\n");
       briefing = await base44.asServiceRole.integrations.Core.InvokeLLM({
         prompt: `You are a knowledgeable music industry insider writing a quick daily briefing for independent artists. Summarize these top music industry headlines in 3-4 sentences of plain, conversational English. End with one sentence on why this matters to independent artists specifically.\n\nHeadlines:\n${top5}`,
@@ -116,7 +135,7 @@ Deno.serve(async (req) => {
     // Sam's Deep Dives: a live web sweep (news sites, court filings, YouTube coverage)
     // for the biggest ongoing stories, broken down for independent artists. (page 1 only)
     let deepDives = null;
-    if (page === 1) {
+    if (aiReservation) {
       try {
         const profileHint = [
           genre ? `The artist makes ${genre} music.` : "",
@@ -184,6 +203,11 @@ ${profileHint}`,
       }
     }
 
+    if (aiReservation) {
+      await settleTaskUnits(base44, aiEventId, featureUnits('music_news'), 'music news AI briefing and deep dives complete');
+      aiEventId = null;
+    }
+
     console.log(`fetchMusicNews: ${articles.length} articles${deepDives ? `, ${deepDives.length} deep dives` : ""}`);
 
     return Response.json({
@@ -194,6 +218,7 @@ ${profileHint}`,
       lastUpdated: new Date().toISOString(),
     });
   } catch (err) {
+    await releaseTaskUnits(base44, aiEventId, `released: ${err.message}`).catch(() => {});
     return Response.json({ error: err.message }, { status: 500 });
   }
 });

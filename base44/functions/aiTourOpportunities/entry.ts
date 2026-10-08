@@ -1,6 +1,6 @@
 import { createClientFromRequest } from 'npm:@base44/sdk@0.8.31';
 import { findContactEmail, sanitizeEmail } from '../../shared/mayaContact.ts';
-import { reserveAiUnits, settleTaskUnits, releaseTaskUnits, featureUnits } from '../../shared/samUsage.ts';
+import { reserveAiUnits, settleTaskUnits, releaseTaskUnits, featureUnits, SAM_USAGE } from '../../shared/samUsage.ts';
 
 Deno.serve(async (req) => {
   try {
@@ -45,9 +45,11 @@ async function findOpportunities(base44, userId, user) {
   const client = base44.asServiceRole;
   const reservation = await reserveAiUnits(client, { userId, feature: 'tour_opportunities' });
   if (!reservation.allowed) return 0;
+  const stats = { hunts: 0 };
   try {
-    const found = await runFindOpportunities(base44, userId, user, client);
-    await settleTaskUnits(client, reservation.event?.id, featureUnits('tour_opportunities'), 'tour opportunities complete');
+    const found = await runFindOpportunities(base44, userId, user, client, stats);
+    const actualUnits = featureUnits('tour_opportunities') + SAM_USAGE.units.contactHunt * stats.hunts;
+    await settleTaskUnits(client, reservation.event?.id, actualUnits, `tour opportunities complete (${stats.hunts} contact hunts, ${actualUnits} units)`);
     return found;
   } catch (err) {
     await releaseTaskUnits(client, reservation.event?.id, `released: ${err.message}`).catch(() => {});
@@ -55,7 +57,7 @@ async function findOpportunities(base44, userId, user) {
   }
 }
 
-async function runFindOpportunities(base44, userId, user, client) {
+async function runFindOpportunities(base44, userId, user, client, stats) {
 
   const [profiles, connections, songs] = await Promise.all([
     client.entities.ArtistProfile.filter({ created_by_id: userId }, '-created_date', 1).catch(() => []),
@@ -92,7 +94,7 @@ async function runFindOpportunities(base44, userId, user, client) {
   });
 
   if (existingNames.size >= 6) {
-    return 0; // Desk already has a healthy queue of tour pitches
+    throw new Error('Desk already has a healthy queue of tour pitches');
   }
 
   const marketLine = markets.length
@@ -139,7 +141,7 @@ For each opportunity provide: name, type (tour opener / venue / festival), why i
   });
 
   let created = 0;
-  for (const opp of result?.opportunities || []) {
+  for (const opp of (result?.opportunities || []).slice(0, 4)) {
     const nameKey = String(opp.name || '').toLowerCase();
     if (!nameKey || existingNames.has(nameKey)) continue;
     existingNames.add(nameKey);
@@ -148,6 +150,7 @@ For each opportunity provide: name, type (tour opener / venue / festival), why i
     let contactEmail = sanitizeEmail(opp.contact_email);
     let emailSource = opp.email_source;
     if (!contactEmail) {
+      stats.hunts++;
       const hunted = await findContactEmail(client, {
         org: opp.name,
         opportunity: opp.name,

@@ -1,4 +1,5 @@
 import { createClientFromRequest } from 'npm:@base44/sdk@0.8.25';
+import { reserveAiUnits, settleTaskUnits, releaseTaskUnits, featureUnits } from '../../shared/samUsage.ts';
 
 Deno.serve(async (req) => {
   try {
@@ -34,8 +35,13 @@ Deno.serve(async (req) => {
         ? (latestSnap.overall_score - songSnaps[0].overall_score)
         : null;
 
-      // Generate personalized email via AI
-      const emailContent = await base44.asServiceRole.integrations.Core.InvokeLLM({
+      // ── Shared AI allowance: this weekly email draws from the same pool ──
+      const reservation = await reserveAiUnits(base44.asServiceRole, { userId: user.id, feature: 'intel_email' });
+      if (!reservation.allowed) continue;
+
+      try {
+        // Generate personalized email via AI
+        const emailContent = await base44.asServiceRole.integrations.Core.InvokeLLM({
         prompt: `You are a personal music manager writing a weekly Monday check-in email to an independent artist.
 
 Artist: ${user.full_name || user.email}
@@ -59,14 +65,19 @@ Format as plain text email. Subject line included. Sign off as "Your SoundReady 
         }
       });
 
-      await base44.asServiceRole.integrations.Core.SendEmail({
-        to: user.email,
-        subject: emailContent.subject,
-        body: emailContent.body,
-        from_name: "SoundReady",
-      });
+        await base44.asServiceRole.integrations.Core.SendEmail({
+          to: user.email,
+          subject: emailContent.subject,
+          body: emailContent.body,
+          from_name: "SoundReady",
+        });
 
-      emailsSent++;
+        await settleTaskUnits(base44.asServiceRole, reservation.event?.id, featureUnits('intel_email'), 'weekly intelligence email sent');
+        emailsSent++;
+      } catch (err) {
+        await releaseTaskUnits(base44.asServiceRole, reservation.event?.id, `released: ${err.message}`).catch(() => {});
+        throw err;
+      }
     }
 
     return Response.json({ success: true, emails_sent: emailsSent });

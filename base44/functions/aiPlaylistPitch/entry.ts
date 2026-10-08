@@ -2,9 +2,10 @@ import { createClientFromRequest } from 'npm:@base44/sdk@0.8.31';
 import { reserveAiUnits, settleTaskUnits, releaseTaskUnits, featureUnits, usagePausedResponse } from '../../shared/samUsage.ts';
 
 Deno.serve(async (req) => {
+  let base44 = null;
   let reservationEventId = null;
   try {
-    const base44 = createClientFromRequest(req);
+    base44 = createClientFromRequest(req);
     const user = await base44.auth.me();
     if (!user) return Response.json({ error: 'Unauthorized' }, { status: 401 });
 

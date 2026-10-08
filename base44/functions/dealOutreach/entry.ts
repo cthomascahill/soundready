@@ -17,9 +17,10 @@ const CATEGORY_TARGETS = {
 const STATUSES = ['researched', 'draft', 'approved', 'sent', 'replied', 'follow_up', 'paused', 'declined'];
 
 export default async function(req) {
+  let base44 = null;
   let reservationEventId = null;
   try {
-    const base44 = createClientFromRequest(req);
+    base44 = createClientFromRequest(req);
     const user = await base44.auth.me();
     if (!user) return Response.json({ error: 'Unauthorized' }, { status: 401 });
 

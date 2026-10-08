@@ -2,7 +2,7 @@ import { createClientFromRequest } from 'npm:@base44/sdk@0.8.52';
 import { CURATED_VENUES, matchVenuesForText } from '../../shared/venueDirectory.ts';
 import { huntBookingEmail, isUsableEmail } from './contactScrape.ts';
 import { planProspecting, isProspecting, discoverTargets, poolToLines, siteForName } from './discovery.ts';
-import { SAM_USAGE, getUsageState, estimateTaskUnits, adaptiveTargetCap, firstExplicitTargetCount, reserveAiUnits, settleTaskUnits, releaseTaskUnits } from '../../shared/samUsage.ts';
+import { SAM_USAGE, getUsageState, estimateTaskUnits, maxTaskUnits, adaptiveTargetCap, firstExplicitTargetCount, reserveAiUnits, settleTaskUnits, releaseTaskUnits } from '../../shared/samUsage.ts';
 
 // Sam executes an open-ended task the artist typed in "Tell Sam what to do".
 // For non-venue prospecting (labels, distributors, sync, press...) a wide
@@ -160,11 +160,9 @@ export default async function(req) {
     const cappedFrom = prospecting && plan.target_count > usageCap ? plan.target_count : null;
     const targetCap = prospecting ? Math.min(plan.target_count, usageCap) : Math.min(10, usageCap);
 
-    const estimatedUnits = estimateTaskUnits({
-      prospecting,
-      targets: prospecting ? targetCap : 0,
-      attachments: attachments.length,
-    });
+    // Reserve the worst case this run can settle to (every target drafted,
+    // hunted and QC-checked), so the balance can never dip below zero.
+    const estimatedUnits = maxTaskUnits({ targets: targetCap, attachments: attachments.length });
     const reservation = await reserveAiUnits(base44, { userId: user.id, taskId: task.id, feature: 'research', units: estimatedUnits });
     usageEventId = reservation.event?.id || null;
     if (!reservation.allowed) {
@@ -321,7 +319,7 @@ ${poolSection}HOW TO WORK:
       .map(d => isUsableEmail(d.target_email)
         ? d
         : { ...d, target_email: '', contact_route: d.contact_route === 'email' ? undefined : d.contact_route })
-      .slice(0, Math.max(12, targetCap))
+      .slice(0, targetCap)
       .map(d => ({
         task_id: task.id,
         user_id: user.id,
@@ -373,6 +371,7 @@ ${poolSection}HOW TO WORK:
     const qcSections = [];
     let excludedCount = 0;
     let flaggedCount = 0;
+    let qcRan = false;
 
     if (drafts.length) {
       const qc = await base44.integrations.Core.InvokeLLM({
@@ -424,6 +423,7 @@ Also return "summary": one short paragraph for the artist, in plain words, descr
         console.log('samTaskRun QC pass skipped:', err?.message || err);
         return null;
       });
+      qcRan = true;
 
       if (qc?.audit?.length) {
         const byName = new Map(qc.audit.map(a => [String(a.target_name || '').toLowerCase(), a]));
@@ -488,8 +488,9 @@ Also return "summary": one short paragraph for the artist, in plain words, descr
       prospecting: drafts.length > 0,
       targets: drafts.length,
       attachments: attachments.length,
-    }) + (drafts.length ? SAM_USAGE.units.contactCheck * huntUrls.length : 0);
-    await settleTaskUnits(base44, usageEventId, actualUnits, `task complete: ${drafts.length} drafts`);
+    }) + (drafts.length ? SAM_USAGE.units.contactCheck * Math.min(huntUrls.length, drafts.length) : 0);
+    const llmCalls = 2 + (prospecting ? (plan?.angles?.length || 0) : 0) + (qcRan ? 1 : 0);
+    await settleTaskUnits(base44, usageEventId, actualUnits, `task complete: ${drafts.length} drafts, ${llmCalls} AI calls, ${actualUnits} of ${estimatedUnits} units used`);
 
     console.log(`samTaskRun: task ${task.id} complete, ${drafts.length} drafts filed (${flaggedCount} flagged, ${excludedCount} excluded by QC)`);
     return Response.json({

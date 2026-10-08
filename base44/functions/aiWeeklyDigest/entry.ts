@@ -1,5 +1,5 @@
 import { createClientFromRequest } from 'npm:@base44/sdk@0.8.31';
-import { reserveAiUnits, settleTaskUnits, releaseTaskUnits, featureUnits, usagePausedResponse } from '../../shared/samUsage.ts';
+import { reserveAiUnits, settleTaskUnits, releaseTaskUnits, featureUnits, usagePausedResponse, isAIManagerUser } from '../../shared/samUsage.ts';
 
 Deno.serve(async (req) => {
   try {
@@ -17,6 +17,9 @@ Deno.serve(async (req) => {
     }
 
     if (targetUserId) {
+      // AI Manager feature: non-subscribers are refused up front
+      if (!isAIManagerUser(user)) return Response.json({ error: 'AI Manager subscription required' }, { status: 403 });
+
       // ── Shared AI allowance: digests draw from the same monthly pool ──
       const reservation = await reserveAiUnits(base44, { userId: user.id, feature: 'weekly_digest' });
       if (!reservation.allowed) return usagePausedResponse(reservation.state);
@@ -43,16 +46,17 @@ Deno.serve(async (req) => {
         // their monthly pool; when it's used up, this artist is skipped ──
         const u = await base44.asServiceRole.entities.User.get(uid).catch(() => null);
         const isAIManager = u && (u.role === 'admin' || u.subscription_tier === 'ai_manager');
-        if (isAIManager) {
-          reservation = await reserveAiUnits(base44.asServiceRole, { userId: uid, feature: 'weekly_digest' });
-          if (!reservation.allowed) continue;
-        }
+        if (!isAIManager) continue;
 
         // Gather their songs and activities
         const songs = await base44.asServiceRole.entities.SongAnalysis.filter({ created_by_id: uid }, '-created_date', 5);
         const activities = await base44.asServiceRole.entities.AIActivity.filter({ user_id: uid }, '-created_date', 10);
 
         if (songs.length === 0) continue;
+
+        // ── Shared AI allowance: digests draw from the same monthly pool ──
+        reservation = await reserveAiUnits(base44.asServiceRole, { userId: uid, feature: 'weekly_digest' });
+        if (!reservation.allowed) continue;
 
         const artistName = songs[0]?.artist_name || 'Artist';
         const genres = [...new Set(songs.map(s => s.genre).filter(Boolean))];
