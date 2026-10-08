@@ -42,10 +42,6 @@ const FAQ = [
     a: "SAM watches your connected Spotify and YouTube data, matches your songs to real playlist and tour opportunities, and drafts the emails: pitches, outreach, EPKs, digests. Every draft lands in SAM's Desk where you approve, edit, or deny it. SAM does the work; you stay in control.",
   },
   {
-    q: "I'm a producer. Is SoundReady for me?",
-    a: "Yes. Every account has both an artist side and a producer side. Producers get the Beat Pipeline from idea to placement, plus a placement and credits tracker and Artist Match, which ranks artists on the platform whose sound fits your beats. On AI Manager, SAM even drafts the pitch emails for you.",
-  },
-  {
     q: "Can I cancel anytime?",
     a: "Yes. No contracts, no commitments. Cancel from your plan page in one click, during the trial you're never charged, and after it you keep access until the period you already paid for ends.",
   },
@@ -105,7 +101,7 @@ export default function Pricing() {
           <motion.div initial={{ opacity: 0, scale: 0.9 }} animate={{ opacity: 1, scale: 1 }} transition={{ delay: 0.1 }}
             className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/10 border border-primary/30 text-primary text-xs font-bold tracking-wider uppercase">
             <Flame className="h-3.5 w-3.5" />
-            Built for independent artists &amp; producers
+            Built for independent artists
           </motion.div>
           <h1 className="font-heading text-4xl sm:text-5xl font-black tracking-tight leading-[0.95]">
             Meet SAM<br />

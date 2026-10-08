@@ -20,8 +20,7 @@ export const PRO_ITEMS = [
   "Tour Planner, Tour Finance & Venue Contracts",
   "Music News: daily industry briefings",
   "The Wall: the artist community",
-  "Team Chat, Whiteboard & Studio",
-  "Beat Pipeline, Beat Store & Client CRM",
+  "Team Chat: your team's messages and org chart",
   "Invoices, Revenue Splits & Royalty Dashboard",
 ];
 

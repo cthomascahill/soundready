@@ -56,7 +56,7 @@ const TIERS = [
       "Gig Finder & 1,341+ venues",
       "Tour Planner, Finance & Contracts",
       "The Wall: artist community",
-      "Team Chat & shared Whiteboard",
+      "Team Chat & shared team workspace",
     ],
     cta: "Start Pro",
     checkout: "/checkout/artist-pro",
