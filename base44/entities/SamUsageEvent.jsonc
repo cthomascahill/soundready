@@ -1,7 +1,7 @@
 {
   "name": "SamUsageEvent",
   "type": "object",
-  "description": "One fair-use accounting entry for any AI Manager action: reserved before the action runs, settled to the actual workload after, or released when it fails or was refused. Units are an internal workload estimate, not a currency.",
+  "description": "One fair-use accounting entry for any AI action: reserved before the action runs, settled to the actual workload after, or released when it fails or was refused. Units are an internal workload estimate, not a currency. Written only by backend functions (service role); users can read their own entries but never edit them.",
   "properties": {
     "user_id": {
       "type": "string",
@@ -22,7 +22,10 @@
         "weekly_digest",
         "intel_feed",
         "deal_research",
-        "deal_draft"
+        "deal_draft",
+        "music_news",
+        "tour_search",
+        "intel_email"
       ],
       "default": "research",
       "description": "Which AI feature this usage was spent on"
@@ -50,7 +53,7 @@
     },
     "note": {
       "type": "string",
-      "description": "Why the entry changed, e.g. estimate reserved, action complete, released on failure"
+      "description": "Why the entry changed, e.g. estimate reserved, action complete (with AI call count), released on failure"
     }
   },
   "required": [
@@ -64,10 +67,14 @@
       "data.user_id": "{{user.id}}"
     },
     "create": {
-      "data.user_id": "{{user.id}}"
+      "user_condition": {
+        "role": "admin"
+      }
     },
     "update": {
-      "data.user_id": "{{user.id}}"
+      "user_condition": {
+        "role": "admin"
+      }
     },
     "delete": {
       "user_condition": {
