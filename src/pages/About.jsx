@@ -119,24 +119,16 @@ export default function About() {
       <section className="relative px-4 pt-28 pb-24 text-center overflow-hidden">
         <div className="absolute inset-0 bg-gradient-to-b from-primary/8 via-background to-background pointer-events-none" />
         <motion.div initial={{ opacity: 0, y: 32 }} animate={{ opacity: 1, y: 0 }} className="relative max-w-5xl mx-auto space-y-8">
-          <motion.div initial={{ opacity: 0, scale: 0.9 }} animate={{ opacity: 1, scale: 1 }} transition={{ delay: 0.1 }}
-            className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/10 border border-primary/30 text-primary text-xs font-bold tracking-wider uppercase">
-            <Bot className="h-3.5 w-3.5" />
-            {t("One home base. One AI manager.")}
-          </motion.div>
-
           <h1 className="font-heading text-6xl sm:text-8xl font-black tracking-tight leading-[0.9]">
             {t("Your career ")}<br />
             <span className="text-primary">{t("in motion")}</span>
           </h1>
 
-          <p className="text-xl sm:text-2xl text-muted-foreground leading-relaxed max-w-3xl mx-auto font-body">
-            {t("Every song, show and deal. Plus Sam.")}
-          </p>
-
-          <div className="flex items-center justify-center gap-2 text-primary font-heading font-bold text-base">
-            {t("Search your artist name now")}
-            <ArrowDown className="h-5 w-5 animate-bounce" />
+          <div className="flex flex-col items-center gap-2">
+            <p className="font-heading text-3xl sm:text-5xl font-black text-foreground tracking-tight">
+              {t("Search your artist name now")}
+            </p>
+            <ArrowDown className="h-7 w-7 text-foreground animate-bounce" />
           </div>
 
           <HeroArtistSearch />
