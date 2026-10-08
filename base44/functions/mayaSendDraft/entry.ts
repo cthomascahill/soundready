@@ -41,7 +41,7 @@ export default async function(req) {
       const fallbackSubject = activity.song_title
         ? `New music: "${activity.song_title}" by ${artistName}`
         : activity.title;
-      await sendMayaDraft({ base44, user, draft, recipient, fallbackSubject });
+      await sendMayaDraft({ base44, user, draft, recipient, fallbackSubject, confirmSend: activity.action_type === 'playlist_pitch' });
 
       const updated = await base44.entities.AIActivity.update(activity.id, {
         status: 'sent',

@@ -28,7 +28,7 @@ async function latestEpkAttachment(base44, user) {
   }
 }
 
-export async function sendMayaDraft({ base44, user, draft, recipient, fallbackSubject, attachments = [] }) {
+export async function sendMayaDraft({ base44, user, draft, recipient, fallbackSubject, attachments = [], confirmSend = false }) {
   const artistName = user.artist_name || user.full_name || 'The Artist';
   const { subject, body } = parseEmailDraft(draft, fallbackSubject);
   const payload = {
@@ -44,4 +44,18 @@ export async function sendMayaDraft({ base44, user, draft, recipient, fallbackSu
   if (epk && atts.length < 5 && !atts.some(a => a.file_url === epk.file_uri)) atts.push(epk);
   if (atts.length) payload.attachments = atts;
   await base44.integrations.Core.SendEmail(payload);
+
+  // Proof of send: a copy of exactly what went out lands in the artist's own inbox
+  if (confirmSend && user.email) {
+    try {
+      await base44.integrations.Core.SendEmail({
+        to: user.email,
+        subject: `SAM sent your pitch: "${subject}"`,
+        body: `SAM just sent this pitch on your behalf.\n\nTo: ${recipient}\nSubject: ${subject}\n\nBelow is the email exactly as it went out:\n\n${draft}`,
+        from_name: `SAM for ${artistName}`,
+      });
+    } catch (e) {
+      console.log(`mayaEmail: confirmation copy to artist failed (${e.message})`);
+    }
+  }
 }
