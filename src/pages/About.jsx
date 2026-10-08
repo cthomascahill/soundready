@@ -16,6 +16,7 @@ import GrowthComparisonChart from "@/components/home/GrowthComparisonChart";
 import CountUpStat from "@/components/home/CountUpStat";
 import CareerWorkflowSection from "@/components/home/CareerWorkflowSection";
 import SamInActionSection from "@/components/home/SamInActionSection";
+import MattCormanSection from "@/components/home/MattCormanSection";
 import { TOOL_CATEGORIES } from "@/lib/toolCatalog";
 import { useLang } from "@/lib/i18n/LanguageContext";
 
@@ -147,6 +148,9 @@ export default function About() {
         </motion.div>
 
       </section>
+
+      {/* CREATED BY MATT CORMAN */}
+      <MattCormanSection />
 
       {/* SAM SPOTLIGHT, the main event */}
       <section className="px-4 py-24 border-t border-border">
