@@ -75,9 +75,9 @@ const TIERS = [
     badge: "Most Popular · SAM Works For You",
     badgeStyle: "bg-primary text-primary-foreground",
     glow: true,
-    desc: "SAM outbounds for you every week: tour support, features, sync and more. You approve or deny. Nothing sends without you.",
+    desc: "SAM finds opportunities and writes pitches for you every week: tour support, features, sync and more. You approve or deny. Nothing sends without you.",
     items: [
-      "SAM outbounds weekly, you approve or deny",
+      "SAM finds opportunities and writes pitches weekly, you approve or deny",
       "Contract Analyzer: SAM reads any contract",
       "Opportunities, A&R Intel & Career Roadmap",
       "Tell SAM, This Week & SAM's Desk",

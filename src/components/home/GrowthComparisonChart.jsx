@@ -86,7 +86,7 @@ export default function GrowthComparisonChart() {
       </div>
 
       <p className="text-xs text-muted-foreground text-center">
-        {t("Illustrative projection of cumulative growth")} ({t(METRICS[metric].label.toLowerCase())}), {t("based on average outcomes reported by SoundReady artists.")}
+        {t("Illustrative projection of cumulative growth")} ({t(METRICS[metric].label.toLowerCase())})
       </p>
     </motion.div>
   );
