@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import { ArrowRight } from "lucide-react";
+import { MoveRight } from "lucide-react";
 import { useLang } from "@/lib/i18n/LanguageContext";
 
 const BEFORE_IMG =
@@ -7,11 +7,30 @@ const BEFORE_IMG =
 const AFTER_IMG =
   "https://media.base44.com/images/public/69dcf0ecc907e43a438a626b/eeb6b43c8_IMG_7601.jpg";
 
+// The long green arrow between the two profiles, with a head that glides
+// back and forth along the shaft
+const GrowthArrow = () => (
+  <div className="relative flex items-center w-full sm:w-44 lg:w-56 shrink-0">
+    <div className="h-1.5 w-full rounded-full bg-primary" />
+    <motion.div
+      className="absolute -top-4 left-0"
+      animate={{ x: ["0%", "100%", "0%"] }}
+      transition={{ duration: 2.4, repeat: Infinity, ease: "easeInOut" }}
+      style={{ width: "fit-content" }}
+    >
+      <MoveRight className="h-10 w-10 text-primary" strokeWidth={2.5} />
+    </motion.div>
+  </div>
+);
+
 export default function MattCormanSection() {
   const { t } = useLang();
 
-  const shot = (img, alt, listeners, highlight) => (
+  const shot = (img, alt, label, listeners, highlight) => (
     <div className="flex-1 min-w-0">
+      <p className={`text-center mb-3 font-heading text-2xl sm:text-3xl font-black tracking-tight ${highlight ? "text-primary" : "text-muted-foreground"}`}>
+        {t(label)}
+      </p>
       <div className={`rounded-2xl border overflow-hidden shadow-xl ${highlight ? "border-primary/40 ring-2 ring-primary/30" : "border-border"}`}>
         <img src={img} alt={alt} className="w-full h-auto block" />
       </div>
@@ -23,7 +42,7 @@ export default function MattCormanSection() {
 
   return (
     <section className="px-4 py-24 border-t border-border">
-      <div className="max-w-5xl mx-auto space-y-12 text-center">
+      <div className="max-w-6xl mx-auto space-y-12 text-center">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -46,28 +65,18 @@ export default function MattCormanSection() {
           initial={{ opacity: 0, y: 24 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          className="flex flex-col sm:flex-row items-center gap-6 sm:gap-4"
+          className="flex flex-col sm:flex-row items-center gap-8 sm:gap-10 lg:gap-16"
         >
-          {shot(BEFORE_IMG, "Matt Corman's Spotify profile with 54,647 monthly listeners", "54,647 monthly listeners", false)}
+          {shot(BEFORE_IMG, "Matt Corman's Spotify profile with 54,647 monthly listeners", "From this", "54,647 monthly listeners", false)}
 
-          <motion.div
-            initial={{ opacity: 0, scale: 0.5 }}
-            whileInView={{ opacity: 1, scale: 1 }}
-            viewport={{ once: true }}
-            transition={{ delay: 0.2 }}
-            className="shrink-0 rotate-90 sm:rotate-0"
-          >
-            <div className="h-14 w-14 rounded-full bg-primary flex items-center justify-center shadow-lg shadow-primary/30">
-              <motion.div
-                animate={{ x: [0, 6, 0] }}
-                transition={{ x: { repeat: Infinity, duration: 1.4, ease: "easeInOut" } }}
-              >
-                <ArrowRight className="h-6 w-6 text-primary-foreground" />
-              </motion.div>
-            </div>
-          </motion.div>
+          <div className="flex flex-col items-center gap-4 rotate-90 sm:rotate-0">
+            <p className="font-heading text-xl sm:text-2xl font-black text-primary whitespace-nowrap">
+              {t("+1,000,000 monthly listeners")}
+            </p>
+            <GrowthArrow />
+          </div>
 
-          {shot(AFTER_IMG, "Matt Corman's Spotify profile with 1.2 million monthly listeners", "1.2M monthly listeners", true)}
+          {shot(AFTER_IMG, "Matt Corman's Spotify profile with 1.2 million monthly listeners", "To this", "1.2M monthly listeners", true)}
         </motion.div>
       </div>
     </section>
