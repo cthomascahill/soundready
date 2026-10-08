@@ -17,6 +17,7 @@ import CountUpStat from "@/components/home/CountUpStat";
 import CareerWorkflowSection from "@/components/home/CareerWorkflowSection";
 import SamInActionSection from "@/components/home/SamInActionSection";
 import MattCormanSection from "@/components/home/MattCormanSection";
+import HeroArtistSearch from "@/components/home/HeroArtistSearch";
 import { TOOL_CATEGORIES } from "@/lib/toolCatalog";
 import { useLang } from "@/lib/i18n/LanguageContext";
 
@@ -143,6 +144,8 @@ export default function About() {
               </Button>
             </a>
           </div>
+
+          <HeroArtistSearch />
 
           <p className="text-xs text-muted-foreground">{t("Start free. No contracts. No percentage cuts, ever.")}</p>
         </motion.div>
