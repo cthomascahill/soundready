@@ -5,8 +5,8 @@ import { useLang } from "@/lib/i18n/LanguageContext";
 
 const SAM_IMG = "https://media.base44.com/images/public/69dcf0ecc907e43a438a626b/d124f0929_generated_f10ed4b3.png";
 
-// Screen recording of Sam drafting an outreach email. Set this once the video is uploaded.
-const SAM_DEMO_VIDEO_URL = "";
+// Screen recording of Sam pitching a song to a Spotify playlist
+const SAM_DEMO_VIDEO_URL = "https://media.base44.com/videos/public/69dcf0ecc907e43a438a626b/0b5474617_copy_B90592E5-E2E1-4191-A831-23F510A1F7162.MOV";
 
 export default function SamInActionSection() {
   const { t } = useLang();
@@ -84,10 +84,17 @@ export default function SamInActionSection() {
       </div>
 
       {SAM_DEMO_VIDEO_URL && (
-        <div className="max-w-4xl mx-auto mt-12">
-          <video src={SAM_DEMO_VIDEO_URL} autoPlay muted loop playsInline controls className="w-full rounded-2xl border border-border shadow-xl" />
-          <p className="text-xs text-muted-foreground text-center mt-3">{t("Watch Sam research, draft and file an outreach email for your approval")}</p>
-        </div>
+        <motion.div initial={{ opacity: 0, y: 24 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="max-w-4xl mx-auto mt-12 space-y-3">
+          <p className="font-heading font-bold text-lg text-center">{t("A real walkthrough: Sam pitches a song to a Spotify playlist")}</p>
+          <video
+            src={SAM_DEMO_VIDEO_URL}
+            autoPlay muted loop playsInline controls
+            className="w-full rounded-2xl border border-border shadow-xl"
+          />
+          <p className="text-xs text-muted-foreground text-center">
+            {t("Watch Sam research the playlist, draft the pitch from real numbers and file it for approval. Nothing sends without you.")}
+          </p>
+        </motion.div>
       )}
     </section>
   );
