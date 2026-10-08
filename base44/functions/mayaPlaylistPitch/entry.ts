@@ -22,12 +22,14 @@ export default async function(req) {
 Song: "${song.title}"${song.featured_artists ? ` (feat. ${song.featured_artists})` : ''}
 Genre: ${song.genre || 'independent'}
 Moods: ${(song.moods || []).join(', ') || 'N/A'}
+${song.spotify_url ? `Spotify link: ${song.spotify_url}` : ''}
+${song.youtube_url ? `YouTube link: ${song.youtube_url}` : ''}
 ${song.notes ? `About the song: ${song.notes}` : ''}
 
 Curator: ${playlist.curator || 'the curator'} (${playlist.followers || '?'} followers)
 Curator's preferences: "${playlist.note || ''}"
 
-Write 3-4 sentences. Address the curator by name in the first sentence. Reference why THIS song fits THIS playlist, concretely, never generic. End with a clear ask. First person from the artist, signed with the artist's name. Start with a "Subject:" line, then a blank line, then the email body. Return only the email, nothing else.`,
+Write 3-4 sentences. Address the curator by name in the first sentence. If a Spotify link is provided, include it in the email so the curator can listen. Reference why THIS song fits THIS playlist, concretely, never generic. End with a clear ask. First person from the artist, signed with the artist's name. Start with a "Subject:" line, then a blank line, then the email body. Return only the email, nothing else.`,
     });
 
     const draft = (typeof pitch === 'string' ? pitch : '').trim();

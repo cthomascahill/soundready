@@ -33,6 +33,8 @@ export default function SongCardModal({ song, onClose, onSave, projects = [] }) 
     moods: song?.moods || [],
     status: song?.status || "Released",
     release_date: song?.release_date || "",
+    spotify_url: song?.spotify_url || "",
+    youtube_url: song?.youtube_url || "",
     lyrics: song?.lyrics || "",
     notes: song?.notes || "",
     tags: song?.tags || [],
@@ -246,6 +248,18 @@ export default function SongCardModal({ song, onClose, onSave, projects = [] }) 
             </div>
             {form.status === "Released" && (
               <Input type="date" value={form.release_date} onChange={e => setForm(f => ({ ...f, release_date: e.target.value }))} className="bg-zinc-900 border-zinc-700 max-w-xs" />
+            )}
+            {form.status === "Released" && (
+              <div className="space-y-2 rounded-xl border border-primary/25 bg-primary/5 p-4">
+                <p className="text-xs text-primary font-semibold">Release Links</p>
+                <p className="text-xs text-zinc-500">Sam uses the Spotify link to pitch this song to playlist curators.</p>
+                <Input placeholder="Spotify link (open.spotify.com/track/...)" value={form.spotify_url}
+                  onChange={e => setForm(f => ({ ...f, spotify_url: e.target.value }))}
+                  className="bg-zinc-900 border-zinc-700" />
+                <Input placeholder="YouTube link (optional)" value={form.youtube_url}
+                  onChange={e => setForm(f => ({ ...f, youtube_url: e.target.value }))}
+                  className="bg-zinc-900 border-zinc-700" />
+              </div>
             )}
           </div>
 

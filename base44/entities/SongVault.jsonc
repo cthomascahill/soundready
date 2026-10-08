@@ -41,6 +41,14 @@
     "release_date": {
       "type": "string"
     },
+    "spotify_url": {
+      "type": "string",
+      "description": "Link to this song on Spotify. Sam uses this to pitch the released song to playlist curators."
+    },
+    "youtube_url": {
+      "type": "string",
+      "description": "Link to this song on YouTube"
+    },
     "lyrics": {
       "type": "string"
     },
