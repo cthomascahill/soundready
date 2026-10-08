@@ -134,6 +134,8 @@ export default function About() {
             {t("Every song, show, deal and dollar in one place, plus Sam, your AI manager, working your career every week. You approve or deny. Start free.")}
           </p>
 
+          <HeroArtistSearch />
+
           <div className="flex flex-col sm:flex-row items-center justify-center gap-3 pt-2">
             <Button size="lg" className="gap-2 font-heading font-bold text-base px-8 h-12" onClick={handleCTA}>
               {t("Start")} <ArrowRight className="h-4 w-4" />
@@ -144,8 +146,6 @@ export default function About() {
               </Button>
             </a>
           </div>
-
-          <HeroArtistSearch />
 
           <p className="text-xs text-muted-foreground">{t("Start free. No contracts. No percentage cuts, ever.")}</p>
         </motion.div>
