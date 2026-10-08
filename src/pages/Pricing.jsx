@@ -268,7 +268,7 @@ export default function Pricing() {
                 </Link>
               </div>
               <p className="text-center text-xs text-muted-foreground mt-2">No percentage cuts. Cancel anytime. Founding price stays locked while subscribed.</p>
-              <p className="text-center text-[11px] text-muted-foreground mt-1 leading-relaxed">Includes 600 research units each month. Add 200 extra units anytime for $12 — they never expire. Some opportunities require manual submission.</p>
+              <p className="text-center text-[11px] text-muted-foreground mt-1 leading-relaxed">Includes 600 AI units each month, shared across all SAM features. Add 200 extra units anytime for $12 — they never expire. Some opportunities require manual submission.</p>
             </motion.div>
           </div>
         </div>

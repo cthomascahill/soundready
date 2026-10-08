@@ -132,7 +132,7 @@ export const PLANS = {
     color: "text-primary",
     bg: "bg-primary/10",
     border: "border-primary/30",
-    tagline: "A one-time boost when Sam's monthly research allowance runs low.",
+    tagline: "A one-time boost when your monthly AI allowance runs low.",
     price: "$12",
     period: "",
     checkoutLabel: "Add extra usage",

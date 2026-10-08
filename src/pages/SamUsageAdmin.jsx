@@ -36,7 +36,7 @@ export default function SamUsageAdmin() {
       <motion.div initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }}>
         <p className="text-xs text-primary uppercase tracking-widest font-medium">Sam · Fair-use</p>
         <h1 className="font-heading text-3xl font-bold">Usage overview</h1>
-        <p className="text-sm text-muted-foreground">How much Sam research capacity each artist is using this month.</p>
+        <p className="text-sm text-muted-foreground">How much AI capacity each artist is using this month, across every AI feature.</p>
       </motion.div>
 
       {/* Current policy */}
@@ -52,6 +52,50 @@ export default function SamUsageAdmin() {
             <p className="font-heading font-bold text-lg mt-1">{c.value}</p>
           </div>
         ))}
+      </div>
+
+      {/* Where AI time went, per feature */}
+      <div className="rounded-2xl bg-card border border-border overflow-hidden">
+        <div className="px-5 py-3.5 border-b border-border flex items-center gap-2">
+          <Gauge className="h-4 w-4 text-primary" />
+          <p className="font-heading font-bold text-sm">AI features this month</p>
+        </div>
+        {(() => {
+          const featureRows = Object.entries(data.features || {})
+            .map(([key, f]) => ({
+              key,
+              label: f.label,
+              month: data.feature_month?.[key] || 0,
+              allTime: data.feature_all_time?.[key] || 0,
+            }))
+            .filter(r => r.month > 0 || r.allTime > 0)
+            .sort((a, b) => b.month - a.month || b.allTime - a.allTime);
+          if (!featureRows.length) {
+            return <p className="px-5 py-6 text-sm text-muted-foreground">No AI usage recorded yet.</p>;
+          }
+          return (
+            <div className="overflow-x-auto">
+              <table className="w-full text-xs">
+                <thead>
+                  <tr className="text-left text-muted-foreground border-b border-border">
+                    <th className="px-5 py-2.5 font-medium">Feature</th>
+                    <th className="px-3 py-2.5 font-medium">Units this month</th>
+                    <th className="px-3 py-2.5 font-medium">Units all time</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {featureRows.map(r => (
+                    <tr key={r.key} className="border-b border-border/50 last:border-0">
+                      <td className="px-5 py-2.5">{r.label}</td>
+                      <td className="px-3 py-2.5 font-semibold">{r.month}</td>
+                      <td className="px-3 py-2.5 text-muted-foreground">{r.allTime}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          );
+        })()}
       </div>
 
       {/* Per-artist usage */}
@@ -113,7 +157,7 @@ export default function SamUsageAdmin() {
       </div>
 
       <p className="text-[11px] text-muted-foreground/70 leading-relaxed">
-        Fair-use limits and unit weights are set in one shared config that every Sam function reads. To adjust the policy — monthly allowance, warn threshold, unit weights, or extra-pack size — just say the word and they'll be updated everywhere at once.
+        One shared allowance covers every AI feature: research, recommendations, playlist pitches, EPK, tour scouts, digests, intel feeds and deal research. Units are an internal workload estimate — they are not integration credits or dollars. To adjust the policy — monthly allowance, warn threshold, feature costs, or extra-pack size — just say the word and they'll be updated everywhere at once.
       </p>
     </div>
   );

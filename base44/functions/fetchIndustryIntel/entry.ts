@@ -1,4 +1,5 @@
 import { createClientFromRequest } from 'npm:@base44/sdk@0.8.52';
+import { reserveAiUnits, settleTaskUnits, releaseTaskUnits, featureUnits, usagePausedResponse } from '../../shared/samUsage.ts';
 
 // One function serves every Industry Intel feed: the feed id picks the research
 // brief, and the user's genre/city/mode personalizes it.
@@ -45,6 +46,7 @@ const ITEM_SCHEMA = {
 };
 
 export default async function(req) {
+  let reservationEventId = null;
   try {
     const base44 = createClientFromRequest(req);
     const user = await base44.auth.me();
@@ -54,6 +56,11 @@ export default async function(req) {
     const { feed = "", genres = "", city = "" } = body;
     const brief = FEED_PROMPTS[feed];
     if (!brief) return Response.json({ error: 'Unknown feed type' }, { status: 400 });
+
+    // ── Shared AI allowance: intel feeds draw from the same monthly pool ──
+    const reservation = await reserveAiUnits(base44, { userId: user.id, feature: 'intel_feed' });
+    reservationEventId = reservation.event?.id || null;
+    if (!reservation.allowed) return usagePausedResponse(reservation.state);
 
     const who = "an independent artist";
     const context = [
@@ -69,6 +76,7 @@ export default async function(req) {
       response_json_schema: ITEM_SCHEMA,
     });
 
+    await settleTaskUnits(base44, reservationEventId, featureUnits('intel_feed'), 'intel feed complete');
     return Response.json({
       feed,
       items: Array.isArray(res.items) ? res.items : [],
@@ -76,6 +84,7 @@ export default async function(req) {
       lastUpdated: new Date().toISOString(),
     });
   } catch (error) {
+    await releaseTaskUnits(base44, reservationEventId, `released: ${error.message}`).catch(() => {});
     console.error("fetchIndustryIntel failed:", error.message);
     return Response.json({ error: error.message }, { status: 500 });
   }

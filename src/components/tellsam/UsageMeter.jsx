@@ -3,9 +3,10 @@ import { Gauge, Zap } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
 /**
- * The artist's Sam fair-use meter: how much of this month's included research
- * usage is spent, any extra purchased units, and the reset date. Turns into a
- * purchase prompt when the allowance is used up.
+ * The artist's AI fair-use meter: how much of this month's included AI
+ * allowance is spent across every SAM feature (research, pitches, EPK,
+ * recommendations, intel, deals), any extra purchased units, and the reset
+ * date. Turns into a purchase prompt when the allowance is used up.
  */
 export default function UsageMeter({ state, loading }) {
   if ((loading && !state) || !state) return null;
@@ -18,7 +19,7 @@ export default function UsageMeter({ state, loading }) {
     <div className="px-5 py-3.5 border-t border-border bg-secondary/30 space-y-2">
       <div className="flex items-center justify-between gap-2 text-[11px]">
         <span className="flex items-center gap-1.5 text-muted-foreground font-medium">
-          <Gauge className="h-3.5 w-3.5" /> Sam usage this month
+          <Gauge className="h-3.5 w-3.5" /> AI usage this month
         </span>
         <span className={state.paused ? "text-red-400 font-semibold" : state.warn ? "text-yellow-400 font-semibold" : "text-muted-foreground"}>
           {state.includedUsed} / {state.included}
@@ -43,7 +44,7 @@ export default function UsageMeter({ state, loading }) {
       {state.paused && (
         <div className="flex items-center justify-between gap-2 rounded-xl border border-red-500/30 bg-red-500/5 px-3 py-2.5">
           <p className="text-[11px] text-red-400 leading-snug">
-            Sam's monthly research allowance is used up. Add extra usage to keep going today.
+            Your monthly AI allowance is used up. Add extra usage to keep going today.
           </p>
           <Link to="/checkout/sam-extra-usage" className="shrink-0">
             <Button size="sm" className="h-7 text-[11px] gap-1.5 shrink-0">
@@ -54,7 +55,8 @@ export default function UsageMeter({ state, loading }) {
       )}
 
       <p className="text-[10px] text-muted-foreground/60 leading-snug">
-        Usage is an estimate of Sam's research workload — quick questions are light, big outreach sweeps are heavy. It's not a dollar amount.
+        One allowance covers every SAM feature: research, pitches, EPK, recommendations, industry intel, deals and digests.
+        Usage is a workload estimate, not a dollar amount.
       </p>
     </div>
   );

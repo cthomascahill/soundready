@@ -1,7 +1,7 @@
 {
   "name": "SamUsageEvent",
   "type": "object",
-  "description": "One fair-use accounting entry for a Sam task: reserved before the task runs, settled to the actual workload after, or released when the task fails or was refused. Units are an internal workload estimate, not a currency.",
+  "description": "One fair-use accounting entry for any AI Manager action: reserved before the action runs, settled to the actual workload after, or released when it fails or was refused. Units are an internal workload estimate, not a currency.",
   "properties": {
     "user_id": {
       "type": "string",
@@ -9,7 +9,23 @@
     },
     "task_id": {
       "type": "string",
-      "description": "SamTask this usage was reserved for"
+      "description": "SamTask this usage was reserved for; for fixed-cost features a synthetic marker like 'recommendations-1728000000000'"
+    },
+    "feature": {
+      "type": "string",
+      "enum": [
+        "research",
+        "recommendations",
+        "playlist_pitch",
+        "epk",
+        "tour_opportunities",
+        "weekly_digest",
+        "intel_feed",
+        "deal_research",
+        "deal_draft"
+      ],
+      "default": "research",
+      "description": "Which AI feature this usage was spent on"
     },
     "units": {
       "type": "number",
@@ -22,7 +38,7 @@
         "released",
         "settled"
       ],
-      "description": "reserved = held while the task runs, released = returned without running (failed or concurrent overrun), settled = task finished and the actual workload is recorded"
+      "description": "reserved = held while the action runs, released = returned without running (failed or concurrent overrun), settled = action finished and the actual workload is recorded"
     },
     "covered_by": {
       "type": "string",
@@ -34,7 +50,7 @@
     },
     "note": {
       "type": "string",
-      "description": "Why the entry changed, e.g. estimate reserved, task complete, released on failure"
+      "description": "Why the entry changed, e.g. estimate reserved, action complete, released on failure"
     }
   },
   "required": [

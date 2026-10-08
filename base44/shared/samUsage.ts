@@ -1,13 +1,14 @@
-// Fair-use accounting for Sam's research tasks. "Units" are an internal
-// estimate of research workload — quick analysis tasks are light, wide
-// prospecting sweeps with contact verification are heavy. They are NOT a
-// currency or an integration-credit conversion.
+// Fair-use accounting for ALL AI Manager features. "Units" are an internal
+// estimate of AI workload — a research sweep is heavy, a pitch draft is light.
+// They are NOT a currency, an integration-credit conversion, or a dollar amount.
 //
-// Every limit and unit weight lives in this one config: samTaskRun,
-// samUsageStatus and samUsageAdmin all read it from here, so tuning the
-// fair-use policy means editing SAM_USAGE only.
+// Every limit, unit weight and feature cost lives in this one config: every
+// metered function (samTaskRun, mayaRecommend, dealOutreach, ...) reads it
+// from here, so tuning the fair-use policy means editing this file only.
+
 export const SAM_USAGE = {
-  // Workload units included with AI Manager every calendar month
+  // Workload units included with AI Manager every calendar month, shared
+  // across every AI feature (research, recommendations, pitches, EPK...)
   monthlyIncluded: 600,
   // Heads-up point (fraction of the included allowance)
   warnRatio: 0.8,
@@ -23,6 +24,35 @@ export const SAM_USAGE = {
   },
 };
 
+// Fixed workload cost per AI feature (research tasks are estimated dynamically
+// in samTaskRun instead). All of them draw from the same monthly allowance.
+export const AI_FEATURES = {
+  research: { label: 'Sam research tasks', units: 0, dynamic: true },
+  recommendations: { label: 'Career recommendations', units: 15 },
+  playlist_pitch: { label: 'Playlist pitches', units: 10 },
+  epk: { label: 'EPK generation', units: 15 },
+  tour_opportunities: { label: 'Tour opportunity scout', units: 25 },
+  weekly_digest: { label: 'Weekly digests', units: 10 },
+  intel_feed: { label: 'Industry intel feeds', units: 25 },
+  deal_research: { label: 'Deal prospect research', units: 40 },
+  deal_draft: { label: 'Deal pitch drafts', units: 10 },
+};
+
+export function featureUnits(feature) {
+  return AI_FEATURES[feature]?.units || 10;
+}
+
+// The standard paused-response payload metered functions return when the
+// artist's monthly AI allowance is used up.
+export function usagePausedResponse(state) {
+  return Response.json({
+    error: 'Your monthly AI allowance is used up. It resets at the start of next month, or you can add extra usage anytime.',
+    usage_paused: true,
+    message: 'Your monthly AI allowance is used up. It resets at the start of next month, or you can add extra usage anytime.',
+    resets_at: state.resetsAt,
+  }, { status: 402 });
+}
+
 export function monthStartISO(now = new Date()) {
   return new Date(Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), 1)).toISOString();
 }
@@ -31,8 +61,9 @@ export function nextMonthStartISO(now = new Date()) {
   return new Date(Date.UTC(now.getUTCFullYear(), now.getUTCMonth() + 1, 1)).toISOString();
 }
 
-// Rough workload estimate for one task. Reserved before the run so a paused
-// account can't start heavy work, then settled to the actual numbers after.
+// Rough workload estimate for one research task. Reserved before the run so a
+// paused account can't start heavy work, then settled to the actual numbers
+// after.
 export function estimateTaskUnits({ prospecting, targets, attachments }) {
   const u = SAM_USAGE.units;
   let n = u.analysisBase + u.perAttachment * (attachments || 0);
@@ -72,6 +103,19 @@ export async function getUsageState(base44, userId) {
   return computeUsageState(events, addOns);
 }
 
+// This month's usage broken down by AI feature, for the artist's meter.
+export function computeFeatureBreakdown(events, monthStart = monthStartISO()) {
+  const byFeature = {};
+  for (const e of (events || [])) {
+    if (!['reserved', 'settled'].includes(e.status)) continue;
+    if (e.created_date < monthStart) continue;
+    if (e.covered_by === 'addon') continue;
+    const f = e.feature || 'research';
+    byFeature[f] = (byFeature[f] || 0) + (e.units || 0);
+  }
+  return byFeature;
+}
+
 export function computeUsageState(events, addOns, monthStart = monthStartISO()) {
   const active = (events || []).filter(e => ['reserved', 'settled'].includes(e.status));
   const inMonth = active.filter(e => e.created_date >= monthStart);
@@ -95,20 +139,24 @@ export function computeUsageState(events, addOns, monthStart = monthStartISO()) 
   };
 }
 
-// Reserve units for a task before it runs. Allowed only when the estimate fits
-// in the remaining balance; after writing the reservation the balance is
-// re-checked so two concurrent tasks can't push past the budget together.
-export async function reserveTaskUnits(base44, { userId, taskId, units }) {
+// Reserve units for an AI action before it runs — used by research tasks
+// (dynamic estimate) and every other AI feature (fixed feature cost). Allowed
+// only when the estimate fits in the remaining balance; after writing the
+// reservation the balance is re-checked so two concurrent actions can't push
+// past the budget together.
+export async function reserveAiUnits(base44, { userId, taskId, feature = 'research', units }) {
+  const cost = typeof units === 'number' ? units : featureUnits(feature);
   const state = await getUsageState(base44, userId);
-  if (units > state.remaining) return { state, allowed: false, event: null };
-  const coveredBy = state.includedRemaining >= units ? 'included' : 'addon';
+  if (cost > state.remaining) return { state, allowed: false, event: null };
+  const coveredBy = state.includedRemaining >= cost ? 'included' : 'addon';
   const event = await base44.entities.SamUsageEvent.create({
     user_id: userId,
-    task_id: taskId,
-    units,
+    task_id: taskId || `${feature}-${Date.now()}`,
+    units: cost,
     status: 'reserved',
     covered_by: coveredBy,
-    note: 'estimate reserved before the run',
+    feature,
+    note: `${AI_FEATURES[feature]?.label || feature} reserved`,
   });
   const after = await getUsageState(base44, userId);
   if (after.remaining < 0) {
@@ -118,7 +166,7 @@ export async function reserveTaskUnits(base44, { userId, taskId, units }) {
   return { state, allowed: true, event };
 }
 
-// Settle a finished task's reservation to its actual workload.
+// Settle a finished action's reservation to its actual workload.
 export async function settleTaskUnits(base44, eventId, actualUnits, note = '') {
   if (!eventId) return;
   await base44.entities.SamUsageEvent.update(eventId, {
@@ -128,8 +176,8 @@ export async function settleTaskUnits(base44, eventId, actualUnits, note = '') {
   }).catch(() => {});
 }
 
-// Give a failed task's reservation back.
-export async function releaseTaskUnits(base44, eventId, note = 'released: task failed') {
+// Give a failed action's reservation back.
+export async function releaseTaskUnits(base44, eventId, note = 'released: action failed') {
   if (!eventId) return;
   await base44.entities.SamUsageEvent.update(eventId, { status: 'released', note }).catch(() => {});
 }

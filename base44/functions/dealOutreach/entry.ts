@@ -1,5 +1,6 @@
 import { createClientFromRequest } from 'npm:@base44/sdk@0.8.52';
 import { sendMayaDraft, isValidEmail } from '../../shared/mayaEmail.ts';
+import { reserveAiUnits, settleTaskUnits, releaseTaskUnits, featureUnits, usagePausedResponse } from '../../shared/samUsage.ts';
 
 const CATEGORY_LABELS = {
   record_label: 'record labels',
@@ -16,6 +17,7 @@ const CATEGORY_TARGETS = {
 const STATUSES = ['researched', 'draft', 'approved', 'sent', 'replied', 'follow_up', 'paused', 'declined'];
 
 export default async function(req) {
+  let reservationEventId = null;
   try {
     const base44 = createClientFromRequest(req);
     const user = await base44.auth.me();
@@ -91,6 +93,11 @@ ${pipelineLines.join('\n') || 'No songs in the pipeline'}`;
     if (action === 'research') {
       const category = body.category;
       if (!CATEGORY_LABELS[category]) return Response.json({ error: 'category required' }, { status: 400 });
+
+      // ── Shared AI allowance: deal research draws from the same monthly pool ──
+      const reservation = await reserveAiUnits(base44, { userId: user.id, feature: 'deal_research' });
+      reservationEventId = reservation.event?.id || null;
+      if (!reservation.allowed) return usagePausedResponse(reservation.state);
 
       // Three distinct discovery angles, each running its own web search
       const soundLike = [profile.sounds_like_1, profile.sounds_like_2, profile.sounds_like_3].filter(Boolean).join(', ');
@@ -241,6 +248,7 @@ ${pipelineLines.join('\n') || 'No songs in the pipeline'}`;
       }
 
       const prospects = ranked.slice(0, 12).map(p => ({ ...p, route: routeOf(p) }));
+      await settleTaskUnits(base44, reservationEventId, featureUnits('deal_research'), 'deal research complete');
       console.log(`dealOutreach: ${prospects.length} unique ${category} prospects from ${ANGLES[category].length} searches for user ${user.id}`);
       return Response.json({ prospects, searches: ANGLES[category].length });
     }
@@ -251,6 +259,11 @@ ${pipelineLines.join('\n') || 'No songs in the pipeline'}`;
       const prospects = Array.isArray(body.prospects) ? body.prospects.slice(0, 5) : [];
       if (!CATEGORY_LABELS[category]) return Response.json({ error: 'category required' }, { status: 400 });
       if (prospects.length === 0) return Response.json({ error: 'prospects required' }, { status: 400 });
+
+      // ── Shared AI allowance: pitch drafting draws from the same monthly pool ──
+      const reservation = await reserveAiUnits(base44, { userId: user.id, feature: 'deal_draft' });
+      reservationEventId = reservation.event?.id || null;
+      if (!reservation.allowed) return usagePausedResponse(reservation.state);
 
       const prompt = `You are Sam, the AI artist manager inside SoundReady, writing outreach emails on behalf of ${artistName}, an independent artist.
 
@@ -319,6 +332,7 @@ Do not invent numbers, achievements, or links that are not in the artist context
           },
         }));
       }
+      await settleTaskUnits(base44, reservationEventId, featureUnits('deal_draft'), 'deal drafts complete');
       console.log(`dealOutreach: filed ${created.length} ${category} drafts for user ${user.id}`);
       return Response.json({ created });
     }
@@ -368,6 +382,7 @@ Do not invent numbers, achievements, or links that are not in the artist context
 
     return Response.json({ error: 'Unknown action' }, { status: 400 });
   } catch (error) {
+    await releaseTaskUnits(base44, reservationEventId, `released: ${error.message}`).catch(() => {});
     console.error('dealOutreach error:', error.message);
     return Response.json({ error: error.message }, { status: 500 });
   }

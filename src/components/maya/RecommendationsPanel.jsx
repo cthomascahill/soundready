@@ -36,7 +36,9 @@ export default function RecommendationsPanel({ user, onPendingChange }) {
       .catch((e) => ({ data: { error: e.message } }));
     setGenerating(false);
     if (res.data?.error) {
-      setNote("Sam hit a snag building your plan — try again in a moment.");
+      setNote(/allowance is used up/i.test(res.data.error)
+        ? "Your monthly AI allowance is used up. Add extra usage to keep going today."
+        : "Sam hit a snag building your plan — try again in a moment.");
       return;
     }
     const found = res.data?.found ?? 0;

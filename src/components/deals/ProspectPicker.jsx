@@ -60,7 +60,9 @@ export default function ProspectPicker({ category, onCreated }) {
     }).catch(e => ({ data: { error: e.message } }));
     setResearching(false);
     if (res.data?.error) {
-      setError(res.data.error === "profile_incomplete"
+      setError(/allowance is used up/i.test(res.data.error)
+        ? "Your monthly AI allowance is used up. Add extra usage to keep going today."
+        : res.data.error === "profile_incomplete"
         ? "Sam needs your name, genre and location first — complete your artist profile below."
         : "Sam's research hit a snag — try again in a moment.");
       return;
@@ -86,7 +88,9 @@ export default function ProspectPicker({ category, onCreated }) {
     }).catch(e => ({ data: { error: e.message } }));
     setDrafting(false);
     if (res.data?.error) {
-      setError("Sam couldn't finish the drafts — try again in a moment.");
+      setError(/allowance is used up/i.test(res.data.error)
+        ? "Your monthly AI allowance is used up. Add extra usage to keep going today."
+        : "Sam couldn't finish the drafts — try again in a moment.");
       return;
     }
     onCreated(res.data?.created || []);

@@ -1,10 +1,17 @@
 import { createClientFromRequest } from 'npm:@base44/sdk@0.8.31';
+import { reserveAiUnits, settleTaskUnits, releaseTaskUnits, featureUnits, usagePausedResponse } from '../../shared/samUsage.ts';
 
 Deno.serve(async (req) => {
+  let reservationEventId = null;
   try {
     const base44 = createClientFromRequest(req);
     const user = await base44.auth.me();
     if (!user) return Response.json({ error: 'Unauthorized' }, { status: 401 });
+
+    // ── Shared AI allowance: pitches draw from the same monthly pool ──
+    const reservation = await reserveAiUnits(base44, { userId: user.id, feature: 'playlist_pitch' });
+    reservationEventId = reservation.event?.id || null;
+    if (!reservation.allowed) return usagePausedResponse(reservation.state);
 
     const { song_id } = await req.json();
     if (!song_id) return Response.json({ error: 'song_id required' }, { status: 400 });
@@ -83,8 +90,10 @@ For each playlist, write a short pitch email (3 short paragraphs). Reference spe
       });
     }
 
+    await settleTaskUnits(base44, reservationEventId, featureUnits('playlist_pitch'), 'auto playlist pitch complete');
     return Response.json({ success: true, pitch_count: pitchCount, pitches });
   } catch (error) {
+    await releaseTaskUnits(base44, reservationEventId, `released: ${error.message}`).catch(() => {});
     return Response.json({ error: error.message }, { status: 500 });
   }
 });

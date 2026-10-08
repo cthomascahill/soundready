@@ -1,10 +1,17 @@
 import { createClientFromRequest } from 'npm:@base44/sdk@0.8.31';
+import { reserveAiUnits, settleTaskUnits, releaseTaskUnits, featureUnits, usagePausedResponse } from '../../shared/samUsage.ts';
 
 Deno.serve(async (req) => {
+  let reservationEventId = null;
   try {
     const base44 = createClientFromRequest(req);
     const user = await base44.auth.me();
     if (!user) return Response.json({ error: 'Unauthorized' }, { status: 401 });
+
+    // ── Shared AI allowance: EPK generation draws from the same monthly pool ──
+    const reservation = await reserveAiUnits(base44, { userId: user.id, feature: 'epk' });
+    reservationEventId = reservation.event?.id || null;
+    if (!reservation.allowed) return usagePausedResponse(reservation.state);
 
     const { song_id } = await req.json();
     const song = song_id
@@ -56,8 +63,10 @@ Write in a professional press release voice. Be specific about the song's sound 
       metadata: { song_title: song.title, artist_name: artistName }
     });
 
+    await settleTaskUnits(base44, reservationEventId, featureUnits('epk'), 'EPK generation complete');
     return Response.json({ success: true, epk: epkContent });
   } catch (error) {
+    await releaseTaskUnits(base44, reservationEventId, `released: ${error.message}`).catch(() => {});
     return Response.json({ error: error.message }, { status: 500 });
   }
 });

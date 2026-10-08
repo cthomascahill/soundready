@@ -2,7 +2,7 @@ import { createClientFromRequest } from 'npm:@base44/sdk@0.8.52';
 import { CURATED_VENUES, matchVenuesForText } from '../../shared/venueDirectory.ts';
 import { huntBookingEmail, isUsableEmail } from './contactScrape.ts';
 import { planProspecting, isProspecting, discoverTargets, poolToLines, siteForName } from './discovery.ts';
-import { SAM_USAGE, getUsageState, estimateTaskUnits, adaptiveTargetCap, firstExplicitTargetCount, reserveTaskUnits, settleTaskUnits, releaseTaskUnits } from '../../shared/samUsage.ts';
+import { SAM_USAGE, getUsageState, estimateTaskUnits, adaptiveTargetCap, firstExplicitTargetCount, reserveAiUnits, settleTaskUnits, releaseTaskUnits } from '../../shared/samUsage.ts';
 
 // Sam executes an open-ended task the artist typed in "Tell Sam what to do".
 // For non-venue prospecting (labels, distributors, sync, press...) a wide
@@ -165,7 +165,7 @@ export default async function(req) {
       targets: prospecting ? targetCap : 0,
       attachments: attachments.length,
     });
-    const reservation = await reserveTaskUnits(base44, { userId: user.id, taskId: task.id, units: estimatedUnits });
+    const reservation = await reserveAiUnits(base44, { userId: user.id, taskId: task.id, feature: 'research', units: estimatedUnits });
     usageEventId = reservation.event?.id || null;
     if (!reservation.allowed) {
       await base44.entities.SamTask.update(task.id, {

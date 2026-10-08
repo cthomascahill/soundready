@@ -1,5 +1,5 @@
 import { createClientFromRequest } from 'npm:@base44/sdk@0.8.52';
-import { SAM_USAGE, monthStartISO } from '../../shared/samUsage.ts';
+import { SAM_USAGE, AI_FEATURES, monthStartISO } from '../../shared/samUsage.ts';
 
 // Aggregate Sam fair-use usage across all artists, for the admin view.
 // Carries no task content — only per-user numbers, so one artist's work is
@@ -18,6 +18,8 @@ export default async function(req) {
     ]);
 
     const monthStart = monthStartISO();
+    const featureMonth = {};
+    const featureAllTime = {};
     const rows = new Map();
     const rowFor = (uid) => {
       if (!rows.has(uid)) {
@@ -40,8 +42,14 @@ export default async function(req) {
       if (e.status === 'reserved') r.reserved_open += e.units || 0;
       if (!['reserved', 'settled'].includes(e.status)) continue;
       r.all_time_units += e.units || 0;
-      if (e.covered_by === 'addon') r.addon_used += e.units || 0;
-      else if (e.created_date >= monthStart) r.month_units += e.units || 0;
+      const f = e.feature || 'research';
+      featureAllTime[f] = (featureAllTime[f] || 0) + (e.units || 0);
+      if (e.covered_by === 'addon') {
+        r.addon_used += e.units || 0;
+      } else if (e.created_date >= monthStart) {
+        r.month_units += e.units || 0;
+        featureMonth[f] = (featureMonth[f] || 0) + (e.units || 0);
+      }
       if (e.status === 'settled') r.tasks += 1;
     }
     for (const a of addOns) {
@@ -57,6 +65,9 @@ export default async function(req) {
 
     return Response.json({
       config: SAM_USAGE,
+      features: AI_FEATURES,
+      feature_month: featureMonth,
+      feature_all_time: featureAllTime,
       rows: list,
       recent_failures: failedTasks.map(t => ({
         task_id: t.id,

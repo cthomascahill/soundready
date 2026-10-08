@@ -1,9 +1,11 @@
 import { createClientFromRequest } from 'npm:@base44/sdk@0.8.52';
+import { reserveAiUnits, settleTaskUnits, releaseTaskUnits, featureUnits, usagePausedResponse } from '../../shared/samUsage.ts';
 
 // Sam reviews the artist's confirmed preferences, live platform data, goals,
 // release pipeline, and past action outcomes — then files concrete, explainable
 // recommendations. Nothing executes here: every one lands as "proposed" for approval.
 export default async function(req) {
+  let reservationEventId = null;
   try {
     const base44 = createClientFromRequest(req);
     const user = await base44.auth.me();
@@ -11,6 +13,11 @@ export default async function(req) {
 
     const isAIManager = user.role === 'admin' || user.subscription_tier === 'ai_manager';
     if (!isAIManager) return Response.json({ error: 'AI Manager subscription required' }, { status: 403 });
+
+    // ── Shared AI allowance: recommendations draw from the same monthly pool ──
+    const reservation = await reserveAiUnits(base44, { userId: user.id, feature: 'recommendations' });
+    reservationEventId = reservation.event?.id || null;
+    if (!reservation.allowed) return usagePausedResponse(reservation.state);
 
     const [memories, profiles, goals, conns, pipeline, activities, recentRecs] = await Promise.all([
       base44.entities.MayaMemory.filter({ user_id: user.id }, '-created_date', 100).catch(() => []),
@@ -162,9 +169,11 @@ Do NOT invent email addresses, venue names, contacts, or statistics that are not
       }));
     }
 
+    await settleTaskUnits(base44, reservationEventId, featureUnits('recommendations'), 'recommendations complete');
     console.log(`mayaRecommend: filed ${created.length} recommendations for user ${user.id}`);
     return Response.json({ success: true, found: created.length });
   } catch (error) {
+    await releaseTaskUnits(base44, reservationEventId, `released: ${error.message}`).catch(() => {});
     console.error('mayaRecommend error:', error.message);
     return Response.json({ error: error.message }, { status: 500 });
   }

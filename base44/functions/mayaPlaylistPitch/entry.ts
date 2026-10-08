@@ -1,10 +1,17 @@
 import { createClientFromRequest } from 'npm:@base44/sdk@0.8.52';
+import { reserveAiUnits, settleTaskUnits, releaseTaskUnits, featureUnits, usagePausedResponse } from '../../shared/samUsage.ts';
 
 export default async function(req) {
+  let reservationEventId = null;
   try {
     const base44 = createClientFromRequest(req);
     const user = await base44.auth.me();
     if (!user) return Response.json({ error: 'Unauthorized' }, { status: 401 });
+
+    // ── Shared AI allowance: pitches draw from the same monthly pool ──
+    const reservation = await reserveAiUnits(base44, { userId: user.id, feature: 'playlist_pitch' });
+    reservationEventId = reservation.event?.id || null;
+    if (!reservation.allowed) return usagePausedResponse(reservation.state);
 
     const { song_id, playlist } = await req.json();
     if (!song_id || !playlist?.name || !playlist?.email) {
@@ -53,8 +60,10 @@ Write 3-4 sentences. Address the curator by name in the first sentence. If a Spo
       },
     });
 
+    await settleTaskUnits(base44, reservationEventId, featureUnits('playlist_pitch'), 'playlist pitch complete');
     return Response.json(activity);
   } catch (error) {
+    await releaseTaskUnits(base44, reservationEventId, `released: ${error.message}`).catch(() => {});
     console.error('mayaPlaylistPitch error:', error.message);
     return Response.json({ error: error.message }, { status: 500 });
   }

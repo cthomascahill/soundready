@@ -52,7 +52,7 @@ export default function TaskComposer({ user, onCreated }) {
     const trimmed = prompt.trim();
     if (!trimmed || working) return;
     if (usage?.paused) {
-      setNotice({ type: "paused", message: "You've used your full Sam research allowance this month. Add extra usage to keep going, or wait for it to reset next month." });
+      setNotice({ type: "paused", message: "You've used your full monthly AI allowance. Add extra usage to keep going, or wait for it to reset next month." });
       return;
     }
     setWorking(true);
@@ -77,7 +77,7 @@ export default function TaskComposer({ user, onCreated }) {
         setTargets("");
         setFiles([]);
         setNotice(d.usage_warning
-          ? { type: "warn", message: `Done — heads up, only ${d.usage_warning.remaining} workload units left in this month's Sam allowance.` }
+          ? { type: "warn", message: `Done — heads up, only ${d.usage_warning.remaining} workload units left in this month's AI allowance.` }
           : null);
       }
     } catch (err) {

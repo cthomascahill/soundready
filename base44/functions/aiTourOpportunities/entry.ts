@@ -1,5 +1,6 @@
 import { createClientFromRequest } from 'npm:@base44/sdk@0.8.31';
 import { findContactEmail, sanitizeEmail } from '../../shared/mayaContact.ts';
+import { reserveAiUnits, settleTaskUnits, releaseTaskUnits, featureUnits } from '../../shared/samUsage.ts';
 
 Deno.serve(async (req) => {
   try {
@@ -38,8 +39,23 @@ Deno.serve(async (req) => {
   }
 });
 
+// Metered wrapper: the scout draws from the artist's shared monthly AI
+// allowance. When their allowance is used up, this artist is simply skipped.
 async function findOpportunities(base44, userId, user) {
   const client = base44.asServiceRole;
+  const reservation = await reserveAiUnits(client, { userId, feature: 'tour_opportunities' });
+  if (!reservation.allowed) return 0;
+  try {
+    const found = await runFindOpportunities(base44, userId, user, client);
+    await settleTaskUnits(client, reservation.event?.id, featureUnits('tour_opportunities'), 'tour opportunities complete');
+    return found;
+  } catch (err) {
+    await releaseTaskUnits(client, reservation.event?.id, `released: ${err.message}`).catch(() => {});
+    throw err;
+  }
+}
+
+async function runFindOpportunities(base44, userId, user, client) {
 
   const [profiles, connections, songs] = await Promise.all([
     client.entities.ArtistProfile.filter({ created_by_id: userId }, '-created_date', 1).catch(() => []),

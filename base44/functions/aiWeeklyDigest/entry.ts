@@ -1,4 +1,5 @@
 import { createClientFromRequest } from 'npm:@base44/sdk@0.8.31';
+import { reserveAiUnits, settleTaskUnits, releaseTaskUnits, featureUnits, usagePausedResponse } from '../../shared/samUsage.ts';
 
 Deno.serve(async (req) => {
   try {
@@ -16,7 +17,16 @@ Deno.serve(async (req) => {
     }
 
     if (targetUserId) {
-      await sendDigestForUser(base44, user);
+      // ── Shared AI allowance: digests draw from the same monthly pool ──
+      const reservation = await reserveAiUnits(base44, { userId: user.id, feature: 'weekly_digest' });
+      if (!reservation.allowed) return usagePausedResponse(reservation.state);
+      try {
+        await sendDigestForUser(base44, user);
+        await settleTaskUnits(base44, reservation.event?.id, featureUnits('weekly_digest'), 'weekly digest complete');
+      } catch (err) {
+        await releaseTaskUnits(base44, reservation.event?.id, `released: ${err.message}`).catch(() => {});
+        throw err;
+      }
       return Response.json({ success: true });
     }
 
@@ -27,7 +37,17 @@ Deno.serve(async (req) => {
 
     let processed = 0;
     for (const uid of userIds) {
+      let reservation = null;
       try {
+        // ── Shared AI allowance: AI Manager subscribers' digests draw from
+        // their monthly pool; when it's used up, this artist is skipped ──
+        const u = await base44.asServiceRole.entities.User.get(uid).catch(() => null);
+        const isAIManager = u && (u.role === 'admin' || u.subscription_tier === 'ai_manager');
+        if (isAIManager) {
+          reservation = await reserveAiUnits(base44.asServiceRole, { userId: uid, feature: 'weekly_digest' });
+          if (!reservation.allowed) continue;
+        }
+
         // Gather their songs and activities
         const songs = await base44.asServiceRole.entities.SongAnalysis.filter({ created_by_id: uid }, '-created_date', 5);
         const activities = await base44.asServiceRole.entities.AIActivity.filter({ user_id: uid }, '-created_date', 10);
@@ -69,8 +89,14 @@ Write in a direct A&R voice — specific, human, never generic. Reference their 
           metadata: { week: new Date().toISOString().split('T')[0] }
         });
 
+        if (reservation?.event?.id) {
+          await settleTaskUnits(base44.asServiceRole, reservation.event.id, featureUnits('weekly_digest'), 'weekly digest complete');
+        }
         processed++;
       } catch (err) {
+        if (reservation?.event?.id) {
+          await releaseTaskUnits(base44.asServiceRole, reservation.event.id, `released: ${err.message}`).catch(() => {});
+        }
         console.error(`Failed digest for user ${uid}:`, err.message);
       }
     }
