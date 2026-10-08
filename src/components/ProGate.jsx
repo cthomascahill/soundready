@@ -58,7 +58,7 @@ export default function ProGate({ children, feature }) {
               {feature ? `${feature} is part of Artist Pro` : "This is part of Artist Pro"}
             </h1>
             <p className="text-sm text-muted-foreground leading-relaxed">
-              Your Vault, Productions, and trackers are free forever. Artist Pro unlocks the full toolkit — and it's free for 7 days.
+              Your Vault and Tracker are free forever. Artist Pro unlocks the full toolkit — and it's free for 7 days.
             </p>
           </div>
           <div className="space-y-2">

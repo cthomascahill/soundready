@@ -3,7 +3,6 @@
 // missing falls back to English. Merged into the main catalog by translations.js.
 export const HOME_STRINGS = {
   es: {
-    "The Artist & Producer Management Revolution": "La revolución de la gestión para artistas y productores",
     "Your career.": "Tu carrera.",
     "Finally moving.": "Por fin en marcha.",
     "Release strategy, booking, touring, finances, and your team — the infrastructure signed acts get from a label, in one place, free to start. Grow into Artist Pro when you need the full toolkit, and hand the day-to-day work to SAM, your AI manager.":
@@ -11,8 +10,6 @@ export const HOME_STRINGS = {
     "Start Free": "Empieza Gratis",
     "See How It Works": "Mira Cómo Funciona",
     "Start free. No contracts. No percentage cuts — ever.": "Empieza gratis. Sin contratos. Sin comisiones porcentuales — nunca.",
-    "Artists. Producers. One platform that ": "Artistas. Productores. Una plataforma que ",
-    "changes everything.": "lo cambia todo.",
     "You have a manager.": "Tienes mánager.",
     "Your team needs one place to work from. SoundReady gives your manager the tools to move faster, pitch smarter, and keep your whole career organized — so nothing falls through the cracks.":
       "Tu equipo necesita un solo lugar para trabajar. SoundReady le da a tu mánager las herramientas para moverse más rápido, proponer mejor y mantener toda tu carrera organizada — para que nada se quede fuera.",
@@ -21,10 +18,6 @@ export const HOME_STRINGS = {
     "You're making real music but your career isn't moving. The artists winning right now aren't more talented — they're better organized. SoundReady is the infrastructure that turns a good artist into a growing one.":
       "Haces música de verdad, pero tu carrera no avanza. Los artistas que están ganando hoy no son más talentosos — están mejor organizados. SoundReady es la infraestructura que convierte a un buen artista en uno en crecimiento.",
     "Start moving forward.": "Empieza a avanzar.",
-    "You make beats.": "Haces beats.",
-    "Your best beats are sitting in a folder while artists who'd pay for them never hear them. SoundReady gives producers the same infrastructure as artists — your Productions, a pipeline from idea to placement, and matching that puts your sound in front of the right artists.":
-      "Tus mejores beats están en una carpeta mientras artistas que pagarían por ellos nunca los escuchan. SoundReady da a los productores la misma infraestructura que a los artistas — tus Producciones, un pipeline de la idea a la colocación, y un matching que pone tu sonido frente a los artistas correctos.",
-    "Turn beats into placements.": "Convierte beats en colocaciones.",
     "Already have a manager?": "¿Ya tienes mánager?",
     "SoundReady is built for them too. Invite your team, share your workspace, and give your manager the infrastructure to actually move your career forward — faster than ever.":
       "SoundReady también está hecho para ellos. Invita a tu equipo, comparte tu espacio de trabajo y dale a tu mánager la infraestructura para impulsar de verdad tu carrera — más rápido que nunca.",
@@ -33,21 +26,15 @@ export const HOME_STRINGS = {
     "Your Vault and Tracker are free forever. Unlock the full toolkit with Artist Pro — or hand the work to SAM when your career is moving.":
       "Tu Vault y tu Tracker son gratis para siempre. Desbloquea el kit completo con Artist Pro — o delega el trabajo a SAM cuando tu carrera esté en marcha.",
     "Your music's home base. Free forever.": "La base de tu música. Gratis para siempre.",
-    "You need a system before you need a team. Organize up to 5 songs in the Vault — or up to 5 beats in the Productions — and track every song from idea to release, free, forever. Everything else unlocks with Artist Pro.":
-      "Necesitas un sistema antes que un equipo. Organiza hasta 5 canciones en el Vault — o hasta 5 beats en las Producciones — y sigue cada canción de la idea al lanzamiento, gratis, para siempre. Todo lo demás se desbloquea con Artist Pro.",
     "Vault — up to 5 songs, organized": "Vault — hasta 5 canciones, organizadas",
     "Tracker — from idea to release": "Tracker — de la idea al lanzamiento",
-    "Productions & Placements — up to 5 beats": "Producciones y Colocaciones — hasta 5 beats",
     "Connect Spotify & YouTube": "Conecta Spotify y YouTube",
     "Your artist dashboard": "Tu panel de artista",
     "Free forever. No card required.": "Gratis para siempre. Sin tarjeta.",
     "You and your team, finally in sync.": "Tú y tu equipo, por fin en sincronía.",
-    "The full toolkit, unlocked. Book more shows, plan smarter tours, and bring your whole team into one workspace — and if you make beats, move them from idea to placement with the Beat Pipeline and Artist Match. 7 days free.":
-      "El kit completo, desbloqueado. Reserva más shows, planifica giras más inteligentes y reúne a todo tu equipo en un solo espacio de trabajo — y si haces beats, muévelos de la idea a la colocación con el Beat Pipeline y Artist Match. 7 días gratis.",
     "Everything in Artist, unlocked": "Todo lo de Artist, desbloqueado",
     "The Studio, Gig Finder & 1,341+ venue database": "The Studio, Gig Finder y base de 1,341+ locales",
     "Tour Planner, Tour Finance & Venue Contracts": "Tour Planner, Tour Finance y contratos de locales",
-    "Beat Pipeline & Artist Match — producer tools": "Beat Pipeline y Artist Match — herramientas de productor",
     "The Wall — the artist community": "The Wall — la comunidad de artistas",
     "Invite your team — Team Chat & Whiteboard": "Invita a tu equipo — Team Chat y Whiteboard",
     "Career Roadmap & weekly music briefings": "Career Roadmap y resúmenes musicales semanales",
@@ -61,7 +48,6 @@ export const HOME_STRINGS = {
     "You simply approve or deny — nothing sends without you": "Tú solo apruebas o rechazas — nada se envía sin ti",
     "SAM chat backed by your real numbers": "Chat con SAM basado en tus números reales",
     "Auto-drafted playlist & tour-opening pitches": "Pitches de playlists y aperturas de gira redactados automáticamente",
-    "SAM pitches your beats to matching artists": "SAM presenta tus beats a artistas compatibles",
     "EPKs & weekly career digests": "EPKs y resúmenes semanales de carrera",
     "Unlock SAM": "Desbloquea a SAM",
     "No percentage cuts — ever.": "Sin comisiones porcentuales — nunca.",
@@ -93,9 +79,6 @@ export const HOME_STRINGS = {
     "Contract Analyzer": "Analizador de Contratos",
     "Upload any deal or contract and SoundReady flags every clause that could hurt you — in plain English. Know exactly what you're signing before you sign it.":
       "Sube cualquier acuerdo o contrato y SoundReady marca cada cláusula que podría perjudicarte — en español claro. Sabe exactamente qué firmas antes de firmarlo.",
-    "Productions & Placements": "Producciones y Colocaciones",
-    "Producers get their own workspace. Catalog every beat with BPM, key, and moods, track your credits and fees, and turn your placement history into the resume that lands collabs.":
-      "Los productores tienen su propio espacio. Cataloga cada beat con BPM, tonalidad y moods, sigue tus créditos y honorarios, y convierte tu historial de colocaciones en el currículum que consigue colaboraciones.",
     "SAM, Your AI Manager": "SAM, Tu Mánager de IA",
     "SAM outbounds on your behalf every week — tour support, features, sync opportunities and more. You simply approve or deny, and nothing sends without you.":
       "SAM hace outreach en tu nombre cada semana — apoyo de gira, colaboraciones, oportunidades de sync y más. Tú solo apruebas o rechazas, y nada se envía sin ti.",
@@ -110,7 +93,6 @@ export const HOME_STRINGS = {
     "The Emerging Artist": "El Artista Emergente",
     "You have momentum but your career isn't keeping up with your music. SoundReady organizes everything so every release works as hard as you do.":
       "Tienes impulso, pero tu carrera no sigue el ritmo de tu música. SoundReady organiza todo para que cada lanzamiento trabaje tan duro como tú.",
-    "The Producer": "El Productor",
     "The Manager or Indie Label": "El Mánager o Sello Independiente",
     "The infrastructure of a full professional team.": "La infraestructura de un equipo profesional completo.",
     "Real tools, real data, one login — not percentage-based management.":
@@ -125,20 +107,14 @@ export const HOME_STRINGS = {
     "Stop manually managing playlists, venue outreach, royalty tracking, and release planning — the platform runs it.":
       "Deja de gestionar a mano playlists, outreach a locales, seguimiento de regalías y planificación de lanzamientos — la plataforma lo hace por ti.",
     "To get started": "Para empezar",
-    "Vault, Tracker, and Productions are free forever. Flat pricing after that — never a percentage of what you earn.":
-      "Vault, Tracker y Producciones son gratis para siempre. Después, precios fijos — nunca un porcentaje de lo que ganas.",
     "Illustrative comparison, not a guarantee — results depend on your releases, effort, and genre.":
       "Comparación ilustrativa, no una garantía — los resultados dependen de tus lanzamientos, tu esfuerzo y tu género.",
     "What the traditional management model takes — whether deals close or not":
       "Lo que se lleva el modelo tradicional de gestión — cierren los acuerdos o no",
     "What it costs to start on SoundReady — core tools free forever":
       "Lo que cuesta empezar en SoundReady — herramientas esenciales gratis para siempre",
-    "Integrated tools giving every artist and producer the infrastructure of a full professional team":
-      "Herramientas integradas que dan a cada artista y productor la infraestructura de un equipo profesional completo",
     "Your biggest release ": "Tu mayor lanzamiento ",
     "is next.": "está por venir.",
-    "The artists and producers winning right now aren't more talented — they're more organized and more strategic. SoundReady gives you everything you need to be both, starting today.":
-      "Los artistas y productores que están ganando hoy no son más talentosos — están mejor organizados y son más estratégicos. SoundReady te da todo lo que necesitas para ser ambas cosas, empezando hoy.",
     "Start Building My Career": "Empezar a Construir Mi Carrera",
     "Projected growth: with SoundReady vs. doing it alone": "Crecimiento proyectado: con SoundReady vs. hacerlo por tu cuenta",
     "Twelve-month trajectory for an independent artist with the same starting point.":
@@ -151,12 +127,10 @@ export const HOME_STRINGS = {
     "Artists doing it alone": "Artistas que lo hacen solos",
     "growth": "crecimiento",
     "Illustrative projection of cumulative growth": "Proyección ilustrativa del crecimiento acumulado",
-    "based on average outcomes reported by SoundReady artists.": "basada en los resultados promedio reportados por artistas de SoundReady.",
     "revenue": "ingresos",
     "shows booked": "shows reservados",
   },
   fr: {
-    "The Artist & Producer Management Revolution": "La révolution du management pour artistes et producteurs",
     "Your career.": "Ta carrière.",
     "Finally moving.": "Enfin en mouvement.",
     "Release strategy, booking, touring, finances, and your team — the infrastructure signed acts get from a label, in one place, free to start. Grow into Artist Pro when you need the full toolkit, and hand the day-to-day work to SAM, your AI manager.":
@@ -164,8 +138,6 @@ export const HOME_STRINGS = {
     "Start Free": "Commencer Gratuitement",
     "See How It Works": "Voir Comment Ça Marche",
     "Start free. No contracts. No percentage cuts — ever.": "Commencez gratuitement. Sans contrat. Aucune commission sur vos revenus — jamais.",
-    "Artists. Producers. One platform that ": "Artistes. Producteurs. Une seule plateforme qui ",
-    "changes everything.": "change tout.",
     "You have a manager.": "Tu as un manager.",
     "Your team needs one place to work from. SoundReady gives your manager the tools to move faster, pitch smarter, and keep your whole career organized — so nothing falls through the cracks.":
       "Votre équipe a besoin d'un seul endroit pour travailler. SoundReady donne à votre manager les outils pour aller plus vite, pitcher plus intelligemment et garder toute votre carrière organisée — pour que rien ne passe entre les mailles.",
@@ -174,10 +146,6 @@ export const HOME_STRINGS = {
     "You're making real music but your career isn't moving. The artists winning right now aren't more talented — they're better organized. SoundReady is the infrastructure that turns a good artist into a growing one.":
       "Vous faites de la vraie musique, mais votre carrière n'avance pas. Les artistes qui gagnent aujourd'hui ne sont pas plus talentueux — ils sont mieux organisés. SoundReady est l'infrastructure qui transforme un bon artiste en artiste en croissance.",
     "Start moving forward.": "Commencez à avancer.",
-    "You make beats.": "Tu fais des beats.",
-    "Your best beats are sitting in a folder while artists who'd pay for them never hear them. SoundReady gives producers the same infrastructure as artists — your Productions, a pipeline from idea to placement, and matching that puts your sound in front of the right artists.":
-      "Vos meilleurs beats dorment dans un dossier pendant que des artistes qui les paieraient ne les entendent jamais. SoundReady offre aux producteurs la même infrastructure qu'aux artistes — vos Productions, un pipeline de l'idée au placement, et un matching qui met votre son devant les bons artistes.",
-    "Turn beats into placements.": "Transformez vos beats en placements.",
     "Already have a manager?": "Vous avez déjà un manager ?",
     "SoundReady is built for them too. Invite your team, share your workspace, and give your manager the infrastructure to actually move your career forward — faster than ever.":
       "SoundReady est aussi fait pour eux. Invitez votre équipe, partagez votre espace de travail et donnez à votre manager l'infrastructure pour vraiment faire avancer votre carrière — plus vite que jamais.",
@@ -186,21 +154,15 @@ export const HOME_STRINGS = {
     "Your Vault and Tracker are free forever. Unlock the full toolkit with Artist Pro — or hand the work to SAM when your career is moving.":
       "Votre Vault et votre Tracker sont gratuits pour toujours. Débloquez la boîte à outils complète avec Artist Pro — ou confiez le travail à SAM quand votre carrière décolle.",
     "Your music's home base. Free forever.": "Le camp de base de votre musique. Gratuit pour toujours.",
-    "You need a system before you need a team. Organize up to 5 songs in the Vault — or up to 5 beats in the Productions — and track every song from idea to release, free, forever. Everything else unlocks with Artist Pro.":
-      "Vous avez besoin d'un système avant d'avoir besoin d'une équipe. Organisez jusqu'à 5 morceaux dans le Vault — ou 5 beats dans les Productions — et suivez chaque morceau de l'idée à la sortie, gratuitement, pour toujours. Tout le reste se débloque avec Artist Pro.",
     "Vault — up to 5 songs, organized": "Vault — jusqu'à 5 morceaux, organisés",
     "Tracker — from idea to release": "Tracker — de l'idée à la sortie",
-    "Productions & Placements — up to 5 beats": "Productions et Placements — jusqu'à 5 beats",
     "Connect Spotify & YouTube": "Connectez Spotify et YouTube",
     "Your artist dashboard": "Votre tableau de bord d'artiste",
     "Free forever. No card required.": "Gratuit pour toujours. Sans carte bancaire.",
     "You and your team, finally in sync.": "Vous et votre équipe, enfin en phase.",
-    "The full toolkit, unlocked. Book more shows, plan smarter tours, and bring your whole team into one workspace — and if you make beats, move them from idea to placement with the Beat Pipeline and Artist Match. 7 days free.":
-      "La boîte à outils complète, débloquée. Réservez plus de concerts, planifiez de meilleures tournées et réunissez toute votre équipe dans un seul espace — et si vous faites des beats, menez-les de l'idée au placement avec le Beat Pipeline et Artist Match. 7 jours gratuits.",
     "Everything in Artist, unlocked": "Tout ce qu'offre Artist, débloqué",
     "The Studio, Gig Finder & 1,341+ venue database": "The Studio, Gig Finder et 1,341+ salles",
     "Tour Planner, Tour Finance & Venue Contracts": "Tour Planner, Tour Finance et contrats de salles",
-    "Beat Pipeline & Artist Match — producer tools": "Beat Pipeline et Artist Match — outils producteur",
     "The Wall — the artist community": "The Wall — la communauté d'artistes",
     "Invite your team — Team Chat & Whiteboard": "Invitez votre équipe — Team Chat et Whiteboard",
     "Career Roadmap & weekly music briefings": "Career Roadmap et briefings musicaux hebdomadaires",
@@ -214,7 +176,6 @@ export const HOME_STRINGS = {
     "You simply approve or deny — nothing sends without you": "Vous approuvez ou refusez, tout simplement — rien ne part sans vous",
     "SAM chat backed by your real numbers": "Chat avec SAM basé sur vos chiffres réels",
     "Auto-drafted playlist & tour-opening pitches": "Pitchs playlists et premières parties rédigés automatiquement",
-    "SAM pitches your beats to matching artists": "SAM pitch vos beats aux artistes correspondants",
     "EPKs & weekly career digests": "EPK et résumés hebdomadaires de carrière",
     "Unlock SAM": "Débloquer SAM",
     "No percentage cuts — ever.": "Aucune commission — jamais.",
@@ -246,9 +207,6 @@ export const HOME_STRINGS = {
     "Contract Analyzer": "Analyseur de Contrats",
     "Upload any deal or contract and SoundReady flags every clause that could hurt you — in plain English. Know exactly what you're signing before you sign it.":
       "Importez n'importe quel accord ou contrat et SoundReady signale chaque clause qui pourrait vous nuire — en français clair. Sachez exactement ce que vous signez avant de signer.",
-    "Productions & Placements": "Productions et Placements",
-    "Producers get their own workspace. Catalog every beat with BPM, key, and moods, track your credits and fees, and turn your placement history into the resume that lands collabs.":
-      "Les producteurs ont leur propre espace. Cataloguez chaque beat avec BPM, tonalité et ambiances, suivez vos crédits et vos fees, et transformez votre historique de placements en CV qui décroche des collabs.",
     "SAM, Your AI Manager": "SAM, Votre Manager IA",
     "SAM outbounds on your behalf every week — tour support, features, sync opportunities and more. You simply approve or deny, and nothing sends without you.":
       "SAM fait du outreach en votre nom chaque semaine — premières parties, featurings, opportunités de sync et plus. Vous approuvez ou refusez, et rien ne part sans vous.",
@@ -263,7 +221,6 @@ export const HOME_STRINGS = {
     "The Emerging Artist": "L'Artiste Émergent",
     "You have momentum but your career isn't keeping up with your music. SoundReady organizes everything so every release works as hard as you do.":
       "Vous avez de l'élan, mais votre carrière ne suit pas votre musique. SoundReady organise tout pour que chaque sortie travaille aussi dur que vous.",
-    "The Producer": "Le Producteur",
     "The Manager or Indie Label": "Le Manager ou Label Indépendant",
     "The infrastructure of a full professional team.": "L'infrastructure d'une équipe professionnelle complète.",
     "Real tools, real data, one login — not percentage-based management.":
@@ -278,20 +235,14 @@ export const HOME_STRINGS = {
     "Stop manually managing playlists, venue outreach, royalty tracking, and release planning — the platform runs it.":
       "Arrêtez de gérer à la main les playlists, l'outreach aux salles, le suivi des royalties et la planification des sorties — la plateforme s'en charge.",
     "To get started": "Pour commencer",
-    "Vault, Tracker, and Productions are free forever. Flat pricing after that — never a percentage of what you earn.":
-      "Vault, Tracker et Productions sont gratuits pour toujours. Ensuite, des tarifs fixes — jamais un pourcentage de ce que vous gagnez.",
     "Illustrative comparison, not a guarantee — results depend on your releases, effort, and genre.":
       "Comparaison illustrative, pas une garantie — les résultats dépendent de vos sorties, de vos efforts et de votre genre.",
     "What the traditional management model takes — whether deals close or not":
       "Ce que le modèle de management traditionnel prend — que les deals se fassent ou non",
     "What it costs to start on SoundReady — core tools free forever":
       "Ce que coûte le démarrage sur SoundReady — les outils de base gratuits pour toujours",
-    "Integrated tools giving every artist and producer the infrastructure of a full professional team":
-      "Des outils intégrés qui donnent à chaque artiste et producteur l'infrastructure d'une équipe professionnelle complète",
     "Your biggest release ": "Votre plus grande sortie ",
     "is next.": "arrive ensuite.",
-    "The artists and producers winning right now aren't more talented — they're more organized and more strategic. SoundReady gives you everything you need to be both, starting today.":
-      "Les artistes et producteurs qui gagnent aujourd'hui ne sont pas plus talentueux — ils sont plus organisés et plus stratégiques. SoundReady vous donne tout ce qu'il faut pour être les deux, dès aujourd'hui.",
     "Start Building My Career": "Commencer à Bâtir Ma Carrière",
     "Projected growth: with SoundReady vs. doing it alone": "Croissance projetée : avec SoundReady vs. tout seul",
     "Twelve-month trajectory for an independent artist with the same starting point.":
@@ -304,12 +255,10 @@ export const HOME_STRINGS = {
     "Artists doing it alone": "Artistes qui le font seuls",
     "growth": "croissance",
     "Illustrative projection of cumulative growth": "Projection illustrative de la croissance cumulée",
-    "based on average outcomes reported by SoundReady artists.": "basée sur les résultats moyens rapportés par les artistes SoundReady.",
     "revenue": "revenus",
     "shows booked": "concerts bookés",
   },
   de: {
-    "The Artist & Producer Management Revolution": "Die Revolution im Management für Künstler und Producer",
     "Your career.": "Deine Karriere.",
     "Finally moving.": "Endlich in Bewegung.",
     "Release strategy, booking, touring, finances, and your team — the infrastructure signed acts get from a label, in one place, free to start. Grow into Artist Pro when you need the full toolkit, and hand the day-to-day work to SAM, your AI manager.":
@@ -317,8 +266,6 @@ export const HOME_STRINGS = {
     "Start Free": "Kostenlos Starten",
     "See How It Works": "So Funktioniert Es",
     "Start free. No contracts. No percentage cuts — ever.": "Kostenlos starten. Keine Verträge. Keine prozentualen Abzüge — niemals.",
-    "Artists. Producers. One platform that ": "Künstler. Producer. Eine Plattform, die ",
-    "changes everything.": "alles verändert.",
     "You have a manager.": "Du hast ein Management.",
     "Your team needs one place to work from. SoundReady gives your manager the tools to move faster, pitch smarter, and keep your whole career organized — so nothing falls through the cracks.":
       "Dein Team braucht einen Ort, um daran zu arbeiten. SoundReady gibt deinem Manager die Werkzeuge, um schneller zu handeln, klüger zu pitchen und deine gesamte Karriere organisiert zu halten — damit nichts untergeht.",
@@ -327,10 +274,6 @@ export const HOME_STRINGS = {
     "You're making real music but your career isn't moving. The artists winning right now aren't more talented — they're better organized. SoundReady is the infrastructure that turns a good artist into a growing one.":
       "Du machst echte Musik, aber deine Karriere kommt nicht in Schwung. Die Künstler, die heute gewinnen, sind nicht talentierter — sie sind besser organisiert. SoundReady ist die Infrastruktur, die einen guten Künstler zu einem wachsenden macht.",
     "Start moving forward.": "Geh voran.",
-    "You make beats.": "Du machst Beats.",
-    "Your best beats are sitting in a folder while artists who'd pay for them never hear them. SoundReady gives producers the same infrastructure as artists — your Productions, a pipeline from idea to placement, and matching that puts your sound in front of the right artists.":
-      "Deine besten Beats liegen in einem Ordner, während Künstler, die dafür zahlen würden, sie nie hören. SoundReady gibt Producern dieselbe Infrastruktur wie Künstlern — deine Productions, eine Pipeline von der Idee zum Placement und ein Matching, das deinen Sound vor die richtigen Künstler bringt.",
-    "Turn beats into placements.": "Mach aus Beats Placements.",
     "Already have a manager?": "Du hast schon ein Management?",
     "SoundReady is built for them too. Invite your team, share your workspace, and give your manager the infrastructure to actually move your career forward — faster than ever.":
       "SoundReady ist auch für sie gebaut. Lade dein Team ein, teile deinen Workspace und gib deinem Management die Infrastruktur, um deine Karriere wirklich voranzutreiben — schneller als je zuvor.",
@@ -339,21 +282,15 @@ export const HOME_STRINGS = {
     "Your Vault and Tracker are free forever. Unlock the full toolkit with Artist Pro — or hand the work to SAM when your career is moving.":
       "Dein Vault und dein Tracker sind für immer kostenlos. Schalte das volle Toolkit mit Artist Pro frei — oder übergib die Arbeit an SAM, wenn deine Karriere Fahrt aufnimmt.",
     "Your music's home base. Free forever.": "Das Zuhause deiner Musik. Für immer kostenlos.",
-    "You need a system before you need a team. Organize up to 5 songs in the Vault — or up to 5 beats in the Productions — and track every song from idea to release, free, forever. Everything else unlocks with Artist Pro.":
-      "Du brauchst ein System, bevor du ein Team brauchst. Organisiere bis zu 5 Songs im Vault — oder bis zu 5 Beats in den Productions — und verfolge jeden Song von der Idee bis zum Release, kostenlos, für immer. Alles andere schaltest du mit Artist Pro frei.",
     "Vault — up to 5 songs, organized": "Vault — bis zu 5 Songs, organisiert",
     "Tracker — from idea to release": "Tracker — von der Idee zum Release",
-    "Productions & Placements — up to 5 beats": "Productions und Placements — bis zu 5 Beats",
     "Connect Spotify & YouTube": "Spotify und YouTube verbinden",
     "Your artist dashboard": "Dein Künstler-Dashboard",
     "Free forever. No card required.": "Für immer kostenlos. Keine Karte nötig.",
     "You and your team, finally in sync.": "Du und dein Team, endlich im Takt.",
-    "The full toolkit, unlocked. Book more shows, plan smarter tours, and bring your whole team into one workspace — and if you make beats, move them from idea to placement with the Beat Pipeline and Artist Match. 7 days free.":
-      "Das volle Toolkit, freigeschaltet. Buche mehr Shows, plane klügere Tourneen und bring dein ganzes Team in einen Workspace — und wenn du Beats machst, führe sie mit Beat Pipeline und Artist Match von der Idee zum Placement. 7 Tage kostenlos.",
     "Everything in Artist, unlocked": "Alles aus Artist, freigeschaltet",
     "The Studio, Gig Finder & 1,341+ venue database": "The Studio, Gig Finder und 1,341+ Venues-Datenbank",
     "Tour Planner, Tour Finance & Venue Contracts": "Tour Planner, Tour Finance und Venue-Verträge",
-    "Beat Pipeline & Artist Match — producer tools": "Beat Pipeline und Artist Match — Producer-Tools",
     "The Wall — the artist community": "The Wall — die Künstler-Community",
     "Invite your team — Team Chat & Whiteboard": "Lade dein Team ein — Team Chat und Whiteboard",
     "Career Roadmap & weekly music briefings": "Career Roadmap und wöchentliche Musik-Briefings",
@@ -367,7 +304,6 @@ export const HOME_STRINGS = {
     "You simply approve or deny — nothing sends without you": "Du stimmst zu oder lehnst ab — nichts wird ohne dich gesendet",
     "SAM chat backed by your real numbers": "SAM-Chat auf Basis deiner echten Zahlen",
     "Auto-drafted playlist & tour-opening pitches": "Automatisch entworfene Playlist- und Tour-Eröffnungs-Pitches",
-    "SAM pitches your beats to matching artists": "SAM pichted deine Beats an passende Künstler",
     "EPKs & weekly career digests": "EPKs und wöchentliche Karriere-Zusammenfassungen",
     "Unlock SAM": "SAM Freischalten",
     "No percentage cuts — ever.": "Keine prozentualen Abzüge — niemals.",
@@ -399,9 +335,6 @@ export const HOME_STRINGS = {
     "Contract Analyzer": "Vertragsanalyse",
     "Upload any deal or contract and SoundReady flags every clause that could hurt you — in plain English. Know exactly what you're signing before you sign it.":
       "Lade einen beliebigen Deal oder Vertrag hoch und SoundReady kennzeichnet jede Klausel, die dir schaden könnte — in klarer Sprache. Wisse genau, was du unterschreibst, bevor du unterschreibst.",
-    "Productions & Placements": "Productions und Placements",
-    "Producers get their own workspace. Catalog every beat with BPM, key, and moods, track your credits and fees, and turn your placement history into the resume that lands collabs.":
-      "Producer bekommen ihren eigenen Workspace. Katalogisiere jeden Beat mit BPM, Tonart und Moods, verfolge deine Credits und Fees und mach aus deiner Placement-Historik den Lebenslauf, der Collabs bringt.",
     "SAM, Your AI Manager": "SAM, Dein KI-Manager",
     "SAM outbounds on your behalf every week — tour support, features, sync opportunities and more. You simply approve or deny, and nothing sends without you.":
       "SAM macht jede Woche Outreach in deinem Namen — Tour-Support, Features, Sync-Möglichkeiten und mehr. Du stimmst einfach zu oder lehnst ab, und nichts wird ohne dich gesendet.",
@@ -416,7 +349,6 @@ export const HOME_STRINGS = {
     "The Emerging Artist": "Der Aufstrebende Künstler",
     "You have momentum but your career isn't keeping up with your music. SoundReady organizes everything so every release works as hard as you do.":
       "Du hast Schwung, aber deine Karriere hält nicht mit deiner Musik Schritt. SoundReady organisiert alles, damit jeder Release so hart arbeitet wie du.",
-    "The Producer": "Der Producer",
     "The Manager or Indie Label": "Das Manager-Team oder Indie-Label",
     "The infrastructure of a full professional team.": "Die Infrastruktur eines ganzen professionellen Teams.",
     "Real tools, real data, one login — not percentage-based management.":
@@ -431,20 +363,14 @@ export const HOME_STRINGS = {
     "Stop manually managing playlists, venue outreach, royalty tracking, and release planning — the platform runs it.":
       "Schluss mit manuellem Playlist-Management, Venue-Outreach, Tantiemen-Tracking und Release-Planung — die Plattform erledigt das.",
     "To get started": "Zum Start",
-    "Vault, Tracker, and Productions are free forever. Flat pricing after that — never a percentage of what you earn.":
-      "Vault, Tracker und Productions sind für immer kostenlos. Danach Festpreise — nie ein Prozent dessen, was du verdienst.",
     "Illustrative comparison, not a guarantee — results depend on your releases, effort, and genre.":
       "Illustrativer Vergleich, keine Garantie — Ergebnisse hängen von deinen Releases, deinem Einsatz und deinem Genre ab.",
     "What the traditional management model takes — whether deals close or not":
       "Was das traditionelle Management-Modell nimmt — ob Deals zustande kommen oder nicht",
     "What it costs to start on SoundReady — core tools free forever":
       "Was der Start auf SoundReady kostet — Kern-Tools für immer kostenlos",
-    "Integrated tools giving every artist and producer the infrastructure of a full professional team":
-      "Integrierte Tools, die jedem Künstler und Producer die Infrastruktur eines ganzen professionellen Teams geben",
     "Your biggest release ": "Dein größter Release ",
     "is next.": "kommt als Nächstes.",
-    "The artists and producers winning right now aren't more talented — they're more organized and more strategic. SoundReady gives you everything you need to be both, starting today.":
-      "Die Künstler und Producer, die heute gewinnen, sind nicht talentierter — sie sind organisierter und strategischer. SoundReady gibt dir alles, was du brauchst, um beides zu sein, ab heute.",
     "Start Building My Career": "Meine Karriere Aufbauen",
     "Projected growth: with SoundReady vs. doing it alone": "Prognostiziertes Wachstum: mit SoundReady vs. auf eigene Faust",
     "Twelve-month trajectory for an independent artist with the same starting point.":
@@ -457,7 +383,6 @@ export const HOME_STRINGS = {
     "Artists doing it alone": "Künstler, die es allein machen",
     "growth": "Wachstum",
     "Illustrative projection of cumulative growth": "Illustrative Projektion des kumulierten Wachstums",
-    "based on average outcomes reported by SoundReady artists.": "basierend auf den durchschnittlichen Ergebnissen von SoundReady-Künstlern.",
     "revenue": "einnahmen",
     "shows booked": "gebuchte shows",
   },
