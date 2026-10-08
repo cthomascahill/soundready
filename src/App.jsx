@@ -134,7 +134,6 @@ const AuthenticatedApp = () => {
       {/* Protected routes — every app page requires login */}
       <Route element={<ProtectedRoute unauthenticatedElement={<Navigate to="/login" replace />} />}>
         <Route element={<AppLayout />}>
-        <Route path="/" element={<Navigate to="/history" replace />} />
         <Route path="/dashboard" element={<Navigate to="/history" replace />} />
         <Route path="/tools" element={<ToolLibrary />} />
         <Route path="/storage" element={<Storage />} />
