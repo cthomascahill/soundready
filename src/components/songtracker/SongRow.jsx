@@ -10,6 +10,7 @@ import SongDetails from "./SongDetails";
 // One song: a quiet summary row that expands into the full details
 export default function SongRow({ song, isNew, moveTargets, onUpdate, onDelete }) {
   const [open, setOpen] = useState(!!isNew);
+  const [nameEditing, setNameEditing] = useState(!!isNew);
   const [name, setName] = useDebouncedField(song.song_name, (v) => onUpdate(song.id, { song_name: v }));
   const current = getCurrentStage(song);
   const next = getNextStage(song);
@@ -31,14 +32,32 @@ export default function SongRow({ song, isNew, moveTargets, onUpdate, onDelete }
         </button>
 
         <div className="flex-1 min-w-0">
-          <input
-            value={name}
-            autoFocus={isNew}
-            onClick={(e) => e.stopPropagation()}
-            onChange={(e) => setName(e.target.value)}
-            placeholder="Song name..."
-            className="w-full bg-transparent text-sm font-medium text-foreground placeholder:text-muted-foreground/40 focus:outline-none"
-          />
+          {nameEditing ? (
+            <input
+              value={name}
+              autoFocus
+              onClick={(e) => e.stopPropagation()}
+              onChange={(e) => setName(e.target.value)}
+              onBlur={() => setNameEditing(false)}
+              onKeyDown={(e) => {
+                if (e.key === "Enter" || e.key === "Escape") setNameEditing(false);
+              }}
+              placeholder="Song name..."
+              className="w-full bg-transparent text-sm font-medium text-foreground placeholder:text-muted-foreground/40 focus:outline-none border-b border-primary/40"
+            />
+          ) : (
+            <span
+              onContextMenu={(e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                setNameEditing(true);
+              }}
+              title="Right-click to rename"
+              className="block truncate text-sm font-medium text-foreground cursor-text select-none"
+            >
+              {song.song_name || "Untitled"}
+            </span>
+          )}
           <p className="md:hidden text-xs text-muted-foreground truncate">
             {current ? current.status : "Not Started"} · {next ? next.action : "All done"}
           </p>

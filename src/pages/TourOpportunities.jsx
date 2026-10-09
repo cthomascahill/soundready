@@ -5,6 +5,7 @@ import { Search, MapPin, Calendar, Music2, ExternalLink, Loader2, Send, CheckCir
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import OpeningSlotPitchModal from "@/components/tourop/OpeningSlotPitchModal";
+import { getTier } from "@/lib/tier";
 
 export default function TourOpportunities() {
   const [tours, setTours] = useState([]);
@@ -57,6 +58,19 @@ export default function TourOpportunities() {
   const handlePitchCreated = async (pitchData) => {
     const created = await base44.entities.OpeningSlotPitch.create(pitchData);
     setPitches((prev) => [created, ...prev]);
+    // AI Manager artists route the pitch through Sam's Desk to approve or deny it
+    if (pitchData.draft_email && artistData?.id && getTier(artistData) === "ai_manager") {
+      await base44.entities.AIActivity.create({
+        user_id: artistData.id,
+        action_type: "tour_opportunity",
+        title: `Opening slot pitch: ${pitchData.tour_artist}`,
+        description: `Opening slot pitch for ${pitchData.tour_artist}${pitchData.tour_name ? ` — ${pitchData.tour_name}` : ""}. Review the draft, add the booking contact's email, then approve or deny it.`,
+        status: "pending",
+        draft_email: pitchData.draft_email,
+        recipient_email: "",
+        metadata: { source: "tour_opportunities", pitch_id: created.id },
+      }).catch(() => {});
+    }
     setModalOpen(false);
     setSelectedTour(null);
   };

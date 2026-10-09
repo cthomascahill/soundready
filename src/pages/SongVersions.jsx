@@ -51,6 +51,17 @@ export default function SongVersions() {
       .finally(() => setLoading(false));
   }, [songId]);
 
+  // A mix saved elsewhere (the Tracker's A/B player) appears here live — no refresh needed
+  useEffect(() => {
+    if (!songId) return undefined;
+    const unsub = base44.entities.SongVersion.subscribe(() => {
+      base44.entities.SongVersion.filter({ pipeline_song_id: songId }, "-created_date", 50)
+        .then(setVersions)
+        .catch(() => {});
+    });
+    return unsub;
+  }, [songId]);
+
   // Oldest → newest so progress reads left to right
   const ordered = [...versions].sort(
     (a, b) => new Date(a.created_date || 0) - new Date(b.created_date || 0)

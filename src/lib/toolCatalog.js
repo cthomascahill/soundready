@@ -2,6 +2,7 @@ import {
   Music2, ListChecks, Calendar, Mic2, BarChart2, Scale, Handshake,
   MapPin, Megaphone, Route, PiggyBank, FileSignature, Map, UserCircle,
   Newspaper, Radar, TrendingUp, Flame, Bot, MessagesSquare, Shield, DollarSign,
+  GraduationCap, AudioLines,
 } from "lucide-react";
 
 // Every tool on the platform, grouped by category.
@@ -12,6 +13,7 @@ export const TOOL_CATEGORIES = [
     tools: [
       { name: "Vault", to: "/history", desc: "Your entire catalog, organized", icon: Music2, tier: "free" },
       { name: "Tracker", to: "/song-tracker", desc: "Every release from idea to launch", icon: ListChecks, tier: "free" },
+      { name: "Studio", to: "/studio", desc: "Write and sketch with your beats", icon: AudioLines, tier: "pro" },
     ],
   },
   {
@@ -55,6 +57,7 @@ export const TOOL_CATEGORIES = [
       { name: "Release Plan", to: "/release-plan", desc: "An AI plan for your next release", icon: Calendar, tier: "pro" },
       { name: "Contracts", to: "/legal", desc: "Contract templates and guides", icon: Scale, tier: "pro" },
       { name: "Artist Profile", to: "/artist-profile", desc: "Your full career intake", icon: UserCircle, tier: "free" },
+      { name: "Music Academy", to: "/music-academy", desc: "Learn the business of music", icon: GraduationCap, tier: "free" },
       { name: "Music News", to: "/music-news", desc: "Daily industry briefings", icon: Newspaper, tier: "pro" },
       { name: "Industry Intel", to: "/industry-intel", desc: "Signings, playlists, trends, grants and tour intel", icon: Radar, tier: "ai" },
       { name: "A&R Intelligence", to: "/ar-intelligence", desc: "What labels are looking for", icon: TrendingUp, tier: "ai" },

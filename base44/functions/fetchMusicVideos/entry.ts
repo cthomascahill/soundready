@@ -1,19 +1,24 @@
 const YOUTUBE_API_KEY = Deno.env.get("YOUTUBE_API_KEY");
 
-// Curated searches: long-form music-industry content artists should be watching.
+// Curated searches: long-form music content across genres and topics —
+// industry podcasts, creator interviews, royalties and the business of music.
 const BASE_QUERIES = [
-  '"DJ Akademiks" interview',
-  '"The Manager\'s Playbook"',
-  '"Million Dollaz Worth of Game" rapper',
-  '"Breakfast Club" artist interview',
-  'hip hop interview',
-  'music industry advice',
+  'music industry podcast',
+  'music royalties streaming explained',
+  'artist interview new album',
+  'producer studio interview',
+  'songwriting podcast',
+  'how musicians get paid royalties',
+  '"Broken Record" podcast',
+  '"Trapital" music business',
+  'sync licensing music interview',
+  'record label deal advice artists',
 ];
 
-// Music-culture shows: their artist/industry content stays in.
-const KNOWN_MUSIC_CHANNELS = /breakfast club|akademiks|million dollaz|manager's playbook|no jumper|drink champs|rap radar|math hoffman|ebro|big facts/i;
+// Music-culture and industry shows: their artist/industry content stays in.
+const KNOWN_MUSIC_CHANNELS = /breakfast club|akademiks|million dollaz|manager's playbook|no jumper|drink champs|rap radar|math hoffman|ebro|big facts|broken record|song exploder|pensado|trapital|rick beato|adam neely|everything music|andertons|music is win|rolling stone|billboard|hypebot/i;
 // Anything else has to be clearly about music.
-const MUSIC_WORDS = /music|song|album|artist|rap(per)?\b|hip ?hop|producer|dj\b|record label|streaming|spotify|billboard|grammy|singer|rapper|tour|beat|r&b|interview/i;
+const MUSIC_WORDS = /music|song|album|artist|rap(per)?\b|hip ?hop|producer|dj\b|record label|streaming|spotify|billboard|grammy|singer|rapper|tour|beat|r&b|interview|royalt|publishing|sync|licens|songwrit|guitar|drum|piano|band\b|k-?pop|country|jazz|rock|edm|techno|reggae|afrobeats|mixing|mastering|studio|vinyl/i;
 // Hard off-topic: sports, comedy, movies — even on music channels.
 const OFF_TOPIC = /nba|nfl|football|basketball|boxing|ufc|comedy|comedian|chris rock|kevin hart|movie|film|actor|actress|trailer/i;
 

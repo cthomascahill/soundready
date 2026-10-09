@@ -1,6 +1,6 @@
 <mjml>
   <mj-head>
-    <mj-title>Sam's to-dos for you today</mj-title>
+    <mj-title>Sam's to-dos for you this week</mj-title>
     <mj-preview>{{todo_count}} things left on your list this week</mj-preview>
     <mj-attributes>
       <mj-all font-family="'Space Grotesk', Arial, sans-serif" />
@@ -20,14 +20,18 @@
         </mj-column>
       </mj-group>
     </mj-section>
-    <mj-section padding="40px 36px 12px">
+    <mj-section padding="36px 36px 12px">
       <mj-column>
-        <mj-text font-size="30px" font-weight="700" line-height="1.15" padding-bottom="10px">Morning, {{first_name}}.</mj-text>
-        <mj-text color="#8c8c8c" font-size="14px">Sam kept your list ready. Here is what is left to get done this week:</mj-text>
+        <mj-image src="https://media.base44.com/images/public/69dcf0ecc907e43a438a626b/d124f0929_generated_f10ed4b3.png" alt="Sam" width="64" padding="0 0 14px 0" />
+        <mj-text font-size="30px" font-weight="700" line-height="1.15" padding-bottom="8px">Your to-do list this week.</mj-text>
+        <mj-text color="#8c8c8c" font-size="14px">Morning, {{first_name}}. Sam kept your list ready. Here is what is left to get done:</mj-text>
       </mj-column>
     </mj-section>
     <mj-section padding="10px 36px 8px">
       <mj-column>
+        <mj-text font-size="12px" font-weight="700" padding-bottom="14px">
+          <span style="background-color:#21c45d;color:#000000;border-radius:999px;padding:5px 14px;display:inline-block;">{{todo_count}} to-dos left</span>
+        </mj-text>
         <mj-divider border-color="#e5e7eb" border-width="1px" padding="0 0 18px 0" />
         <mj-text font-size="15px" line-height="2">{{todo_lines}}</mj-text>
         <mj-divider border-color="#e5e7eb" border-width="1px" padding="18px 0 0 0" />
@@ -35,13 +39,14 @@
     </mj-section>
     <mj-section padding="28px 36px 12px">
       <mj-column>
-        <mj-text font-size="14px" padding-bottom="16px">Knock them out and they come off the list. Sam will email you again tomorrow with whatever is left.</mj-text>
+        <mj-text font-size="14px" padding-bottom="16px">Knock them out and they come off the list. Sam will email you again with whatever is left.</mj-text>
         <mj-button href="https://soundready.ai/todos">Open your to-dos</mj-button>
       </mj-column>
     </mj-section>
     <mj-section padding="24px 36px 32px">
       <mj-column>
-        <mj-text color="#8c8c8c" font-size="12px">SoundReady · Your AI manager, on it.</mj-text>
+        <mj-text color="#8c8c8c" font-size="12px" padding-bottom="4px">Sam · Your AI manager, on it.</mj-text>
+        <mj-text color="#8c8c8c" font-size="12px"><a href="https://soundready.ai" style="color:#21c45d;text-decoration:none;">soundready.ai</a></mj-text>
       </mj-column>
     </mj-section>
   </mj-body>

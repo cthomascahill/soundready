@@ -23,6 +23,17 @@ export default function VersionsPanel({ song, onUpdate }) {
       .catch(() => {});
   }, [song?.id]);
 
+  // A mix saved anywhere (the A/B player, another view) shows up here live — no refresh needed
+  useEffect(() => {
+    if (!song?.id) return undefined;
+    const unsub = base44.entities.SongVersion.subscribe(() => {
+      base44.entities.SongVersion.filter({ pipeline_song_id: song.id }, "-created_date", 50)
+        .then(setVersions)
+        .catch(() => {});
+    });
+    return unsub;
+  }, [song?.id]);
+
   const makeLatest = async (v) => {
     await base44.entities.SongVersion.updateMany(
       { pipeline_song_id: song.id, is_current: true },
