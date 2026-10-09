@@ -13,7 +13,7 @@ export default function TestimonialSection() {
     <section className="px-4 pb-16">
       <div className="max-w-3xl mx-auto">
         <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}
-          className="relative rounded-2xl border border-primary/25 bg-card p-8 sm:p-10 overflow-hidden">
+          className="relative py-8 text-center">
           <div className="absolute -top-24 -left-24 h-64 w-64 rounded-full bg-primary/15 blur-[100px] pointer-events-none" />
           <div className="absolute -bottom-24 -right-24 h-64 w-64 rounded-full bg-primary/10 blur-[100px] pointer-events-none" />
           <div className="relative text-center space-y-7">
@@ -26,7 +26,7 @@ export default function TestimonialSection() {
             </div>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               {QUOTES.map((q) => (
-                <div key={q} className="rounded-xl border border-border bg-secondary/40 p-5 flex gap-3 text-left">
+                <div key={q} className="flex gap-3 text-left">
                   <Quote className="h-4 w-4 shrink-0 text-primary mt-0.5" />
                   <p className="text-sm font-medium leading-relaxed">{q}</p>
                 </div>

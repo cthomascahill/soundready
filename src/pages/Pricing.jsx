@@ -309,11 +309,11 @@ export default function Pricing() {
             <ShieldCheck className="h-8 w-8 text-primary mx-auto" />
             <h3 className="font-heading text-2xl font-bold">The math doesn't lie</h3>
             <div className="grid grid-cols-2 gap-4 text-center max-w-md mx-auto">
-              <div className="rounded-xl bg-destructive/10 border border-destructive/25 p-4 space-y-1">
+              <div className="space-y-1">
                 <p className="font-heading text-2xl font-black text-destructive">15–20%</p>
                 <p className="text-xs text-muted-foreground">A traditional manager's typical commission on your earnings</p>
               </div>
-              <div className="rounded-xl bg-primary/10 border border-primary/20 p-4 space-y-1">
+              <div className="space-y-1">
                 <p className="font-heading text-2xl font-black text-primary">$59 flat</p>
                 <p className="text-xs text-muted-foreground">SAM: pitches and outreach every week, zero cuts</p>
               </div>
@@ -344,11 +344,11 @@ export default function Pricing() {
               <motion.div key={i}
                 initial={{ opacity: 0, y: 12 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}
                 transition={{ delay: i * 0.07 }}
-                className="rounded-xl bg-card border border-border overflow-hidden">
+                className="border-b border-border">
                 <button
                   onClick={() => setOpenFaq(openFaq === i ? null : i)}
                   aria-expanded={openFaq === i}
-                  className="w-full flex items-center justify-between gap-3 p-5 text-left hover:bg-secondary/40 transition-colors"
+                  className="w-full flex items-center justify-between gap-3 py-5 text-left"
                 >
                   <span className="text-sm font-semibold text-foreground">{item.q}</span>
                   <ChevronDown className={`h-4 w-4 shrink-0 text-muted-foreground transition-transform duration-300 ${openFaq === i ? "rotate-180" : ""}`} />

@@ -24,12 +24,12 @@ export default function ManagerCostSlider() {
       </div>
 
       <div className="grid grid-cols-2 gap-4">
-        <div className="rounded-xl bg-destructive/10 border border-destructive/25 p-4 space-y-1.5">
+        <div className="space-y-1.5">
           <p className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground">Traditional manager</p>
           <p className="font-heading text-2xl font-black text-destructive">{fmt(managerMonthly)}<span className="text-xs font-bold text-muted-foreground">/mo</span></p>
           <p className="text-xs text-muted-foreground">{fmt(managerYearly)} every year, and it grows with every raise</p>
         </div>
-        <div className="rounded-xl bg-primary/10 border border-primary/20 p-4 space-y-1.5">
+        <div className="space-y-1.5">
           <p className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground">SoundReady AI Manager</p>
           <p className="font-heading text-2xl font-black text-primary"><span className="text-xs line-through opacity-60 font-bold text-muted-foreground mr-1">$79</span>$59<span className="text-xs font-bold text-muted-foreground">/mo</span></p>
           <p className="text-xs text-muted-foreground">{fmt(samYearly)} every year, flat, forever</p>
