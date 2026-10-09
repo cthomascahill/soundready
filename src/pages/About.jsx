@@ -156,19 +156,17 @@ export default function About() {
       {/* SAM IN ACTION */}
       <SamInActionSection />
 
-      {/* PLATFORM SHOWCASE */}
-      <PlatformShowcaseSection />
-
       {/* CREATED BY MATT CORMAN */}
       <MattCormanSection />
+
+      {/* PLATFORM SHOWCASE */}
+      <PlatformShowcaseSection />
 
       {/* THE WEEKLY LOOP */}
       <CareerWorkflowSection />
 
-      <IncludedSection />
-
       {/* PRICING, 3 tiers */}
-      <section className="relative px-4 py-24 border-t border-border bg-secondary/20 overflow-hidden">
+      <section id="pricing" className="relative px-4 py-24 border-t border-border bg-secondary/20 overflow-hidden scroll-mt-20">
         {/* Soft ambient gradient glows, mirrored to the opposing side from the showcase above */}
         <div className="absolute -top-48 -right-56 h-[620px] w-[620px] rounded-full bg-primary/15 blur-[150px] pointer-events-none" />
         <div className="absolute -bottom-40 -left-64 h-[560px] w-[560px] rounded-full bg-chart-2/10 blur-[160px] pointer-events-none" />
@@ -243,6 +241,9 @@ export default function About() {
           </div>
         </div>
       </section>
+
+      {/* WHAT'S INCLUDED */}
+      <IncludedSection />
 
       {/* SOCIAL PROOF STATS */}
       <section className="px-4 py-20 border-t border-border">
