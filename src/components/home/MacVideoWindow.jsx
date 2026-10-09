@@ -1,36 +1,35 @@
-// Wraps a video in a glowing macOS-style desktop: wallpaper backdrop,
-// a menu bar, and a Mac window with traffic lights.
+// Plays a video on a classic iMac: black bezel with a webcam dot,
+// a silver chin with the wordmark, and a tapered silver stand.
 export default function MacVideoWindow({ videoUrl, title, className }) {
   return (
     <div className={`relative ${className || ""}`}>
-      {/* Neon glow behind the desktop */}
+      {/* Neon glow behind the Mac */}
       <div className="absolute -inset-10 rounded-[3rem] bg-primary/20 blur-3xl pointer-events-none" />
 
-      {/* macOS desktop backdrop */}
-      <div className="relative rounded-3xl border border-border bg-gradient-to-br from-primary/20 via-background to-chart-5/10 p-3 sm:p-6 overflow-hidden">
-        {/* Menu bar */}
-        <div className="flex items-center justify-between px-4 py-1.5 rounded-lg bg-background/40 backdrop-blur text-[11px] font-medium text-muted-foreground mb-3">
-          <span className="font-bold text-foreground">SoundReady</span>
-          <span>{title}</span>
+      <div className="relative mx-auto max-w-3xl">
+        {/* Screen: matte black bezel */}
+        <div className="relative rounded-t-xl bg-black p-2 sm:p-3 shadow-2xl">
+          {/* Webcam lens in the top bezel */}
+          <div className="absolute top-1 left-1/2 -translate-x-1/2 h-1.5 w-1.5 rounded-full bg-zinc-800 ring-1 ring-zinc-700/60" />
+          <div className="rounded-lg overflow-hidden">
+            <video
+              src={videoUrl}
+              autoPlay muted loop playsInline controls
+              className="w-full block"
+            />
+          </div>
         </div>
 
-        {/* Mac window */}
-        <div className="rounded-xl border border-border bg-card shadow-2xl overflow-hidden">
-          <div className="flex items-center gap-2 px-4 h-10 bg-secondary border-b border-border">
-            <div className="flex gap-2 shrink-0">
-              <div className="h-3 w-3 rounded-full bg-red-500" />
-              <div className="h-3 w-3 rounded-full bg-yellow-500" />
-              <div className="h-3 w-3 rounded-full bg-green-500" />
-            </div>
-            <p className="mx-auto text-xs font-medium text-muted-foreground truncate px-4">{title}</p>
-            <div className="w-[44px] shrink-0" />
-          </div>
-          <video
-            src={videoUrl}
-            autoPlay muted loop playsInline controls
-            className="w-full block"
-          />
+        {/* Chin: metallic silver panel with the wordmark */}
+        <div className="rounded-b-xl bg-gradient-to-b from-zinc-300 to-zinc-400 h-9 sm:h-11 flex items-center justify-center">
+          <p className="font-heading text-sm sm:text-base font-black tracking-tight text-zinc-900 select-none">
+            {title}
+          </p>
         </div>
+
+        {/* Stand: tapered pedestal and base */}
+        <div className="mx-auto w-20 sm:w-24 h-4 sm:h-5 bg-gradient-to-b from-zinc-300 to-zinc-400" />
+        <div className="mx-auto w-44 sm:w-60 h-2.5 rounded-full bg-gradient-to-b from-zinc-300 to-zinc-400 shadow-lg" />
       </div>
     </div>
   );
