@@ -125,15 +125,15 @@ export default function About() {
         <div className="absolute -top-48 -left-48 h-[640px] w-[640px] rounded-full bg-primary/15 blur-[140px] pointer-events-none" />
         <div className="absolute -top-40 -right-56 h-[560px] w-[560px] rounded-full bg-chart-2/10 blur-[160px] pointer-events-none" />
         <div className="absolute inset-0 bg-gradient-to-b from-transparent via-background/60 to-background pointer-events-none" />
-        <motion.div initial={{ opacity: 0, y: 32 }} animate={{ opacity: 1, y: 0 }} className="relative max-w-6xl mx-auto grid lg:grid-cols-[1.15fr_1fr] items-center gap-8">
+        <motion.div initial={{ opacity: 0, y: 32 }} animate={{ opacity: 1, y: 0 }} className="relative max-w-7xl mx-auto grid lg:grid-cols-[1.1fr_1fr] items-center gap-6">
           {/* Hero copy */}
-          <div className="space-y-8 text-center lg:text-left">
+          <div className="space-y-8 text-center">
             <h1 className="font-heading text-6xl sm:text-8xl font-black tracking-tight leading-[0.9]">
               {t("Your own AI")}<br />
               <span className="text-primary">{t("music manager")}</span>
             </h1>
 
-            <div className="flex flex-col items-center gap-2 lg:items-start">
+            <div className="flex flex-col items-center gap-2">
               <p className="font-heading text-3xl sm:text-5xl font-black text-foreground tracking-tight">
                 {t("Search your artist name now")}
               </p>
@@ -142,7 +142,7 @@ export default function About() {
 
             <HeroArtistSearch />
 
-            <div className="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-3 pt-2">
+            <div className="flex flex-col sm:flex-row items-center justify-center gap-3 pt-2">
               <Button size="lg" className="gap-2 font-heading font-bold text-base px-8 h-12" onClick={handleCTA}>
                 {t("Start")} <ArrowRight className="h-4 w-4" />
               </Button>
@@ -170,11 +170,11 @@ export default function About() {
                 y: { repeat: Infinity, duration: 4, ease: "easeInOut" }
               }}
             />
-            <div className="absolute -top-1 lg:-top-4 lg:-left-24 -rotate-6 flex flex-col items-start pointer-events-none">
+            <div className="absolute -top-2 lg:top-2 -left-2 lg:-left-20 -rotate-6 flex flex-col items-start pointer-events-none">
               <p className="font-heading text-3xl sm:text-4xl font-black text-foreground whitespace-nowrap">{t("Meet SAM")}</p>
-              <svg width="84" height="64" viewBox="0 0 84 64" fill="none" className="text-primary -mt-1 ml-3">
-                <path d="M6 6 C 30 14, 56 28, 68 58" stroke="currentColor" strokeWidth="4" strokeLinecap="round" />
-                <path d="M56 54 L 70 62 L 64 46" stroke="currentColor" strokeWidth="4" strokeLinecap="round" strokeLinejoin="round" />
+              <svg width="110" height="80" viewBox="0 0 110 80" fill="none" className="text-primary -mt-3 -ml-1">
+                <path d="M4 6 C 44 10, 76 30, 82 66" stroke="currentColor" strokeWidth="5" strokeLinecap="round" />
+                <path d="M68 62 L 84 74 L 76 52" stroke="currentColor" strokeWidth="5" strokeLinecap="round" strokeLinejoin="round" />
               </svg>
             </div>
           </div>
