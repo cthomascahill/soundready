@@ -1,6 +1,8 @@
+import { useState } from "react";
 import { Link } from "react-router-dom";
 import { useAuth } from "@/lib/AuthContext";
 import { hasAIManager } from "@/lib/tier";
+import PlanDashboardDialog from "@/components/plan/PlanDashboardDialog";
 import { useLang } from "@/lib/i18n/LanguageContext";
 import {
   Home, Music2, Users, ListChecks, LayoutGrid, FolderOpen,
@@ -102,6 +104,7 @@ const AI_ONLY = new Set([
 export default function SidebarNav({ activePath, onNavigate }) {
   const { user } = useAuth();
   const { t } = useLang();
+  const [planOpen, setPlanOpen] = useState(false);
   const sections = NAV_SECTIONS(user?.role === "admin");
 
   // AI Manager subscribers have everything unlocked, so no badges are needed
@@ -126,36 +129,49 @@ export default function SidebarNav({ activePath, onNavigate }) {
                 (item.to === "/history" && activePath.startsWith("/music")) ||
                 (item.to === "/touring" &&
                   (activePath.startsWith("/gig-finder") || activePath.startsWith("/tour-") || activePath.startsWith("/contracts")));
-              return (
-                <Link
-                  key={item.to}
-                  to={item.to}
-                  onClick={onNavigate}
-                  className={`flex items-center gap-3 px-3 py-2 rounded-lg text-sm transition-colors ${
-                    active
-                      ? "bg-primary/10 text-primary font-medium"
-                      : "text-muted-foreground hover:text-foreground hover:bg-secondary"
+              const rowClass = `flex w-full items-center gap-3 px-3 py-2 rounded-lg text-sm transition-colors ${
+                active
+                  ? "bg-primary/10 text-primary font-medium"
+                  : "text-muted-foreground hover:text-foreground hover:bg-secondary"
+              }`;
+              const badge = tierBadge(item.to) && (
+                <span
+                  className={`ml-auto shrink-0 rounded-full border px-1.5 py-0.5 text-[9px] font-bold uppercase tracking-wide ${
+                    tierBadge(item.to) === "AI"
+                      ? "bg-primary/15 border-primary/25 text-primary"
+                      : "bg-chart-5/10 border-chart-5/25 text-chart-5"
                   }`}
                 >
+                  {tierBadge(item.to)}
+                </span>
+              );
+
+              // "Your Plan" opens the plan dashboard popup instead of navigating
+              if (item.to === "/pricing-account") {
+                return (
+                  <button key={item.to} onClick={() => setPlanOpen(true)} className={rowClass}>
+                    <item.icon className="h-4 w-4 shrink-0" />
+                    {t(item.label)}
+                    {badge}
+                  </button>
+                );
+              }
+
+              return (
+                <Link key={item.to} to={item.to} onClick={onNavigate} className={rowClass}>
                   <item.icon className="h-4 w-4 shrink-0" />
                   {t(item.label)}
-                  {tierBadge(item.to) && (
-                    <span
-                      className={`ml-auto shrink-0 rounded-full border px-1.5 py-0.5 text-[9px] font-bold uppercase tracking-wide ${
-                        tierBadge(item.to) === "AI"
-                          ? "bg-primary/15 border-primary/25 text-primary"
-                          : "bg-chart-5/10 border-chart-5/25 text-chart-5"
-                      }`}
-                    >
-                      {tierBadge(item.to)}
-                    </span>
-                  )}
+                  {badge}
                 </Link>
               );
             })}
           </div>
         </div>
       ))}
+
+      <PlanDashboardDialog open={planOpen} onOpenChange={setPlanOpen} />
+
+      <div aria-hidden="true" className="h-2" />
     </div>
   );
 }

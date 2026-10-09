@@ -6,7 +6,7 @@ import { base44 } from "@/api/base44Client";
  * purchased extra credits) from the server, which is the single source of
  * truth for the numbers. Returns refresh() to re-fetch after a task runs.
  */
-export default function useSamUsage() {
+export default function useSamUsage({ enabled = true } = {}) {
   const [usage, setUsage] = useState(null);
   const [loading, setLoading] = useState(true);
 
@@ -22,7 +22,7 @@ export default function useSamUsage() {
     }
   }, []);
 
-  useEffect(() => { refresh(); }, [refresh]);
+  useEffect(() => { if (enabled) refresh(); else setLoading(false); }, [enabled, refresh]);
 
   return { usage, loading, refresh };
 }
