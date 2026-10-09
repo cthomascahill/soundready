@@ -1,8 +1,8 @@
 import { useState, useEffect } from "react";
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import { useSearchParams, useNavigate, Link } from "react-router-dom";
 import {
-  CheckCircle2, ArrowRight, Zap, Users, Bot, Sparkles, ShieldCheck,
+  CheckCircle2, ArrowRight, Zap, Users, Bot, Sparkles, ShieldCheck, ChevronDown,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { base44 } from "@/api/base44Client";
@@ -13,6 +13,7 @@ import PublicFooter from "@/components/public/PublicFooter";
 import SEO from "@/components/SEO";
 import ManagerCostSlider from "@/components/home/ManagerCostSlider";
 import FullToolkitSection from "@/components/pricing/FullToolkitSection";
+import TestimonialSection from "@/components/pricing/TestimonialSection";
 import BillingToggle from "@/components/billing/BillingToggle";
 import { CARD_FREE_ITEMS, CARD_PRO_ITEMS, CARD_AI_ITEMS } from "@/lib/plans";
 
@@ -72,6 +73,7 @@ export default function Pricing() {
   const [canceling, setCanceling] = useState(false);
   const [planMsg, setPlanMsg] = useState("");
   const [billing, setBilling] = useState("monthly");
+  const [openFaq, setOpenFaq] = useState(0);
 
   useEffect(() => {
     if (checkoutStatus === "success") checkAppState();
@@ -189,8 +191,10 @@ export default function Pricing() {
 
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-5">
             {/* FREE */}
-            <motion.div initial={{ opacity: 0, y: 24 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}
-              className="relative rounded-2xl border border-chart-5/20 bg-card p-6 flex flex-col">
+            <div className="relative">
+              <div className="absolute -inset-4 rounded-3xl bg-chart-2/15 blur-3xl pointer-events-none" />
+              <motion.div initial={{ opacity: 0, y: 24 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}
+              className="relative h-full rounded-2xl border border-chart-5/20 bg-card p-6 flex flex-col">
               <div className="h-11 w-11 rounded-xl bg-chart-5/10 border border-chart-5/20 flex items-center justify-center mb-4">
                 <Zap className="h-5 w-5 text-chart-5" />
               </div>
@@ -211,10 +215,13 @@ export default function Pricing() {
               </div>
               <p className="text-center text-xs text-muted-foreground mt-2">No card required.</p>
             </motion.div>
+            </div>
 
             {/* ARTIST PRO */}
-            <motion.div initial={{ opacity: 0, y: 24 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: 0.06 }}
-              className="relative rounded-2xl border border-chart-5/20 bg-card p-6 flex flex-col ring-2 ring-chart-5/40 shadow-xl">
+            <div className="relative">
+              <div className="absolute -inset-4 rounded-3xl bg-chart-5/20 blur-3xl pointer-events-none" />
+              <motion.div initial={{ opacity: 0, y: 24 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: 0.06 }}
+              className="relative h-full rounded-2xl border border-chart-5/20 bg-card p-6 flex flex-col ring-2 ring-chart-5/40 shadow-xl">
               <div className="absolute -top-3 left-1/2 -translate-x-1/2 px-3 py-1 rounded-full text-xs font-bold whitespace-nowrap bg-chart-5 text-black">
                 7-Day Free Trial
               </div>
@@ -240,10 +247,13 @@ export default function Pricing() {
               </div>
               <p className="text-center text-xs text-muted-foreground mt-2">Card required. {billing === "yearly" ? "$374/year" : "$39/month"} after 7 days unless canceled.</p>
             </motion.div>
+            </div>
 
             {/* AI MANAGER */}
-            <motion.div initial={{ opacity: 0, y: 24 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: 0.12 }}
-              className="relative rounded-2xl border border-primary/30 bg-card p-6 flex flex-col ring-2 ring-primary/60 shadow-2xl shadow-primary/10">
+            <div className="relative">
+              <div className="absolute -inset-4 rounded-3xl bg-primary/25 blur-3xl pointer-events-none" />
+              <motion.div initial={{ opacity: 0, y: 24 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: 0.12 }}
+              className="relative h-full rounded-2xl border border-primary/30 bg-card p-6 flex flex-col ring-2 ring-primary/60 shadow-2xl shadow-primary/10">
               <div className="absolute -top-3 left-1/2 -translate-x-1/2 px-3 py-1 rounded-full text-xs font-bold whitespace-nowrap bg-primary text-primary-foreground">
                 Recommended · Founding Artist Offer
               </div>
@@ -282,9 +292,13 @@ export default function Pricing() {
               <p className="text-center text-xs text-muted-foreground mt-2">No percentage cuts. Cancel anytime. Founding price stays locked while subscribed.</p>
               <p className="text-center text-[11px] text-muted-foreground mt-1 leading-relaxed">Includes 2,500 SAM credits each month, shared across all SAM features. Add 1,500 extra credits anytime for $15 — they never expire. Some opportunities require manual submission.</p>
             </motion.div>
+            </div>
           </div>
         </div>
       </section>
+
+      {/* TESTIMONIAL */}
+      <TestimonialSection />
 
       {/* FULL TOOLKIT */}
       <FullToolkitSection />
@@ -328,9 +342,28 @@ export default function Pricing() {
               <motion.div key={i}
                 initial={{ opacity: 0, y: 12 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}
                 transition={{ delay: i * 0.07 }}
-                className="rounded-xl bg-card border border-border p-5 space-y-2">
-                <p className="text-sm font-semibold text-foreground">{item.q}</p>
-                <p className="text-sm text-muted-foreground leading-relaxed">{item.a}</p>
+                className="rounded-xl bg-card border border-border overflow-hidden">
+                <button
+                  onClick={() => setOpenFaq(openFaq === i ? null : i)}
+                  aria-expanded={openFaq === i}
+                  className="w-full flex items-center justify-between gap-3 p-5 text-left hover:bg-secondary/40 transition-colors"
+                >
+                  <span className="text-sm font-semibold text-foreground">{item.q}</span>
+                  <ChevronDown className={`h-4 w-4 shrink-0 text-muted-foreground transition-transform duration-300 ${openFaq === i ? "rotate-180" : ""}`} />
+                </button>
+                <AnimatePresence initial={false}>
+                  {openFaq === i && (
+                    <motion.div
+                      initial={{ height: 0, opacity: 0 }}
+                      animate={{ height: "auto", opacity: 1 }}
+                      exit={{ height: 0, opacity: 0 }}
+                      transition={{ duration: 0.25, ease: "easeOut" }}
+                      className="overflow-hidden"
+                    >
+                      <p className="px-5 pb-5 text-sm text-muted-foreground leading-relaxed">{item.a}</p>
+                    </motion.div>
+                  )}
+                </AnimatePresence>
               </motion.div>
             ))}
           </div>
