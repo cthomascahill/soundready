@@ -50,6 +50,8 @@ export default function AudioReviewPlayer({ song, onUpdate, open, onOpenChange, 
   const [meters, setMeters] = useState({ l: -Infinity, r: -Infinity, pl: -Infinity, pr: -Infinity });
   const [note, setNote] = useState("");
   const [noteSaved, setNoteSaved] = useState(false);
+  const [showNotes, setShowNotes] = useState(false);
+  const [savedNotes, setSavedNotes] = useState(song.notes || "");
   const [uploading, setUploading] = useState(false);
   const [newLabel, setNewLabel] = useState("");
   const [loadingList, setLoadingList] = useState(false);
@@ -357,8 +359,9 @@ export default function AudioReviewPlayer({ song, onUpdate, open, onOpenChange, 
     const aLabel = versions.find((v) => v.id === aId)?.label || "Mix";
     const stamp = `[${aLabel} @ ${fmtTime(transport)}] ${text}`;
     await onUpdate(song.id, {
-      notes: song.notes ? `${song.notes}\n${stamp}` : stamp,
+      notes: savedNotes ? `${savedNotes}\n${stamp}` : stamp,
     });
+    setSavedNotes((prev) => (prev ? `${prev}\n${stamp}` : stamp));
     setNote("");
     setNoteSaved(true);
     setTimeout(() => setNoteSaved(false), 1500);
@@ -458,11 +461,50 @@ export default function AudioReviewPlayer({ song, onUpdate, open, onOpenChange, 
           </div>
           <div className="flex items-center gap-3 shrink-0">
             <SoundReadyLogo size={24} />
+            <button
+              onClick={() => setShowNotes((s) => !s)}
+              title="View this song's notes"
+              className={`h-8 px-2.5 rounded-lg border text-xs font-semibold flex items-center gap-1.5 transition-colors ${
+                showNotes
+                  ? "bg-primary text-primary-foreground border-primary"
+                  : "bg-background/60 border-border text-foreground hover:border-primary/50"
+              }`}
+            >
+              <StickyNote className="h-3.5 w-3.5" />
+              Notes
+            </button>
             <button onClick={() => onOpenChange(false)} className="text-zinc-400 hover:text-white">
               <X className="h-5 w-5" />
             </button>
           </div>
         </div>
+
+        {/* Saved notes panel */}
+        {showNotes && (
+          <div className="rounded-xl bg-background/60 border border-border p-3 max-h-48 overflow-y-auto">
+            {savedNotes ? (
+              <div className="space-y-1.5">
+                {savedNotes.split("\n").map((line, i) => {
+                  const t = line.trim();
+                  if (!t) return null;
+                  const close = t.indexOf("]");
+                  const stamp = close > -1 ? t.slice(0, close + 1) : "";
+                  const body = close > -1 ? t.slice(close + 1).trim() : t;
+                  return (
+                    <p key={i} className="text-sm text-foreground leading-relaxed">
+                      {stamp && <span className="text-primary font-semibold mr-1.5">{stamp}</span>}
+                      {body}
+                    </p>
+                  );
+                })}
+              </div>
+            ) : (
+              <p className="text-sm text-muted-foreground">
+                No notes yet. Type a note below while listening and it saves with the mix and timestamp.
+              </p>
+            )}
+          </div>
+        )}
 
         {/* A/B selection + upload */}
         <div className="flex items-center gap-2 flex-wrap">
