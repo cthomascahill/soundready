@@ -89,10 +89,11 @@ export default function SamInActionSection() {
           <p className="font-heading text-xl sm:text-3xl font-black text-center">
             {t("You simply ")}<span className="text-primary">Approve</span> {t("or")} <span className="text-red-400">Deny</span>.
           </p>
+          <div aria-hidden="true" className="h-20 sm:h-32" />
           <video
             src={SAM_DEMO_VIDEO_URL}
             autoPlay muted loop playsInline controls
-            className="w-full rounded-2xl border border-border shadow-xl mt-14 mb-10"
+            className="w-full rounded-2xl border border-border shadow-xl mb-10"
           />
         </motion.div>
       )}
