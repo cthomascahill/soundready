@@ -14,6 +14,7 @@ import SEO from "@/components/SEO";
 import ManagerCostSlider from "@/components/home/ManagerCostSlider";
 import FullToolkitSection from "@/components/pricing/FullToolkitSection";
 import TestimonialSection from "@/components/pricing/TestimonialSection";
+import ImacWindow from "@/components/pricing/ImacWindow";
 import BillingToggle from "@/components/billing/BillingToggle";
 import { CARD_FREE_ITEMS, CARD_PRO_ITEMS, CARD_AI_ITEMS } from "@/lib/plans";
 
@@ -306,8 +307,9 @@ export default function Pricing() {
       {/* THE MATH */}
       <section className="px-4 pb-16">
         <div className="max-w-3xl mx-auto">
+          <ImacWindow>
           <motion.div initial={{ opacity: 0, y: 16 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}
-            className="rounded-2xl bg-secondary border border-border p-8 text-center space-y-5">
+            className="rounded-2xl bg-secondary border border-primary/25 ring-1 ring-primary/25 shadow-xl shadow-primary/15 p-6 sm:p-8 text-center space-y-5">
             <ShieldCheck className="h-8 w-8 text-primary mx-auto" />
             <h3 className="font-heading text-2xl font-bold">The math doesn't lie</h3>
             <div className="grid grid-cols-2 gap-4 text-center max-w-md mx-auto">
@@ -322,6 +324,7 @@ export default function Pricing() {
             </div>
             <ManagerCostSlider />
           </motion.div>
+          </ImacWindow>
           <div className="pt-8 flex justify-center">
             <Button size="lg" className="gap-2 font-heading font-bold text-base px-10 h-12" onClick={() => document.getElementById("plans")?.scrollIntoView({ behavior: "smooth" })}>
               Start <ArrowRight className="h-4 w-4" />
