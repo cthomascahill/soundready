@@ -159,7 +159,7 @@ export default function About() {
           {/* SAM mascot, big on the right, floating */}
           <div className="relative flex justify-center lg:justify-end pt-8 lg:pt-0">
             <motion.img
-              src="https://media.base44.com/images/public/69dcf0ecc907e43a438a626b/3cd2788db_generated_image.png"
+              src="https://base44.app/api/apps/69dcf0ecc907e43a438a626b/files/mp/public/69dcf0ecc907e43a438a626b/4c5460634_sam-cutout.png"
               alt="SAM, the SoundReady AI music manager robot mascot"
               className="h-72 sm:h-96 lg:h-[440px] w-auto drop-shadow-[0_24px_60px_rgba(34,197,94,0.25)]"
               initial={{ opacity: 0, x: 24 }}
