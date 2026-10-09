@@ -6,6 +6,7 @@ export const FREE_ITEMS = [
   "Vault: up to 5 songs, organized",
   "Tracker: from idea to release",
   "Artist Profile: connect Spotify & YouTube",
+  "Streaming Royalty Calculator: estimate what your streams pay",
 ];
 
 export const PRO_ITEMS = [
@@ -41,6 +42,7 @@ export const CARD_FREE_ITEMS = [
   "Store up to 5 songs in your Vault",
   "Track songs from idea to release",
   "Connect Spotify and YouTube to your artist profile",
+  "Streaming royalty calculator",
 ];
 
 export const CARD_PRO_ITEMS = [
