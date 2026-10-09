@@ -89,7 +89,7 @@ export default function MayaDesk() {
   const { user } = useAuth();
   const [activities, setActivities] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [tab, setTab] = useState("queue");
+  const [tab, setTab] = useState("stats");
   const [searching, setSearching] = useState(false);
   const [searchNote, setSearchNote] = useState("");
   const [recsPending, setRecsPending] = useState(0);
