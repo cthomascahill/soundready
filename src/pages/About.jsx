@@ -172,7 +172,7 @@ export default function About() {
             />
             <div className="absolute -top-2 lg:top-6 -left-2 lg:left-auto lg:right-52 -rotate-6 flex flex-col items-center pointer-events-none z-20">
               <p className="font-heading text-2xl sm:text-4xl font-black text-foreground whitespace-nowrap">{t("Meet SAM")}</p>
-              <svg width="110" height="80" viewBox="-11 0 110 80" fill="none" className="text-primary mt-1 -scale-x-100 w-[90px] h-auto sm:w-[110px] sm:h-[80px]">
+              <svg width="110" height="80" viewBox="-11 0 110 80" fill="none" className="text-primary mt-1 w-[90px] h-auto sm:w-[110px] sm:h-[80px]">
                 <path d="M4 6 C 44 10, 76 30, 82 66" stroke="currentColor" strokeWidth="5" strokeLinecap="round" />
                 <path d="M68 62 L 84 74 L 76 52" stroke="currentColor" strokeWidth="5" strokeLinecap="round" strokeLinejoin="round" />
               </svg>
