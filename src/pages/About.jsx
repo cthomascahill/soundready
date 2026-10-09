@@ -119,7 +119,7 @@ export default function About() {
       <section className="relative px-4 pt-28 pb-24 text-center overflow-hidden">
         {/* Soft ambient glows, Too Lost style: oversized blurred color fields behind the hero */}
         <div className="absolute -top-48 -left-48 h-[640px] w-[640px] rounded-full bg-primary/15 blur-[140px] pointer-events-none" />
-        <div className="absolute -top-40 -right-56 h-[560px] w-[560px] rounded-full bg-chart-4/10 blur-[160px] pointer-events-none" />
+        <div className="absolute -top-40 -right-56 h-[560px] w-[560px] rounded-full bg-chart-2/10 blur-[160px] pointer-events-none" />
         <div className="absolute inset-0 bg-gradient-to-b from-transparent via-background/60 to-background pointer-events-none" />
         <motion.div initial={{ opacity: 0, y: 32 }} animate={{ opacity: 1, y: 0 }} className="relative max-w-5xl mx-auto space-y-8">
           <h1 className="font-heading text-6xl sm:text-8xl font-black tracking-tight leading-[0.9]">

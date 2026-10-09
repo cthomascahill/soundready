@@ -85,9 +85,9 @@ export default function SamInActionSection() {
 
       {SAM_DEMO_VIDEO_URL && (
         <motion.div initial={{ opacity: 0, y: 24 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="max-w-4xl mx-auto mt-12 space-y-3">
-          <p className="font-heading font-black text-2xl sm:text-4xl text-center leading-tight">{t("A real walkthrough: SAM automatically pitches a song to a Spotify playlist")}</p>
-          <p className="font-heading text-xl sm:text-3xl font-black text-center">
-            {t("You simply ")}<span className="text-primary">Approve</span> {t("or")} <span className="text-red-400">Deny</span>.
+          <p className="font-heading font-black text-4xl sm:text-6xl text-center leading-tight">{t("Your Manager in Action")}</p>
+          <p className="text-base sm:text-xl text-muted-foreground text-center">
+            {t("Watch SAM automatically pitch a song to a Spotify playlist")}. {t("You simply ")}<span className="text-primary font-semibold">Approve</span> {t("or")} <span className="text-red-400 font-semibold">Deny</span>.
           </p>
           <div aria-hidden="true" className="h-6" />
           <video
