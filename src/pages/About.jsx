@@ -16,6 +16,7 @@ import GrowthComparisonChart from "@/components/home/GrowthComparisonChart";
 import CountUpStat from "@/components/home/CountUpStat";
 import CareerWorkflowSection from "@/components/home/CareerWorkflowSection";
 import SamInActionSection from "@/components/home/SamInActionSection";
+import PlatformShowcaseSection from "@/components/home/PlatformShowcaseSection";
 import MattCormanSection from "@/components/home/MattCormanSection";
 import HeroArtistSearch from "@/components/home/HeroArtistSearch";
 import IncludedSection from "@/components/home/IncludedSection";
@@ -154,6 +155,9 @@ export default function About() {
 
       {/* SAM IN ACTION */}
       <SamInActionSection />
+
+      {/* PLATFORM SHOWCASE */}
+      <PlatformShowcaseSection />
 
       {/* CREATED BY MATT CORMAN */}
       <MattCormanSection />
