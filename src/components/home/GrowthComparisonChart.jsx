@@ -24,13 +24,22 @@ const METRICS = {
   },
 };
 
+// Same three SoundReady scenarios as the artist search chart
+const SCENARIOS = {
+  conservative: { label: "Conservative", factor: 0.49, color: "#86efac" },
+  moderate: { label: "Moderate", factor: 1, color: "#22c55e" },
+  aggressive: { label: "Aggressive", factor: 1.8, color: "#15803d" },
+};
+
 export default function GrowthComparisonChart() {
   const { t } = useLang();
   const [metric, setMetric] = useState("revenue");
 
   const data = MONTHS.map((m, i) => ({
     month: m,
-    with: METRICS[metric].with[i],
+    conservative: Math.round(METRICS[metric].with[i] * SCENARIOS.conservative.factor),
+    moderate: METRICS[metric].with[i],
+    aggressive: Math.round(METRICS[metric].with[i] * SCENARIOS.aggressive.factor),
     without: METRICS[metric].without[i],
   }));
 
@@ -70,16 +79,21 @@ export default function GrowthComparisonChart() {
                 fontSize: "12px",
               }}
               labelStyle={{ color: "hsl(var(--foreground))", fontWeight: 700 }}
-              formatter={(value, name) => [`${value}% ${t("growth")}`, name === "with" ? t("With SoundReady") : t("Doing it alone")]}
+              formatter={(value, name) => [`${value}% ${t("growth")}`, name === "without" ? t("Doing it alone") : `${t("With SoundReady")}: ${t(SCENARIOS[name]?.label || "")}`]}
             />
             <Legend
               formatter={(value) => (
                 <span className="text-xs font-semibold text-foreground">
-                  {value === "with" ? t("Artists using SoundReady") : t("Artists doing it alone")}
+                  {value === "without" ? t("Artists doing it alone") : `${t("Artists using SoundReady")}: ${t(SCENARIOS[value]?.label || "")}`}
                 </span>
               )}
             />
-            <Line type="monotone" dataKey="with" stroke="#22c55e" strokeWidth={3} dot={{ r: 4, fill: "#22c55e" }} />
+            {Object.entries(SCENARIOS).map(([key, s]) => (
+              <Line key={key} type="monotone" dataKey={key}
+                stroke={s.color} strokeWidth={key === "moderate" ? 3 : 2.5}
+                strokeOpacity={key === "moderate" ? 1 : 0.9}
+                dot={{ r: key === "moderate" ? 4 : 3, fill: s.color }} />
+            ))}
             <Line type="monotone" dataKey="without" stroke="#71717a" strokeWidth={2.5} strokeDasharray="6 4" dot={{ r: 3, fill: "#71717a" }} />
           </LineChart>
         </ResponsiveContainer>
