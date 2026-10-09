@@ -26,7 +26,18 @@ export default function TellSam() {
 
   const refresh = useCallback(async () => {
     if (!user?.id) return;
-    const list = await base44.entities.SamTask.filter({ user_id: user.id }, "-created_date", 30).catch(() => []);
+    let list = await base44.entities.SamTask.filter({ user_id: user.id }, "-created_date", 30).catch(() => []);
+    // A run cut off mid-flight (connection dropped, hard timeout) would spin
+    // "working" forever — after 8 minutes, mark it failed so the artist can
+    // retry or narrow it down.
+    const STALE_MS = 8 * 60 * 1000;
+    const staleMsg = "This run was cut off before it finished. Try again, or narrow the task so Sam can finish faster.";
+    const stale = list.filter(t => t.status === "working" && Date.now() - new Date(t.created_date).getTime() > STALE_MS);
+    if (stale.length) {
+      await Promise.allSettled(stale.map(t => base44.entities.SamTask.update(t.id, { status: "failed", error: staleMsg })));
+      const ids = new Set(stale.map(t => t.id));
+      list = list.map(t => (ids.has(t.id) ? { ...t, status: "failed", error: staleMsg } : t));
+    }
     setTasks(list);
     setLoading(false);
   }, [user]);

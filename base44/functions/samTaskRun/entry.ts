@@ -16,6 +16,15 @@ import { SAM_USAGE, getUsageState, estimateTaskUnits, maxTaskUnits, adaptiveTarg
 // instantly from the shared directory, and every newly verified contact is
 // written back into it, so research compounds instead of repeating.
 // Nothing sends here — drafts land as "draft" status for per-draft approval in samTaskDraft.
+// Races a promise against a deadline. Every long AI/network step carries one
+// so the run always finishes (and settles its credits) inside the function's
+// execution window — never killed mid-flight and stuck "working" forever.
+function withTimeout(promise, ms) {
+  let timer;
+  const timeout = new Promise((_, reject) => { timer = setTimeout(() => reject(new Error('timed out')), ms); });
+  return Promise.race([promise, timeout]).finally(() => clearTimeout(timer));
+}
+
 export default async function(req) {
   let base44Ref = null;
   let taskId = null;
@@ -242,7 +251,7 @@ ${poolSection}HOW TO WORK:
 5. "result" is always filled in: "summary" is a one-paragraph answer to the task; "sections" carry the detail (findings, numbers, venue shortlist, estimates, your requirements); "assumptions" lists estimates and assumptions; "sources" lists the web pages you used as {title, url}; "follow_up" is what you suggest the artist does next.
 6. If the task is genuinely ambiguous, make the most reasonable interpretation, state it in "summary", and note what extra info would sharpen the result in "follow_up".`;
 
-    const llm = await base44.integrations.Core.InvokeLLM({
+    const llm = await withTimeout(base44.integrations.Core.InvokeLLM({
       model: 'gemini_3_1_pro',
       prompt,
       add_context_from_internet: true,
@@ -313,7 +322,9 @@ ${poolSection}HOW TO WORK:
         },
         required: ['task_type', 'result'],
       },
-    });
+      }), 240000).catch(() => {
+        throw new Error('The main research pass timed out. Try again, or narrow the task so Sam can finish faster.');
+      });
 
     const outType = ['analysis', 'outreach', 'both'].includes(llm?.task_type) ? llm.task_type : 'analysis';
     let drafts = (llm?.drafts || [])
@@ -370,7 +381,7 @@ ${poolSection}HOW TO WORK:
     // independent, so this cuts the wait roughly in half. Search snippets
     // rarely expose emails; the venue's own booking pages have them.
     const qcPromise = drafts.length
-      ? base44.integrations.Core.InvokeLLM({
+      ? withTimeout(base44.integrations.Core.InvokeLLM({
           model: 'claude-sonnet-5',
           prompt: `You are Sam's quality-control editor. Below are the artist's requirements and the outreach targets Sam drafted. Audit each target strictly against the fit requirements — contact details are verified separately, so ignore them here.
 
@@ -413,7 +424,7 @@ Also return "summary": one short paragraph for the artist, in plain words, descr
             },
             required: ['audit'],
           },
-        }).catch(err => {
+        }), 90000).catch(err => {
           console.log('samTaskRun QC pass skipped:', err?.message || err);
           return null;
         })
@@ -449,10 +460,10 @@ Also return "summary": one short paragraph for the artist, in plain words, descr
     // falling back to a submission page. Only an email that is verifiably the
     // target's own is accepted — never a guess.
     let fallbackRan = false;
-    const stillMissing = drafts.filter(d => !d.target_email);
+    const stillMissing = drafts.filter(d => !d.target_email).slice(0, 6);
     if (stillMissing.length) {
       fallbackRan = true;
-      const fallback = await base44.integrations.Core.InvokeLLM({
+      const fallback = await withTimeout(base44.integrations.Core.InvokeLLM({
         model: 'gemini_3_1_pro',
         add_context_from_internet: true,
         prompt: `You are finding publicly listed booking/contact emails for music venues and music companies. For EACH target below, search the web and return the booking or contact email that the target itself publishes on its own official website, booking page or contact page.
@@ -482,7 +493,7 @@ ${stillMissing.map(d => `- ${d.target_name}${d.target_location ? ` (${d.target_l
           },
           required: ['contacts'],
         },
-      }).catch(err => {
+      }), 75000).catch(err => {
         console.log('samTaskRun email fallback skipped:', err?.message || err);
         return null;
       });

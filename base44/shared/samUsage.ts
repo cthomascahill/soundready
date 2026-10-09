@@ -174,7 +174,13 @@ export function computeFeatureBreakdown(events, monthStart = monthStartISO()) {
 }
 
 export function computeUsageState(events, addOns, monthStart = monthStartISO(), included = SAM_USAGE.monthlyIncluded, aiManager = true) {
-  const active = (events || []).filter(e => ['reserved', 'settled'].includes(e.status));
+  // A run killed mid-flight never settles its reservation. Treat a reservation
+  // as released after 20 minutes so a crashed task can't eat the balance forever.
+  const RESERVE_TTL_MS = 20 * 60 * 1000;
+  const now = Date.now();
+  const active = (events || []).filter(e =>
+    e.status === 'settled' ||
+    (e.status === 'reserved' && now - new Date(e.created_date).getTime() < RESERVE_TTL_MS));
   const inMonth = active.filter(e => e.created_date >= monthStart);
   const includedUsed = inMonth.filter(e => e.covered_by !== 'addon').reduce((s, e) => s + (e.units || 0), 0);
   const addonUsed = active.filter(e => e.covered_by === 'addon').reduce((s, e) => s + (e.units || 0), 0);
