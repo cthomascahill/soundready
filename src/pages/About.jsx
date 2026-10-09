@@ -159,11 +159,11 @@ export default function About() {
       {/* SAM IN ACTION */}
       <SamInActionSection />
 
-      {/* CREATED BY MATT CORMAN */}
-      <MattCormanSection />
-
       {/* PLATFORM SHOWCASE */}
       <PlatformShowcaseSection />
+
+      {/* CREATED BY MATT CORMAN */}
+      <MattCormanSection />
 
       {/* THE WEEKLY LOOP */}
       <CareerWorkflowSection />
