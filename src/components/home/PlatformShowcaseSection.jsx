@@ -35,8 +35,12 @@ const FEATURES = [
 export default function PlatformShowcaseSection() {
   const { t } = useLang();
   return (
-    <section className="px-4 py-24">
-      <div className="max-w-5xl mx-auto space-y-14">
+    <section className="relative px-4 py-24 overflow-hidden">
+      {/* Soft ambient gradient glows behind the screenshots */}
+      <div className="absolute top-1/4 -left-64 h-[620px] w-[620px] rounded-full bg-primary/15 blur-[150px] pointer-events-none" />
+      <div className="absolute -bottom-40 -right-64 h-[560px] w-[560px] rounded-full bg-chart-2/10 blur-[160px] pointer-events-none" />
+      <div className="absolute inset-0 bg-gradient-to-b from-background via-transparent to-background pointer-events-none" />
+      <div className="relative max-w-5xl mx-auto space-y-14">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
