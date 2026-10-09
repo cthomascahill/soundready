@@ -179,10 +179,14 @@ export default function About() {
 
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-5">
             {TIERS.map((tier, i) => (
-              <motion.div key={tier.name}
+              <div className="relative h-full">
+                <div className={`absolute -inset-4 rounded-3xl blur-3xl pointer-events-none ${
+                  tier.name === "AI Manager" ? "bg-primary/25" : tier.name === "Artist Pro" ? "bg-chart-5/20" : "bg-chart-2/15"
+                }`} />
+                <motion.div key={tier.name}
                 initial={{ opacity: 0, y: 24 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}
                 transition={{ delay: i * 0.12 }}
-                className={`relative rounded-2xl border p-6 flex flex-col bg-card ${
+                className={`relative h-full rounded-2xl border p-6 flex flex-col bg-card ${
                   tier.name === "AI Manager" ? "ring-2 ring-primary/60 shadow-2xl shadow-primary/10" :
                   tier.name === "Artist Pro" ? "ring-2 ring-chart-5/40 shadow-xl" : ""
                 } ${tier.border}`}>
@@ -234,6 +238,7 @@ export default function About() {
                 {tier.subtext && <p className="text-center text-sm text-muted-foreground mt-2">{t(tier.subtext)}</p>}
                 {tier.smallPrint && <p className="text-center text-xs text-muted-foreground mt-1 leading-relaxed">{t(tier.smallPrint)}</p>}
               </motion.div>
+              </div>
             ))}
           </div>
         </div>

@@ -58,15 +58,15 @@ export default function PlatformShowcaseSection() {
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-8 items-start">
           {SHOTS.map((shot, i) => (
-            <div key={shot.src} className="relative">
-              {/* Neon outer glow behind the card, Too Lost style */}
-              <div className="absolute -inset-6 rounded-3xl bg-primary/25 blur-3xl pointer-events-none" />
+            <div key={shot.src} className="relative group">
+              {/* Neon outer glow behind the card, Too Lost style; brightens on hover */}
+              <div className="absolute -inset-6 rounded-3xl bg-primary/25 blur-3xl pointer-events-none transition-colors duration-300 group-hover:bg-primary/40" />
               <motion.figure
                 initial={{ opacity: 0, y: 32 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ delay: i * 0.12 }}
-                className={`relative rounded-2xl border border-primary/30 bg-card overflow-hidden ring-1 ring-primary/40 shadow-[0_25px_90px_-20px_rgba(74,222,128,0.45)] ${shot.tilt} lg:hover:rotate-0 transition-transform duration-300`}
+                className={`relative rounded-2xl border border-primary/30 bg-card overflow-hidden ring-1 ring-primary/40 shadow-[0_25px_90px_-20px_rgba(74,222,128,0.45)] ${shot.tilt} lg:hover:rotate-0 hover:-translate-y-2 hover:scale-[1.02] transition-transform duration-300 ease-out`}
               >
               <img src={shot.src} alt={shot.alt} className="w-full" />
               <figcaption className="p-5 space-y-1 border-t border-border">
