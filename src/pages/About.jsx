@@ -128,7 +128,7 @@ export default function About() {
             <p className="font-heading text-3xl sm:text-5xl font-black text-foreground tracking-tight">
               {t("Search your artist name now")}
             </p>
-            <ArrowDown className="h-7 w-7 text-foreground animate-bounce mt-2" />
+            <ArrowDown className="h-7 w-7 text-foreground animate-bounce" />
           </div>
 
           <HeroArtistSearch />
