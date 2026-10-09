@@ -13,6 +13,7 @@ import Register from './pages/Register';
 import ForgotPassword from './pages/ForgotPassword';
 import ResetPassword from './pages/ResetPassword';
 import ProtectedRoute from '@/components/ProtectedRoute';
+import ScrollToTop from '@/components/ScrollToTop';
 import { Navigate } from 'react-router-dom';
 import Results from './pages/Results';
 import History from './pages/History';
@@ -198,6 +199,7 @@ function App() {
         <LanguageProvider>
         <QueryClientProvider client={queryClientInstance}>
           <Router>
+            <ScrollToTop />
             <AuthenticatedApp />
           </Router>
           <Toaster />
