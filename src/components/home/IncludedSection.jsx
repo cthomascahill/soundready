@@ -43,17 +43,17 @@ export default function IncludedSection() {
           <p className="text-lg text-muted-foreground">{t("Every tool. One login.")}</p>
         </motion.div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 max-w-4xl mx-auto">
+        <div className="grid grid-cols-3 gap-3 sm:gap-4 max-w-4xl mx-auto">
           {BENEFITS.map((b, i) => (
             <motion.div key={b.title}
               initial={{ opacity: 0, y: 16 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}
               transition={{ delay: i * 0.1 }}
-              className="p-6 space-y-3">
-              <div className="h-11 w-11 flex items-center justify-center">
-                <b.icon className="h-5 w-5 text-primary" />
+              className="p-3 sm:p-6 space-y-2 sm:space-y-3">
+              <div className="h-8 w-8 sm:h-11 sm:w-11 flex items-center justify-center">
+                <b.icon className="h-4 w-4 sm:h-5 sm:w-5 text-primary" />
               </div>
-              <p className="font-heading font-black text-xl">{t(b.title)}</p>
-              <p className="text-sm text-muted-foreground leading-relaxed">{t(b.desc)}</p>
+              <p className="font-heading font-black text-sm sm:text-xl leading-snug">{t(b.title)}</p>
+              <p className="text-xs sm:text-sm text-muted-foreground leading-relaxed">{t(b.desc)}</p>
             </motion.div>
           ))}
         </div>
@@ -63,7 +63,7 @@ export default function IncludedSection() {
           initial={{ opacity: 0, y: 16 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          className="max-w-4xl mx-auto p-8 space-y-5 text-center"
+          className="max-w-4xl mx-auto p-4 sm:p-8 space-y-5 text-center"
         >
           <div className="space-y-1.5">
             <h3 className="font-heading text-2xl font-bold">{ALL_TOOLS.length} {t("tools. One login.")}</h3>

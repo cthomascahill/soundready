@@ -38,7 +38,7 @@ export default function CareerWorkflowSection() {
           <p className="text-xs text-primary uppercase tracking-widest font-bold">{t("How It Works")}</p>
           <h2 className="font-heading text-4xl sm:text-5xl font-bold">{t("Four simple steps")}</h2>
         </motion.div>
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 lg:gap-5">
           {STEPS.map((s, i) => (
             <motion.div
               key={s.title}
@@ -46,18 +46,18 @@ export default function CareerWorkflowSection() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ delay: i * 0.08 }}
-              className="p-8 space-y-4"
+              className="p-4 sm:p-8 space-y-3 sm:space-y-4"
             >
               <div className="flex items-center justify-between">
-                <div className="h-12 w-12 rounded-xl bg-secondary border border-border flex items-center justify-center">
-                  <s.icon className={`h-6 w-6 ${s.color}`} />
+                <div className="h-9 w-9 sm:h-12 sm:w-12 rounded-xl bg-secondary border border-border flex items-center justify-center">
+                  <s.icon className={`h-4 w-4 sm:h-6 sm:w-6 ${s.color}`} />
                 </div>
-                <span className="font-heading text-2xl font-black text-muted-foreground/40">
+                <span className="font-heading text-base sm:text-2xl font-black text-muted-foreground/40">
                   {String(i + 1).padStart(2, "0")}
                 </span>
               </div>
-              <p className="font-heading font-bold text-lg leading-snug">{t(s.title)}</p>
-              <p className="text-sm text-muted-foreground leading-relaxed">{t(s.desc)}</p>
+              <p className="font-heading font-bold text-sm sm:text-lg leading-snug">{t(s.title)}</p>
+              <p className="text-xs sm:text-sm text-muted-foreground leading-relaxed">{t(s.desc)}</p>
             </motion.div>
           ))}
         </div>

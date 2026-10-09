@@ -24,7 +24,7 @@ const GROWTH_DATA = [
 
 // Small green growth curve between the two profiles
 const GrowthChart = () => (
-  <div className="w-full sm:w-48 lg:w-56 h-24 sm:h-28 shrink-0">
+  <div className="w-14 sm:w-48 lg:w-56 h-10 sm:h-28 shrink-0">
     <ResponsiveContainer width="100%" height="100%">
       <AreaChart data={GROWTH_DATA} margin={{ top: 4, right: 4, bottom: 0, left: 4 }}>
         <defs>
@@ -53,7 +53,7 @@ export default function MattCormanSection() {
 
   const shot = (img, alt, label, highlight) => (
     <div className="flex-1 min-w-0">
-      <p className={`text-center mb-3 font-heading text-2xl sm:text-3xl font-black tracking-tight ${highlight ? "text-primary" : "text-foreground"}`}>
+      <p className={`text-center mb-1 sm:mb-3 font-heading text-sm sm:text-3xl font-black tracking-tight ${highlight ? "text-primary" : "text-foreground"}`}>
         {t(label)}
       </p>
       <div className={`rounded-2xl border overflow-hidden shadow-xl ${highlight ? "border-primary/40 ring-2 ring-primary/30" : "border-border"}`}>
@@ -87,13 +87,14 @@ export default function MattCormanSection() {
           initial={{ opacity: 0, y: 24 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          className="flex flex-col sm:flex-row items-center gap-8 sm:gap-10 lg:gap-16"
+          className="flex flex-row items-center gap-2 sm:gap-10 lg:gap-16"
         >
           {shot(BEFORE_IMG, "Matt Corman's Spotify profile with 54,647 monthly listeners", "From this", false)}
 
-          <div className="flex flex-col items-center gap-3 shrink-0">
-            <p className="font-heading text-xl sm:text-2xl font-black text-primary whitespace-nowrap">
-              {t("+1,000,000 monthly listeners")}
+          <div className="flex flex-col items-center gap-1 sm:gap-3 shrink-0">
+            <p className="font-heading text-[9px] sm:text-2xl font-black text-primary text-center leading-tight sm:whitespace-nowrap">
+              <span className="sm:hidden">+1M monthly listeners</span>
+              <span className="hidden sm:inline">{t("+1,000,000 monthly listeners")}</span>
             </p>
             <GrowthChart />
           </div>

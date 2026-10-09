@@ -13,53 +13,53 @@ export default function SamInActionSection() {
   const { t } = useLang();
   return (
     <section id="sam-in-action" className="px-4 py-24 border-t border-border scroll-mt-20">
-      <div className="max-w-5xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+      <div className="max-w-5xl mx-auto grid grid-cols-2 gap-4 lg:gap-12 items-center">
         <motion.div initial={{ opacity: 0, x: -24 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }} className="space-y-5 order-2 lg:order-1">
           <p className="text-xs text-primary uppercase tracking-wider font-bold">{t("SAM In Action")}</p>
-          <h2 className="font-heading text-4xl sm:text-5xl font-bold leading-tight">
+          <h2 className="font-heading text-xl sm:text-4xl lg:text-5xl font-bold leading-tight">
             {t("SAM finds opportunities and writes the pitches. ")}
             <span className="text-primary font-black">{t("You approve. SAM sends.")}</span>
           </h2>
         </motion.div>
         <motion.div initial={{ opacity: 0, x: 24 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }} className="relative order-1 lg:order-2">
           <div className="mb-3 sm:-mt-10 lg:-mt-14 relative z-20">
-            <p className="font-heading text-5xl sm:text-6xl font-black uppercase tracking-tight text-foreground leading-none">
+            <p className="font-heading text-2xl sm:text-5xl lg:text-6xl font-black uppercase tracking-tight text-foreground leading-none">
               {t("Example")}
             </p>
-            <p className="text-sm text-muted-foreground mt-1">{t("of your AI manager at work")}</p>
+            <p className="text-[10px] sm:text-sm text-muted-foreground mt-1">{t("of your AI manager at work")}</p>
           </div>
           <img
             src={SAM_IMG}
             alt="SAM, the SoundReady AI manager robot"
-            className="absolute -top-12 -right-2 sm:-right-6 h-16 w-auto drop-shadow-xl z-10 pointer-events-none"
+            className="absolute -top-12 -right-2 sm:-right-6 h-10 sm:h-16 w-auto drop-shadow-xl z-10 pointer-events-none"
           />
-          <div className="rounded-2xl border border-border bg-card p-5 space-y-4 shadow-xl">
+          <div className="rounded-2xl border border-border bg-card p-3 sm:p-5 space-y-3 sm:space-y-4 shadow-xl">
             <div className="flex items-center gap-2 pb-2 border-b border-border">
-              <Bot className="h-4 w-4 text-primary" />
-              <p className="font-heading font-bold text-sm">{t("SAM's Desk")}</p>
-              <span className="ml-auto text-[10px] font-bold uppercase tracking-widest text-primary bg-primary/10 border border-primary/20 rounded-full px-2 py-0.5">
+              <Bot className="h-3 w-3 sm:h-4 sm:w-4 text-primary" />
+              <p className="font-heading font-bold text-xs sm:text-sm">{t("SAM's Desk")}</p>
+              <span className="ml-auto text-[8px] sm:text-[10px] font-bold uppercase tracking-widest text-primary bg-primary/10 border border-primary/20 rounded-full px-2 py-0.5">
                 {t("This week")}
               </span>
             </div>
 
-            <div className="rounded-xl border border-border bg-secondary/40 p-4 space-y-3">
-              <span className="inline-flex items-center gap-1 text-[10px] font-bold uppercase tracking-widest text-primary">
+            <div className="rounded-xl border border-border bg-secondary/40 p-2.5 sm:p-4 space-y-2 sm:space-y-3">
+              <span className="inline-flex items-center gap-1 text-[8px] sm:text-[10px] font-bold uppercase tracking-widest text-primary">
                 <Sparkles className="h-3 w-3" /> {t("Playlist pitch")}
               </span>
-              <p className="font-heading font-bold text-sm">{t('Pitch "Midnight Drive" to Chill Vibes Daily (482k followers)')}</p>
-              <div className="rounded-lg bg-background border border-border p-3 text-[11px] text-muted-foreground leading-relaxed">
+              <p className="font-heading font-bold text-xs sm:text-sm leading-snug">{t('Pitch "Midnight Drive" to Chill Vibes Daily (482k followers)')}</p>
+              <div className="rounded-lg bg-background border border-border p-2 sm:p-3 text-[9px] sm:text-[11px] text-muted-foreground leading-snug sm:leading-relaxed">
                 <span className="font-semibold text-foreground">Subject:</span> "Midnight Drive", a late-night lo-fi cut for Chill Vibes Daily
                 <br />
                 Hi Sofia, "Midnight Drive" has been climbing in Germany...
               </div>
               <div className="flex flex-wrap gap-2">
-                <Button size="sm" className="h-8 gap-1.5">
+                <Button size="sm" className="h-8 gap-1.5 px-2 sm:px-3 text-[9px] sm:text-xs">
                   <Send className="h-3.5 w-3.5" /> {t("Approve & send")}
                 </Button>
-                <Button size="sm" variant="outline" className="h-8 gap-1.5">
+                <Button size="sm" variant="outline" className="h-8 gap-1.5 px-2 sm:px-3 text-[9px] sm:text-xs">
                   <Pencil className="h-3.5 w-3.5" /> {t("Edit")}
                 </Button>
-                <Button size="sm" variant="ghost" className="h-8 gap-1.5 text-muted-foreground">
+                <Button size="sm" variant="ghost" className="h-8 gap-1.5 px-2 sm:px-3 text-[9px] sm:text-xs text-muted-foreground">
                   <X className="h-3.5 w-3.5" /> {t("Deny")}
                 </Button>
               </div>

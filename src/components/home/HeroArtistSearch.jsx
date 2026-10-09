@@ -47,22 +47,29 @@ export default function HeroArtistSearch() {
 
   return (
     <div className="max-w-3xl mx-auto space-y-4">
-      <form onSubmit={search} className="flex gap-2">
+      <form onSubmit={search} className="flex gap-1.5 sm:gap-2">
         <div className="relative flex-1">
-          <Search className="absolute left-4 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+          <Search className="absolute left-3 sm:left-4 top-1/2 -translate-y-1/2 h-3.5 w-3.5 sm:h-4 sm:w-4 text-muted-foreground" />
           <input
             value={name}
             onChange={(e) => setName(e.target.value)}
             placeholder={t("Search your artist name")}
-            className="w-full h-12 pl-11 pr-4 rounded-xl bg-card border border-border text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/50"
+            className="w-full h-10 sm:h-12 pl-9 sm:pl-11 pr-2 sm:pr-4 rounded-xl bg-card border border-border text-xs sm:text-base text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/50"
             disabled={loading}
           />
         </div>
-        <Button type="submit" size="lg" className="h-12 px-6 font-heading font-bold shrink-0" disabled={!ready}>
-          {loading ? <Loader2 className="h-4 w-4 animate-spin" /> : t("See my growth")}
+        <Button type="submit" size="lg" className="h-10 sm:h-12 px-3 sm:px-6 font-heading font-bold shrink-0 text-xs sm:text-base" disabled={!ready}>
+          {loading ? (
+            <Loader2 className="h-4 w-4 animate-spin" />
+          ) : (
+            <>
+              <Search className="h-4 w-4 sm:hidden" />
+              <span className="hidden sm:inline">{t("See my growth")}</span>
+            </>
+          )}
         </Button>
       </form>
-      <p className="text-xs text-muted-foreground text-center">{t("Find your Spotify numbers and see your 12-month projection.")}</p>
+      <p className="text-[10px] sm:text-xs text-muted-foreground text-center">{t("Find your Spotify numbers and see your 12-month projection.")}</p>
 
       {error && !loading && (
         <p className="text-sm text-red-400 text-center">{error}</p>
