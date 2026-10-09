@@ -125,33 +125,59 @@ export default function About() {
         <div className="absolute -top-48 -left-48 h-[640px] w-[640px] rounded-full bg-primary/15 blur-[140px] pointer-events-none" />
         <div className="absolute -top-40 -right-56 h-[560px] w-[560px] rounded-full bg-chart-2/10 blur-[160px] pointer-events-none" />
         <div className="absolute inset-0 bg-gradient-to-b from-transparent via-background/60 to-background pointer-events-none" />
-        <motion.div initial={{ opacity: 0, y: 32 }} animate={{ opacity: 1, y: 0 }} className="relative max-w-5xl mx-auto space-y-8">
-          <h1 className="font-heading text-6xl sm:text-8xl font-black tracking-tight leading-[0.9]">
-            {t("Your own AI")}<br />
-            <span className="text-primary">{t("music manager")}</span>
-          </h1>
+        <motion.div initial={{ opacity: 0, y: 32 }} animate={{ opacity: 1, y: 0 }} className="relative max-w-6xl mx-auto grid lg:grid-cols-[1.15fr_1fr] items-center gap-8">
+          {/* Hero copy */}
+          <div className="space-y-8 text-center lg:text-left">
+            <h1 className="font-heading text-6xl sm:text-8xl font-black tracking-tight leading-[0.9]">
+              {t("Your own AI")}<br />
+              <span className="text-primary">{t("music manager")}</span>
+            </h1>
 
-          <div className="flex flex-col items-center gap-2">
-            <p className="font-heading text-3xl sm:text-5xl font-black text-foreground tracking-tight">
-              {t("Search your artist name now")}
-            </p>
-            <ArrowDown className="h-7 w-7 text-foreground animate-bounce" />
-          </div>
+            <div className="flex flex-col items-center gap-2 lg:items-start">
+              <p className="font-heading text-3xl sm:text-5xl font-black text-foreground tracking-tight">
+                {t("Search your artist name now")}
+              </p>
+              <ArrowDown className="h-7 w-7 text-foreground animate-bounce" />
+            </div>
 
-          <HeroArtistSearch />
+            <HeroArtistSearch />
 
-          <div className="flex flex-col sm:flex-row items-center justify-center gap-3 pt-2">
-            <Button size="lg" className="gap-2 font-heading font-bold text-base px-8 h-12" onClick={handleCTA}>
-              {t("Start")} <ArrowRight className="h-4 w-4" />
-            </Button>
-            <a href="#sam-in-action">
-              <Button size="lg" variant="outline" className="gap-2 font-heading font-bold text-base px-8 h-12">
-                {t("See How SAM Works")}
+            <div className="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-3 pt-2">
+              <Button size="lg" className="gap-2 font-heading font-bold text-base px-8 h-12" onClick={handleCTA}>
+                {t("Start")} <ArrowRight className="h-4 w-4" />
               </Button>
-            </a>
+              <a href="#sam-in-action">
+                <Button size="lg" variant="outline" className="gap-2 font-heading font-bold text-base px-8 h-12">
+                  {t("See How SAM Works")}
+                </Button>
+              </a>
+            </div>
+
+            <p className="text-sm text-muted-foreground">{t("Start free. No contracts. No percentage cuts, ever.")}</p>
           </div>
 
-          <p className="text-sm text-muted-foreground">{t("Start free. No contracts. No percentage cuts, ever.")}</p>
+          {/* SAM mascot, big on the right, floating */}
+          <div className="relative flex justify-center lg:justify-end pt-8 lg:pt-0">
+            <motion.img
+              src="https://media.base44.com/images/public/69dcf0ecc907e43a438a626b/d124f0929_generated_f10ed4b3.png"
+              alt="SAM, the SoundReady AI music manager robot mascot"
+              className="h-72 sm:h-96 lg:h-[440px] w-auto drop-shadow-[0_24px_60px_rgba(34,197,94,0.25)]"
+              initial={{ opacity: 0, x: 24 }}
+              animate={{ opacity: 1, x: 0, y: [0, -14, 0] }}
+              transition={{
+                opacity: { duration: 0.6 },
+                x: { duration: 0.6 },
+                y: { repeat: Infinity, duration: 4, ease: "easeInOut" }
+              }}
+            />
+            <div className="absolute -top-1 lg:-top-4 lg:-left-24 -rotate-6 flex flex-col items-start pointer-events-none">
+              <p className="font-heading text-3xl sm:text-4xl font-black text-foreground whitespace-nowrap">{t("Meet SAM")}</p>
+              <svg width="84" height="64" viewBox="0 0 84 64" fill="none" className="text-primary -mt-1 ml-3">
+                <path d="M6 6 C 30 14, 56 28, 68 58" stroke="currentColor" strokeWidth="4" strokeLinecap="round" />
+                <path d="M56 54 L 70 62 L 64 46" stroke="currentColor" strokeWidth="4" strokeLinecap="round" strokeLinejoin="round" />
+              </svg>
+            </div>
+          </div>
         </motion.div>
 
       </section>
