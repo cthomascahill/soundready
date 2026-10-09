@@ -302,11 +302,10 @@ export default function Pricing() {
 
       {/* THE MATH */}
       <section className="px-4 pb-16">
-        <div className="max-w-3xl mx-auto">
+        <div className="max-w-6xl mx-auto">
           <div className="relative">
-            <div className="absolute -inset-6 rounded-3xl bg-primary/15 blur-3xl pointer-events-none" />
             <motion.div initial={{ opacity: 0, y: 16 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}
-            className="relative rounded-2xl bg-secondary border border-primary/25 ring-1 ring-primary/25 shadow-xl shadow-primary/15 p-8 text-center space-y-5">
+            className="relative rounded-2xl bg-secondary border border-border shadow-xl p-8 text-center space-y-5">
             <ShieldCheck className="h-8 w-8 text-primary mx-auto" />
             <h3 className="font-heading text-2xl font-bold">The math doesn't lie</h3>
             <div className="grid grid-cols-2 gap-4 text-center max-w-md mx-auto">
