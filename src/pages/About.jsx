@@ -36,6 +36,7 @@ const TIERS = [
       "Store up to 5 songs in your Vault",
       "Track songs from idea to release",
       "Connect Spotify and YouTube to your artist profile",
+      "Streaming royalty calculator",
     ],
     cta: "Start Free",
     checkout: "/checkout/free",
