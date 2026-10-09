@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { useSearchParams, useNavigate, Link } from "react-router-dom";
 import {
-  CheckCircle2, ArrowRight, Zap, Users, Bot, Sparkles, Flame, ShieldCheck,
+  CheckCircle2, ArrowRight, Zap, Users, Bot, Sparkles, ShieldCheck,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { base44 } from "@/api/base44Client";
@@ -114,17 +114,12 @@ export default function Pricing() {
         <div className="absolute -top-40 -right-56 h-[560px] w-[560px] rounded-full bg-chart-2/10 blur-[160px] pointer-events-none" />
         <div className="absolute inset-0 bg-gradient-to-b from-transparent via-background/60 to-background pointer-events-none" />
         <motion.div initial={{ opacity: 0, y: 24 }} animate={{ opacity: 1, y: 0 }} className="relative max-w-4xl mx-auto space-y-4">
-          <motion.div initial={{ opacity: 0, scale: 0.9 }} animate={{ opacity: 1, scale: 1 }} transition={{ delay: 0.1 }}
-            className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/10 border border-primary/30 text-primary text-xs font-bold tracking-wider uppercase">
-            <Flame className="h-3.5 w-3.5" />
-            Built for independent artists
-          </motion.div>
           <h1 className="font-heading text-4xl sm:text-5xl font-black tracking-tight leading-[0.95]">
             Meet SAM<br />
             <span className="text-primary">Your AI manager</span><br />
             <span className="text-primary">$59 a month for the first 100 artists</span>
           </h1>
-          <p className="text-base sm:text-lg text-muted-foreground leading-relaxed max-w-2xl mx-auto">
+          <p className="text-sm sm:text-base text-muted-foreground leading-relaxed max-w-xl mx-auto">
             SAM finds opportunities and drafts pitches for you every week, and nothing sends without your approval. Your Vault, Tracker and the full toolkit come with it.
           </p>
           {!isAuth && (
