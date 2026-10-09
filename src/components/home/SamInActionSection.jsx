@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import { Bot, Pencil, X, Send, Sparkles, CalendarDays, ArrowRight } from "lucide-react";
+import { Bot, Pencil, X, Send, Sparkles, ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import MacVideoWindow from "@/components/home/MacVideoWindow";
 import { useLang } from "@/lib/i18n/LanguageContext";
@@ -20,9 +20,6 @@ export default function SamInActionSection() {
             {t("SAM finds opportunities and writes the pitches. ")}
             <span className="text-primary font-black">{t("You approve. SAM sends.")}</span>
           </h2>
-          <p className="text-lg text-muted-foreground leading-relaxed">
-            {t("This is SAM's Desk: a finished pitch, researched and drafted from your real numbers, waiting for your decision.")}
-          </p>
         </motion.div>
         <motion.div initial={{ opacity: 0, x: 24 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }} className="relative order-1 lg:order-2">
           <div className="mb-3 sm:-mt-10 lg:-mt-14 relative z-20">
@@ -47,16 +44,13 @@ export default function SamInActionSection() {
 
             <div className="rounded-xl border border-border bg-secondary/40 p-4 space-y-3">
               <span className="inline-flex items-center gap-1 text-[10px] font-bold uppercase tracking-widest text-primary">
-                <Sparkles className="h-3 w-3" /> {t("Playlist pitch · drafted from your Spotify data")}
+                <Sparkles className="h-3 w-3" /> {t("Playlist pitch")}
               </span>
               <p className="font-heading font-bold text-sm">{t('Pitch "Midnight Drive" to Chill Vibes Daily (482k followers)')}</p>
-              <p className="text-sm text-muted-foreground leading-relaxed">
-                {t("Streams up 34% in two weeks. 62% of listeners in Germany, a direct audience match. Drafted in your voice.")}
-              </p>
               <div className="rounded-lg bg-background border border-border p-3 text-[11px] text-muted-foreground leading-relaxed">
                 <span className="font-semibold text-foreground">Subject:</span> "Midnight Drive", a late-night lo-fi cut for Chill Vibes Daily
-                <br /><br />
-                Hi Sofia, I'm Nova, an indie electronic artist. "Midnight Drive" has been quietly climbing in Germany...
+                <br />
+                Hi Sofia, "Midnight Drive" has been climbing in Germany...
               </div>
               <div className="flex flex-wrap gap-2">
                 <Button size="sm" className="h-8 gap-1.5">
@@ -70,29 +64,19 @@ export default function SamInActionSection() {
                 </Button>
               </div>
             </div>
-
-            <div className="rounded-xl border border-border p-3 flex items-center gap-3">
-              <CalendarDays className="h-4 w-4 text-chart-4 shrink-0" />
-              <p className="text-sm text-muted-foreground">
-                {t("Also on the desk: a tour-opening pitch for your Berlin date, Nov 14.")}
-              </p>
-            </div>
-            <p className="text-xs text-muted-foreground text-center">
-              {t("Illustrative example: SAM's Desk shows your real drafts, built from your real numbers.")}
-            </p>
           </div>
         </motion.div>
       </div>
 
       {SAM_DEMO_VIDEO_URL && (
-        <motion.div initial={{ opacity: 0, y: 24 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="max-w-4xl mx-auto mt-12 space-y-3">
+        <motion.div initial={{ opacity: 0, y: 24 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="max-w-4xl mx-auto mt-24 space-y-3">
           <p className="font-heading font-black text-4xl sm:text-6xl text-center leading-tight">{t("Your Manager in Action")}</p>
           <p className="text-base sm:text-xl text-muted-foreground text-center">
             {t("Watch SAM automatically pitch a song to a Spotify playlist")}. {t("You simply ")}<span className="text-primary font-semibold">Approve</span> {t("or")} <span className="text-red-400 font-semibold">Deny</span>.
           </p>
           <div aria-hidden="true" className="h-6" />
-          <MacVideoWindow videoUrl={SAM_DEMO_VIDEO_URL} title="SAM's Desk" className="mb-14" />
-          <div className="flex justify-center">
+          <MacVideoWindow videoUrl={SAM_DEMO_VIDEO_URL} title="SAM's Desk" />
+          <div className="flex justify-center pt-14">
             <a href="#pricing">
               <Button size="lg" className="gap-2 font-heading font-bold text-base px-10 h-12">
                 {t("Start")} <ArrowRight className="h-4 w-4" />
