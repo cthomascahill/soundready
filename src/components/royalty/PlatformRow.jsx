@@ -20,10 +20,9 @@ export default function PlatformRow({ platform, streams, onChange }) {
         <p className="text-xs text-muted-foreground">${platform.rate.toFixed(4)} per stream</p>
       </div>
       <Input
-        type="number"
-        min="0"
+        type="text"
         inputMode="numeric"
-        value={streams}
+        value={streams ? Number(streams).toLocaleString("en-US") : ""}
         onChange={(e) => onChange(platform.id, e.target.value)}
         placeholder="0"
         className="w-32 text-right bg-secondary/60 border-border [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
