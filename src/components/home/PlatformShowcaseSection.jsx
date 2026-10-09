@@ -32,6 +32,7 @@ const SHOTS = [
     caption: "Sam's impact, in numbers",
     blurb: "Every email, pitch and piece of advice Sam has produced for you, tallied on one board.",
     tilt: "lg:-rotate-1",
+    span: "md:col-span-2",
   },
 ];
 
@@ -50,7 +51,7 @@ export default function PlatformShowcaseSection() {
       <div className="absolute top-1/4 -left-64 h-[620px] w-[620px] rounded-full bg-primary/15 blur-[150px] pointer-events-none" />
       <div className="absolute -bottom-40 -right-64 h-[560px] w-[560px] rounded-full bg-chart-2/10 blur-[160px] pointer-events-none" />
       <div className="absolute inset-0 bg-gradient-to-b from-background via-transparent to-background pointer-events-none" />
-      <div className="relative max-w-5xl mx-auto space-y-14">
+      <div className="relative max-w-6xl mx-auto space-y-14">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -66,9 +67,9 @@ export default function PlatformShowcaseSection() {
           </p>
         </motion.div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10 lg:gap-6 items-start">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-10 lg:gap-8 items-start">
           {SHOTS.map((shot, i) => (
-            <div key={shot.src} className="relative group">
+            <div key={shot.src} className={`relative group ${shot.span || ""}`}>
               {/* Neon outer glow behind the card, Too Lost style; brightens on hover */}
               <div className="absolute -inset-6 rounded-3xl bg-primary/25 blur-3xl pointer-events-none transition-colors duration-300 group-hover:bg-primary/40" />
               <motion.figure
