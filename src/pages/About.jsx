@@ -170,7 +170,7 @@ export default function About() {
                 y: { repeat: Infinity, duration: 4, ease: "easeInOut" }
               }}
             />
-            <div className="absolute -top-2 lg:top-2 -left-2 lg:-left-20 -rotate-6 flex flex-col items-start pointer-events-none">
+            <div className="absolute -top-2 lg:top-6 -left-2 lg:left-auto lg:right-52 -rotate-6 flex flex-col items-start pointer-events-none z-20">
               <p className="font-heading text-2xl sm:text-4xl font-black text-foreground whitespace-nowrap">{t("Meet SAM")}</p>
               <svg width="110" height="80" viewBox="0 0 110 80" fill="none" className="text-primary -mt-3 -ml-1 w-[90px] h-auto sm:w-[110px] sm:h-[80px]">
                 <path d="M4 6 C 44 10, 76 30, 82 66" stroke="currentColor" strokeWidth="5" strokeLinecap="round" />
