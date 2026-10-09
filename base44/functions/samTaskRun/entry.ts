@@ -12,8 +12,10 @@ import { SAM_USAGE, getUsageState, estimateTaskUnits, maxTaskUnits, adaptiveTarg
 // followed by two passes that run in PARALLEL: a booking-email hunt on each
 // target's own website (with a live-web fallback for targets still missing an
 // email — never a guessed address) and a quality-control audit that flags or
-// excludes drafts that break the artist's requirements. Nothing sends here —
-// drafts land as "draft" status for per-draft approval in samTaskDraft.
+// excludes drafts that break the artist's requirements. Known venues answer
+// instantly from the shared directory, and every newly verified contact is
+// written back into it, so research compounds instead of repeating.
+// Nothing sends here — drafts land as "draft" status for per-draft approval in samTaskDraft.
 export default async function(req) {
   let base44Ref = null;
   let taskId = null;
@@ -339,6 +341,30 @@ ${poolSection}HOW TO WORK:
         status: 'draft',
       }));
 
+    // ── Known-answer shortcut: a target already in the shared venue
+    // directory with a verified booking email answers instantly — no hunt
+    // needed for it.
+    const nameKey = (n) => String(n || '').toLowerCase().replace(/[^a-z0-9]/g, '');
+    const dirVenues = venueRecords.filter(v => v.contact_email && isUsableEmail(v.contact_email) && v.venue_name);
+    for (const d of drafts) {
+      if (d.target_email) continue;
+      const dk = nameKey(d.target_name);
+      if (dk.length < 4) continue;
+      const hit = dirVenues.find(v => {
+        const vk = nameKey(v.venue_name);
+        if (!(vk === dk || vk.includes(dk) || dk.includes(vk))) return false;
+        const city = String(d.target_location || '').toLowerCase().split(',')[0].trim();
+        const vc = String(v.city || '').toLowerCase();
+        return !city || !vc || city.includes(vc) || vc.includes(city);
+      });
+      if (!hit) continue;
+      d.target_email = hit.contact_email;
+      d.contact_route = 'email';
+      if (!d.target_website && hit.website) d.target_website = hit.website;
+      if (!d.source_url) d.source_url = hit.website || hit.submission_page || '';
+      d.verification_note = `Booking email from SoundReady's shared venue directory${hit.verified ? ' (artist-verified)' : ''}${d.verification_note ? ` — ${d.verification_note}` : ''}`;
+    }
+
     // ── Pass 2 (in parallel): hunt real booking emails on the targets' own
     // websites AND run the quality-control audit at the same time — they're
     // independent, so this cuts the wait roughly in half. Search snippets
@@ -393,6 +419,7 @@ Also return "summary": one short paragraph for the artist, in plain words, descr
         })
       : Promise.resolve(null);
 
+    const huntedNames = new Set();
     const huntSites = new Map();
     for (const d of drafts) {
       const url = d.target_website || d.source_url;
@@ -411,6 +438,7 @@ Also return "summary": one short paragraph for the artist, in plain words, descr
         let host = '';
         try { host = new URL(hunt.found_on).hostname.replace(/^www\./, ''); } catch {}
         d.verification_note = `Booking email pulled straight from ${host || 'their own website'}${d.verification_note ? ` — ${d.verification_note}` : ''}`;
+        huntedNames.add(d.target_name);
       } else if (hunt && !hunt.email && !d.target_email) {
         d.contact_route = d.source_url ? 'submission_page' : 'unknown';
         d.verification_note = `No public email listed on their site — send via the contact page${d.verification_note ? ` — ${d.verification_note}` : ''}`;
@@ -487,7 +515,67 @@ ${stillMissing.map(d => `- ${d.target_name}${d.target_location ? ` (${d.target_l
         d.contact_route = 'email';
         if (!d.source_url) d.source_url = source;
         d.verification_note = `Email found on ${host || 'the web'} via live search — it's publicly listed; double-check it's current before sending${d.verification_note ? ` — ${d.verification_note}` : ''}`;
+        huntedNames.add(d.target_name);
       }
+    }
+
+    // ── Write-back: publish what this run verified into the shared
+    // directories, so the next task (for any artist) answers instantly
+    // instead of re-researching the same target.
+    const confirmed = drafts.filter(d => d.target_email && huntedNames.has(d.target_name)).slice(0, 12);
+    if (confirmed.length) {
+      const ops = [];
+      if (plan?.category === 'venue') {
+        for (const d of confirmed) {
+          const dk = nameKey(d.target_name);
+          if (dk.length < 4) continue;
+          const [city, state] = String(d.target_location || '').split(',').map(s => s.trim());
+          const rec = venueRecords.find(v => {
+            const vk = nameKey(v.venue_name);
+            if (!(vk === dk || vk.includes(dk) || dk.includes(vk))) return false;
+            const vc = String(v.city || '').toLowerCase();
+            const c = String(city || '').toLowerCase();
+            return !c || !vc || c.includes(vc) || vc.includes(c);
+          });
+          const payload = {
+            venue_name: d.target_name,
+            city: rec?.city || city || 'Unknown',
+            state: rec?.state || String(state || '').slice(0, 10),
+            ...(d.target_capacity ? { capacity: d.target_capacity } : {}),
+            contact_email: d.target_email,
+            ...(d.target_website ? { website: d.target_website } : {}),
+            ...(d.source_url ? { source_url: d.source_url } : {}),
+            verified: true,
+            verified_by: 'sam_web',
+          };
+          ops.push(rec
+            ? base44.entities.VenueRecord.update(rec.id, payload).catch(() => null)
+            : base44.entities.VenueRecord.create(payload).catch(() => null));
+        }
+      } else if (prospecting && ['label', 'distributor', 'sync'].includes(plan?.category)) {
+        const records = await base44.entities.CompanyRecord.list('-updated_date', 300).catch(() => []);
+        for (const d of confirmed) {
+          const dk = nameKey(d.target_name);
+          if (dk.length < 4) continue;
+          const rec = records.find(v => nameKey(v.company_name) === dk);
+          const payload = {
+            company_name: d.target_name,
+            kind: plan.category,
+            ...(d.target_location ? { location: d.target_location } : {}),
+            ...(d.target_website ? { website: d.target_website } : {}),
+            contact_email: d.target_email,
+            ...(d.source_url ? { submission_page: d.source_url, source_url: d.source_url } : {}),
+            verified: true,
+            verified_by: 'sam_web',
+          };
+          ops.push(rec
+            ? base44.entities.CompanyRecord.update(rec.id, payload).catch(() => null)
+            : base44.entities.CompanyRecord.create(payload).catch(() => null));
+        }
+      }
+      const settled = await Promise.allSettled(ops);
+      const wroteBack = settled.filter(s => s.status === 'fulfilled' && s.value).length;
+      if (wroteBack) console.log(`samTaskRun: shared directory grew by ${wroteBack} verified target(s)`);
     }
 
     // ── Pass 2: quality-control audit against the artist's requirements ──
