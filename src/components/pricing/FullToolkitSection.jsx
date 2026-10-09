@@ -21,7 +21,7 @@ export default function FullToolkitSection() {
         initial={{ opacity: 0, y: 16 }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true }}
-        className="max-w-4xl mx-auto rounded-2xl bg-card border border-border p-8 space-y-5 text-center"
+        className="max-w-4xl mx-auto p-8 space-y-5 text-center"
       >
         <div className="space-y-1.5">
           <h2 className="font-heading text-2xl font-bold">{ALL_TOOLS.length} {t("tools. One login.")}</h2>
