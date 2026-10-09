@@ -6,7 +6,11 @@ import { useLang } from "@/lib/i18n/LanguageContext";
 const MONTHS = ["Now", "3 mo", "6 mo", "9 mo", "12 mo"];
 // Cumulative growth curves over 12 months (percent above the starting point)
 const ALONE = [0, 4, 7, 11, 15];
-const WITH_SR = [0, 20, 38, 58, 78];
+const SCENARIOS = {
+  conservative: { label: "Conservative", curve: [0, 10, 18, 28, 38], color: "#86efac" },
+  moderate: { label: "Moderate", curve: [0, 20, 38, 58, 78], color: "#22c55e" },
+  aggressive: { label: "Aggressive", curve: [0, 32, 60, 98, 140], color: "#15803d" },
+};
 // Rough industry multipliers to translate monthly listeners into the other metrics
 const STREAMS_PER_LISTENER = 2.5; // streams per listener per month
 const PER_STREAM = 0.004; // avg payout per stream, USD
@@ -23,26 +27,26 @@ export default function PersonalGrowthChart({ artistName, monthlyListeners }) {
   const { t } = useLang();
   const [metric, setMetric] = useState("listeners");
 
-  const value = (i) => {
-    const gAlone = monthlyListeners * (1 + ALONE[i] / 100);
-    const gWith = monthlyListeners * (1 + WITH_SR[i] / 100);
-    if (metric === "listeners") return { alone: gAlone, with: gWith };
-    if (metric === "streams") return { alone: gAlone * STREAMS_PER_LISTENER, with: gWith * STREAMS_PER_LISTENER };
-    return { alone: gAlone * STREAMS_PER_LISTENER * PER_STREAM, with: gWith * STREAMS_PER_LISTENER * PER_STREAM };
+  const rawValue = (pct) => {
+    const g = monthlyListeners * (1 + pct / 100);
+    if (metric === "listeners") return g;
+    if (metric === "streams") return g * STREAMS_PER_LISTENER;
+    return g * STREAMS_PER_LISTENER * PER_STREAM;
   };
 
   const data = MONTHS.map((m, i) => ({
     month: m,
-    with: Math.round(value(i).with),
-    without: Math.round(value(i).alone),
+    without: Math.round(rawValue(ALONE[i])),
+    conservative: Math.round(rawValue(SCENARIOS.conservative.curve[i])),
+    moderate: Math.round(rawValue(SCENARIOS.moderate.curve[i])),
+    aggressive: Math.round(rawValue(SCENARIOS.aggressive.curve[i])),
   }));
 
   const money = METRICS[metric].money;
   const fmt = (v) => (money ? `$${compact(v)}` : compact(v));
 
-  const nowVal = data[0].with;
+  const nowVal = data[0].moderate;
   const yearAlone = data[4].without;
-  const yearWith = data[4].with;
 
   return (
     <div className="space-y-5 text-left">
@@ -52,7 +56,7 @@ export default function PersonalGrowthChart({ artistName, monthlyListeners }) {
             {t("Your 12-month projection")}: {artistName}
           </h3>
           <p className="text-sm text-muted-foreground">
-            {t("From")} {fmt(nowVal)} {t("to")} <span className="text-primary font-bold">{fmt(yearWith)}</span>{" "}
+            {t("From")} {fmt(nowVal)} {t("to")} <span className="text-primary font-bold">{fmt(data[4].conservative)}–{fmt(data[4].aggressive)}</span>{" "}
             {t("with SoundReady, vs")} {fmt(yearAlone)} {t("doing it alone.")}
           </p>
         </div>
@@ -78,14 +82,19 @@ export default function PersonalGrowthChart({ artistName, monthlyListeners }) {
             <Tooltip
               contentStyle={{ backgroundColor: "hsl(var(--card))", border: "1px solid hsl(var(--border))", borderRadius: "12px", fontSize: "12px" }}
               labelStyle={{ color: "hsl(var(--foreground))", fontWeight: 700 }}
-              formatter={(v, name) => [fmt(v), name === "with" ? t("With SoundReady") : t("Doing it alone")]}
+              formatter={(v, name) => [fmt(v), name === "without" ? t("Doing it alone") : `${t("With SoundReady")} · ${t(SCENARIOS[name]?.label || "")}`]}
             />
             <Legend formatter={(v) => (
               <span className="text-xs font-semibold text-foreground">
-                {v === "with" ? t("Artists using SoundReady") : t("Artists doing it alone")}
+                {v === "without" ? t("Doing it alone") : `${t("With SoundReady")}: ${t(SCENARIOS[v]?.label || "")}`}
               </span>
             )} />
-            <Line type="monotone" dataKey="with" stroke="#22c55e" strokeWidth={3} dot={{ r: 4, fill: "#22c55e" }} />
+            {Object.entries(SCENARIOS).map(([key, s]) => (
+              <Line key={key} type="monotone" dataKey={key}
+                stroke={s.color} strokeWidth={key === "moderate" ? 3 : 2.5}
+                strokeOpacity={key === "moderate" ? 1 : 0.9}
+                dot={{ r: key === "moderate" ? 4 : 3, fill: s.color }} />
+            ))}
             <Line type="monotone" dataKey="without" stroke="#71717a" strokeWidth={2.5} strokeDasharray="6 4" dot={{ r: 3, fill: "#71717a" }} />
           </LineChart>
         </ResponsiveContainer>
