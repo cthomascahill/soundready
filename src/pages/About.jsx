@@ -195,7 +195,7 @@ export default function About() {
       <CareerWorkflowSection />
 
       {/* PRICING, 3 tiers */}
-      <section id="pricing" className="relative px-4 py-24 border-t border-border bg-secondary/20 overflow-hidden scroll-mt-20">
+      <section id="pricing" className="relative px-4 py-24 overflow-hidden scroll-mt-20">
         {/* Soft ambient gradient glows, mirrored to the opposing side from the showcase above */}
         <div className="absolute -top-48 -right-56 h-[620px] w-[620px] rounded-full bg-primary/15 blur-[150px] pointer-events-none" />
         <div className="absolute -bottom-40 -left-64 h-[560px] w-[560px] rounded-full bg-chart-2/10 blur-[160px] pointer-events-none" />
@@ -213,7 +213,7 @@ export default function About() {
                 <motion.div key={tier.name}
                 initial={{ opacity: 0, y: 24 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}
                 transition={{ delay: i * 0.12 }}
-                className={`relative h-full rounded-2xl border p-4 sm:p-6 flex flex-col bg-card ${
+                className={`relative h-full rounded-2xl border p-4 sm:p-6 flex flex-col bg-transparent ${
                   tier.name === "AI Manager" ? "ring-2 ring-primary/60 shadow-2xl shadow-primary/10" :
                   tier.name === "Artist Pro" ? "ring-2 ring-chart-5/40 shadow-xl" : ""
                 } ${tier.border}`}>
