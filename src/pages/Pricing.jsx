@@ -12,6 +12,7 @@ import PublicNav from "@/components/public/PublicNav";
 import PublicFooter from "@/components/public/PublicFooter";
 import SEO from "@/components/SEO";
 import ManagerCostSlider from "@/components/home/ManagerCostSlider";
+import FullToolkitSection from "@/components/pricing/FullToolkitSection";
 import BillingToggle from "@/components/billing/BillingToggle";
 import { CARD_FREE_ITEMS, CARD_PRO_ITEMS, CARD_AI_ITEMS } from "@/lib/plans";
 
@@ -277,6 +278,9 @@ export default function Pricing() {
           </div>
         </div>
       </section>
+
+      {/* FULL TOOLKIT */}
+      <FullToolkitSection />
 
       {/* THE MATH */}
       <section className="px-4 pb-16">
