@@ -1,7 +1,5 @@
-import { useState } from "react";
 import { motion } from "framer-motion";
-import { CalendarDays, Music2, MapPin, ChevronDown } from "lucide-react";
-import { Button } from "@/components/ui/button";
+import { CalendarDays, Music2, MapPin } from "lucide-react";
 import { TOOL_CATEGORIES } from "@/lib/toolCatalog";
 import { useLang } from "@/lib/i18n/LanguageContext";
 
@@ -27,9 +25,15 @@ const BENEFITS = [
 
 const ALL_TOOLS = TOOL_CATEGORIES.flatMap((c) => c.tools);
 
+// Chip style per tier, identical to the pricing page's toolkit
+const TIER_STYLES = {
+  free: "text-muted-foreground border-border bg-secondary/50",
+  pro: "text-chart-5 border-chart-5/25 bg-chart-5/5",
+  ai: "text-primary border-primary/30 bg-primary/5",
+};
+
 export default function IncludedSection() {
   const { t } = useLang();
-  const [showAll, setShowAll] = useState(false);
 
   return (
     <section className="px-4 py-24 border-t border-border">
@@ -54,27 +58,27 @@ export default function IncludedSection() {
           ))}
         </div>
 
-        <div className="text-center">
-          <Button variant="outline" size="lg" className="gap-2" onClick={() => setShowAll(!showAll)}>
-            {showAll ? t("Hide the full toolkit") : t("Show the full toolkit")}
-            <span className="text-muted-foreground">({ALL_TOOLS.length})</span>
-            <ChevronDown className={`h-4 w-4 transition-transform ${showAll ? "rotate-180" : ""}`} />
-          </Button>
-        </div>
-
-        {showAll && (
-          <motion.div initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3">
+        {/* The full toolkit, identical to the pricing page */}
+        <motion.div
+          initial={{ opacity: 0, y: 16 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          className="max-w-4xl mx-auto p-8 space-y-5 text-center"
+        >
+          <div className="space-y-1.5">
+            <h3 className="font-heading text-2xl font-bold">{ALL_TOOLS.length} {t("tools. One login.")}</h3>
+            <p className="text-sm text-muted-foreground">
+              {t("Free tools on every plan")} · {t("Pro tools with Artist Pro")} · {t("AI tools with AI Manager")}
+            </p>
+          </div>
+          <div className="flex flex-wrap justify-center gap-2">
             {ALL_TOOLS.map((tool) => (
-              <div key={tool.name} className="rounded-xl bg-card border border-border p-4 space-y-2 hover:border-primary/30 transition-colors">
-                <div className="flex items-center gap-2.5">
-                  <tool.icon className="h-4 w-4 shrink-0 text-primary" />
-                  <p className="font-heading font-bold text-sm truncate">{t(tool.name)}</p>
-                </div>
-                <p className="text-xs text-muted-foreground leading-relaxed">{t(tool.desc)}</p>
-              </div>
+              <span key={tool.name} className={`px-3 py-1.5 rounded-full border text-xs font-semibold ${TIER_STYLES[tool.tier]}`}>
+                {t(tool.name)}
+              </span>
             ))}
-          </motion.div>
-        )}
+          </div>
+        </motion.div>
       </div>
     </section>
   );
