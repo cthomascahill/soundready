@@ -31,6 +31,7 @@ import PlaylistPitcher from './pages/PlaylistPitcher';
 import ReleasePlanInput from './pages/ReleasePlanInput';
 import LinkInBio from './pages/LinkInBio';
 import RoyaltyDashboard from './pages/RoyaltyDashboard';
+import RoyaltyCalculator from './pages/RoyaltyCalculator';
 import GigFinder from './pages/GigFinder';
 import AlgorithmGuide from './pages/AlgorithmGuide';
 import Pricing from './pages/Pricing';
@@ -141,6 +142,7 @@ const AuthenticatedApp = () => {
         <Route path="/algorithm-guide" element={<AlgorithmGuide />} />
         <Route path="/link-in-bio" element={<LinkInBio />} />
         <Route path="/royalties" element={<RoyaltyDashboard />} />
+        <Route path="/royalty-calculator" element={<RoyaltyCalculator />} />
         <Route path="/pricing-account" element={<Pricing />} />
         <Route path="/profile" element={<Profile />} />
         <Route path="/contracts" element={pro(VenueContracts)} />

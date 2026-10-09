@@ -34,6 +34,7 @@ export const TOOL_CATEGORIES = [
     tools: [
       { name: "Deals", to: "/deals", desc: "Catalog valuation and buyout interest", icon: Handshake, tier: "ai" },
       { name: "Royalties", to: "/royalties", desc: "See what every release actually earns", icon: DollarSign, tier: "free" },
+      { name: "Stream Calculator", to: "/royalty-calculator", desc: "Estimate what your streams pay per platform", icon: TrendingUp, tier: "free" },
     ],
   },
   {
