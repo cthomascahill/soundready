@@ -2,32 +2,10 @@ import { useState, useEffect } from "react";
 import { base44 } from "@/api/base44Client";
 import { useAuth } from "@/lib/AuthContext";
 import { motion } from "framer-motion";
-import { Loader2, Map, RefreshCw, ChevronRight, Calendar, Music2, TrendingUp, MapPin, Mic2 } from "lucide-react";
+import { Loader2, Map, RefreshCw, Music2, TrendingUp, MapPin, Mic2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { Link } from "react-router-dom";
 
-const QUARTER_COLORS = [
-  "border-primary bg-primary/5",
-  "border-purple-500 bg-purple-500/5",
-  "border-orange-500 bg-orange-500/5",
-  "border-chart-5 bg-chart-5/5",
-];
-const QUARTER_TEXT = ["text-primary", "text-purple-400", "text-orange-400", "text-chart-5"];
-
-const ACTION_LINKS = {
-  "song vault": "/history", "release": "/history", "playlist": "/playlist-pitcher",
-  "epk": "/pitch-deck", "tour": "/tour-planner", "venue": "/gig-finder",
-  "analytics": "/analytics", "branding": "/branding-studio",
-  "royalt": "/royalties",
-};
-
-function getLink(text) {
-  const lower = text.toLowerCase();
-  for (const [kw, path] of Object.entries(ACTION_LINKS)) {
-    if (lower.includes(kw)) return path;
-  }
-  return null;
-}
+import RoadmapTimeline from "@/components/roadmap/RoadmapTimeline";
 
 export default function CareerRoadmap() {
   const { user } = useAuth();
@@ -66,20 +44,20 @@ export default function CareerRoadmap() {
       : "No songs in vault yet.";
 
     const result = await base44.integrations.Core.InvokeLLM({
-      prompt: `You are a top music industry strategist. Generate a realistic, specific 4-quarter career roadmap for an independent artist.
+      prompt: `You are a top music industry strategist and the artist's biggest believer. Build a 4-quarter career roadmap for an independent artist. Tone: confident, energizing, forward momentum. Frame everything as the next win, never as a gap or a problem.
 
 Artist Profile: ${profileSnippet}
 Recent Songs: ${songSnippet}
 
 Return a JSON object with:
-- summary: 1–2 sentence big-picture overview
+- summary: ONE punchy sentence, max 16 words, framing the year ahead as a win in progress
 - quarters: array of 4 objects, each with:
-  - label: e.g. "Q1 2026 · Foundation"
-  - theme: short quarter theme (e.g. "Build the Foundation")
-  - actions: array of 3–4 specific, actionable steps for that quarter (each a plain sentence)
-  - milestone: 1 measurable goal for the quarter end (e.g. "500 monthly listeners")
+  - label: e.g. "Q1 2026 · Spark"
+  - theme: exciting quarter theme, max 4 words
+  - actions: exactly 3 specific moves for the quarter, each max 12 words, starting with a verb
+  - milestone: one measurable win for quarter end, max 6 words (e.g. "First 1,000 monthly listeners")
 
-Make the advice concrete and specific to the artist's actual data.`,
+Every line must be short, upbeat, and specific to the artist's real data. No lecturing, no filler words.`,
       response_json_schema: {
         type: "object",
         properties: {
@@ -113,7 +91,7 @@ Make the advice concrete and specific to the artist's actual data.`,
           <div>
             <p className="text-xs text-primary uppercase tracking-widest font-medium">AI Strategy</p>
             <h1 className="font-heading text-3xl font-bold">Career Roadmap</h1>
-            <p className="text-muted-foreground text-sm mt-1">A personalized quarterly plan built from your artist profile & vault data.</p>
+            <p className="text-muted-foreground text-sm mt-1">Your next 12 months, mapped from your real numbers.</p>
           </div>
           <Button onClick={generate} disabled={loading} className="gap-2">
             {loading ? <Loader2 className="h-4 w-4 animate-spin" /> : <Map className="h-4 w-4" />}
@@ -143,52 +121,20 @@ Make the advice concrete and specific to the artist's actual data.`,
         {loading && (
           <div className="flex flex-col items-center justify-center py-32 gap-4">
             <Loader2 className="h-10 w-10 animate-spin text-primary" />
-            <p className="text-muted-foreground text-sm">Analyzing your data and building your roadmap...</p>
+            <p className="text-muted-foreground text-sm">Mapping your next 12 months…</p>
           </div>
         )}
 
         {roadmap && (
           <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="space-y-6">
             {/* Summary */}
-            <div className="rounded-2xl bg-primary/5 border border-primary/20 p-6">
-              <p className="text-sm text-primary font-medium mb-1">Big Picture</p>
-              <p className="text-foreground">{roadmap.summary}</p>
+            <div className="rounded-2xl border border-primary/25 bg-gradient-to-r from-primary/15 via-primary/5 to-transparent p-6">
+              <p className="text-xs text-primary font-semibold uppercase tracking-widest mb-1.5">The Big Picture</p>
+              <p className="font-heading text-lg font-semibold leading-snug">{roadmap.summary}</p>
             </div>
 
             {/* Quarters */}
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
-              {(roadmap.quarters || []).map((q, i) => (
-                <motion.div key={i} initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: i * 0.1 }}
-                  className={`rounded-2xl border p-5 space-y-4 ${QUARTER_COLORS[i % 4]}`}>
-                  <div>
-                    <p className={`text-xs font-bold uppercase tracking-widest ${QUARTER_TEXT[i % 4]}`}>{q.label}</p>
-                    <p className="font-heading font-bold text-lg mt-0.5">{q.theme}</p>
-                  </div>
-                  <ul className="space-y-2">
-                    {(q.actions || []).map((action, j) => {
-                      const link = getLink(action);
-                      return (
-                        <li key={j} className="flex items-start gap-2.5 text-sm">
-                          <div className={`h-1.5 w-1.5 rounded-full mt-1.5 shrink-0 ${QUARTER_TEXT[i % 4].replace("text-", "bg-")}`} />
-                          <span className="text-muted-foreground flex-1">{action}</span>
-                          {link && (
-                            <Link to={link} className={`shrink-0 ${QUARTER_TEXT[i % 4]} hover:underline text-xs flex items-center gap-0.5`}>
-                              Go <ChevronRight className="h-3 w-3" />
-                            </Link>
-                          )}
-                        </li>
-                      );
-                    })}
-                  </ul>
-                  {q.milestone && (
-                    <div className="flex items-center gap-2 border-t border-border/50 pt-3">
-                      <Calendar className={`h-3.5 w-3.5 shrink-0 ${QUARTER_TEXT[i % 4]}`} />
-                      <p className="text-xs text-muted-foreground">Goal: <span className="text-foreground font-medium">{q.milestone}</span></p>
-                    </div>
-                  )}
-                </motion.div>
-              ))}
-            </div>
+            <RoadmapTimeline quarters={roadmap.quarters} />
 
             <div className="flex gap-3 justify-end">
               <Button variant="outline" onClick={generate} disabled={loading} className="gap-2">
