@@ -54,60 +54,13 @@ export default function SamStatsBoard({ user }) {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const uid = user?.id;
-    if (!uid) { setLoading(false); return; }
+    if (!user?.id) { setLoading(false); return; }
     let cancelled = false;
 
     (async () => {
-      const agg = (entity, opts) => entity.aggregate(opts).then(r => r?.rows || []).catch(() => []);
-      const cnt = (entity, query) => entity.count(query).catch(() => 0);
-
-      const [
-        actTotals, actSent, taskAgg, taskDrafts, deals, recs,
-        scanCount, epkCount, creditsAgg,
-      ] = await Promise.all([
-        agg(base44.entities.AIActivity, { query: { user_id: uid }, groupBy: "action_type" }),
-        agg(base44.entities.AIActivity, { query: { user_id: uid, status: "sent" }, groupBy: "action_type" }),
-        agg(base44.entities.SamTask, { query: { user_id: uid }, sum: "drafts_created" }),
-        agg(base44.entities.SamTaskDraft, { query: { user_id: uid }, groupBy: "status" }),
-        agg(base44.entities.DealOutreach, { query: { user_id: uid }, groupBy: "status" }),
-        agg(base44.entities.MayaRecommendation, { query: { user_id: uid }, groupBy: "status" }),
-        cnt(base44.entities.ReputationScan, { user_id: uid }),
-        cnt(base44.entities.EPK, { user_id: uid }),
-        agg(base44.entities.SamUsageEvent, { query: { user_id: uid, status: "settled" }, sum: "units" }),
-      ]);
+      const res = await base44.functions.invoke("samImpactStats", {}).catch(() => null);
       if (cancelled) return;
-
-      const total = (rows) => rows.reduce((n, r) => n + (r.count || 0), 0);
-      const pick = (rows, status) => rows.filter(r => r.status === status).reduce((n, r) => n + (r.count || 0), 0);
-
-      const byType = Object.fromEntries(actTotals.map(r => [r.action_type, r.count || 0]));
-      const sentByType = Object.fromEntries(actSent.map(r => [r.action_type, r.count || 0]));
-
-      setStats({
-        emailsSent: total(actSent),
-        playlistPitches: byType.playlist_pitch || 0,
-        playlistPitchesSent: sentByType.playlist_pitch || 0,
-        tourOpportunities: byType.tour_opportunity || 0,
-        tourPitchesSent: sentByType.tour_opportunity || 0,
-        bookingOutreachSent: sentByType.booking_outreach || 0,
-        digestsSent: sentByType.digest_sent || 0,
-        epksGenerated: byType.epk_generated || 0,
-        adviceGiven: total(taskAgg),
-        researchDrafts: taskAgg.reduce((n, r) => n + (r.sum_drafts_created || 0), 0),
-        outreachDrafts: total(taskDrafts),
-        draftsSent: pick(taskDrafts, "sent"),
-        dealsResearched: total(deals),
-        dealPitchesSent: pick(deals, "sent"),
-        recommendations: total(recs),
-        recommendationsApproved: pick(recs, "approved") + pick(recs, "executed"),
-        scans: scanCount,
-        epkCount,
-        creditsUsed: creditsAgg.reduce((n, r) => n + (r.sum_units || 0), 0),
-        awaiting: pick(taskDrafts, "draft") + pick(deals, "draft") + pick(deals, "researched") + pick(recs, "proposed"),
-        takenOn: pick(taskDrafts, "approved") + pick(deals, "approved") + pick(recs, "approved") + pick(recs, "executed"),
-        dismissed: pick(taskDrafts, "dismissed") + pick(deals, "declined") + pick(recs, "dismissed"),
-      });
+      setStats(res?.data?.stats || null);
       setLoading(false);
     })();
 
@@ -123,8 +76,17 @@ export default function SamStatsBoard({ user }) {
     );
   }
 
-  const s = stats;
-  const isEmpty = s.emailsSent === 0 && s.playlistPitches === 0 && s.tourOpportunities === 0 &&
+  const s = stats || {};
+  if (!stats) {
+    return (
+      <div className="rounded-2xl bg-card border border-dashed border-border p-10 text-center space-y-2">
+        <SamLogo className="h-10 w-10 text-muted-foreground/40 mx-auto" />
+        <p className="text-sm text-muted-foreground">Sam couldn't load the scoreboard right now. Try again in a moment.</p>
+      </div>
+    );
+  }
+
+  const isEmpty = s.opportunitiesSeen === 0 && s.emailsSent === 0 && s.adviceGiven === 0 &&
     s.adviceGiven === 0 && s.recommendations === 0 && s.dealsResearched === 0;
 
   if (isEmpty) {
@@ -173,7 +135,7 @@ export default function SamStatsBoard({ user }) {
           <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
             <HeroStat icon={Send} value={s.emailsSent} label="Emails sent" />
             <HeroStat icon={Sparkles} value={s.playlistPitches + s.tourOpportunities + s.outreachDrafts + s.researchDrafts} label="Pitches drafted" delay={0.05} />
-            <HeroStat icon={MapPin} value={s.tourOpportunities} label="Opportunities found" delay={0.1} />
+            <HeroStat icon={MapPin} value={s.opportunitiesSeen} label="Opportunities seen" delay={0.1} />
             <HeroStat icon={Lightbulb} value={s.adviceGiven} label="Advice given" delay={0.15} />
           </div>
           {s.creditsUsed > 0 && (
