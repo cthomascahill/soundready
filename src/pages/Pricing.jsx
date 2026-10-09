@@ -13,7 +13,7 @@ import PublicFooter from "@/components/public/PublicFooter";
 import SEO from "@/components/SEO";
 import ManagerCostSlider from "@/components/home/ManagerCostSlider";
 import BillingToggle from "@/components/billing/BillingToggle";
-import { FREE_ITEMS, PRO_ITEMS, AI_ITEMS, CARD_FREE_ITEMS, CARD_PRO_ITEMS, CARD_AI_ITEMS } from "@/lib/plans";
+import { CARD_FREE_ITEMS, CARD_PRO_ITEMS, CARD_AI_ITEMS } from "@/lib/plans";
 
 
 
@@ -105,7 +105,8 @@ export default function Pricing() {
           </motion.div>
           <h1 className="font-heading text-4xl sm:text-5xl font-black tracking-tight leading-[0.95]">
             Meet SAM<br />
-            <span className="text-primary">Your AI manager: $59/mo for the first 100 artists</span>
+            <span className="text-primary">Your AI manager</span><br />
+            <span className="text-primary">$59 a month for the first 100 artists</span>
           </h1>
           <p className="text-base sm:text-lg text-muted-foreground leading-relaxed max-w-2xl mx-auto">
             SAM finds opportunities and drafts pitches for you every week, and nothing sends without your approval. Your Vault, Tracker and the full toolkit come with it.
@@ -270,34 +271,6 @@ export default function Pricing() {
               <p className="text-center text-xs text-muted-foreground mt-2">No percentage cuts. Cancel anytime. Founding price stays locked while subscribed.</p>
               <p className="text-center text-[11px] text-muted-foreground mt-1 leading-relaxed">Includes 2,500 SAM credits each month, shared across all SAM features. Add 1,500 extra credits anytime for $15 — they never expire. Some opportunities require manual submission.</p>
             </motion.div>
-          </div>
-        </div>
-      </section>
-
-      {/* DETAILED COMPARISON */}
-      <section className="px-4 pb-16 scroll-mt-20">
-        <div className="max-w-5xl mx-auto space-y-6">
-          <div className="text-center space-y-2">
-            <p className="text-xs text-primary uppercase tracking-widest font-bold">Compare plans</p>
-            <h2 className="font-heading text-3xl font-bold">Everything, side by side</h2>
-          </div>
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-5">
-            <div className="rounded-2xl border border-chart-5/20 bg-card p-6">
-              <p className="font-heading font-black text-xl mb-1">Free</p>
-              <p className="text-xs text-muted-foreground mb-4">Your music, organized.</p>
-              <TierItems items={FREE_ITEMS} check="text-chart-5" />
-            </div>
-            <div className="rounded-2xl border border-chart-5/20 bg-card p-6">
-              <p className="font-heading font-black text-xl mb-1">Artist Pro</p>
-              <p className="text-xs text-muted-foreground mb-4">Your career toolkit.</p>
-              <TierItems items={PRO_ITEMS} check="text-chart-5" />
-            </div>
-            <div className="rounded-2xl border border-primary/30 bg-card p-6 ring-1 ring-primary/40">
-              <p className="font-heading font-black text-xl mb-1 text-primary">AI Manager</p>
-              <p className="text-xs text-muted-foreground mb-4">Meet SAM. Your own AI music manager.</p>
-              <p className="font-heading text-sm font-black tracking-tight mb-2">Everything in Artist Pro, plus:</p>
-              <TierItems items={AI_ITEMS} />
-            </div>
           </div>
         </div>
       </section>
