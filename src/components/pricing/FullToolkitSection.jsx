@@ -21,17 +21,17 @@ export default function FullToolkitSection() {
         initial={{ opacity: 0, y: 16 }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true }}
-        className="max-w-3xl mx-auto rounded-2xl bg-card border border-border p-6 space-y-4 text-center"
+        className="max-w-4xl mx-auto rounded-2xl bg-card border border-border p-8 space-y-5 text-center"
       >
-        <div className="space-y-1">
-          <h2 className="font-heading text-xl font-bold">{ALL_TOOLS.length} {t("tools. One login.")}</h2>
-          <p className="text-xs text-muted-foreground">
+        <div className="space-y-1.5">
+          <h2 className="font-heading text-2xl font-bold">{ALL_TOOLS.length} {t("tools. One login.")}</h2>
+          <p className="text-sm text-muted-foreground">
             {t("Free tools on every plan")} · {t("Pro tools with Artist Pro")} · {t("AI tools with AI Manager")}
           </p>
         </div>
-        <div className="flex flex-wrap justify-center gap-1.5">
+        <div className="flex flex-wrap justify-center gap-2">
           {ALL_TOOLS.map((tool) => (
-            <span key={tool.name} className={`px-2.5 py-1 rounded-full border text-[11px] font-semibold ${TIER_STYLES[tool.tier]}`}>
+            <span key={tool.name} className={`px-3 py-1.5 rounded-full border text-xs font-semibold ${TIER_STYLES[tool.tier]}`}>
               {t(tool.name)}
             </span>
           ))}
