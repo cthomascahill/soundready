@@ -32,7 +32,7 @@ const STEPS = [
 export default function CareerWorkflowSection() {
   const { t } = useLang();
   return (
-    <section id="how-it-works" className="px-4 py-24 border-t border-border bg-secondary/20">
+    <section id="how-it-works" className="px-4 py-24">
       <div className="max-w-5xl mx-auto space-y-12">
         <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="text-center space-y-4">
           <p className="text-xs text-primary uppercase tracking-widest font-bold">{t("How It Works")}</p>
@@ -46,7 +46,7 @@ export default function CareerWorkflowSection() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ delay: i * 0.08 }}
-              className="rounded-2xl bg-card border-2 border-border hover:border-primary/30 transition-colors p-8 space-y-4 shadow-sm"
+              className="p-8 space-y-4"
             >
               <div className="flex items-center justify-between">
                 <div className="h-12 w-12 rounded-xl bg-secondary border border-border flex items-center justify-center">
