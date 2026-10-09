@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { motion } from "framer-motion";
 import { TOOL_CATEGORIES } from "@/lib/toolCatalog";
 import { useLang } from "@/lib/i18n/LanguageContext";
@@ -12,24 +13,57 @@ const TIER_STYLES = {
 
 export default function FullToolkitSection() {
   const { t } = useLang();
+  const [activeCat, setActiveCat] = useState("all");
+  const visibleCats = activeCat === "all" ? TOOL_CATEGORIES : TOOL_CATEGORIES.filter((c) => c.label === activeCat);
+
+  const pillClass = (active) =>
+    `px-3.5 py-1.5 rounded-full border text-xs font-semibold whitespace-nowrap transition-colors ${
+      active
+        ? "bg-primary text-primary-foreground border-primary"
+        : "bg-card border-border text-muted-foreground hover:border-primary/40 hover:text-foreground"
+    }`;
+
   return (
     <section className="px-4 pb-16">
-      <div className="max-w-5xl mx-auto space-y-12">
+      <div className="max-w-5xl mx-auto space-y-8">
         <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="text-center space-y-3">
           <p className="text-xs text-primary uppercase tracking-widest font-bold">{t("The Full Toolkit")}</p>
           <h2 className="font-heading text-4xl font-bold">{ALL_TOOLS.length} {t("tools. One login.")}</h2>
           <p className="text-sm text-muted-foreground max-w-xl mx-auto">
             {t("Free tools on every plan. Pro tools with Artist Pro. AI tools with AI Manager.")}
           </p>
+          {/* Tier legend */}
+          <div className="flex flex-wrap items-center justify-center gap-4 pt-1">
+            {Object.entries(TIER_STYLES).map(([tier, s]) => (
+              <span key={tier} className="inline-flex items-center gap-1.5 text-xs text-muted-foreground">
+                <span className={`h-2 w-2 rounded-full ${s.dot}`} />
+                {s.label}
+              </span>
+            ))}
+          </div>
         </motion.div>
 
-        {TOOL_CATEGORIES.map((cat) => (
-          <div key={cat.label} className="space-y-4">
-            <div className="flex items-center gap-3">
-              <p className="font-heading font-black text-lg">{t(cat.label)}</p>
-              <span className="text-xs text-muted-foreground">{cat.tools.length}</span>
-              <div className="flex-1 h-px bg-border" />
-            </div>
+        {/* Category filter pills */}
+        <div className="flex flex-wrap justify-center gap-2">
+          <button onClick={() => setActiveCat("all")} className={pillClass(activeCat === "all")}>
+            {t("All")} <span className="opacity-70">{ALL_TOOLS.length}</span>
+          </button>
+          {TOOL_CATEGORIES.map((cat) => (
+            <button key={cat.label} onClick={() => setActiveCat(cat.label)} className={pillClass(activeCat === cat.label)}>
+              {t(cat.label)} <span className="opacity-70">{cat.tools.length}</span>
+            </button>
+          ))}
+        </div>
+
+        {visibleCats.map((cat) => (
+          <div key={`${activeCat}-${cat.label}`} className="space-y-4">
+            {activeCat === "all" && (
+              <div className="flex items-center gap-3">
+                <p className="font-heading font-black text-lg">{t(cat.label)}</p>
+                <span className="text-xs text-muted-foreground">{cat.tools.length}</span>
+                <div className="flex-1 h-px bg-border" />
+              </div>
+            )}
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
               {cat.tools.map((tool, i) => (
                 <motion.div key={tool.name}
