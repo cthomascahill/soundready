@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef, useCallback } from "react";
 import { base44 } from "@/api/base44Client";
-import { X, Play, Pause, Volume2, Upload, Loader2, ChevronDown, Check } from "lucide-react";
+import { X, Play, Pause, Volume2, Upload, Loader2, ChevronDown, Check, StickyNote } from "lucide-react";
 import { resolvePlayableAudioUrl } from "@/lib/audioPlayback";
 import SoundReadyLogo from "@/components/SoundReadyLogo";
 import WaveformDisplay from "./audioreview/WaveformDisplay";
@@ -571,6 +571,15 @@ export default function AudioReviewPlayer({ song, onUpdate, open, onOpenChange, 
               placeholder={`Note at ${fmtTime(transport)}`}
               className="h-9 rounded-lg bg-background/60 border border-border text-sm px-3 text-foreground placeholder:text-muted-foreground focus:outline-none focus:border-primary/50 w-full max-w-xs"
             />
+            <button
+              onClick={saveNote}
+              disabled={!note.trim()}
+              title="Save note to this song"
+              className="h-9 shrink-0 inline-flex items-center gap-1.5 rounded-lg bg-primary text-primary-foreground text-xs font-bold px-3 disabled:opacity-40 disabled:pointer-events-none hover:bg-primary/90 transition-colors"
+            >
+              <StickyNote className="h-3.5 w-3.5" />
+              Save note
+            </button>
           </div>
         </div>
 
