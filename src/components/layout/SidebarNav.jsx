@@ -52,7 +52,7 @@ const NAV_SECTIONS = (isAdmin) => [
     items: [
       { to: "/tell-sam", icon: Wand2, label: "Tell Sam" },
       { to: "/todos", icon: ListTodo, label: "This Week" },
-      { to: "/maya-desk", icon: Bot, label: "Sam's Desk" },
+      { to: "/sam-desk", icon: Bot, label: "Sam's Desk" },
       { to: "/deals", icon: Handshake, label: "Deals" },
       { to: "/contract-analyzer", icon: Shield, label: "Contract Analyzer" },
       { to: "/industry-intel", icon: Sparkles, label: "Opportunities" },
@@ -95,7 +95,7 @@ const PRO_ONLY = new Set([
 
 // Pages under the AI Manager tab — AI Manager subscribers only
 const AI_ONLY = new Set([
-  "/tell-sam", "/todos", "/maya-desk", "/industry-intel",
+  "/tell-sam", "/todos", "/sam-desk", "/industry-intel",
   "/contract-analyzer", "/ar-intelligence", "/deals",
 ]);
 

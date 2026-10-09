@@ -22,7 +22,7 @@ function CheckoutSuccess() {
 
   const tier = getTier(user);
   const boosted = searchParams.get("boosted") === "1";
-  const destination = boosted ? "/tell-sam" : tier === "ai_manager" ? "/maya-desk" : "/history";
+  const destination = boosted ? "/tell-sam" : tier === "ai_manager" ? "/sam-desk" : "/history";
 
   return (
     <div className="min-h-screen bg-background font-body">

@@ -193,7 +193,7 @@ export default function MayaDesk() {
               {searchNote}
             </p>
           )}
-          <Link to="/maya-profile" className="inline-flex items-center gap-1.5 text-xs text-primary hover:underline font-medium">
+          <Link to="/sam-profile" className="inline-flex items-center gap-1.5 text-xs text-primary hover:underline font-medium">
             <UserCog className="h-3.5 w-3.5" /> Define what matters to you — Sam's profile
           </Link>
         </motion.div>

@@ -67,7 +67,7 @@ export function buildDocuments(data) {
     subtitle: clip(r.rationale) || clip(r.proposed_action),
     status: r.status,
     date: r.created_date,
-    link: "/maya-desk",
+    link: "/sam-desk",
     sourceLabel: "Sam's Desk",
     kind: "rec",
     record: r,
@@ -83,7 +83,7 @@ export function buildDocuments(data) {
       subtitle: clip(a.description),
       status: a.status,
       date: a.created_date,
-      link: "/maya-desk",
+      link: "/sam-desk",
       sourceLabel: "Sam's Desk",
       kind: "activity",
       record: a,
@@ -97,7 +97,7 @@ export function buildDocuments(data) {
     subtitle: clip(s.scan_summary) || s.query,
     status: s.new_count ? `${s.new_count} new` : "",
     date: s.created_date,
-    link: "/maya-desk",
+    link: "/sam-desk",
     sourceLabel: "Sam's Desk",
   }));
 
@@ -107,7 +107,7 @@ export function buildDocuments(data) {
     title: m.key,
     subtitle: m.value,
     date: m.created_date,
-    link: "/maya-profile",
+    link: "/sam-profile",
     sourceLabel: "Sam's Memory",
   }));
 

@@ -2,15 +2,15 @@ import { useState } from "react";
 import { Slider } from "@/components/ui/slider";
 
 const MANAGER_RATE = 0.175; // midpoint of the typical 15–20% commission
-const MAYA_MONTHLY = 59;
+const SAM_MONTHLY = 59;
 const fmt = (n) => `$${Math.round(n).toLocaleString()}`;
 
 export default function ManagerCostSlider() {
   const [income, setIncome] = useState(3000);
   const managerMonthly = income * MANAGER_RATE;
   const managerYearly = managerMonthly * 12;
-  const mayaYearly = MAYA_MONTHLY * 12;
-  const savings = managerYearly - mayaYearly;
+  const samYearly = SAM_MONTHLY * 12;
+  const savings = managerYearly - samYearly;
 
   return (
     <div className="pt-6 mt-2 border-t border-border/60 text-left space-y-5">
@@ -32,7 +32,7 @@ export default function ManagerCostSlider() {
         <div className="rounded-xl bg-primary/10 border border-primary/20 p-4 space-y-1.5">
           <p className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground">SoundReady AI Manager</p>
           <p className="font-heading text-2xl font-black text-primary"><span className="text-xs line-through opacity-60 font-bold text-muted-foreground mr-1">$79</span>$59<span className="text-xs font-bold text-muted-foreground">/mo</span></p>
-          <p className="text-xs text-muted-foreground">{fmt(mayaYearly)} every year, flat, forever</p>
+          <p className="text-xs text-muted-foreground">{fmt(samYearly)} every year, flat, forever</p>
         </div>
       </div>
 

@@ -7,6 +7,8 @@ export const FREE_ITEMS = [
   "Tracker: from idea to release",
   "Artist Profile: connect Spotify & YouTube",
   "Streaming Royalty Calculator: estimate what your streams pay",
+  "Royalties: see what every release actually earns",
+  "Music Academy: learn the business of music",
 ];
 
 export const PRO_ITEMS = [
@@ -16,6 +18,7 @@ export const PRO_ITEMS = [
   "EPK Builder: an electronic press kit that books shows",
   "Contracts: templates and guides",
   "Career Roadmap: your personalized growth plan",
+  "Studio: write and sketch with your beats",
   "Playlist Pitcher: find and pitch matching playlists",
   "Gig Finder: 1,341+ venues ready to pitch",
   "Tour Planner, Tour Finance & Venue Contracts",
@@ -43,6 +46,7 @@ export const CARD_FREE_ITEMS = [
   "Track songs from idea to release",
   "Connect Spotify and YouTube to your artist profile",
   "Streaming royalty calculator",
+  "Music Academy: learn the business of music",
 ];
 
 export const CARD_PRO_ITEMS = [
@@ -52,6 +56,7 @@ export const CARD_PRO_ITEMS = [
   "Playlist discovery and venue search",
   "Tour planning, finances, and contracts",
   "Team chat and collaboration",
+  "Studio: write and sketch with your beats",
 ];
 
 export const CARD_AI_ITEMS = [

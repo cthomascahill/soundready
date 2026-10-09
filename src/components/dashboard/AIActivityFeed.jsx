@@ -333,7 +333,7 @@ export default function AIActivityFeed({ user }) {
         <h2 className="font-heading font-semibold text-lg">AI Activity</h2>
         {isAIManager && (
           <div className="ml-auto flex items-center gap-3">
-            <Link to="/maya-desk" className="text-xs font-medium text-primary hover:underline">
+            <Link to="/sam-desk" className="text-xs font-medium text-primary hover:underline">
               Sam's Desk →
             </Link>
             <span className="px-2.5 py-0.5 rounded-full bg-primary/10 border border-primary/20 text-primary text-[10px] font-bold uppercase tracking-wider">

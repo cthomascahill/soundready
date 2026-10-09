@@ -176,7 +176,7 @@ export default function MayaProfile() {
             Tell Sam what matters most to you before they make a single suggestion. Everything you define here becomes a
             confirmed fact Sam applies to every plan, draft, and recommendation.
           </p>
-          <Link to="/maya-desk" className="inline-flex items-center gap-1 text-xs text-primary hover:underline font-medium">
+          <Link to="/sam-desk" className="inline-flex items-center gap-1 text-xs text-primary hover:underline font-medium">
             Back to Sam's Desk <ChevronRight className="h-3 w-3" />
           </Link>
         </motion.div>

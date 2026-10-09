@@ -615,7 +615,7 @@ export default function MayaAssistant() {
                 <p className="font-heading font-bold text-foreground">Sam</p>
                 <p className="text-[11px] text-muted-foreground">SoundReady Artist Manager · {artistName}</p>
               </div>
-              <Link to="/maya-desk" onClick={() => setOpen(false)}
+              <Link to="/sam-desk" onClick={() => setOpen(false)}
                 className="text-[11px] font-semibold text-primary hover:underline mr-2 shrink-0">
                 Sam's Desk →
               </Link>

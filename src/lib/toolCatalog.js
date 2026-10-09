@@ -19,7 +19,7 @@ export const TOOL_CATEGORIES = [
   {
     label: "AI Manager",
     tools: [
-      { name: "Sam's Desk", to: "/maya-desk", desc: "Sam's drafted emails, ready to approve", icon: Bot, tier: "ai" },
+      { name: "Sam's Desk", to: "/sam-desk", desc: "Sam's drafted emails, ready to approve", icon: Bot, tier: "ai" },
       { name: "EPK Builder", to: "/pitch-deck", desc: "An electronic press kit that books shows", icon: FileSignature, tier: "pro" },
       { name: "Analytics", to: "/analytics", desc: "Streams, followers and growth", icon: BarChart2, tier: "pro" },
       { name: "Contract Analyzer", to: "/contract-analyzer", desc: "AI review of any deal you're offered", icon: Shield, tier: "ai" },

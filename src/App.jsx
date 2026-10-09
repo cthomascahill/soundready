@@ -174,11 +174,13 @@ const AuthenticatedApp = () => {
         <Route path="/artist-feed" element={pro(ArtistFeed)} />
         <Route path="/whiteboard/:boardId" element={pro(WhiteboardCanvas)} />
         <Route path="/connect-profiles" element={<ArtistIntake />} />
-        <Route path="/maya-desk" element={ai(MayaDesk)} />
+        <Route path="/sam-desk" element={ai(MayaDesk)} />
+        <Route path="/maya-desk" element={<Navigate to="/sam-desk" replace />} />
         <Route path="/deals" element={ai(Deals)} />
         <Route path="/tell-sam" element={ai(TellSam)} />
         <Route path="/todos" element={ai(Todos)} />
-        <Route path="/maya-profile" element={<MayaProfile />} />
+        <Route path="/sam-profile" element={<MayaProfile />} />
+        <Route path="/maya-profile" element={<Navigate to="/sam-profile" replace />} />
         <Route path="/u/:userId" element={<CreatorProfile />} />
         <Route path="/buyout-leads" element={<AdminGate><BuyoutLeads /></AdminGate>} />
         <Route path="/sam-usage-admin" element={<AdminGate><SamUsageAdmin /></AdminGate>} />

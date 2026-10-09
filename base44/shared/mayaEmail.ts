@@ -73,7 +73,7 @@ export async function sendMayaDraft({ base44, user, draft, recipient, fallbackSu
 <div style="background-color:#0f1411;border:1px solid #1f2937;border-radius:10px;padding:16px;font-size:13px;line-height:1.6;color:#fafafa;font-family:'Space Grotesk',Arial,sans-serif;white-space:pre-wrap;">${esc(draft)}</div>
 </td></tr>
 <tr><td style="padding:28px 36px 8px;font-family:'Space Grotesk',Arial,sans-serif;">
-<a href="https://soundready.ai/maya-desk" style="display:inline-block;background-color:#21c45d;color:#000000;text-decoration:none;font-weight:700;font-size:14px;padding:14px 28px;border-radius:10px;">Open Sam's Desk</a>
+<a href="https://soundready.ai/sam-desk" style="display:inline-block;background-color:#21c45d;color:#000000;text-decoration:none;font-weight:700;font-size:14px;padding:14px 28px;border-radius:10px;">Open Sam's Desk</a>
 </td></tr>
 <tr><td style="padding:24px 36px 32px;font-family:'Space Grotesk',Arial,sans-serif;">
 <p style="margin:0 0 4px;font-size:12px;color:#a3a3a3;">Sam · Your AI manager, on it.</p>
