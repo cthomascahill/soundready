@@ -58,20 +58,23 @@ export default function PlatformShowcaseSection() {
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-8 items-start">
           {SHOTS.map((shot, i) => (
-            <motion.figure
-              key={shot.src}
-              initial={{ opacity: 0, y: 32 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: i * 0.12 }}
-              className={`rounded-2xl border border-border bg-card overflow-hidden shadow-2xl shadow-black/40 ${shot.tilt} lg:hover:rotate-0 transition-transform duration-300`}
-            >
+            <div key={shot.src} className="relative">
+              {/* Neon outer glow behind the card, Too Lost style */}
+              <div className="absolute -inset-6 rounded-3xl bg-primary/25 blur-3xl pointer-events-none" />
+              <motion.figure
+                initial={{ opacity: 0, y: 32 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: i * 0.12 }}
+                className={`relative rounded-2xl border border-primary/30 bg-card overflow-hidden ring-1 ring-primary/40 shadow-[0_25px_90px_-20px_rgba(74,222,128,0.45)] ${shot.tilt} lg:hover:rotate-0 transition-transform duration-300`}
+              >
               <img src={shot.src} alt={shot.alt} className="w-full" />
               <figcaption className="p-5 space-y-1 border-t border-border">
                 <p className="font-heading font-bold">{t(shot.caption)}</p>
                 <p className="text-sm text-muted-foreground leading-relaxed">{t(shot.blurb)}</p>
               </figcaption>
-            </motion.figure>
+              </motion.figure>
+            </div>
           ))}
         </div>
 
