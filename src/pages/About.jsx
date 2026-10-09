@@ -265,7 +265,7 @@ export default function About() {
               { num: "15–20%", label: "traditional management takes" },
             ].map((s, i) => (
               <motion.div key={i} initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: i * 0.08 }}
-                className="rounded-2xl bg-card border border-primary/20 p-6 space-y-2 text-center">
+                className="p-6 space-y-2 text-center">
                 <p className="font-heading text-3xl sm:text-4xl font-black text-primary">{s.num}</p>
                 <p className="text-sm text-muted-foreground">{t(s.label)}</p>
               </motion.div>

@@ -48,8 +48,8 @@ export default function IncludedSection() {
             <motion.div key={b.title}
               initial={{ opacity: 0, y: 16 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}
               transition={{ delay: i * 0.1 }}
-              className="rounded-2xl bg-card border border-primary/20 p-6 space-y-3">
-              <div className="h-11 w-11 rounded-xl bg-primary/10 border border-primary/20 flex items-center justify-center">
+              className="p-6 space-y-3">
+              <div className="h-11 w-11 flex items-center justify-center">
                 <b.icon className="h-5 w-5 text-primary" />
               </div>
               <p className="font-heading font-black text-xl">{t(b.title)}</p>

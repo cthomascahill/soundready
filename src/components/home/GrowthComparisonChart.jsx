@@ -45,7 +45,7 @@ export default function GrowthComparisonChart() {
 
   return (
     <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}
-      className="rounded-2xl bg-card border border-border p-6 sm:p-8 space-y-5">
+      className="p-6 sm:p-8 space-y-5">
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         <div className="space-y-1">
           <h3 className="font-heading font-bold text-xl">{t("Illustrative growth scenario")}</h3>
