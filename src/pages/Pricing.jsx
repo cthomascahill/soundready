@@ -297,9 +297,6 @@ export default function Pricing() {
         </div>
       </section>
 
-      {/* TESTIMONIAL */}
-      <TestimonialSection />
-
       {/* FULL TOOLKIT */}
       <FullToolkitSection />
 
@@ -332,6 +329,9 @@ export default function Pricing() {
           </div>
         </div>
       </section>
+
+      {/* TESTIMONIAL */}
+      <TestimonialSection />
 
       {/* FAQ */}
       <section className="px-4 pb-24 border-t border-border pt-16">
