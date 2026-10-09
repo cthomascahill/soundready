@@ -32,7 +32,14 @@ export default function TaskDetail({ task, onChanged }) {
     setRetrying(true);
     try {
       await base44.functions.invoke("samTaskRun", { task_id: task.id });
-    } catch {}
+    } catch {
+      // Invoke died before the function started (temporary service error) —
+      // mark it failed so it never spins "working" forever.
+      await base44.entities.SamTask.update(task.id, {
+        status: "failed",
+        error: "Sam couldn't start this run — a temporary service error cut it off. Try again.",
+      }).catch(() => {});
+    }
     setRetrying(false);
     onChanged();
   };

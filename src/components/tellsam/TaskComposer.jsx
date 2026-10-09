@@ -81,6 +81,15 @@ export default function TaskComposer({ user, onCreated }) {
           : null);
       }
     } catch (err) {
+      // The invoke can die before the function even starts (e.g. a brief
+      // platform hiccup) — the task would spin "working" forever. Mark it
+      // failed right away so the artist can retry from the task list.
+      if (created) {
+        await base44.entities.SamTask.update(created.id, {
+          status: "failed",
+          error: "Sam couldn't start this run — a temporary service error cut it off. Try again.",
+        }).catch(() => {});
+      }
       setError(err.message || "Sam hit a snag — try again.");
     } finally {
       setWorking(false);
