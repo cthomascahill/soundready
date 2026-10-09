@@ -1,6 +1,7 @@
 import { motion } from "framer-motion";
 import { Bot, Pencil, X, Send, Sparkles, CalendarDays } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import MacVideoWindow from "@/components/home/MacVideoWindow";
 import { useLang } from "@/lib/i18n/LanguageContext";
 
 const SAM_IMG = "https://media.base44.com/images/public/69dcf0ecc907e43a438a626b/d124f0929_generated_f10ed4b3.png";
@@ -90,11 +91,7 @@ export default function SamInActionSection() {
             {t("Watch SAM automatically pitch a song to a Spotify playlist")}. {t("You simply ")}<span className="text-primary font-semibold">Approve</span> {t("or")} <span className="text-red-400 font-semibold">Deny</span>.
           </p>
           <div aria-hidden="true" className="h-6" />
-          <video
-            src={SAM_DEMO_VIDEO_URL}
-            autoPlay muted loop playsInline controls
-            className="w-full rounded-2xl border border-border shadow-xl mb-10"
-          />
+          <MacVideoWindow videoUrl={SAM_DEMO_VIDEO_URL} title="SAM's Desk" className="mb-10" />
         </motion.div>
       )}
     </section>
