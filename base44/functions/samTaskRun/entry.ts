@@ -7,12 +7,13 @@ import { SAM_USAGE, getUsageState, estimateTaskUnits, maxTaskUnits, adaptiveTarg
 // Sam executes an open-ended task the artist typed in "Tell Sam what to do".
 // For non-venue prospecting (labels, distributors, sync, press...) a wide
 // multi-search sweep builds a big candidate pool first (see discovery.ts).
-// Then two passes: (1) web-informed research + drafting — the web is searched on
-// EVERY task, with the artist's constraints as hard filters, informed by the
-// shared venue directory and past artist feedback;
-// (2) a quality-control audit that flags or excludes drafts that break the
-// artist's requirements. Nothing sends here — drafts land as "draft" status
-// for per-draft approval in samTaskDraft.
+// Then the drafting pass (web-informed, with the artist's constraints as hard
+// filters, informed by the shared venue directory and past artist feedback),
+// followed by two passes that run in PARALLEL: a booking-email hunt on each
+// target's own website (with a live-web fallback for targets still missing an
+// email — never a guessed address) and a quality-control audit that flags or
+// excludes drafts that break the artist's requirements. Nothing sends here —
+// drafts land as "draft" status for per-draft approval in samTaskDraft.
 export default async function(req) {
   let base44Ref = null;
   let taskId = null;
@@ -338,18 +339,68 @@ ${poolSection}HOW TO WORK:
         status: 'draft',
       }));
 
-    // ── Hunt real booking emails on the targets' own websites ────────────
-    // Search snippets rarely expose emails; the venue's booking page has it.
+    // ── Pass 2 (in parallel): hunt real booking emails on the targets' own
+    // websites AND run the quality-control audit at the same time — they're
+    // independent, so this cuts the wait roughly in half. Search snippets
+    // rarely expose emails; the venue's own booking pages have them.
+    const qcPromise = drafts.length
+      ? base44.integrations.Core.InvokeLLM({
+          model: 'claude-sonnet-5',
+          prompt: `You are Sam's quality-control editor. Below are the artist's requirements and the outreach targets Sam drafted. Audit each target strictly against the fit requirements — contact details are verified separately, so ignore them here.
+
+REQUIREMENTS EXTRACTED FROM THE ARTIST:
+${JSON.stringify(llm?.constraints || {})}
+
+THE ARTIST'S TASK (verbatim): "${task.prompt}"
+
+TARGETS:
+${JSON.stringify(drafts.map(d => ({
+            target_name: d.target_name,
+            target_location: d.target_location,
+            target_capacity: d.target_capacity,
+            why_fit: String(d.why_fit || '').slice(0, 200),
+          })))}
+
+For each target return a verdict:
+- "pass": meets every stated requirement (right city, within capacity range, sensible fit).
+- "flag": usable but with a caveat (capacity unknown, fit uncertain) — put the caveat in "issue".
+- "exclude": breaks a hard requirement (wrong city, capacity over the artist's stated max, wrong genre entirely) — put the reason in "issue".
+Capacity only applies to venues: ignore it for labels, distributors, sync companies, press and other non-venue targets.
+
+Also return "summary": one short paragraph for the artist, in plain words, describing what you checked and what you flagged or excluded.`,
+          response_json_schema: {
+            type: 'object',
+            properties: {
+              audit: {
+                type: 'array',
+                items: {
+                  type: 'object',
+                  properties: {
+                    target_name: { type: 'string' },
+                    verdict: { type: 'string', enum: ['pass', 'flag', 'exclude'] },
+                    issue: { type: 'string' },
+                  },
+                  required: ['target_name', 'verdict'],
+                },
+              },
+              summary: { type: 'string' },
+            },
+            required: ['audit'],
+          },
+        }).catch(err => {
+          console.log('samTaskRun QC pass skipped:', err?.message || err);
+          return null;
+        })
+      : Promise.resolve(null);
+
     const huntSites = new Map();
     for (const d of drafts) {
       const url = d.target_website || d.source_url;
       if (url && /^https?:\/\//.test(url) && !huntSites.has(url)) huntSites.set(url, null);
     }
     const huntUrls = [...huntSites.keys()].slice(0, Math.max(8, targetCap));
-    const huntResults = await Promise.allSettled(huntUrls.map(u => huntBookingEmail(u)));
-    huntUrls.forEach((u, i) => {
-      if (huntResults[i].status === 'fulfilled') huntSites.set(u, huntResults[i].value);
-    });
+    await Promise.allSettled(huntUrls.map(u => huntBookingEmail(u).then(h => huntSites.set(u, h))));
+
     for (const d of drafts) {
       const url = d.target_website || d.source_url;
       const hunt = url ? huntSites.get(url) : null;
@@ -366,6 +417,79 @@ ${poolSection}HOW TO WORK:
       }
     }
 
+    // ── Pass 2.5: still no email? Keep researching the live web before
+    // falling back to a submission page. Only an email that is verifiably the
+    // target's own is accepted — never a guess.
+    let fallbackRan = false;
+    const stillMissing = drafts.filter(d => !d.target_email);
+    if (stillMissing.length) {
+      fallbackRan = true;
+      const fallback = await base44.integrations.Core.InvokeLLM({
+        model: 'gemini_3_1_pro',
+        add_context_from_internet: true,
+        prompt: `You are finding publicly listed booking/contact emails for music venues and music companies. For EACH target below, search the web and return the booking or contact email that the target itself publishes on its own official website, booking page or contact page.
+
+Rules:
+- Only return an email you actually saw in the search results, with the exact URL of the page it appeared on in "source_url".
+- Never guess, construct or infer an email address. If no public email exists for a target, return an empty email for it.
+- Prefer booking@, bookings@, shows@ or an address on the target's own domain.
+
+TARGETS:
+${stillMissing.map(d => `- ${d.target_name}${d.target_location ? ` (${d.target_location})` : ''}${d.target_website ? ` — official site: ${d.target_website}` : ''}`).join('\n')}`,
+        response_json_schema: {
+          type: 'object',
+          properties: {
+            contacts: {
+              type: 'array',
+              items: {
+                type: 'object',
+                properties: {
+                  name: { type: 'string' },
+                  email: { type: 'string' },
+                  source_url: { type: 'string' },
+                },
+                required: ['name'],
+              },
+            },
+          },
+          required: ['contacts'],
+        },
+      }).catch(err => {
+        console.log('samTaskRun email fallback skipped:', err?.message || err);
+        return null;
+      });
+
+      for (const hit of fallback?.contacts || []) {
+        const d = stillMissing.find(x => x.target_name.toLowerCase() === String(hit.name || '').toLowerCase().trim());
+        if (!d || d.target_email) continue;
+        const email = String(hit.email || '').trim().toLowerCase();
+        const source = String(hit.source_url || '').trim();
+        if (!isUsableEmail(email) || !/^https?:\/\//.test(source)) continue;
+        // Accept only when the email or its source page is verifiably the target's own
+        let trusted = false;
+        let host = '';
+        try {
+          host = new URL(source).hostname.replace(/^www\./, '').toLowerCase();
+          const emailDomain = email.split('@')[1];
+          const siteHost = d.target_website
+            ? new URL(d.target_website).hostname.replace(/^www\./, '').toLowerCase()
+            : '';
+          const nameKey = d.target_name.toLowerCase().replace(/[^a-z0-9]/g, '');
+          if (siteHost) {
+            trusted = host === siteHost || host.endsWith('.' + siteHost)
+              || emailDomain === siteHost || emailDomain.endsWith('.' + siteHost);
+          } else {
+            trusted = !!nameKey && (host.includes(nameKey) || source.toLowerCase().includes(nameKey));
+          }
+        } catch {}
+        if (!trusted) continue;
+        d.target_email = email;
+        d.contact_route = 'email';
+        if (!d.source_url) d.source_url = source;
+        d.verification_note = `Email found on ${host || 'the web'} via live search — it's publicly listed; double-check it's current before sending${d.verification_note ? ` — ${d.verification_note}` : ''}`;
+      }
+    }
+
     // ── Pass 2: quality-control audit against the artist's requirements ──
     const resultObj = llm?.result || {};
     const qcSections = [];
@@ -374,56 +498,8 @@ ${poolSection}HOW TO WORK:
     let qcRan = false;
 
     if (drafts.length) {
-      const qc = await base44.integrations.Core.InvokeLLM({
-        model: 'claude-sonnet-5',
-        prompt: `You are Sam's quality-control editor. Below are the artist's requirements and the outreach targets Sam drafted. Audit each target strictly.
-
-REQUIREMENTS EXTRACTED FROM THE ARTIST:
-${JSON.stringify(llm?.constraints || {})}
-
-THE ARTIST'S TASK (verbatim): "${task.prompt}"
-
-TARGETS:
-${JSON.stringify(drafts.map(d => ({
-          target_name: d.target_name,
-          target_location: d.target_location,
-          target_capacity: d.target_capacity,
-          has_email: !!d.target_email,
-          contact_route: d.contact_route,
-          why_fit: String(d.why_fit || '').slice(0, 200),
-        })))}
-
-For each target return a verdict:
-- "pass": meets every stated requirement (right city, within capacity range, sensible fit) and has a real contact route.
-- "flag": usable but with a caveat (capacity unknown, fit uncertain, contact route weak) — put the caveat in "issue".
-- "exclude": breaks a hard requirement (wrong city, capacity over the artist's stated max, wrong genre entirely) — put the reason in "issue".
-Capacity only applies to venues: ignore it for labels, distributors, sync companies, press and other non-venue targets.
-
-Also return "summary": one short paragraph for the artist, in plain words, describing what you checked and what you flagged or excluded.`,
-        response_json_schema: {
-          type: 'object',
-          properties: {
-            audit: {
-              type: 'array',
-              items: {
-                type: 'object',
-                properties: {
-                  target_name: { type: 'string' },
-                  verdict: { type: 'string', enum: ['pass', 'flag', 'exclude'] },
-                  issue: { type: 'string' },
-                },
-                required: ['target_name', 'verdict'],
-              },
-            },
-            summary: { type: 'string' },
-          },
-          required: ['audit'],
-        },
-      }).catch(err => {
-        console.log('samTaskRun QC pass skipped:', err?.message || err);
-        return null;
-      });
-      qcRan = true;
+      const qc = await qcPromise;
+      qcRan = !!qc;
 
       if (qc?.audit?.length) {
         const byName = new Map(qc.audit.map(a => [String(a.target_name || '').toLowerCase(), a]));
@@ -489,7 +565,7 @@ Also return "summary": one short paragraph for the artist, in plain words, descr
       targets: drafts.length,
       attachments: attachments.length,
     }) + (drafts.length ? SAM_USAGE.units.contactCheck * Math.min(huntUrls.length, drafts.length) : 0);
-    const llmCalls = 2 + (prospecting ? (plan?.angles?.length || 0) : 0) + (qcRan ? 1 : 0);
+    const llmCalls = 2 + (prospecting ? (plan?.angles?.length || 0) : 0) + (qcRan ? 1 : 0) + (fallbackRan ? 1 : 0);
     await settleTaskUnits(base44, usageEventId, actualUnits, `task complete: ${drafts.length} drafts, ${llmCalls} AI calls, ${actualUnits} of ${estimatedUnits} units used`);
 
     console.log(`samTaskRun: task ${task.id} complete, ${drafts.length} drafts filed (${flaggedCount} flagged, ${excludedCount} excluded by QC)`);

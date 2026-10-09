@@ -1,6 +1,8 @@
 // Visits a venue's website (and its booking/contact pages) and pulls out the
 // publicly listed booking email. Search snippets rarely expose emails; the
-// venue's own pages have them.
+// venue's own pages have them. The homepage is checked first, then its linked
+// contact/booking pages; when the homepage exposes nothing at all, the usual
+// booking paths are probed too.
 
 const EMAIL_RE = /[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}/g;
 const JUNK = /\.(png|jpe?g|gif|webp|svg|css|js|mp3|wav)$/i;
@@ -8,7 +10,7 @@ const BAD = /(sentry\.io|wixpress\.com|squarespace\.com|example\.com|schema\.org
 const PLACEHOLDER_LOCAL = /^(name|your|yourname|youremail|email|user|username|test|john|jane|johndoe|someone|example|first|firstname|firstlast|you)$/i;
 const PLACEHOLDER_DOMAIN = /@(email|domain|yourdomain|mail|example|test|company|website)\.(com|org|net)$/i;
 const NON_BOOKING_LOCAL = /^(shop|store|merch|orders?|support|help|privacy|legal|abuse|noreply|no-reply|donotreply|webmaster|careers?|jobs|hr|billing|sales|returns|customerservice|customer-service|unsubscribe)$/i;
-const CONTACT_LINK = /(book|contact|shows|press|submis|hire|inquir)/i;
+const CONTACT_LINK = /(book|contact|shows|press|submis|hire|inquir|gig|calendar|events)/i;
 
 // True for a real-looking contact address: not a form placeholder
 // (name@gmail.com), not a store/support/legal inbox, not an asset or tracker.
@@ -48,7 +50,7 @@ function contactPages(html, baseUrl) {
 
 async function fetchPage(url) {
   const res = await fetch(url, {
-    signal: AbortSignal.timeout(10000),
+    signal: AbortSignal.timeout(8000),
     headers: { 'User-Agent': 'Mozilla/5.0 (compatible; SoundReadyBot/1.0)', Accept: 'text/html' },
     redirect: 'follow',
   });
@@ -73,8 +75,24 @@ export async function huntBookingEmail(website) {
 
   const found = extractEmails(html).map(e => ({ e, page: root }));
 
-  const subPages = contactPages(html, root).slice(0, 2);
-  const subs = await Promise.allSettled(subPages.map(async p => ({ p, html: await fetchPage(p) })));
+  // mailto: links are the venue publishing the address directly
+  for (const m of String(html || '').matchAll(/mailto:([^"'?>\s]+)/gi)) {
+    const e = decodeURIComponent(m[1]).trim().toLowerCase();
+    if (isUsableEmail(e) && !found.some(f => f.e === e)) found.push({ e, page: root });
+  }
+
+  // Contact/booking pages linked from the homepage
+  let pages = contactPages(html, root).slice(0, 3);
+
+  // Homepage exposed nothing at all — probe the usual booking/contact paths
+  if (!pages.length && !found.length) {
+    pages = ['/booking', '/book', '/contact', '/contact-us', '/shows']
+      .map(p => { try { return new URL(p, root).toString(); } catch { return ''; } })
+      .filter(Boolean)
+      .slice(0, 3);
+  }
+
+  const subs = await Promise.allSettled(pages.map(async p => ({ p, html: await fetchPage(p) })));
   for (const s of subs) {
     if (s.status === 'fulfilled') {
       for (const e of extractEmails(s.value.html)) found.push({ e, page: s.value.p });
@@ -83,7 +101,7 @@ export async function huntBookingEmail(website) {
 
   if (!found.length) return out;
 
-  const score = ({ e }) => (/^(book|booking|shows?|gig|talent|contact|press|info|hello|mgmt|hire)/.test(e) ? 2 : 1);
+  const score = ({ e }) => (/^(book|booking|bookings|shows?|gig|talent|contact|press|info|hello|mgmt|hire)/.test(e) ? 2 : 1);
   found.sort((a, b) => score(b) - score(a));
   out.email = found[0].e;
   out.found_on = found[0].page;

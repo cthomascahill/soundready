@@ -20,7 +20,7 @@ export default async function(req) {
     reservationEventId = reservation.event?.id || null;
     if (!reservation.allowed) return usagePausedResponse(reservation.state);
 
-    const [memories, profiles, goals, conns, pipeline, activities, recentRecs] = await Promise.all([
+    const [memories, profiles, goals, conns, pipeline, activities, recentRecs, feedback] = await Promise.all([
       base44.entities.MayaMemory.filter({ user_id: user.id }, '-created_date', 100).catch(() => []),
       base44.entities.ArtistProfile.filter({ created_by_id: user.id }, '-created_date', 1).catch(() => []),
       base44.entities.ArtistGoal.filter({ created_by_id: user.id }, '-created_date', 10).catch(() => []),
@@ -28,6 +28,7 @@ export default async function(req) {
       base44.entities.PipelineSong.filter({ created_by_id: user.id }, '-created_date', 12).catch(() => []),
       base44.entities.AIActivity.filter({ user_id: user.id }, '-created_date', 20).catch(() => []),
       base44.entities.MayaRecommendation.filter({ user_id: user.id }, '-created_date', 30).catch(() => []),
+      base44.entities.SamFeedback.filter({ user_id: user.id }, '-created_date', 25).catch(() => []),
     ]);
 
     const profile = profiles[0] || {};
@@ -74,6 +75,10 @@ export default async function(req) {
         }).join('\n')
       : 'No prior actions';
 
+    const feedbackStr = feedback.length
+      ? feedback.map(f => `- [${f.rating}]${f.comment ? `: ${f.comment}` : ' (no comment)'}`).join('\n')
+      : 'None yet';
+
     const existingTitles = recentRecs.map(r => `- ${r.title} (${r.status})`);
     const prompt = `You are Sam, the AI manager inside SoundReady, reviewing the account of ${name}, an independent artist.
 
@@ -105,10 +110,13 @@ ${pipelineStr}
 RECENT MAYA ACTIONS AND THEIR RECORDED OUTCOMES:
 ${outcomeStr}
 
-RECOMMENDATIONS ALREADY ON FILE (do not repeat these):
+PAST FEEDBACK ON YOUR WORK (how the artist rated earlier results and drafts — apply these lessons hard, and never re-suggest anything rated "incorrect"):
+${feedbackStr}
+
+RECOMMENDATIONS ALREADY ON FILE (do not repeat these, including dismissed ones):
 ${existingTitles.join('\n') || 'None'}
 
-TASK: Generate 2 to 4 new recommendations for ${name}, mixing career opportunities (venues, playlists, placements, collaborations, sync, press) with day-to-day management (release prep, follow-ups, goals, content, admin). Ground every recommendation in the data above and explain the reasoning in "rationale", citing specific numbers or confirmed preferences.
+TASK: Generate 2 to 4 new recommendations for ${name}, mixing career opportunities (venues, playlists, placements, collaborations, sync, press) with day-to-day management (release prep, follow-ups, goals, content, admin). Ground every recommendation in the data above and explain the reasoning in "rationale", citing specific numbers, confirmed preferences, or past feedback.
 
 Each recommendation's "kind" must be EXACTLY one of these four values:
 - "career_opportunity" — an external chance to pursue (playlist, venue, placement, collab, sync, press)

@@ -123,7 +123,7 @@ You speak directly, honestly, and like a real manager who is invested in their s
 
 If their numbers are low, address it directly without sugarcoating. If they have an upcoming release, reference it. If they completed a challenge, acknowledge it. You remember the full conversation history within this session.
 
-Keep responses focused and actionable. Use markdown formatting (bold, bullet points) to make responses scannable. End with a concrete next step when relevant.`;
+RESPONSE STYLE — short by default: lead with a direct 1-2 sentence answer, then at most 3-4 tight bullets only when they add real value. No preamble, no padding, no restating the question. Go deeper only when the artist asks or the task truly requires it; offer detail instead of dumping it. Use markdown bold and bullets to stay scannable. End with one concrete next step when relevant.`;
 }
 
 function buildPlatformDataContext(platformConns) {
@@ -257,7 +257,16 @@ function buildIdentityBlock(profile) {
     : "Identity details are incomplete — use the name and context the artist gave in chat and clearly note the ambiguity.\n";
 }
 
-async function routeForSearch(userMsg) {
+// Fast local pre-checks so obvious messages skip the routing model call
+const SCAN_HINT = /\bscan\b|my reputation|google me|search me/i;
+const WRITE_HINT = /^(help me |can you |could you |please )?(write|draft|rewrite|polish|give me|suggest|make)/i;
+const LOOKUP_HINT = /(find|look ?up|who is|contact|email for|book (a |us |me )?show|venues?|festival|label|playlist|curator|latest|news|current|right now|price|deadline|open for|accepting|20\d\d)/i;
+
+async function routeForSearch(userMsg, artistName) {
+  // An explicit scan searches straight away — no routing call needed
+  if (SCAN_HINT.test(userMsg)) return { query: artistName ? `${userMsg} ${artistName}` : userMsg, scan: true };
+  // A writing/advice ask with no external lookup is answered from Sam's own knowledge
+  if (WRITE_HINT.test(userMsg) && !LOOKUP_HINT.test(userMsg)) return null;
   const result = await base44.integrations.Core.InvokeLLM({
     prompt: `You route messages inside an AI music manager chat. Does answering this message require CURRENT information from the live web? Answer yes only when the manager's own industry knowledge or the artist's stored profile cannot reliably answer it.
 
@@ -317,7 +326,9 @@ WEB SEARCH: Live internet search results are attached for the query "${searchQue
 ${history}
 ---END HISTORY---
 
-Now respond as Sam to the artist's latest message. Also provide 2-3 follow-up suggestion chips.${learningBlock}${searchBlock}
+Now respond as Sam to the artist's latest message. Also provide 2-3 follow-up suggestion chips.
+
+RESPONSE STYLE: keep it SHORT. Open with the direct answer in 1-2 sentences, then at most 3-4 tight bullets only when they genuinely help. No preamble, no restating the question, no essays — offer to go deeper instead of dumping depth up front. (Reputation-scan responses keep their structured TL;DR/findings format.)${learningBlock}${searchBlock}
 
 Return your response as JSON:
 {
@@ -476,7 +487,7 @@ export default function MayaAssistant() {
       // Decide first whether this message needs live web results
       let search = null;
       try {
-        search = await routeForSearch(msg);
+        search = await routeForSearch(msg, profile?.stage_name || user?.full_name);
       } catch (routeErr) {
         console.error("Sam search routing error:", routeErr);
       }
