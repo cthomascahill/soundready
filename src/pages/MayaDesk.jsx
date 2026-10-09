@@ -10,6 +10,7 @@ import MemoryPanel from "@/components/maya/MemoryPanel";
 import ScansPanel from "@/components/maya/ScansPanel";
 import PlaylistPitchPanel from "@/components/maya/PlaylistPitchPanel";
 import DealsDeskPanel from "@/components/deals/DealsDeskPanel";
+import SamStatsBoard from "@/components/maya/SamStatsBoard";
 import OutcomeControl from "@/components/maya/OutcomeControl";
 import SamLogo from "@/components/SamLogo";
 import { Button } from "@/components/ui/button";
@@ -200,6 +201,7 @@ export default function MayaDesk() {
         {/* Tabs */}
         <div className="flex gap-1">
           {[
+            { key: "stats", label: "Sam's Impact" },
             { key: "queue", label: `Awaiting Approval${queue.length ? ` (${queue.length})` : ""}` },
             { key: "playlists", label: "Playlists" },
             { key: "recs", label: `Recommendations${recsPending ? ` (${recsPending})` : ""}` },
@@ -220,6 +222,8 @@ export default function MayaDesk() {
           <div className="space-y-3">
             {[1, 2, 3].map(i => <div key={i} className="h-24 rounded-xl bg-card border border-border animate-pulse" />)}
           </div>
+        ) : tab === "stats" ? (
+          <SamStatsBoard user={user} />
         ) : tab === "playlists" ? (
           <PlaylistPitchPanel
             user={user}
