@@ -213,7 +213,7 @@ export default function About() {
                 <motion.div key={tier.name}
                 initial={{ opacity: 0, y: 24 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}
                 transition={{ delay: i * 0.12 }}
-                className={`relative h-full rounded-2xl border p-4 sm:p-6 flex flex-col bg-transparent ${
+                className={`relative h-full rounded-2xl border p-4 sm:p-6 flex flex-col bg-card ${
                   tier.name === "AI Manager" ? "ring-2 ring-primary/60 shadow-2xl shadow-primary/10" :
                   tier.name === "Artist Pro" ? "ring-2 ring-chart-5/40 shadow-xl" : ""
                 } ${tier.border}`}>
@@ -275,7 +275,7 @@ export default function About() {
       <IncludedSection />
 
       {/* SOCIAL PROOF STATS */}
-      <section className="px-4 py-20 border-t border-border">
+      <section className="px-4 py-20">
         <div className="max-w-5xl mx-auto space-y-8">
           <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="text-center space-y-2">
             <h2 className="font-heading text-4xl font-bold">{t("See what's possible with SoundReady")}</h2>
@@ -301,7 +301,7 @@ export default function About() {
       </section>
 
       {/* CTA */}
-      <section className="px-4 py-32 border-t border-border text-center bg-gradient-to-t from-primary/8 via-background to-background">
+      <section className="px-4 py-32 text-center bg-gradient-to-t from-primary/8 via-background to-background">
         <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="max-w-5xl mx-auto space-y-8">
           <div className="space-y-4">
             <h2 className="font-heading text-5xl sm:text-6xl font-black lg:whitespace-nowrap">

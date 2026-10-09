@@ -12,7 +12,7 @@ const SAM_DEMO_VIDEO_URL = "https://media.base44.com/videos/public/69dcf0ecc907e
 export default function SamInActionSection() {
   const { t } = useLang();
   return (
-    <section id="sam-in-action" className="px-4 py-24 border-t border-border scroll-mt-20">
+    <section id="sam-in-action" className="px-4 py-24 scroll-mt-20">
       <div className="max-w-5xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-center">
         <motion.div initial={{ opacity: 0, x: -24 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }} className="space-y-5 order-2 lg:order-1">
           <p className="text-xs text-primary uppercase tracking-wider font-bold">{t("SAM In Action")}</p>
