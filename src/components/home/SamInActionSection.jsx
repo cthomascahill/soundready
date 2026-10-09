@@ -91,7 +91,7 @@ export default function SamInActionSection() {
             {t("Watch SAM automatically pitch a song to a Spotify playlist")}. {t("You simply ")}<span className="text-primary font-semibold">Approve</span> {t("or")} <span className="text-red-400 font-semibold">Deny</span>.
           </p>
           <div aria-hidden="true" className="h-6" />
-          <MacVideoWindow videoUrl={SAM_DEMO_VIDEO_URL} title="SAM's Desk" className="mb-8" />
+          <MacVideoWindow videoUrl={SAM_DEMO_VIDEO_URL} title="SAM's Desk" className="mb-14" />
           <div className="flex justify-center">
             <a href="#pricing">
               <Button size="lg" className="gap-2 font-heading font-bold text-base px-10 h-12">

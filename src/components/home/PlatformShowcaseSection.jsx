@@ -1,5 +1,6 @@
 import { motion } from "framer-motion";
-import { HandCoins, TrendingUp, Wand2, ListChecks } from "lucide-react";
+import { HandCoins, TrendingUp, Wand2, ListChecks, ArrowRight } from "lucide-react";
+import { Button } from "@/components/ui/button";
 import { useLang } from "@/lib/i18n/LanguageContext";
 
 // Real screenshots of the platform: Sam's task workspace and the Deals desk
@@ -92,6 +93,14 @@ export default function PlatformShowcaseSection() {
               <span className="text-sm font-medium">{t(f.text)}</span>
             </motion.div>
           ))}
+        </div>
+
+        <div className="flex justify-center pt-8">
+          <a href="#pricing">
+            <Button size="lg" className="gap-2 font-heading font-bold text-base px-10 h-12">
+              {t("Start")} <ArrowRight className="h-4 w-4" />
+            </Button>
+          </a>
         </div>
       </div>
     </section>
