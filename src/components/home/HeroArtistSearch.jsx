@@ -5,6 +5,7 @@ import { base44 } from "@/api/base44Client";
 import { Button } from "@/components/ui/button";
 import { useLang } from "@/lib/i18n/LanguageContext";
 import PersonalGrowthChart from "@/components/home/PersonalGrowthChart";
+import SamPreviewCard from "@/components/home/SamPreviewCard";
 
 const compact = (v) => new Intl.NumberFormat("en", { notation: "compact", maximumFractionDigits: 1 }).format(v);
 
@@ -92,6 +93,7 @@ export default function HeroArtistSearch() {
           </div>
 
           <PersonalGrowthChart artistName={result.name} monthlyListeners={result.monthly_listeners} />
+          <SamPreviewCard artist={result} />
         </motion.div>
       )}
     </div>
