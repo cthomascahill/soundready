@@ -32,23 +32,35 @@ const TierItems = ({ items, check = "text-primary" }) => (
 const FAQ = [
   {
     q: "How does the 7-day free trial work?",
-    a: "Start Artist Pro with your card on file and use everything free for 7 days. Your card is automatically charged $39 on day 7 (or $374 yearly), cancel anytime before then and you pay nothing. Cancel after that and you keep access until the end of your billing period.",
-  },
-  {
-    q: "Does SoundReady take a percentage of my income?",
-    a: "Never. A traditional manager typically charges a 15–20% commission on what you earn. SAM is $59/mo flat for the first 100 artists ($79/mo after), and you keep 100% of your earnings, always.",
+    a: "Start Artist Pro with a card on file and everything is unlocked free for 7 days. Nothing is charged until day 7, when your plan begins at $39/month or $374/year. Cancel anytime before day 7 and you pay nothing at all. The Free plan never asks for a card.",
   },
   {
     q: "What exactly does SAM do?",
-    a: "SAM watches your connected Spotify and YouTube data, matches your songs to real playlist and tour opportunities, and drafts the emails: pitches, outreach, EPKs, digests. Every draft lands in SAM's Desk where you approve, edit, or deny it. SAM does the work; you stay in control.",
+    a: "SAM is your AI manager. Every week SAM reads your connected Spotify and YouTube numbers, finds real playlist, venue, label, press and sync opportunities that match your sound, and drafts the emails to reach them, personalized with your real stats. Every draft lands in SAM's Desk where you approve, edit, or deny it. Nothing sends without your approval.",
   },
   {
-    q: "Can I cancel anytime?",
-    a: "Yes. No contracts, no commitments. Cancel from your plan page in one click, during the trial you're never charged, and after it you keep access until the period you already paid for ends.",
+    q: "What are SAM credits?",
+    a: "SAM's research and writing runs on credits. AI Manager includes 2,500 credits a month, which covers a full month of research, pitches and weekly digests for most artists. Need more? Add 1,500 credits for $15, one time, and they never expire. Extra credits are only used after your monthly balance runs out.",
   },
   {
-    q: "Is my music kept private?",
-    a: "Yes. Your uploaded tracks are never shared or used for any purpose other than powering your analysis and tools.",
+    q: "Does SoundReady take a percentage of my income?",
+    a: "Never. A traditional manager typically takes a 15 to 20% commission on everything you earn. AI Manager is $59/month flat while you're in the first 100 artists ($79/month after), and you keep 100% of your royalties, always.",
+  },
+  {
+    q: "Which plan do I actually need?",
+    a: "Free keeps your music organized forever, no card needed. Artist Pro adds the full career toolkit: unlimited Vault, release planning, playlist discovery, venues, touring and team tools, $39/month after the trial. AI Manager adds SAM on top of all of that, $59/month while the founding offer lasts.",
+  },
+  {
+    q: "What happens when I cancel?",
+    a: "Cancel in one click from your plan page. No email, no phone call. During the trial you're never charged. After that you keep access until the period you already paid for ends, then your account simply moves to the Free plan. Your songs and data stay yours.",
+  },
+  {
+    q: "Is the founding price really locked forever?",
+    a: "Yes. Join the first 100 artists and your $59/month (or $569/year) stays locked for as long as you stay subscribed, even after new artists pay $79/month. Cancel and return later, and the then-current price applies.",
+  },
+  {
+    q: "Is my music private?",
+    a: "Yes. Your uploads, drafts and stats are private to your account, never shared or sold. Your music is only ever used to power your own tools.",
   },
 ];
 
@@ -301,6 +313,11 @@ export default function Pricing() {
             </div>
             <ManagerCostSlider />
           </motion.div>
+          <div className="pt-8 flex justify-center">
+            <Button size="lg" className="gap-2 font-heading font-bold text-base px-10 h-12" onClick={() => document.getElementById("plans")?.scrollIntoView({ behavior: "smooth" })}>
+              Start <ArrowRight className="h-4 w-4" />
+            </Button>
+          </div>
         </div>
       </section>
 
