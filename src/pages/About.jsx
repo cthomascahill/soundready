@@ -125,25 +125,25 @@ export default function About() {
         <div className="absolute -top-48 -left-48 h-[640px] w-[640px] rounded-full bg-primary/15 blur-[140px] pointer-events-none" />
         <div className="absolute -top-40 -right-56 h-[560px] w-[560px] rounded-full bg-chart-2/10 blur-[160px] pointer-events-none" />
         <div className="absolute inset-0 bg-gradient-to-b from-transparent via-background/60 to-background pointer-events-none" />
-        <motion.div initial={{ opacity: 0, y: 32 }} animate={{ opacity: 1, y: 0 }} className="relative max-w-7xl mx-auto grid grid-cols-[1.35fr_1fr] lg:grid-cols-[1.1fr_1fr] items-center gap-4 lg:gap-6">
+        <motion.div initial={{ opacity: 0, y: 32 }} animate={{ opacity: 1, y: 0 }} className="relative max-w-7xl mx-auto grid lg:grid-cols-[1.1fr_1fr] items-center gap-6">
           {/* Hero copy */}
-          <div className="space-y-4 lg:space-y-8 text-center">
-            <h1 className="font-heading text-2xl sm:text-4xl lg:text-6xl xl:text-8xl font-black tracking-tight leading-[0.9]">
+          <div className="space-y-6 lg:space-y-8 text-center">
+            <h1 className="font-heading text-5xl sm:text-6xl lg:text-8xl font-black tracking-tight leading-[0.9]">
               {t("Your own AI")}<br />
               <span className="text-primary">{t("music manager")}</span>
             </h1>
 
-            <div className="flex flex-col items-center gap-1 sm:gap-2">
-              <p className="font-heading text-sm sm:text-2xl lg:text-3xl xl:text-5xl font-black text-foreground tracking-tight">
+            <div className="flex flex-col items-center gap-1.5 sm:gap-2">
+              <p className="font-heading text-2xl sm:text-3xl lg:text-5xl font-black text-foreground tracking-tight">
                 {t("Search your artist name now")}
               </p>
-              <ArrowDown className="h-4 w-4 sm:h-7 sm:w-7 text-foreground animate-bounce" />
+              <ArrowDown className="h-5 w-5 sm:h-7 sm:w-7 text-foreground animate-bounce" />
             </div>
 
             <HeroArtistSearch />
 
-            <div className="flex flex-wrap items-center justify-center gap-2 sm:gap-3 pt-2">
-              <Button size="lg" className="gap-2 font-heading font-bold text-xs sm:text-base px-4 sm:px-8 h-10 sm:h-12" onClick={handleCTA}>
+            <div className="flex flex-col sm:flex-row items-center justify-center gap-3 pt-2">
+              <Button size="lg" className="gap-2 font-heading font-bold text-sm sm:text-base px-6 sm:px-8 h-11 sm:h-12" onClick={handleCTA}>
                 {t("Start")} <ArrowRight className="h-4 w-4" />
               </Button>
               <a href="#sam-in-action">
@@ -153,7 +153,7 @@ export default function About() {
               </a>
             </div>
 
-            <p className="text-[10px] sm:text-sm text-muted-foreground">{t("Start free. No contracts. No percentage cuts, ever.")}</p>
+            <p className="text-xs sm:text-sm text-muted-foreground">{t("Start free. No contracts. No percentage cuts, ever.")}</p>
           </div>
 
           {/* SAM mascot, big on the right, floating */}
@@ -161,7 +161,7 @@ export default function About() {
             <motion.img
               src="https://base44.app/api/apps/69dcf0ecc907e43a438a626b/files/mp/public/69dcf0ecc907e43a438a626b/4c5460634_sam-cutout.png"
               alt="SAM, the SoundReady AI music manager robot mascot"
-              className="h-40 sm:h-96 lg:h-[440px] w-auto drop-shadow-[0_24px_60px_rgba(34,197,94,0.25)]"
+              className="h-64 sm:h-96 lg:h-[440px] w-auto drop-shadow-[0_24px_60px_rgba(34,197,94,0.25)]"
               initial={{ opacity: 0, x: 24 }}
               animate={{ opacity: 1, x: 0, y: [0, -14, 0] }}
               transition={{
@@ -171,8 +171,8 @@ export default function About() {
               }}
             />
             <div className="absolute -top-2 lg:top-2 -left-2 lg:-left-20 -rotate-6 flex flex-col items-start pointer-events-none">
-              <p className="font-heading text-lg sm:text-4xl font-black text-foreground whitespace-nowrap">{t("Meet SAM")}</p>
-              <svg width="110" height="80" viewBox="0 0 110 80" fill="none" className="text-primary -mt-3 -ml-1 w-[70px] h-auto sm:w-[110px] sm:h-[80px]">
+              <p className="font-heading text-2xl sm:text-4xl font-black text-foreground whitespace-nowrap">{t("Meet SAM")}</p>
+              <svg width="110" height="80" viewBox="0 0 110 80" fill="none" className="text-primary -mt-3 -ml-1 w-[90px] h-auto sm:w-[110px] sm:h-[80px]">
                 <path d="M4 6 C 44 10, 76 30, 82 66" stroke="currentColor" strokeWidth="5" strokeLinecap="round" />
                 <path d="M68 62 L 84 74 L 76 52" stroke="currentColor" strokeWidth="5" strokeLinecap="round" strokeLinejoin="round" />
               </svg>
@@ -204,7 +204,7 @@ export default function About() {
             <p className="text-xs text-primary uppercase tracking-wider font-bold">{t("Pricing")}</p>
           </motion.div>
 
-          <div className="grid grid-cols-3 gap-2 lg:gap-5">
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-5">
             {TIERS.map((tier, i) => (
               <div className="relative h-full">
                 <div className={`absolute -inset-4 rounded-3xl blur-3xl pointer-events-none ${
@@ -213,12 +213,12 @@ export default function About() {
                 <motion.div key={tier.name}
                 initial={{ opacity: 0, y: 24 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}
                 transition={{ delay: i * 0.12 }}
-                className={`relative h-full rounded-2xl border p-3 lg:p-6 flex flex-col bg-card ${
+                className={`relative h-full rounded-2xl border p-4 sm:p-6 flex flex-col bg-card ${
                   tier.name === "AI Manager" ? "ring-2 ring-primary/60 shadow-2xl shadow-primary/10" :
                   tier.name === "Artist Pro" ? "ring-2 ring-chart-5/40 shadow-xl" : ""
                 } ${tier.border}`}>
                 {tier.badge && (
-                  <div className={`absolute -top-3 left-1/2 -translate-x-1/2 px-2 lg:px-3 py-0.5 lg:py-1 rounded-full text-[9px] lg:text-xs font-bold whitespace-nowrap ${tier.badgeStyle || "bg-primary text-primary-foreground"}`}>
+                  <div className={`absolute -top-3 left-1/2 -translate-x-1/2 px-2 sm:px-3 py-0.5 sm:py-1 rounded-full text-[10px] sm:text-xs font-bold whitespace-nowrap ${tier.badgeStyle || "bg-primary text-primary-foreground"}`}>
                     {tier.badge}
                   </div>
                 )}
@@ -229,7 +229,7 @@ export default function About() {
                   <motion.img
                     src="https://media.base44.com/images/public/69dcf0ecc907e43a438a626b/d124f0929_generated_f10ed4b3.png"
                     alt="SAM, the SoundReady AI manager robot, grabbing the side of the AI Manager card"
-                    className="pointer-events-none absolute -right-3 xl:-right-14 top-8 h-16 sm:h-44 w-auto drop-shadow-xl z-10"
+                    className="pointer-events-none absolute -right-3 xl:-right-14 top-8 h-24 sm:h-44 w-auto drop-shadow-xl z-10"
                     initial={{ opacity: 0, x: 16 }}
                     whileInView={{ opacity: 1, x: 0 }}
                     viewport={{ once: true }}
@@ -237,33 +237,33 @@ export default function About() {
                     transition={{ y: { repeat: Infinity, duration: 3, ease: "easeInOut" } }}
                   />
                 )}
-                <div className={`h-8 w-8 lg:h-11 lg:w-11 rounded-xl ${tier.bg} border ${tier.border} flex items-center justify-center mb-2 lg:mb-4 relative`}>
-                  <tier.icon className={`h-4 w-4 lg:h-5 lg:w-5 ${tier.color}`} />
+                <div className={`h-9 w-9 sm:h-11 sm:w-11 rounded-xl ${tier.bg} border ${tier.border} flex items-center justify-center mb-3 lg:mb-4 relative`}>
+                  <tier.icon className={`h-4 w-4 sm:h-5 sm:w-5 ${tier.color}`} />
                 </div>
-                <p className="font-heading font-black text-sm lg:text-2xl">{tier.name}</p>
-                <p className={`text-[10px] lg:text-sm font-semibold mt-0.5 mb-1 lg:mb-2 ${tier.color}`}>{t(tier.tagline)}</p>
+                <p className="font-heading font-black text-lg sm:text-2xl">{tier.name}</p>
+                <p className={`text-xs sm:text-sm font-semibold mt-0.5 mb-2 ${tier.color}`}>{t(tier.tagline)}</p>
                 <div className="flex items-baseline gap-2 flex-wrap mb-3">
-                  {tier.strike && <span className="text-[10px] lg:text-sm text-muted-foreground line-through font-semibold">{tier.strike}</span>}
-                  <p className="text-base lg:text-2xl font-black">{tier.price}</p>
-                  {tier.founding && <span className="px-2 py-0.5 rounded-full bg-primary/15 text-primary text-[8px] lg:text-[10px] font-bold uppercase tracking-wide">First 100 Artists · Discounted Forever</span>}
+                  {tier.strike && <span className="text-xs sm:text-sm text-muted-foreground line-through font-semibold">{tier.strike}</span>}
+                  <p className="text-xl sm:text-2xl font-black">{tier.price}</p>
+                  {tier.founding && <span className="px-2 py-0.5 rounded-full bg-primary/15 text-primary text-[9px] lg:text-[10px] font-bold uppercase tracking-wide">First 100 Artists · Discounted Forever</span>}
                 </div>
-                <p className="text-[10px] lg:text-sm text-muted-foreground leading-snug lg:leading-relaxed mb-3 lg:mb-5">{t(tier.desc)}</p>
-                <div className="space-y-1 lg:space-y-2 flex-1">
+                <p className="text-xs sm:text-sm text-muted-foreground leading-snug lg:leading-relaxed mb-4 lg:mb-5">{t(tier.desc)}</p>
+                <div className="space-y-1.5 lg:space-y-2 flex-1">
                   {tier.items.map((item) => (
-                    <div key={item} className="flex items-start gap-1.5 lg:gap-2.5">
-                      <CheckCircle2 className={`h-3 w-3 lg:h-4 lg:w-4 shrink-0 mt-0.5 ${tier.color}`} />
-                      <span className="text-[10px] lg:text-sm text-foreground">{t(item)}</span>
+                    <div key={item} className="flex items-start gap-2 lg:gap-2.5">
+                      <CheckCircle2 className={`h-3.5 w-3.5 lg:h-4 lg:w-4 shrink-0 mt-0.5 ${tier.color}`} />
+                      <span className="text-xs sm:text-sm text-foreground">{t(item)}</span>
                     </div>
                   ))}
                 </div>
                 <Link to={tier.checkout}>
-                  <Button className="w-full mt-3 lg:mt-6 font-semibold text-[10px] lg:text-sm px-2 lg:px-4">
-                    {tier.name === "AI Manager" && <Sparkles className="h-3 w-3 lg:h-3.5 lg:w-3.5 mr-1.5" />}
+                  <Button className="w-full mt-4 lg:mt-6 font-semibold text-xs sm:text-sm px-3 lg:px-4">
+                    {tier.name === "AI Manager" && <Sparkles className="h-3.5 w-3.5 mr-1.5" />}
                     {t(tier.cta)}
                   </Button>
                 </Link>
-                {tier.subtext && <p className="text-center text-[9px] lg:text-sm text-muted-foreground mt-2">{t(tier.subtext)}</p>}
-                {tier.smallPrint && <p className="text-center text-[8px] lg:text-xs text-muted-foreground mt-1 leading-relaxed">{t(tier.smallPrint)}</p>}
+                {tier.subtext && <p className="text-center text-[10px] sm:text-sm text-muted-foreground mt-2 leading-snug">{t(tier.subtext)}</p>}
+                {tier.smallPrint && <p className="text-center text-[9px] lg:text-xs text-muted-foreground mt-1 leading-relaxed">{t(tier.smallPrint)}</p>}
               </motion.div>
               </div>
             ))}
@@ -282,7 +282,7 @@ export default function About() {
           </motion.div>
           <GrowthComparisonChart />
           <p className="text-center text-sm text-muted-foreground">{t("Illustrative comparison, not a guarantee, results depend on your releases, effort, and genre.")}</p>
-          <div className="grid grid-cols-3 lg:grid-cols-5 gap-2 lg:gap-4">
+          <div className="grid grid-cols-2 lg:grid-cols-5 gap-2 sm:gap-4">
             {[
               { num: "1,341+", label: "venues ready to pitch" },
               { num: "24", label: "integrated tools" },
@@ -291,9 +291,9 @@ export default function About() {
               { num: "15–20%", label: "traditional management takes" },
             ].map((s, i) => (
               <motion.div key={i} initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: i * 0.08 }}
-                className="p-3 lg:p-6 space-y-1 lg:space-y-2 text-center">
-                <p className="font-heading text-base sm:text-3xl lg:text-4xl font-black text-primary">{s.num}</p>
-                <p className="text-[10px] lg:text-sm text-muted-foreground">{t(s.label)}</p>
+                className="p-4 sm:p-6 space-y-1.5 sm:space-y-2 text-center">
+                <p className="font-heading text-xl sm:text-3xl lg:text-4xl font-black text-primary">{s.num}</p>
+                <p className="text-[10px] sm:text-sm text-muted-foreground">{t(s.label)}</p>
               </motion.div>
             ))}
           </div>
@@ -311,7 +311,7 @@ export default function About() {
           <Button size="lg" className="gap-2 font-heading font-bold text-base px-10 h-13" onClick={handleCTA}>
             {t("Start")} <ArrowRight className="h-4 w-4" />
           </Button>
-          <p className="text-[10px] sm:text-sm text-muted-foreground">{t("Start free. No contracts. No percentage cuts, ever.")}</p>
+          <p className="text-xs sm:text-sm text-muted-foreground">{t("Start free. No contracts. No percentage cuts, ever.")}</p>
         </motion.div>
       </section>
 

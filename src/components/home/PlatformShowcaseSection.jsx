@@ -32,7 +32,7 @@ const SHOTS = [
     caption: "Sam's impact, in numbers",
     blurb: "Every email, pitch and piece of advice Sam has produced for you, tallied on one board.",
     tilt: "lg:-rotate-1",
-    span: "col-span-2",
+    span: "md:col-span-2",
   },
 ];
 
@@ -67,11 +67,11 @@ export default function PlatformShowcaseSection() {
           </p>
         </motion.div>
 
-        <div className="grid grid-cols-2 gap-4 lg:gap-8 items-start">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 lg:gap-8 items-start">
           {SHOTS.map((shot, i) => (
             <div key={shot.src} className={`relative group ${shot.span || ""}`}>
               {/* Neon outer glow behind the card, Too Lost style; brightens on hover */}
-              <div className="absolute -inset-3 sm:-inset-6 rounded-3xl bg-primary/25 blur-3xl pointer-events-none transition-colors duration-300 group-hover:bg-primary/40" />
+              <div className="absolute -inset-4 sm:-inset-6 rounded-3xl bg-primary/25 blur-3xl pointer-events-none transition-colors duration-300 group-hover:bg-primary/40" />
               <motion.figure
                 initial={{ opacity: 0, y: 32 }}
                 whileInView={{ opacity: 1, y: 0 }}
@@ -80,9 +80,9 @@ export default function PlatformShowcaseSection() {
                 className={`relative rounded-2xl border border-primary/30 bg-card overflow-hidden ring-1 ring-primary/40 shadow-[0_25px_90px_-20px_rgba(74,222,128,0.45)] ${shot.tilt} lg:hover:rotate-0 hover:-translate-y-2 hover:scale-[1.02] transition-transform duration-300 ease-out`}
               >
               <img src={shot.src} alt={shot.alt} className="w-full" />
-              <figcaption className="p-3 sm:p-5 space-y-1 border-t border-border">
-                <p className="font-heading font-bold text-sm sm:text-base">{t(shot.caption)}</p>
-                <p className="text-xs sm:text-sm text-muted-foreground leading-relaxed">{t(shot.blurb)}</p>
+              <figcaption className="p-4 sm:p-5 space-y-1 border-t border-border">
+                <p className="font-heading font-bold">{t(shot.caption)}</p>
+                <p className="text-sm text-muted-foreground leading-relaxed">{t(shot.blurb)}</p>
               </figcaption>
               </motion.figure>
             </div>
