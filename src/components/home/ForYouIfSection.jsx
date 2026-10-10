@@ -2,22 +2,16 @@ import { motion } from "framer-motion";
 import { ArrowRight, X } from "lucide-react";
 import { useLang } from "@/lib/i18n/LanguageContext";
 
-// Two sides: who SoundReady is for (left, green arrows) and who it isn't
-// (right, red X) — plain, big, read-at-a-glance statements.
-const FOR_YOU = [
-  "You're serious about your music career.",
-  "You want music to be your full-time job.",
-  "You're struggling to get real listeners.",
-  "You're tired of guessing what to do next.",
-  "You know you have what it takes.",
-];
-
-const NOT_FOR_YOU = [
-  "Music is just a hobby.",
-  "You're happy with where you are.",
-  "You're waiting to be discovered.",
-  "You want success overnight.",
-  "You don't want to put in the work.",
+// Each row is a pair: the left statement is exactly who SoundReady is for,
+// the right statement is its direct opposite — so every line reads as
+// "this is me" vs "that's not me".
+const PAIRS = [
+  ["You're serious about your music career.", "Music is just a hobby."],
+  ["You want music to be your full-time job.", "Music is just a side project."],
+  ["You're struggling to get real listeners.", "You're happy with where you are."],
+  ["You're tired of guessing what to do next.", "You're fine just winging it."],
+  ["You know you have what it takes.", "You're waiting to be discovered."],
+  ["You want to build a real fanbase.", "You want success overnight."],
 ];
 
 export default function ForYouIfSection() {
@@ -35,58 +29,37 @@ export default function ForYouIfSection() {
           {t("SoundReady is for you if")}
         </motion.h2>
 
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-0">
-          {/* LEFT: this is you */}
-          <motion.div
-            initial={{ opacity: 0, x: -24 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true }}
-            className="space-y-7 lg:pr-16"
-          >
-            {FOR_YOU.map((s, i) => (
-              <motion.div
-                key={s}
-                initial={{ opacity: 0, y: 12 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: i * 0.06 }}
-                className="flex items-center gap-4"
-              >
+        <div className="space-y-8 sm:space-y-9">
+          {PAIRS.map(([yes, no], i) => (
+            <motion.div
+              key={yes}
+              initial={{ opacity: 0, y: 16 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: i * 0.05 }}
+              className="grid grid-cols-1 lg:grid-cols-2 lg:gap-0 items-center"
+            >
+              {/* Left: this is you */}
+              <div className="flex items-center gap-4 lg:pr-16">
                 <span className="h-9 w-9 sm:h-10 sm:w-10 rounded-full bg-primary/15 border border-primary/30 flex items-center justify-center shrink-0">
                   <ArrowRight className="h-5 w-5 text-primary" />
                 </span>
                 <span className="font-heading text-lg sm:text-2xl font-bold tracking-tight leading-snug">
-                  {t(s)}
+                  {t(yes)}
                 </span>
-              </motion.div>
-            ))}
-          </motion.div>
+              </div>
 
-          {/* RIGHT: this isn't you */}
-          <motion.div
-            initial={{ opacity: 0, x: 24 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true }}
-            className="space-y-7 lg:pl-16 lg:border-l border-border"
-          >
-            {NOT_FOR_YOU.map((s, i) => (
-              <motion.div
-                key={s}
-                initial={{ opacity: 0, y: 12 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: i * 0.06 }}
-                className="flex items-center gap-4"
-              >
+              {/* Right: the opposite, same row */}
+              <div className="flex items-center gap-4 mt-4 lg:mt-0 lg:pl-16 lg:border-l border-border">
                 <span className="h-9 w-9 sm:h-10 sm:w-10 rounded-full bg-red-500/10 border border-red-500/25 flex items-center justify-center shrink-0">
                   <X className="h-5 w-5 text-red-400" />
                 </span>
                 <span className="font-heading text-lg sm:text-2xl font-bold tracking-tight leading-snug text-muted-foreground">
-                  {t(s)}
+                  {t(no)}
                 </span>
-              </motion.div>
-            ))}
-          </motion.div>
+              </div>
+            </motion.div>
+          ))}
         </div>
       </div>
     </section>
