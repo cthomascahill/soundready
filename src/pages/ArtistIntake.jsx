@@ -3,7 +3,7 @@ import { base44 } from "@/api/base44Client";
 import { useAuth } from "@/lib/AuthContext";
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
-import { Save, Check, User, Music2, BarChart2, Share2, Mic2, Briefcase, Target, Film } from "lucide-react";
+import { Save, Check, User, Music2, Share2, Mic2, Briefcase, Target } from "lucide-react";
 import ProfileBlock from "@/components/artistprofile/ProfileBlock";
 import ConnectProfilesSection from "@/components/artistprofile/ConnectProfilesSection";
 import {
@@ -14,13 +14,11 @@ import {
 // ─── field lists per block for completion tracking ───────────────────────────
 const BLOCK_FIELDS = {
   0: ["stage_name","real_name","genres","subgenre_vibe","sounds_like_1","career_stage","city_state","years_active"],
-  1: ["songs_released","projects_released","most_recent_release_title","next_release_title","in_studio","release_frequency","writes_own_music","produces_own_music","recording_setup"],
-  2: ["spotify_monthly_listeners","apple_music_listeners","youtube_total_views","most_streamed_song_title","spotify_verified","apple_verified","editorial_playlist","avg_stream_count"],
-  3: ["tiktok_handle","instagram_handle","youtube_handle","top_traffic_platform","posting_consistency","runs_paid_ads"],
-  4: ["performed_live","total_shows","biggest_show_venue","avg_ticket_price","headlines_own_shows","opens_for_artists","been_on_tour","has_booking_agent","markets_performed","avg_show_revenue"],
-  5: ["has_manager","has_attorney","has_publicist","distributor","signed_to_label","collects_publishing","pro_registration","annual_music_income"],
-  6: ["primary_goal","biggest_challenge","success_in_12_months","willing_to_invest","hours_per_week","has_release_strategy"],
-  7: ["interested_in_sync","had_sync_placement","music_cleared_for_licensing"],
+  1: ["songs_released","projects_released","most_recent_release_title","most_recent_release_date","next_release_title","next_release_date","in_studio","release_frequency","writes_own_music","produces_own_music","recording_setup","avg_stream_count","most_streamed_song_title","most_streamed_song_count","spotify_verified","apple_verified","editorial_playlist"],
+  2: ["tiktok_handle","instagram_handle","youtube_handle","top_traffic_platform","posting_consistency","runs_paid_ads"],
+  3: ["performed_live","total_shows","biggest_show_venue","avg_ticket_price","headlines_own_shows","opens_for_artists","been_on_tour","has_booking_agent","markets_performed","avg_show_revenue"],
+  4: ["has_manager","has_attorney","has_publicist","distributor","signed_to_label","collects_publishing","pro_registration","annual_music_income"],
+  5: ["primary_goal","biggest_challenge","success_in_12_months","willing_to_invest","hours_per_week","has_release_strategy"],
 };
 
 const ALL_FIELDS = Object.values(BLOCK_FIELDS).flat();
@@ -38,7 +36,7 @@ function totalFilled(data) {
   return countFilled(data, ALL_FIELDS);
 }
 
-const GENRES = ["Hip-Hop", "R&B", "Pop", "Rock", "Country", "Electronic", "Indie", "Latin", "Gospel", "Jazz", "Other"];
+const GENRES = ["Hip-Hop", "R&B", "Pop", "Rock", "Country", "EDM", "House", "Singer-Songwriter", "Electronic", "Indie", "Latin", "Gospel", "Jazz", "Other"];
 const MARKETS = ["Northeast", "Southeast", "Midwest", "Southwest", "West Coast", "International"];
 
 export default function ArtistIntake() {
@@ -91,13 +89,11 @@ export default function ArtistIntake() {
 
   const BLOCKS = [
     { title: "Identity & Sound", icon: User },
-    { title: "Music Catalog", icon: Music2 },
-    { title: "Streaming & Analytics", icon: BarChart2 },
+    { title: "Music & Streaming", icon: Music2 },
     { title: "Social Media", icon: Share2 },
     { title: "Live & Touring", icon: Mic2 },
     { title: "Team & Business", icon: Briefcase },
     { title: "Goals & Focus", icon: Target },
-    { title: "Sync & Licensing", icon: Film },
   ];
 
   if (loading) {
@@ -114,9 +110,9 @@ export default function ArtistIntake() {
 
         {/* Header */}
         <motion.div initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }} className="space-y-1">
-          <p className="text-xs text-primary uppercase tracking-widest font-medium">AI Manager Foundation</p>
-          <h1 className="font-heading text-4xl font-bold">YOU MUST COMPLETE THIS</h1>
-          <p className="text-muted-foreground text-sm">Your Artist Profile is the foundation of everything Sam does — outreach, pitches, recommendations and digests all pull from this. The more you fill out, the smarter your AI Manager becomes.</p>
+          <p className="text-xs text-primary uppercase tracking-widest font-medium">Sam · Your Digital Manager</p>
+          <h1 className="font-heading text-4xl font-bold">Build your artist profile</h1>
+          <p className="text-muted-foreground text-sm">Your profile is the foundation of everything Sam does — outreach, pitches, recommendations and digests all pull from this. Connect your platforms above, then fill in what you can. A little goes a long way.</p>
         </motion.div>
 
         {/* Completion bar */}
@@ -134,10 +130,10 @@ export default function ArtistIntake() {
             />
           </div>
           <p className="text-xs text-muted-foreground">
-            {completionPct < 30 && "⚠️ Your AI Manager can't give specific advice yet — fill out at least Blocks 1–3."}
+            {completionPct < 30 && "⚠️ Sam can't give specific advice yet — connect your platforms and fill in a few sections."}
             {completionPct >= 30 && completionPct < 60 && "Getting there! Complete more sections for hyper-personalized insights."}
-            {completionPct >= 60 && completionPct < 90 && "Great progress! Your AI Manager is getting smarter about your career."}
-            {completionPct >= 90 && "🔥 Your profile is nearly complete — your AI Manager has everything it needs."}
+            {completionPct >= 60 && completionPct < 90 && "Great progress! Sam is getting smarter about your career."}
+            {completionPct >= 90 && "🔥 Your profile is nearly complete — Sam has everything it needs."}
           </p>
         </div>
 
@@ -158,12 +154,10 @@ export default function ArtistIntake() {
             >
               {i === 0 && <Block0 p={profile} u={update} />}
               {i === 1 && <Block1 p={profile} u={update} />}
-              {i === 2 && <Block2 p={profile} u={update} />}
-              {i === 3 && <Block3 p={profile} u={update} />}
-              {i === 4 && <Block4 p={profile} u={update} />}
-              {i === 5 && <Block5 p={profile} u={update} />}
-              {i === 6 && <Block6 p={profile} u={update} />}
-              {i === 7 && <Block7 p={profile} u={update} />}
+              {i === 2 && <Block3 p={profile} u={update} />}
+              {i === 3 && <Block4 p={profile} u={update} />}
+              {i === 4 && <Block5 p={profile} u={update} />}
+              {i === 5 && <Block6 p={profile} u={update} />}
             </ProfileBlock>
           ))}
         </div>
@@ -225,16 +219,6 @@ function Block1({ p, u }) {
       <div className="sm:col-span-2">
         <SelectField label="Primary Recording Setup" value={p.recording_setup} onChange={(v) => u("recording_setup", v)} options={["Home Studio","Rented Studio","Producer's Studio","Mix of Both"]} />
       </div>
-    </div>
-  );
-}
-
-function Block2({ p, u }) {
-  return (
-    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-      <NumberField label="Spotify Monthly Listeners" placeholder="e.g. 15000" value={p.spotify_monthly_listeners} onChange={(v) => u("spotify_monthly_listeners", v)} />
-      <NumberField label="Apple Music Monthly Listeners" placeholder="e.g. 5000" value={p.apple_music_listeners} onChange={(v) => u("apple_music_listeners", v)} />
-      <NumberField label="YouTube Total Views" placeholder="e.g. 200000" value={p.youtube_total_views} onChange={(v) => u("youtube_total_views", v)} />
       <NumberField label="Average Stream Count (per song)" placeholder="Estimated" value={p.avg_stream_count} onChange={(v) => u("avg_stream_count", v)} />
       <TextField label="Most Streamed Song (Title)" placeholder="Song name" value={p.most_streamed_song_title} onChange={(v) => u("most_streamed_song_title", v)} />
       <NumberField label="Most Streamed Song (Stream Count)" placeholder="e.g. 50000" value={p.most_streamed_song_count} onChange={(v) => u("most_streamed_song_count", v)} />
@@ -244,6 +228,7 @@ function Block2({ p, u }) {
       {p.editorial_playlist === "Yes" && (
         <TextField label="Which Playlist(s)?" placeholder="e.g. Fresh Finds" value={p.editorial_playlist_name} onChange={(v) => u("editorial_playlist_name", v)} />
       )}
+      <p className="sm:col-span-2 text-xs text-muted-foreground">Your Spotify, Apple Music and YouTube listener and follower counts sync automatically from Connect Profiles above — no need to enter them here.</p>
     </div>
   );
 }
@@ -342,23 +327,6 @@ function Block6({ p, u }) {
       <SelectField label="Willing to invest money into your career?" value={p.willing_to_invest} onChange={(v) => u("willing_to_invest", v)} options={["Yes actively","Yes but limited budget","Not right now"]} />
       <NumberField label="Hours per week dedicated to music" placeholder="e.g. 20" value={p.hours_per_week} onChange={(v) => u("hours_per_week", v)} />
       <SelectField label="Release Strategy" value={p.has_release_strategy} onChange={(v) => u("has_release_strategy", v)} options={["Detailed strategy","Loose plan","Winging it"]} />
-    </div>
-  );
-}
-
-function Block7({ p, u }) {
-  return (
-    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-      <YesNoField label="Interested in sync licensing (TV, film, ads)?" value={p.interested_in_sync} onChange={(v) => u("interested_in_sync", v)} />
-      <YesNoField label="Have you had a sync placement before?" value={p.had_sync_placement} onChange={(v) => u("had_sync_placement", v)} />
-      {p.had_sync_placement === "Yes" && (
-        <div className="sm:col-span-2">
-          <TextField label="Where was it placed?" placeholder="e.g. Netflix show, Nike ad" value={p.sync_placement_where} onChange={(v) => u("sync_placement_where", v)} />
-        </div>
-      )}
-      <div className="sm:col-span-2">
-        <SelectField label="Is your music 100% cleared for licensing?" value={p.music_cleared_for_licensing} onChange={(v) => u("music_cleared_for_licensing", v)} options={["Yes","No","Unsure"]} />
-      </div>
     </div>
   );
 }

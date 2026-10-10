@@ -8,6 +8,10 @@ import { Loader2, MapPin, Music2 } from "lucide-react";
 
 const TYPE_LABELS = {
   artist: "Artist",
+  songwriter: "Songwriter",
+  producer: "Producer",
+  manager: "Manager",
+  agent: "Agent",
 };
 
 /**

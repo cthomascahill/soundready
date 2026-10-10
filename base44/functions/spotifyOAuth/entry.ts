@@ -22,7 +22,9 @@ Deno.serve(async (req) => {
       const redirectUri = `${appUrl}/connect-profiles`;
       console.log('redirect_uri being sent to Spotify:', redirectUri);
       const scopes = 'user-read-private user-read-email user-follow-read';
-      const state = user.id; // use user ID as state to map callback back
+      // Carry the exact redirect_uri in the state so the token exchange always
+      // matches the URI Spotify authorized, whichever host the artist used.
+      const state = JSON.stringify({ user_id: user.id, redirect_uri: redirectUri });
       const params = new URLSearchParams({
         response_type: 'code',
         client_id: CLIENT_ID,
@@ -35,8 +37,25 @@ Deno.serve(async (req) => {
 
     // ── Exchange code for tokens ──────────────────────────────────────────────
     if (action === 'exchange_code') {
-      const { code, redirect_uri } = body;
+      const { code, redirect_uri, state } = body;
       if (!code) return Response.json({ error: 'code required' }, { status: 400 });
+
+      // The redirect_uri must exactly match the one used in the authorize
+      // request, so read it back from the state blob Spotify echoed to us.
+      let redirectUri = redirect_uri;
+      let stateUserId = null;
+      if (state) {
+        try {
+          const parsed = JSON.parse(state);
+          if (parsed && typeof parsed === 'object') {
+            if (parsed.user_id) stateUserId = parsed.user_id;
+            if (parsed.redirect_uri) redirectUri = parsed.redirect_uri;
+          }
+        } catch { /* older flow used a bare user id as state */ }
+      }
+      if (stateUserId && stateUserId !== user.id) {
+        return Response.json({ error: 'This Spotify link belongs to a different session. Please reconnect.' }, { status: 403 });
+      }
 
       const tokenRes = await fetch('https://accounts.spotify.com/api/token', {
         method: 'POST',
@@ -47,7 +66,7 @@ Deno.serve(async (req) => {
         body: new URLSearchParams({
           grant_type: 'authorization_code',
           code,
-          redirect_uri: redirect_uri,
+          redirect_uri: redirectUri,
         }),
       });
       const tokenData = await tokenRes.json();

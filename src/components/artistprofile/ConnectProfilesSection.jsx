@@ -419,19 +419,15 @@ function SelfReportedCard({ conn, onUpdated }) {
 
       {conn && (
         <div className="rounded-xl bg-secondary/40 border border-border p-3 grid grid-cols-2 gap-2">
-          <Stat label="Total Shows" value={existing.total_shows || "—"} />
           <Stat label="Email List" value={(existing.email_list_size || 0).toLocaleString()} />
           <Stat label="Merch Revenue" value={existing.merch_revenue_12mo ? `$${existing.merch_revenue_12mo.toLocaleString()}` : "—"} />
+          <Stat label="Press Placements" value={existing.press_placements || "—"} />
           <Stat label="Sync Placements" value={existing.sync_placements || "—"} />
           {conn.last_synced && <p className="col-span-2"><FreshnessBadge last_synced={conn.last_synced} /></p>}
         </div>
       )}
 
       <div className="grid grid-cols-2 gap-3">
-        <Field label="Total Shows (lifetime)" value={form.total_shows || ""} onChange={v => set("total_shows", Number(v))} placeholder="45" type="number" />
-        <Field label="Biggest Venue Capacity" value={form.biggest_venue_capacity || ""} onChange={v => set("biggest_venue_capacity", Number(v))} placeholder="500" type="number" />
-        <Field label="Avg Ticket Price ($)" value={form.avg_ticket_price || ""} onChange={v => set("avg_ticket_price", Number(v))} placeholder="20" type="number" />
-        <Field label="Avg Tickets Sold/Show" value={form.avg_tickets_sold || ""} onChange={v => set("avg_tickets_sold", Number(v))} placeholder="200" type="number" />
         <Field label="Email List Size" value={form.email_list_size || ""} onChange={v => set("email_list_size", Number(v))} placeholder="2500" type="number" />
         <Field label="Merch Revenue (12mo $)" value={form.merch_revenue_12mo || ""} onChange={v => set("merch_revenue_12mo", Number(v))} placeholder="8000" type="number" />
         <Field label="Press Placements" value={form.press_placements || ""} onChange={v => set("press_placements", Number(v))} placeholder="5" type="number" />
@@ -497,6 +493,7 @@ export default function ConnectProfilesSection() {
     base44.functions.invoke("spotifyOAuth", {
       action: "exchange_code",
       code,
+      state,
       redirect_uri: "https://soundready.ai/connect-profiles",
     }).then(res => {
       setOauthLoading(false);
@@ -565,30 +562,6 @@ export default function ConnectProfilesSection() {
         </div>
       )}
 
-      {/* Step 2 onboarding banner — new users land here next */}
-      {user?.onboarding_complete !== true && (
-        <div className="rounded-2xl border border-primary/25 bg-primary/10 p-5 space-y-3">
-          <div className="flex items-center gap-2.5 flex-wrap">
-            <span className="px-2 py-0.5 rounded-full bg-primary text-primary-foreground text-[10px] font-bold uppercase tracking-wider">Step 2</span>
-            <p className="font-heading font-bold text-lg">Connect your profiles.</p>
-          </div>
-          <p className="text-sm text-muted-foreground leading-relaxed">
-            Everything below — Sam's advice, your roadmap, your release strategy — runs on this data. Connect Spotify or YouTube — TikTok and Apple Music stats are entered manually.
-          </p>
-          <Button
-            onClick={async () => {
-              await base44.auth.updateMe({ onboarding_complete: true }).catch(() => {});
-              await checkAppState();
-              navigate("/history");
-            }}
-            variant={connectedCount > 0 ? "default" : "outline"}
-            className="gap-2 w-fit"
-          >
-            {connectedCount > 0 ? "I'm Done — Go to Dashboard" : "Skip for now"} <ArrowRight className="h-3.5 w-3.5" />
-          </Button>
-        </div>
-      )}
-
       {/* Sam upgrade banner for non-AI-Manager users */}
       {!(user?.role === "admin" || user?.subscription_tier === "ai_manager") && (
         <div className="rounded-xl border border-primary/20 bg-primary/5 px-4 py-3 flex items-center justify-between gap-4">
@@ -631,13 +604,38 @@ export default function ConnectProfilesSection() {
         </div>
       </section>
 
+      {/* Step 2 onboarding banner — sits below the platform cards so linking
+          profiles is the first thing available, not just the skip button */}
+      {user?.onboarding_complete !== true && (
+        <div className="rounded-2xl border border-primary/25 bg-primary/10 p-5 space-y-3">
+          <div className="flex items-center gap-2.5 flex-wrap">
+            <span className="px-2 py-0.5 rounded-full bg-primary text-primary-foreground text-[10px] font-bold uppercase tracking-wider">Step 2</span>
+            <p className="font-heading font-bold text-lg">Done connecting?</p>
+          </div>
+          <p className="text-sm text-muted-foreground leading-relaxed">
+            Connected data powers Sam's advice, your roadmap and your release strategy. Spotify and YouTube sync automatically — TikTok and Apple Music stats are entered manually.
+          </p>
+          <Button
+            onClick={async () => {
+              await base44.auth.updateMe({ onboarding_complete: true }).catch(() => {});
+              await checkAppState();
+              navigate("/history");
+            }}
+            variant={connectedCount > 0 ? "default" : "outline"}
+            className="gap-2 w-fit"
+          >
+            {connectedCount > 0 ? "I'm Done — Go to Dashboard" : "Skip for now"} <ArrowRight className="h-3.5 w-3.5" />
+          </Button>
+        </div>
+      )}
+
       {/* Self-Reported */}
       <section className="space-y-4">
         <div>
           <h2 className="font-heading font-semibold text-lg flex items-center gap-2">
             <BarChart2 className="h-4 w-4 text-primary" /> Self-Reported Stats
           </h2>
-          <p className="text-xs text-muted-foreground mt-1">Data that can't be pulled automatically — update these monthly.</p>
+          <p className="text-xs text-muted-foreground mt-1">Numbers that can't be pulled automatically. Show and ticket stats live in your profile's Live & Touring section.</p>
         </div>
         <SelfReportedCard conn={connections["self_reported"] || null} onUpdated={handleUpdated("self_reported")} />
       </section>

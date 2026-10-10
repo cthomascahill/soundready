@@ -47,7 +47,7 @@ export function YesNoField({ label, value, onChange, tip }) {
   return (
     <FieldGroup label={label} tip={tip}>
       <div className="flex gap-2">
-        {["Yes", "No", "Sometimes"].map((opt) => (
+        {["Yes", "No"].map((opt) => (
           <button
             key={opt}
             onClick={() => onChange(opt)}
