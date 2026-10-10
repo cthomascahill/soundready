@@ -1,4 +1,4 @@
-import { Music2, Scale, Mic2, Users, MapPin, Film, Drum, Guitar, Music4 } from "lucide-react";
+import { Music2, Scale, Mic2, Users, MapPin, Film, Drum, Guitar, Music4, Shirt } from "lucide-react";
 
 // Music industry contract templates used by the Legal page. Each template
 // defines its form fields and a generate() function that produces the plain
@@ -578,6 +578,72 @@ Member 1: ___________________________ Date: ___________
 
 Member 2: ___________________________ Date: ___________
   ${f.member_2_name || "[NAME]"}
+`,
+  },
+  {
+    id: "merch_consignment",
+    icon: Shirt,
+    color: "text-chart-4",
+    bg: "bg-chart-4/10",
+    border: "border-chart-4/20",
+    title: "Merch Consignment Agreement",
+    description: "Leave your merch with a store, venue, or vendor to sell on your behalf — pricing, the split, payment schedule, and what happens to unsold stock.",
+    fields: [
+      { key: "artist_name", label: "Artist Name", placeholder: "e.g. Sam Lane" },
+      { key: "consignee_name", label: "Store / Venue Name", placeholder: "e.g. Rocky Mountain Records" },
+      { key: "merch_items", label: "Merch Items Consigned", placeholder: "e.g. 25 vinyl LPs, 40 logo tees (S-XL)" },
+      { key: "retail_price", label: "Retail Price(s)", placeholder: "e.g. $25 vinyl / $20 tee" },
+      { key: "consignment_split", label: "Consignment Split", placeholder: "e.g. 70% artist / 30% store" },
+      { key: "payment_terms", label: "Payment Terms", placeholder: "e.g. Monthly, within 15 days of month end" },
+      { key: "term_length", label: "Consignment Term", placeholder: "e.g. 6 months" },
+      { key: "effective_date", label: "Effective Date", placeholder: "e.g. April 15, 2026" },
+    ],
+    generate: (f) => `MERCH CONSIGNMENT AGREEMENT
+
+This Merch Consignment Agreement ("Agreement") is entered into as of ${f.effective_date || "[DATE]"} between:
+
+ARTIST (Consignor):
+  Name: ${f.artist_name || "[ARTIST NAME]"}
+
+CONSIGNEE (Store / Venue):
+  Name: ${f.consignee_name || "[STORE / VENUE NAME]"}
+
+CONSIGNMENT
+  Merch Items: ${f.merch_items || "[ITEMS AND QUANTITIES]"}
+  Retail Price(s): ${f.retail_price || "[PRICES]"}
+  Consignment Split: ${f.consignment_split || "[SPLIT]"}
+  Payment Terms: ${f.payment_terms || "[TERMS]"}
+  Consignment Term: ${f.term_length || "[TERM]"}
+
+TERMS & CONDITIONS
+
+1. CONSIGNMENT. Artist consigns to Consignee the merchandise listed above (the "Merch") for sale to the public. Title to the Merch remains with Artist at all times until sold to an end customer; Consignee holds the Merch as a consignee, not as a purchaser.
+
+2. PRICING. Consignee shall sell the Merch at the retail price(s) of ${f.retail_price || "[PRICES]"}, or as otherwise agreed in writing. Consignee shall not discount, mark up, or bundle the Merch without Artist's prior written consent.
+
+3. SPLIT. Gross sales revenue shall be divided as follows: ${f.consignment_split || "[SPLIT]"}. The split is calculated on gross sales price before sales tax.
+
+4. PAYMENT. Consignee shall report all sales and remit Artist's share per the following terms: ${f.payment_terms || "[TERMS]"}. Each payment shall be accompanied by an itemized statement of units sold, prices, and dates.
+
+5. CARE AND DISPLAY. Consignee shall store and display the Merch in good condition, protect it from damage and theft, and shall not remove it from the agreed premises without Artist's written consent.
+
+6. UNSOLD MERCH. Merch remaining unsold at the end of the term shall be returned to Artist in original condition within 14 days, or sooner upon Artist's written request. Consignee shall not dispose of, liquidate, or purchase unsold Merch except by separate written agreement.
+
+7. LOSS AND DAMAGE. Consignee bears the risk of loss, theft, or damage to the Merch while in Consignee's possession, and shall pay Artist the consignment value (${f.retail_price || "[PRICES]"} less Consignee's share) for any Merch not returned or accounted for.
+
+8. RECORDS AND AUDIT. Consignee shall keep accurate sales records for the Merch. Artist may, on 10 days' notice, inspect Consignee's relevant sales records once per term.
+
+9. TERM. This Agreement runs for ${f.term_length || "[TERM]"} from the Effective Date and renews only by mutual written agreement.
+
+10. GOVERNING LAW. This Agreement shall be governed by the laws of the State of [STATE].
+
+SIGNATURES
+
+Artist: ___________________________ Date: ___________
+  ${f.artist_name || "[ARTIST NAME]"}
+
+For Consignee: ___________________________ Date: ___________
+  ${f.consignee_name || "[STORE / VENUE NAME]"}
 `,
   },
 ];
