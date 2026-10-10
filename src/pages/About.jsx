@@ -19,8 +19,7 @@ import PlatformShowcaseSection from "@/components/home/PlatformShowcaseSection";
 import MattCormanSection from "@/components/home/MattCormanSection";
 import HeroArtistSearch from "@/components/home/HeroArtistSearch";
 import IncludedSection from "@/components/home/IncludedSection";
-import SamPromiseWalkthrough from "@/components/home/SamPromiseWalkthrough";
-import SamPlaylistWalkthrough from "@/components/home/SamPlaylistWalkthrough";
+import SamWalkthrough from "@/components/home/SamWalkthrough";
 import { useLang } from "@/lib/i18n/LanguageContext";
 
 const TIERS = [
@@ -186,9 +185,8 @@ export default function About() {
 
       </section>
 
-      {/* THE PROMISE: step-by-step SAM walkthroughs */}
-      <SamPromiseWalkthrough />
-      <SamPlaylistWalkthrough />
+      {/* THE PROMISE: one step-by-step SAM walkthrough, two example tasks */}
+      <SamWalkthrough />
 
       {/* PROOF: the formula, proven first — lands right after the demo */}
       <MattCormanSection />
