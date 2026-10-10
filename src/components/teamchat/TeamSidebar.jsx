@@ -82,7 +82,7 @@ export default function TeamSidebar({ user, activeChannel, setActiveChannel, tea
   );
 
   return (
-    <aside className="w-60 shrink-0 border-r border-border bg-[hsl(0,0%,5%)] flex flex-col h-screen">
+    <aside className="w-60 shrink-0 border-r border-border bg-sidebar flex flex-col h-screen">
       {/* Workspace header */}
       <div className="px-4 py-3 border-b border-border">
         <p className="font-heading font-bold text-sm truncate">{user?.full_name || user?.email?.split("@")[0] || "Your Team"}</p>
