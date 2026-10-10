@@ -30,7 +30,7 @@ export default function ManagerCostSlider() {
           <p className="text-xs text-muted-foreground">{fmt(managerYearly)} every year, and it grows with every raise</p>
         </div>
         <div className="space-y-1.5">
-          <p className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground">SoundReady AI Manager</p>
+          <p className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground">SoundReady Digital Manager</p>
           <p className="font-heading text-2xl font-black text-primary"><span className="text-xs line-through opacity-60 font-bold text-muted-foreground mr-1">$79</span>$59<span className="text-xs font-bold text-muted-foreground">/mo</span></p>
           <p className="text-xs text-muted-foreground">{fmt(samYearly)} every year, flat, forever</p>
         </div>
@@ -38,10 +38,13 @@ export default function ManagerCostSlider() {
 
       <p className="text-center text-sm font-semibold">
         {savings > 0 ? (
-          <span className="text-primary">You keep an extra {fmt(savings)} every year with SAM.</span>
+          <span className="text-foreground">A traditional manager's fee on that income would be <span className="text-primary">{fmt(managerYearly)}/year</span>. Digital Manager is <span className="text-primary">{fmt(samYearly)}/year</span> — <span className="text-primary">{fmt(savings)} less in fees</span>.</span>
         ) : (
-          <span className="text-muted-foreground">Earning under $343/mo? Then your problem isn't the fee, it's revenue. SAM is built to fix exactly that, working your career every week until you clear it. And at over $343/mo, SAM costs less than a manager, forever.</span>
+          <span className="text-muted-foreground">Earning under $343/mo? Then your problem isn't the fee, it's revenue. SAM is built to fix exactly that, working your career every week until you clear it. And at over $343/mo, SAM costs less than a manager's fee, forever.</span>
         )}
+      </p>
+      <p className="text-center text-xs text-muted-foreground -mt-2">
+        Fee comparison only. It assumes you would otherwise pay a human manager the typical 15–20% commission (17.5% shown). Digital Manager doesn't do the same work a human manager does, and this isn't a guarantee of the same results — or guaranteed savings.
       </p>
     </div>
   );

@@ -62,7 +62,8 @@ export default function Checkout() {
   const { plan } = useParams();
   const [searchParams] = useSearchParams();
   const { user, isLoadingAuth } = useAuth();
-  const [interval, setInterval] = useState("monthly");
+  // Billing period chosen on the pricing page is carried in the URL
+  const [interval, setInterval] = useState(searchParams.get("billing") === "yearly" ? "yearly" : "monthly");
 
   if (plan === "success") return <CheckoutSuccess />;
 
@@ -125,8 +126,15 @@ export default function Checkout() {
             <div className="h-px bg-border" />
 
             {isSub && (
-              <div className="flex justify-center">
-                <BillingToggle value={interval} onChange={setInterval} yearlyNote="2 mo free" />
+              <div className="space-y-2">
+                <div className="flex justify-center">
+                  <BillingToggle value={interval} onChange={setInterval} yearlyNote="Save ~20%" />
+                </div>
+                {yearly && (
+                  <p className="text-xs text-muted-foreground text-center">
+                    {meta.yearlyMonthly} a month, billed {meta.priceYearly} once a year.
+                  </p>
+                )}
               </div>
             )}
 

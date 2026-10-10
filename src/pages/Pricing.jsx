@@ -13,7 +13,7 @@ import PublicFooter from "@/components/public/PublicFooter";
 import SEO from "@/components/SEO";
 import ManagerCostSlider from "@/components/home/ManagerCostSlider";
 import FullToolkitSection from "@/components/pricing/FullToolkitSection";
-import TestimonialSection from "@/components/pricing/TestimonialSection";
+import SamTaskProof from "@/components/home/SamTaskProof";
 import BillingToggle from "@/components/billing/BillingToggle";
 import { CARD_FREE_ITEMS, CARD_PRO_ITEMS, CARD_AI_ITEMS } from "@/lib/plans";
 
@@ -37,19 +37,19 @@ const FAQ = [
   },
   {
     q: "What exactly does SAM do?",
-    a: "SAM is your AI manager. Every week SAM reads your connected Spotify and YouTube numbers, finds real playlist, venue, label, press and sync opportunities that match your sound, and drafts the emails to reach them, personalized with your real stats. Every draft lands in SAM's Desk where you approve, edit, or deny it. Nothing sends without your approval.",
+    a: "SAM is your digital manager. Every week SAM reads your connected Spotify and YouTube numbers, finds real playlist, venue, label, press and sync opportunities that match your sound, and drafts the emails to reach them, personalized with your real stats. Every draft lands in SAM's Desk where you approve, edit, or deny it. Nothing sends without your approval.",
   },
   {
     q: "What are SAM credits?",
-    a: "SAM's research and writing runs on credits. AI Manager includes 2,500 credits a month, which covers a full month of research, pitches and weekly digests for most artists. Need more? Add 1,500 credits for $15, one time, and they never expire. Extra credits are only used after your monthly balance runs out.",
+    a: "SAM's research and writing runs on credits. Digital Manager includes 2,500 credits a month, which covers a full month of research, pitches and weekly digests for most artists. Need more? Add 1,500 credits for $15, one time, and they never expire. Extra credits are only used after your monthly balance runs out.",
   },
   {
     q: "Does SoundReady take a percentage of my income?",
-    a: "Never. A traditional manager typically takes a 15 to 20% commission on everything you earn. AI Manager is $59/month flat while you're in the first 100 artists ($79/month after), and you keep 100% of your royalties, always.",
+    a: "Never. A traditional manager typically takes a 15 to 20% commission on everything you earn. Digital Manager is $59/month flat while you're in the first 100 artists ($79/month after), or $569/year ($47.42 a month), and you keep 100% of your royalties, always.",
   },
   {
     q: "Which plan do I actually need?",
-    a: "Free keeps your music organized forever, no card needed. Artist Pro adds the full career toolkit: unlimited Vault, release planning, playlist discovery, venues, touring and team tools, $39/month after the trial. AI Manager adds SAM on top of all of that, $59/month while the founding offer lasts.",
+    a: "Free keeps your music organized forever, no card needed. Artist Pro adds the full career toolkit: unlimited Vault, release planning, playlist discovery, venues, touring and team tools, $39/month after the trial. Digital Manager adds SAM on top of all of that, $59/month while the founding offer lasts.",
   },
   {
     q: "What happens when I cancel?",
@@ -104,7 +104,7 @@ export default function Pricing() {
     <div className="min-h-screen bg-background font-body">
       <SEO
         title="SoundReady Pricing"
-        description="Start free forever. Artist Pro unlocks the full toolkit for $39/mo or $374/yr with a 7-day free trial. AI Manager adds SAM, your AI manager, for $59/mo for the first 100 artists ($79/mo after). No percentage cuts, ever."
+        description="Start free forever. Artist Pro unlocks the full toolkit for $39/mo or $374/yr with a 7-day free trial. Digital Manager adds SAM for $59/mo or $569/yr for the first 100 artists ($79/mo after). No percentage cuts, ever."
       />
 
       <PublicNav />
@@ -118,15 +118,15 @@ export default function Pricing() {
         <motion.div initial={{ opacity: 0, y: 24 }} animate={{ opacity: 1, y: 0 }} className="relative max-w-4xl mx-auto space-y-4">
           <h1 className="font-heading text-4xl sm:text-5xl font-black tracking-tight leading-[0.95]">
             Meet SAM<br />
-            <span className="text-primary">Your AI manager</span><br />
+            <span className="text-primary">Your digital manager</span><br />
             <span className="text-primary">$59 a month for the first 100 artists</span>
           </h1>
           <p className="text-sm sm:text-base text-muted-foreground leading-relaxed max-w-xl mx-auto">
             SAM finds opportunities and drafts pitches for you every week, and nothing sends without your approval. Your Vault, Tracker and the full toolkit come with it.
           </p>
           {!isAuth && (
-            <Button size="lg" className="gap-2 font-heading font-bold text-base px-10 h-12" onClick={() => document.getElementById("plans")?.scrollIntoView({ behavior: "smooth" })}>
-              Start <ArrowRight className="h-4 w-4" />
+            <Button size="lg" className="gap-2 font-heading font-bold text-base px-8 h-12" onClick={() => document.getElementById("plans")?.scrollIntoView({ behavior: "smooth" })}>
+              See Plans <ArrowRight className="h-4 w-4" />
             </Button>
           )}
         </motion.div>
@@ -152,15 +152,15 @@ export default function Pricing() {
               )}
               {(selectedTier === "pro" || selectedTier === "ai_manager") && tier === "free" && (
                 <div className="rounded-xl border border-primary/25 bg-primary/10 px-4 py-3 text-sm">
-                  <span className="font-semibold text-primary">{selectedTier === "pro" ? "Artist Pro" : "AI Manager"} selected.</span>{" "}
-                  <span className="text-muted-foreground">Press that plan's Start button below to begin.</span>
+                  <span className="font-semibold text-primary">{selectedTier === "pro" ? "Artist Pro" : "Digital Manager"} selected.</span>{" "}
+                  <span className="text-muted-foreground">Press that plan's button below to begin.</span>
                 </div>
               )}
               {(tier === "pro" || tier === "ai_manager") && (
                 <div className="rounded-xl border border-primary/20 bg-primary/5 px-4 py-3 flex flex-col sm:flex-row sm:items-center gap-3">
                   <p className="text-sm flex-1">
                     <span className="font-semibold text-primary">
-                      {tier === "pro" ? "Artist Pro" : "AI Manager"}
+                      {tier === "pro" ? "Artist Pro" : "Digital Manager"}
                     </span>
                     <span className="text-muted-foreground">
                       {user?.subscription_status === "trialing"
@@ -199,7 +199,7 @@ export default function Pricing() {
                 <Zap className="h-5 w-5 text-chart-5" />
               </div>
               <p className="font-heading font-black text-2xl">Free</p>
-              <p className="text-sm font-semibold mt-0.5 mb-2 text-chart-5">Your music, organized.</p>
+              <p className="text-sm font-semibold mt-0.5 mb-2 text-chart-5">Get your music organized.</p>
               <p className="text-2xl font-black mb-1">$0</p>
               <p className="text-sm font-semibold text-chart-5 mb-3">Free forever</p>
               <p className="text-sm text-muted-foreground leading-relaxed mb-5">
@@ -229,10 +229,11 @@ export default function Pricing() {
                 <Users className="h-5 w-5 text-chart-5" />
               </div>
               <p className="font-heading font-black text-2xl">Artist Pro</p>
-              <p className="text-sm font-semibold mt-0.5 mb-2 text-chart-5">Your career toolkit.</p>
+              <p className="text-sm font-semibold mt-0.5 mb-2 text-chart-5">Tools to manage it yourself.</p>
               <p className="text-2xl font-black mb-1">
-                {billing === "yearly" ? "$374" : "$39"}<span className="text-sm text-muted-foreground font-medium">{billing === "yearly" ? "/year" : "/month"}</span>
+                {billing === "yearly" ? "$31.17" : "$39"}<span className="text-sm text-muted-foreground font-medium">/month</span>
               </p>
+              <p className="text-xs font-semibold text-muted-foreground mb-1">{billing === "yearly" ? "billed $374/year" : "or $31.17/month, billed $374/year"}</p>
               <p className="text-sm font-semibold text-chart-5 mb-3">7-day free trial</p>
               <p className="text-sm text-muted-foreground leading-relaxed mb-5">
                 Plan releases, find opportunities, and work with your team in one workspace.
@@ -241,11 +242,11 @@ export default function Pricing() {
                 <TierItems items={CARD_PRO_ITEMS} check="text-chart-5" />
               </div>
               <div className="mt-6">
-                <Link to="/checkout/artist-pro">
-                  <Button className="w-full font-semibold bg-chart-5 hover:bg-chart-5/90 text-black">Start Pro</Button>
+                <Link to={`/checkout/artist-pro${billing === "yearly" ? "?billing=yearly" : ""}`}>
+                  <Button className="w-full font-semibold bg-chart-5 hover:bg-chart-5/90 text-black">Start Pro Free Trial</Button>
                 </Link>
               </div>
-              <p className="text-center text-xs text-muted-foreground mt-2">Card required. {billing === "yearly" ? "$374/year" : "$39/month"} after 7 days unless canceled.</p>
+              <p className="text-center text-xs text-muted-foreground mt-2">Card required. {billing === "yearly" ? "$374/year ($31.17/month)" : "$39/month"} after 7 days unless canceled.</p>
             </motion.div>
             </div>
 
@@ -259,7 +260,7 @@ export default function Pricing() {
               </div>
               <motion.img
                 src="https://media.base44.com/images/public/69dcf0ecc907e43a438a626b/b7f9a17dc_generated_f31f1bbd.png"
-                alt="SAM, the SoundReady AI manager robot"
+                alt="SAM, the SoundReady digital manager robot"
                 className="pointer-events-none absolute -right-3 xl:-right-14 top-8 h-32 sm:h-44 w-auto drop-shadow-xl z-10"
                 initial={{ opacity: 0, x: 16 }}
                 whileInView={{ opacity: 1, x: 0 }}
@@ -271,11 +272,12 @@ export default function Pricing() {
               <div className="h-11 w-11 rounded-xl bg-primary/10 border border-primary/30 flex items-center justify-center mb-4 relative">
                 <Bot className="h-5 w-5 text-primary" />
               </div>
-              <p className="font-heading font-black text-2xl">AI Manager</p>
-              <p className="text-sm font-semibold mt-0.5 mb-2 text-primary">Meet SAM. Your own AI music manager.</p>
+              <p className="font-heading font-black text-2xl">Digital Manager</p>
+              <p className="text-sm font-semibold mt-0.5 mb-2 text-primary">For artists who want help doing the work.</p>
               <div className="mb-3 flex items-baseline gap-2 flex-wrap">
                 <span className="text-base text-muted-foreground line-through font-semibold">{billing === "yearly" ? "$699" : "$79"}</span>
-                <p className="text-2xl font-black">{billing === "yearly" ? "$569" : "$59"}<span className="text-sm text-muted-foreground font-medium">{billing === "yearly" ? "/year" : "/month"}</span></p>
+                <p className="text-2xl font-black">{billing === "yearly" ? "$47.42" : "$59"}<span className="text-sm text-muted-foreground font-medium">/month</span></p>
+                <span className="text-xs font-semibold text-muted-foreground">{billing === "yearly" ? "billed $569/year" : "or $47.42/month, billed $569/year"}</span>
                 <span className="px-2 py-0.5 rounded-full bg-primary/15 text-primary text-[10px] font-bold uppercase tracking-wide">First 100 Artists · Regular price {billing === "yearly" ? "$699/yr" : "$79/mo"}</span>
               </div>
               <p className="text-sm text-muted-foreground leading-relaxed mb-5">
@@ -285,8 +287,8 @@ export default function Pricing() {
                 <TierItems items={CARD_AI_ITEMS} />
               </div>
               <div className="mt-6 relative">
-                <Link to="/checkout/ai-manager">
-                  <Button className="w-full font-semibold gap-2"><Sparkles className="h-4 w-4" /> Start AI Manager</Button>
+                <Link to={`/checkout/ai-manager${billing === "yearly" ? "?billing=yearly" : ""}`}>
+                  <Button className="w-full font-semibold gap-2"><Sparkles className="h-4 w-4" /> Start Digital Manager</Button>
                 </Link>
               </div>
               <p className="text-center text-xs text-muted-foreground mt-2">No percentage cuts. Cancel anytime. Founding price stays locked while subscribed.</p>
@@ -322,15 +324,15 @@ export default function Pricing() {
           </motion.div>
           </div>
           <div className="pt-8 flex justify-center">
-            <Button size="lg" className="gap-2 font-heading font-bold text-base px-10 h-12" onClick={() => document.getElementById("plans")?.scrollIntoView({ behavior: "smooth" })}>
-              Start <ArrowRight className="h-4 w-4" />
+            <Button size="lg" className="gap-2 font-heading font-bold text-base px-8 h-12" onClick={() => document.getElementById("plans")?.scrollIntoView({ behavior: "smooth" })}>
+              See Plans <ArrowRight className="h-4 w-4" />
             </Button>
           </div>
         </div>
       </section>
 
-      {/* TESTIMONIAL */}
-      <TestimonialSection />
+      {/* SAM PROOF: a real task from a real workspace */}
+      <SamTaskProof />
 
       {/* FAQ */}
       <section className="px-4 pb-24 border-t border-border pt-16">
@@ -379,8 +381,8 @@ export default function Pricing() {
             Your biggest release <span className="text-primary">is next</span>
           </h2>
           <p className="text-muted-foreground">Start free today. Upgrade when you're ready. The work is already done for you.</p>
-          <Button size="lg" className="gap-2 font-heading font-bold text-base px-10 h-12" onClick={() => document.getElementById("plans")?.scrollIntoView({ behavior: "smooth" })}>
-            Start <ArrowRight className="h-4 w-4" />
+          <Button size="lg" className="gap-2 font-heading font-bold text-base px-8 h-12" onClick={() => document.getElementById("plans")?.scrollIntoView({ behavior: "smooth" })}>
+            See Plans <ArrowRight className="h-4 w-4" />
           </Button>
           <p className="text-xs text-muted-foreground">No contracts. No percentage cuts. Cancel anytime.</p>
         </motion.div>
