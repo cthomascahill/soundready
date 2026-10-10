@@ -1,0 +1,64 @@
+{
+  "name": "MerchItem",
+  "type": "object",
+  "description": "One merch item in the artist's touring inventory: what it is, what it costs, what it sells for, how many are in the van, and a running sold tally updated from the merch table.",
+  "properties": {
+    "name": {
+      "type": "string",
+      "description": "Item name, e.g. Logo tee, Vinyl LP"
+    },
+    "variant": {
+      "type": "string",
+      "description": "Size, color or format, e.g. L / Black"
+    },
+    "cost_per_unit": {
+      "type": "number",
+      "description": "What one unit cost to make or buy"
+    },
+    "price": {
+      "type": "number",
+      "description": "What one unit sells for at the table"
+    },
+    "stock": {
+      "type": "number",
+      "description": "Units currently on hand"
+    },
+    "sold": {
+      "type": "number",
+      "description": "Units sold (running tally)"
+    },
+    "stock_value": {
+      "type": "number",
+      "description": "Computed: stock x cost_per_unit"
+    },
+    "potential_revenue": {
+      "type": "number",
+      "description": "Computed: stock x price"
+    },
+    "sold_revenue": {
+      "type": "number",
+      "description": "Computed: sold x price"
+    },
+    "notes": {
+      "type": "string",
+      "description": "Anything notable, e.g. reorder link, size run"
+    }
+  },
+  "required": [
+    "name"
+  ],
+  "rls": {
+    "read": {
+      "created_by_id": "{{user.id}}"
+    },
+    "create": {
+      "created_by_id": "{{user.id}}"
+    },
+    "update": {
+      "created_by_id": "{{user.id}}"
+    },
+    "delete": {
+      "created_by_id": "{{user.id}}"
+    }
+  }
+}

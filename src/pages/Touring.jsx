@@ -1,6 +1,6 @@
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
-import { Mic2, Megaphone, Route, Wallet, FileText, ArrowRight, MapPin, ClipboardList, Receipt } from "lucide-react";
+import { Mic2, Megaphone, Route, Wallet, FileText, ArrowRight, MapPin, ClipboardList, Receipt, Shirt } from "lucide-react";
 import SEO from "@/components/SEO";
 import { useLang } from "@/lib/i18n/LanguageContext";
 
@@ -59,6 +59,15 @@ const TOOLS = [
     border: "border-chart-5/20",
     title: "Settlements",
     desc: "The after-show math — door count, deal terms, deductions and merch — with the net payout tracked until the money is in your account.",
+  },
+  {
+    to: "/merch-inventory",
+    icon: Shirt,
+    color: "text-purple-400",
+    bg: "bg-purple-500/15",
+    border: "border-purple-500/25",
+    title: "Merch Inventory",
+    desc: "Everything in the merch bin — costs, prices, stock left and a one-tap sold tally at the table, with what the whole bin can make.",
   },
   {
     to: "/contracts",
