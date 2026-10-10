@@ -110,7 +110,7 @@ export default function SidebarNav({ activePath, onNavigate }) {
   // AI Manager subscribers have everything unlocked, so no badges are needed
   const tierBadge = (to) => {
     if (hasAIManager(user)) return null;
-    if (AI_ONLY.has(to)) return "AI";
+    if (AI_ONLY.has(to)) return "DM";
     if (PRO_ONLY.has(to)) return "Pro";
     return null;
   };
@@ -137,7 +137,7 @@ export default function SidebarNav({ activePath, onNavigate }) {
               const badge = tierBadge(item.to) && (
                 <span
                   className={`ml-auto shrink-0 rounded-full border px-1.5 py-0.5 text-[9px] font-bold uppercase tracking-wide ${
-                    tierBadge(item.to) === "AI"
+                    tierBadge(item.to) === "DM"
                       ? "bg-primary/15 border-primary/25 text-primary"
                       : "bg-chart-5/10 border-chart-5/25 text-chart-5"
                   }`}

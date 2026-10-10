@@ -48,7 +48,7 @@ export default function ToolLibrary() {
   // Same tier badges as the sidebar; AI Manager subscribers have everything unlocked, so no badges
   const tierBadge = (tier) => {
     if (hasAIManager(user)) return null;
-    if (tier === "ai") return "AI";
+    if (tier === "ai") return "DM";
     if (tier === "pro") return "Pro";
     return null;
   };
@@ -129,7 +129,7 @@ export default function ToolLibrary() {
                           {tierBadge(tool.tier) ? (
                             <span
                               className={`shrink-0 mt-1 rounded-full border px-1.5 py-0.5 text-[9px] font-bold uppercase tracking-wide ${
-                                tierBadge(tool.tier) === "AI"
+                                tierBadge(tool.tier) === "DM"
                                   ? "bg-primary/15 border-primary/25 text-primary"
                                   : "bg-chart-5/10 border-chart-5/25 text-chart-5"
                               }`}

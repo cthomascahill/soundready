@@ -5,7 +5,7 @@ import { rawTier } from "@/lib/tier";
 export const PREVIEW_KEY = "sr_preview_tier";
 
 const OPTIONS = [
-  { id: null, label: "AI" },
+  { id: null, label: "DM" },
   { id: "pro", label: "Pro" },
   { id: "free", label: "Free" },
 ];
