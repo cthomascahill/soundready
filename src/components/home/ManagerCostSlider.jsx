@@ -2,15 +2,22 @@ import { useState } from "react";
 import { Slider } from "@/components/ui/slider";
 
 const MANAGER_RATE = 0.175; // midpoint of the typical 15–20% commission
-const SAM_MONTHLY = 59;
+// SAM's price follows the billing option selected on the pricing page
+const SAM_PRICING = {
+  monthly: { fee: 59, strike: "$79", suffix: "/mo" },
+  yearly: { fee: 569, strike: "$699", suffix: "/yr" },
+};
 const fmt = (n) => `$${Math.round(n).toLocaleString()}`;
 
-export default function ManagerCostSlider() {
+export default function ManagerCostSlider({ billing = "monthly" }) {
   const [income, setIncome] = useState(3000);
+  const sam = SAM_PRICING[billing] || SAM_PRICING.monthly;
   const managerMonthly = income * MANAGER_RATE;
   const managerYearly = managerMonthly * 12;
-  const samYearly = SAM_MONTHLY * 12;
+  const samYearly = sam.fee;
   const savings = managerYearly - samYearly;
+  // Income level where a manager's 17.5% commission equals SAM's price
+  const feeBreak = samYearly / (MANAGER_RATE * 12);
 
   return (
     <div className="pt-6 mt-2 border-t border-border/60 text-left space-y-5">
@@ -31,8 +38,8 @@ export default function ManagerCostSlider() {
         </div>
         <div className="space-y-1.5">
           <p className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground">SoundReady Digital Manager</p>
-          <p className="font-heading text-2xl font-black text-primary"><span className="text-xs line-through opacity-60 font-bold text-muted-foreground mr-1">$79</span>$59<span className="text-xs font-bold text-muted-foreground">/mo</span></p>
-          <p className="text-xs text-muted-foreground">{fmt(samYearly)} every year, flat, forever</p>
+          <p className="font-heading text-2xl font-black text-primary"><span className="text-xs line-through opacity-60 font-bold text-muted-foreground mr-1">{sam.strike}</span>{fmt(sam.fee)}<span className="text-xs font-bold text-muted-foreground">{sam.suffix}</span></p>
+          <p className="text-xs text-muted-foreground">{fmt(samYearly)} every year, flat, forever{billing === "yearly" ? ", billed once" : ", paying monthly"}</p>
         </div>
       </div>
 
@@ -40,7 +47,7 @@ export default function ManagerCostSlider() {
         {savings > 0 ? (
           <span className="text-foreground">A traditional manager's fee on that income would be <span className="text-primary">{fmt(managerYearly)}/year</span>. Digital Manager is <span className="text-primary">{fmt(samYearly)}/year</span> — <span className="text-primary">{fmt(savings)} less in fees</span>.</span>
         ) : (
-          <span className="text-muted-foreground">Earning under $343/mo? Then your problem isn't the fee, it's revenue. SAM is built to fix exactly that, working your career every week until you clear it. And at over $343/mo, SAM costs less than a manager's fee, forever.</span>
+          <span className="text-muted-foreground">Earning under {fmt(feeBreak)}/mo? Then your problem isn't the fee, it's revenue. SAM is built to fix exactly that, working your career every week until you clear it. And above that, SAM costs less than a manager's fee, forever.</span>
         )}
       </p>
       <p className="text-center text-xs text-muted-foreground -mt-2">

@@ -26,7 +26,7 @@ export default function FullToolkitSection() {
         <div className="space-y-1.5">
           <h2 className="font-heading text-2xl font-bold">{ALL_TOOLS.length} {t("tools. One login.")}</h2>
           <p className="text-sm text-muted-foreground">
-            {t("Free tools on every plan")} · {t("Pro tools with Artist Pro")} · {t("AI tools with AI Manager")}
+            {t("Free tools on every plan")} · {t("Pro tools with Artist Pro")} · {t("AI tools with Digital Manager")}
           </p>
         </div>
         <div className="flex flex-wrap justify-center gap-2">

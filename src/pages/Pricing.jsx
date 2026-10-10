@@ -316,11 +316,11 @@ export default function Pricing() {
                 <p className="text-xs text-muted-foreground">A traditional manager's typical commission on your earnings</p>
               </div>
               <div className="space-y-1">
-                <p className="font-heading text-2xl font-black text-primary">$59 flat</p>
+                <p className="font-heading text-2xl font-black text-primary">{billing === "yearly" ? "$569/year flat" : "$59 flat"}</p>
                 <p className="text-xs text-muted-foreground">SAM: pitches and outreach every week, zero cuts</p>
               </div>
             </div>
-            <ManagerCostSlider />
+            <ManagerCostSlider billing={billing} />
           </motion.div>
           </div>
           <div className="pt-8 flex justify-center">

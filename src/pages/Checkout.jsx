@@ -73,10 +73,12 @@ export default function Checkout() {
   const isAuth = !!user;
   const tier = getTier(user);
   const cancelled = searchParams.get("cancelled") === "1";
-  const returnTo = encodeURIComponent(`/checkout/${plan}`);
 
   const isSub = meta.tierKey === "pro" || meta.tierKey === "ai_manager";
   const yearly = isSub && interval === "yearly";
+  // Carry the billing period into the signup/login return links so the
+  // customer lands back on the exact plan and period they selected.
+  const returnTo = encodeURIComponent(`/checkout/${plan}${yearly ? "?billing=yearly" : ""}`);
   const price = yearly ? meta.priceYearly : meta.price;
   const period = yearly ? meta.periodYearly : meta.period;
   const note = yearly ? (meta.noteYearly || meta.note) : meta.note;

@@ -58,7 +58,7 @@ export default async function(req) {
         customer_email: user.email,
         client_reference_id: user.id,
         success_url: `${appUrl}/checkout/success`,
-        cancel_url: `${appUrl}/checkout/${tier === 'pro' ? 'artist-pro' : 'ai-manager'}?cancelled=1`,
+        cancel_url: `${appUrl}/checkout/${tier === 'pro' ? 'artist-pro' : 'ai-manager'}?cancelled=1${interval === 'yearly' ? '&billing=yearly' : ''}`,
         'metadata[base44_app_id]': appId,
         'metadata[user_id]': user.id,
         'metadata[tier]': tier,
