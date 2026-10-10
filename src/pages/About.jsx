@@ -20,6 +20,7 @@ import PlatformShowcaseSection from "@/components/home/PlatformShowcaseSection";
 import MattCormanSection from "@/components/home/MattCormanSection";
 import HeroArtistSearch from "@/components/home/HeroArtistSearch";
 import IncludedSection from "@/components/home/IncludedSection";
+import SamPromiseWalkthrough from "@/components/home/SamPromiseWalkthrough";
 import { useLang } from "@/lib/i18n/LanguageContext";
 
 const TIERS = [
@@ -181,6 +182,9 @@ export default function About() {
         </motion.div>
 
       </section>
+
+      {/* THE PROMISE: a step-by-step SAM walkthrough */}
+      <SamPromiseWalkthrough />
 
       {/* SAM IN ACTION */}
       <SamInActionSection />
