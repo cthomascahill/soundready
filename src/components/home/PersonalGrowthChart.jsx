@@ -101,7 +101,7 @@ export default function PersonalGrowthChart({ artistName, monthlyListeners }) {
       </div>
 
       <p className="text-xs text-muted-foreground text-center">
-        {t("Illustrative projection from your current numbers, based on average outcomes reported by SoundReady artists. Not a guarantee.")}
+        {t("Illustrative growth scenario using your current numbers and hypothetical growth assumptions. Actual results will vary.")}
       </p>
     </div>
   );
