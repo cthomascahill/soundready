@@ -158,7 +158,7 @@ export default function About() {
           </div>
 
           {/* SAM mascot, big on the right, floating */}
-          <div className="relative flex justify-center lg:justify-end pt-8 lg:pt-0">
+          <div className="relative flex flex-col items-center justify-center lg:items-end pt-8 lg:pt-0">
             <motion.img
               src="https://base44.app/api/apps/69dcf0ecc907e43a438a626b/files/mp/public/69dcf0ecc907e43a438a626b/4c5460634_sam-cutout.png"
               alt="SAM, the SoundReady AI music manager robot mascot"
@@ -171,12 +171,11 @@ export default function About() {
                 y: { repeat: Infinity, duration: 4, ease: "easeInOut" }
               }}
             />
+            <p className="mt-3 font-heading text-xl sm:text-3xl font-black tracking-tight text-foreground whitespace-nowrap">
+              <span className="text-primary">S</span>oundReady&nbsp;<span className="text-primary">A</span>rtist&nbsp;<span className="text-primary">M</span>anager
+            </p>
             <div className="absolute -top-2 lg:top-6 -left-2 lg:left-auto lg:right-52 -rotate-6 flex flex-col items-center pointer-events-none z-20">
               <p className="font-heading text-2xl sm:text-4xl font-black text-foreground whitespace-nowrap">{t("Meet SAM")}</p>
-              <div className="mt-1.5 flex items-baseline gap-2 rounded-full border border-primary/30 bg-card/90 px-3 py-1 shadow-sm">
-                <span className="font-heading text-[11px] sm:text-xs font-black tracking-[0.25em] text-primary whitespace-nowrap">SAM</span>
-                <span className="text-[10px] sm:text-[11px] font-medium text-muted-foreground whitespace-nowrap">{t("SoundReady Artist Manager")}</span>
-              </div>
               <svg width="110" height="80" viewBox="-11 0 110 80" fill="none" className="text-primary mt-1 w-[90px] h-auto sm:w-[110px] sm:h-[80px]">
                 <path d="M4 6 C 44 10, 76 30, 82 66" stroke="currentColor" strokeWidth="5" strokeLinecap="round" />
                 <path d="M68 62 L 84 74 L 76 52" stroke="currentColor" strokeWidth="5" strokeLinecap="round" strokeLinejoin="round" />
