@@ -9,7 +9,7 @@ export default function SamPromiseWalkthrough() {
     <WalkthroughSection
       id="the-promise"
       headline="Tell Sam to "
-      headlineAccent="book your tour."
+      headlineAccent="book your tour"
       steps={[
         {
           num: "1",
