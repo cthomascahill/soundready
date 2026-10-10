@@ -21,6 +21,7 @@ import MattCormanSection from "@/components/home/MattCormanSection";
 import HeroArtistSearch from "@/components/home/HeroArtistSearch";
 import IncludedSection from "@/components/home/IncludedSection";
 import SamPromiseWalkthrough from "@/components/home/SamPromiseWalkthrough";
+import SamPlaylistWalkthrough from "@/components/home/SamPlaylistWalkthrough";
 import { useLang } from "@/lib/i18n/LanguageContext";
 
 const TIERS = [
@@ -185,6 +186,9 @@ export default function About() {
 
       {/* THE PROMISE: a step-by-step SAM walkthrough */}
       <SamPromiseWalkthrough />
+
+      {/* THE PROMISE, for playlists */}
+      <SamPlaylistWalkthrough />
 
       {/* SAM IN ACTION */}
       <SamInActionSection />
