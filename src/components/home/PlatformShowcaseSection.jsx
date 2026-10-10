@@ -63,7 +63,7 @@ export default function PlatformShowcaseSection() {
             {t("Your whole career, ")}<span className="text-primary font-black">{t("one workspace")}</span>
           </h2>
           <p className="text-lg text-muted-foreground max-w-2xl mx-auto leading-relaxed">
-            {t("Real screenshots, not promises. This is SoundReady working for you.")}
+            {t("Sam is just one aspect of SoundReady. Look through our 30+ tools to manage your music career.")}
           </p>
         </motion.div>
 
