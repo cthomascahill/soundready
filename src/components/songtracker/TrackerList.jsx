@@ -1,4 +1,4 @@
-import { useState, useMemo } from "react";
+import { useState, useMemo, useRef, useEffect } from "react";
 import { Plus, ArrowUp, ArrowDown } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import SongRow from "./SongRow";
@@ -36,6 +36,21 @@ export default function TrackerList({ songs, moveTargets, onAdd, onUpdate, onDel
   const [stageFilter, setStageFilter] = useState("all");
   const [sort, setSort] = useState({ key: null, dir: "asc" });
   const [newSongId, setNewSongId] = useState(null);
+  // The song whose stage was toggled last. Toggling "Released" moves a song out
+  // of the Active tab (and stage changes move it out of a stage filter), which
+  // made the row vanish mid-edit and the toggle look like it did nothing.
+  // The pinned row stays visible in its spot until the user changes view.
+  const [pinnedId, setPinnedId] = useState(null);
+  const orderRef = useRef([]);
+
+  // Switching tab or filter lets go of the pinned row
+  useEffect(() => { setPinnedId(null); }, [tab, stageFilter]);
+
+  // Pin any song whose stage flags just changed, then save as usual
+  const handleUpdate = (id, changes) => {
+    if (Object.keys(changes).some((k) => k.startsWith("stage_"))) setPinnedId(id);
+    onUpdate(id, changes);
+  };
 
   const addSong = async () => {
     const song = await onAdd();
@@ -67,8 +82,16 @@ export default function TrackerList({ songs, moveTargets, onAdd, onUpdate, onDel
     if (sort.key) {
       ordered.sort((a, b) => (sort.dir === "asc" ? compareBy(sort.key, a, b) : -compareBy(sort.key, a, b)));
     }
+    // Keep a just-toggled song in the list at its previous position even when
+    // the change moved it out of the current tab or filter
+    const pinnedSong = pinnedId && songs.find((s) => s.id === pinnedId);
+    if (pinnedSong && !ordered.some((s) => s.id === pinnedId)) {
+      const prevPos = orderRef.current.findIndex((s) => s.id === pinnedId);
+      ordered.splice(Math.min(prevPos >= 0 ? prevPos : ordered.length, ordered.length), 0, pinnedSong);
+    }
+    orderRef.current = ordered;
     return ordered;
-  }, [songs, tab, stageFilter, sort]);
+  }, [songs, tab, stageFilter, sort, pinnedId]);
 
   return (
     <div className="space-y-6">
@@ -121,7 +144,7 @@ export default function TrackerList({ songs, moveTargets, onAdd, onUpdate, onDel
               song={song}
               isNew={song.id === newSongId}
               moveTargets={moveTargets}
-              onUpdate={onUpdate}
+              onUpdate={handleUpdate}
               onDelete={onDelete}
             />
           ))
