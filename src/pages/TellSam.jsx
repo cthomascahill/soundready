@@ -65,7 +65,7 @@ export default function TellSam() {
           <div className="h-14 w-14 rounded-2xl bg-primary/10 border border-primary/20 flex items-center justify-center mx-auto">
             <Lock className="h-7 w-7 text-primary" />
           </div>
-          <p className="font-heading font-bold text-lg">Telling Sam what to do is part of the AI Manager plan</p>
+          <p className="font-heading font-bold text-lg">Telling Sam what to do is part of the Digital Manager plan</p>
           <p className="text-sm text-muted-foreground leading-relaxed">
             Hand Sam any task — book a tour, pitch your song to labels, crunch your streaming reports. Sam researches real
             targets and drafts everything, and nothing sends until you approve it.
@@ -88,7 +88,7 @@ export default function TellSam() {
       <div className="max-w-3xl mx-auto space-y-8">
         {/* Header */}
         <motion.div initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }} className="space-y-1">
-          <p className="text-xs text-primary uppercase tracking-widest font-medium">SAM · Your AI Manager</p>
+          <p className="text-xs text-primary uppercase tracking-widest font-medium">SAM · Your Digital Manager</p>
           <h1 className="font-heading text-4xl font-bold flex items-center gap-3">
             <SamLogo className="h-8 w-8 text-primary" /> Tell Sam what to do
           </h1>

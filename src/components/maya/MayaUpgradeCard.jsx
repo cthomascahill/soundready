@@ -40,12 +40,12 @@ export default function MayaUpgradeCard() {
       <Link to="/pricing-account">
         <Button className="w-full gap-2 shadow-lg" style={{ boxShadow: "0 0 20px rgba(34,197,94,0.25)" }}>
           <Sparkles className="h-4 w-4" />
-          Upgrade to AI Manager
+          Upgrade to Digital Manager
         </Button>
       </Link>
 
       <p className="text-[10px] text-muted-foreground/60 text-center">
-        AI Manager tier · Unlock Sam + all proactive outbound tools
+        Digital Manager tier · Unlock Sam + all proactive outbound tools
       </p>
     </div>
   );

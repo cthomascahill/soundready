@@ -29,7 +29,7 @@ const TIERS = [
   },
   {
     id: "ai",
-    label: "AI Manager",
+    label: "Digital Manager",
     badge: "bg-purple-500/15 text-purple-400 border-purple-500/25",
     blurb: "Sam works for you: research, drafts, contracts and outreach — $59/mo for the first 100 artists.",
     icon: Bot,

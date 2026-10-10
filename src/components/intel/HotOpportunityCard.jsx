@@ -31,7 +31,7 @@ export default function HotOpportunityCard({ item, feedLabel, onOpenFeed }) {
       <div className="absolute inset-0 bg-primary/5 pointer-events-none" />
       <motion.img
         src={SAM_ROBOT_URL}
-        alt="Sam, your AI manager, pointing at his top opportunity pick"
+        alt="Sam, your digital manager, pointing at his top opportunity pick"
         className="pointer-events-none absolute right-0 top-0 h-24 sm:h-32 w-auto drop-shadow-xl z-10"
         animate={{ y: [0, -6, 0] }}
         transition={{ y: { repeat: Infinity, duration: 3, ease: "easeInOut" } }}

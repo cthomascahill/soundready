@@ -27,7 +27,7 @@ export default function Privacy() {
         <Section title="Overview">
           <p>
             This Privacy Policy explains how SoundReady ("we", "us") collects, uses and protects your
-            information when you use the SoundReady platform, including its AI manager features. By using
+            information when you use the SoundReady platform, including its digital manager features. By using
             SoundReady, you agree to the practices described here.
           </p>
         </Section>

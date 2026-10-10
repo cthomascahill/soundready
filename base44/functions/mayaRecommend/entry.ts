@@ -13,7 +13,7 @@ export default async function(req) {
     if (!user) return Response.json({ error: 'Unauthorized' }, { status: 401 });
 
     const isAIManager = user.role === 'admin' || user.subscription_tier === 'ai_manager';
-    if (!isAIManager) return Response.json({ error: 'AI Manager subscription required' }, { status: 403 });
+    if (!isAIManager) return Response.json({ error: 'Digital Manager subscription required' }, { status: 403 });
 
     // ── Shared AI allowance: recommendations draw from the same monthly pool ──
     const reservation = await reserveAiUnits(base44, { userId: user.id, feature: 'recommendations' });

@@ -84,7 +84,7 @@ export default function DealsOutreach() {
       <div className="rounded-2xl border border-primary/25 bg-gradient-to-br from-card via-card to-primary/5 p-6 sm:p-10 relative overflow-hidden">
         <img
           src={SAM_IMG}
-          alt="Sam, the SoundReady AI manager robot"
+          alt="Sam, the SoundReady digital manager robot"
           className="hidden sm:block pointer-events-none absolute -right-2 bottom-0 h-44 w-auto drop-shadow-xl"
         />
         <div className="relative max-w-xl space-y-4">

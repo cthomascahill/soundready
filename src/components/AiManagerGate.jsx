@@ -35,10 +35,10 @@ export default function AiManagerGate({ children, feature }) {
           </div>
           <div className="space-y-1">
             <h1 className="font-heading text-2xl font-black">
-              {feature ? `${feature} is part of AI Manager` : "This is part of AI Manager"}
+              {feature ? `${feature} is part of Digital Manager` : "This is part of Digital Manager"}
             </h1>
             <p className="text-sm text-muted-foreground leading-relaxed">
-              Artist Pro unlocks the full toolkit. AI Manager adds Sam — the part that works your career around the clock.
+              Artist Pro unlocks the full toolkit. Digital Manager adds Sam — the part that works your career around the clock.
             </p>
           </div>
           <div className="space-y-2">
@@ -54,7 +54,7 @@ export default function AiManagerGate({ children, feature }) {
             <span className="font-heading text-3xl font-black text-primary">$59<span className="text-sm text-muted-foreground font-medium">/mo</span></span>
           </div>
           <CheckoutButton tier="ai_manager">
-            Start AI Manager — $59/mo, first 100 artists
+            Start Digital Manager — $59/mo, first 100 artists
           </CheckoutButton>
           <p className="text-center text-xs text-muted-foreground">
             First-100 price locked for life while you stay subscribed. Everything in Artist Pro included. Cancel anytime.

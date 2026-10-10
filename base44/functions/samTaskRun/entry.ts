@@ -36,7 +36,7 @@ export default async function(req) {
     if (!user) return Response.json({ error: 'Unauthorized' }, { status: 401 });
 
     const isAIManager = user.role === 'admin' || user.subscription_tier === 'ai_manager';
-    if (!isAIManager) return Response.json({ error: 'AI Manager subscription required' }, { status: 403 });
+    if (!isAIManager) return Response.json({ error: 'Digital Manager subscription required' }, { status: 403 });
 
     const body = await req.json().catch(() => ({}));
     taskId = body.task_id;

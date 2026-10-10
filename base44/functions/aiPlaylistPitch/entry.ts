@@ -87,7 +87,7 @@ For each playlist, write a short pitch email (3 short paragraphs). Reference spe
       await base44.integrations.Core.SendEmail({
         to: user.email,
         subject: `Your song "${song.title}" has been pitched to ${pitchCount} playlists`,
-        body: `Your AI Manager just went to work.\n\nYour song "${song.title}" has been pitched to ${pitchCount} playlist curators:\n\n${pitches.map(p => `• ${p.playlist_type}`).join('\n')}\n\nLog in to view your pitching report and see every draft in the AI Activity section of your dashboard.\n\n— SoundReady AI Manager`
+        body: `Your Digital Manager just went to work.\n\nYour song "${song.title}" has been pitched to ${pitchCount} playlist curators:\n\n${pitches.map(p => `• ${p.playlist_type}`).join('\n')}\n\nLog in to view your pitching report and see every draft in the AI Activity section of your dashboard.\n\n— SoundReady Digital Manager`
       });
     }
 

@@ -82,8 +82,8 @@ function serviceClient(base44) {
 export function usagePausedResponse(state) {
   if (state?.notEntitled) {
     return Response.json({
-      error: 'AI Manager subscription required',
-      message: 'This feature is part of the AI Manager plan.',
+      error: 'Digital Manager subscription required',
+      message: 'This feature is part of the Digital Manager plan.',
     }, { status: 403 });
   }
   return Response.json({

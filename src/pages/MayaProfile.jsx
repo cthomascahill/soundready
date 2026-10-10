@@ -147,7 +147,7 @@ export default function MayaProfile() {
           <div className="h-14 w-14 rounded-2xl bg-primary/10 border border-primary/20 flex items-center justify-center mx-auto">
             <Lock className="h-7 w-7 text-primary" />
           </div>
-          <p className="font-heading font-bold text-lg">Sam's profile is part of the AI Manager plan</p>
+          <p className="font-heading font-bold text-lg">Sam's profile is part of the Digital Manager plan</p>
           <p className="text-sm text-muted-foreground leading-relaxed">
             Define your goals, preferences, and constraints once — and Sam factors them into every suggestion, draft, and plan they make.
           </p>

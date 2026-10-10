@@ -10,7 +10,7 @@ import PlanUsagePanel from "@/components/plan/PlanUsagePanel";
 const PLANS = {
   free: { icon: Zap, name: "Free", price: "$0", color: "text-muted-foreground", desc: "Your music, organized." },
   pro: { icon: Users, name: "Artist Pro", price: "$39/month", color: "text-chart-5", desc: "Your career toolkit." },
-  ai_manager: { icon: Bot, name: "AI Manager", price: "$59/month", color: "text-primary", desc: "Your own AI music manager." },
+  ai_manager: { icon: Bot, name: "Digital Manager", price: "$59/month", color: "text-primary", desc: "For artists who want help doing the work." },
 };
 
 /**

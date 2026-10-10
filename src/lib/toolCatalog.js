@@ -18,7 +18,7 @@ export const TOOL_CATEGORIES = [
     ],
   },
   {
-    label: "AI Manager",
+    label: "Digital Manager",
     tools: [
       { name: "Tell Sam", to: "/tell-sam", desc: "Give Sam any task in plain words", icon: Sparkles, tier: "ai" },
       { name: "Sam's Desk", to: "/sam-desk", desc: "Sam's drafted emails, ready to approve", icon: Bot, tier: "ai" },

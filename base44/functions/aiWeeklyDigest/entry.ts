@@ -18,7 +18,7 @@ Deno.serve(async (req) => {
 
     if (targetUserId) {
       // AI Manager feature: non-subscribers are refused up front
-      if (!isAIManagerUser(user)) return Response.json({ error: 'AI Manager subscription required' }, { status: 403 });
+      if (!isAIManagerUser(user)) return Response.json({ error: 'Digital Manager subscription required' }, { status: 403 });
 
       // ── Shared AI allowance: digests draw from the same monthly pool ──
       const reservation = await reserveAiUnits(base44, { userId: user.id, feature: 'weekly_digest' });
@@ -87,7 +87,7 @@ Write in a direct A&R voice — specific, human, never generic. Reference their 
           user_id: uid,
           action_type: "digest_sent",
           title: "Weekly AI Career Digest",
-          description: "Your weekly AI Manager career digest has been prepared with personalized recommendations, release timing, and tour opportunities.",
+          description: "Your weekly Digital Manager career digest has been prepared with personalized recommendations, release timing, and tour opportunities.",
           status: "complete",
           draft_email: digestContent,
           metadata: { week: new Date().toISOString().split('T')[0] }
@@ -133,7 +133,7 @@ Write a weekly digest with: activity summary, release timing recommendation, tou
     user_id: user.id,
     action_type: "digest_sent",
     title: "Weekly AI Career Digest",
-    description: "Your weekly AI Manager career digest with personalized recommendations.",
+    description: "Your weekly Digital Manager career digest with personalized recommendations.",
     status: "complete",
     draft_email: digestContent,
     metadata: { week: new Date().toISOString().split('T')[0] }

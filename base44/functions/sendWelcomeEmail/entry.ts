@@ -50,7 +50,7 @@ Deno.serve(async (req) => {
       <div class="tool-item"><div class="tool-dot"></div><div class="tool-text">Tracker — take a song from idea to release</div></div>
       <div class="tool-item"><div class="tool-dot"></div><div class="tool-text">Connect Spotify & YouTube to see your real numbers</div></div>
       <div class="tool-item"><div class="tool-dot"></div><div class="tool-text">24 integrated tools — one login</div></div>
-      <div class="tool-item"><div class="tool-dot"></div><div class="tool-text">Sam, your AI manager — outbounds for you every week, you approve or deny</div></div>
+      <div class="tool-item"><div class="tool-dot"></div><div class="tool-text">Sam, your digital manager — outbounds for you every week, you approve or deny</div></div>
     </div>
 
     <p>Drop your first song into the Vault and get moving:</p>

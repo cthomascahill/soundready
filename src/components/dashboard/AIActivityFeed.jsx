@@ -337,7 +337,7 @@ export default function AIActivityFeed({ user }) {
               Sam's Desk →
             </Link>
             <span className="px-2.5 py-0.5 rounded-full bg-primary/10 border border-primary/20 text-primary text-[10px] font-bold uppercase tracking-wider">
-              AI Manager
+              DM
             </span>
           </div>
         )}
@@ -374,13 +374,13 @@ export default function AIActivityFeed({ user }) {
               <div className="h-10 w-10 rounded-xl bg-primary/10 border border-primary/20 flex items-center justify-center mx-auto">
                 <Lock className="h-5 w-5 text-primary" />
               </div>
-              <p className="font-heading font-bold text-base">Your AI Manager is working 24/7</p>
+              <p className="font-heading font-bold text-base">Your Digital Manager is working 24/7</p>
               <p className="text-sm text-muted-foreground max-w-sm mx-auto leading-relaxed">
-                Upgrade to AI Manager and SoundReady automatically pitches playlists, finds tour opportunities, drafts booking emails, and sends you a weekly career digest — all without lifting a finger.
+                Upgrade to Digital Manager and SoundReady automatically pitches playlists, finds tour opportunities, drafts booking emails, and sends you a weekly career digest — all without lifting a finger.
               </p>
               <Link to="/pricing-account">
                 <Button size="sm" className="gap-2 font-semibold">
-                  <Zap className="h-3.5 w-3.5" />Upgrade to AI Manager · <span className="line-through opacity-60">$79</span> $59/mo
+                  <Zap className="h-3.5 w-3.5" />Upgrade to Digital Manager · <span className="line-through opacity-60">$79</span> $59/mo
                 </Button>
               </Link>
             </div>
@@ -392,7 +392,7 @@ export default function AIActivityFeed({ user }) {
         ) : activities.length === 0 ? (
           <div className="rounded-2xl bg-card border border-border p-8 text-center space-y-3">
             <Bot className="h-10 w-10 text-muted-foreground/30 mx-auto" />
-            <p className="text-muted-foreground text-sm">Your AI Manager is ready. Upload a song to kick off your first automatic campaign.</p>
+            <p className="text-muted-foreground text-sm">Your Digital Manager is ready. Upload a song to kick off your first automatic campaign.</p>
             <Link to="/release-plan"><Button size="sm" className="gap-2 mt-1"><Zap className="h-3.5 w-3.5" />Upload a Song</Button></Link>
           </div>
         ) : (

@@ -50,7 +50,7 @@ const NAV_SECTIONS = (isAdmin) => [
   },
   {
     id: "ai-manager",
-    label: "AI Manager",
+    label: "Digital Manager",
     items: [
       { to: "/tell-sam", icon: Wand2, label: "Tell Sam" },
       { to: "/todos", icon: ListTodo, label: "This Week" },

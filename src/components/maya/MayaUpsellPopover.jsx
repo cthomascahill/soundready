@@ -33,7 +33,7 @@ export default function MayaUpsellPopover({ onClose }) {
             </div>
           </div>
 
-          <p className="font-heading font-bold text-foreground text-base mb-1">Chat with Sam, your AI manager</p>
+          <p className="font-heading font-bold text-foreground text-base mb-1">Chat with Sam, your digital manager</p>
 
           {/* Sam speaking in first person */}
           <div className="space-y-2 mt-3 text-left">
@@ -55,7 +55,7 @@ export default function MayaUpsellPopover({ onClose }) {
             className="mt-5 w-full flex items-center justify-center gap-2 px-4 py-3 rounded-xl bg-primary text-black font-semibold text-sm hover:bg-primary/90 transition-colors"
           >
             <Sparkles className="h-4 w-4" />
-            Upgrade to AI Manager — <span className="line-through opacity-60">$79</span> $59/mo
+            Upgrade to Digital Manager — <span className="line-through opacity-60">$79</span> $59/mo
           </Link>
 
           <p className="text-[10px] text-muted-foreground mt-2">First 100 artists · Cancel anytime · Unlimited Sam access</p>

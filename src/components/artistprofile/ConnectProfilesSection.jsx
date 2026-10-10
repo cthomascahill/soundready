@@ -566,7 +566,7 @@ export default function ConnectProfilesSection() {
       {!(user?.role === "admin" || user?.subscription_tier === "ai_manager") && (
         <div className="rounded-xl border border-primary/20 bg-primary/5 px-4 py-3 flex items-center justify-between gap-4">
           <p className="text-sm text-muted-foreground">
-            <span className="text-foreground font-medium">Your connected data powers Sam.</span> Upgrade to AI Manager to unlock Sam.
+            <span className="text-foreground font-medium">Your connected data powers Sam.</span> Upgrade to Digital Manager to unlock Sam.
           </p>
           <Link to="/pricing-account" className="text-xs font-semibold text-primary whitespace-nowrap hover:underline">
             Upgrade →

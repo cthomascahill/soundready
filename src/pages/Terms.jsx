@@ -14,7 +14,7 @@ export default function Terms() {
     <div className="min-h-screen bg-background">
       <SEO
         title="SoundReady Terms of Service"
-        description="The terms that govern your use of the SoundReady platform and its AI manager features."
+        description="The terms that govern your use of the SoundReady platform and its digital manager features."
       />
       <PublicNav />
       <article className="max-w-3xl mx-auto px-4 py-16 space-y-10">
@@ -26,7 +26,7 @@ export default function Terms() {
 
         <Section title="Agreement to Terms">
           <p>
-            These Terms of Service govern your access to and use of SoundReady, including its AI manager
+            These Terms of Service govern your access to and use of SoundReady, including its digital manager
             features. By creating an account or using the service, you agree to be bound by these terms. If
             you do not agree, do not use SoundReady.
           </p>

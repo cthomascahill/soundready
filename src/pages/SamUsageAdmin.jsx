@@ -50,7 +50,7 @@ export default function SamUsageAdmin() {
           </div>
           <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 divide-x divide-border">
             {[
-              { label: "AI Manager subscribers", value: workspace.aiManagerCount },
+              { label: "Digital Manager subscribers", value: workspace.aiManagerCount },
               { label: "Included capacity", value: `${config.monthlyIncluded * workspace.aiManagerCount} credits` },
               { label: "Used this month", value: `${workspace.usedThisMonth} · ${usd(workspace.monthCostUsd)}` },
               { label: "Remaining included", value: `${workspace.remainingIncluded} credits` },

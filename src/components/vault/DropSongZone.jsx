@@ -34,7 +34,7 @@ export default function DropSongZone({ onFiles }) {
         Drop a song.
       </p>
       <p className="text-sm text-muted-foreground text-center">
-        Your AI manager will organize it for you — or{" "}
+        Your digital manager will organize it for you — or{" "}
         <span className="underline underline-offset-2">browse</span>
       </p>
     </div>

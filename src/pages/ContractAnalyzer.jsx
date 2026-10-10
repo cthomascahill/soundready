@@ -216,7 +216,7 @@ Provide a thorough analysis.`,
     <div className="min-h-screen bg-background px-4 py-10">
       <div className="max-w-4xl mx-auto space-y-8">
         <motion.div initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }} className="space-y-1">
-          <p className="text-xs text-primary uppercase tracking-widest font-medium">AI Manager</p>
+          <p className="text-xs text-primary uppercase tracking-widest font-medium">Digital Manager</p>
           <h1 className="font-heading text-4xl font-bold">Contract Analyzer</h1>
           <p className="text-muted-foreground">Have Sam analyze any contract you have — label deals, distribution agreements, sync licenses, venue contracts. Sam reads every clause and tells you, in plain English, what could hurt you.</p>
         </motion.div>
