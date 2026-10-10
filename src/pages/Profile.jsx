@@ -3,6 +3,7 @@ import { base44 } from "@/api/base44Client";
 import { User, Mail, LogOut, Music2, Save, Check, BarChart2, Zap, Crown, Layers } from "lucide-react";
 import AccountTypePicker from "@/components/AccountTypePicker";
 import PublicProfileCard from "@/components/social/PublicProfileCard";
+import BillingPanel from "@/components/plan/BillingPanel";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import moment from "moment";
@@ -156,6 +157,9 @@ export default function Profile() {
             )}
           </div>
         </div>
+
+        {/* Billing — plan, renewal and cancellation */}
+        <BillingPanel />
 
         {/* Profile form */}
         <div className="rounded-2xl bg-card border border-border p-6 space-y-5">

@@ -110,6 +110,35 @@ export default async function(req) {
       return Response.json({ success: true });
     }
 
+    // ── Fetch the live subscription from Stripe (plan, renewal, status) ─────
+    if (action === 'get_subscription') {
+      const subId = user.stripe_subscription_id;
+      if (!subId) return Response.json({ subscription: null });
+      const sub = await stripeRequest('GET', `/subscriptions/${encodeURIComponent(subId)}`);
+      const item = sub.items?.data?.[0];
+      // Newer API versions moved current_period_end onto the subscription item
+      const periodEnd = sub.current_period_end || item?.current_period_end;
+      console.log(`stripeCheckout: subscription details fetched for user ${user.id}`);
+      return Response.json({
+        subscription: {
+          status: sub.status,
+          cancel_at_period_end: !!sub.cancel_at_period_end,
+          current_period_end: periodEnd ? new Date(periodEnd * 1000).toISOString() : null,
+          interval: item?.price?.recurring?.interval || 'month',
+          amount: (item?.price?.unit_amount || 0) / 100,
+        },
+      });
+    }
+
+    // ── Resume a subscription that was set to cancel at period end ─────────
+    if (action === 'resume') {
+      const subId = user.stripe_subscription_id;
+      if (!subId) return Response.json({ error: 'No active subscription found' }, { status: 400 });
+      await stripeRequest('POST', `/subscriptions/${encodeURIComponent(subId)}`, { cancel_at_period_end: 'false' });
+      console.log(`stripeCheckout: subscription ${subId} resumed (renewals re-enabled)`);
+      return Response.json({ success: true });
+    }
+
     return Response.json({ error: 'Unknown action' }, { status: 400 });
   } catch (error) {
     console.error('stripeCheckout error:', error.message);
