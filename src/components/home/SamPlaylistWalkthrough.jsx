@@ -8,8 +8,8 @@ export default function SamPlaylistWalkthrough() {
   return (
     <WalkthroughSection
       id="the-promise-playlists"
-      headline="Sam will find and pitch "
-      headlineAccent="your song to playlists."
+      headline="Tell Sam to "
+      headlineAccent="pitch your song."
       steps={[
         {
           num: "1",
