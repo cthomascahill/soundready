@@ -36,7 +36,7 @@ export default function IncludedSection() {
   const { t } = useLang();
 
   return (
-    <section className="px-4 py-24">
+    <section className="px-4 py-16">
       <div className="max-w-6xl mx-auto space-y-10">
         <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="text-center space-y-4">
           <h2 className="font-heading text-4xl font-bold">{t("What's included")}</h2>

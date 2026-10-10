@@ -121,19 +121,19 @@ export default function About() {
       <PublicNav showHome={false} />
 
       {/* HERO */}
-      <section className="relative px-4 pt-28 pb-24 text-center overflow-hidden">
+      <section className="relative px-4 pt-24 pb-14 text-center overflow-hidden">
         {/* Soft ambient glows, Too Lost style: oversized blurred color fields behind the hero */}
         <div className="absolute -top-48 -left-48 h-[640px] w-[640px] rounded-full bg-primary/15 blur-[140px] pointer-events-none" />
         <div className="absolute -top-40 -right-56 h-[560px] w-[560px] rounded-full bg-chart-2/10 blur-[160px] pointer-events-none" />
         <div className="absolute inset-0 bg-gradient-to-b from-transparent via-background/60 to-background pointer-events-none" />
         <motion.div initial={{ opacity: 0, y: 32 }} animate={{ opacity: 1, y: 0 }} className="relative max-w-7xl mx-auto grid lg:grid-cols-[1.1fr_1fr] items-center gap-6">
           {/* Hero copy */}
-          <div className="space-y-6 lg:space-y-8 text-center">
-            <h1 className="font-heading text-5xl sm:text-6xl lg:text-8xl font-black tracking-tight leading-[0.9]">
+          <div className="space-y-4 lg:space-y-5 text-center">
+            <h1 className="font-heading text-4xl sm:text-5xl lg:text-7xl font-black tracking-tight leading-[0.9]">
               {t("Your own digital")}<br />
               <span className="text-primary">{t("music manager")}</span>
             </h1>
-            <p className="font-heading text-xl sm:text-2xl font-bold tracking-tight">
+            <p className="font-heading text-lg sm:text-xl font-bold tracking-tight">
               {t("Stop doing everything alone.")}
             </p>
             <p className="text-sm sm:text-base text-muted-foreground max-w-xl mx-auto leading-relaxed">
@@ -141,17 +141,17 @@ export default function About() {
             </p>
 
             <div className="flex flex-col items-center gap-1.5 sm:gap-2">
-              <p className="font-heading text-2xl sm:text-3xl lg:text-5xl font-black text-foreground tracking-tight">
+              <p className="font-heading text-xl sm:text-2xl lg:text-4xl font-black text-foreground tracking-tight">
                 {t("Search your artist name now")}
               </p>
-              <ArrowDown className="h-5 w-5 sm:h-7 sm:w-7 text-foreground animate-bounce" />
+              <ArrowDown className="h-4 w-4 sm:h-6 sm:w-6 text-foreground animate-bounce" />
             </div>
 
             <HeroArtistSearch />
 
             <div className="flex flex-col sm:flex-row items-center justify-center gap-3 pt-2">
               <Button size="lg" className="gap-2 font-heading font-bold text-sm sm:text-base px-6 sm:px-8 h-11 sm:h-12" onClick={handleCTA}>
-                {t("Start")} <ArrowRight className="h-4 w-4" />
+                {t("Start Free")} <ArrowRight className="h-4 w-4" />
               </Button>
               <a href="#sam-in-action">
                 <Button size="lg" variant="outline" className="gap-2 font-heading font-bold text-base px-8 h-12">
@@ -168,7 +168,7 @@ export default function About() {
             <motion.img
               src="https://media.base44.com/images/public/69dcf0ecc907e43a438a626b/cbca442cd_generated_76ab93fb.png"
               alt="SAM, the Soundready Artist Manager robot"
-              className="h-64 sm:h-96 lg:h-[440px] w-auto drop-shadow-[0_24px_60px_rgba(34,197,94,0.25)]"
+              className="h-52 sm:h-72 lg:h-[360px] w-auto drop-shadow-[0_24px_60px_rgba(34,197,94,0.25)]"
               initial={{ opacity: 0, x: 24 }}
               animate={{ opacity: 1, x: 0, y: [0, -14, 0] }}
               transition={{
@@ -177,7 +177,7 @@ export default function About() {
                 y: { repeat: Infinity, duration: 4, ease: "easeInOut" }
               }}
             />
-            <p className="mt-3 font-heading text-xl sm:text-3xl font-black tracking-tight text-foreground whitespace-nowrap">
+            <p className="mt-2 font-heading text-lg sm:text-2xl font-black tracking-tight text-foreground whitespace-nowrap">
               <span className="text-primary">S</span>oundready&nbsp;<span className="text-primary">A</span>rtist&nbsp;<span className="text-primary">M</span>anager
             </p>
             <div className="absolute -top-2 lg:top-6 -left-2 lg:left-auto lg:right-52 -rotate-6 flex flex-col items-center pointer-events-none z-20">
@@ -211,7 +211,7 @@ export default function About() {
       <PlatformShowcaseSection />
 
       {/* PRICING, 3 tiers */}
-      <section id="pricing" className="relative px-4 py-24 overflow-hidden scroll-mt-20">
+      <section id="pricing" className="relative px-4 py-16 overflow-hidden scroll-mt-20">
         {/* Soft ambient gradient glows, mirrored to the opposing side from the showcase above */}
         <div className="absolute -top-48 -right-56 h-[620px] w-[620px] rounded-full bg-primary/15 blur-[150px] pointer-events-none" />
         <div className="absolute -bottom-40 -left-64 h-[560px] w-[560px] rounded-full bg-chart-2/10 blur-[160px] pointer-events-none" />
@@ -288,7 +288,7 @@ export default function About() {
       </section>
 
       {/* SOCIAL PROOF STATS */}
-      <section className="px-4 py-20">
+      <section className="px-4 py-14">
         <div className="max-w-5xl mx-auto space-y-8">
           <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="text-center space-y-2">
             <h2 className="font-heading text-4xl font-bold">{t("See what's possible with SoundReady")}</h2>
@@ -314,7 +314,7 @@ export default function About() {
       </section>
 
       {/* CTA */}
-      <section className="px-4 py-32 text-center bg-gradient-to-t from-primary/8 via-background to-background">
+      <section className="px-4 py-24 text-center bg-gradient-to-t from-primary/8 via-background to-background">
         <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="max-w-5xl mx-auto space-y-8">
           <div className="space-y-4">
             <h2 className="font-heading text-4xl sm:text-5xl lg:text-6xl font-black tracking-tight">

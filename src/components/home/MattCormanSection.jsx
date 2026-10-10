@@ -63,7 +63,7 @@ export default function MattCormanSection() {
   );
 
   return (
-    <section className="px-4 py-24">
+    <section className="px-4 py-16">
       <div className="max-w-6xl mx-auto space-y-12 text-center">
         <motion.div
           initial={{ opacity: 0, y: 20 }}

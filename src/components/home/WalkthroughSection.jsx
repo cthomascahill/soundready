@@ -8,7 +8,7 @@ import { useLang } from "@/lib/i18n/LanguageContext";
 export default function WalkthroughSection({ id, eyebrow, headline, headlineAccent, sub, headerExtra, steps }) {
   const { t } = useLang();
   return (
-    <section id={id} className="px-4 py-24 scroll-mt-20">
+    <section id={id} className="px-4 py-16 scroll-mt-20">
       <div className="max-w-6xl mx-auto space-y-14">
         <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}
           className="text-center space-y-4 max-w-3xl mx-auto">
