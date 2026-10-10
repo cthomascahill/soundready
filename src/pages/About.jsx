@@ -20,6 +20,7 @@ import MattCormanSection from "@/components/home/MattCormanSection";
 import HeroArtistSearch from "@/components/home/HeroArtistSearch";
 import IncludedSection from "@/components/home/IncludedSection";
 import SamWalkthrough from "@/components/home/SamWalkthrough";
+import ForYouIfSection from "@/components/home/ForYouIfSection";
 import { useLang } from "@/lib/i18n/LanguageContext";
 
 const TIERS = [
@@ -187,6 +188,9 @@ export default function About() {
 
       {/* THE PROMISE: one step-by-step SAM walkthrough, two example tasks */}
       <SamWalkthrough />
+
+      {/* AUDIENCE: who this is for, stated plainly */}
+      <ForYouIfSection />
 
       {/* PROOF: the formula, proven first — lands right after the demo */}
       <MattCormanSection />
