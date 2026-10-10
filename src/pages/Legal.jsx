@@ -3,42 +3,8 @@ import { motion } from "framer-motion";
 import { FileText, Download, Copy, Check } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import jsPDF from "jspdf";
 import { TEMPLATES } from "@/lib/contractTemplates";
-
-
-
-function generatePDF(template, fields) {
-  const doc = new jsPDF();
-  const content = template.generate(fields);
-  const lines = content.split("\n");
-  const pageHeight = doc.internal.pageSize.height;
-  let y = 20;
-  const margin = 20;
-  const lineHeight = 6;
-
-  doc.setFont("helvetica");
-
-  lines.forEach((line) => {
-    if (y + lineHeight > pageHeight - 20) {
-      doc.addPage();
-      y = 20;
-    }
-    const isHeading = line === line.toUpperCase() && line.trim().length > 0 && !line.startsWith(" ") && !line.match(/^[\d]/);
-    if (isHeading && line.trim().length > 3) {
-      doc.setFontSize(11);
-      doc.setFont("helvetica", "bold");
-    } else {
-      doc.setFontSize(9.5);
-      doc.setFont("helvetica", "normal");
-    }
-    doc.text(line, margin, y);
-    y += lineHeight;
-  });
-
-  doc.save(`${template.id}_agreement.pdf`);
-}
-
+import { generateContractPDF as generatePDF } from "@/lib/contractPdf";
 
 export default function Legal() {
   const [activeTemplate, setActiveTemplate] = useState(null);
