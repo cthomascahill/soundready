@@ -104,7 +104,18 @@ export default async function(req) {
     // ── Cancel subscription at period end (during trial: no charge) ────────
     if (action === 'cancel') {
       const subId = user.stripe_subscription_id;
-      if (!subId) return Response.json({ error: 'No active subscription found' }, { status: 400 });
+      if (!subId) {
+        // No Stripe subscription exists behind this account (the plan was
+        // granted without a completed checkout): move it to Free immediately.
+        await base44.entities.User.update(user.id, {
+          subscription_tier: 'free',
+          subscription_status: 'canceled',
+          cancel_at_period_end: false,
+          trial_ends_at: null,
+        });
+        console.log(`stripeCheckout: user ${user.id} had no Stripe subscription; moved to Free`);
+        return Response.json({ success: true, immediate: true });
+      }
       await stripeRequest('POST', `/subscriptions/${encodeURIComponent(subId)}`, { cancel_at_period_end: 'true' });
       console.log(`stripeCheckout: subscription ${subId} set to cancel at period end`);
       return Response.json({ success: true });

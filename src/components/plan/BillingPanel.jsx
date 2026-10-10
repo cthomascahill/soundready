@@ -6,10 +6,7 @@ import { base44 } from "@/api/base44Client";
 import { useAuth } from "@/lib/AuthContext";
 import { getTier } from "@/lib/tier";
 import { Button } from "@/components/ui/button";
-import {
-  AlertDialog, AlertDialogCancel, AlertDialogContent, AlertDialogDescription,
-  AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogAction,
-} from "@/components/ui/alert-dialog";
+import CancelSubscriptionButton from "@/components/plan/CancelSubscriptionButton";
 
 const PLAN_NAMES = { free: "Free", pro: "Artist Pro", ai_manager: "Digital Manager" };
 const fmtDate = (iso) =>
@@ -28,9 +25,7 @@ export default function BillingPanel() {
 
   const [sub, setSub] = useState(null);
   const [loading, setLoading] = useState(false);
-  const [cancelling, setCancelling] = useState(false);
   const [resuming, setResuming] = useState(false);
-  const [dialogOpen, setDialogOpen] = useState(false);
   const [actionError, setActionError] = useState("");
 
   // Live subscription details straight from Stripe
@@ -49,23 +44,6 @@ export default function BillingPanel() {
   };
 
   useEffect(() => { if (subId) loadSubscription(); }, [subId]);
-
-  const handleCancel = async () => {
-    setCancelling(true);
-    setActionError("");
-    try {
-      const res = await base44.functions.invoke("stripeCheckout", { action: "cancel" });
-      if (res.data?.error) throw new Error(res.data.error);
-      // Stripe confirmed: renewals stop, paid access runs until period end
-      setSub((s) => ({ ...s, cancel_at_period_end: true }));
-      setDialogOpen(false);
-      await checkAppState();
-    } catch (e) {
-      setActionError(e.message || "Cancellation failed. Please try again.");
-    } finally {
-      setCancelling(false);
-    }
-  };
 
   const handleResume = async () => {
     setResuming(true);
@@ -153,53 +131,17 @@ export default function BillingPanel() {
             {resuming ? <Loader2 className="h-4 w-4 animate-spin" /> : <RotateCcw className="h-4 w-4" />}
             Resume subscription
           </Button>
-        ) : subId ? (
-          <Button
-            variant="outline"
-            className="gap-2 text-destructive border-destructive/40 hover:bg-destructive/10"
-            onClick={() => { setActionError(""); setDialogOpen(true); }}
-            disabled={loading}
-          >
-            Cancel subscription
-          </Button>
-        ) : null}
+        ) : (
+          <CancelSubscriptionButton
+            hasStripeSub={!!subId}
+            paidThrough={paidThrough}
+            onDone={() => setSub(null)}
+          />
+        )}
         <Link to="/pricing-account">
           <Button variant="ghost" className="text-muted-foreground">Change plan</Button>
         </Link>
       </div>
-
-      {/* Cancellation confirmation — no surveys, no retention screens */}
-      <AlertDialog open={dialogOpen} onOpenChange={(open) => { setDialogOpen(open); if (!open) setCancelling(false); }}>
-        <AlertDialogContent>
-          <AlertDialogHeader>
-            <AlertDialogTitle>Cancel your subscription?</AlertDialogTitle>
-            <AlertDialogDescription>
-              You'll keep your paid features until {fmtDate(paidThrough)}. After that, your workspace
-              moves to Free. Your saved work stays.
-            </AlertDialogDescription>
-          </AlertDialogHeader>
-          {actionError && (
-            <p className="text-xs text-destructive flex items-center gap-1.5">
-              <AlertTriangle className="h-3.5 w-3.5" /> {actionError}
-            </p>
-          )}
-          <AlertDialogFooter>
-            <AlertDialogCancel asChild>
-              <Button variant="outline" disabled={cancelling}>Keep subscription</Button>
-            </AlertDialogCancel>
-            <AlertDialogAction asChild>
-              <Button
-                variant="destructive"
-                onClick={(e) => { e.preventDefault(); handleCancel(); }}
-                disabled={cancelling}
-              >
-                {cancelling && <Loader2 className="h-4 w-4 animate-spin" />}
-                Confirm cancellation
-              </Button>
-            </AlertDialogAction>
-          </AlertDialogFooter>
-        </AlertDialogContent>
-      </AlertDialog>
     </div>
   );
 }

@@ -6,6 +6,7 @@ import useSamUsage from "@/hooks/useSamUsage";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import PlanUsagePanel from "@/components/plan/PlanUsagePanel";
+import CancelSubscriptionButton from "@/components/plan/CancelSubscriptionButton";
 
 const PLANS = {
   free: { icon: Zap, name: "Free", price: "$0", color: "text-muted-foreground", desc: "Your music, organized." },
@@ -88,6 +89,9 @@ export default function PlanDashboardDialog({ open, onOpenChange }) {
                 {isAIManager ? "Change plan" : "View plans & upgrade"} <ArrowRight className="h-4 w-4" />
               </Button>
             </Link>
+            {tier !== "free" && !user?.cancel_at_period_end && (
+              <CancelSubscriptionButton small hasStripeSub={!!user?.stripe_subscription_id} />
+            )}
             <p className="text-center text-[10px] text-muted-foreground/70 flex items-center justify-center gap-1">
               <CalendarClock className="h-3 w-3" /> Credits reset at the start of each month. Extra credits never expire.
             </p>
