@@ -27,7 +27,7 @@ const POOL = [
       : null,
   ({ listeners, followers, ratio }) =>
     followers > 0 && ratio >= 1.5
-      ? `Your listener-to-follower ratio sits at ${ratio.toFixed(1)}:1 — above the 1.5:1 line where playlisting starts replacing you with the artists next to you. Fix the follow and you keep the fan.`
+      ? `Your listener-to-follower ratio sits at ${ratio.toFixed(1)}:1 — for every follower you have, ${ratio.toFixed(1)} people stream you monthly. A listener who follows hears about your next release; a listener who doesn't may be gone next month. Turning more of the first group into the second is the cheapest retention you own.`
       : null,
   ({ listeners, followers }) =>
     followers > 0 && listeners > 0 && listeners / followers < 0.5

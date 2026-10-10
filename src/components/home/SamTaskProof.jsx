@@ -62,10 +62,10 @@ export default function SamTaskProof() {
               </span>
             </div>
             <div className="rounded-xl bg-card border border-border p-4 space-y-2">
-              <p className="text-sm font-semibold">Subject: Booking inquiry — April weekends</p>
+              <p className="text-sm font-semibold">Subject: Booking inquiry — weeknight bill, April dates</p>
               <p className="text-xs text-muted-foreground leading-relaxed">
-                Hi — I'm a [genre] artist with 670K monthly listeners, and Chicago is one of my top three cities. I'd
-                love to open a weeknight bill. Press kit attached. Either way, thanks for listening.
+                Hi — I'm an indie-rock artist with 670K monthly listeners, and Chicago is one of my top three cities.
+                I'd love to open a weeknight bill. Press kit attached. Either way, thanks for listening.
               </p>
             </div>
             <p className="text-xs text-muted-foreground">{t("Approve, edit, or deny — nothing sends without you.")}</p>
