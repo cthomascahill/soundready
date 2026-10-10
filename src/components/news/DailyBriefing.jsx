@@ -15,10 +15,10 @@ export default function DailyBriefing({ briefing, lastUpdated }) {
           <span className="text-xs font-bold text-primary uppercase tracking-wider">AI Morning Briefing</span>
         </div>
         {timeStr && (
-          <span className="text-[10px] text-zinc-500">Last updated today at {timeStr}</span>
+          <span className="text-[10px] text-muted-foreground">Last updated today at {timeStr}</span>
         )}
       </div>
-      <p className="text-sm text-zinc-200 leading-relaxed">{briefing}</p>
+      <p className="text-sm text-foreground font-medium leading-relaxed">{briefing}</p>
     </div>
   );
 }
