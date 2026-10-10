@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import { CalendarDays, Music2, MapPin } from "lucide-react";
+import { Music2, ListChecks, TrendingUp } from "lucide-react";
 import { TOOL_CATEGORIES } from "@/lib/toolCatalog";
 import { useLang } from "@/lib/i18n/LanguageContext";
 
@@ -7,19 +7,19 @@ import { useLang } from "@/lib/i18n/LanguageContext";
 // so the page leads with outcomes instead of a 24-feature wall.
 const BENEFITS = [
   {
-    icon: CalendarDays,
-    title: "Plan your releases",
-    desc: "Every song tracked from idea to release day. Dates, mixes, artwork and deadlines in one place.",
-  },
-  {
     icon: Music2,
-    title: "Pitch playlists",
-    desc: "SAM finds playlists that match your sound and writes the pitch. You approve. SAM sends.",
+    title: "Get your music heard",
+    desc: "Find relevant playlists, discover promotional opportunities, and prepare personalized outreach.",
   },
   {
-    icon: MapPin,
-    title: "Book shows",
-    desc: "1,341+ venues that book indie artists, plus contracts venues actually sign.",
+    icon: ListChecks,
+    title: "Know what to do next",
+    desc: "Build release plans, organize weekly goals, and take meaningful steps forward.",
+  },
+  {
+    icon: TrendingUp,
+    title: "Build a real music business",
+    desc: "Organize your catalog, track royalties, discover venues, and manage your career in one place.",
   },
 ];
 
@@ -68,7 +68,7 @@ export default function IncludedSection() {
           <div className="space-y-1.5">
             <h3 className="font-heading text-2xl font-bold">{ALL_TOOLS.length} {t("tools. One login.")}</h3>
             <p className="text-sm text-muted-foreground">
-              {t("Free tools on every plan")} · {t("Pro tools with Artist Pro")} · {t("AI tools with AI Manager")}
+              {t("Free tools on every plan")} · {t("Pro tools with Artist Pro")} · {t("SAM tools with Digital Manager")}
             </p>
           </div>
           <div className="flex flex-wrap justify-center gap-2">

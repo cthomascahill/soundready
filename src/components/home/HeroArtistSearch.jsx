@@ -58,8 +58,8 @@ export default function HeroArtistSearch() {
             disabled={loading}
           />
         </div>
-        <Button type="submit" size="lg" className="h-12 px-4 sm:px-6 font-heading font-bold shrink-0 text-sm sm:text-base" disabled={!ready}>
-          {loading ? <Loader2 className="h-4 w-4 animate-spin" /> : t("See my growth")}
+        <Button type="submit" size="lg" className="h-12 px-3 sm:px-6 font-heading font-bold shrink-0 text-sm sm:text-base" disabled={!ready}>
+          {loading ? <Loader2 className="h-4 w-4 animate-spin" /> : t("Analyze My Artist Profile")}
         </Button>
       </form>
       <p className="text-xs text-muted-foreground text-center">{t("Find your Spotify numbers and see your 12-month projection.")}</p>

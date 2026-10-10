@@ -1,6 +1,6 @@
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
-import { Check, X } from "lucide-react";
+import { ArrowRight, Check, X } from "lucide-react";
 import { useLang } from "@/lib/i18n/LanguageContext";
 import { Button } from "@/components/ui/button";
 
@@ -17,7 +17,7 @@ const WITHOUT = [
 const WITH = [
   "You have a plan to reach real listeners.",
   "You wake up knowing your next move.",
-  "You have an AI artist manager helping you.",
+  "You have a digital music manager helping you.",
   "You're building a real music business.",
   "You're taking steps toward creating your big break.",
 ];
@@ -39,7 +39,7 @@ export default function ForYouIfSection() {
             <span className="text-primary">{t("We'll help you build the career.")}</span>
           </h2>
           <p className="text-sm sm:text-base text-muted-foreground leading-relaxed max-w-2xl mx-auto">
-            {t("SoundReady gives independent artists the tools, guidance, and direction to turn their music into a real business.")}
+            {t("SoundReady helps independent artists stop guessing, find direction, and start building a real music career.")}
           </p>
         </motion.div>
 
@@ -97,8 +97,8 @@ export default function ForYouIfSection() {
           className="text-center"
         >
           <Link to="/register">
-            <Button size="lg" className="font-heading font-bold text-base px-8 h-12">
-              {t("Stop guessing. Start building.")}
+            <Button size="lg" className="gap-2 font-heading font-bold text-base px-8 h-12">
+              {t("Stop guessing. Start building.")} <ArrowRight className="h-4 w-4" />
             </Button>
           </Link>
         </motion.div>

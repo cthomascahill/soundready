@@ -42,9 +42,9 @@ export default function SamWalkthrough() {
   return (
     <WalkthroughSection
       id="the-promise"
-      headline="Tell Sam to "
-      headlineAccent={active.accent}
-      sub="Give Sam any task in plain words. Sam researches, drafts and reports back. Nothing sends without your approval."
+      headline="Meet SAM. Your new "
+      headlineAccent="music manager."
+      sub="A manager that helps you do more than just make music. From planning your next release to finding playlists, discovering venues, and organizing your career, SAM helps you figure out what to do next and take action. Give Sam any task in plain words, and nothing sends without your approval."
       headerExtra={
         <div className="flex justify-center gap-2 pt-2">
           {Object.values(SCENARIOS).map((s) => {

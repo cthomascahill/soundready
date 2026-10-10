@@ -72,8 +72,8 @@ const TIERS = [
     color: "text-primary",
     bg: "bg-primary/10",
     border: "border-primary/30",
-    name: "AI Manager",
-    tagline: "Meet SAM. Your own AI music manager.",
+    name: "Digital Manager",
+    tagline: "Meet SAM. Your digital music manager.",
     price: "$59/month",
     strike: "$79/month",
     founding: true,
@@ -91,10 +91,10 @@ const TIERS = [
       "Analyze attached files and reports",
       "Build on saved preferences and track outreach outcomes",
     ],
-    cta: "Start AI Manager",
+    cta: "Start Digital Manager",
     checkout: "/checkout/ai-manager",
     subtext: "No percentage cuts. Cancel anytime. Founding price stays locked while subscribed.",
-    smallPrint: "Includes 2,500 SAM credits each month, shared across all SAM features. Add 1,500 extra credits anytime for $15 — they never expire. Some opportunities require manual submission.",
+    smallPrint: "Includes 2,500 SAM credits each month, shared across all SAM features. One credit covers one piece of SAM's work, like a venue search or a playlist pitch. Add 1,500 extra credits anytime for $15. They never expire. Some opportunities require manual submission.",
   },
 ];
 
@@ -108,14 +108,14 @@ export default function About() {
 
   const handleCTA = () => {
     if (isAuth) window.location.href = "/history";
-    else window.location.href = "/pricing";
+    else window.location.href = "/register";
   };
 
   return (
     <div className="min-h-screen bg-background">
       <SEO
-        title="SoundReady: AI Career Management for Independent Artists"
-        description="Your songs, your tours, your team, plus SAM, the AI manager that drafts your pitches and outreach from your real numbers. Start free."
+        title="SoundReady: Your Digital Music Manager for Independent Artists"
+        description="Your songs, your tours, your team, plus SAM, your digital music manager that drafts your pitches and outreach from your real numbers. Start free."
       />
 
       <PublicNav showHome={false} />
@@ -130,9 +130,15 @@ export default function About() {
           {/* Hero copy */}
           <div className="space-y-6 lg:space-y-8 text-center">
             <h1 className="font-heading text-5xl sm:text-6xl lg:text-8xl font-black tracking-tight leading-[0.9]">
-              {t("Your own AI")}<br />
+              {t("Your own digital")}<br />
               <span className="text-primary">{t("music manager")}</span>
             </h1>
+            <p className="font-heading text-xl sm:text-2xl font-bold tracking-tight">
+              {t("Stop doing everything alone.")}
+            </p>
+            <p className="text-sm sm:text-base text-muted-foreground max-w-xl mx-auto leading-relaxed">
+              {t("Meet SAM. Your personal digital music manager that helps you find playlists, discover venues, plan releases, organize your music, and build your career.")}
+            </p>
 
             <div className="flex flex-col items-center gap-1.5 sm:gap-2">
               <p className="font-heading text-2xl sm:text-3xl lg:text-5xl font-black text-foreground tracking-tight">
@@ -186,21 +192,23 @@ export default function About() {
 
       </section>
 
-      {/* THE PROMISE: one step-by-step SAM walkthrough, two example tasks */}
+      {/* MEET SAM: one step-by-step walkthrough, two example tasks */}
       <SamWalkthrough />
 
-      {/* AUDIENCE: who this is for, stated plainly */}
-      <ForYouIfSection />
-
-      {/* PROOF: the formula, proven first — lands right after the demo */}
+      {/* PROOF: built by an independent artist, right after the SAM demo */}
       <MattCormanSection />
 
-      {/* WHAT YOU GET: the broader workspace */}
-      <PlatformShowcaseSection />
+      {/* AUDIENCE: artist identification and transformation */}
+      <ForYouIfSection />
+
+      {/* CORE BENEFITS: the three outcomes, then the full toolkit */}
       <IncludedSection />
 
       {/* HOW YOU START */}
       <CareerWorkflowSection />
+
+      {/* THE PLATFORM: what the workspace looks like */}
+      <PlatformShowcaseSection />
 
       {/* PRICING, 3 tiers */}
       <section id="pricing" className="relative px-4 py-24 overflow-hidden scroll-mt-20">
@@ -216,13 +224,13 @@ export default function About() {
             {TIERS.map((tier, i) => (
               <div className="relative h-full">
                 <div className={`absolute -inset-4 rounded-3xl blur-3xl pointer-events-none ${
-                  tier.name === "AI Manager" ? "bg-primary/25" : tier.name === "Artist Pro" ? "bg-chart-5/20" : "bg-chart-2/15"
+                  tier.name === "Digital Manager" ? "bg-primary/25" : tier.name === "Artist Pro" ? "bg-chart-5/20" : "bg-chart-2/15"
                 }`} />
                 <motion.div key={tier.name}
                 initial={{ opacity: 0, y: 24 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}
                 transition={{ delay: i * 0.12 }}
                 className={`relative h-full rounded-2xl border p-4 sm:p-6 flex flex-col bg-card ${
-                  tier.name === "AI Manager" ? "ring-2 ring-primary/60 shadow-2xl shadow-primary/10" :
+                  tier.name === "Digital Manager" ? "ring-2 ring-primary/60 shadow-2xl shadow-primary/10" :
                   tier.name === "Artist Pro" ? "ring-2 ring-chart-5/40 shadow-xl" : ""
                 } ${tier.border}`}>
                 {tier.badge && (
@@ -233,10 +241,10 @@ export default function About() {
                 {tier.glow && (
                   <div className="absolute inset-0 rounded-2xl bg-primary/5 pointer-events-none" />
                 )}
-                {tier.name === "AI Manager" && (
+                {tier.name === "Digital Manager" && (
                   <motion.img
                     src="https://media.base44.com/images/public/69dcf0ecc907e43a438a626b/b7f9a17dc_generated_f31f1bbd.png"
-                    alt="SAM, the Soundready Artist Manager robot pointing at the AI Manager card"
+                    alt="SAM, the Soundready Artist Manager robot pointing at the Digital Manager card"
                     className="pointer-events-none absolute -right-3 xl:-right-14 top-8 h-24 sm:h-44 w-auto drop-shadow-xl z-10"
                     initial={{ opacity: 0, x: 16 }}
                     whileInView={{ opacity: 1, x: 0 }}
@@ -266,7 +274,7 @@ export default function About() {
                 </div>
                 <Link to={tier.checkout}>
                   <Button className="w-full mt-4 lg:mt-6 font-semibold text-xs sm:text-sm px-3 lg:px-4">
-                    {tier.name === "AI Manager" && <Sparkles className="h-3.5 w-3.5 mr-1.5" />}
+                    {tier.name === "Digital Manager" && <Sparkles className="h-3.5 w-3.5 mr-1.5" />}
                     {t(tier.cta)}
                   </Button>
                 </Link>
@@ -309,12 +317,15 @@ export default function About() {
       <section className="px-4 py-32 text-center bg-gradient-to-t from-primary/8 via-background to-background">
         <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="max-w-5xl mx-auto space-y-8">
           <div className="space-y-4">
-            <h2 className="font-heading text-5xl sm:text-6xl font-black lg:whitespace-nowrap">
-              {t("Your biggest release ")}<span className="text-primary">{t("is next")}</span>
+            <h2 className="font-heading text-4xl sm:text-5xl lg:text-6xl font-black tracking-tight">
+              {t("Your music deserves ")}<span className="text-primary">{t("more than guesswork")}</span>
             </h2>
+            <p className="text-sm sm:text-base text-muted-foreground max-w-xl mx-auto leading-relaxed">
+              {t("You've already put the work into making the music. Now it's time to build the career around it.")}
+            </p>
           </div>
           <Button size="lg" className="gap-2 font-heading font-bold text-base px-10 h-13" onClick={handleCTA}>
-            {t("Start")} <ArrowRight className="h-4 w-4" />
+            {t("Get Your Digital Music Manager")} <ArrowRight className="h-4 w-4" />
           </Button>
           <p className="text-xs sm:text-sm text-muted-foreground">{t("Start free. No contracts. No percentage cuts, ever.")}</p>
         </motion.div>

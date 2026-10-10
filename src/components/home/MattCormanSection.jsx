@@ -72,14 +72,14 @@ export default function MattCormanSection() {
           className="space-y-5"
         >
           <p className="text-xs text-primary uppercase tracking-wider font-bold">
-            {t("The formula, proven first")}
+            {t("Created by Matt Corman")}
           </p>
           <h2 className="font-heading text-4xl sm:text-6xl font-black tracking-tight">
-            {t("Created by ")}
-            <span className="text-primary">{t("Matt Corman")}</span>
+            {t("Built by an independent artist.")}<br />
+            <span className="text-primary">{t("For independent artists.")}</span>
           </h2>
           <p className="text-lg sm:text-xl text-muted-foreground leading-relaxed max-w-2xl mx-auto">
-            {t("The exact formula Matt used to take himself from zero monthly listeners to over one million. 100% independent. Now it's built into every corner of SoundReady.")}
+            {t("I built my music career without a label, going from zero monthly listeners to over one million. Now I'm building the manager I wish I had.")}
           </p>
         </motion.div>
 
