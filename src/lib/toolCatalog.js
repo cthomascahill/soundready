@@ -2,7 +2,7 @@ import {
   Music2, ListChecks, Calendar, Mic2, BarChart2, Scale, Handshake,
   MapPin, Megaphone, Route, PiggyBank, FileSignature, Map, UserCircle,
   Newspaper, Radar, TrendingUp, Flame, Bot, MessagesSquare, Shield, DollarSign,
-  GraduationCap, AudioLines,
+  GraduationCap, AudioLines, Sparkles, PenLine, Receipt,
 } from "lucide-react";
 
 // Every tool on the platform, grouped by category.
@@ -14,11 +14,13 @@ export const TOOL_CATEGORIES = [
       { name: "Vault", to: "/history", desc: "Your entire catalog, organized", icon: Music2, tier: "free" },
       { name: "Tracker", to: "/song-tracker", desc: "Every release from idea to launch", icon: ListChecks, tier: "free" },
       { name: "Studio", to: "/studio", desc: "Write and sketch with your beats", icon: AudioLines, tier: "pro" },
+      { name: "Lyric Room", to: "/lyric-room", desc: "Write and refine lyrics in real time", icon: PenLine, tier: "free" },
     ],
   },
   {
     label: "AI Manager",
     tools: [
+      { name: "Tell Sam", to: "/tell-sam", desc: "Give Sam any task in plain words", icon: Sparkles, tier: "ai" },
       { name: "Sam's Desk", to: "/sam-desk", desc: "Sam's drafted emails, ready to approve", icon: Bot, tier: "ai" },
       { name: "EPK Builder", to: "/pitch-deck", desc: "An electronic press kit that books shows", icon: FileSignature, tier: "pro" },
       { name: "Analytics", to: "/analytics", desc: "Streams, followers and growth", icon: BarChart2, tier: "pro" },
@@ -37,6 +39,7 @@ export const TOOL_CATEGORIES = [
       { name: "Deals", to: "/deals", desc: "Catalog valuation and buyout interest", icon: Handshake, tier: "ai" },
       { name: "Royalties", to: "/royalties", desc: "See what every release actually earns", icon: DollarSign, tier: "free" },
       { name: "Stream Calculator", to: "/royalty-calculator", desc: "Estimate what your streams pay per platform", icon: TrendingUp, tier: "free" },
+      { name: "Invoices", to: "/invoices", desc: "Send invoices that get you paid", icon: Receipt, tier: "free" },
     ],
   },
   {
