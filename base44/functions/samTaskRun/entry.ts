@@ -64,6 +64,25 @@ export default async function(req) {
 
     await base44.entities.SamTask.update(task.id, { status: 'working' }).catch(() => {});
 
+    // ── Depth: quick = tight shortlist, thorough = full sweep ────────────
+    const depth = body.depth === 'quick' ? 'quick' : 'thorough';
+
+    // ── Live progress: the artist sees which stage Sam is on, and the run
+    // records how long each stage took for future tuning.
+    const timings = { planning: 0, research: 0, contacts: 0, quality: 0 };
+    let stageName = 'planning';
+    let stageStart = Date.now();
+    const mark = async (stage, message) => {
+      const now = Date.now();
+      if (timings[stageName] !== undefined) timings[stageName] += now - stageStart;
+      stageStart = now;
+      stageName = stage;
+      await base44.entities.SamTask.update(task.id, {
+        progress: { stage, message, depth, timings: { ...timings } },
+      }).catch(() => {});
+    };
+    await mark('planning', 'Reading your profile, connected platforms, past feedback and attached files…');
+
     // ── Gather the artist's real context ──────────────────────────────────
     const [profiles, conns, memories, royalties, songs, venueRecords, feedback] = await Promise.all([
       base44.entities.ArtistProfile.filter({ created_by_id: user.id }, '-created_date', 1).catch(() => []),
@@ -170,7 +189,9 @@ export default async function(req) {
       });
     }
     const cappedFrom = prospecting && plan.target_count > usageCap ? plan.target_count : null;
-    const targetCap = prospecting ? Math.min(plan.target_count, usageCap) : Math.min(10, usageCap);
+    // Quick mode trades breadth for speed: fewer targets, no wide sweep.
+    let targetCap = prospecting ? Math.min(plan.target_count, usageCap) : Math.min(10, usageCap);
+    if (depth === 'quick') targetCap = Math.min(targetCap, 6);
 
     // Reserve the worst case this run can settle to (every target drafted,
     // hunted and QC-checked), so the balance can never dip below zero.
@@ -189,7 +210,7 @@ export default async function(req) {
         resets_at: usageState.resetsAt,
       });
     }
-    const pool = prospecting
+    const pool = prospecting && depth !== 'quick'
       ? await discoverTargets(base44, { plan, task, profile, artistName, namedTargets })
           .catch(err => { console.log('samTaskRun discovery skipped:', err?.message || err); return []; })
       : [];
@@ -243,13 +264,15 @@ ${songLines}
 SOUNDREADY VENUE DIRECTORY — known real venues that match the places named in this task. Verify current contact details live before using them, and treat these as strong candidates (when they fit the requirements):
 ${venueLines.join('\n') || 'No directory matches for this task'}
 
-${poolSection}HOW TO WORK:
+${poolSection}${depth === 'quick' ? 'QUICK MODE: the artist chose speed over breadth, so deliver a tight shortlist of your strongest, fully verified targets rather than an exhaustive sweep.\n\n' : ''}HOW TO WORK:
 1. First extract every explicit constraint the artist stated or implied (city, capacity min/max, budget, dates, genre fit, deal type) into "constraints". Capacity and city constraints are HARD FILTERS: a target that breaks them is disqualified, not merely mentioned. Example: if the artist says "100 capacity in Denver", a 400-cap Denver venue FAILS and must not appear. Restate the requirements you applied in a result section titled "Your requirements".
 2. Decide the task type: "analysis" (a question or report-crunching that needs an answer, no external outreach), "outreach" (contacting real external targets), or "both".
 3. For every task — including analysis — first search the web for current, relevant information (recent news, rates, prices, market figures, local scenes, whatever the task touches) and use it to make the answer current. Web research SUPPLEMENTS the artist's attached files, profile and platform data — it never overrides them: where they conflict, trust the artist's own data and say so. Every factual claim that comes from the web must be backed by a real source listed in "sources" with its URL — never state a web-derived fact you cannot source. Clearly separate figures that come straight from the artist's files or data from figures you found on the web or estimated; double-check your arithmetic and list every assumption in "assumptions". For tax estimates, state the rate assumptions and that this is an estimate, not tax advice.
 4. For outreach: research real, specific targets. Search BROADLY — build lists by city ("small venues in Denver", "DIY venues Chicago 100 capacity"), venue directories, local scene coverage — not just the first page of results. Prefer independent/DIY venues for early-career artists. For each target: verify its city and capacity (venue site, local press); find a verifiable public contact email — NEVER invent or guess one. If none is verifiable, leave target_email empty, put the official booking/submissions page in source_url and set contact_route to "submission_page". Write one personalized draft per target, starting with a "Subject:" line, 120-220 words, no placeholders like [Name] or [Venue]. ${targetInstruction} Fill target_location and target_capacity for every target (estimate and say so if not published), and in verification_note state exactly what you verified (city, capacity, contact route) and how fresh it is. Also fill target_website with the target's official website URL for every target — find it via search when needed; the platform then visits the site itself to pull the real booking email, so the website URL matters even when you cannot see the email in search results.
 5. "result" is always filled in: "summary" is a one-paragraph answer to the task; "sections" carry the detail (findings, numbers, venue shortlist, estimates, your requirements); "assumptions" lists estimates and assumptions; "sources" lists the web pages you used as {title, url}; "follow_up" is what you suggest the artist does next.
 6. If the task is genuinely ambiguous, make the most reasonable interpretation, state it in "summary", and note what extra info would sharpen the result in "follow_up".`;
+
+    await mark('research', 'Researching the web, reading your files and drafting; this is usually the longest step…');
 
     const llm = await withTimeout(base44.integrations.Core.InvokeLLM({
       model: 'gemini_3_1_pro',
@@ -380,6 +403,8 @@ ${poolSection}HOW TO WORK:
     // websites AND run the quality-control audit at the same time — they're
     // independent, so this cuts the wait roughly in half. Search snippets
     // rarely expose emails; the venue's own booking pages have them.
+    await mark('contacts', "Verifying booking contacts on each target's own site…");
+
     const qcPromise = drafts.length
       ? withTimeout(base44.integrations.Core.InvokeLLM({
           model: 'claude-sonnet-5',
@@ -597,6 +622,7 @@ ${stillMissing.map(d => `- ${d.target_name}${d.target_location ? ` (${d.target_l
     let qcRan = false;
 
     if (drafts.length) {
+      await mark('quality', 'Quality-checking every target against your requirements…');
       const qc = await qcPromise;
       qcRan = !!qc;
 
@@ -651,11 +677,13 @@ ${stillMissing.map(d => `- ${d.target_name}${d.target_location ? ` (${d.target_l
       }];
     }
 
+    await mark('done', 'Finished: results below.');
     await base44.entities.SamTask.update(task.id, {
       task_type: drafts.length ? (outType === 'analysis' ? 'both' : outType) : outType,
       result: resultObj,
       drafts_created: drafts.length,
       status: 'complete',
+      progress: { stage: 'done', message: 'Finished', depth, timings: { ...timings } },
     });
 
     // Settle the reservation to the actual workload the task consumed.

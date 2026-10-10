@@ -53,6 +53,39 @@
         ]
       }
     },
+    "progress": {
+      "type": "object",
+      "description": "Live run progress shown while Sam works: the current stage, a plain-language message, the chosen research depth, and how many milliseconds each stage has taken.",
+      "properties": {
+        "stage": {
+          "type": "string",
+          "enum": [
+            "planning",
+            "research",
+            "contacts",
+            "quality",
+            "done"
+          ],
+          "description": "Which stage the run is currently in"
+        },
+        "message": {
+          "type": "string",
+          "description": "What Sam is doing right now, in plain words"
+        },
+        "depth": {
+          "type": "string",
+          "enum": [
+            "quick",
+            "thorough"
+          ],
+          "description": "Research depth the artist picked for this run"
+        },
+        "timings": {
+          "type": "object",
+          "description": "Milliseconds spent per stage so far (planning, research, contacts, quality)"
+        }
+      }
+    },
     "result": {
       "type": "object",
       "description": "Sam's answer to the task",

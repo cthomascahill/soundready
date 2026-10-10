@@ -7,6 +7,27 @@ import {
   Paperclip, ExternalLink, Lightbulb, AlertCircle, Loader2, RefreshCw,
 } from "lucide-react";
 
+const STAGE_LABELS = {
+  planning: "Getting your context",
+  research: "Researching & drafting",
+  contacts: "Verifying contacts",
+  quality: "Quality check",
+  done: "Wrapping up",
+};
+
+const fmtSeconds = (ms) => `${Math.max(1, Math.round(ms / 1000))}s`;
+
+const fmtTimings = (t) => {
+  if (!t || !Object.values(t).some((v) => v > 0)) return null;
+  const parts = [];
+  if (t.planning) parts.push(`Context ${fmtSeconds(t.planning)}`);
+  if (t.research) parts.push(`Research & drafting ${fmtSeconds(t.research)}`);
+  if (t.contacts) parts.push(`Contact verification ${fmtSeconds(t.contacts)}`);
+  if (t.quality) parts.push(`Quality check ${fmtSeconds(t.quality)}`);
+  parts.push(`Total ${fmtSeconds((t.planning || 0) + (t.research || 0) + (t.contacts || 0) + (t.quality || 0))}`);
+  return parts.join(" · ");
+};
+
 export default function TaskDetail({ task, onChanged }) {
   const [drafts, setDrafts] = useState([]);
   const [loadingDrafts, setLoadingDrafts] = useState(true);
@@ -31,7 +52,7 @@ export default function TaskDetail({ task, onChanged }) {
   const retry = async () => {
     setRetrying(true);
     try {
-      await base44.functions.invoke("samTaskRun", { task_id: task.id });
+      await base44.functions.invoke("samTaskRun", { task_id: task.id, depth: task.progress?.depth });
     } catch {
       // Invoke died before the function started (temporary service error) —
       // mark it failed so it never spins "working" forever.
@@ -67,10 +88,15 @@ export default function TaskDetail({ task, onChanged }) {
       {isWorking && (
         <div className="rounded-2xl border border-primary/20 bg-card p-8 text-center space-y-3">
           <Loader2 className="h-8 w-8 text-primary animate-spin mx-auto" />
-          <p className="font-semibold">Sam is on it</p>
+          <p className="font-semibold">{STAGE_LABELS[task.progress?.stage] || "Sam is on it"}</p>
           <p className="text-xs text-muted-foreground max-w-sm mx-auto">
-            Researching, reading your files and drafting. This can take a minute or two — this page updates the moment Sam finishes.
+            {task.progress?.message || "Researching, reading your files and drafting. This can take a minute or two; this page updates the moment Sam finishes."}
           </p>
+          {task.progress?.depth && (
+            <p className="text-[10px] uppercase tracking-widest text-muted-foreground/50">
+              {task.progress.depth === "quick" ? "Quick run" : "Thorough run"}
+            </p>
+          )}
         </div>
       )}
 
@@ -90,6 +116,11 @@ export default function TaskDetail({ task, onChanged }) {
           {/* Sam's answer */}
           {result.summary && (
             <div className="rounded-2xl border border-primary/20 bg-card p-5 space-y-4">
+              {fmtTimings(task.progress?.timings) && (
+                <p className="text-[10px] uppercase tracking-wider text-muted-foreground/60">
+                  How Sam worked: {fmtTimings(task.progress?.timings)}
+                </p>
+              )}
               <p className="text-sm leading-relaxed font-medium">{result.summary}</p>
               {(result.sections || []).map((s, i) => (
                 <div key={i} className="space-y-1.5 pt-3 border-t border-border/60 first:border-0 first:pt-0">

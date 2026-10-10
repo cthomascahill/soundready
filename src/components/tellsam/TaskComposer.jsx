@@ -20,6 +20,7 @@ const EXAMPLES = [
 export default function TaskComposer({ user, onCreated }) {
   const [prompt, setPrompt] = useState("");
   const [targets, setTargets] = useState("");
+  const [depth, setDepth] = useState("thorough");
   const [files, setFiles] = useState([]);
   const [uploading, setUploading] = useState(false);
   const [working, setWorking] = useState(false);
@@ -67,7 +68,9 @@ export default function TaskComposer({ user, onCreated }) {
         attachments: files,
         status: "working",
       });
-      const res = await base44.functions.invoke("samTaskRun", { task_id: created.id });
+      // Open the task right away so the artist can watch Sam's live progress.
+      onCreated(created.id);
+      const res = await base44.functions.invoke("samTaskRun", { task_id: created.id, depth });
       const d = res.data || {};
       if (d.usage_paused || d.target_cap) {
         setNotice({ type: d.usage_paused ? "paused" : "cap", message: d.message || "Sam paused this task." });
@@ -94,7 +97,6 @@ export default function TaskComposer({ user, onCreated }) {
     } finally {
       setWorking(false);
       refreshUsage();
-      if (created && ran) onCreated(created.id);
     }
   };
 
@@ -134,6 +136,22 @@ export default function TaskComposer({ user, onCreated }) {
           ))}
         </div>
       )}
+
+      {/* Research depth: quick shortlist vs full sweep */}
+      <div className="px-5 pb-3 flex flex-wrap items-center gap-2.5">
+        <span className="text-[11px] font-medium text-muted-foreground">Research depth</span>
+        <div className="flex rounded-full border border-border bg-secondary/40 p-0.5">
+          {[["quick", "Quick"], ["thorough", "Thorough"]].map(([id, label]) => (
+            <button key={id} onClick={() => setDepth(id)} disabled={working}
+              className={`text-[11px] font-semibold rounded-full px-3 py-1 transition-colors ${depth === id ? "bg-primary text-primary-foreground" : "text-muted-foreground hover:text-foreground"}`}>
+              {label}
+            </button>
+          ))}
+        </div>
+        <p className="text-[11px] text-muted-foreground/70 leading-snug">
+          {depth === "quick" ? "Tight shortlist (up to 6 targets), fastest run." : "Widest research and full verification. This is the default."}
+        </p>
+      </div>
 
       {/* Targets */}
       <div className="px-5 pb-3 space-y-1">
