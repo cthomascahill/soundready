@@ -50,7 +50,7 @@ export default function FaqSection() {
                 initial={{ opacity: 0, y: 12 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
-                className="rounded-xl border border-border bg-card overflow-hidden"
+                className=""
               >
                 <button
                   onClick={() => setOpen(isOpen ? -1 : i)}

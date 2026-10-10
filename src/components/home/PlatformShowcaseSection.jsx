@@ -87,7 +87,7 @@ export default function PlatformShowcaseSection() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ delay: i * 0.08 }}
-              className="flex items-center gap-2 sm:gap-3 rounded-xl bg-card border border-border p-3 sm:p-4"
+              className="flex items-center gap-2 sm:gap-3"
             >
               <f.icon className="h-4 w-4 sm:h-5 sm:w-5 shrink-0 text-primary" />
               <span className="text-xs sm:text-sm font-medium">{t(f.text)}</span>
