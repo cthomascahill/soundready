@@ -172,7 +172,7 @@ export default function About() {
               }}
             />
             <p className="mt-3 font-heading text-xl sm:text-3xl font-black tracking-tight text-foreground whitespace-nowrap">
-              <span className="text-primary">S</span>oundReady&nbsp;<span className="text-primary">A</span>rtist&nbsp;<span className="text-primary">M</span>anager
+              <span className="text-primary">S</span>oundready&nbsp;<span className="text-primary">A</span>rtist&nbsp;<span className="text-primary">M</span>anager
             </p>
             <div className="absolute -top-2 lg:top-6 -left-2 lg:left-auto lg:right-52 -rotate-6 flex flex-col items-center pointer-events-none z-20">
               <p className="font-heading text-2xl sm:text-4xl font-black text-foreground whitespace-nowrap">{t("Meet SAM")}</p>
