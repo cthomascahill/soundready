@@ -23,7 +23,7 @@ const POOL = [
       : null,
   ({ listeners, followers, ratio }) =>
     followers > 0 && ratio >= 1.5
-      ? `${compact(listeners - followers)} monthly listeners don't follow you yet. Capturing even a fifth of them turns your next release day into a guaranteed spike the algorithm has to notice.`
+      ? `You reach ${compact(listeners)} listeners a month against ${compact(followers)} followers. Listeners and followers are counted separately, so some of that reach almost certainly isn't locked in yet — a follow prompt on your profile is the cheapest way to keep more of it for your next release.`
       : null,
   ({ listeners, followers, ratio }) =>
     followers > 0 && ratio >= 1.5

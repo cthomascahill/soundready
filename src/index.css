@@ -96,7 +96,7 @@
 
 /* Dark mode only: brighten green headings and gray fine print so they
    read clearly on the near-black background. */
-.dark .text-primary { color: hsl(142 80% 58%); }
+.dark .text-primary { color: hsl(142 84% 68%); }
 .dark .text-muted-foreground { color: hsl(0 0% 71%); }
 
 /* Light mode only: darken the tinted text used in stage badges, status

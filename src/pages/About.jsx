@@ -114,11 +114,6 @@ export default function About() {
     else window.location.href = "/register";
   };
 
-  const focusSearch = () => {
-    const input = document.getElementById("artist-search-input");
-    input?.scrollIntoView({ behavior: "smooth", block: "center" });
-    input?.focus();
-  };
 
   return (
     <div className="min-h-screen bg-background">
@@ -159,10 +154,7 @@ export default function About() {
             <HeroArtistSearch />
 
             <div className="flex flex-col sm:flex-row items-center justify-center gap-3 pt-1">
-              <Button size="lg" className="gap-2 font-heading font-bold text-sm sm:text-base px-6 sm:px-8 h-12" onClick={focusSearch}>
-                {t("Analyze My Artist Profile")} <ArrowRight className="h-4 w-4" />
-              </Button>
-              <Button size="lg" variant="outline" className="gap-2 font-heading font-bold text-sm sm:text-base px-6 sm:px-8 h-12" onClick={handleCTA}>
+              <Button size="lg" className="gap-2 font-heading font-bold text-sm sm:text-base px-6 sm:px-8 h-12" onClick={handleCTA}>
                 {t("Start Free")}
               </Button>
             </div>

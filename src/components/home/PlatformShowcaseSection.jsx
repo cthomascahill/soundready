@@ -8,8 +8,6 @@ const TELL_SAM_SHOT =
   "https://media.base44.com/images/public/69dcf0ecc907e43a438a626b/f25adaed0_Screenshot2026-10-09at103301AM.png";
 const DEALS_SHOT =
   "https://media.base44.com/images/public/69dcf0ecc907e43a438a626b/aca367e72_Screenshot2026-10-09at103319AM.png";
-const IMPACT_SHOT =
-  "https://media.base44.com/images/public/69dcf0ecc907e43a438a626b/befdc5184_Screenshot2026-10-09at121702PM.png";
 
 const SHOTS = [
   {
@@ -25,14 +23,6 @@ const SHOTS = [
     caption: "Deals, advances and outreach",
     blurb: "Slide your catalog revenue and see what an advance could be worth upfront.",
     tilt: "lg:rotate-1",
-  },
-  {
-    src: IMPACT_SHOT,
-    alt: "SoundReady's Sam's Impact board tallying emails sent, pitches drafted, opportunities seen and advice given",
-    caption: "Sam's impact, in numbers",
-    blurb: "Every email, pitch and piece of advice Sam has produced for you, tallied on one board.",
-    tilt: "lg:-rotate-1",
-    span: "md:col-span-2",
   },
 ];
 
