@@ -186,22 +186,18 @@ export default function About() {
 
       </section>
 
-      {/* THE PROMISE: a step-by-step SAM walkthrough */}
+      {/* THE PROMISE: step-by-step SAM walkthroughs */}
       <SamPromiseWalkthrough />
-
-      {/* THE PROMISE, for playlists */}
       <SamPlaylistWalkthrough />
 
-      {/* PLATFORM SHOWCASE */}
-      <PlatformShowcaseSection />
-
-      {/* WHAT'S INCLUDED */}
-      <IncludedSection />
-
-      {/* CREATED BY MATT CORMAN */}
+      {/* PROOF: the formula, proven first — lands right after the demo */}
       <MattCormanSection />
 
-      {/* THE WEEKLY LOOP */}
+      {/* WHAT YOU GET: the broader workspace */}
+      <PlatformShowcaseSection />
+      <IncludedSection />
+
+      {/* HOW YOU START */}
       <CareerWorkflowSection />
 
       {/* PRICING, 3 tiers */}
