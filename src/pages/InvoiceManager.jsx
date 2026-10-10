@@ -16,7 +16,25 @@ const STATUS_CONFIG = {
 function generateInvoicePDF(inv, items) {
   const doc = new jsPDF();
   const margin = 20;
+  const W = doc.internal.pageSize.getWidth();
+  const H = doc.internal.pageSize.getHeight();
+  const bottom = H - 22;
   let y = 20;
+  const tableW = W - margin * 2;
+  const ensureSpace = (h) => {
+    if (y + h > bottom) { doc.addPage(); y = 20; }
+  };
+  // Wraps text into a column and returns the wrapped lines + total height.
+  const colText = (text, x, colW, size = 9) => {
+    doc.setFontSize(size);
+    const lines = doc.splitTextToSize(String(text || ""), colW);
+    return { lines, h: lines.length * (size * 0.35) + 1.5 };
+  };
+  const drawCol = (text, x, colW, size = 9) => {
+    const { lines, h } = colText(text, x, colW, size);
+    doc.text(lines, x, y);
+    return h;
+  };
 
   doc.setFont("helvetica", "bold");
   doc.setFontSize(22);
@@ -27,9 +45,9 @@ function generateInvoicePDF(inv, items) {
   doc.setFont("helvetica", "normal");
   doc.setTextColor(120);
   doc.text(`Invoice #: ${inv.invoice_number || "INV-001"}`, margin, y);
-  doc.text(`Date: ${inv.invoice_date || ""}`, 140, y);
+  doc.text(`Date: ${inv.invoice_date || ""}`, W - margin, y, { align: "right" });
   y += 6;
-  doc.text(`Due Date: ${inv.due_date || ""}`, 140, y);
+  doc.text(`Due Date: ${inv.due_date || ""}`, W - margin, y, { align: "right" });
   y += 12;
 
   doc.setTextColor(0);
@@ -39,37 +57,52 @@ function generateInvoicePDF(inv, items) {
   doc.text("BILL TO:", 110, y);
   y += 5;
   doc.setFont("helvetica", "normal");
-  doc.text(inv.from_name || "", margin, y);
-  doc.text(inv.to_name || "", 110, y);
-  y += 5;
-  doc.text(inv.from_email || "", margin, y);
-  doc.text(inv.to_email || "", 110, y);
-  y += 5;
-  if (inv.from_address) { doc.text(inv.from_address, margin, y); y += 5; }
-  y += 8;
+  const leftCol = 82;
+  const rightCol = W - margin - 110;
+  const fromLines = [
+    inv.from_name || "",
+    inv.from_email || "",
+    ...(inv.from_address ? inv.from_address.split("\n") : []),
+  ].filter(Boolean);
+  const toLines = [
+    inv.to_name || "",
+    inv.to_email || "",
+  ].filter(Boolean);
+  const fromH = colText(fromLines.join("\n"), margin, leftCol).h;
+  const toH = colText(toLines.join("\n"), 110, rightCol).h;
+  doc.text(doc.splitTextToSize(fromLines.join("\n"), leftCol), margin, y);
+  doc.text(doc.splitTextToSize(toLines.join("\n"), rightCol), 110, y);
+  y += Math.max(fromH, toH) + 8;
 
+  ensureSpace(30);
   doc.setFillColor(30, 30, 30);
   doc.setTextColor(255);
   doc.setFont("helvetica", "bold");
   doc.setFontSize(8.5);
-  doc.rect(margin, y, 170, 8, "F");
+  doc.rect(margin, y, tableW, 8, "F");
   doc.text("Description", margin + 3, y + 5.5);
   doc.text("Qty", 120, y + 5.5);
   doc.text("Rate", 138, y + 5.5);
-  doc.text("Amount", 158, y + 5.5);
+  doc.text("Amount", W - margin - 3, y + 5.5, { align: "right" });
   y += 8;
 
   doc.setTextColor(0);
   doc.setFont("helvetica", "normal");
+  const descW = 94;
   items.forEach((item, i) => {
     const amount = (parseFloat(item.qty) || 0) * (parseFloat(item.rate) || 0);
+    const { h: descH } = colText(item.description || "", margin + 3, descW, 9);
+    const rowH = Math.max(7, descH + 2);
+    ensureSpace(rowH);
     doc.setFillColor(i % 2 === 0 ? 245 : 255, i % 2 === 0 ? 245 : 255, i % 2 === 0 ? 245 : 255);
-    doc.rect(margin, y, 170, 7, "F");
-    doc.text(item.description || "", margin + 3, y + 5);
+    doc.rect(margin, y, tableW, rowH, "F");
+    doc.setFont("helvetica", "normal");
+    doc.setFontSize(9);
+    doc.text(doc.splitTextToSize(String(item.description || ""), descW), margin + 3, y + 5);
     doc.text(String(item.qty || ""), 120, y + 5);
     doc.text(`$${parseFloat(item.rate || 0).toFixed(2)}`, 138, y + 5);
-    doc.text(`$${amount.toFixed(2)}`, 158, y + 5);
-    y += 7;
+    doc.text(`$${amount.toFixed(2)}`, W - margin - 3, y + 5, { align: "right" });
+    y += rowH;
   });
 
   const subtotal = items.reduce((s, item) => s + (parseFloat(item.qty) || 0) * (parseFloat(item.rate) || 0), 0);
@@ -78,19 +111,22 @@ function generateInvoicePDF(inv, items) {
   const total = subtotal + tax;
 
   y += 6;
+  ensureSpace(taxRate > 0 ? 30 : 24);
   doc.setFont("helvetica", "normal");
   doc.setFontSize(9);
-  doc.text(`Subtotal:`, 138, y); doc.text(`$${subtotal.toFixed(2)}`, 163, y); y += 6;
-  if (taxRate > 0) { doc.text(`Tax (${taxRate}%):`, 138, y); doc.text(`$${tax.toFixed(2)}`, 163, y); y += 6; }
+  doc.text(`Subtotal:`, 138, y); doc.text(`$${subtotal.toFixed(2)}`, W - margin - 3, y, { align: "right" }); y += 6;
+  if (taxRate > 0) { doc.text(`Tax (${taxRate}%):`, 138, y); doc.text(`$${tax.toFixed(2)}`, W - margin - 3, y, { align: "right" }); y += 6; }
   doc.setFont("helvetica", "bold");
-  doc.text(`TOTAL:`, 138, y); doc.text(`$${total.toFixed(2)}`, 163, y); y += 12;
+  doc.text(`TOTAL:`, 138, y); doc.text(`$${total.toFixed(2)}`, W - margin - 3, y, { align: "right" }); y += 12;
 
   if (inv.notes) {
     doc.setFont("helvetica", "normal");
     doc.setFontSize(8.5);
     doc.setTextColor(100);
+    const noteLines = doc.splitTextToSize(String(inv.notes), tableW);
+    ensureSpace(5 + noteLines.length * 4);
     doc.text("Notes:", margin, y); y += 5;
-    doc.text(inv.notes, margin, y);
+    doc.text(noteLines, margin, y);
   }
 
   doc.save(`invoice_${inv.invoice_number || "001"}.pdf`);

@@ -153,7 +153,12 @@ bio: a polished press-ready bio in 2 short paragraphs, third person, grounded on
     }
 
     let y = 78;
+    // Starts a new page before content would run past the footer band.
+    const ensureSpace = (h) => {
+      if (y + h > H - 32) { doc.addPage(); y = 24; }
+    };
     const label = (t) => {
+      ensureSpace(14);
       doc.setFont(F, "bold");
       doc.setFontSize(7.5);
       doc.setTextColor(...GREEN);
@@ -165,6 +170,7 @@ bio: a polished press-ready bio in 2 short paragraphs, third person, grounded on
       doc.setFontSize(size);
       doc.setTextColor(...color);
       const lines = doc.splitTextToSize(t || "", W - 24);
+      ensureSpace(lines.length * (size * 0.42) + 4);
       doc.text(lines, 12, y);
       y += lines.length * (size * 0.42) + 2;
     };
@@ -184,6 +190,7 @@ bio: a polished press-ready bio in 2 short paragraphs, third person, grounded on
     ].filter((s) => Number(s.value) > 0);
     if (stats.length) {
       label("The Numbers");
+      ensureSpace(32);
       const boxW = (W - 24 - (stats.length - 1) * 4) / stats.length;
       stats.forEach((s, i) => {
         const x = 12 + i * (boxW + 4);
@@ -205,6 +212,7 @@ bio: a polished press-ready bio in 2 short paragraphs, third person, grounded on
     if (epk.featured.length) {
       label("Featured Songs");
       epk.featured.slice(0, 6).forEach((s) => {
+        ensureSpace(15);
         doc.setFillColor(18, 22, 19);
         doc.roundedRect(12, y, W - 24, 12, 1.5, 1.5, "F");
         doc.setFont(F, "bold");

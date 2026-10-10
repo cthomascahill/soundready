@@ -173,8 +173,9 @@ export default function ExportTourPDF({ venues, tasks, routeData, travelGapsByDa
           doc.setTextColor(80, 80, 80);
           const status = task.status === "Done" ? "✓" : task.status === "In Progress" ? "◑" : "○";
           const costStr = task.cost ? `  ${fmt(task.cost)}` : "";
-          doc.text(`  ${status}  [${task.category}]  ${task.title}${costStr}${task.notes ? `  — ${task.notes}` : ""}`, margin + 2, y);
-          y += 5.5;
+          const taskLines = doc.splitTextToSize(`  ${status}  [${task.category}]  ${task.title}${costStr}${task.notes ? `  — ${task.notes}` : ""}`, W - margin * 2 - 2);
+          doc.text(taskLines, margin + 2, y);
+          y += 5.5 + (taskLines.length - 1) * 4;
         });
         y += 1;
       }
