@@ -160,9 +160,9 @@ export default function About() {
           {/* SAM mascot, big on the right, floating */}
           <div className="relative flex flex-col items-center justify-center lg:items-end pt-8 lg:pt-0">
             <motion.img
-              src="https://media.base44.com/images/public/69dcf0ecc907e43a438a626b/b1abb1260_IMG_3924.png"
+              src="https://media.base44.com/images/public/69dcf0ecc907e43a438a626b/cbca442cd_generated_76ab93fb.png"
               alt="SAM, the Soundready Artist Manager robot"
-              className="h-64 sm:h-96 lg:h-[440px] w-auto"
+              className="h-64 sm:h-96 lg:h-[440px] w-auto drop-shadow-[0_24px_60px_rgba(34,197,94,0.25)]"
               initial={{ opacity: 0, x: 24 }}
               animate={{ opacity: 1, x: 0, y: [0, -14, 0] }}
               transition={{
@@ -237,8 +237,8 @@ export default function About() {
                 )}
                 {tier.name === "AI Manager" && (
                   <motion.img
-                    src="https://media.base44.com/images/public/69dcf0ecc907e43a438a626b/b1abb1260_IMG_3924.png"
-                    alt="SAM, the Soundready Artist Manager robot"
+                    src="https://media.base44.com/images/public/69dcf0ecc907e43a438a626b/b7f9a17dc_generated_f31f1bbd.png"
+                    alt="SAM, the Soundready Artist Manager robot pointing at the AI Manager card"
                     className="pointer-events-none absolute -right-3 xl:-right-14 top-8 h-24 sm:h-44 w-auto drop-shadow-xl z-10"
                     initial={{ opacity: 0, x: 16 }}
                     whileInView={{ opacity: 1, x: 0 }}

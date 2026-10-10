@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { ArrowRight } from "lucide-react";
 
-const SAM_IMG = "https://media.base44.com/images/public/69dcf0ecc907e43a438a626b/b1abb1260_IMG_3924.png";
+const SAM_IMG = "https://media.base44.com/images/public/69dcf0ecc907e43a438a626b/643d5f2ea_generated_0b12f357.png";
 
 /** AI Manager upsell on the EPK Builder: Sam can send this kit out for the artist. */
 export default function EpkUpsellCard() {

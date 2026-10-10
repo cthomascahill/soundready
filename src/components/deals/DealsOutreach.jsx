@@ -12,7 +12,7 @@ import {
   Lock, Zap, ChevronLeft,
 } from "lucide-react";
 
-const SAM_IMG = "https://media.base44.com/images/public/69dcf0ecc907e43a438a626b/b1abb1260_IMG_3924.png";
+const SAM_IMG = "https://media.base44.com/images/public/69dcf0ecc907e43a438a626b/35232fa58_generated_6b4a08a9.png";
 
 const CATEGORIES = [
   { id: "record_label", label: "Record Labels", icon: Disc3, blurb: "Indie and mid-size labels that sign artists at your level, in your genre." },

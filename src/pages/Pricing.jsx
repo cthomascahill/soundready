@@ -258,7 +258,7 @@ export default function Pricing() {
                 Recommended · Founding Artist Offer
               </div>
               <motion.img
-                src="https://media.base44.com/images/public/69dcf0ecc907e43a438a626b/b1abb1260_IMG_3924.png"
+                src="https://media.base44.com/images/public/69dcf0ecc907e43a438a626b/b7f9a17dc_generated_f31f1bbd.png"
                 alt="SAM, the SoundReady AI manager robot"
                 className="pointer-events-none absolute -right-3 xl:-right-14 top-8 h-32 sm:h-44 w-auto drop-shadow-xl z-10"
                 initial={{ opacity: 0, x: 16 }}
