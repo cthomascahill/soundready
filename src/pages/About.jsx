@@ -14,13 +14,12 @@ import PublicFooter from "@/components/public/PublicFooter";
 import SEO from "@/components/SEO";
 import GrowthComparisonChart from "@/components/home/GrowthComparisonChart";
 import CountUpStat from "@/components/home/CountUpStat";
-import CareerWorkflowSection from "@/components/home/CareerWorkflowSection";
 import PlatformShowcaseSection from "@/components/home/PlatformShowcaseSection";
 import MattCormanSection from "@/components/home/MattCormanSection";
 import HeroArtistSearch from "@/components/home/HeroArtistSearch";
-import IncludedSection from "@/components/home/IncludedSection";
 import SamWalkthrough from "@/components/home/SamWalkthrough";
 import ForYouIfSection from "@/components/home/ForYouIfSection";
+import FaqSection from "@/components/home/FaqSection";
 import { useLang } from "@/lib/i18n/LanguageContext";
 
 const TIERS = [
@@ -30,7 +29,8 @@ const TIERS = [
     bg: "bg-chart-5/10",
     border: "border-chart-5/20",
     name: "Free",
-    tagline: "Your music, organized.",
+    tagline: "Get your music organized.",
+    limit: "Up to 5 songs",
     price: "$0 — Free forever",
     desc: "Keep your songs and releases in one place.",
     items: [
@@ -50,7 +50,8 @@ const TIERS = [
     bg: "bg-chart-5/10",
     border: "border-chart-5/20",
     name: "Artist Pro",
-    tagline: "Your career toolkit.",
+    tagline: "Tools to manage it yourself.",
+    limit: "Unlimited songs",
     price: "$39/month",
     badge: "7-Day Free Trial",
     desc: "Plan releases, find opportunities, and work with your team in one workspace.",
@@ -73,7 +74,8 @@ const TIERS = [
     bg: "bg-primary/10",
     border: "border-primary/30",
     name: "Digital Manager",
-    tagline: "Meet SAM. Your digital music manager.",
+    tagline: "For artists who want help doing the work.",
+    limit: "2,500 SAM credits/mo",
     price: "$59/month",
     strike: "$79/month",
     founding: true,
@@ -100,6 +102,7 @@ const TIERS = [
 
 export default function About() {
   const [isAuth, setIsAuth] = useState(false);
+  const [showScenarios, setShowScenarios] = useState(false);
   const { t } = useLang();
 
   useEffect(() => {
@@ -109,6 +112,12 @@ export default function About() {
   const handleCTA = () => {
     if (isAuth) window.location.href = "/history";
     else window.location.href = "/register";
+  };
+
+  const focusSearch = () => {
+    const input = document.getElementById("artist-search-input");
+    input?.scrollIntoView({ behavior: "smooth", block: "center" });
+    input?.focus();
   };
 
   return (
@@ -137,7 +146,7 @@ export default function About() {
               {t("Stop doing everything alone.")}
             </p>
             <p className="text-sm sm:text-base text-muted-foreground max-w-xl mx-auto leading-relaxed">
-              {t("Meet SAM. Your personal digital music manager that helps you find playlists, discover venues, plan releases, organize your music, and build your career.")}
+              {t("SAM finds music opportunities, drafts your pitches, and helps plan your next release. You approve what goes out.")}
             </p>
 
             <div className="flex flex-col items-center gap-1.5 sm:gap-2">
@@ -149,18 +158,16 @@ export default function About() {
 
             <HeroArtistSearch />
 
-            <div className="flex flex-col sm:flex-row items-center justify-center gap-3 pt-2">
-              <Button size="lg" className="gap-2 font-heading font-bold text-sm sm:text-base px-6 sm:px-8 h-11 sm:h-12" onClick={handleCTA}>
-                {t("Start Free")} <ArrowRight className="h-4 w-4" />
+            <div className="flex flex-col sm:flex-row items-center justify-center gap-3 pt-1">
+              <Button size="lg" className="gap-2 font-heading font-bold text-sm sm:text-base px-6 sm:px-8 h-12" onClick={focusSearch}>
+                {t("Analyze My Artist Profile")} <ArrowRight className="h-4 w-4" />
               </Button>
-              <a href="#sam-in-action">
-                <Button size="lg" variant="outline" className="gap-2 font-heading font-bold text-base px-8 h-12">
-                  {t("See How SAM Works")}
-                </Button>
-              </a>
+              <Button size="lg" variant="outline" className="gap-2 font-heading font-bold text-sm sm:text-base px-6 sm:px-8 h-12" onClick={handleCTA}>
+                {t("Start Free")}
+              </Button>
             </div>
 
-            <p className="text-xs sm:text-sm text-muted-foreground">{t("Start free. No contracts. No percentage cuts, ever.")}</p>
+            <p className="text-xs sm:text-sm text-muted-foreground">{t("Free workspace. SAM plans from $59/month.")}</p>
           </div>
 
           {/* SAM mascot, big on the right, floating */}
@@ -201,13 +208,7 @@ export default function About() {
       {/* AUDIENCE: artist identification and transformation */}
       <ForYouIfSection />
 
-      {/* CORE BENEFITS: the three outcomes, then the full toolkit */}
-      <IncludedSection />
-
-      {/* HOW YOU START */}
-      <CareerWorkflowSection />
-
-      {/* THE PLATFORM: what the workspace looks like */}
+      {/* THE PLATFORM: compact product screenshots */}
       <PlatformShowcaseSection />
 
       {/* PRICING, 3 tiers */}
@@ -261,6 +262,7 @@ export default function About() {
                 <div className="flex items-baseline gap-2 flex-wrap mb-3">
                   {tier.strike && <span className="text-xs sm:text-sm text-muted-foreground line-through font-semibold">{tier.strike}</span>}
                   <p className="text-xl sm:text-2xl font-black">{tier.price}</p>
+                  <span className="text-xs sm:text-sm font-semibold text-muted-foreground">· {t(tier.limit)}</span>
                   {tier.founding && <span className="px-2 py-0.5 rounded-full bg-primary/15 text-primary text-[9px] lg:text-[10px] font-bold uppercase tracking-wide">First 100 Artists · Discounted Forever</span>}
                 </div>
                 <p className="text-xs sm:text-sm text-muted-foreground leading-snug lg:leading-relaxed mb-4 lg:mb-5">{t(tier.desc)}</p>
@@ -287,14 +289,32 @@ export default function About() {
         </div>
       </section>
 
+      {/* FAQ */}
+      <FaqSection />
+
       {/* SOCIAL PROOF STATS */}
       <section className="px-4 py-14">
         <div className="max-w-5xl mx-auto space-y-8">
           <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="text-center space-y-2">
             <h2 className="font-heading text-4xl font-bold">{t("See what's possible with SoundReady")}</h2>
           </motion.div>
-          <GrowthComparisonChart />
-          <p className="text-center text-sm text-muted-foreground">{t("Illustrative comparison, not a guarantee, results depend on your releases, effort, and genre.")}</p>
+          {showScenarios ? (
+            <div className="space-y-6">
+              <GrowthComparisonChart />
+              <p className="text-center text-sm text-muted-foreground">{t("Illustrative comparison, not a guarantee, results depend on your releases, effort, and genre.")}</p>
+              <div className="flex justify-center">
+                <Button variant="outline" className="h-12 px-8 font-heading font-bold" onClick={() => setShowScenarios(false)}>
+                  {t("Hide scenarios")}
+                </Button>
+              </div>
+            </div>
+          ) : (
+            <div className="flex justify-center">
+              <Button variant="outline" className="h-12 px-8 gap-2 font-heading font-bold" onClick={() => setShowScenarios(true)}>
+                {t("Compare growth scenarios")} <ArrowDown className="h-4 w-4" />
+              </Button>
+            </div>
+          )}
           <div className="grid grid-cols-2 lg:grid-cols-5 gap-2 sm:gap-4">
             {[
               { num: "1,341+", label: "venues ready to pitch" },
@@ -324,7 +344,7 @@ export default function About() {
               {t("You've already put the work into making the music. Now it's time to build the career around it.")}
             </p>
           </div>
-          <Button size="lg" className="gap-2 font-heading font-bold text-base px-10 h-13" onClick={handleCTA}>
+          <Button size="lg" className="gap-2 font-heading font-bold text-base px-8 h-12" onClick={handleCTA}>
             {t("Get Your Digital Music Manager")} <ArrowRight className="h-4 w-4" />
           </Button>
           <p className="text-xs sm:text-sm text-muted-foreground">{t("Start free. No contracts. No percentage cuts, ever.")}</p>

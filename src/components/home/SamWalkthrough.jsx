@@ -1,4 +1,5 @@
 import { useState } from "react";
+import SamTaskProof from "@/components/home/SamTaskProof";
 import { MapPin, Music2 } from "lucide-react";
 import WalkthroughSection from "@/components/home/WalkthroughSection";
 import StepTellSamScreen from "@/components/home/walkthrough/StepTellSamScreen";
@@ -67,6 +68,7 @@ export default function SamWalkthrough() {
         </div>
       }
       steps={active.steps}
+      below={<SamTaskProof />}
     />
   );
 }

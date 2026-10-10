@@ -37,7 +37,7 @@ export default function SamPreviewCard({ artist }) {
         <SamLogo className="h-7 w-7 text-primary shrink-0" />
         <div className="leading-tight">
           <p className="font-heading font-bold text-sm">SAM read your profile</p>
-          <p className="text-xs text-muted-foreground">First look at what your AI manager would do for {artist.name}</p>
+          <p className="text-xs text-muted-foreground">First look at what your digital manager would do for {artist.name}</p>
         </div>
       </div>
 
@@ -62,11 +62,14 @@ export default function SamPreviewCard({ artist }) {
           <p className="text-xs text-muted-foreground max-w-xs">
             SAM finds these every week and drafts the emails for you. Nothing sends without your approval.
           </p>
-          <Button asChild size="sm" className="gap-1.5 font-semibold">
-            <Link to="/pricing">
-              Unlock SAM <ArrowRight className="h-3.5 w-3.5" />
-            </Link>
-          </Button>
+          <div className="space-y-1.5">
+            <Button asChild size="sm" className="gap-1.5 font-semibold">
+              <Link to="/pricing">
+                Get your next moves with SAM <ArrowRight className="h-3.5 w-3.5" />
+              </Link>
+            </Button>
+            <p className="text-xs text-muted-foreground">$59/month founding price · Cancel anytime</p>
+          </div>
         </div>
       </div>
     </motion.div>

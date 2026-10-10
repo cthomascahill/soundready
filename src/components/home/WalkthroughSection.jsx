@@ -5,7 +5,7 @@ import { useLang } from "@/lib/i18n/LanguageContext";
 
 // Shared 3-step walkthrough: numbered steps, arrows between them, and a
 // product-accurate screen mock for each step.
-export default function WalkthroughSection({ id, eyebrow, headline, headlineAccent, sub, headerExtra, steps }) {
+export default function WalkthroughSection({ id, eyebrow, headline, headlineAccent, sub, headerExtra, steps, below }) {
   const { t } = useLang();
   return (
     <section id={id} className="px-4 py-16 scroll-mt-20">
@@ -45,6 +45,8 @@ export default function WalkthroughSection({ id, eyebrow, headline, headlineAcce
             </Fragment>
           ))}
         </div>
+
+        {below}
       </div>
     </section>
   );

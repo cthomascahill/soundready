@@ -107,7 +107,7 @@ export default function PlatformShowcaseSection() {
 
         <div className="flex justify-center pt-8">
           <a href="#pricing">
-            <Button size="lg" className="gap-2 font-heading font-bold text-base px-10 h-12">
+            <Button size="lg" className="gap-2 font-heading font-bold text-base px-8 h-12">
               {t("See Plans")} <ArrowRight className="h-4 w-4" />
             </Button>
           </a>
