@@ -15,7 +15,6 @@ import SEO from "@/components/SEO";
 import GrowthComparisonChart from "@/components/home/GrowthComparisonChart";
 import CountUpStat from "@/components/home/CountUpStat";
 import CareerWorkflowSection from "@/components/home/CareerWorkflowSection";
-import SamInActionSection from "@/components/home/SamInActionSection";
 import PlatformShowcaseSection from "@/components/home/PlatformShowcaseSection";
 import MattCormanSection from "@/components/home/MattCormanSection";
 import HeroArtistSearch from "@/components/home/HeroArtistSearch";
@@ -189,9 +188,6 @@ export default function About() {
 
       {/* THE PROMISE, for playlists */}
       <SamPlaylistWalkthrough />
-
-      {/* SAM IN ACTION */}
-      <SamInActionSection />
 
       {/* PLATFORM SHOWCASE */}
       <PlatformShowcaseSection />
