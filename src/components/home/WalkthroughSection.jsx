@@ -12,11 +12,11 @@ export default function WalkthroughSection({ id, eyebrow, headline, headlineAcce
       <div className="max-w-6xl mx-auto space-y-14">
         <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}
           className="text-center space-y-4 max-w-3xl mx-auto">
-          <p className="text-xs text-primary uppercase tracking-wider font-bold">{t(eyebrow)}</p>
+          {eyebrow && <p className="text-xs text-primary uppercase tracking-wider font-bold">{t(eyebrow)}</p>}
           <h2 className="font-heading text-3xl sm:text-4xl lg:text-5xl font-bold leading-tight">
             {t(headline)} <span className="text-primary font-black">{t(headlineAccent)}</span>
           </h2>
-          <p className="text-sm sm:text-base text-muted-foreground leading-relaxed">{t(sub)}</p>
+          {sub && <p className="text-sm sm:text-base text-muted-foreground leading-relaxed">{t(sub)}</p>}
         </motion.div>
 
         <div className="grid grid-cols-1 lg:grid-cols-[1fr_auto_1fr_auto_1fr] gap-8 lg:gap-3 items-center">
@@ -37,10 +37,7 @@ export default function WalkthroughSection({ id, eyebrow, headline, headlineAcce
               >
                 <div className="flex items-start gap-3">
                   <span className="font-heading text-2xl font-black text-primary shrink-0 leading-none pt-0.5">{step.num}</span>
-                  <div>
-                    <p className="font-heading font-bold">{t(step.title)}</p>
-                    <p className="text-xs text-muted-foreground leading-relaxed mt-0.5">{t(step.desc)}</p>
-                  </div>
+                  <p className="font-heading font-bold text-lg leading-snug">{t(step.title)}</p>
                 </div>
                 <step.Screen />
               </motion.div>
