@@ -119,7 +119,7 @@ export default function About() {
     <div className="min-h-screen bg-background">
       <SEO
         title="SoundReady: Your Digital Music Manager for Independent Artists"
-        description="Your songs, your tours, your team, plus SAM, your digital music manager that drafts your pitches and outreach from your real numbers. Start free."
+        description="SoundReady is your digital music manager: organize your songs, plan releases, book shows, and let SAM draft your pitches from your real numbers. Start free."
       />
 
       <PublicNav showHome={false} />
