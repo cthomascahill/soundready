@@ -10,7 +10,7 @@ const CATEGORY_COLORS = {
   "Independent Artists": "bg-teal-500/15 text-teal-400 border-teal-500/25",
   "Charts & Sales": "bg-yellow-500/15 text-yellow-400 border-yellow-500/25",
   "Publishing & Sync": "bg-pink-500/15 text-pink-400 border-pink-500/25",
-  "Industry News": "bg-zinc-700/50 text-zinc-300 border-zinc-600",
+  "Industry News": "bg-secondary text-foreground border-border",
 };
 
 const SOURCE_ABBR = {

@@ -13,7 +13,7 @@ const MOODS = ["Dark", "Uplifting", "Chill", "Aggressive", "Romantic", "Melancho
 const STATUSES = ["Idea", "Demo", "Recorded", "Mixed", "Mastered", "Released"];
 
 const STATUS_COLORS = {
-  Idea: "bg-zinc-700/50 text-zinc-300 border-zinc-600",
+  Idea: "bg-zinc-700/50 text-white/80 border-zinc-600",
   Demo: "bg-yellow-500/15 text-yellow-400 border-yellow-500/25",
   Recorded: "bg-blue-500/15 text-blue-400 border-blue-500/25",
   Mixed: "bg-purple-500/15 text-purple-400 border-purple-500/25",
@@ -147,7 +147,7 @@ export default function SongCardModal({ song, onClose, onSave, projects = [] }) 
             </div>
             <h2 className="font-heading font-bold text-lg">{isNew ? "Add Song" : "Edit Song"}</h2>
           </div>
-          <button onClick={onClose} className="text-zinc-500 hover:text-white transition-colors">
+          <button onClick={onClose} className="text-white/50 hover:text-white transition-colors">
             <X className="h-5 w-5" />
           </button>
         </div>
@@ -155,7 +155,7 @@ export default function SongCardModal({ song, onClose, onSave, projects = [] }) 
         <div className="p-6 space-y-6">
           {/* Audio Upload */}
           <div>
-            <label className="text-xs text-zinc-400 uppercase tracking-wider mb-2 block">Audio File</label>
+            <label className="text-xs text-white/60 uppercase tracking-wider mb-2 block">Audio File</label>
             {audioSrc ? (
               <div className="flex items-center gap-3 rounded-xl border border-primary/30 bg-primary/5 p-3">
                 <button onClick={togglePlay} className="h-8 w-8 rounded-full bg-primary/20 border border-primary/40 flex items-center justify-center text-primary hover:bg-primary/30 transition-colors shrink-0">
@@ -163,10 +163,10 @@ export default function SongCardModal({ song, onClose, onSave, projects = [] }) 
                 </button>
                 <div className="flex-1 min-w-0">
                   <p className="text-sm font-medium truncate">{form.file_name || "Uploaded audio"}</p>
-                  {form.duration && <p className="text-xs text-zinc-500">{Math.floor(form.duration / 60)}:{String(form.duration % 60).padStart(2, "0")}</p>}
+                  {form.duration && <p className="text-xs text-white/50">{Math.floor(form.duration / 60)}:{String(form.duration % 60).padStart(2, "0")}</p>}
                 </div>
                 <button onClick={() => { setForm(f => ({ ...f, file_url: "", file_name: "", duration: null })); setAudioFile(null); }}
-                  className="text-zinc-500 hover:text-red-400 transition-colors text-xs">Remove</button>
+                  className="text-white/50 hover:text-red-400 transition-colors text-xs">Remove</button>
                 <audio ref={audioRef} src={audioSrc} onEnded={() => setPlaying(false)} />
               </div>
             ) : (
@@ -181,8 +181,8 @@ export default function SongCardModal({ song, onClose, onSave, projects = [] }) 
                   <div className="h-5 w-5 border-2 border-primary/30 border-t-primary rounded-full animate-spin" />
                 ) : (
                   <>
-                    <Upload className="h-6 w-6 text-zinc-500" />
-                    <p className="text-sm text-zinc-400">Drop audio file or click to browse</p>
+                    <Upload className="h-6 w-6 text-white/50" />
+                    <p className="text-sm text-white/60">Drop audio file or click to browse</p>
                     <p className="text-xs text-zinc-600">MP3, WAV, FLAC</p>
                   </>
                 )}
@@ -196,17 +196,17 @@ export default function SongCardModal({ song, onClose, onSave, projects = [] }) 
 
           {/* Cover Artwork */}
           <div>
-            <label className="text-xs text-zinc-400 uppercase tracking-wider mb-2 block">Cover Artwork</label>
+            <label className="text-xs text-white/60 uppercase tracking-wider mb-2 block">Cover Artwork</label>
             {form.artwork_url ? (
               <div className="flex items-center gap-3 rounded-xl border border-zinc-700 p-3">
                 <img src={form.artwork_url} alt="Cover artwork" className="h-14 w-14 rounded-lg object-cover" />
-                <p className="text-xs text-zinc-500 flex-1">Shown on your Vault library</p>
+                <p className="text-xs text-white/50 flex-1">Shown on your Vault library</p>
                 <button onClick={() => setForm(f => ({ ...f, artwork_url: "" }))}
-                  className="text-zinc-500 hover:text-red-400 transition-colors text-xs">Remove</button>
+                  className="text-white/50 hover:text-red-400 transition-colors text-xs">Remove</button>
               </div>
             ) : (
               <button onClick={() => artworkInputRef.current?.click()}
-                className="w-full flex items-center justify-center gap-2 rounded-xl border-2 border-dashed border-zinc-700 py-3 text-sm text-zinc-400 hover:border-zinc-500 hover:text-zinc-300 transition-all">
+                className="w-full flex items-center justify-center gap-2 rounded-xl border-2 border-dashed border-zinc-700 py-3 text-sm text-white/60 hover:border-zinc-500 hover:text-white/80 transition-all">
                 {uploadingArt
                   ? <div className="h-4 w-4 border-2 border-primary/30 border-t-primary rounded-full animate-spin" />
                   : <ImagePlus className="h-4 w-4" />}
@@ -218,7 +218,7 @@ export default function SongCardModal({ song, onClose, onSave, projects = [] }) 
 
           {/* Song Info */}
           <div className="space-y-3">
-            <label className="text-xs text-zinc-400 uppercase tracking-wider block">Song Details</label>
+            <label className="text-xs text-white/60 uppercase tracking-wider block">Song Details</label>
             <Input placeholder="Song Title *" value={form.title} onChange={e => setForm(f => ({ ...f, title: e.target.value }))} className="bg-zinc-900 border-zinc-700" />
             <div className="grid grid-cols-2 gap-3">
               <Input placeholder="Featured Artists" value={form.featured_artists} onChange={e => setForm(f => ({ ...f, featured_artists: e.target.value }))} className="bg-zinc-900 border-zinc-700" />
@@ -237,11 +237,11 @@ export default function SongCardModal({ song, onClose, onSave, projects = [] }) 
 
           {/* Status & Release */}
           <div className="space-y-3">
-            <label className="text-xs text-zinc-400 uppercase tracking-wider block">Status</label>
+            <label className="text-xs text-white/60 uppercase tracking-wider block">Status</label>
             <div className="flex flex-wrap gap-2">
               {STATUSES.map(s => (
                 <button key={s} onClick={() => setForm(f => ({ ...f, status: s }))}
-                  className={`px-3 py-1 rounded-full text-xs font-semibold border transition-all ${form.status === s ? STATUS_COLORS[s] : "bg-transparent text-zinc-500 border-zinc-700 hover:border-zinc-500"}`}>
+                  className={`px-3 py-1 rounded-full text-xs font-semibold border transition-all ${form.status === s ? STATUS_COLORS[s] : "bg-transparent text-white/50 border-zinc-700 hover:border-zinc-500"}`}>
                   {s}
                 </button>
               ))}
@@ -252,7 +252,7 @@ export default function SongCardModal({ song, onClose, onSave, projects = [] }) 
             {form.status === "Released" && (
               <div className="space-y-2 rounded-xl border border-primary/25 bg-primary/5 p-4">
                 <p className="text-xs text-primary font-semibold">Release Links</p>
-                <p className="text-xs text-zinc-500">Sam uses the Spotify link to pitch this song to playlist curators.</p>
+                <p className="text-xs text-white/50">Sam uses the Spotify link to pitch this song to playlist curators.</p>
                 <Input placeholder="Spotify link (open.spotify.com/track/...)" value={form.spotify_url}
                   onChange={e => setForm(f => ({ ...f, spotify_url: e.target.value }))}
                   className="bg-zinc-900 border-zinc-700" />
@@ -265,11 +265,11 @@ export default function SongCardModal({ song, onClose, onSave, projects = [] }) 
 
           {/* Moods */}
           <div className="space-y-3">
-            <label className="text-xs text-zinc-400 uppercase tracking-wider block">Mood / Vibe</label>
+            <label className="text-xs text-white/60 uppercase tracking-wider block">Mood / Vibe</label>
             <div className="flex flex-wrap gap-2">
               {MOODS.map(m => (
                 <button key={m} onClick={() => toggleMood(m)}
-                  className={`px-3 py-1 rounded-full text-xs border transition-all ${form.moods.includes(m) ? "bg-primary/15 text-primary border-primary/30" : "bg-transparent text-zinc-500 border-zinc-700 hover:border-zinc-500"}`}>
+                  className={`px-3 py-1 rounded-full text-xs border transition-all ${form.moods.includes(m) ? "bg-primary/15 text-primary border-primary/30" : "bg-transparent text-white/50 border-zinc-700 hover:border-zinc-500"}`}>
                   {m}
                 </button>
               ))}
@@ -279,11 +279,11 @@ export default function SongCardModal({ song, onClose, onSave, projects = [] }) 
           {/* Projects */}
           {projects.length > 0 && (
             <div className="space-y-3">
-              <label className="text-xs text-zinc-400 uppercase tracking-wider block">Add to Project</label>
+              <label className="text-xs text-white/60 uppercase tracking-wider block">Add to Project</label>
               <div className="flex flex-wrap gap-2">
                 {projects.map(p => (
                   <button key={p.id} onClick={() => toggleProject(p.id)}
-                    className={`px-3 py-1 rounded-full text-xs border transition-all ${form.project_ids.includes(p.id) ? "bg-primary/15 text-primary border-primary/30" : "bg-transparent text-zinc-500 border-zinc-700 hover:border-zinc-500"}`}>
+                    className={`px-3 py-1 rounded-full text-xs border transition-all ${form.project_ids.includes(p.id) ? "bg-primary/15 text-primary border-primary/30" : "bg-transparent text-white/50 border-zinc-700 hover:border-zinc-500"}`}>
                     {p.name}
                   </button>
                 ))}
@@ -293,12 +293,12 @@ export default function SongCardModal({ song, onClose, onSave, projects = [] }) 
 
           {/* Tags */}
           <div className="space-y-3">
-            <label className="text-xs text-zinc-400 uppercase tracking-wider block">Tags</label>
+            <label className="text-xs text-white/60 uppercase tracking-wider block">Tags</label>
             <div className="flex gap-2 flex-wrap mb-2">
               {form.tags.map(t => (
-                <span key={t} className="flex items-center gap-1 px-2 py-0.5 rounded-full bg-zinc-800 border border-zinc-700 text-xs text-zinc-300">
+                <span key={t} className="flex items-center gap-1 px-2 py-0.5 rounded-full bg-zinc-800 border border-zinc-700 text-xs text-white/80">
                   <Tag className="h-3 w-3" />{t}
-                  <button onClick={() => removeTag(t)} className="text-zinc-500 hover:text-red-400 ml-0.5"><X className="h-3 w-3" /></button>
+                  <button onClick={() => removeTag(t)} className="text-white/50 hover:text-red-400 ml-0.5"><X className="h-3 w-3" /></button>
                 </span>
               ))}
             </div>
@@ -312,7 +312,7 @@ export default function SongCardModal({ song, onClose, onSave, projects = [] }) 
 
           {/* Lyrics */}
           <div className="space-y-2">
-            <label className="text-xs text-zinc-400 uppercase tracking-wider block">Lyrics</label>
+            <label className="text-xs text-white/60 uppercase tracking-wider block">Lyrics</label>
             <textarea value={form.lyrics} onChange={e => setForm(f => ({ ...f, lyrics: e.target.value }))}
               placeholder="Paste your lyrics here..."
               rows={6}
@@ -321,7 +321,7 @@ export default function SongCardModal({ song, onClose, onSave, projects = [] }) 
 
           {/* Notes */}
           <div className="space-y-2">
-            <label className="text-xs text-zinc-400 uppercase tracking-wider block">Notes</label>
+            <label className="text-xs text-white/60 uppercase tracking-wider block">Notes</label>
             <textarea value={form.notes} onChange={e => setForm(f => ({ ...f, notes: e.target.value }))}
               placeholder="Production notes, ideas, references..."
               rows={3}

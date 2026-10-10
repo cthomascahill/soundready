@@ -7,7 +7,7 @@ const CATEGORY_COLORS = {
   "Labels & Deals": "bg-purple-500/15 text-purple-400 border-purple-500/25",
   "AI & Tech": "bg-cyan-500/15 text-cyan-400 border-cyan-500/25",
   "Publishing & Sync": "bg-pink-500/15 text-pink-400 border-pink-500/25",
-  "Industry News": "bg-zinc-700/50 text-zinc-300 border-zinc-600",
+  "Industry News": "bg-secondary text-foreground border-border",
 };
 
 // Sam's in-depth breakdown of a big ongoing industry story,
@@ -67,7 +67,7 @@ export default function DeepDiveCard({ dive }) {
           )}
 
           {dive.artist_takeaway && (
-            <div className="flex items-start gap-2.5 rounded-xl bg-zinc-900 border border-zinc-800 p-4">
+            <div className="flex items-start gap-2.5 rounded-xl bg-muted border border-border p-4">
               <Lightbulb className="h-4 w-4 text-yellow-400 shrink-0 mt-0.5" />
               <p className="text-sm text-zinc-300 leading-relaxed">
                 <span className="font-semibold text-white">Your takeaway: </span>{dive.artist_takeaway}

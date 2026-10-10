@@ -9,7 +9,7 @@ const TAG_COLORS = {
   Verse: "bg-purple-500/15 text-purple-400 border-purple-500/25",
   Title: "bg-yellow-500/15 text-yellow-400 border-yellow-500/25",
   Idea: "bg-cyan-500/15 text-cyan-400 border-cyan-500/25",
-  Line: "bg-zinc-600/30 text-zinc-400 border-zinc-600/30",
+  Line: "bg-zinc-600/30 text-white/60 border-zinc-600/30",
 };
 
 export default function IdeasBoard({ ideas, setIdeas, trackerSongs, onAddToTracker }) {
@@ -25,7 +25,7 @@ export default function IdeasBoard({ ideas, setIdeas, trackerSongs, onAddToTrack
   if (ideas.length === 0) {
     return (
       <div className="rounded-xl border border-dashed border-zinc-800 p-8 text-center">
-        <p className="text-zinc-500 text-sm">No saved ideas yet</p>
+        <p className="text-white/50 text-sm">No saved ideas yet</p>
         <p className="text-zinc-600 text-xs mt-1">Click "Save to Ideas Board" on any output</p>
       </div>
     );
@@ -56,13 +56,13 @@ export default function IdeasBoard({ ideas, setIdeas, trackerSongs, onAddToTrack
             </button>
           </div>
 
-          <p className="text-sm text-zinc-200 font-mono leading-relaxed flex-1 whitespace-pre-wrap">{idea.content.slice(0, 200)}{idea.content.length > 200 ? "…" : ""}</p>
+          <p className="text-sm text-white/90 font-mono leading-relaxed flex-1 whitespace-pre-wrap">{idea.content.slice(0, 200)}{idea.content.length > 200 ? "…" : ""}</p>
 
           <div className="flex items-center justify-between pt-1">
             <p className="text-[10px] text-zinc-600">{moment(idea.savedAt).fromNow()}</p>
             <button
               onClick={() => onAddToTracker(idea)}
-              className="flex items-center gap-1 text-[10px] text-zinc-500 hover:text-primary transition-colors"
+              className="flex items-center gap-1 text-[10px] text-white/50 hover:text-primary transition-colors"
             >
               <ExternalLink className="h-3 w-3" />
               Add to Tracker

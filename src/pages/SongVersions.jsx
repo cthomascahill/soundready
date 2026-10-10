@@ -198,7 +198,7 @@ export default function SongVersions() {
     <div className="min-h-screen bg-background">
       <div className="max-w-7xl mx-auto px-4 py-8">
         {/* Header */}
-        <Link to="/song-tracker" className="inline-flex items-center gap-1.5 text-sm text-zinc-500 hover:text-white mb-4">
+        <Link to="/song-tracker" className="inline-flex items-center gap-1.5 text-sm text-zinc-500 hover:text-foreground mb-4">
           <ArrowLeft className="h-4 w-4" /> Back to Tracker
         </Link>
         <div className="mb-6">

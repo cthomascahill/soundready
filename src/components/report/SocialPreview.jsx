@@ -12,7 +12,7 @@ function InstagramPreview({ caption, songTitle, artist }) {
         </div>
         <div>
           <p className="text-xs font-semibold leading-none">{artist || "your_artist_name"}</p>
-          <p className="text-[10px] text-gray-400 mt-0.5">New Release</p>
+          <p className="text-[10px] text-white/60 mt-0.5">New Release</p>
         </div>
         <button className="ml-auto text-[11px] font-semibold text-blue-500">Follow</button>
       </div>

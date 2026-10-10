@@ -109,7 +109,7 @@ export default function DemoPlayer() {
       <header className="relative z-10 border-b border-zinc-800/60">
         <div className="max-w-5xl mx-auto px-4 h-14 flex items-center justify-between">
           <SoundReadyLogo size={26} />
-          <span className="text-xs text-zinc-500 flex items-center gap-1.5">
+          <span className="text-xs text-white/50 flex items-center gap-1.5">
             <Headphones className="h-3.5 w-3.5 text-primary" /> Private demo link
           </span>
         </div>
@@ -117,14 +117,14 @@ export default function DemoPlayer() {
 
       <main className="relative z-10 flex-1 flex items-center justify-center px-4 py-12">
         {loading ? (
-          <div className="flex flex-col items-center gap-4 text-zinc-500">
+          <div className="flex flex-col items-center gap-4 text-white/50">
             <Loader2 className="h-8 w-8 animate-spin text-primary" />
             <p className="text-sm">Loading demo…</p>
           </div>
         ) : error && !meta ? (
           <div className="flex flex-col items-center gap-4 text-center max-w-sm">
             <AlertTriangle className="h-10 w-10 text-red-400" />
-            <p className="text-sm text-zinc-400">{error}</p>
+            <p className="text-sm text-white/60">{error}</p>
             <p className="text-xs text-zinc-600">Ask the artist who sent you this link for a fresh one.</p>
           </div>
         ) : meta ? (
@@ -150,7 +150,7 @@ export default function DemoPlayer() {
                   </p>
                 )}
                 <h1 className="font-heading text-2xl font-bold truncate">{isAlbum ? (currentTrack?.title || meta.title) : meta.title}</h1>
-                <p className="text-sm text-zinc-400 mt-1 truncate">
+                <p className="text-sm text-white/60 mt-1 truncate">
                   {isAlbum
                     ? (meta.artist || "Independent artist") + (currentTrack?.featured_artists ? ` · ft. ${currentTrack.featured_artists}` : "")
                     : (meta.artist || "Independent artist") + (meta.featured_artists ? ` · ft. ${meta.featured_artists}` : "")}
@@ -174,7 +174,7 @@ export default function DemoPlayer() {
                     <div className="absolute inset-y-0 left-0 bg-primary rounded-full"
                       style={{ width: `${audioDur ? (currentTime / audioDur) * 100 : 0}%` }} />
                   </div>
-                  <div className="flex justify-between text-[10px] text-zinc-500 mt-1 tabular-nums">
+                  <div className="flex justify-between text-[10px] text-white/50 mt-1 tabular-nums">
                     <span>{fmt(currentTime)}</span>
                     <span>{fmt(audioDur)}</span>
                   </div>
@@ -192,7 +192,7 @@ export default function DemoPlayer() {
                       <span className={`text-[10px] font-semibold tabular-nums w-4 text-center ${
                         currentTrackId === t.id ? "text-primary" : "text-zinc-600"
                       }`}>{i + 1}</span>
-                      <span className={`flex-1 min-w-0 truncate text-sm ${currentTrackId === t.id ? "text-primary font-semibold" : "text-zinc-300"}`}>
+                      <span className={`flex-1 min-w-0 truncate text-sm ${currentTrackId === t.id ? "text-primary font-semibold" : "text-white/80"}`}>
                         {t.title}
                       </span>
                       {t.duration ? (

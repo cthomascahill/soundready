@@ -168,7 +168,7 @@ export default function Studio() {
           </div>
           <div className="flex items-center gap-3">
             {profileMissing && (
-              <Link to="/artist-profile" className="hidden sm:flex items-center gap-2 px-3 py-2 rounded-lg border border-zinc-700 bg-zinc-900/60 text-xs text-zinc-400 hover:text-white hover:border-zinc-500 transition-all">
+              <Link to="/artist-profile" className="hidden sm:flex items-center gap-2 px-3 py-2 rounded-lg border border-zinc-700 bg-zinc-900/60 text-xs text-white/60 hover:text-white hover:border-zinc-500 transition-all">
                 ✦ Complete your Artist Profile for personalized outputs →
               </Link>
             )}
@@ -176,7 +176,7 @@ export default function Studio() {
             <div className="flex rounded-lg border border-zinc-700 bg-zinc-900 overflow-hidden">
               {TABS.map(t => (
                 <button key={t} onClick={() => setTab(t)}
-                  className={`px-3 py-1.5 text-xs font-medium transition-colors ${tab === t ? "bg-primary text-black" : "text-zinc-400 hover:text-white"}`}>
+                  className={`px-3 py-1.5 text-xs font-medium transition-colors ${tab === t ? "bg-primary text-black" : "text-white/60 hover:text-white"}`}>
                   {t}
                 </button>
               ))}
@@ -223,7 +223,7 @@ export default function Studio() {
         {tab === "Ideas Board" && (
           <div className="space-y-4">
             <div className="flex items-center justify-between">
-              <p className="text-sm text-zinc-400">{ideas.length} saved idea{ideas.length !== 1 ? "s" : ""}</p>
+              <p className="text-sm text-white/60">{ideas.length} saved idea{ideas.length !== 1 ? "s" : ""}</p>
             </div>
             <IdeasBoard
               ideas={ideas}

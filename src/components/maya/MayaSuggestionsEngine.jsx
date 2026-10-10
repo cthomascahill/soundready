@@ -114,15 +114,15 @@ function DraftModal({ draft, title, onClose }) {
       >
         <div className="flex items-center justify-between px-5 py-4 border-b border-zinc-800">
           <p className="font-heading font-bold text-white">Approved Draft</p>
-          <button onClick={onClose} className="h-7 w-7 rounded-lg bg-zinc-800 flex items-center justify-center text-zinc-400 hover:text-white">
+          <button onClick={onClose} className="h-7 w-7 rounded-lg bg-secondary flex items-center justify-center text-muted-foreground hover:text-foreground">
             <X className="h-3.5 w-3.5" />
           </button>
         </div>
         <div className="flex-1 overflow-y-auto px-5 py-4">
           <div className="text-xs text-zinc-500 mb-1">Subject line</div>
-          <div className="bg-zinc-900 border border-zinc-700 rounded-lg px-4 py-2 text-sm text-zinc-200 mb-4 font-medium">{subjectLine}</div>
+          <div className="bg-muted border border-border rounded-lg px-4 py-2 text-sm text-zinc-200 mb-4 font-medium">{subjectLine}</div>
           <div className="text-xs text-zinc-500 mb-1">Email body</div>
-          <pre className="bg-zinc-900 border border-zinc-700 rounded-lg px-4 py-3 text-sm text-zinc-200 whitespace-pre-wrap font-sans leading-relaxed">{body}</pre>
+          <pre className="bg-muted border border-border rounded-lg px-4 py-3 text-sm text-zinc-200 whitespace-pre-wrap font-sans leading-relaxed">{body}</pre>
         </div>
         <div className="flex gap-3 px-5 py-4 border-t border-zinc-800 shrink-0">
           <Button onClick={copy} variant="outline" className="gap-2 flex-1">
@@ -188,7 +188,7 @@ function SuggestionCard({ suggestion, onApprove, onDeny }) {
         )}
 
         {expanded && suggestion.draft && (
-          <pre className="text-xs text-zinc-300 bg-zinc-900/60 border border-zinc-800 rounded-lg p-3 whitespace-pre-wrap font-sans leading-relaxed max-h-48 overflow-y-auto">
+          <pre className="text-xs text-zinc-300 bg-muted/60 border border-border rounded-lg p-3 whitespace-pre-wrap font-sans leading-relaxed max-h-48 overflow-y-auto">
             {suggestion.draft}
           </pre>
         )}

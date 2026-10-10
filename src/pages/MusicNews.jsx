@@ -169,23 +169,23 @@ export default function MusicNews() {
         </div>
 
         {/* Tabs: Feed vs Saved */}
-        <div className="flex gap-1 p-1 rounded-xl bg-zinc-900 border border-zinc-800 w-fit">
+        <div className="flex gap-1 p-1 rounded-xl bg-muted border border-border w-fit">
           <button onClick={() => setActiveTab("feed")}
-            className={`px-4 py-1.5 rounded-lg text-sm font-medium transition-colors ${activeTab === "feed" ? "bg-primary text-black" : "text-zinc-400 hover:text-white"}`}>
+            className={`px-4 py-1.5 rounded-lg text-sm font-medium transition-colors ${activeTab === "feed" ? "bg-primary text-black" : "text-muted-foreground hover:text-foreground"}`}>
             Feed
           </button>
           <button onClick={() => setActiveTab("scroll")}
-            className={`flex items-center gap-1.5 px-4 py-1.5 rounded-lg text-sm font-medium transition-colors ${activeTab === "scroll" ? "bg-primary text-black" : "text-zinc-400 hover:text-white"}`}>
+            className={`flex items-center gap-1.5 px-4 py-1.5 rounded-lg text-sm font-medium transition-colors ${activeTab === "scroll" ? "bg-primary text-black" : "text-muted-foreground hover:text-foreground"}`}>
             <PlayCircle className="h-3.5 w-3.5" />
             Scroll
           </button>
           <button onClick={() => setActiveTab("dives")}
-            className={`flex items-center gap-1.5 px-4 py-1.5 rounded-lg text-sm font-medium transition-colors ${activeTab === "dives" ? "bg-primary text-black" : "text-zinc-400 hover:text-white"}`}>
+            className={`flex items-center gap-1.5 px-4 py-1.5 rounded-lg text-sm font-medium transition-colors ${activeTab === "dives" ? "bg-primary text-black" : "text-muted-foreground hover:text-foreground"}`}>
             <Sparkles className="h-3.5 w-3.5" />
             Deep Dives
           </button>
           <button onClick={() => setActiveTab("saved")}
-            className={`flex items-center gap-1.5 px-4 py-1.5 rounded-lg text-sm font-medium transition-colors ${activeTab === "saved" ? "bg-primary text-black" : "text-zinc-400 hover:text-white"}`}>
+            className={`flex items-center gap-1.5 px-4 py-1.5 rounded-lg text-sm font-medium transition-colors ${activeTab === "saved" ? "bg-primary text-black" : "text-muted-foreground hover:text-foreground"}`}>
             <Bookmark className="h-3.5 w-3.5" />
             Saved
             {saved.length > 0 && (
@@ -258,7 +258,7 @@ export default function MusicNews() {
             <div className="flex gap-2 overflow-x-auto pb-1 no-scrollbar">
               {CATEGORIES.map(cat => (
                 <button key={cat} onClick={() => setActiveCategory(cat)}
-                  className={`shrink-0 text-xs px-3 py-1.5 rounded-full border transition-colors ${activeCategory === cat ? "bg-primary text-black border-primary" : "border-zinc-700 text-zinc-400 hover:border-zinc-500 hover:text-white"}`}>
+                  className={`shrink-0 text-xs px-3 py-1.5 rounded-full border transition-colors ${activeCategory === cat ? "bg-primary text-black border-primary" : "border-border text-muted-foreground hover:border-foreground/40 hover:text-foreground"}`}>
                   {cat}
                 </button>
               ))}

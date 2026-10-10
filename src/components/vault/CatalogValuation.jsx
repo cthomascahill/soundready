@@ -49,7 +49,7 @@ export default function CatalogValuation() {
             Slide to your average monthly catalog revenue and see an estimated advance from SoundReady Records — 12 months of your revenue, paid upfront.
           </p>
         </div>
-        <span className="text-[10px] px-2.5 py-1 rounded-full border border-zinc-700 bg-zinc-900 text-zinc-400 shrink-0">
+        <span className="text-[10px] px-2.5 py-1 rounded-full border border-border bg-secondary text-muted-foreground shrink-0">
           Estimate only · not a binding offer
         </span>
       </div>

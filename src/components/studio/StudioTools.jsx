@@ -24,7 +24,7 @@ export default function StudioTools({ onTool, loading, activeTool }) {
             className={`flex items-center gap-2 px-3 py-2.5 rounded-xl border text-sm font-medium transition-all text-left ${
               activeTool === t.id && loading
                 ? "bg-primary/20 border-primary text-primary"
-                : "border-zinc-700 bg-zinc-900 text-zinc-300 hover:border-primary/50 hover:text-white hover:bg-zinc-800"
+                : "border-zinc-700 bg-zinc-900 text-white/80 hover:border-primary/50 hover:text-white hover:bg-zinc-800"
             } disabled:opacity-60 disabled:cursor-not-allowed`}
           >
             <span className="text-base shrink-0">{t.emoji}</span>

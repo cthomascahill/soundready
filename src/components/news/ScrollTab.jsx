@@ -98,7 +98,7 @@ export default function ScrollTab({ genre }) {
               className="text-xs text-zinc-400 hover:text-primary flex items-center gap-1 shrink-0">
               <Youtube className="h-3.5 w-3.5" /> YouTube
             </a>
-            <button onClick={() => setPlaying(null)} className="text-zinc-500 hover:text-white shrink-0">
+            <button onClick={() => setPlaying(null)} className="text-zinc-500 hover:text-foreground shrink-0">
               <X className="h-4 w-4" />
             </button>
           </div>

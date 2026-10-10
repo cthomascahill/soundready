@@ -37,7 +37,7 @@ export default function OutcomeControl({ outcome, note, onRecord }) {
             className={`text-[10px] font-semibold px-2.5 py-1 rounded-full border transition-colors disabled:opacity-50 ${
               outcome === o.key
                 ? "bg-primary/15 text-primary border-primary/30"
-                : "border-zinc-700 text-zinc-400 hover:text-foreground hover:border-zinc-500"
+                : "border-border text-muted-foreground hover:text-foreground hover:border-foreground/40"
             }`}
           >
             {o.label}

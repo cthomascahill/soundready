@@ -54,7 +54,7 @@ Make them useful for actual songwriting — not just dictionary words. Include s
           value={word}
           onChange={e => setWord(e.target.value)}
           onKeyDown={e => e.key === "Enter" && search()}
-          className="bg-zinc-900 border-zinc-700 text-white placeholder:text-zinc-500 focus:ring-primary"
+          className="bg-zinc-900 border-zinc-700 text-white placeholder:text-white/50 focus:ring-primary"
         />
         <Button onClick={search} disabled={loading || !word.trim()} className="shrink-0">
           {loading ? <div className="h-4 w-4 border-2 border-primary-foreground/30 border-t-primary-foreground rounded-full animate-spin" /> : "Find"}
@@ -72,7 +72,7 @@ Make them useful for actual songwriting — not just dictionary words. Include s
                     <button
                       key={r}
                       onClick={() => onSelectRhyme(r)}
-                      className="px-2 py-1 rounded-lg bg-zinc-800 border border-zinc-700 text-xs text-zinc-300 hover:bg-primary/10 hover:border-primary/40 hover:text-white transition-all font-mono"
+                      className="px-2 py-1 rounded-lg bg-zinc-800 border border-zinc-700 text-xs text-white/80 hover:bg-primary/10 hover:border-primary/40 hover:text-white transition-all font-mono"
                     >
                       {r}
                     </button>

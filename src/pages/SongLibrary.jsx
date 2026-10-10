@@ -25,7 +25,7 @@ import { isProOrAbove } from "@/lib/tier";
 import { mirrorVaultSongsToTracker } from "@/lib/vaultTrackerSync";
 
 const STATUS_COLORS = {
-  Idea: "bg-zinc-700/50 text-zinc-300 border-zinc-600",
+  Idea: "bg-secondary text-foreground border-border",
   Demo: "bg-yellow-500/15 text-yellow-400 border-yellow-500/25",
   Recorded: "bg-blue-500/15 text-blue-400 border-blue-500/25",
   Mixed: "bg-purple-500/15 text-purple-400 border-purple-500/25",
@@ -75,7 +75,7 @@ function SongCard({ song, onEdit, viewMode, pipeline }) {
             <span key={m} className="text-[10px] px-2 py-0.5 rounded-full bg-primary/10 text-primary border border-primary/20 hidden sm:inline">{m}</span>
           ))}
           {song.tags?.slice(0, 1).map(t => (
-            <span key={t} className="text-[10px] px-2 py-0.5 rounded-full bg-zinc-800 text-zinc-400 border border-zinc-700 hidden md:inline">{t}</span>
+            <span key={t} className="text-[10px] px-2 py-0.5 rounded-full bg-secondary text-muted-foreground border border-border hidden md:inline">{t}</span>
           ))}
           <span className={`text-[10px] font-semibold px-2 py-0.5 rounded-full border ${STATUS_COLORS[song.status] || STATUS_COLORS.Demo}`}>
             {song.status}
@@ -117,7 +117,7 @@ function SongCard({ song, onEdit, viewMode, pipeline }) {
             <span key={m} className="text-[9px] px-1.5 py-0.5 rounded-full bg-primary/10 text-primary border border-primary/20">{m}</span>
           ))}
           {song.tags?.slice(0, 1).map(t => (
-            <span key={t} className="text-[9px] px-1.5 py-0.5 rounded-full bg-zinc-800 text-zinc-400 border border-zinc-700 flex items-center gap-1">
+            <span key={t} className="text-[9px] px-1.5 py-0.5 rounded-full bg-secondary text-muted-foreground border border-border flex items-center gap-1">
               <Tag className="h-2.5 w-2.5" />{t}
             </span>
           ))}
@@ -281,22 +281,22 @@ export default function SongLibrary() {
                 <Input placeholder="Search songs, tags, producer..." value={search} onChange={e => setSearch(e.target.value)} className="pl-9 bg-card border-zinc-800" />
               </div>
               <button onClick={() => setShowFilters(v => !v)}
-                className={`flex items-center gap-1.5 h-9 px-3 rounded-lg border text-sm transition-colors ${showFilters || hasFilters ? "border-primary/40 text-primary bg-primary/5" : "border-zinc-800 text-zinc-400 hover:border-zinc-600 hover:text-white"}`}>
+                className={`flex items-center gap-1.5 h-9 px-3 rounded-lg border text-sm transition-colors ${showFilters || hasFilters ? "border-primary/40 text-primary bg-primary/5" : "border-border text-muted-foreground hover:border-foreground/40 hover:text-foreground"}`}>
                 <SlidersHorizontal className="h-4 w-4" /> Filters
                 {hasFilters && <span className="h-1.5 w-1.5 rounded-full bg-primary" />}
               </button>
               <select value={sortBy} onChange={e => setSortBy(e.target.value)}
-                className="h-9 rounded-lg border border-zinc-800 bg-card px-3 text-sm text-zinc-300 focus:outline-none focus:ring-1 focus:ring-primary">
+                className="h-9 rounded-lg border border-border bg-card px-3 text-sm text-zinc-300 focus:outline-none focus:ring-1 focus:ring-primary">
                 <option value="newest">Newest</option>
                 <option value="oldest">Oldest</option>
                 <option value="title">A–Z</option>
                 <option value="status">Status</option>
               </select>
               <div className="flex rounded-lg border border-zinc-800 overflow-hidden">
-                <button onClick={() => setViewMode("grid")} className={`h-9 px-2.5 transition-colors ${viewMode === "grid" ? "bg-primary/10 text-primary" : "text-zinc-500 hover:text-white"}`}>
+                <button onClick={() => setViewMode("grid")} className={`h-9 px-2.5 transition-colors ${viewMode === "grid" ? "bg-primary/10 text-primary" : "text-zinc-500 hover:text-foreground"}`}>
                   <Grid className="h-4 w-4" />
                 </button>
-                <button onClick={() => setViewMode("list")} className={`h-9 px-2.5 transition-colors ${viewMode === "list" ? "bg-primary/10 text-primary" : "text-zinc-500 hover:text-white"}`}>
+                <button onClick={() => setViewMode("list")} className={`h-9 px-2.5 transition-colors ${viewMode === "list" ? "bg-primary/10 text-primary" : "text-zinc-500 hover:text-foreground"}`}>
                   <List className="h-4 w-4" />
                 </button>
               </div>
@@ -320,7 +320,7 @@ export default function SongLibrary() {
                     ))}
                   </div>
                   <select value={filterGenre} onChange={e => setFilterGenre(e.target.value)}
-                    className="h-7 rounded-full border border-zinc-700 bg-zinc-900 px-3 text-xs text-zinc-300 focus:outline-none">
+                    className="h-7 rounded-full border border-border bg-card px-3 text-xs text-foreground focus:outline-none">
                     <option value="">All Genres</option>
                     {GENRES.map(g => <option key={g} value={g}>{g}</option>)}
                   </select>

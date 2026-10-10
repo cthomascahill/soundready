@@ -48,9 +48,9 @@ export default function BeatUploader({ beatFile, setBeatFile, onBpmDetected }) {
         </button>
         <div className="flex-1 min-w-0">
           <p className="text-xs font-medium text-white truncate">{beatFile.name}</p>
-          <p className="text-[10px] text-zinc-500">{formatSize(beatFile.size)} · Beat loaded</p>
+          <p className="text-[10px] text-white/50">{formatSize(beatFile.size)} · Beat loaded</p>
         </div>
-        <button onClick={remove} className="text-zinc-500 hover:text-red-400 transition-colors shrink-0">
+        <button onClick={remove} className="text-white/50 hover:text-red-400 transition-colors shrink-0">
           <X className="h-4 w-4" />
         </button>
         <audio ref={audioRef} src={beatFile.localUrl} onEnded={() => setPlaying(false)} />
@@ -60,7 +60,7 @@ export default function BeatUploader({ beatFile, setBeatFile, onBpmDetected }) {
 
   return (
     <div>
-      <label className="text-xs text-zinc-400 mb-1.5 block">Beat / Instrumental</label>
+      <label className="text-xs text-white/60 mb-1.5 block">Beat / Instrumental</label>
       <div
         onDragOver={(e) => { e.preventDefault(); setDragging(true); }}
         onDragLeave={() => setDragging(false)}
@@ -73,12 +73,12 @@ export default function BeatUploader({ beatFile, setBeatFile, onBpmDetected }) {
         {uploading ? (
           <>
             <div className="h-5 w-5 border-2 border-primary/30 border-t-primary rounded-full animate-spin" />
-            <p className="text-xs text-zinc-400">Uploading beat...</p>
+            <p className="text-xs text-white/60">Uploading beat...</p>
           </>
         ) : (
           <>
-            <Music className={`h-5 w-5 ${dragging ? "text-primary" : "text-zinc-500"}`} />
-            <p className="text-xs text-zinc-400">Drop your beat here</p>
+            <Music className={`h-5 w-5 ${dragging ? "text-primary" : "text-white/50"}`} />
+            <p className="text-xs text-white/60">Drop your beat here</p>
             <p className="text-[10px] text-zinc-600">MP3, WAV, FLAC · The AI will use this as context</p>
           </>
         )}

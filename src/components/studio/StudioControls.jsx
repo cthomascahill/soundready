@@ -34,15 +34,15 @@ export default function StudioControls({ params, setParams, inputs, setInputs, b
           placeholder="Song title (optional)"
           value={params.title}
           onChange={e => update("title", e.target.value)}
-          className="bg-zinc-900 border-zinc-700 text-white placeholder:text-zinc-500 focus:ring-primary h-9 text-sm"
+          className="bg-zinc-900 border-zinc-700 text-white placeholder:text-white/50 focus:ring-primary h-9 text-sm"
         />
 
         {/* BPM Slider */}
         <div className="space-y-1.5">
           <div className="flex items-center justify-between">
-            <label className="text-xs text-zinc-400">BPM</label>
+            <label className="text-xs text-white/60">BPM</label>
             <span className="text-xs font-mono font-bold text-primary">
-              {params.bpm} <span className="text-zinc-500 font-normal">— {bpmLabel(params.bpm)}</span>
+              {params.bpm} <span className="text-white/50 font-normal">— {bpmLabel(params.bpm)}</span>
             </span>
           </div>
           <input
@@ -57,7 +57,7 @@ export default function StudioControls({ params, setParams, inputs, setInputs, b
 
         <div className="grid grid-cols-2 gap-2">
           <div>
-            <label className="text-xs text-zinc-400 mb-1 block">Key & Scale</label>
+            <label className="text-xs text-white/60 mb-1 block">Key & Scale</label>
             <select value={params.key} onChange={e => update("key", e.target.value)}
               className="w-full h-9 rounded-md border border-zinc-700 bg-zinc-900 px-2 text-xs text-white focus:outline-none focus:ring-1 focus:ring-primary">
               <option value="">Any Key</option>
@@ -65,7 +65,7 @@ export default function StudioControls({ params, setParams, inputs, setInputs, b
             </select>
           </div>
           <div>
-            <label className="text-xs text-zinc-400 mb-1 block">Genre</label>
+            <label className="text-xs text-white/60 mb-1 block">Genre</label>
             <select value={params.genre} onChange={e => update("genre", e.target.value)}
               className="w-full h-9 rounded-md border border-zinc-700 bg-zinc-900 px-2 text-xs text-white focus:outline-none focus:ring-1 focus:ring-primary">
               <option value="">Any Genre</option>
@@ -73,14 +73,14 @@ export default function StudioControls({ params, setParams, inputs, setInputs, b
             </select>
           </div>
           <div>
-            <label className="text-xs text-zinc-400 mb-1 block">Section</label>
+            <label className="text-xs text-white/60 mb-1 block">Section</label>
             <select value={params.section} onChange={e => update("section", e.target.value)}
               className="w-full h-9 rounded-md border border-zinc-700 bg-zinc-900 px-2 text-xs text-white focus:outline-none focus:ring-1 focus:ring-primary">
               {SECTIONS.map(s => <option key={s}>{s}</option>)}
             </select>
           </div>
           <div>
-            <label className="text-xs text-zinc-400 mb-1 block">Rhyme Scheme</label>
+            <label className="text-xs text-white/60 mb-1 block">Rhyme Scheme</label>
             <select value={params.rhymeScheme} onChange={e => update("rhymeScheme", e.target.value)}
               className="w-full h-9 rounded-md border border-zinc-700 bg-zinc-900 px-2 text-xs text-white focus:outline-none focus:ring-1 focus:ring-primary">
               {SCHEMES.map(s => <option key={s}>{s}</option>)}
@@ -93,11 +93,11 @@ export default function StudioControls({ params, setParams, inputs, setInputs, b
 
         {/* Moods */}
         <div>
-          <label className="text-xs text-zinc-400 mb-1.5 block">Mood / Vibe</label>
+          <label className="text-xs text-white/60 mb-1.5 block">Mood / Vibe</label>
           <div className="flex flex-wrap gap-1.5">
             {MOODS.map(m => (
               <button key={m} onClick={() => toggleMood(m)}
-                className={`px-2.5 py-1 rounded-full text-xs font-medium border transition-all ${params.moods.includes(m) ? "bg-primary text-black border-primary" : "border-zinc-700 text-zinc-400 hover:border-zinc-500 hover:text-white"}`}>
+                className={`px-2.5 py-1 rounded-full text-xs font-medium border transition-all ${params.moods.includes(m) ? "bg-primary text-black border-primary" : "border-zinc-700 text-white/60 hover:border-zinc-500 hover:text-white"}`}>
                 {m}
               </button>
             ))}
@@ -112,7 +112,7 @@ export default function StudioControls({ params, setParams, inputs, setInputs, b
         <p className="text-xs font-bold text-primary uppercase tracking-widest">Your Input</p>
 
         <div>
-          <label className="text-xs text-zinc-400 mb-1 block">Seed Lyrics / Starting Line</label>
+          <label className="text-xs text-white/60 mb-1 block">Seed Lyrics / Starting Line</label>
           <textarea
             value={inputs.seed}
             onChange={e => updateInput("seed", e.target.value)}
@@ -124,19 +124,19 @@ export default function StudioControls({ params, setParams, inputs, setInputs, b
 
         <Input placeholder="Topic / Theme (e.g. loyalty, heartbreak, grinding)"
           value={inputs.topic} onChange={e => updateInput("topic", e.target.value)}
-          className="bg-zinc-900 border-zinc-700 text-white placeholder:text-zinc-500 focus:ring-primary h-9 text-sm" />
+          className="bg-zinc-900 border-zinc-700 text-white placeholder:text-white/50 focus:ring-primary h-9 text-sm" />
 
         <Input placeholder="Words to include (comma-separated)"
           value={inputs.wordsInclude} onChange={e => updateInput("wordsInclude", e.target.value)}
-          className="bg-zinc-900 border-zinc-700 text-white placeholder:text-zinc-500 focus:ring-primary h-9 text-sm" />
+          className="bg-zinc-900 border-zinc-700 text-white placeholder:text-white/50 focus:ring-primary h-9 text-sm" />
 
         <Input placeholder="Words to avoid (comma-separated)"
           value={inputs.wordsAvoid} onChange={e => updateInput("wordsAvoid", e.target.value)}
-          className="bg-zinc-900 border-zinc-700 text-white placeholder:text-zinc-500 focus:ring-primary h-9 text-sm" />
+          className="bg-zinc-900 border-zinc-700 text-white placeholder:text-white/50 focus:ring-primary h-9 text-sm" />
 
         <Input placeholder="Reference artist style (e.g. write like J. Cole)"
           value={inputs.refArtist} onChange={e => updateInput("refArtist", e.target.value)}
-          className="bg-zinc-900 border-zinc-700 text-white placeholder:text-zinc-500 focus:ring-primary h-9 text-sm" />
+          className="bg-zinc-900 border-zinc-700 text-white placeholder:text-white/50 focus:ring-primary h-9 text-sm" />
       </div>
     </div>
   );

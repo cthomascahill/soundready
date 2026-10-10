@@ -54,7 +54,7 @@ export default function AlbumDemoLinkCard({ project, songs }) {
 
   if (loading) {
     return (
-      <div className="rounded-xl border border-zinc-800 bg-zinc-900/40 p-3 flex items-center gap-2 text-sm text-zinc-500">
+      <div className="rounded-xl border border-border bg-muted/50 p-3 flex items-center gap-2 text-sm text-zinc-500">
         <Loader2 className="h-4 w-4 animate-spin" /> Checking album demo link…
       </div>
     );
@@ -62,7 +62,7 @@ export default function AlbumDemoLinkCard({ project, songs }) {
 
   if (tracksWithAudio.length === 0) {
     return (
-      <div className="rounded-xl border border-zinc-800 bg-zinc-900/40 p-3 flex items-center gap-2 text-sm text-zinc-500">
+      <div className="rounded-xl border border-border bg-muted/50 p-3 flex items-center gap-2 text-sm text-zinc-500">
         <Disc3 className="h-4 w-4 text-zinc-600" />
         Add audio files to songs in this project to share an album demo link.
       </div>
@@ -71,7 +71,7 @@ export default function AlbumDemoLinkCard({ project, songs }) {
 
   if (!link) {
     return (
-      <div className="rounded-xl border border-zinc-800 bg-zinc-900/40 p-3">
+      <div className="rounded-xl border border-border bg-muted/50 p-3">
         <div className="flex items-center justify-between gap-3 flex-wrap">
           <div className="flex items-center gap-2 text-sm text-zinc-400">
             <Disc3 className="h-4 w-4 text-primary" />
@@ -104,7 +104,7 @@ export default function AlbumDemoLinkCard({ project, songs }) {
         </div>
       </div>
       <div className="flex items-center gap-2">
-        <code className="flex-1 min-w-0 truncate rounded-lg bg-zinc-900 border border-zinc-800 px-3 py-2 text-xs text-zinc-300">
+        <code className="flex-1 min-w-0 truncate rounded-lg bg-muted border border-border px-3 py-2 text-xs text-foreground">
           {shareUrl}
         </code>
         <Button size="sm" onClick={copy} className="gap-1.5 shrink-0">
