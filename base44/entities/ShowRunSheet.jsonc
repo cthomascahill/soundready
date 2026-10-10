@@ -1,0 +1,82 @@
+{
+  "name": "ShowRunSheet",
+  "type": "object",
+  "description": "The show-day run sheet for one gig: load-in, soundcheck, doors, set time, parking, venue contact and merch/deal notes. Built by the artist, copied and shared with band and crew.",
+  "properties": {
+    "show_date": {
+      "type": "string",
+      "format": "date",
+      "description": "Date of the show"
+    },
+    "venue": {
+      "type": "string",
+      "description": "Venue name"
+    },
+    "city": {
+      "type": "string",
+      "description": "City / state of the show"
+    },
+    "load_in": {
+      "type": "string",
+      "description": "Load-in time"
+    },
+    "soundcheck": {
+      "type": "string",
+      "description": "Soundcheck time"
+    },
+    "doors": {
+      "type": "string",
+      "description": "Doors time"
+    },
+    "set_time": {
+      "type": "string",
+      "description": "Set start time"
+    },
+    "set_length": {
+      "type": "string",
+      "description": "Set length, e.g. 60 min"
+    },
+    "parking": {
+      "type": "string",
+      "description": "Where to park and load in gear"
+    },
+    "contact_name": {
+      "type": "string",
+      "description": "Venue day-of contact"
+    },
+    "contact_phone": {
+      "type": "string",
+      "description": "Venue day-of contact phone"
+    },
+    "deal_note": {
+      "type": "string",
+      "description": "How and when the gig pays"
+    },
+    "merch_note": {
+      "type": "string",
+      "description": "Merch table location, venue cut, rules"
+    },
+    "notes": {
+      "type": "string",
+      "description": "Anything the band and crew need to know"
+    }
+  },
+  "required": [
+    "venue",
+    "show_date"
+  ],
+  "rls": {
+    "read": {
+      "created_by_id": "{{user.id}}"
+    },
+    "create": {
+      "created_by_id": "{{user.id}}"
+    },
+    "update": {
+      "created_by_id": "{{user.id}}"
+    },
+    "delete": {
+      "created_by_id": "{{user.id}}"
+    }
+  }
+}

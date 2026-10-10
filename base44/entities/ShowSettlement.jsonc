@@ -1,0 +1,99 @@
+{
+  "name": "ShowSettlement",
+  "type": "object",
+  "description": "The settlement for one show: deal terms, door count and gross, deductions, merch take, and the computed net payout, tracked from the night of the show until the artist is paid.",
+  "properties": {
+    "show_date": {
+      "type": "string",
+      "format": "date",
+      "description": "Date of the show"
+    },
+    "venue": {
+      "type": "string",
+      "description": "Venue name"
+    },
+    "city": {
+      "type": "string",
+      "description": "City / state of the show"
+    },
+    "deal_type": {
+      "type": "string",
+      "enum": [
+        "guarantee",
+        "door_split",
+        "guarantee_plus_door",
+        "flat"
+      ],
+      "default": "guarantee",
+      "description": "The deal: flat guarantee, door split, guarantee plus door split, or flat fee already paid"
+    },
+    "guarantee": {
+      "type": "number",
+      "description": "Guarantee or flat fee amount; 0 for pure door deals"
+    },
+    "door_count": {
+      "type": "number",
+      "description": "Paid heads counted at the door"
+    },
+    "gross_door": {
+      "type": "number",
+      "description": "Gross door receipts before deductions"
+    },
+    "artist_door_pct": {
+      "type": "number",
+      "description": "Artist's share of the door, in percent (for door deals)"
+    },
+    "deductions": {
+      "type": "number",
+      "description": "Deductions taken off the artist's take, e.g. sound tech, door person"
+    },
+    "deductions_note": {
+      "type": "string",
+      "description": "What the deductions were for"
+    },
+    "merch_gross": {
+      "type": "number",
+      "description": "Gross merch sales for the night"
+    },
+    "merch_venue_pct": {
+      "type": "number",
+      "description": "Venue's cut of merch, in percent"
+    },
+    "net_payout": {
+      "type": "number",
+      "description": "Net owed to the artist for the night, computed from the terms above"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "pending",
+        "settled",
+        "paid"
+      ],
+      "default": "pending",
+      "description": "pending = numbers not final, settled = final count done, paid = money received"
+    },
+    "notes": {
+      "type": "string",
+      "description": "Anything notable about the settlement"
+    }
+  },
+  "required": [
+    "venue",
+    "show_date"
+  ],
+  "rls": {
+    "read": {
+      "created_by_id": "{{user.id}}"
+    },
+    "create": {
+      "created_by_id": "{{user.id}}"
+    },
+    "update": {
+      "created_by_id": "{{user.id}}"
+    },
+    "delete": {
+      "created_by_id": "{{user.id}}"
+    }
+  }
+}

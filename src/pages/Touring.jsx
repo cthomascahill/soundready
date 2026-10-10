@@ -1,6 +1,6 @@
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
-import { Mic2, Megaphone, Route, Wallet, FileText, ArrowRight, MapPin } from "lucide-react";
+import { Mic2, Megaphone, Route, Wallet, FileText, ArrowRight, MapPin, ClipboardList, Receipt } from "lucide-react";
 import SEO from "@/components/SEO";
 import { useLang } from "@/lib/i18n/LanguageContext";
 
@@ -41,6 +41,24 @@ const TOOLS = [
     border: "border-yellow-500/20",
     title: "Tour Finance",
     desc: "Every dollar in and out — guarantees, merch, expenses, payouts and taxes — so each run is actually profitable.",
+  },
+  {
+    to: "/show-run-sheet",
+    icon: ClipboardList,
+    color: "text-teal-400",
+    bg: "bg-teal-500/10",
+    border: "border-teal-500/20",
+    title: "Show Run Sheet",
+    desc: "The day-of game plan — load-in, soundcheck, doors, set time, parking, venue contact and merch notes — one card to copy and send to the band.",
+  },
+  {
+    to: "/settlements",
+    icon: Receipt,
+    color: "text-chart-5",
+    bg: "bg-chart-5/10",
+    border: "border-chart-5/20",
+    title: "Settlements",
+    desc: "The after-show math — door count, deal terms, deductions and merch — with the net payout tracked until the money is in your account.",
   },
   {
     to: "/contracts",

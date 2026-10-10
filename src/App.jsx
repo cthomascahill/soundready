@@ -45,6 +45,8 @@ import TourFinanceCanvas from './pages/TourFinanceCanvas';
 import TourPlanner from './pages/TourPlanner';
 import TourPlannerCanvas from './pages/TourPlannerCanvas';
 import TourOpportunities from './pages/TourOpportunities';
+import RunSheet from './pages/RunSheet';
+import Settlements from './pages/Settlements';
 import TaxEstimator from './pages/TaxEstimator';
 import SongTracker from './pages/SongTracker';
 import SharedTracker from './pages/SharedTracker';
@@ -152,6 +154,8 @@ const AuthenticatedApp = () => {
         <Route path="/tour-planner" element={pro(TourPlanner)} />
         <Route path="/tour-planner/:tourId" element={pro(TourPlannerCanvas)} />
         <Route path="/tour-opportunities" element={pro(TourOpportunities)} />
+        <Route path="/show-run-sheet" element={pro(RunSheet)} />
+        <Route path="/settlements" element={pro(Settlements)} />
         <Route path="/tax-estimator" element={<TaxEstimator />} />
         <Route path="/song-tracker" element={<SongTracker />} />
         <Route path="/tracker/shared" element={<SharedTracker />} />
