@@ -3,7 +3,7 @@ import { Flame, Timer, ExternalLink } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
 const SAM_ROBOT_URL =
-  "https://media.base44.com/images/public/69dcf0ecc907e43a438a626b/d124f0929_generated_f10ed4b3.png";
+  "https://media.base44.com/images/public/69dcf0ecc907e43a438a626b/b1abb1260_IMG_3924.png";
 
 function daysLabel(deadline) {
   if (!deadline) return null;

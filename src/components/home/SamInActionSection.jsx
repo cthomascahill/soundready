@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 import MacVideoWindow from "@/components/home/MacVideoWindow";
 import { useLang } from "@/lib/i18n/LanguageContext";
 
-const SAM_IMG = "https://media.base44.com/images/public/69dcf0ecc907e43a438a626b/d124f0929_generated_f10ed4b3.png";
+const SAM_IMG = "https://media.base44.com/images/public/69dcf0ecc907e43a438a626b/b1abb1260_IMG_3924.png";
 
 // Screen recording of Sam pitching a song to a Spotify playlist
 const SAM_DEMO_VIDEO_URL = "https://media.base44.com/videos/public/69dcf0ecc907e43a438a626b/f25f52b66_copy_EC329DAA-0119-48CB-A58E-6462C3C93327.MOV";
