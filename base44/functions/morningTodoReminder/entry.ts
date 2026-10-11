@@ -7,10 +7,25 @@ export default async function(req) {
   try {
     const base44 = createClientFromRequest(req);
 
-    const [allUsers, openTodos] = await Promise.all([
+    const [allUsers, openTodos, prefs] = await Promise.all([
       base44.asServiceRole.entities.User.list().catch(() => []),
       base44.asServiceRole.entities.ArtistTodo.filter({ done: false }, '-created_date', 1000).catch(() => []),
+      base44.asServiceRole.entities.TodoEmailPreference.filter({}, '-created_date', 1000).catch(() => []),
     ]);
+    const prefByUser = new Map(prefs.map((p) => [p.user_id, p]));
+
+    // Is today a send day for this artist's chosen cadence? Default: daily.
+    const now = new Date();
+    const shouldSend = (pref) => {
+      switch (pref?.cadence) {
+        case 'weekly': return now.getDay() === 0;      // Sunday
+        case 'monthly': return now.getDate() === 1;    // 1st of the month
+        case 'every_3_days':
+          if (!pref?.last_sent_at) return true;
+          return now - new Date(pref.last_sent_at) >= 3 * 24 * 60 * 60 * 1000;
+        default: return true;                          // daily
+      }
+    };
 
     const todosByUser = new Map();
     for (const todo of openTodos) {
@@ -24,6 +39,8 @@ export default async function(req) {
     for (const user of allUsers) {
       const todos = todosByUser.get(user.id) || [];
       if (!todos.length) continue;
+      const pref = prefByUser.get(user.id);
+      if (!shouldSend(pref)) continue;
       if (!user.email) { skipped++; continue; }
 
       const firstName = String(user.full_name || 'there').split(' ')[0];
@@ -46,6 +63,11 @@ export default async function(req) {
           },
         });
         emailsSent++;
+        if (pref) {
+          await base44.asServiceRole.entities.TodoEmailPreference.update(pref.id, {
+            last_sent_at: new Date().toISOString(),
+          }).catch(() => {});
+        }
       } catch (err) {
         console.log(`morningTodoReminder: failed for ${user.id}: ${err?.message || err}`);
         skipped++;

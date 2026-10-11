@@ -1,0 +1,43 @@
+{
+  "name": "TodoEmailPreference",
+  "type": "object",
+  "description": "How often the artist wants Sam's to-do reminder email: every morning, every 3 days, once a week on Sunday, or on the 1st of each month.",
+  "properties": {
+    "user_id": {
+      "type": "string",
+      "description": "User this preference belongs to"
+    },
+    "cadence": {
+      "type": "string",
+      "enum": [
+        "daily",
+        "every_3_days",
+        "weekly",
+        "monthly"
+      ],
+      "default": "daily",
+      "description": "How often Sam emails the artist's open to-do list"
+    },
+    "last_sent_at": {
+      "type": "string",
+      "description": "ISO timestamp of the last reminder email Sam sent this artist"
+    }
+  },
+  "required": [
+    "user_id"
+  ],
+  "rls": {
+    "read": {
+      "created_by_id": "{{user.id}}"
+    },
+    "create": {
+      "created_by_id": "{{user.id}}"
+    },
+    "update": {
+      "created_by_id": "{{user.id}}"
+    },
+    "delete": {
+      "created_by_id": "{{user.id}}"
+    }
+  }
+}
