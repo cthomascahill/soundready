@@ -27,10 +27,13 @@ export default async function(req) {
       if (!user.email) { skipped++; continue; }
 
       const firstName = String(user.full_name || 'there').split(' ')[0];
+      // Plain text, one bullet per line. The template renders the line breaks,
+      // so each to-do comes out as a clean, separate bullet.
       const todoLines = todos
         .slice(0, 8)
-        .map(t => `&bull; ${String(t.title).replace(/</g, '&lt;')}`)
-        .join('<br>');
+        .map(t => `• ${String(t.title).replace(/[<>]/g, '').trim()}`)
+        .filter(Boolean)
+        .join('\n');
 
       try {
         await base44.asServiceRole.integrations.Core.SendEmail({
