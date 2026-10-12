@@ -34,11 +34,11 @@ function SpotifyCard({ conn, onUpdated, oauthLoading, oauthError }) {
   const handleConnect = async () => {
     setLoading(true);
     setError("");
-    let appUrl = "https://soundready.ai";
-    try { appUrl = window.top.location.origin; } catch (e) { /* cross-origin iframe fallback */ }
+    // Spotify only accepts an exactly-registered redirect address, so always
+    // use the one live address (matches the exchange step below).
     const res = await base44.functions.invoke("spotifyOAuth", {
       action: "get_auth_url",
-      app_url: appUrl,
+      app_url: "https://soundready.ai",
     }).catch(e => ({ data: { error: friendlyError(e) } }));
     setLoading(false);
     if (res.data?.error) { setError(res.data.error); return; }
