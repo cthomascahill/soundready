@@ -156,7 +156,7 @@ export default function SidebarNav({ activePath, onNavigate }) {
               className={`flex w-full items-center gap-3 px-3 py-2 rounded-lg text-sm font-semibold tracking-wide transition-colors ${
                 groupActive
                   ? "text-primary bg-primary/10"
-                  : "text-foreground hover:bg-secondary"
+                  : "text-muted-foreground hover:text-foreground hover:bg-secondary"
               }`}
             >
               <GroupIcon className="h-4 w-4 shrink-0" />
