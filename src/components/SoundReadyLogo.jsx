@@ -15,18 +15,14 @@ export default function SoundReadyLogo({ size = 32 }) {
       >
         {/* Robot head outline */}
         <rect x="26" y="24" width="52" height="52" rx="14" stroke="currentColor" strokeWidth="6" />
-        {/* Ears */}
-        <path d="M26 41 A10 10 0 0 0 26 61 Z" fill="#00e676" />
-        <path d="M78 41 A10 10 0 0 1 78 61 Z" fill="#00e676" />
-        {/* Arched eyes */}
-        <path
-          d="M40 49 a5 5 0 0 1 10 0 M60 49 a5 5 0 0 1 10 0"
-          stroke="#00e676"
-          strokeWidth="5"
-          strokeLinecap="round"
-        />
-        {/* Smile */}
-        <path d="M44 62 a9 6.5 0 0 0 22 0" stroke="#00e676" strokeWidth="5" strokeLinecap="round" />
+        {/* Ears, oval eyes and smile in the site green */}
+        <g className="text-primary" fill="currentColor" stroke="currentColor">
+          <path d="M26 41 A10 10 0 0 0 26 61 Z" />
+          <path d="M78 41 A10 10 0 0 1 78 61 Z" />
+          <ellipse cx="45" cy="47" rx="6.5" ry="4.5" stroke="none" />
+          <ellipse cx="65" cy="47" rx="6.5" ry="4.5" stroke="none" />
+          <path d="M44 62 a9 6.5 0 0 0 22 0" strokeWidth="5" strokeLinecap="round" fill="none" />
+        </g>
         {/* Growth arrow from the top right */}
         <path
           d="M74 26 C 86 23, 94 17, 100 8 M100 8 L88 9 M100 8 L96 19"
@@ -38,7 +34,7 @@ export default function SoundReadyLogo({ size = 32 }) {
       </svg>
 
       <span className="font-heading font-black tracking-tight" style={{ fontSize: size * 0.62 }}>
-        <span className="text-foreground">sound</span><span className="text-[#00e676]">ready</span>
+        <span className="text-foreground">sound</span><span className="text-primary">ready</span>
       </span>
     </div>
   );

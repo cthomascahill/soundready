@@ -9,7 +9,7 @@ const SCALE = 4;
 const W = 560;
 const H = 120;
 
-const SVG_FILE = `<svg xmlns="http://www.w3.org/2000/svg" width="560" height="120" viewBox="0 0 560 120"><g transform="translate(4,4) scale(1.12)"><rect x="26" y="24" width="52" height="52" rx="14" fill="none" stroke="white" stroke-width="6"/><path d="M26 41 A10 10 0 0 0 26 61 Z" fill="#00e676"/><path d="M78 41 A10 10 0 0 1 78 61 Z" fill="#00e676"/><path d="M40 49 a5 5 0 0 1 10 0 M60 49 a5 5 0 0 1 10 0" stroke="#00e676" stroke-width="5" stroke-linecap="round" fill="none"/><path d="M44 62 a9 6.5 0 0 0 22 0" stroke="#00e676" stroke-width="5" stroke-linecap="round" fill="none"/><path d="M74 26 C 86 23, 94 17, 100 8 M100 8 L88 9 M100 8 L96 19" stroke="white" stroke-width="6" stroke-linecap="round" stroke-linejoin="round" fill="none"/></g><text x="137" y="84" font-family="'Space Grotesk', Arial, sans-serif" font-weight="900" font-size="70" letter-spacing="-1.75"><tspan fill="#ffffff">sound</tspan><tspan fill="#00e676">ready</tspan></text></svg>`;
+const SVG_FILE = `<svg xmlns="http://www.w3.org/2000/svg" width="560" height="120" viewBox="0 0 560 120"><g transform="translate(4,4) scale(1.12)"><rect x="26" y="24" width="52" height="52" rx="14" fill="none" stroke="white" stroke-width="6"/><path d="M26 41 A10 10 0 0 0 26 61 Z" fill="#21c45d"/><path d="M78 41 A10 10 0 0 1 78 61 Z" fill="#21c45d"/><ellipse cx="45" cy="47" rx="6.5" ry="4.5" fill="#21c45d"/><ellipse cx="65" cy="47" rx="6.5" ry="4.5" fill="#21c45d"/><path d="M44 62 a9 6.5 0 0 0 22 0" stroke="#21c45d" stroke-width="5" stroke-linecap="round" fill="none"/><path d="M74 26 C 86 23, 94 17, 100 8 M100 8 L88 9 M100 8 L96 19" stroke="white" stroke-width="6" stroke-linecap="round" stroke-linejoin="round" fill="none"/></g><text x="137" y="84" font-family="'Space Grotesk', Arial, sans-serif" font-weight="900" font-size="70" letter-spacing="-1.75"><tspan fill="#ffffff">sound</tspan><tspan fill="#21c45d">ready</tspan></text></svg>`;
 
 
 
@@ -44,7 +44,7 @@ async function renderLogo(darkBackground) {
   ctx.roundRect(26, 24, 52, 52, 14);
   ctx.stroke();
   // Ears
-  ctx.fillStyle = "#00e676";
+  ctx.fillStyle = "#21c45d";
   ctx.beginPath();
   ctx.arc(26, 51, 10, Math.PI / 2, Math.PI * 1.5, false);
   ctx.closePath();
@@ -53,15 +53,15 @@ async function renderLogo(darkBackground) {
   ctx.arc(78, 51, 10, Math.PI * 1.5, Math.PI / 2, false);
   ctx.closePath();
   ctx.fill();
-  // Arched eyes and smile
-  ctx.strokeStyle = "#00e676";
+  // Oval eyes and smile
+  ctx.strokeStyle = "#21c45d";
   ctx.lineWidth = 5;
   ctx.beginPath();
-  ctx.arc(45, 49, 5, Math.PI, Math.PI * 2, false);
-  ctx.stroke();
+  ctx.ellipse(45, 47, 6.5, 4.5, 0, 0, Math.PI * 2, false);
+  ctx.fill();
   ctx.beginPath();
-  ctx.arc(65, 49, 5, Math.PI, Math.PI * 2, false);
-  ctx.stroke();
+  ctx.ellipse(65, 47, 6.5, 4.5, 0, 0, Math.PI * 2, false);
+  ctx.fill();
   ctx.beginPath();
   ctx.ellipse(55, 62, 9, 6.5, 0, 0, Math.PI, false);
   ctx.stroke();
@@ -85,7 +85,7 @@ async function renderLogo(darkBackground) {
   const y = 84 * SCALE;
   ctx.fillStyle = "#ffffff";
   ctx.fillText("sound", x, y);
-  ctx.fillStyle = "#00e676";
+  ctx.fillStyle = "#21c45d";
   ctx.fillText("ready", x + ctx.measureText("sound").width, y);
 
   return canvas;
