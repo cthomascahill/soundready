@@ -98,42 +98,42 @@ function SongCard({ song, onEdit, viewMode, pipeline, onDelete }) {
   return (
     <motion.div initial={{ opacity: 0, scale: 0.97 }} animate={{ opacity: 1, scale: 1 }}
       onClick={() => onEdit(song)}
-      className="rounded-xl bg-card border border-border hover:border-primary/30 transition-all cursor-pointer p-3 flex items-start gap-3 group">
+      className="rounded-xl bg-card border border-border hover:border-primary/30 transition-all cursor-pointer p-4 flex items-start gap-4 group">
       <div className="relative shrink-0">
-        <VaultArtwork url={song.artwork_url} title={song.title} className="h-12 w-12 rounded-lg shrink-0 object-cover" iconClass="h-5 w-5" />
+        <VaultArtwork url={song.artwork_url} title={song.title} className="h-20 w-20 rounded-xl shrink-0 object-cover" iconClass="h-8 w-8" />
         {song.file_url && (
-          <div className="absolute -bottom-1.5 -right-1.5" onClick={(e) => e.stopPropagation()}>
+          <div className="absolute -bottom-2 -right-2" onClick={(e) => e.stopPropagation()}>
             <AudioMiniPlayer url={song.file_url} name={song.title} />
           </div>
         )}
       </div>
-      <div className="flex-1 min-w-0 space-y-1.5">
+      <div className="flex-1 min-w-0 space-y-2">
         <div className="flex items-start justify-between gap-2">
-          <p className="font-heading font-semibold text-sm truncate">{song.title}</p>
+          <p className="font-heading font-bold text-base truncate">{song.title}</p>
           <div className="flex items-center gap-1 shrink-0">
-            <span className={`text-[9px] font-semibold px-1.5 py-0.5 rounded-full border shrink-0 ${STATUS_COLORS[song.status] || STATUS_COLORS.Demo}`}>
+            <span className={`text-[10px] font-semibold px-2 py-0.5 rounded-full border shrink-0 ${STATUS_COLORS[song.status] || STATUS_COLORS.Demo}`}>
               {song.status}
             </span>
             <SongDeleteButton onDelete={() => onDelete(song.id)} />
           </div>
         </div>
         {(song.producer || song.genre) && (
-          <p className="text-[11px] text-zinc-500 truncate">
+          <p className="text-xs text-zinc-500 truncate">
             {[song.producer && `Prod. ${song.producer}`, song.genre].filter(Boolean).join(" · ")}
           </p>
         )}
-        <div className="flex flex-wrap gap-1">
+        <div className="flex flex-wrap gap-1.5">
           {song.moods?.slice(0, 2).map(m => (
-            <span key={m} className="text-[9px] px-1.5 py-0.5 rounded-full bg-primary/10 text-primary border border-primary/20">{m}</span>
+            <span key={m} className="text-[11px] px-2 py-0.5 rounded-full bg-primary/10 text-primary border border-primary/20">{m}</span>
           ))}
           {song.tags?.slice(0, 1).map(t => (
-            <span key={t} className="text-[9px] px-1.5 py-0.5 rounded-full bg-secondary text-muted-foreground border border-border flex items-center gap-1">
-              <Tag className="h-2.5 w-2.5" />{t}
+            <span key={t} className="text-[11px] px-2 py-0.5 rounded-full bg-secondary text-muted-foreground border border-border flex items-center gap-1">
+              <Tag className="h-3 w-3" />{t}
             </span>
           ))}
         </div>
         {pipeline && <TrackerStageDots song={pipeline} />}
-        <p className="text-[10px] text-zinc-600">{moment(song.created_date).format("MMM D")}</p>
+        <p className="text-[11px] text-zinc-600">{moment(song.created_date).format("MMM D")}</p>
       </div>
     </motion.div>
   );
@@ -377,7 +377,7 @@ export default function SongLibrary() {
                 )}
               </div>
             ) : viewMode === "grid" ? (
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3">
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
                 {filtered.map(song => (
                   <SongCard key={song.id} song={song} onEdit={openEdit} viewMode="grid"
                     pipeline={pipelineByTitle.get(song.title?.toLowerCase().trim())} onDelete={handleDelete} />
