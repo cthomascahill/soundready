@@ -9,7 +9,7 @@ const SCALE = 4;
 const W = 560;
 const H = 120;
 
-const SVG_FILE = `<svg xmlns="http://www.w3.org/2000/svg" width="560" height="120" viewBox="0 0 560 120"><defs><linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#35e273"/><stop offset="100%" stop-color="#14b050"/></linearGradient></defs><g transform="translate(4,4) scale(1.12)"><path d="M24 22 L24 78 L88 50 Z" fill="url(#bgGrad)" stroke="url(#bgGrad)" stroke-width="14" stroke-linejoin="round"/><path d="M30 74 C 48 67, 62 58, 79 34 M79 34 L75 49 M79 34 L66 35" stroke="white" stroke-width="8" stroke-linecap="round" stroke-linejoin="round" fill="none"/></g><text x="137" y="84" font-family="'Space Grotesk', Arial, sans-serif" font-weight="900" font-size="70" letter-spacing="-1.75"><tspan fill="#ffffff">sound</tspan><tspan fill="#1ad05f">ready</tspan></text></svg>`;
+const SVG_FILE = `<svg xmlns="http://www.w3.org/2000/svg" width="560" height="120" viewBox="0 0 560 120"><g transform="translate(4,4) scale(1.12)"><rect x="26" y="24" width="52" height="52" rx="14" fill="none" stroke="white" stroke-width="6"/><path d="M26 41 A10 10 0 0 0 26 61 Z" fill="#00e676"/><path d="M78 41 A10 10 0 0 1 78 61 Z" fill="#00e676"/><path d="M40 49 a5 5 0 0 1 10 0 M60 49 a5 5 0 0 1 10 0" stroke="#00e676" stroke-width="5" stroke-linecap="round" fill="none"/><path d="M44 62 a9 6.5 0 0 0 22 0" stroke="#00e676" stroke-width="5" stroke-linecap="round" fill="none"/><path d="M74 26 C 86 23, 94 17, 100 8 M100 8 L88 9 M100 8 L96 19" stroke="white" stroke-width="6" stroke-linecap="round" stroke-linejoin="round" fill="none"/></g><text x="137" y="84" font-family="'Space Grotesk', Arial, sans-serif" font-weight="900" font-size="70" letter-spacing="-1.75"><tspan fill="#ffffff">sound</tspan><tspan fill="#00e676">ready</tspan></text></svg>`;
 
 
 
@@ -31,32 +31,48 @@ async function renderLogo(darkBackground) {
     ctx.fillRect(0, 0, canvas.width, canvas.height);
   }
 
-  // Play-mark: same geometry as the top-bar logo
+  // Robot-head mark: same geometry as the top-bar logo
   ctx.save();
   ctx.translate(4 * SCALE, 4 * SCALE);
   ctx.scale(1.12 * SCALE, 1.12 * SCALE);
-  const g = ctx.createLinearGradient(17, 15, 95, 85); // lighter top-left, darker bottom-right
-  g.addColorStop(0, "#35e273");
-  g.addColorStop(1, "#14b050");
-  ctx.fillStyle = g;
-  ctx.strokeStyle = g;
-  ctx.lineWidth = 14;
-  ctx.lineJoin = "round";
-  ctx.beginPath();
-  ctx.moveTo(24, 22); ctx.lineTo(24, 78); ctx.lineTo(88, 50);
-  ctx.closePath();
-  ctx.fill();
-  ctx.stroke();
-  // Curved white arrow sweeping up to the upper right
-  ctx.strokeStyle = "#ffffff";
-  ctx.lineWidth = 8;
   ctx.lineCap = "round";
   ctx.lineJoin = "round";
+  // Head outline
+  ctx.strokeStyle = "#ffffff";
+  ctx.lineWidth = 6;
   ctx.beginPath();
-  ctx.moveTo(30, 74);
-  ctx.bezierCurveTo(48, 67, 62, 58, 79, 34);
-  ctx.moveTo(79, 34); ctx.lineTo(75, 49);
-  ctx.moveTo(79, 34); ctx.lineTo(66, 35);
+  ctx.roundRect(26, 24, 52, 52, 14);
+  ctx.stroke();
+  // Ears
+  ctx.fillStyle = "#00e676";
+  ctx.beginPath();
+  ctx.arc(26, 51, 10, Math.PI / 2, Math.PI * 1.5, false);
+  ctx.closePath();
+  ctx.fill();
+  ctx.beginPath();
+  ctx.arc(78, 51, 10, Math.PI * 1.5, Math.PI / 2, false);
+  ctx.closePath();
+  ctx.fill();
+  // Arched eyes and smile
+  ctx.strokeStyle = "#00e676";
+  ctx.lineWidth = 5;
+  ctx.beginPath();
+  ctx.arc(45, 49, 5, Math.PI, Math.PI * 2, false);
+  ctx.stroke();
+  ctx.beginPath();
+  ctx.arc(65, 49, 5, Math.PI, Math.PI * 2, false);
+  ctx.stroke();
+  ctx.beginPath();
+  ctx.ellipse(55, 62, 9, 6.5, 0, 0, Math.PI, false);
+  ctx.stroke();
+  // Growth arrow from the top right
+  ctx.strokeStyle = "#ffffff";
+  ctx.lineWidth = 6;
+  ctx.beginPath();
+  ctx.moveTo(74, 26);
+  ctx.bezierCurveTo(86, 23, 94, 17, 100, 8);
+  ctx.moveTo(100, 8); ctx.lineTo(88, 9);
+  ctx.moveTo(100, 8); ctx.lineTo(96, 19);
   ctx.stroke();
   ctx.restore();
 
@@ -69,7 +85,7 @@ async function renderLogo(darkBackground) {
   const y = 84 * SCALE;
   ctx.fillStyle = "#ffffff";
   ctx.fillText("sound", x, y);
-  ctx.fillStyle = "#1ad05f";
+  ctx.fillStyle = "#00e676";
   ctx.fillText("ready", x + ctx.measureText("sound").width, y);
 
   return canvas;
