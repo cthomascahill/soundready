@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { useAuth } from "@/lib/AuthContext";
 import { hasAIManager } from "@/lib/tier";
@@ -8,7 +8,7 @@ import {
   Home, Music2, Users, ListChecks, LayoutGrid, FolderOpen,
   Map, Newspaper, CreditCard, UserCircle,
   Route, Mic, Building2, Bot, Sparkles, Handshake, Wand2, ListTodo, Shield,
-  Flame, Calendar, Scale, Calculator,
+  Flame, Calendar, Scale, Calculator, ChevronDown,
 } from "lucide-react";
 
 const NAV_SECTIONS = (isAdmin) => [
@@ -85,6 +85,17 @@ const NAV_SECTIONS = (isAdmin) => [
   },
 ];
 
+const GROUP_ICONS = {
+  home: LayoutGrid,
+  music: Music2,
+  wall: Flame,
+  career: Map,
+  "ai-manager": Bot,
+  touring: Route,
+  team: Users,
+  account: UserCircle,
+};
+
 // Pages locked behind Artist Pro
 const PRO_ONLY = new Set([
   "/studio", "/artist-feed",
@@ -101,11 +112,27 @@ const AI_ONLY = new Set([
   "/contract-analyzer", "/ar-intelligence", "/deals",
 ]);
 
+const isItemActive = (to, activePath) =>
+  activePath === to ||
+  (to === "/history" && activePath.startsWith("/music")) ||
+  (to === "/touring" &&
+    (activePath.startsWith("/gig-finder") || activePath.startsWith("/tour-") || activePath.startsWith("/contracts")));
+
 export default function SidebarNav({ activePath, onNavigate }) {
   const { user } = useAuth();
   const { t } = useLang();
   const [planOpen, setPlanOpen] = useState(false);
+  const [openSections, setOpenSections] = useState({});
   const sections = NAV_SECTIONS(user?.role === "admin");
+
+  // The group holding the current page always stays open
+  useEffect(() => {
+    const current = sections.find((s) => s.items.some((item) => isItemActive(item.to, activePath)));
+    if (current) setOpenSections((prev) => ({ ...prev, [current.id]: true }));
+  }, [activePath, user?.role]);
+
+  const toggleSection = (id) =>
+    setOpenSections((prev) => ({ ...prev, [id]: !prev[id] }));
 
   // AI Manager subscribers have everything unlocked, so no badges are needed
   const tierBadge = (to) => {
@@ -116,58 +143,74 @@ export default function SidebarNav({ activePath, onNavigate }) {
   };
 
   return (
-    <div className="flex-1 overflow-y-auto px-3 py-4 space-y-5">
-      {sections.map((section) => (
-        <div key={section.label}>
-          <p className="px-3 mb-1.5 text-[10px] font-bold uppercase tracking-widest text-muted-foreground/60">
-            {t(section.label)}
-          </p>
-          <div className="space-y-0.5">
-            {section.items.map((item) => {
-              const active =
-                activePath === item.to ||
-                (item.to === "/history" && activePath.startsWith("/music")) ||
-                (item.to === "/touring" &&
-                  (activePath.startsWith("/gig-finder") || activePath.startsWith("/tour-") || activePath.startsWith("/contracts")));
-              const rowClass = `flex w-full items-center gap-3 px-3 py-2 rounded-lg text-sm transition-colors ${
-                active
-                  ? "bg-primary/10 text-primary font-medium"
-                  : "text-muted-foreground hover:text-foreground hover:bg-secondary"
-              }`;
-              const badge = tierBadge(item.to) && (
-                <span
-                  className={`ml-auto shrink-0 rounded-full border px-1.5 py-0.5 text-[9px] font-bold uppercase tracking-wide ${
-                    tierBadge(item.to) === "DM"
-                      ? "bg-primary/15 border-primary/25 text-primary"
-                      : "bg-chart-5/10 border-chart-5/25 text-chart-5"
-                  }`}
-                >
-                  {tierBadge(item.to)}
-                </span>
-              );
+    <div className="flex-1 overflow-y-auto px-3 py-4 space-y-1.5">
+      {sections.map((section) => {
+        const GroupIcon = GROUP_ICONS[section.id] || Home;
+        const open = !!openSections[section.id];
+        const groupActive = section.items.some((item) => isItemActive(item.to, activePath));
 
-              // "Your Plan" opens the plan dashboard popup instead of navigating
-              if (item.to === "/pricing-account") {
-                return (
-                  <button key={item.to} onClick={() => setPlanOpen(true)} className={rowClass}>
-                    <item.icon className="h-4 w-4 shrink-0" />
-                    {t(item.label)}
-                    {badge}
-                  </button>
-                );
-              }
+        return (
+          <div key={section.id}>
+            <button
+              onClick={() => toggleSection(section.id)}
+              className={`flex w-full items-center gap-3 px-3 py-2 rounded-lg text-sm font-semibold tracking-wide transition-colors ${
+                groupActive
+                  ? "text-primary"
+                  : "text-foreground/80 hover:text-foreground hover:bg-secondary"
+              }`}
+            >
+              <GroupIcon className="h-4 w-4 shrink-0" />
+              <span className="flex-1 text-left">{t(section.label)}</span>
+              <ChevronDown
+                className={`h-3.5 w-3.5 shrink-0 text-muted-foreground transition-transform ${open ? "rotate-180" : ""}`}
+              />
+            </button>
 
-              return (
-                <Link key={item.to} to={item.to} onClick={onNavigate} className={rowClass}>
-                  <item.icon className="h-4 w-4 shrink-0" />
-                  {t(item.label)}
-                  {badge}
-                </Link>
-              );
-            })}
+            {open && (
+              <div className="mt-0.5 mb-1 space-y-0.5 border-l border-border/70 ml-[22px] pl-2">
+                {section.items.map((item) => {
+                  const active = isItemActive(item.to, activePath);
+                  const rowClass = `flex w-full items-center gap-2.5 px-3 py-1.5 rounded-lg text-xs transition-colors ${
+                    active
+                      ? "bg-primary/10 text-primary font-medium"
+                      : "text-muted-foreground hover:text-foreground hover:bg-secondary"
+                  }`;
+                  const badge = tierBadge(item.to) && (
+                    <span
+                      className={`ml-auto shrink-0 rounded-full border px-1.5 py-0.5 text-[9px] font-bold uppercase tracking-wide ${
+                        tierBadge(item.to) === "DM"
+                          ? "bg-primary/15 border-primary/25 text-primary"
+                          : "bg-chart-5/10 border-chart-5/25 text-chart-5"
+                      }`}
+                    >
+                      {tierBadge(item.to)}
+                    </span>
+                  );
+
+                  // "Your Plan" opens the plan dashboard popup instead of navigating
+                  if (item.to === "/pricing-account") {
+                    return (
+                      <button key={item.to} onClick={() => setPlanOpen(true)} className={rowClass}>
+                        <item.icon className="h-3.5 w-3.5 shrink-0" />
+                        {t(item.label)}
+                        {badge}
+                      </button>
+                    );
+                  }
+
+                  return (
+                    <Link key={item.to} to={item.to} onClick={onNavigate} className={rowClass}>
+                      <item.icon className="h-3.5 w-3.5 shrink-0" />
+                      {t(item.label)}
+                      {badge}
+                    </Link>
+                  );
+                })}
+              </div>
+            )}
           </div>
-        </div>
-      ))}
+        );
+      })}
 
       <PlanDashboardDialog open={planOpen} onOpenChange={setPlanOpen} />
 
