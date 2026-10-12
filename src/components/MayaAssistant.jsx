@@ -449,7 +449,11 @@ export default function MayaAssistant() {
     if (!user?.id) return;
     try {
       const saved = JSON.parse(localStorage.getItem(`maya_chat_${user.id}`) || "[]");
-      if (Array.isArray(saved) && saved.length) setMessages(saved);
+      // Older conversations stored Sam's messages under other role names —
+      // normalize so every Sam message gets the full assistant treatment.
+      if (Array.isArray(saved) && saved.length) {
+        setMessages(saved.map(m => (m?.role && m.role !== "user" ? { ...m, role: "assistant" } : m)));
+      }
     } catch {}
   }, [user?.id]);
 
@@ -651,6 +655,10 @@ export default function MayaAssistant() {
                   <p className="text-xs text-muted-foreground max-w-[280px] mx-auto leading-relaxed">
                     I'm Sam, your AI music manager. I know your profile, your goals, your numbers. Ask me anything.
                   </p>
+                  <SamReadAloudButton
+                    text={`Hey ${artistName}. I'm Sam, your AI music manager. I know your profile, your goals, your numbers. Ask me anything.`}
+                    className="mx-auto"
+                  />
                 </div>
               )}
 
@@ -662,7 +670,7 @@ export default function MayaAssistant() {
 
               {messages.map((msg, i) => (
                 <div key={i} className={`flex gap-2.5 ${msg.role === "user" ? "flex-row-reverse" : ""}`}>
-                  {msg.role === "assistant" && (
+                  {msg.role !== "user" && (
                     <div className="h-7 w-7 rounded-full bg-primary/20 flex items-center justify-center shrink-0 mt-0.5">
                       <Sparkles className="h-3.5 w-3.5 text-primary" />
                     </div>
@@ -672,7 +680,7 @@ export default function MayaAssistant() {
                       ? "bg-primary text-black rounded-tr-sm font-medium"
                       : "bg-card text-card-foreground rounded-tl-sm border border-border"
                   }`}>
-                    {msg.role === "assistant" ? (
+                    {msg.role !== "user" ? (
                       <>
                         <ReactMarkdown
                           className="prose prose-sm prose-invert max-w-none [&>*:first-child]:mt-0 [&>*:last-child]:mb-0 dark:[&_strong]:text-white [&_ul]:my-1 [&_li]:my-0.5 [&_p]:my-1"

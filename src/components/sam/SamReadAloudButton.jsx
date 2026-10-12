@@ -20,7 +20,7 @@ export default function SamReadAloudButton({ text, label = "Have Sam read this",
       )}
     >
       {speaking ? <Square className="h-3 w-3" /> : <Volume2 className="h-3 w-3" />}
-      {speaking ? "Stop Sam" : label}
+      {speaking ? "Have Sam stop reading" : label}
     </button>
   );
 }
