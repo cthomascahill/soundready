@@ -9,24 +9,24 @@
     --font-heading: 'Space Grotesk', sans-serif;
     --font-body: 'Inter', sans-serif;
 
-    --background: 45 38% 95%;
+    --background: 45 26% 94%;
     --foreground: 30 8% 13%;
-    --card: 45 45% 98%;
+    --card: 45 34% 97%;
     --card-foreground: 30 8% 13%;
-    --popover: 45 45% 98%;
+    --popover: 45 34% 98%;
     --popover-foreground: 30 8% 13%;
     --primary: 142 71% 45%;
     --primary-foreground: 0 0% 0%;
-    --secondary: 45 28% 90%;
+    --secondary: 45 18% 90%;
     --secondary-foreground: 30 8% 13%;
-    --muted: 45 25% 91%;
-    --muted-foreground: 30 6% 30%;
+    --muted: 45 18% 90%;
+    --muted-foreground: 30 6% 32%;
     --accent: 142 71% 45%;
     --accent-foreground: 0 0% 0%;
     --destructive: 0 72% 51%;
     --destructive-foreground: 0 0% 98%;
-    --border: 40 8% 85%;
-    --input: 40 8% 85%;
+    --border: 40 10% 81%;
+    --input: 40 10% 81%;
     --ring: 142 71% 45%;
     --chart-1: 142 71% 40%;
     --chart-2: 142 60% 50%;
@@ -34,13 +34,13 @@
     --chart-4: 45 90% 50%;
     --chart-5: 200 80% 45%;
     --radius: 0.75rem;
-    --sidebar-background: 45 34% 92%;
+    --sidebar-background: 45 20% 89%;
     --sidebar-foreground: 30 8% 13%;
     --sidebar-primary: 142 71% 40%;
     --sidebar-primary-foreground: 0 0% 0%;
-    --sidebar-accent: 45 25% 87%;
+    --sidebar-accent: 45 14% 84%;
     --sidebar-accent-foreground: 30 8% 13%;
-    --sidebar-border: 40 8% 85%;
+    --sidebar-border: 40 10% 81%;
     --sidebar-ring: 142 71% 45%;
   }
 
