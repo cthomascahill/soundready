@@ -15,13 +15,13 @@ export default function SoundReadyLogo({ size = 32 }) {
       >
         {/* Robot head outline */}
         <rect x="26" y="24" width="52" height="52" rx="14" stroke="currentColor" strokeWidth="6" />
-        {/* Ears, oval eyes and smile in the site green */}
+        {/* Ears, small oval eyes and smile in the site green */}
         <g className="text-primary" fill="currentColor" stroke="currentColor">
-          <path d="M26 41 A10 10 0 0 0 26 61 Z" />
-          <path d="M78 41 A10 10 0 0 1 78 61 Z" />
-          <ellipse cx="45" cy="47" rx="6.5" ry="4.5" stroke="none" />
-          <ellipse cx="65" cy="47" rx="6.5" ry="4.5" stroke="none" />
-          <path d="M44 62 a9 6.5 0 0 0 22 0" strokeWidth="5" strokeLinecap="round" fill="none" />
+          <path d="M26 43 A8 8 0 0 0 26 59 Z" />
+          <path d="M78 43 A8 8 0 0 1 78 59 Z" />
+          <ellipse cx="45" cy="47" rx="5" ry="3.5" stroke="none" />
+          <ellipse cx="65" cy="47" rx="5" ry="3.5" stroke="none" />
+          <path d="M46 61 a8 5.5 0 0 0 16 0" strokeWidth="5" strokeLinecap="round" fill="none" />
         </g>
         {/* Growth arrow from the top right */}
         <path
