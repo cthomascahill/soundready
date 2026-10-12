@@ -12,6 +12,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import moment from "moment";
 import SongCardModal from "@/components/vault/SongCardModal";
+import SongDeleteButton from "@/components/vault/SongDeleteButton";
 import AlbumDemoLinkCard from "@/components/vault/AlbumDemoLinkCard";
 import ProjectsSidebar from "@/components/vault/ProjectsSidebar";
 import VaultCapPrompt, { VaultUsageBadge, FREE_VAULT_CAP } from "@/components/vault/VaultCapPrompt";
@@ -57,7 +58,7 @@ function AudioMiniPlayer({ url, name }) {
   );
 }
 
-function SongCard({ song, onEdit, viewMode, pipeline }) {
+function SongCard({ song, onEdit, viewMode, pipeline, onDelete }) {
   if (viewMode === "list") {
     return (
       <motion.div initial={{ opacity: 0, y: 6 }} animate={{ opacity: 1, y: 0 }}
@@ -83,6 +84,7 @@ function SongCard({ song, onEdit, viewMode, pipeline }) {
           {pipeline && <TrackerStageDots song={pipeline} />}
           {song.file_url && <AudioMiniPlayer url={song.file_url} name={song.title} />}
           <span className="text-xs text-zinc-600 hidden lg:block">{moment(song.created_date).format("MMM D")}</span>
+          <SongDeleteButton onDelete={() => onDelete(song.id)} />
         </div>
       </motion.div>
     );
@@ -103,9 +105,12 @@ function SongCard({ song, onEdit, viewMode, pipeline }) {
       <div className="flex-1 min-w-0 space-y-1.5">
         <div className="flex items-start justify-between gap-2">
           <p className="font-heading font-semibold text-sm truncate">{song.title}</p>
-          <span className={`text-[9px] font-semibold px-1.5 py-0.5 rounded-full border shrink-0 ${STATUS_COLORS[song.status] || STATUS_COLORS.Demo}`}>
-            {song.status}
-          </span>
+          <div className="flex items-center gap-1 shrink-0">
+            <span className={`text-[9px] font-semibold px-1.5 py-0.5 rounded-full border shrink-0 ${STATUS_COLORS[song.status] || STATUS_COLORS.Demo}`}>
+              {song.status}
+            </span>
+            <SongDeleteButton onDelete={() => onDelete(song.id)} />
+          </div>
         </div>
         {(song.producer || song.genre) && (
           <p className="text-[11px] text-zinc-500 truncate">
@@ -370,14 +375,14 @@ export default function SongLibrary() {
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3">
                 {filtered.map(song => (
                   <SongCard key={song.id} song={song} onEdit={openEdit} viewMode="grid"
-                    pipeline={pipelineByTitle.get(song.title?.toLowerCase().trim())} />
+                    pipeline={pipelineByTitle.get(song.title?.toLowerCase().trim())} onDelete={handleDelete} />
                 ))}
               </div>
             ) : (
               <div className="space-y-2">
                 {filtered.map(song => (
                   <SongCard key={song.id} song={song} onEdit={openEdit} viewMode="list"
-                    pipeline={pipelineByTitle.get(song.title?.toLowerCase().trim())} />
+                    pipeline={pipelineByTitle.get(song.title?.toLowerCase().trim())} onDelete={handleDelete} />
                 ))}
               </div>
             )}
