@@ -8,7 +8,7 @@ import {
   Home, Music2, Users, ListChecks, LayoutGrid, FolderOpen,
   Map, Newspaper, CreditCard, UserCircle,
   Route, Mic, Building2, Bot, Sparkles, Handshake, Wand2, ListTodo, Shield,
-  Flame, Calendar, Scale, Calculator, ChevronDown,
+  Flame, Calendar, Scale, Calculator, ChevronDown, UserCog,
 } from "lucide-react";
 
 const NAV_SECTIONS = (isAdmin) => [
@@ -55,6 +55,7 @@ const NAV_SECTIONS = (isAdmin) => [
       { to: "/tell-sam", icon: Wand2, label: "Tell Sam" },
       { to: "/todos", icon: ListTodo, label: "This Week" },
       { to: "/sam-desk", icon: Bot, label: "Sam's Desk" },
+      { to: "/sam-profile", icon: UserCog, label: "Sam's Profile" },
       { to: "/deals", icon: Handshake, label: "Deals" },
       { to: "/contract-analyzer", icon: Shield, label: "Contract Analyzer" },
       { to: "/industry-intel", icon: Sparkles, label: "Opportunities" },
