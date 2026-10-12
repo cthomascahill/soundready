@@ -7,7 +7,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import {
   Link2, BarChart2, Shield, Zap, Loader2, RefreshCw,
-  LogOut, AlertCircle, AlertTriangle, ArrowRight,
+  LogOut, AlertCircle, AlertTriangle, ArrowRight, Mic2,
 } from "lucide-react";
 import AccountTypePicker from "@/components/AccountTypePicker";
 import TikTokCard from "@/components/artistprofile/TikTokCard";
@@ -70,6 +70,37 @@ function SpotifyCard({ conn, onUpdated, oauthLoading, oauthError }) {
     else setError(res.data?.error || "Failed to disconnect");
   };
 
+  // Artist profile linking — paste the Spotify artist URL to pull artist stats
+  const [artistUrl, setArtistUrl] = useState("");
+  const [monthlyListeners, setMonthlyListeners] = useState(conn?.stats?.monthly_listeners || "");
+  useEffect(() => { setMonthlyListeners(conn?.stats?.monthly_listeners || ""); }, [conn?.last_synced]);
+
+  const linkArtist = async () => {
+    if (!artistUrl.trim()) return;
+    setLoading(true);
+    setError("");
+    const res = await base44.functions.invoke("spotifyOAuth", {
+      action: "link_artist",
+      artist_url: artistUrl.trim(),
+    }).catch(e => ({ data: { error: friendlyError(e) } }));
+    setLoading(false);
+    if (res.data?.error) { setError(res.data.error); return; }
+    setArtistUrl("");
+    if (res.data?.data) onUpdated(res.data.data);
+  };
+
+  const saveMonthlyListeners = async () => {
+    setLoading(true);
+    setError("");
+    const res = await base44.functions.invoke("spotifyOAuth", {
+      action: "save_artist_manual",
+      monthly_listeners: Number(monthlyListeners) || 0,
+    }).catch(e => ({ data: { error: friendlyError(e) } }));
+    setLoading(false);
+    if (res.data?.data) onUpdated(res.data.data);
+    else if (res.data?.error) setError(res.data.error);
+  };
+
   const isConnected = conn?.status === "connected" && conn?.connection_type === "oauth";
   const s = conn?.stats || {};
   const anyLoading = loading || oauthLoading;
@@ -88,10 +119,47 @@ function SpotifyCard({ conn, onUpdated, oauthLoading, oauthError }) {
             </div>
           </div>
 
+          {s.artist_id ? (
+            <div className="flex items-center gap-2 text-xs">
+              <Mic2 className="h-3.5 w-3.5 text-primary shrink-0" />
+              <span>Artist profile: <span className="text-primary font-semibold">{s.artist_name}</span></span>
+            </div>
+          ) : (
+            <p className="text-xs text-muted-foreground">
+              This is your personal Spotify account. Link your artist profile below to pull artist followers, popularity and top tracks.
+            </p>
+          )}
+
           <div className="grid grid-cols-2 gap-2">
-            <Stat label="Followers" value={(s.followers || 0).toLocaleString()} />
+            {s.artist_id
+              ? <Stat label="Artist Followers" value={(s.artist_followers || 0).toLocaleString()} />
+              : <Stat label="Followers" value={(s.followers || 0).toLocaleString()} />}
             <Stat label="Monthly Listeners" value={s.monthly_listeners ? s.monthly_listeners.toLocaleString() : "—"} />
             {s.popularity !== undefined && <Stat label="Popularity" value={`${s.popularity}/100`} />}
+          </div>
+
+          <div className="pt-2 border-t border-border space-y-3">
+            <p className="text-[10px] text-muted-foreground font-medium uppercase tracking-wider">Spotify Artist Profile</p>
+            <div className="flex gap-2">
+              <Input
+                placeholder="https://open.spotify.com/artist/..."
+                value={artistUrl}
+                onChange={e => setArtistUrl(e.target.value)}
+                className="text-sm h-9"
+              />
+              <Button size="sm" onClick={linkArtist} disabled={anyLoading || !artistUrl.trim()} className="shrink-0 gap-1.5">
+                {loading ? <Loader2 className="h-3.5 w-3.5 animate-spin" /> : <Link2 className="h-3.5 w-3.5" />}
+                Link Artist
+              </Button>
+            </div>
+            <div className="flex items-end gap-2">
+              <div className="flex-1">
+                <Field label="Monthly Listeners (from Spotify for Artists)" value={monthlyListeners} onChange={v => setMonthlyListeners(v)} placeholder="12400" type="number" />
+              </div>
+              <Button size="sm" variant="outline" onClick={saveMonthlyListeners} disabled={anyLoading} className="shrink-0">
+                {loading ? <Loader2 className="h-3.5 w-3.5 animate-spin" /> : null} Save
+              </Button>
+            </div>
           </div>
 
           {s.top_tracks?.length > 0 && (

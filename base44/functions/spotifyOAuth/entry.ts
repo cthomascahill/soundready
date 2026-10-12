@@ -208,6 +208,97 @@ Deno.serve(async (req) => {
       return Response.json({ success: true });
     }
 
+    // ── Link the artist profile (Spotify artist URL) ───────────────────────────
+    // The OAuth login covers the personal account. Artist data is public on
+    // Spotify, so a client-credentials token is enough to pull it.
+    if (action === 'link_artist') {
+      const { artist_url } = body;
+      const match = String(artist_url || '').match(/artist[/:]([A-Za-z0-9]+)/);
+      if (!match) {
+        return Response.json({ error: 'Paste your full Spotify artist link (open.spotify.com/artist/...)' }, { status: 400 });
+      }
+      const artistId = match[1];
+
+      const myConns = await base44.entities.PlatformConnection.filter(
+        { created_by_id: user.id, platform: 'spotify' }, '-created_date', 1
+      ).catch(() => []);
+      // Prefer the artist's own OAuth token; fall back to client credentials
+      let token = myConns[0]?.access_token || null;
+      if (!token) {
+        const ccRes = await fetch('https://accounts.spotify.com/api/token', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/x-www-form-urlencoded',
+            'Authorization': 'Basic ' + btoa(CLIENT_ID + ':' + CLIENT_SECRET),
+          },
+          body: new URLSearchParams({ grant_type: 'client_credentials' }),
+        });
+        const cc = await safeJson(ccRes);
+        if (!cc.access_token) {
+          return Response.json({ error: 'Could not authenticate with Spotify: ' + (cc.error || 'unknown error') }, { status: 400 });
+        }
+        token = cc.access_token;
+      }
+      const headers = { Authorization: `Bearer ${token}` };
+
+      const [artistRes, topRes] = await Promise.all([
+        fetch(`https://api.spotify.com/v1/artists/${artistId}`, { headers }),
+        fetch(`https://api.spotify.com/v1/artists/${artistId}/top-tracks?market=US`, { headers }),
+      ]);
+      if (artistRes.status === 404) {
+        return Response.json({ error: 'Artist not found — double-check the link' }, { status: 404 });
+      }
+      const artist = await safeJson(artistRes);
+      if (artist.error) {
+        return Response.json({ error: typeof artist.error === 'string' ? artist.error : artist.error.message }, { status: 400 });
+      }
+      const top = topRes.ok ? await safeJson(topRes) : {};
+      const existing = myConns;
+      if (!existing[0]) {
+        return Response.json({ error: 'Connect your Spotify account first' }, { status: 404 });
+      }
+
+      // Spotify strips followers/popularity/genres/top-tracks when the
+      // developer app has restricted access (the premium restriction) — only
+      // save the numbers that actually came back.
+      const artistStats = {
+        artist_id: artist.id,
+        artist_name: artist.name,
+        artist_followers: artist.followers?.total ?? existing[0].stats?.artist_followers ?? 0,
+        popularity: artist.popularity ?? existing[0].stats?.popularity ?? 0,
+        genres: (artist.genres?.length ? artist.genres : existing[0].stats?.genres) || [],
+        top_tracks: (top.tracks || []).slice(0, 5).map(t => ({
+          title: t.name,
+          popularity: t.popularity,
+          album: t.album?.name || null,
+          preview_url: t.preview_url || null,
+        })),
+      };
+
+      const updated = await base44.entities.PlatformConnection.update(existing[0].id, {
+        stats: { ...(existing[0].stats || {}), ...artistStats },
+        last_synced: new Date().toISOString(),
+      });
+      const { access_token: _a, refresh_token: _r, ...safeRecord } = updated;
+      return Response.json({ success: true, data: safeRecord });
+    }
+
+    // ── Save the one artist stat the Spotify API never exposes ────────────────
+    if (action === 'save_artist_manual') {
+      const { monthly_listeners } = body;
+      const existing = await base44.entities.PlatformConnection.filter(
+        { created_by_id: user.id, platform: 'spotify' }, '-created_date', 1
+      ).catch(() => []);
+      if (!existing[0]) {
+        return Response.json({ error: 'Connect your Spotify account first' }, { status: 404 });
+      }
+      const updated = await base44.entities.PlatformConnection.update(existing[0].id, {
+        stats: { ...(existing[0].stats || {}), monthly_listeners: Number(monthly_listeners) || 0 },
+      });
+      const { access_token: _a, refresh_token: _r, ...safeRecord } = updated;
+      return Response.json({ success: true, data: safeRecord });
+    }
+
     return Response.json({ error: 'Unknown action' }, { status: 400 });
 
   } catch (error) {

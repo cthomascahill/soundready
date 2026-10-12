@@ -148,6 +148,28 @@
         },
         "sync_placements": {
           "type": "number"
+        },
+        "artist_id": {
+          "type": "string",
+          "description": "Spotify artist ID of the linked artist profile"
+        },
+        "artist_name": {
+          "type": "string",
+          "description": "Linked Spotify artist profile name"
+        },
+        "artist_followers": {
+          "type": "number",
+          "description": "Followers of the linked Spotify artist profile"
+        },
+        "popularity": {
+          "type": "number",
+          "description": "Spotify artist popularity, 0-100"
+        },
+        "genres": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
         }
       }
     },
