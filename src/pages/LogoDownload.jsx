@@ -9,14 +9,9 @@ const SCALE = 4;
 const W = 560;
 const H = 120;
 
-const SVG_FILE = `<svg xmlns="http://www.w3.org/2000/svg" width="560" height="120" viewBox="0 0 560 120"><defs><linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#2ecc71"/><stop offset="100%" stop-color="#1a9e50"/></linearGradient></defs><g transform="translate(4,4) scale(1.12)"><path d="M10 92 L70 92 L108 50 L70 8 L10 8 Z" fill="#0a3d1e" transform="translate(3,4)"/><path d="M10 90 L68 90 L106 50 L68 10 L10 10 Z" fill="url(#bgGrad)"/><path d="M10 90 L38 90 L38 10 L10 10 Z" fill="#1a9e50" opacity="0.5"/><path d="M22 72 L50 44 L58 60 L78 36 M78 36 L78 50 M78 36 L64 36" stroke="white" stroke-width="6.5" stroke-linecap="round" stroke-linejoin="round" fill="none"/></g><text x="137" y="84" font-family="'Space Grotesk', Arial, sans-serif" font-weight="900" font-size="70" letter-spacing="-1.75"><tspan fill="#fafafa">sound</tspan><tspan fill="#69f29b">ready</tspan></text></svg>`;
+const SVG_FILE = `<svg xmlns="http://www.w3.org/2000/svg" width="560" height="120" viewBox="0 0 560 120"><defs><linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#35e273"/><stop offset="100%" stop-color="#14b050"/></linearGradient></defs><g transform="translate(4,4) scale(1.12)"><path d="M24 22 L24 78 L88 50 Z" fill="url(#bgGrad)" stroke="url(#bgGrad)" stroke-width="14" stroke-linejoin="round"/><path d="M30 74 C 48 67, 62 58, 79 34 M79 34 L75 49 M79 34 L66 35" stroke="white" stroke-width="8" stroke-linecap="round" stroke-linejoin="round" fill="none"/></g><text x="137" y="84" font-family="'Space Grotesk', Arial, sans-serif" font-weight="900" font-size="70" letter-spacing="-1.75"><tspan fill="#ffffff">sound</tspan><tspan fill="#1ad05f">ready</tspan></text></svg>`;
 
-const poly = (ctx, pts) => {
-  ctx.beginPath();
-  pts.forEach(([x, y], i) => (i === 0 ? ctx.moveTo(x, y) : ctx.lineTo(x, y)));
-  ctx.closePath();
-  ctx.fill();
-};
+
 
 // Draws the exact top-bar logo (mark + wordmark) onto a canvas.
 async function renderLogo(darkBackground) {
@@ -40,24 +35,28 @@ async function renderLogo(darkBackground) {
   ctx.save();
   ctx.translate(4 * SCALE, 4 * SCALE);
   ctx.scale(1.12 * SCALE, 1.12 * SCALE);
-  poly(ctx, [[13, 96], [73, 96], [111, 54], [73, 12], [13, 12]]); // shadow
-  const g = ctx.createLinearGradient(10, 10, 106, 90);
-  g.addColorStop(0, "#2ecc71");
-  g.addColorStop(1, "#1a9e50");
+  const g = ctx.createLinearGradient(17, 15, 95, 85); // lighter top-left, darker bottom-right
+  g.addColorStop(0, "#35e273");
+  g.addColorStop(1, "#14b050");
   ctx.fillStyle = g;
-  poly(ctx, [[10, 90], [68, 90], [106, 50], [68, 10], [10, 10]]);
-  ctx.globalAlpha = 0.5;
-  ctx.fillStyle = "#1a9e50";
-  poly(ctx, [[10, 90], [38, 90], [38, 10], [10, 10]]);
-  ctx.globalAlpha = 1;
+  ctx.strokeStyle = g;
+  ctx.lineWidth = 14;
+  ctx.lineJoin = "round";
+  ctx.beginPath();
+  ctx.moveTo(24, 22); ctx.lineTo(24, 78); ctx.lineTo(88, 50);
+  ctx.closePath();
+  ctx.fill();
+  ctx.stroke();
+  // Curved white arrow sweeping up to the upper right
   ctx.strokeStyle = "#ffffff";
-  ctx.lineWidth = 6.5;
+  ctx.lineWidth = 8;
   ctx.lineCap = "round";
   ctx.lineJoin = "round";
   ctx.beginPath();
-  ctx.moveTo(22, 72); ctx.lineTo(50, 44); ctx.lineTo(58, 60); ctx.lineTo(78, 36);
-  ctx.moveTo(78, 36); ctx.lineTo(78, 50);
-  ctx.moveTo(78, 36); ctx.lineTo(64, 36);
+  ctx.moveTo(30, 74);
+  ctx.bezierCurveTo(48, 67, 62, 58, 79, 34);
+  ctx.moveTo(79, 34); ctx.lineTo(75, 49);
+  ctx.moveTo(79, 34); ctx.lineTo(66, 35);
   ctx.stroke();
   ctx.restore();
 
@@ -68,9 +67,9 @@ async function renderLogo(darkBackground) {
   }
   const x = 137 * SCALE;
   const y = 84 * SCALE;
-  ctx.fillStyle = "#fafafa";
+  ctx.fillStyle = "#ffffff";
   ctx.fillText("sound", x, y);
-  ctx.fillStyle = "#69f29b";
+  ctx.fillStyle = "#1ad05f";
   ctx.fillText("ready", x + ctx.measureText("sound").width, y);
 
   return canvas;
