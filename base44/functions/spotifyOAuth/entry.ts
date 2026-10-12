@@ -69,7 +69,7 @@ Deno.serve(async (req) => {
           redirect_uri: redirectUri,
         }),
       });
-      const tokenData = await tokenRes.json();
+      const tokenData = await safeJson(tokenRes);
       if (!tokenData.access_token) {
         return Response.json({ error: 'Token exchange failed: ' + (tokenData.error_description || tokenData.error) }, { status: 400 });
       }
@@ -141,7 +141,7 @@ Deno.serve(async (req) => {
             refresh_token: conn.refresh_token,
           }),
         });
-        const refreshData = await refreshRes.json();
+        const refreshData = await safeJson(refreshRes);
         if (!refreshData.access_token) {
           // Revoked — clear tokens
           await base44.entities.PlatformConnection.update(conn.id, { status: 'disconnected', access_token: null, refresh_token: null });
@@ -216,6 +216,13 @@ Deno.serve(async (req) => {
   }
 });
 
+// Spotify sometimes answers with plain text (e.g. "Active premium
+// subscription required") instead of JSON — read it without crashing.
+async function safeJson(res) {
+  const text = await res.text();
+  try { return JSON.parse(text); } catch { return { error: text.slice(0, 160) }; }
+}
+
 async function fetchSpotifyData(accessToken) {
   const headers = { Authorization: `Bearer ${accessToken}` };
 
@@ -226,8 +233,8 @@ async function fetchSpotifyData(accessToken) {
   ]);
 
   if (meRes.status === 401) return { error: 'Unauthorized', status: 401 };
-  const me = await meRes.json();
-  if (me.error) return { error: me.error.message };
+  const me = await safeJson(meRes);
+  if (me.error) return { error: typeof me.error === 'string' ? me.error : me.error.message };
 
   // Get artist profile for the authenticated user using their Spotify artist URI if available
   // me endpoint returns user profile, not artist — use search to find artist ID
@@ -238,7 +245,7 @@ async function fetchSpotifyData(accessToken) {
       `https://api.spotify.com/v1/search?q=${encodeURIComponent(me.display_name || me.id)}&type=artist&limit=5`,
       { headers }
     );
-    const searchData = await searchRes.json();
+    const searchData = await safeJson(searchRes);
     // Try to find the best matching artist
     const artists = searchData.artists?.items || [];
     const exactMatch = artists.find(a => a.name.toLowerCase() === (me.display_name || '').toLowerCase()) || artists[0];
@@ -248,8 +255,8 @@ async function fetchSpotifyData(accessToken) {
         fetch(`https://api.spotify.com/v1/artists/${exactMatch.id}`, { headers }),
         fetch(`https://api.spotify.com/v1/artists/${exactMatch.id}/top-tracks?market=US`, { headers }),
       ]);
-      const artistData = await artistRes.json();
-      const topTracksData = await topTracksRes.json();
+      const artistData = await safeJson(artistRes);
+      const topTracksData = await safeJson(topTracksRes);
 
       artistStats = {
         artist_id: exactMatch.id,
@@ -265,7 +272,7 @@ async function fetchSpotifyData(accessToken) {
     }
   }
 
-  const followingData = followingRes.ok ? await followingRes.json() : {};
+  const followingData = followingRes.ok ? await safeJson(followingRes) : {};
 
   const stats = {
     followers: me.followers?.total || 0,
