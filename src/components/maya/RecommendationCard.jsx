@@ -8,6 +8,7 @@ import {
   Loader2, AlertTriangle, Check, X, Mail,
 } from "lucide-react";
 import OutcomeControl from "./OutcomeControl";
+import SamReadAloudButton from "@/components/sam/SamReadAloudButton";
 
 const KIND_META = {
   career_opportunity: { icon: Radar, label: "Career Opportunity", color: "text-primary bg-primary/10" },
@@ -63,6 +64,10 @@ export default function RecommendationCard({ rec, onUpdated }) {
 
   const statusBadge = done ? STATUS_BADGE[rec.status] : null;
 
+  // What Sam reads aloud: the suggestion, her reasoning, and the next step
+  const readText = [rec.title, rec.rationale, rec.proposed_action, rec.manual_next_step]
+    .filter(Boolean).join(". ");
+
   return (
     <div className="rounded-xl border border-border bg-card p-4 space-y-3">
       {/* Header */}
@@ -85,6 +90,7 @@ export default function RecommendationCard({ rec, onUpdated }) {
           </div>
           <p className="text-sm font-semibold leading-tight mt-0.5">{rec.title}</p>
         </div>
+        <SamReadAloudButton text={readText} className="shrink-0 mt-1" />
       </div>
 
       {/* Why Sam suggests this */}
