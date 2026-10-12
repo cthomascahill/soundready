@@ -10,26 +10,10 @@ import {
   LogOut, AlertCircle, AlertTriangle, ArrowRight,
 } from "lucide-react";
 import AccountTypePicker from "@/components/AccountTypePicker";
+import TikTokCard from "@/components/artistprofile/TikTokCard";
+import { getFreshness, FreshnessBadge, Stat, Field } from "@/components/artistprofile/platformShared";
 
-// ── Freshness helpers ─────────────────────────────────────────────────────────
-function getFreshness(last_synced) {
-  if (!last_synced) return { status: "missing", label: "Never synced", color: "bg-zinc-600", textColor: "text-zinc-400" };
-  const ageHours = (Date.now() - new Date(last_synced).getTime()) / (1000 * 60 * 60);
-  if (ageHours < 24) return { status: "live", label: "Live", color: "bg-green-500", textColor: "text-green-400" };
-  if (ageHours < 48) return { status: "syncing", label: "Syncing soon", color: "bg-yellow-400", textColor: "text-yellow-400" };
-  return { status: "stale", label: "Needs refresh", color: "bg-red-500", textColor: "text-red-400" };
-}
 
-function FreshnessBadge({ last_synced }) {
-  const f = getFreshness(last_synced);
-  return (
-    <div className={`flex items-center gap-1.5 text-xs font-medium ${f.textColor}`}>
-      <span className={`h-2 w-2 rounded-full ${f.color} ${f.status === "live" ? "animate-pulse" : ""}`} />
-      {f.label}
-      {last_synced && <span className="text-muted-foreground font-normal">· {new Date(last_synced).toLocaleDateString()}</span>}
-    </div>
-  );
-}
 
 // ── Spotify OAuth Card ────────────────────────────────────────────────────────
 function SpotifyCard({ conn, onUpdated, oauthLoading, oauthError }) {
@@ -295,27 +279,30 @@ function PlatformCard({ platform, conn, onUpdated, oauthLoading, oauthError }) {
             <p className="text-xs text-muted-foreground mt-0.5">
               {platform.id === "spotify" ? "OAuth · Auto-synced daily"
                 : platform.id === "youtube" ? "YouTube Data API v3 · Auto-synced daily"
+                : platform.id === "tiktok" ? "TikTok Display API · Auto-synced"
                 : "Manual entry"}
             </p>
           </div>
         </div>
         <span className={`text-[10px] font-bold px-2 py-0.5 rounded-full border ${
           platform.id === "spotify" ? "bg-primary/10 text-primary border-primary/20"
-          : platform.id === "youtube" ? "bg-red-500/10 text-red-400 border-red-500/20"
-          : "bg-secondary text-muted-foreground border-border"
+            : platform.id === "youtube" ? "bg-red-500/10 text-red-400 border-red-500/20"
+            : platform.id === "tiktok" ? "bg-chart-5/10 text-chart-5 border-chart-5/20"
+            : "bg-secondary text-muted-foreground border-border"
         }`}>
-          {platform.id === "spotify" ? "OAuth" : platform.id === "youtube" ? "API" : "Manual"}
+          {platform.id === "spotify" ? "OAuth" : platform.id === "youtube" ? "API" : platform.id === "tiktok" ? "OAuth" : "Manual"}
         </span>
       </div>
 
       {platform.id === "spotify" && <SpotifyCard conn={conn} onUpdated={onUpdated} oauthLoading={oauthLoading} oauthError={oauthError} />}
       {platform.id === "youtube" && <YouTubeCard conn={conn} onUpdated={onUpdated} />}
-      {(platform.id === "tiktok" || platform.id === "apple_music") && <ManualForm platform={platform} conn={conn} onUpdated={onUpdated} />}
+      {platform.id === "tiktok" && <TikTokCard conn={conn} onUpdated={onUpdated} />}
+      {platform.id === "apple_music" && <ManualForm platform={platform} conn={conn} onUpdated={onUpdated} />}
     </motion.div>
   );
 }
 
-// ── Manual form for TikTok / Apple Music ─────────────────────────────────────
+// ── Manual form for Apple Music ───────────────────────────────────────────────
 function ManualForm({ platform, conn, onUpdated }) {
   const existing = conn?.stats || {};
   const [form, setForm] = useState({ ...existing });
@@ -333,32 +320,6 @@ function ManualForm({ platform, conn, onUpdated }) {
     setLoading(false);
     if (res.data?.data) onUpdated(res.data.data);
   };
-
-  if (platform.id === "tiktok") return (
-    <div className="space-y-3">
-      {conn && (
-        <div className="rounded-xl bg-secondary/40 border border-border p-3 grid grid-cols-2 gap-2">
-          <Stat label="Followers" value={existing.followers ? existing.followers.toLocaleString() : "—"} />
-          <Stat label="Total Likes" value={existing.total_likes ? existing.total_likes.toLocaleString() : "—"} />
-          <Stat label="Videos" value={existing.video_count || "—"} />
-          <Stat label="Avg Views / Video" value={existing.avg_views_per_video ? existing.avg_views_per_video.toLocaleString() : "—"} />
-          {conn.last_synced && <p className="col-span-2"><FreshnessBadge last_synced={conn.last_synced} /></p>}
-        </div>
-      )}
-      <div className="grid grid-cols-2 gap-3">
-        <div className="col-span-2">
-          <Field label="TikTok Handle" value={form.tiktok_handle || ""} onChange={v => set("tiktok_handle", v)} placeholder="yourname" />
-        </div>
-        <Field label="Followers" value={form.followers || ""} onChange={v => set("followers", Number(v))} placeholder="12000" type="number" />
-        <Field label="Total Likes" value={form.total_likes || ""} onChange={v => set("total_likes", Number(v))} placeholder="450000" type="number" />
-        <Field label="Video Count" value={form.video_count || ""} onChange={v => set("video_count", Number(v))} placeholder="35" type="number" />
-        <Field label="Avg Views per Video" value={form.avg_views_per_video || ""} onChange={v => set("avg_views_per_video", Number(v))} placeholder="8500" type="number" />
-      </div>
-      <Button size="sm" onClick={handleSave} disabled={loading} className="gap-2">
-        {loading ? <Loader2 className="h-3.5 w-3.5 animate-spin" /> : null} Save TikTok Stats
-      </Button>
-    </div>
-  );
 
   if (platform.id === "apple_music") return (
     <div className="space-y-3">
@@ -440,23 +401,7 @@ function SelfReportedCard({ conn, onUpdated }) {
   );
 }
 
-function Stat({ label, value }) {
-  return (
-    <div>
-      <p className="text-[10px] text-muted-foreground">{label}</p>
-      <p className="text-sm font-bold">{value}</p>
-    </div>
-  );
-}
 
-function Field({ label, value, onChange, placeholder, type = "text" }) {
-  return (
-    <div className="space-y-1">
-      <p className="text-xs text-muted-foreground font-medium">{label}</p>
-      <Input type={type} value={value} onChange={e => onChange(e.target.value)} placeholder={placeholder} className="h-8 text-sm" />
-    </div>
-  );
-}
 
 const PLATFORMS = [
   { id: "spotify", name: "Spotify", emoji: "🎵", bg: "bg-green-500/10" },
@@ -515,6 +460,17 @@ export default function ConnectProfilesSection() {
       })
       .catch(() => {});
   }, [user]);
+
+  // Keep a connected TikTok fresh: quietly re-sync whenever it's over a day old
+  useEffect(() => {
+    const t = connections.tiktok;
+    if (!t || t.connection_type !== "oauth" || t.status !== "connected") return;
+    const ageMs = t.last_synced ? Date.now() - new Date(t.last_synced).getTime() : Infinity;
+    if (ageMs < 24 * 60 * 60 * 1000) return;
+    base44.functions.invoke("syncPlatformData", { platform: "tiktok_sync" })
+      .then(res => { if (res.data?.data) setConnections(prev => ({ ...prev, tiktok: res.data.data })); })
+      .catch(() => {});
+  }, [connections.tiktok?.id, connections.tiktok?.last_synced, connections.tiktok?.connection_type]);
 
   const handleAccountType = async (key) => {
     setAccountType(key);
@@ -581,7 +537,7 @@ export default function ConnectProfilesSection() {
         </div>
         <div className="flex-1">
           <p className="font-semibold">Sam has access to <span className="text-primary">{totalDataPoints} data points</span> about your career</p>
-          <p className="text-xs text-muted-foreground mt-0.5">Spotify and YouTube sync automatically. TikTok and Apple Music are entered manually.</p>
+          <p className="text-xs text-muted-foreground mt-0.5">Spotify, YouTube, and TikTok sync automatically. Apple Music is entered manually.</p>
         </div>
         <div className="text-right shrink-0">
           <p className="text-2xl font-bold text-primary">{connectedCount}</p>
@@ -613,7 +569,7 @@ export default function ConnectProfilesSection() {
             <p className="font-heading font-bold text-lg">Done connecting?</p>
           </div>
           <p className="text-sm text-muted-foreground leading-relaxed">
-            Connected data powers Sam's advice, your roadmap and your release strategy. Spotify and YouTube sync automatically — TikTok and Apple Music stats are entered manually.
+            Connected data powers Sam's advice, your roadmap and your release strategy. Spotify, YouTube, and TikTok sync automatically. Apple Music stats are entered manually.
           </p>
           <Button
             onClick={async () => {

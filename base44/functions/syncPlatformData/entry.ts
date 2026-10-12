@@ -1,4 +1,7 @@
-import { createClientFromRequest } from 'npm:@base44/sdk@0.8.31';
+import { createClientFromRequest } from 'npm:@base44/sdk@0.8.44';
+
+// "Artist TikTok" workspace connector — each artist connects their own account
+const TIKTOK_CONNECTOR_ID = '6ac576aac6c81b30e8f0a86d';
 
 Deno.serve(async (req) => {
   try {
@@ -301,7 +304,7 @@ Deno.serve(async (req) => {
       const { spotify_artist_id, profile_url: manualProfileUrl, ...cleanStats } = manual_stats || {};
       const record = {
         platform: sub_platform,
-        connection_type: 'manual',
+        connection_type: (existing.length > 0 && existing[0].connection_type) || 'manual',
         status: 'connected',
         last_synced: new Date().toISOString(),
         stats: cleanStats,
@@ -318,6 +321,80 @@ Deno.serve(async (req) => {
       }
 
       return Response.json({ success: true, data: saved });
+    }
+
+    // ── TikTok via the app-user OAuth connector ─────────────────────────────
+    if (platform === 'tiktok_sync') {
+      let accessToken;
+      try {
+        ({ accessToken } = await base44.asServiceRole.connectors.getCurrentAppUserConnection(TIKTOK_CONNECTOR_ID));
+      } catch (e) {
+        return Response.json({ error: 'TikTok is not connected yet. Tap Connect TikTok first.', needs_reconnect: true }, { status: 400 });
+      }
+
+      const fields = 'open_id,avatar_url,display_name,follower_count,following_count,likes_count,video_count';
+      const tiktokRes = await fetch('https://open.tiktokapis.com/v2/user/info/?fields=' + encodeURIComponent(fields), {
+        headers: { Authorization: 'Bearer ' + accessToken },
+      });
+      const tiktokData = await tiktokRes.json().catch(() => ({}));
+      if (!tiktokRes.ok || tiktokData.error) {
+        const msg = (tiktokData.error && (tiktokData.error.message || tiktokData.error.code)) || ('HTTP ' + tiktokRes.status);
+        return Response.json({ error: 'TikTok API: ' + msg }, { status: 400 });
+      }
+      const u = tiktokData.data && tiktokData.data.user;
+      if (!u) return Response.json({ error: 'TikTok did not return profile data' }, { status: 400 });
+
+      const existing = await base44.entities.PlatformConnection.filter(
+        { created_by_id: user.id, platform: 'tiktok' }, '-created_date', 1
+      ).catch(() => []);
+
+      // Keep artist-entered details the API can't provide (handle, avg views per video)
+      const prior = (existing[0] && existing[0].stats) || {};
+      const stats = {
+        ...prior,
+        followers: u.follower_count !== undefined ? u.follower_count : (prior.followers || 0),
+        total_likes: u.likes_count !== undefined ? u.likes_count : (prior.total_likes || 0),
+        video_count: u.video_count !== undefined ? u.video_count : (prior.video_count || 0),
+      };
+      if (u.following_count !== undefined) stats.following = u.following_count;
+
+      const record = {
+        platform: 'tiktok',
+        connection_type: 'oauth',
+        status: 'connected',
+        display_name: u.display_name || null,
+        profile_image_url: u.avatar_url || null,
+        raw_channel_id: u.open_id || null,
+        last_synced: new Date().toISOString(),
+        stats: stats,
+      };
+
+      let saved;
+      if (existing.length > 0) {
+        saved = await base44.entities.PlatformConnection.update(existing[0].id, record);
+      } else {
+        saved = await base44.entities.PlatformConnection.create(record);
+      }
+
+      return Response.json({ success: true, data: saved });
+    }
+
+    // ── TikTok Disconnect ─────────────────────────────────────────────────────
+    if (platform === 'tiktok_disconnect') {
+      const existing = await base44.entities.PlatformConnection.filter(
+        { created_by_id: user.id, platform: 'tiktok' }, '-created_date', 1
+      ).catch(() => []);
+      if (existing[0]) {
+        await base44.entities.PlatformConnection.update(existing[0].id, {
+          status: 'disconnected',
+          connection_type: 'manual',
+          stats: null,
+          display_name: null,
+          profile_image_url: null,
+          raw_channel_id: null,
+        });
+      }
+      return Response.json({ success: true });
     }
 
     return Response.json({ error: 'Unknown platform' }, { status: 400 });
