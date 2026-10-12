@@ -7,7 +7,7 @@ import {
   Music2, Plus, Search, Grid, List, Play, Pause, Tag, ListPlus,
   Folder, SlidersHorizontal, X, ChevronDown, Loader2
 } from "lucide-react";
-import { resolvePlayableAudioUrl } from "@/lib/audioPlayback";
+import { resolveAudioSource } from "@/lib/audioPlayback";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import moment from "moment";
@@ -45,9 +45,14 @@ function AudioMiniPlayer({ url, name }) {
     e.stopPropagation();
     if (playing) { audioRef.current.pause(); setPlaying(false); return; }
     setLoading(true);
-    const playable = await resolvePlayableAudioUrl(url);
-    audioRef.current.src = playable;
-    try { await audioRef.current.play(); setPlaying(true); } catch { setPlaying(false); }
+    try {
+      const playable = await resolveAudioSource(url);
+      audioRef.current.src = playable;
+      await audioRef.current.play();
+      setPlaying(true);
+    } catch {
+      setPlaying(false);
+    }
     setLoading(false);
   };
   return (

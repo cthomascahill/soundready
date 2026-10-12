@@ -19,6 +19,18 @@ const MIME_BY_EXT = {
 
 const cache = new Map();
 
+// Full source resolution for a stored song file: private storage references
+// become signed URLs first, then the result is made browser-playable.
+export async function resolveAudioSource(src) {
+  if (!src) return src;
+  if (!/^(https?:|blob:|data:)/.test(src)) {
+    const { base44 } = await import("@/api/base44Client");
+    const { signed_url } = await base44.integrations.Core.CreateFileSignedUrl({ file_uri: src, expires_in: 3600 });
+    return resolvePlayableAudioUrl(signed_url);
+  }
+  return resolvePlayableAudioUrl(src);
+}
+
 export async function resolvePlayableAudioUrl(src) {
   if (!src) return src;
   if (src.startsWith("blob:") || src.startsWith("data:")) return src;
