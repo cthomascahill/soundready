@@ -4,7 +4,7 @@ import TaskDraftCard from "@/components/tellsam/TaskDraftCard";
 import FeedbackControl from "@/components/tellsam/FeedbackControl";
 import { Button } from "@/components/ui/button";
 import {
-  Paperclip, ExternalLink, Lightbulb, AlertCircle, Loader2, RefreshCw, VolumeX,
+  Paperclip, ExternalLink, Lightbulb, AlertCircle, Loader2, RefreshCw,
 } from "lucide-react";
 import SamReadAloudButton from "@/components/sam/SamReadAloudButton";
 import useSamSpeech from "@/hooks/useSamSpeech";
@@ -129,11 +129,10 @@ export default function TaskDetail({ task, onChanged }) {
               {task.progress.depth === "quick" ? "Quick run" : "Thorough run"}
             </p>
           )}
-          {speaking && (
-            <Button onClick={stop} variant="outline" size="sm" className="gap-1.5 border-border">
-              <VolumeX className="h-3.5 w-3.5" /> Stop Sam
-            </Button>
-          )}
+          <SamReadAloudButton
+            text={task.progress?.message || STAGE_LABELS[task.progress?.stage] || "Sam is on it"}
+            className="mx-auto"
+          />
         </div>
       )}
 
