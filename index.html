@@ -6,14 +6,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="color-scheme" content="dark light" />
     <script>
-      // Paint the right theme before React loads (dark is the default)
+      // Paint the right theme before React loads (light is the default)
       try {
-        if (localStorage.getItem("theme") !== "light") {
+        if (localStorage.getItem("theme") === "dark") {
           document.documentElement.classList.add("dark");
         }
-      } catch (e) {
-        document.documentElement.classList.add("dark");
-      }
+      } catch (e) {}
     </script>
     <title>SoundReady — AI Career Management for Independent Artists</title>
     <meta name="description" content="SoundReady is the all-in-one career platform for independent artists: song tracker, playlist pitching, tour planning, contracts, and SAM, the AI manager that works your career around the clock." />

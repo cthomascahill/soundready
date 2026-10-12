@@ -1,12 +1,34 @@
 import { motion } from "framer-motion";
-import { CheckCircle2, MapPin, Mail, Clock3 } from "lucide-react";
+import { CheckCircle2, MapPin, Mail, Clock3, Send } from "lucide-react";
+import SamLogo from "@/components/SamLogo";
 import { useLang } from "@/lib/i18n/LanguageContext";
 
-// Product proof: a real task screenshot for the artist's ask, paired with a
-// readable example of SAM's actual output — one verified venue match and the
-// drafted pitch that came with it, waiting for approval.
-const TASK_SHOT =
-  "https://media.base44.com/images/public/69dcf0ecc907e43a438a626b/f25adaed0_Screenshot2026-10-09at103301AM.png";
+// Product proof: a light-mode mock of the artist's ask in the Tell Sam
+// composer, paired with a readable example of SAM's actual output — one
+// verified venue match and the drafted pitch waiting for approval.
+function TaskAskMock() {
+  return (
+    <div className="rounded-2xl border border-primary/20 bg-card overflow-hidden text-left pointer-events-none select-none shadow-xl">
+      <div className="px-5 pt-5 pb-3 space-y-3">
+        <div className="flex items-center gap-2.5">
+          <SamLogo className="h-5 w-5 text-primary" />
+          <p className="font-heading font-bold text-sm">Tell Sam what to do</p>
+        </div>
+        <div className="rounded-xl bg-secondary/40 border border-border p-4 text-sm leading-relaxed min-h-[96px]">
+          Find indie-rock rooms in Chicago that fit my sound and draft the booking emails.
+        </div>
+        <div className="rounded-lg bg-secondary/40 border border-border px-3 py-2 text-xs text-muted-foreground">
+          Who or where? (optional) — rooms within two hours of Chicago
+        </div>
+      </div>
+      <div className="flex items-center justify-end px-5 py-3.5 border-t border-border bg-secondary/30">
+        <span className="inline-flex items-center gap-1.5 text-xs font-semibold bg-primary text-primary-foreground rounded-md px-4 py-2">
+          <Send className="h-3.5 w-3.5" /> Give Sam the task
+        </span>
+      </div>
+    </div>
+  );
+}
 
 export default function SamTaskProof() {
   const { t } = useLang();
@@ -23,8 +45,10 @@ export default function SamTaskProof() {
       </div>
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 items-start">
         {/* The ask */}
-        <figure className="relative rounded-2xl border border-primary/30 bg-card overflow-hidden ring-1 ring-primary/40 shadow-[0_25px_90px_-20px_rgba(74,222,128,0.35)] lg:-rotate-1">
-          <img src={TASK_SHOT} alt="An artist's real task to SAM in the Tell Sam workspace" className="w-full" />
+        <figure className="relative rounded-2xl border border-primary/30 bg-card overflow-hidden ring-1 ring-primary/40 shadow-xl lg:-rotate-1">
+          <div className="p-3">
+            <TaskAskMock />
+          </div>
           <figcaption className="px-4 py-3 border-t border-border">
             <p className="font-heading font-bold text-sm">{t("The artist's ask, in plain words")}</p>
           </figcaption>

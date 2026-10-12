@@ -3,23 +3,19 @@ import { HandCoins, TrendingUp, Wand2, ListChecks, ArrowRight } from "lucide-rea
 import { Button } from "@/components/ui/button";
 import { useLang } from "@/lib/i18n/LanguageContext";
 
-// Real screenshots of the platform: Sam's task workspace and the Deals desk
-const TELL_SAM_SHOT =
-  "https://media.base44.com/images/public/69dcf0ecc907e43a438a626b/f25adaed0_Screenshot2026-10-09at103301AM.png";
-const DEALS_SHOT =
-  "https://media.base44.com/images/public/69dcf0ecc907e43a438a626b/aca367e72_Screenshot2026-10-09at103319AM.png";
+import StepTellSamScreen from "@/components/home/walkthrough/StepTellSamScreen";
+import DealsDeskMock from "@/components/home/DealsDeskMock";
 
+// Light-mode product screens: Sam's task workspace and the Deals desk
 const SHOTS = [
   {
-    src: TELL_SAM_SHOT,
-    alt: "SoundReady's Tell Sam workspace with the task composer and usage meter",
+    Screen: StepTellSamScreen,
     caption: "Tell Sam what to do",
     blurb: "Give Sam any task in plain words. Sam researches, drafts and reports back.",
     tilt: "lg:-rotate-1",
   },
   {
-    src: DEALS_SHOT,
-    alt: "SoundReady's Deals desk showing the catalog advance slider and deal outreach",
+    Screen: DealsDeskMock,
     caption: "Deals, advances and outreach",
     blurb: "Slide your catalog revenue and see what an advance could be worth upfront.",
     tilt: "lg:rotate-1",
@@ -59,17 +55,19 @@ export default function PlatformShowcaseSection() {
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 lg:gap-8 items-start">
           {SHOTS.map((shot, i) => (
-            <div key={shot.src} className={`relative group ${shot.span || ""}`}>
-              {/* Neon outer glow behind the card, Too Lost style; brightens on hover */}
-              <div className="absolute -inset-4 sm:-inset-6 rounded-3xl bg-primary/25 blur-3xl pointer-events-none transition-colors duration-300 group-hover:bg-primary/40" />
+            <div key={shot.caption} className={`relative group ${shot.span || ""}`}>
+              {/* Soft outer glow behind the card; brightens on hover */}
+              <div className="absolute -inset-4 sm:-inset-6 rounded-3xl bg-primary/15 blur-3xl pointer-events-none transition-colors duration-300 group-hover:bg-primary/30" />
               <motion.figure
                 initial={{ opacity: 0, y: 32 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ delay: i * 0.12 }}
-                className={`relative rounded-2xl border border-primary/30 bg-card overflow-hidden ring-1 ring-primary/40 shadow-[0_25px_90px_-20px_rgba(74,222,128,0.45)] ${shot.tilt} lg:hover:rotate-0 hover:-translate-y-2 hover:scale-[1.02] transition-transform duration-300 ease-out`}
+                className={`relative rounded-2xl border border-primary/30 bg-card overflow-hidden ring-1 ring-primary/40 shadow-xl ${shot.tilt} lg:hover:rotate-0 hover:-translate-y-2 hover:scale-[1.02] transition-transform duration-300 ease-out`}
               >
-              <img src={shot.src} alt={shot.alt} className="w-full" />
+              <div className="p-3 sm:p-4">
+                <shot.Screen />
+              </div>
               <figcaption className="p-4 sm:p-5 space-y-1 border-t border-border">
                 <p className="font-heading font-bold">{t(shot.caption)}</p>
                 <p className="text-sm text-muted-foreground leading-relaxed">{t(shot.blurb)}</p>
