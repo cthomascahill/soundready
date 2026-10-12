@@ -6,6 +6,7 @@ import { useAuth } from "@/lib/AuthContext";
 import { hasAIManager } from "@/lib/tier";
 import { useToast } from "@/components/ui/use-toast";
 import MemoryAddForm from "@/components/maya/MemoryAddForm";
+import SamVoicePicker from "@/components/sam/SamVoicePicker";
 import MemoryEntryList from "@/components/maya/MemoryEntryList";
 import SamLogo from "@/components/SamLogo";
 import { Button } from "@/components/ui/button";
@@ -216,6 +217,7 @@ export default function MayaProfile() {
                 </motion.div>
               );
             })}
+            <SamVoicePicker />
           </div>
         )}
       </div>
