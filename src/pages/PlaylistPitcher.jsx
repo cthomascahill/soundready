@@ -9,6 +9,7 @@ import { PLAYLIST_DB, DEFAULT_PLAYLISTS } from "@/lib/playlistDatabase";
 import { matchPlaylists } from "@/lib/playlistMatch";
 
 function PitchModal({ playlist, song, onClose, onSent }) {
+  const { user } = useAuth();
   const [pitch, setPitch] = useState("");
   const [generating, setGenerating] = useState(false);
   const [sending, setSending] = useState(false);
@@ -34,7 +35,9 @@ Write 3-4 sentences only. First sentence addresses the curator by name (${playli
     await base44.integrations.Core.SendEmail({
       to: playlist.email,
       subject: `Playlist Submission — "${song.title}" by ${song.artist}`,
-      body: pitch + `\n\nBest,\n${song.artist}`,
+      body: pitch + `\n\nBest,\n${song.artist}\nReply directly to this email, or reach me at ${user.email}.`,
+      from_name: song.artist,
+      reply_to: user.email,
     });
     setSent(true);
     setSending(false);

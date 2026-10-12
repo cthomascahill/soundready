@@ -34,8 +34,10 @@ export async function sendMayaDraft({ base44, user, draft, recipient, fallbackSu
   const payload = {
     to: recipient,
     subject,
-    body: `${body}\n\n— ${artistName}\nReply directly to this email, or reach the artist at ${user.email}.`,
-    from_name: `Sam for ${artistName}`,
+    body: `${body}\n\n— ${artistName}\nReply directly to this email, or reach me at ${user.email}.`,
+    from_name: artistName,
+    // Curators who hit Reply land in the artist's own inbox, not SoundReady's
+    reply_to: user.email,
   };
   // Optional files the task attached (song, report) ride along with the pitch
   const atts = (attachments || []).filter(a => a?.filename && a?.file_url);
