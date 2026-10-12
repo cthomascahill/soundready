@@ -253,20 +253,16 @@ Deno.serve(async (req) => {
         return Response.json({ error: typeof artist.error === 'string' ? artist.error : artist.error.message }, { status: 400 });
       }
       const top = topRes.ok ? await safeJson(topRes) : {};
-      const existing = myConns;
-      if (!existing[0]) {
-        return Response.json({ error: 'Connect your Spotify account first' }, { status: 404 });
-      }
 
       // Spotify strips followers/popularity/genres/top-tracks when the
-      // developer app has restricted access (the premium restriction) — only
-      // save the numbers that actually came back.
+      // developer app has restricted access — only save the numbers that
+      // actually came back.
       const artistStats = {
         artist_id: artist.id,
         artist_name: artist.name,
-        artist_followers: artist.followers?.total ?? existing[0].stats?.artist_followers ?? 0,
-        popularity: artist.popularity ?? existing[0].stats?.popularity ?? 0,
-        genres: (artist.genres?.length ? artist.genres : existing[0].stats?.genres) || [],
+        artist_followers: artist.followers?.total ?? myConns[0]?.stats?.artist_followers ?? 0,
+        popularity: artist.popularity ?? myConns[0]?.stats?.popularity ?? 0,
+        genres: (artist.genres?.length ? artist.genres : myConns[0]?.stats?.genres) || [],
         top_tracks: (top.tracks || []).slice(0, 5).map(t => ({
           title: t.name,
           popularity: t.popularity,
@@ -275,10 +271,22 @@ Deno.serve(async (req) => {
         })),
       };
 
-      const updated = await base44.entities.PlatformConnection.update(existing[0].id, {
-        stats: { ...(existing[0].stats || {}), ...artistStats },
+      const record = {
+        platform: 'spotify',
+        connection_type: 'url',
+        status: 'connected',
+        display_name: artist.name,
+        profile_url: `https://open.spotify.com/artist/${artist.id}`,
         last_synced: new Date().toISOString(),
-      });
+        stats: { ...(myConns[0]?.stats || {}), ...artistStats },
+      };
+
+      let updated;
+      if (myConns[0]) {
+        updated = await base44.entities.PlatformConnection.update(myConns[0].id, record);
+      } else {
+        updated = await base44.entities.PlatformConnection.create(record);
+      }
       const { access_token: _a, refresh_token: _r, ...safeRecord } = updated;
       return Response.json({ success: true, data: safeRecord });
     }

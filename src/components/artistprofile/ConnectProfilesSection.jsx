@@ -31,26 +31,10 @@ function SpotifyCard({ conn, onUpdated, oauthLoading, oauthError }) {
 
   useEffect(() => { setError(oauthError || ""); }, [oauthError]);
 
-  const handleConnect = async () => {
-    setLoading(true);
-    setError("");
-    // Spotify only accepts an exactly-registered redirect address, so always
-    // use the one live address (matches the exchange step below).
-    const res = await base44.functions.invoke("spotifyOAuth", {
-      action: "get_auth_url",
-      app_url: "https://soundready.ai",
-    }).catch(e => ({ data: { error: friendlyError(e) } }));
-    setLoading(false);
-    if (res.data?.error) { setError(res.data.error); return; }
-    if (res.data?.auth_url) {
-      try { window.top.location.href = res.data.auth_url; } catch (e) { window.location.href = res.data.auth_url; }
-    }
-  };
-
   const handleSync = async () => {
     setLoading(true);
     setError("");
-    const res = await base44.functions.invoke("spotifyOAuth", { action: "sync" })
+    const res = await base44.functions.invoke("spotifyOAuth", { action: "link_artist", artist_url: conn?.profile_url })
       .catch(e => ({ data: { error: friendlyError(e) } }));
     setLoading(false);
     if (res.data?.error) {
@@ -101,7 +85,7 @@ function SpotifyCard({ conn, onUpdated, oauthLoading, oauthError }) {
     else if (res.data?.error) setError(res.data.error);
   };
 
-  const isConnected = conn?.status === "connected" && conn?.connection_type === "oauth";
+  const isConnected = conn?.status === "connected" && !!conn?.stats?.artist_id;
   const s = conn?.stats || {};
   const anyLoading = loading || oauthLoading;
 
@@ -110,30 +94,17 @@ function SpotifyCard({ conn, onUpdated, oauthLoading, oauthError }) {
       {isConnected ? (
         <>
           <div className="flex items-center gap-3 rounded-xl bg-secondary/40 border border-border p-3">
-            {conn.profile_image_url && (
-              <img src={conn.profile_image_url} alt="Spotify profile" className="h-10 w-10 rounded-full object-cover" />
-            )}
+            <div className="h-10 w-10 rounded-full bg-[#1DB954]/15 flex items-center justify-center shrink-0">
+              <Mic2 className="h-5 w-5 text-[#1DB954]" />
+            </div>
             <div className="flex-1 min-w-0">
-              <p className="font-semibold text-sm truncate">{conn.display_name}</p>
+              <p className="font-semibold text-sm truncate">{s.artist_name}</p>
               <FreshnessBadge last_synced={conn.last_synced} />
             </div>
           </div>
 
-          {s.artist_id ? (
-            <div className="flex items-center gap-2 text-xs">
-              <Mic2 className="h-3.5 w-3.5 text-primary shrink-0" />
-              <span>Artist profile: <span className="text-primary font-semibold">{s.artist_name}</span></span>
-            </div>
-          ) : (
-            <p className="text-xs text-muted-foreground">
-              This is your personal Spotify account. Link your artist profile below to pull artist followers, popularity and top tracks.
-            </p>
-          )}
-
           <div className="grid grid-cols-2 gap-2">
-            {s.artist_id
-              ? <Stat label="Artist Followers" value={(s.artist_followers || 0).toLocaleString()} />
-              : <Stat label="Followers" value={(s.followers || 0).toLocaleString()} />}
+            <Stat label="Artist Followers" value={(s.artist_followers || 0).toLocaleString()} />
             <Stat label="Monthly Listeners" value={s.monthly_listeners ? s.monthly_listeners.toLocaleString() : "—"} />
             {s.popularity !== undefined && <Stat label="Popularity" value={`${s.popularity}/100`} />}
           </div>
@@ -187,21 +158,26 @@ function SpotifyCard({ conn, onUpdated, oauthLoading, oauthError }) {
         </>
       ) : (
         <div className="space-y-3">
-          <p className="text-sm text-muted-foreground">Connect your Spotify account to automatically pull followers, top tracks, and more.</p>
-          <Button onClick={handleConnect} disabled={anyLoading} className="gap-2 bg-[#1DB954] hover:bg-[#1aa34a] text-black font-semibold">
-            {anyLoading ? <Loader2 className="h-4 w-4 animate-spin" /> : <span className="text-lg leading-none">♪</span>}
-            {anyLoading ? "Connecting..." : "Connect Spotify"}
-          </Button>
-          <p className="text-xs text-muted-foreground">You'll be redirected to Spotify to approve access. Scopes: read profile, read email, read follows.</p>
+          <p className="text-sm text-muted-foreground">Paste the link to your Spotify artist profile and SoundReady syncs your artist followers, popularity, genres and top tracks.</p>
+          <div className="flex gap-2">
+            <Input
+              placeholder="https://open.spotify.com/artist/..."
+              value={artistUrl}
+              onChange={e => setArtistUrl(e.target.value)}
+              className="text-sm h-9"
+            />
+            <Button onClick={linkArtist} disabled={anyLoading || !artistUrl.trim()} className="shrink-0 gap-2 bg-[#1DB954] hover:bg-[#1aa34a] text-black font-semibold">
+              {anyLoading ? <Loader2 className="h-4 w-4 animate-spin" /> : <span className="text-lg leading-none">♪</span>}
+              {anyLoading ? "Connecting..." : "Connect Artist Profile"}
+            </Button>
+          </div>
+          <p className="text-xs text-muted-foreground">Find it on your artist page in the Spotify app, or open.spotify.com/artist/...</p>
         </div>
       )}
       {error && (
         <div className="flex items-center gap-2 text-xs text-destructive bg-destructive/10 border border-destructive/20 rounded-lg px-3 py-2">
           <AlertTriangle className="h-3.5 w-3.5 shrink-0" />
           {error}
-          {error.includes("reconnect") && (
-            <Button size="sm" onClick={handleConnect} disabled={loading} className="ml-auto h-6 text-xs px-2">Reconnect</Button>
-          )}
         </div>
       )}
     </div>
@@ -354,7 +330,7 @@ function PlatformCard({ platform, conn, onUpdated, oauthLoading, oauthError }) {
           <div>
             <p className="font-semibold text-sm">{platform.name}</p>
             <p className="text-xs text-muted-foreground mt-0.5">
-              {platform.id === "spotify" ? "OAuth · Auto-synced daily"
+              {platform.id === "spotify" ? "Artist profile · Auto-synced"
                 : platform.id === "youtube" ? "YouTube Data API v3 · Auto-synced daily"
                 : platform.id === "tiktok" ? "TikTok Display API · Auto-synced"
                 : "Manual entry"}
@@ -367,7 +343,7 @@ function PlatformCard({ platform, conn, onUpdated, oauthLoading, oauthError }) {
             : platform.id === "tiktok" ? "bg-chart-5/10 text-chart-5 border-chart-5/20"
             : "bg-secondary text-muted-foreground border-border"
         }`}>
-          {platform.id === "spotify" ? "OAuth" : platform.id === "youtube" ? "API" : platform.id === "tiktok" ? "OAuth" : "Manual"}
+          {platform.id === "spotify" ? "Sync" : platform.id === "youtube" ? "API" : platform.id === "tiktok" ? "OAuth" : "Manual"}
         </span>
       </div>
 
