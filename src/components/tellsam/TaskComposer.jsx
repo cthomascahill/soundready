@@ -7,6 +7,7 @@ import SamLogo from "@/components/SamLogo";
 import VoiceButton from "@/components/VoiceButton";
 import UsageMeter from "@/components/tellsam/UsageMeter";
 import useSamUsage from "@/hooks/useSamUsage";
+import useSamSpeech from "@/hooks/useSamSpeech";
 import { Link } from "react-router-dom";
 import { Paperclip, X, Loader2, Send, Upload, Zap } from "lucide-react";
 
@@ -28,6 +29,7 @@ export default function TaskComposer({ user, onCreated }) {
   const [notice, setNotice] = useState(null);
   const fileInput = useRef(null);
   const { usage, loading: usageLoading, refresh: refreshUsage } = useSamUsage();
+  const { speak } = useSamSpeech();
 
   const pickFiles = async (e) => {
     const picked = Array.from(e.target.files || []).slice(0, 5 - files.length);
@@ -68,7 +70,8 @@ export default function TaskComposer({ user, onCreated }) {
         attachments: files,
         status: "working",
       });
-      // Open the task right away so the artist can watch Sam's live progress.
+      // Sam acknowledges out loud, then the task opens to show live progress.
+      speak("Got it — I'm on it.");
       onCreated(created.id);
       const res = await base44.functions.invoke("samTaskRun", { task_id: created.id, depth });
       const d = res.data || {};

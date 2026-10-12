@@ -9,6 +9,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import ReactMarkdown from "react-markdown";
 import MayaUpsellPopover from "@/components/maya/MayaUpsellPopover";
 import MemoryLearnCard from "@/components/maya/MemoryLearnCard";
+import SamReadAloudButton from "@/components/sam/SamReadAloudButton";
 import { useLang } from "@/lib/i18n/LanguageContext";
 
 const QUICK_STARTS = [
@@ -694,6 +695,7 @@ export default function MayaAssistant() {
                             <ScanLine className="h-3 w-3 text-primary" /> Snapshot saved — see Sam's Desk → Reputation Scans for what changed
                           </p>
                         )}
+                        <SamReadAloudButton text={msg.content} className="mt-2" />
                       </>
                     ) : msg.content}
                   </div>

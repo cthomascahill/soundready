@@ -1,11 +1,13 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { base44 } from "@/api/base44Client";
 import TaskDraftCard from "@/components/tellsam/TaskDraftCard";
 import FeedbackControl from "@/components/tellsam/FeedbackControl";
 import { Button } from "@/components/ui/button";
 import {
-  Paperclip, ExternalLink, Lightbulb, AlertCircle, Loader2, RefreshCw,
+  Paperclip, ExternalLink, Lightbulb, AlertCircle, Loader2, RefreshCw, VolumeX,
 } from "lucide-react";
+import SamReadAloudButton from "@/components/sam/SamReadAloudButton";
+import useSamSpeech from "@/hooks/useSamSpeech";
 
 const STAGE_LABELS = {
   planning: "Getting your context",
@@ -68,6 +70,36 @@ export default function TaskDetail({ task, onChanged }) {
   const result = task.result || {};
   const isWorking = task.status === "working" || retrying;
 
+  // Sam's voice — speaks each stage change while working, and a short
+  // wrap-up with the summary when the task finishes in front of you.
+  const { speaking, speak, stop } = useSamSpeech();
+  const spokenStage = useRef(task.progress?.stage || null);
+  const sawWorking = useRef(task.status === "working");
+
+  useEffect(() => {
+    if (task.status !== "working") return;
+    sawWorking.current = true;
+    const stage = task.progress?.stage;
+    if (stage && spokenStage.current !== stage) {
+      spokenStage.current = stage;
+      speak(STAGE_LABELS[stage] || "Sam is on it");
+    }
+  }, [task.status, task.progress?.stage, speak]);
+
+  useEffect(() => {
+    if (task.status === "complete" && sawWorking.current) {
+      sawWorking.current = false;
+      stop();
+      speak(`All done. ${result.summary || "Here's what I found."}`);
+    }
+  }, [task.status, speak, stop]);
+
+  const readText = [
+    result.summary,
+    ...(result.sections || []).map(s => `${s.heading}. ${s.body}`),
+    result.follow_up && `Next step. ${result.follow_up}`,
+  ].filter(Boolean).join("\n\n");
+
   return (
     <div className="space-y-5">
       {/* The task as given */}
@@ -97,6 +129,11 @@ export default function TaskDetail({ task, onChanged }) {
               {task.progress.depth === "quick" ? "Quick run" : "Thorough run"}
             </p>
           )}
+          {speaking && (
+            <Button onClick={stop} variant="outline" size="sm" className="gap-1.5 border-border">
+              <VolumeX className="h-3.5 w-3.5" /> Stop Sam
+            </Button>
+          )}
         </div>
       )}
 
@@ -116,11 +153,14 @@ export default function TaskDetail({ task, onChanged }) {
           {/* Sam's answer */}
           {result.summary && (
             <div className="rounded-2xl border border-primary/20 bg-card p-5 space-y-4">
-              {fmtTimings(task.progress?.timings) && (
-                <p className="text-[10px] uppercase tracking-wider text-muted-foreground/60">
-                  How Sam worked: {fmtTimings(task.progress?.timings)}
-                </p>
-              )}
+              <div className="flex items-center justify-between gap-3 flex-wrap">
+                {fmtTimings(task.progress?.timings) && (
+                  <p className="text-[10px] uppercase tracking-wider text-muted-foreground/60">
+                    How Sam worked: {fmtTimings(task.progress?.timings)}
+                  </p>
+                )}
+                <SamReadAloudButton text={readText} />
+              </div>
               <p className="text-sm leading-relaxed font-medium">{result.summary}</p>
               {(result.sections || []).map((s, i) => (
                 <div key={i} className="space-y-1.5 pt-3 border-t border-border/60 first:border-0 first:pt-0">
