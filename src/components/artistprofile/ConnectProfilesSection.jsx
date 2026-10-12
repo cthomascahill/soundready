@@ -13,6 +13,15 @@ import AccountTypePicker from "@/components/AccountTypePicker";
 import TikTokCard from "@/components/artistprofile/TikTokCard";
 import { getFreshness, FreshnessBadge, Stat, Field } from "@/components/artistprofile/platformShared";
 
+// Pull the real reason out of an SDK error; the raw message is a generic
+// "Request failed with status code 500" that hides what actually broke.
+const friendlyError = (e) =>
+  e?.response?.data?.error ||
+  e?.data?.error ||
+  e?.response?.data?.message ||
+  e?.message ||
+  "Something went wrong. Please try again.";
+
 
 
 // ── Spotify OAuth Card ────────────────────────────────────────────────────────
@@ -30,7 +39,7 @@ function SpotifyCard({ conn, onUpdated, oauthLoading, oauthError }) {
     const res = await base44.functions.invoke("spotifyOAuth", {
       action: "get_auth_url",
       app_url: appUrl,
-    }).catch(e => ({ data: { error: e.message } }));
+    }).catch(e => ({ data: { error: friendlyError(e) } }));
     setLoading(false);
     if (res.data?.error) { setError(res.data.error); return; }
     if (res.data?.auth_url) {
@@ -42,7 +51,7 @@ function SpotifyCard({ conn, onUpdated, oauthLoading, oauthError }) {
     setLoading(true);
     setError("");
     const res = await base44.functions.invoke("spotifyOAuth", { action: "sync" })
-      .catch(e => ({ data: { error: e.message } }));
+      .catch(e => ({ data: { error: friendlyError(e) } }));
     setLoading(false);
     if (res.data?.error) {
       setError(res.data.error);
@@ -55,7 +64,7 @@ function SpotifyCard({ conn, onUpdated, oauthLoading, oauthError }) {
   const handleDisconnect = async () => {
     setLoading(true);
     const res = await base44.functions.invoke("spotifyOAuth", { action: "disconnect" })
-      .catch(e => ({ data: { error: e.message } }));
+      .catch(e => ({ data: { error: friendlyError(e) } }));
     setLoading(false);
     if (res.data?.success) onUpdated(null);
     else setError(res.data?.error || "Failed to disconnect");
@@ -144,7 +153,7 @@ function YouTubeCard({ conn, onUpdated }) {
     const res = await base44.functions.invoke("syncPlatformData", {
       platform: "youtube",
       profile_url: urlInput.trim(),
-    }).catch(e => ({ data: { error: e.message } }));
+    }).catch(e => ({ data: { error: friendlyError(e) } }));
     setLoading(false);
     if (res.data?.error) { setError(res.data.error); return; }
     onUpdated(res.data?.data);
@@ -154,7 +163,7 @@ function YouTubeCard({ conn, onUpdated }) {
     setLoading(true);
     setError("");
     const res = await base44.functions.invoke("syncPlatformData", { platform: "youtube_refresh" })
-      .catch(e => ({ data: { error: e.message } }));
+      .catch(e => ({ data: { error: friendlyError(e) } }));
     setLoading(false);
     if (res.data?.error) { setError(res.data.error); return; }
     onUpdated(res.data?.data);
@@ -163,7 +172,7 @@ function YouTubeCard({ conn, onUpdated }) {
   const handleDisconnect = async () => {
     setLoading(true);
     const res = await base44.functions.invoke("syncPlatformData", { platform: "youtube_disconnect" })
-      .catch(e => ({ data: { error: e.message } }));
+      .catch(e => ({ data: { error: friendlyError(e) } }));
     setLoading(false);
     if (res.data?.success) onUpdated(null);
     else setError(res.data?.error || "Failed to disconnect");
@@ -316,7 +325,7 @@ function ManualForm({ platform, conn, onUpdated }) {
       sub_platform: platform.id,
       manual_stats: form,
       display_name: form.display_name,
-    }).catch(e => ({ data: { error: e.message } }));
+    }).catch(e => ({ data: { error: friendlyError(e) } }));
     setLoading(false);
     if (res.data?.data) onUpdated(res.data.data);
   };
@@ -359,7 +368,7 @@ function SelfReportedCard({ conn, onUpdated }) {
       platform: "manual",
       sub_platform: "self_reported",
       manual_stats: form,
-    }).catch(e => ({ data: { error: e.message } }));
+    }).catch(e => ({ data: { error: friendlyError(e) } }));
     setLoading(false);
     if (res.data?.data) onUpdated(res.data.data);
   };
@@ -446,7 +455,7 @@ export default function ConnectProfilesSection() {
       if (res.data?.data) setConnections(prev => ({ ...prev, spotify: res.data.data }));
     }).catch(e => {
       setOauthLoading(false);
-      setOauthError(e.message);
+      setOauthError(friendlyError(e));
     });
   }, []);
 

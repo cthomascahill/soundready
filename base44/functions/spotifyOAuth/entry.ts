@@ -211,6 +211,7 @@ Deno.serve(async (req) => {
     return Response.json({ error: 'Unknown action' }, { status: 400 });
 
   } catch (error) {
+    console.error('spotifyOAuth failed:', error?.stack || error);
     return Response.json({ error: error.message }, { status: 500 });
   }
 });
