@@ -13,10 +13,20 @@ export function stripForSpeech(text) {
 
 // Sam's voice — the browser's built-in speech synthesis. One shared global
 // synth, so every Sam button reflects and controls whatever is speaking.
+// Browser support for the synth's own start/end events is unreliable (Safari
+// only fires them on the utterance), so the speaking flag lives here in a
+// module-level store updated from the utterance's own events.
+const listeners = new Set();
+let samSpeaking = false;
+const notify = (speaking) => {
+  samSpeaking = speaking;
+  listeners.forEach((fn) => fn(speaking));
+};
+
 // The artist can pick a specific voice (saved in localStorage); when none is
 // picked, Sam falls back to a natural female English voice.
 export default function useSamSpeech() {
-  const [speaking, setSpeaking] = useState(false);
+  const [speaking, setSpeaking] = useState(samSpeaking);
   const [supported] = useState(() => typeof window !== "undefined" && "speechSynthesis" in window);
   const [voices, setVoices] = useState([]);
   const [voiceName, setVoiceNameState] = useState(() => {
@@ -33,28 +43,23 @@ export default function useSamSpeech() {
 
   useEffect(() => {
     if (!supported) return;
-    const synth = window.speechSynthesis;
-    const onStart = () => setSpeaking(true);
-    const onEnd = () => setSpeaking(false);
+    const onSpeaking = (v) => setSpeaking(v);
+    listeners.add(onSpeaking);
     const loadVoices = () => {
-      setVoices(synth.getVoices().filter(v => v.lang?.toLowerCase().startsWith("en")));
+      setVoices(window.speechSynthesis.getVoices().filter(v => v.lang?.toLowerCase().startsWith("en")));
     };
-    synth.addEventListener("start", onStart);
-    synth.addEventListener("end", onEnd);
-    synth.addEventListener("error", onEnd);
-    synth.addEventListener("voiceschanged", loadVoices);
+    window.speechSynthesis.addEventListener("voiceschanged", loadVoices);
     loadVoices();
-    setSpeaking(!!synth.speaking);
     return () => {
-      synth.removeEventListener("start", onStart);
-      synth.removeEventListener("end", onEnd);
-      synth.removeEventListener("error", onEnd);
-      synth.removeEventListener("voiceschanged", loadVoices);
+      listeners.delete(onSpeaking);
+      window.speechSynthesis.removeEventListener("voiceschanged", loadVoices);
     };
   }, [supported]);
 
   const stop = useCallback(() => {
-    if (supported) window.speechSynthesis.cancel();
+    if (!supported) return;
+    window.speechSynthesis.cancel();
+    notify(false);
   }, [supported]);
 
   const speak = useCallback((text) => {
@@ -73,8 +78,10 @@ export default function useSamSpeech() {
     const keepalive = setInterval(() => {
       if (synth.speaking || synth.pending) { synth.pause(); synth.resume(); }
     }, 10000);
-    utterance.onend = () => clearInterval(keepalive);
-    utterance.onerror = () => clearInterval(keepalive);
+    const finish = () => { clearInterval(keepalive); notify(false); };
+    utterance.onstart = () => notify(true);
+    utterance.onend = finish;
+    utterance.onerror = finish;
     synth.speak(utterance);
   }, [supported, voiceName]);
 
