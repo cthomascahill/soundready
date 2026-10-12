@@ -64,7 +64,7 @@ export default function AppLayout() {
 
       <div className="flex">
         {/* Desktop sidebar */}
-        <aside className="hidden lg:flex flex-col w-60 shrink-0 border-r border-border bg-background sticky top-0 h-screen">
+        <aside className="hidden lg:flex flex-col w-60 shrink-0 border-r border-sidebar-border bg-sidebar sticky top-0 h-screen">
           <div className="h-14 flex items-center px-5 border-b border-border">
             <Link to="/history"><SoundReadyLogo size={28} /></Link>
           </div>
@@ -86,7 +86,7 @@ export default function AppLayout() {
         {drawerOpen && (
           <div className="lg:hidden fixed inset-0 z-50">
             <div className="absolute inset-0 bg-black/60" onClick={closeDrawer} />
-            <div className="absolute left-0 top-0 bottom-0 w-64 bg-background border-r border-border flex flex-col">
+            <div className="absolute left-0 top-0 bottom-0 w-64 bg-sidebar border-r border-sidebar-border flex flex-col">
               <div className="h-14 flex items-center justify-between px-4 border-b border-border">
                 <SoundReadyLogo size={26} />
                 <button onClick={closeDrawer}
