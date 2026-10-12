@@ -51,8 +51,8 @@ function AudioMiniPlayer({ url, name }) {
     setLoading(false);
   };
   return (
-    <button onClick={toggle} className="h-7 w-7 rounded-full bg-primary/20 border border-primary/40 flex items-center justify-center text-primary hover:bg-primary/30 transition-colors shrink-0">
-      {loading ? <Loader2 className="h-3 w-3 animate-spin" /> : playing ? <Pause className="h-3 w-3" /> : <Play className="h-3 w-3 ml-0.5" />}
+    <button onClick={toggle} className="h-9 w-9 rounded-full bg-primary/20 border border-primary/40 flex items-center justify-center text-primary hover:bg-primary/30 transition-colors shrink-0">
+      {loading ? <Loader2 className="h-3.5 w-3.5 animate-spin" /> : playing ? <Pause className="h-3.5 w-3.5" /> : <Play className="h-3.5 w-3.5 ml-0.5" />}
       <audio ref={audioRef} onEnded={() => setPlaying(false)} />
     </button>
   );
@@ -63,22 +63,22 @@ function SongCard({ song, onEdit, viewMode, pipeline, onDelete }) {
     return (
       <motion.div initial={{ opacity: 0, y: 6 }} animate={{ opacity: 1, y: 0 }}
         onClick={() => onEdit(song)}
-        className="flex items-center gap-3 px-4 py-3 rounded-xl bg-card border border-border hover:border-primary/30 hover:bg-card/80 transition-all cursor-pointer">
-        <VaultArtwork url={song.artwork_url} title={song.title} className="h-10 w-10 rounded-lg shrink-0 object-cover" />
+        className="flex items-center gap-4 px-5 py-4 rounded-xl bg-card border border-border hover:border-primary/30 hover:bg-card/80 transition-all cursor-pointer">
+        <VaultArtwork url={song.artwork_url} title={song.title} className="h-16 w-16 rounded-xl shrink-0 object-cover" iconClass="h-6 w-6" />
         <div className="flex-1 min-w-0">
-          <p className="font-semibold text-sm truncate">{song.title}</p>
-          <p className="text-xs text-zinc-500 truncate">
+          <p className="font-heading font-bold text-base truncate">{song.title}</p>
+          <p className="text-sm text-zinc-500 truncate mt-0.5">
             {[song.producer && `Prod. ${song.producer}`, song.genre].filter(Boolean).join(" · ")}
           </p>
         </div>
         <div className="flex items-center gap-2 shrink-0">
           {song.moods?.slice(0, 2).map(m => (
-            <span key={m} className="text-[10px] px-2 py-0.5 rounded-full bg-primary/10 text-primary border border-primary/20 hidden sm:inline">{m}</span>
+            <span key={m} className="text-[11px] px-2.5 py-1 rounded-full bg-primary/10 text-primary border border-primary/20 hidden sm:inline">{m}</span>
           ))}
           {song.tags?.slice(0, 1).map(t => (
-            <span key={t} className="text-[10px] px-2 py-0.5 rounded-full bg-secondary text-muted-foreground border border-border hidden md:inline">{t}</span>
+            <span key={t} className="text-[11px] px-2.5 py-1 rounded-full bg-secondary text-muted-foreground border border-border hidden md:inline">{t}</span>
           ))}
-          <span className={`text-[10px] font-semibold px-2 py-0.5 rounded-full border ${STATUS_COLORS[song.status] || STATUS_COLORS.Demo}`}>
+          <span className={`text-[11px] font-semibold px-2.5 py-1 rounded-full border ${STATUS_COLORS[song.status] || STATUS_COLORS.Demo}`}>
             {song.status}
           </span>
           {pipeline && <TrackerStageDots song={pipeline} />}
@@ -379,7 +379,7 @@ export default function SongLibrary() {
                 ))}
               </div>
             ) : (
-              <div className="space-y-2">
+              <div className="space-y-3">
                 {filtered.map(song => (
                   <SongCard key={song.id} song={song} onEdit={openEdit} viewMode="list"
                     pipeline={pipelineByTitle.get(song.title?.toLowerCase().trim())} onDelete={handleDelete} />
