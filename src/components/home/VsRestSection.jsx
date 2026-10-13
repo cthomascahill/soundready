@@ -19,24 +19,24 @@ export default function VsRestSection() {
   const { t } = useLang();
 
   return (
-    <section id="vs-the-rest" className="px-4 py-16 scroll-mt-20">
-      <div className="max-w-5xl mx-auto space-y-10">
+    <section id="vs-the-rest" className="px-4 py-20 sm:py-24 scroll-mt-20">
+      <div className="max-w-6xl mx-auto space-y-10 sm:space-y-14">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           className="text-center space-y-4"
         >
-          <p className="text-xs text-primary uppercase tracking-wider font-bold">{t("One subscription")}</p>
-          <h2 className="font-heading text-3xl sm:text-4xl lg:text-5xl font-bold leading-tight">
+          <p className="text-xs sm:text-sm text-primary uppercase tracking-wider font-bold">{t("One subscription")}</p>
+          <h2 className="font-heading text-4xl sm:text-5xl lg:text-6xl font-bold leading-tight">
             {t("SoundReady vs. ")}<span className="text-primary font-black">{t("The Rest")}</span>
           </h2>
-          <p className="text-sm sm:text-base text-muted-foreground max-w-2xl mx-auto leading-relaxed">
+          <p className="text-base sm:text-lg text-muted-foreground max-w-2xl mx-auto leading-relaxed">
             {t("Seven tools replaced. One login.")}
           </p>
         </motion.div>
 
-        <div className="space-y-3">
+        <div className="space-y-4 sm:space-y-5">
           {REPLACED.map((row, i) => (
             <motion.div
               key={row.tool}
@@ -44,23 +44,27 @@ export default function VsRestSection() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ delay: i * 0.04 }}
-              className="rounded-xl border border-border bg-card p-4 sm:p-5 grid grid-cols-1 md:grid-cols-[160px_1fr_1fr] gap-3 md:gap-5 items-center"
+              className="relative group"
             >
-              <div className="flex items-center gap-2.5">
-                <div className="h-9 w-9 rounded-lg bg-muted border border-border flex items-center justify-center shrink-0">
-                  <row.icon className="h-4 w-4 text-muted-foreground" />
+              {/* Green glow aura behind each card */}
+              <div className="absolute -inset-1 rounded-2xl bg-primary/20 blur-xl opacity-60 group-hover:opacity-100 transition-opacity pointer-events-none" />
+              <div className="relative rounded-xl border border-primary/30 bg-card p-5 sm:p-6 grid grid-cols-1 md:grid-cols-[200px_1fr_1fr] gap-3 md:gap-6 items-center shadow-[0_0_30px_-5px_rgba(74,222,128,0.25)]">
+                <div className="flex items-center gap-3">
+                  <div className="h-10 w-10 sm:h-11 sm:w-11 rounded-lg bg-muted border border-border flex items-center justify-center shrink-0">
+                    <row.icon className="h-5 w-5 text-muted-foreground" />
+                  </div>
+                  <p className="font-heading font-bold text-sm sm:text-base">{t(row.tool)}</p>
                 </div>
-                <p className="font-heading font-bold text-sm">{t(row.tool)}</p>
-              </div>
 
-              <div className="flex items-center gap-2">
-                <X className="h-3.5 w-3.5 shrink-0 text-destructive" />
-                <p className="text-xs sm:text-sm text-muted-foreground">{t(row.was)}</p>
-              </div>
+                <div className="flex items-center gap-2.5">
+                  <X className="h-4 w-4 sm:h-5 sm:w-5 shrink-0 text-destructive" />
+                  <p className="text-sm sm:text-base text-muted-foreground">{t(row.was)}</p>
+                </div>
 
-              <div className="flex items-center gap-2">
-                <Check className="h-3.5 w-3.5 shrink-0 text-primary" />
-                <p className="text-xs sm:text-sm text-foreground font-medium">{t(row.now)}</p>
+                <div className="flex items-center gap-2.5">
+                  <Check className="h-4 w-4 sm:h-5 sm:w-5 shrink-0 text-primary" />
+                  <p className="text-sm sm:text-base text-foreground font-semibold">{t(row.now)}</p>
+                </div>
               </div>
             </motion.div>
           ))}
