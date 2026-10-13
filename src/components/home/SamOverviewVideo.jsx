@@ -5,6 +5,8 @@ import SamLogo from "@/components/SamLogo";
 import StepTellSamScreen from "@/components/home/walkthrough/StepTellSamScreen";
 import StepResearchScreen from "@/components/home/walkthrough/StepResearchScreen";
 import StepApproveScreen from "@/components/home/walkthrough/StepApproveScreen";
+import StepPlatformScreen from "@/components/home/walkthrough/StepPlatformScreen";
+import { pickSamDeviceVoice } from "@/lib/browserVoice";
 
 const SAM_IMG = "https://media.base44.com/images/public/69dcf0ecc907e43a438a626b/cbca442cd_generated_76ab93fb.png";
 
@@ -13,8 +15,8 @@ const SCENES = [
   {
     id: "intro",
     label: "Meet SAM",
-    duration: 6,
-    narration: "This is SAM, your digital music manager.",
+    duration: 4,
+    narration: "This is SAM, your digital music manager. You make the music. SAM makes the moves.",
     render: () => (
       <div className="h-full flex flex-col items-center justify-center gap-4 text-center px-6">
         <motion.img
@@ -40,8 +42,8 @@ const SCENES = [
   {
     id: "tell",
     label: "1 · Tell Sam",
-    duration: 9,
-    narration: "Give SAM any task in plain words. No forms, no tabs, no spreadsheets.",
+    duration: 6,
+    narration: "Give SAM any task in plain words. Book my tour. Pitch my new single. No forms, no spreadsheets.",
     render: () => (
       <div className="h-full flex items-center justify-center px-4 sm:px-10 py-6">
         <motion.div
@@ -58,8 +60,8 @@ const SCENES = [
   {
     id: "research",
     label: "2 · Sam works",
-    duration: 11,
-    narration: "SAM researches real venues, verifies every contact, and checks each one against your sound.",
+    duration: 6,
+    narration: "SAM researches real venues and playlists, verifies every contact, and checks each against your sound and your stats.",
     render: () => (
       <div className="h-full flex items-center justify-center px-4 sm:px-10 py-6">
         <motion.div
@@ -76,7 +78,7 @@ const SCENES = [
   {
     id: "approve",
     label: "3 · You approve",
-    duration: 10,
+    duration: 6,
     narration: "You get the pitch, already written. Approve, edit, or deny. Nothing sends without you.",
     render: () => (
       <div className="h-full flex items-center justify-center px-4 sm:px-10 py-6">
@@ -92,10 +94,17 @@ const SCENES = [
     ),
   },
   {
+    id: "platform",
+    label: "The platform",
+    duration: 6,
+    narration: "Around SAM, SoundReady runs your whole career: your Vault of songs, the release tracker, The Wall, and tools for deals, touring, and money.",
+    render: () => <StepPlatformScreen />,
+  },
+  {
     id: "outro",
     label: "Start free",
-    duration: 7,
-    narration: "Research, pitches, releases, your whole career. One manager, one login. Start free.",
+    duration: 4,
+    narration: "One manager. One login. Your whole career. Start free.",
     render: () => (
       <div className="h-full flex flex-col items-center justify-center gap-5 text-center px-6">
         <motion.div initial={{ opacity: 0, scale: 0.9 }} animate={{ opacity: 1, scale: 1 }} transition={{ duration: 0.5 }}>
@@ -164,6 +173,9 @@ export default function SamOverviewVideo() {
     window.speechSynthesis.cancel();
     const utter = new SpeechSynthesisUtterance(scene.narration);
     utter.rate = 1.02;
+    const enVoices = window.speechSynthesis.getVoices().filter(v => v.lang?.toLowerCase().startsWith("en"));
+    const deviceVoice = pickSamDeviceVoice(enVoices);
+    if (deviceVoice) utter.voice = deviceVoice;
     window.speechSynthesis.speak(utter);
   }, [playing, narration, scene]);
 

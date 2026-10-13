@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useState } from "react";
 import { base44 } from "@/api/base44Client";
 import { PREMIUM_VOICES } from "@/lib/samVoices";
+import { pickSamDeviceVoice } from "@/lib/browserVoice";
 
 // Cleans markdown so Sam reads clean spoken prose instead of symbols
 export function stripForSpeech(text) {
@@ -101,7 +102,7 @@ export default function useSamSpeech() {
     // The artist's chosen voice wins; otherwise prefer a natural female English voice
     const allVoices = synth.getVoices().filter(v => v.lang?.toLowerCase().startsWith("en"));
     const chosen = voiceName ? allVoices.find(v => v.name === voiceName) : null;
-    const preferred = chosen || allVoices.find(v => /samantha|aria|jenny|zira|karen|serena|female/i.test(v.name)) || allVoices.find(v => v.default) || allVoices[0];
+    const preferred = chosen || pickSamDeviceVoice(allVoices);
     if (preferred) utterance.voice = preferred;
     // Chrome silently stops long utterances without a periodic resume nudge
     const keepalive = setInterval(() => {
