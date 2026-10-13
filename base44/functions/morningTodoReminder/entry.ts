@@ -46,7 +46,10 @@ export default async function(req) {
       const firstName = String(user.full_name || 'there').split(' ')[0];
       // Plain text, one bullet per line. The template renders the line breaks,
       // so each to-do comes out as a clean, separate bullet.
-      const todoLines = todos
+      // Respect the artist's manual list order (set by dragging), falling
+      // back to newest-first for to-dos that have never been dragged.
+      const todoLines = [...todos]
+        .sort((a, b) => (a.sort_order ?? 0) - (b.sort_order ?? 0))
         .slice(0, 8)
         .map(t => `• ${String(t.title).replace(/[<>]/g, '').trim()}`)
         .filter(Boolean)

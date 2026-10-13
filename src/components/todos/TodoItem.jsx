@@ -1,14 +1,23 @@
-import { Check, Trash2 } from "lucide-react";
+import { Check, Trash2, GripVertical } from "lucide-react";
 import { POINTS_TABLE } from "@/lib/awardPoints";
 
 // One to-do row. Checking it off earns Sound Ready Points; unchecking just edits.
-export default function TodoItem({ todo, onToggle, onDelete }) {
+export default function TodoItem({ todo, onToggle, onDelete, handleProps }) {
   return (
     <div
       className={`group flex items-start gap-3 rounded-xl border p-3.5 transition-colors ${
         todo.done ? "bg-secondary/40 border-border" : "bg-card border-border hover:border-primary/30"
       }`}
     >
+      {handleProps && (
+        <button
+          {...handleProps}
+          aria-label="Drag to reorder"
+          className="mt-0.5 shrink-0 text-muted-foreground/30 hover:text-muted-foreground cursor-grab active:cursor-grabbing transition-colors"
+        >
+          <GripVertical className="h-4 w-4" />
+        </button>
+      )}
       <button
         onClick={() => onToggle(todo)}
         aria-label={todo.done ? "Mark as not done" : "Check off"}

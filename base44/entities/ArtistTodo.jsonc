@@ -32,6 +32,10 @@
       "type": "boolean",
       "default": false,
       "description": "Whether SoundReady Points were already earned for finishing it"
+    },
+    "sort_order": {
+      "type": "number",
+      "description": "Manual position of this to-do in the artist's list, lower = higher up. Set by dragging."
     }
   },
   "required": [
