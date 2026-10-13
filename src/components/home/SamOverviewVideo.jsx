@@ -174,7 +174,7 @@ export default function SamOverviewVideo() {
   const [elapsed, setElapsed] = useState(0);
   const [playing, setPlaying] = useState(false);
   const [started, setStarted] = useState(false);
-  const [narration, setNarration] = useState(false);
+  const [narration, setNarration] = useState(true);
   const spokenRef = useRef(null);
   const timerRef = useRef(null);
   const holdRef = useRef(0);
