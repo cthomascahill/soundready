@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import { ExternalLink, Mail, MapPin, Music2 } from "lucide-react";
+import { ChevronLeft, ChevronRight, ExternalLink, Mail, MapPin, Music2 } from "lucide-react";
 
 export const fmtNumber = (n) =>
   Number(n) >= 1000000
@@ -9,8 +9,11 @@ export const fmtNumber = (n) =>
     : String(n ?? "");
 
 // The kit is a fixed dark document, so it uses fixed colors that read the same in light and dark mode.
+const GREEN = "#21c45d";
 const Label = ({ children }) => (
-  <p className="text-[10px] text-[#21c45d] uppercase tracking-widest font-bold">{children}</p>
+  <p className="text-[10px] uppercase tracking-widest font-bold" style={{ color: GREEN }}>
+    {children}
+  </p>
 );
 
 /** The polished Electronic Press Kit preview the artist sees before saving. */
@@ -23,112 +26,163 @@ export default function EpkPreview({ epk, form }) {
     { label: "Social Followers", value: form.followers },
   ].filter((s) => Number(s.value) > 0);
   const proof = (form.social_proof || []).filter((p) => p.text?.trim());
-  const where = [form.location, form.genre].filter(Boolean).join(" · ");
+  const year = new Date().getFullYear();
+  const bioParas = (copy.bio || "").split(/\n{2,}/).filter(Boolean);
 
   return (
     <motion.div
       initial={{ opacity: 0, y: 16 }}
       animate={{ opacity: 1, y: 0 }}
-      className="relative rounded-3xl border border-white/10 overflow-hidden bg-[#0a0d0b]"
+      className="relative rounded-3xl border border-white/10 overflow-hidden bg-[#0a0d0b] text-white"
     >
-      <div className="absolute inset-x-0 top-0 h-64 bg-gradient-to-b from-[#21c45d]/15 to-transparent pointer-events-none" />
-      <div className="absolute left-0 top-0 bottom-0 w-1.5 bg-[#21c45d]" />
-      <div className="relative p-8 sm:p-12 space-y-9">
-        <header className="flex flex-col-reverse sm:flex-row sm:items-start sm:justify-between gap-6">
-          <div className="space-y-3 min-w-0">
-            <Label>Electronic Press Kit</Label>
-            <h2 className="font-heading text-4xl sm:text-6xl font-black tracking-tight leading-none text-white">
+      <div className="grid grid-cols-1 md:grid-cols-[minmax(0,1.6fr)_minmax(0,2.4fr)]">
+        {/* LEFT PANEL: portrait */}
+        <div className="flex flex-col border-b md:border-b-0 md:border-r border-white/10">
+          {photo ? (
+            <img
+              src={photo}
+              alt={form.artist_name}
+              className="w-full h-72 md:h-auto md:min-h-[440px] object-cover grayscale"
+            />
+          ) : (
+            <div className="w-full h-72 md:h-auto md:min-h-[440px] bg-[#101410] flex items-center justify-center">
+              <Music2 className="h-10 w-10 text-white/20" />
+            </div>
+          )}
+          <div className="p-6 space-y-1.5 border-t border-white/10">
+            <Label>The Artist</Label>
+            <p className="font-heading text-xl font-black uppercase leading-none">{form.artist_name}</p>
+            {copy.tagline && <p className="text-sm text-white/70 leading-snug">{copy.tagline}</p>}
+          </div>
+        </div>
+
+        {/* RIGHT PANEL: header, contact, bio, content */}
+        <div className="relative overflow-hidden p-6 sm:p-10 space-y-8">
+          {/* geometric accent + faded name watermark, like a pro media kit */}
+          <div
+            aria-hidden="true"
+            className="pointer-events-none absolute top-0 right-0 h-40 w-40 opacity-20"
+            style={{ backgroundImage: "radial-gradient(#21c45d 1px, transparent 1px)", backgroundSize: "14px 14px" }}
+          />
+          <p
+            aria-hidden="true"
+            className="pointer-events-none select-none absolute top-24 right-2 font-heading font-black uppercase leading-none text-white/[0.04] text-[80px] sm:text-[90px]"
+          >
+            {form.artist_name || ""}
+          </p>
+
+          <header className="relative space-y-4">
+            <span
+              className="inline-block rounded-md px-3 py-1 text-[10px] font-black uppercase tracking-widest text-black"
+              style={{ background: GREEN }}
+            >
+              Media Kit {year}
+            </span>
+            <h2 className="font-heading text-4xl sm:text-6xl font-black uppercase tracking-tight leading-[0.85]">
               {form.artist_name}
             </h2>
-            {copy.tagline && <p className="font-heading text-xl sm:text-2xl font-bold text-[#21c45d]">{copy.tagline}</p>}
-            {where && (
-              <p className="flex items-center gap-1.5 text-sm text-white/60">
-                <MapPin className="h-3.5 w-3.5" /> {where}
-              </p>
-            )}
-          </div>
-          {photo && (
-            <img src={photo} alt={form.artist_name} className="h-36 w-36 sm:h-44 sm:w-44 rounded-2xl object-cover border border-white/10 shrink-0" />
-          )}
-        </header>
+            {copy.one_liner && <p className="text-base font-semibold text-white">{copy.one_liner}</p>}
+          </header>
 
-        <section className="space-y-3">
-          <Label>About</Label>
-          {copy.one_liner && <p className="text-base font-semibold text-white">{copy.one_liner}</p>}
-          <div className="space-y-3 text-sm text-white/80 leading-relaxed">
-            {(copy.bio || "").split(/\n{2,}/).filter(Boolean).map((p, i) => (
-              <p key={i}>{p}</p>
+          <section className="relative space-y-3">
+            <Label>Contact</Label>
+            <div className="flex flex-wrap gap-x-6 gap-y-2 text-xs uppercase tracking-wider text-white/80">
+              {form.location && (
+                <span className="inline-flex items-center gap-1.5">
+                  <MapPin className="h-3.5 w-3.5" style={{ color: GREEN }} />
+                  {form.location}
+                </span>
+              )}
+              {form.genre && (
+                <span className="inline-flex items-center gap-1.5">
+                  <Music2 className="h-3.5 w-3.5" style={{ color: GREEN }} />
+                  {form.genre}
+                </span>
+              )}
+              {form.contact_email && (
+                <span className="inline-flex items-center gap-1.5 min-w-0">
+                  <Mail className="h-3.5 w-3.5 shrink-0" style={{ color: GREEN }} />
+                  <span className="truncate">{form.contact_email}</span>
+                </span>
+              )}
+              {form.music_url && (
+                <span className="inline-flex items-center gap-1.5 min-w-0 max-w-full">
+                  <ExternalLink className="h-3.5 w-3.5 shrink-0" style={{ color: GREEN }} />
+                  <span className="truncate">{form.music_url}</span>
+                </span>
+              )}
+            </div>
+          </section>
+
+          <section className="relative space-y-3">
+            <Label>Biography</Label>
+            <div className="sm:columns-2 gap-6 text-sm text-white/85 leading-relaxed">
+              {bioParas.map((p, i) => (
+                <p key={i} className="mb-3 break-inside-avoid">
+                  {p}
+                </p>
+              ))}
+            </div>
+          </section>
+
+          {featured.length > 0 && (
+            <section className="relative space-y-3">
+              <Label>Featured Songs</Label>
+              <div className="space-y-2">
+                {featured.slice(0, 6).map((s, i) => (
+                  <div key={s.id || s.title} className="flex items-center gap-3">
+                    <span className="font-heading text-sm font-black w-6" style={{ color: GREEN }}>
+                      {String(i + 1).padStart(2, "0")}
+                    </span>
+                    <p className="text-sm font-semibold flex-1 truncate">{s.title}</p>
+                    {s.genre && <p className="text-xs text-white/60 uppercase tracking-wide">{s.genre}</p>}
+                  </div>
+                ))}
+              </div>
+            </section>
+          )}
+
+          {proof.length > 0 && (
+            <section className="relative space-y-3">
+              <Label>Press & Social Proof</Label>
+              <div className="space-y-3">
+                {proof.slice(0, 6).map((p, i) => (
+                  <div key={i}>
+                    <p className="text-sm italic text-white/90 leading-relaxed">"{p.text.trim()}"</p>
+                    {p.source && <p className="text-xs text-white/60 mt-1 uppercase tracking-wide">{p.source}</p>}
+                  </div>
+                ))}
+              </div>
+            </section>
+          )}
+        </div>
+      </div>
+
+      {/* METRIC BAR */}
+      {stats.length > 0 && (
+        <div className="relative bg-[#0f2417] px-6 sm:px-10 py-5 flex items-center gap-4 overflow-hidden">
+          <ChevronLeft className="h-5 w-5 text-white/15 shrink-0 hidden sm:block" />
+          <div className="flex-1 grid gap-3 text-center" style={{ gridTemplateColumns: `repeat(${stats.length}, 1fr)` }}>
+            {stats.map((s) => (
+              <div key={s.label}>
+                <p className="font-heading text-2xl sm:text-4xl font-black leading-none text-white">
+                  {fmtNumber(s.value)}
+                </p>
+                <p className="text-[10px] sm:text-xs text-white/70 uppercase tracking-widest mt-1.5">{s.label}</p>
+              </div>
             ))}
           </div>
-        </section>
+          <ChevronRight className="h-5 w-5 text-white/15 shrink-0 hidden sm:block" />
+        </div>
+      )}
 
-        {stats.length > 0 && (
-          <section className="space-y-3">
-            <Label>The Numbers</Label>
-            <div className="grid grid-cols-3 gap-3">
-              {stats.map((s) => (
-                <div key={s.label} className="rounded-xl bg-white/5 border border-white/10 p-4 text-center">
-                  <p className="font-heading text-2xl sm:text-3xl font-black text-[#21c45d]">{fmtNumber(s.value)}</p>
-                  <p className="text-[10px] text-white/60 uppercase tracking-wide mt-1">{s.label}</p>
-                </div>
-              ))}
-            </div>
-          </section>
-        )}
-
-        {featured.length > 0 && (
-          <section className="space-y-3">
-            <Label>Featured Songs</Label>
-            <div className="space-y-2">
-              {featured.slice(0, 6).map((s) => (
-                <div key={s.id || s.title} className="flex items-center gap-3 rounded-xl bg-white/5 border border-white/10 px-4 py-3">
-                  {s.artwork_url ? (
-                    <img src={s.artwork_url} alt="" className="h-9 w-9 rounded object-cover shrink-0" />
-                  ) : (
-                    <Music2 className="h-4 w-4 text-[#21c45d] shrink-0" />
-                  )}
-                  <p className="text-sm font-semibold text-white flex-1 truncate">{s.title}</p>
-                  {s.genre && <p className="text-xs text-white/60">{s.genre}</p>}
-                </div>
-              ))}
-            </div>
-          </section>
-        )}
-
-        {proof.length > 0 && (
-          <section className="space-y-3">
-            <Label>Social Proof</Label>
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-              {proof.slice(0, 6).map((p, i) => (
-                <div key={i} className="rounded-xl bg-white/5 border border-white/10 p-4">
-                  <p className="text-sm italic text-white/90 leading-relaxed">"{p.text.trim()}"</p>
-                  {p.source && <p className="text-xs text-white/60 mt-2">{p.source}</p>}
-                </div>
-              ))}
-            </div>
-          </section>
-        )}
-
-        {(form.music_url || form.contact_email) && (
-          <footer className="flex flex-wrap items-center gap-3 pt-2">
-            {form.music_url && (
-              <a
-                href={form.music_url}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 rounded-full bg-[#21c45d] text-black text-sm font-bold px-6 py-2.5"
-              >
-                <ExternalLink className="h-3.5 w-3.5" /> Listen to the music
-              </a>
-            )}
-            {form.contact_email && (
-              <span className="inline-flex items-center gap-2 text-sm text-white/60">
-                <Mail className="h-3.5 w-3.5" /> {form.contact_email}
-              </span>
-            )}
-          </footer>
-        )}
-      </div>
+      {/* FOOTER */}
+      <footer className="flex items-center justify-between gap-3 px-6 sm:px-10 py-3 border-t border-white/10 bg-[#0a0d0b]">
+        <p className="text-[10px] uppercase tracking-widest text-white/60 truncate">
+          {form.music_url || form.contact_email || form.artist_name}
+        </p>
+        <p className="text-[10px] uppercase tracking-widest text-white/60 shrink-0">Built with SoundReady</p>
+      </footer>
     </motion.div>
   );
 }

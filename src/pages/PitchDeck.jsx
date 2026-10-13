@@ -117,169 +117,191 @@ bio: a polished press-ready bio in 2 short paragraphs, third person, grounded on
     setGenerating(false);
   };
 
-  // Draws the kit; docH is the page height so a short kit can end right after the footer.
-  const drawPdf = async (docH) => {
+  // Draws the kit like a pro media kit: full-height photo panel, name header
+  // with a MEDIA KIT badge, bio, and a full-width metric bar. docH is the page
+  // height so a short kit can end right after the footer; prevEndY (the first
+  // pass's end) sizes the photo panel on the exact-height second pass.
+  const drawPdf = async (docH, prevEndY = null) => {
     const { jsPDF } = await import("jspdf");
     const doc = new jsPDF({ unit: "mm", format: [210, docH] });
     const W = 210;
-    const H = 297;
+    const PAGE = 297;
     const GREEN = [33, 196, 93];
     const DARK = [10, 13, 11];
-    const HEADER = [18, 24, 20];
-    const GRAY = [140, 145, 140];
-    const WHITE = [245, 245, 245];
+    const BAND = [15, 36, 23];
+    const GRAY = [200, 205, 200];
+    const DIM = [155, 160, 155];
+    const WHITE = [255, 255, 255];
     const F = "helvetica";
+    const YEAR = String(new Date().getFullYear());
 
     const photo = form.photo_data || (form.photo_url ? await squarePhoto(form.photo_url) : "");
-    const textW = photo ? W - 24 - 52 : W - 24;
+    const SIDEBAR = photo ? 64 : 0;
 
-    // Every page gets the dark background so light text always reads
+    let sx = photo ? 76 : 16;
+    let rw = W - sx - 14;
+    let y = 18;
+
     const paintPage = () => {
       doc.setFillColor(...DARK);
       doc.rect(0, 0, W, docH, "F");
     };
     paintPage();
 
-    // Header band
-    doc.setFillColor(...HEADER);
-    doc.rect(0, 0, W, 66, "F");
-    if (photo) doc.addImage(photo, "JPEG", W - 12 - 44, 11, 44, 44);
-    doc.setFillColor(...GREEN);
-    doc.rect(0, 0, 3.5, 66, "F");
-    doc.setFont(F, "bold");
-    doc.setFontSize(8);
-    doc.setTextColor(...GREEN);
-    doc.text("ELECTRONIC PRESS KIT", 12, 16);
-    doc.setFontSize(26);
-    doc.setTextColor(...WHITE);
-    const nameLines = doc.splitTextToSize(form.artist_name || "Artist", textW);
-    doc.text(nameLines, 12, 30);
-    let hy = 30 + (nameLines.length - 1) * 10;
-    if (epk.copy.tagline) {
-      doc.setFontSize(12);
-      doc.setTextColor(...GREEN);
-      doc.text(doc.splitTextToSize(epk.copy.tagline, textW), 12, hy + 8);
-      hy += 8;
-    }
-    const where = [form.location, form.genre].filter(Boolean).join(" · ");
-    if (where) {
-      doc.setFont(F, "normal");
-      doc.setFontSize(9);
-      doc.setTextColor(...GRAY);
-      doc.text(where, 12, hy + 16);
+    // Photo panel: on the final single-page pass it stops just above the
+    // metric bar and footer; pass 1 covers the full page and is discarded.
+    if (photo) {
+      const photoH = prevEndY ? Math.max(prevEndY - 44, 60) : PAGE;
+      doc.addImage(photo, "JPEG", 0, 0, SIDEBAR, photoH);
     }
 
-    let y = 78;
-    // Starts a new page before content would run past the footer band.
+    // Pagination stays fixed at A4 height so both passes break identically.
     const ensureSpace = (h) => {
-      if (y + h > H - 32) { doc.addPage(); paintPage(); y = 24; }
+      if (y + h > PAGE - 36) {
+        doc.addPage();
+        paintPage();
+        y = 20;
+        sx = 16;
+        rw = W - 32;
+      }
     };
     const label = (t) => {
-      ensureSpace(14);
+      ensureSpace(16);
       doc.setFont(F, "bold");
       doc.setFontSize(7.5);
       doc.setTextColor(...GREEN);
-      doc.text(t.toUpperCase(), 12, y);
-      y += 7;
+      doc.text(t.toUpperCase(), sx, y, { charSpace: 0.5 });
+      y += 6;
     };
     const para = (t, size = 9.5, color = WHITE, bold = false) => {
       doc.setFont(F, bold ? "bold" : "normal");
       doc.setFontSize(size);
       doc.setTextColor(...color);
-      const lines = doc.splitTextToSize(t || "", W - 24);
+      const lines = doc.splitTextToSize(t || "", rw);
       ensureSpace(lines.length * (size * 0.42) + 4);
-      doc.text(lines, 12, y);
-      y += lines.length * (size * 0.42) + 2;
+      doc.text(lines, sx, y);
+      y += lines.length * (size * 0.42) + 2.5;
     };
 
-    // About
-    label("About");
-    para(epk.copy.one_liner, 11, WHITE, true);
-    y += 1;
+    // Header: MEDIA KIT badge, artist name, tagline
+    doc.setFillColor(...GREEN);
+    doc.rect(sx, y - 4.5, 34, 6, "F");
+    doc.setFont(F, "bold");
+    doc.setFontSize(7);
+    doc.setTextColor(10, 13, 11);
+    doc.text(`MEDIA KIT ${YEAR}`, sx + 2, y - 0.5, { charSpace: 0.4 });
+    y += 11;
+
+    doc.setFont(F, "bold");
+    doc.setFontSize(23);
+    doc.setTextColor(...WHITE);
+    const nameLines = doc.splitTextToSize((form.artist_name || "Artist").toUpperCase(), rw);
+    doc.text(nameLines, sx, y);
+    y += nameLines.length * 9 + 3;
+
+    if (epk.copy.tagline) para(epk.copy.tagline, 11, GREEN, true);
+    if (epk.copy.one_liner) para(epk.copy.one_liner, 10.5, WHITE, true);
+    y += 4;
+
+    // Contact
+    const where = [form.location, form.genre].filter(Boolean).join(" \u00b7 ");
+    if (where || form.contact_email || form.music_url) {
+      label("Contact");
+      if (where) para(where.toUpperCase(), 8, DIM);
+      if (form.contact_email) para(form.contact_email.toUpperCase(), 8, DIM);
+      if (form.music_url) para(form.music_url.toUpperCase(), 8, DIM);
+      y += 3;
+    }
+
+    // Biography
+    label("Biography");
     (epk.copy.bio || "").split(/\n{2,}/).filter(Boolean).forEach((p) => para(p));
     y += 4;
 
-    // The numbers
+    // Featured songs, numbered
+    if (epk.featured.length) {
+      label("Featured Songs");
+      epk.featured.slice(0, 6).forEach((s, i) => {
+        ensureSpace(10);
+        doc.setFont(F, "bold");
+        doc.setFontSize(9);
+        doc.setTextColor(...GREEN);
+        doc.text(String(i + 1).padStart(2, "0"), sx, y);
+        doc.setFontSize(10);
+        doc.setTextColor(...WHITE);
+        doc.text((s.title || "").slice(0, 36), sx + 9, y);
+        if (s.genre) {
+          doc.setFont(F, "normal");
+          doc.setFontSize(7.5);
+          doc.setTextColor(...DIM);
+          doc.text(s.genre.toUpperCase().slice(0, 24), sx + rw, y, { align: "right" });
+        }
+        y += 8;
+      });
+      y += 3;
+    }
+
+    // Press & social proof
+    const proof = (form.social_proof || []).filter((p) => p.text?.trim());
+    if (proof.length) {
+      label("Press & Social Proof");
+      proof.slice(0, 5).forEach((p) => {
+        para(`"${p.text.trim()}"`, 9.5, WHITE);
+        if (p.source) para(p.source.toUpperCase(), 7.5, DIM);
+        y += 1.5;
+      });
+      y += 3;
+    }
+
+    // Metric bar
     const stats = [
       { label: "MONTHLY LISTENERS", value: form.monthly_listeners },
       { label: "TOTAL STREAMS", value: form.total_streams },
       { label: "SOCIAL FOLLOWERS", value: form.followers },
     ].filter((s) => Number(s.value) > 0);
     if (stats.length) {
-      label("The Numbers");
-      ensureSpace(32);
-      const boxW = (W - 24 - (stats.length - 1) * 4) / stats.length;
+      ensureSpace(36);
+      doc.setFillColor(...BAND);
+      doc.rect(0, y, W, 22, "F");
+      const cell = W / stats.length;
       stats.forEach((s, i) => {
-        const x = 12 + i * (boxW + 4);
-        doc.setFillColor(20, 24, 21);
-        doc.roundedRect(x, y, boxW, 22, 2.5, 2.5, "F");
+        const cx = cell * i + cell / 2;
         doc.setFont(F, "bold");
-        doc.setFontSize(15);
-        doc.setTextColor(...GREEN);
-        doc.text(fmtNumber(s.value), x + 5, y + 10);
-        doc.setFont(F, "normal");
-        doc.setFontSize(7);
-        doc.setTextColor(...GRAY);
-        doc.text(s.label, x + 5, y + 17);
-      });
-      y += 30;
-    }
-
-    // Featured songs
-    if (epk.featured.length) {
-      label("Featured Songs");
-      epk.featured.slice(0, 6).forEach((s) => {
-        ensureSpace(15);
-        doc.setFillColor(18, 22, 19);
-        doc.roundedRect(12, y, W - 24, 12, 1.5, 1.5, "F");
-        doc.setFont(F, "bold");
-        doc.setFontSize(10);
+        doc.setFontSize(14);
         doc.setTextColor(...WHITE);
-        doc.text((s.title || "").slice(0, 40), 18, y + 7.5);
-        if (s.genre) {
-          doc.setFont(F, "normal");
-          doc.setFontSize(8);
-          doc.setTextColor(...GRAY);
-          doc.text(s.genre.slice(0, 30), W - 18, y + 7.5, { align: "right" });
-        }
-        y += 15;
+        doc.text(fmtNumber(s.value), cx, y + 10, { align: "center" });
+        doc.setFont(F, "normal");
+        doc.setFontSize(6.5);
+        doc.setTextColor(...GRAY);
+        doc.text(s.label, cx, y + 17, { align: "center", charSpace: 0.4 });
       });
-      y += 3;
+      y += 26;
     }
 
-    // Social proof
-    const proof = (form.social_proof || []).filter((p) => p.text?.trim());
-    if (proof.length) {
-      label("Social Proof");
-      proof.slice(0, 5).forEach((p) => {
-        para(`"${p.text.trim()}"`, 9.5, WHITE);
-        if (p.source) para(`- ${p.source}`, 8, GRAY);
-        y += 1.5;
-      });
-    }
-
-    // Footer band
-    const fy = y + 8;
-    doc.setFillColor(...DARK);
-    doc.rect(0, fy, W, 22, "F");
+    // Footer
+    ensureSpace(20);
     doc.setFillColor(...GREEN);
-    doc.rect(0, fy, W, 1.5, "F");
-    doc.setFontSize(8.5);
-    doc.setTextColor(...GREEN);
+    doc.rect(0, y, W, 1, "F");
     doc.setFont(F, "bold");
-    if (form.music_url) doc.text("Listen: " + form.music_url.slice(0, 80), 12, fy + 9);
+    doc.setFontSize(7.5);
+    doc.setTextColor(...GREEN);
+    if (form.music_url) doc.text(("LISTEN: " + form.music_url).slice(0, 88), 16, y + 6.5);
     doc.setFont(F, "normal");
-    doc.setTextColor(...GRAY);
-    if (form.contact_email) doc.text(form.contact_email, 12, fy + 16);
-    doc.text("Built with SoundReady", W - 12, fy + 9, { align: "right" });
+    doc.setTextColor(...DIM);
+    if (form.contact_email) doc.text(form.contact_email.toUpperCase(), 16, y + 12);
+    doc.text("BUILT WITH SOUNDREADY", W - 14, y + 6.5, { align: "right" });
+    y += 16;
 
-    return { doc, endY: fy + 22 };
+    return { doc, endY: y };
   };
 
   const buildPdf = async () => {
     const first = await drawPdf(297);
     // A one-page kit gets a page that ends at the footer, with no empty gap
-    if (first.doc.getNumberOfPages() === 1) return (await drawPdf(Math.ceil(first.endY))).doc;
+    if (first.doc.getNumberOfPages() === 1) {
+      const h = Math.ceil(first.endY);
+      return (await drawPdf(h, h)).doc;
+    }
     return first.doc;
   };
 
