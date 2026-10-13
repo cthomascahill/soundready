@@ -293,15 +293,21 @@ Deno.serve(async (req) => {
 
     // ── Save the one artist stat the Spotify API never exposes ────────────────
     if (action === 'save_artist_manual') {
-      const { monthly_listeners } = body;
+      const { monthly_listeners, artist_followers } = body;
       const existing = await base44.entities.PlatformConnection.filter(
         { created_by_id: user.id, platform: 'spotify' }, '-created_date', 1
       ).catch(() => []);
       if (!existing[0]) {
         return Response.json({ error: 'Connect your Spotify account first' }, { status: 404 });
       }
+      // Spotify's restricted developer API strips follower/listener counts, so
+      // the artist enters them manually. Only keys present in the request are
+      // touched, so saving one field never blanks the other.
+      const patch = {};
+      if (monthly_listeners !== undefined) patch.monthly_listeners = Number(monthly_listeners) || 0;
+      if (artist_followers !== undefined) patch.artist_followers = Number(artist_followers) || 0;
       const updated = await base44.entities.PlatformConnection.update(existing[0].id, {
-        stats: { ...(existing[0].stats || {}), monthly_listeners: Number(monthly_listeners) || 0 },
+        stats: { ...(existing[0].stats || {}), ...patch },
       });
       const { access_token: _a, refresh_token: _r, ...safeRecord } = updated;
       return Response.json({ success: true, data: safeRecord });
