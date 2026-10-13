@@ -1,6 +1,6 @@
 import { motion } from "framer-motion";
 import {
-  HardDrive, Send, Table2, KanbanSquare, FileText, ListMusic, Calculator,
+  HardDrive, Send, Table2, KanbanSquare, FileText, ListMusic, Calculator, X, Check,
 } from "lucide-react";
 import { useLang } from "@/lib/i18n/LanguageContext";
 
@@ -31,41 +31,39 @@ export default function VsRestSection() {
           <h2 className="font-heading text-3xl sm:text-4xl lg:text-5xl font-bold leading-tight">
             {t("SoundReady vs. ")}<span className="text-primary font-black">{t("The Rest")}</span>
           </h2>
+          <p className="text-sm sm:text-base text-muted-foreground max-w-2xl mx-auto leading-relaxed">
+            {t("Seven tools replaced. One login.")}
+          </p>
         </motion.div>
 
-        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-4">
+        <div className="space-y-3">
           {REPLACED.map((row, i) => (
             <motion.div
               key={row.tool}
-              initial={{ opacity: 0, y: 16 }}
+              initial={{ opacity: 0, y: 12 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              transition={{ delay: i * 0.05 }}
-              className="rounded-2xl border border-border bg-card p-4 sm:p-5 flex flex-col items-center text-center gap-2"
+              transition={{ delay: i * 0.04 }}
+              className="rounded-xl border border-border bg-card p-4 sm:p-5 grid grid-cols-1 md:grid-cols-[160px_1fr_1fr] gap-3 md:gap-5 items-center"
             >
-              <div className="h-12 w-12 sm:h-14 sm:w-14 rounded-full bg-muted border border-border flex items-center justify-center">
-                <row.icon className="h-6 w-6 sm:h-7 sm:w-7 text-muted-foreground" />
+              <div className="flex items-center gap-2.5">
+                <div className="h-9 w-9 rounded-lg bg-muted border border-border flex items-center justify-center shrink-0">
+                  <row.icon className="h-4 w-4 text-muted-foreground" />
+                </div>
+                <p className="font-heading font-bold text-sm">{t(row.tool)}</p>
               </div>
-              <p className="font-heading font-bold text-sm sm:text-base leading-tight">{t(row.tool)}</p>
-              <p className="text-xs text-muted-foreground line-through leading-snug">{t(row.was)}</p>
-              <div className="h-px w-6 bg-border" />
-              <p className="text-xs sm:text-sm text-primary font-semibold leading-snug">{t(row.now)}</p>
+
+              <div className="flex items-center gap-2">
+                <X className="h-3.5 w-3.5 shrink-0 text-destructive" />
+                <p className="text-xs sm:text-sm text-muted-foreground">{t(row.was)}</p>
+              </div>
+
+              <div className="flex items-center gap-2">
+                <Check className="h-3.5 w-3.5 shrink-0 text-primary" />
+                <p className="text-xs sm:text-sm text-foreground font-medium">{t(row.now)}</p>
+              </div>
             </motion.div>
           ))}
-
-          {/* Final card: the takeaway */}
-          <motion.div
-            initial={{ opacity: 0, y: 16 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ delay: 0.35 }}
-            className="rounded-2xl border border-primary/30 bg-primary/10 p-4 sm:p-5 flex flex-col items-center justify-center text-center gap-2"
-          >
-            <p className="font-heading font-black text-lg sm:text-xl text-primary leading-tight">7 tools</p>
-            <p className="text-xs sm:text-sm text-foreground font-semibold leading-snug">
-              {t("One login. One workspace.")}
-            </p>
-          </motion.div>
         </div>
       </div>
     </section>
