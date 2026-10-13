@@ -18,6 +18,7 @@ import PlatformShowcaseSection from "@/components/home/PlatformShowcaseSection";
 import VsRestSection from "@/components/home/VsRestSection";
 import MattCormanSection from "@/components/home/MattCormanSection";
 import HeroArtistSearch from "@/components/home/HeroArtistSearch";
+import SamOverviewVideo from "@/components/home/SamOverviewVideo";
 import SamWalkthrough from "@/components/home/SamWalkthrough";
 import ForYouIfSection from "@/components/home/ForYouIfSection";
 import FaqSection from "@/components/home/FaqSection";
@@ -192,6 +193,21 @@ export default function About() {
           </div>
         </motion.div>
 
+      </section>
+
+      {/* HOW-TO VIDEO: the narrated, chaptered SAM overview */}
+      <section className="px-4 py-10">
+        <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="max-w-7xl mx-auto space-y-7">
+          <div className="text-center space-y-2">
+            <h2 className="font-heading text-3xl sm:text-5xl font-black tracking-tight">
+              Watch how {t("SAM works")}
+            </h2>
+            <p className="text-sm sm:text-base text-muted-foreground max-w-xl mx-auto leading-relaxed">
+              {t("A 43-second tour, from giving SAM a task in plain words to sending your first approved pitch.")}
+            </p>
+          </div>
+          <SamOverviewVideo />
+        </motion.div>
       </section>
 
       {/* MEET SAM: one step-by-step walkthrough, two example tasks */}
