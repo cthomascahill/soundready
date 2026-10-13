@@ -1,4 +1,6 @@
 import { useCallback, useEffect, useState } from "react";
+import { base44 } from "@/api/base44Client";
+import { PREMIUM_VOICES } from "@/lib/samVoices";
 
 // Cleans markdown so Sam reads clean spoken prose instead of symbols
 export function stripForSpeech(text) {
@@ -11,8 +13,10 @@ export function stripForSpeech(text) {
     .trim();
 }
 
-// Sam's voice — the browser's built-in speech synthesis. One shared global
-// synth, so every Sam button reflects and controls whatever is speaking.
+// Sam's voice. Two engines share one global speaking flag so every Sam
+// button reflects and controls whatever is speaking:
+//  - Premium AI voices: generated server-side, played back as MP3
+//  - The device's built-in voices: browser speech synthesis (free)
 // Browser support for the synth's own start/end events is unreliable (Safari
 // only fires them on the utterance), so the speaking flag lives here in a
 // module-level store updated from the utterance's own events.
@@ -23,8 +27,20 @@ const notify = (speaking) => {
   listeners.forEach((fn) => fn(speaking));
 };
 
-// The artist can pick a specific voice (saved in localStorage); when none is
-// picked, Sam falls back to a natural female English voice.
+// One shared audio element for premium speech, and a session cache of
+// generated files so re-reading the same text never re-spends credits.
+let samAudio = null;
+const speechCache = new Map();
+
+const stopAudio = () => {
+  if (samAudio) {
+    samAudio.onended = null;
+    samAudio.onerror = null;
+    samAudio.pause();
+    samAudio = null;
+  }
+};
+
 export default function useSamSpeech() {
   const [speaking, setSpeaking] = useState(samSpeaking);
   const [supported] = useState(() => typeof window !== "undefined" && "speechSynthesis" in window);
@@ -32,12 +48,25 @@ export default function useSamSpeech() {
   const [voiceName, setVoiceNameState] = useState(() => {
     try { return localStorage.getItem("sam_voice_name") || ""; } catch { return ""; }
   });
+  const [aiVoice, setAiVoiceState] = useState(() => {
+    try { return localStorage.getItem("sam_ai_voice") || ""; } catch { return ""; }
+  });
+  const [aiLoading, setAiLoading] = useState(false);
 
   const setVoiceName = useCallback((name) => {
     setVoiceNameState(name || "");
     try {
       if (name) localStorage.setItem("sam_voice_name", name);
       else localStorage.removeItem("sam_voice_name");
+    } catch {}
+  }, []);
+
+  const setAiVoice = useCallback((id) => {
+    stopAudio();
+    setAiVoiceState(id || "");
+    try {
+      if (id) localStorage.setItem("sam_ai_voice", id);
+      else localStorage.removeItem("sam_ai_voice");
     } catch {}
   }, []);
 
@@ -57,12 +86,12 @@ export default function useSamSpeech() {
   }, [supported]);
 
   const stop = useCallback(() => {
-    if (!supported) return;
-    window.speechSynthesis.cancel();
+    stopAudio();
+    if (typeof window !== "undefined" && "speechSynthesis" in window) window.speechSynthesis.cancel();
     notify(false);
-  }, [supported]);
+  }, []);
 
-  const speak = useCallback((text) => {
+  const speakWithBrowser = useCallback((text) => {
     if (!supported || !text) return;
     const synth = window.speechSynthesis;
     synth.cancel();
@@ -85,5 +114,42 @@ export default function useSamSpeech() {
     synth.speak(utterance);
   }, [supported, voiceName]);
 
-  return { speaking, supported, speak, stop, voices, voiceName, setVoiceName };
+  const speak = useCallback(async (text) => {
+    if (!text) return;
+    stop();
+    if (aiVoice) {
+      try {
+        setAiLoading(true);
+        const key = `${aiVoice}::${text}`;
+        let fileUri = speechCache.get(key);
+        if (!fileUri) {
+          const res = await base44.functions.invoke("samSpeech", { text, voice: aiVoice });
+          fileUri = res?.data?.file_uri;
+          if (!fileUri) throw new Error("Sam's voice is unavailable right now.");
+          speechCache.set(key, fileUri);
+        }
+        const { signed_url } = await base44.integrations.Core.CreateFileSignedUrl({ file_uri: fileUri, expires_in: 3600 });
+        samAudio = new Audio(signed_url);
+        samAudio.onended = () => notify(false);
+        samAudio.onerror = () => notify(false);
+        notify(true);
+        await samAudio.play();
+      } catch (error) {
+        // Never leave the artist without a voice: fall back to the free device voice
+        notify(false);
+        speakWithBrowser(text);
+      } finally {
+        setAiLoading(false);
+      }
+    } else {
+      speakWithBrowser(text);
+    }
+  }, [aiVoice, speakWithBrowser, stop]);
+
+  return {
+    speaking, supported, speak, stop, aiLoading,
+    voices, voiceName, setVoiceName,
+    aiVoice, setAiVoice,
+    premiumVoices: PREMIUM_VOICES,
+  };
 }
