@@ -4,6 +4,7 @@ import { useAuth } from "@/lib/AuthContext";
 import SEO from "@/components/SEO";
 import ChecklistSection from "@/components/releasekit/ChecklistSection";
 import PitchTemplateSection from "@/components/releasekit/PitchTemplateSection";
+import PitchExampleSection from "@/components/releasekit/PitchExampleSection";
 import { DEFAULT_CHECKLIST } from "@/lib/releaseChecklistDefaults";
 
 // The free Release Kit: a checkable release checklist plus the Spotify
@@ -63,6 +64,7 @@ export default function ReleaseKit() {
         )}
 
         <PitchTemplateSection />
+        <PitchExampleSection />
       </div>
     </div>
   );

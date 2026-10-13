@@ -44,19 +44,22 @@ Deno.serve(async (req) => {
 
     <p>Hey ${userName}, welcome to SoundReady. Every song, show, deal and dollar in one place, built for independent artists. Start free, no card required.</p>
 
+    <p>To start you off right, your free Release Starter Kit is attached: the playlist pitch format that has landed songs on Spotify editorial playlists, a filled-in example, a week-by-week release timeline, and the metadata checklist most artists miss.</p>
+
     <div class="tools">
       <div class="tools-title">What's waiting for you</div>
       <div class="tool-item"><div class="tool-dot"></div><div class="tool-text">Vault — every song, fully organized, free forever</div></div>
       <div class="tool-item"><div class="tool-dot"></div><div class="tool-text">Tracker — take a song from idea to release</div></div>
+      <div class="tool-item"><div class="tool-dot"></div><div class="tool-text">Release Kit — your release checklist and pitch template, free in the app</div></div>
       <div class="tool-item"><div class="tool-dot"></div><div class="tool-text">Connect Spotify & YouTube to see your real numbers</div></div>
-      <div class="tool-item"><div class="tool-dot"></div><div class="tool-text">Free PDF attached — the Spotify Playlist Pitch Template, the pitch format that has landed songs on Spotify editorial playlists</div></div>
+      <div class="tool-item"><div class="tool-dot"></div><div class="tool-text">Free PDF attached — the Release Starter Kit: pitch template, filled-in example, release timeline, metadata checklist</div></div>
       <div class="tool-item"><div class="tool-dot"></div><div class="tool-text">24 integrated tools — one login</div></div>
       <div class="tool-item"><div class="tool-dot"></div><div class="tool-text">Sam, your digital manager — outbounds for you every week, you approve or deny</div></div>
     </div>
 
-    <p>Drop your first song into the Vault and get moving:</p>
+    <p>Your first move: open the Release Kit and work the checklist for your next song:</p>
 
-    <a href="https://soundready.ai/history" class="cta-btn">Open My Vault</a>
+    <a href="https://soundready.ai/release-kit" class="cta-btn">Open My Release Kit</a>
 
     <hr class="divider"/>
 
@@ -71,11 +74,11 @@ Deno.serve(async (req) => {
 
     await base44.asServiceRole.integrations.Core.SendEmail({
       to: userEmail,
-      subject: "Welcome to SoundReady — your career, in motion.",
+      subject: "Welcome to SoundReady: your free Release Starter Kit is inside",
       body: htmlBody,
       attachments: [{
-        filename: "Spotify-Playlist-Pitch-Template.pdf",
-        file_url: "https://base44.app/api/apps/69dcf0ecc907e43a438a626b/files/mp/public/69dcf0ecc907e43a438a626b/5329d97a6_Spotify-Playlist-Pitch-Template.pdf",
+        filename: "SoundReady-Release-Starter-Kit.pdf",
+        file_url: "https://base44.app/api/apps/69dcf0ecc907e43a438a626b/files/mp/public/69dcf0ecc907e43a438a626b/e77248d7b_SoundReady-Release-Starter-Kit.pdf",
       }],
     });
 
