@@ -96,11 +96,13 @@ export const AuthProvider = ({ children }) => {
         const currentUser = await base44.auth.me();
         setUser(currentUser);
         setIsAuthenticated(true);
-        // Send welcome email on first login (if not sent before)
-        const welcomeKey = `welcome_sent_${currentUser.email}`;
-        if (!localStorage.getItem(welcomeKey) && currentUser.email) {
-          localStorage.setItem(welcomeKey, "1");
-          base44.functions.invoke("sendWelcomeEmail", { data: { email: currentUser.email, full_name: currentUser.full_name } }).catch(() => {});
+        // Send the welcome email until it actually succeeds. The sent flag
+        // lives on the account, so it retries and works across browsers.
+        if (currentUser.email && currentUser.welcome_email_sent !== true) {
+          base44.functions
+            .invoke("sendWelcomeEmail", { data: { email: currentUser.email, full_name: currentUser.full_name } })
+            .then(() => base44.auth.updateMe({ welcome_email_sent: true }).catch(() => {}))
+            .catch(() => {});
         }
       } else {
         setIsAuthenticated(false);
