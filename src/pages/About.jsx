@@ -203,7 +203,7 @@ export default function About() {
               Watch how {t("SAM works")}
             </h2>
             <p className="text-sm sm:text-base text-muted-foreground max-w-xl mx-auto leading-relaxed">
-              {t("A 32-second tour of SAM and the whole SoundReady platform, from giving SAM a task in plain words to running your entire career.")}
+              {t("A guided tour of SAM and the whole SoundReady platform: give SAM a task in plain words, connect your profiles, read your analytics, track your music, and find real opportunities.")}
             </p>
           </div>
           <SamOverviewVideo />

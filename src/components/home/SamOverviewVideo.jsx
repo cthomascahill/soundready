@@ -5,7 +5,11 @@ import SamLogo from "@/components/SamLogo";
 import StepTellSamScreen from "@/components/home/walkthrough/StepTellSamScreen";
 import StepResearchScreen from "@/components/home/walkthrough/StepResearchScreen";
 import StepApproveScreen from "@/components/home/walkthrough/StepApproveScreen";
-import StepPlatformScreen from "@/components/home/walkthrough/StepPlatformScreen";
+import StepConnectProfilesScreen from "@/components/home/walkthrough/StepConnectProfilesScreen";
+import StepAnalyticsScreen from "@/components/home/walkthrough/StepAnalyticsScreen";
+import StepTrackerScreen from "@/components/home/walkthrough/StepTrackerScreen";
+import StepPlaylistsScreen from "@/components/home/walkthrough/StepPlaylistsScreen";
+import StepOpportunitiesScreen from "@/components/home/walkthrough/StepOpportunitiesScreen";
 import { pickSamDeviceVoice } from "@/lib/browserVoice";
 
 const SAM_IMG = "https://media.base44.com/images/public/69dcf0ecc907e43a438a626b/cbca442cd_generated_76ab93fb.png";
@@ -94,11 +98,39 @@ const SCENES = [
     ),
   },
   {
-    id: "platform",
-    label: "The platform",
+    id: "connect",
+    label: "Connect profiles",
+    duration: 5,
+    narration: "Start by connecting your profiles. SoundReady pulls your real numbers from Spotify, YouTube, and more.",
+    render: () => <StepConnectProfilesScreen />,
+  },
+  {
+    id: "analytics",
+    label: "Analytics",
+    duration: 5,
+    narration: "Then see your analytics in one place: listeners, streams, and growth.",
+    render: () => <StepAnalyticsScreen />,
+  },
+  {
+    id: "tracker",
+    label: "Tracker",
+    duration: 5,
+    narration: "Track every song in the tracker, from first idea to release day.",
+    render: () => <StepTrackerScreen />,
+  },
+  {
+    id: "playlists",
+    label: "Playlists",
+    duration: 5,
+    narration: "Pitch your music to playlists that match your sound.",
+    render: () => <StepPlaylistsScreen />,
+  },
+  {
+    id: "opportunities",
+    label: "Opportunities",
     duration: 6,
-    narration: "Around SAM, SoundReady runs your whole career: your Vault of songs, the release tracker, The Wall, and tools for deals, touring, and money.",
-    render: () => <StepPlatformScreen />,
+    narration: "And find real opportunities: venues, playlists, labels, and sync, researched and verified by SAM.",
+    render: () => <StepOpportunitiesScreen />,
   },
   {
     id: "outro",
@@ -145,6 +177,7 @@ export default function SamOverviewVideo() {
   const [narration, setNarration] = useState(false);
   const spokenRef = useRef(null);
   const timerRef = useRef(null);
+  const holdRef = useRef(0);
 
   const sceneIndex = Math.min(BOUNDS.findLastIndex((b) => elapsed >= b), SCENES.length - 1);
   const scene = SCENES[sceneIndex];
@@ -159,11 +192,25 @@ export default function SamOverviewVideo() {
           setPlaying(false);
           return TOTAL;
         }
+        // Let SAM finish her sentence: while the narration is still
+        // speaking, hold the slide just short of its end instead of
+        // cutting her off (capped so a stuck voice can't freeze the tour).
+        const speaking = narration && typeof window !== "undefined" && !!window.speechSynthesis?.speaking;
+        if (!speaking) holdRef.current = 0;
+        if (speaking) {
+          const idx = Math.min(BOUNDS.findLastIndex((b) => e >= b), SCENES.length - 1);
+          const sceneEnd = BOUNDS[idx] + SCENES[idx].duration;
+          if (next > sceneEnd) {
+            holdRef.current += 1;
+            if (holdRef.current < 120) return sceneEnd - 0.05;
+            holdRef.current = 0;
+          }
+        }
         return next;
       });
     }, 100);
     return () => clearInterval(timerRef.current);
-  }, [playing]);
+  }, [playing, narration]);
 
   // Voice-over: one line per scene, spoken once per scene entry
   useEffect(() => {
@@ -199,6 +246,7 @@ export default function SamOverviewVideo() {
   const seekScene = (i) => {
     setElapsed(BOUNDS[i] + 0.05);
     spokenRef.current = null;
+    holdRef.current = 0;
     if (!playing) setPlaying(true);
   };
 
