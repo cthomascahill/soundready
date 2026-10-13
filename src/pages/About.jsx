@@ -15,6 +15,7 @@ import SEO from "@/components/SEO";
 import GrowthComparisonChart from "@/components/home/GrowthComparisonChart";
 import CountUpStat from "@/components/home/CountUpStat";
 import PlatformShowcaseSection from "@/components/home/PlatformShowcaseSection";
+import VsRestSection from "@/components/home/VsRestSection";
 import MattCormanSection from "@/components/home/MattCormanSection";
 import HeroArtistSearch from "@/components/home/HeroArtistSearch";
 import SamWalkthrough from "@/components/home/SamWalkthrough";
@@ -204,6 +205,9 @@ export default function About() {
 
       {/* THE PLATFORM: compact product screenshots */}
       <PlatformShowcaseSection />
+
+      {/* SOUNDREADY VS. THE REST */}
+      <VsRestSection />
 
       {/* PRICING, 3 tiers */}
       <section id="pricing" className="relative px-4 py-16 overflow-hidden scroll-mt-20">
