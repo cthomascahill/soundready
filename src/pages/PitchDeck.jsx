@@ -117,9 +117,10 @@ bio: a polished press-ready bio in 2 short paragraphs, third person, grounded on
     setGenerating(false);
   };
 
-  const buildPdf = async () => {
+  // Draws the kit; docH is the page height so a short kit can end right after the footer.
+  const drawPdf = async (docH) => {
     const { jsPDF } = await import("jspdf");
-    const doc = new jsPDF({ unit: "mm", format: "a4" });
+    const doc = new jsPDF({ unit: "mm", format: [210, docH] });
     const W = 210;
     const H = 297;
     const GREEN = [33, 196, 93];
@@ -135,7 +136,7 @@ bio: a polished press-ready bio in 2 short paragraphs, third person, grounded on
     // Every page gets the dark background so light text always reads
     const paintPage = () => {
       doc.setFillColor(...DARK);
-      doc.rect(0, 0, W, H, "F");
+      doc.rect(0, 0, W, docH, "F");
     };
     paintPage();
 
@@ -258,20 +259,28 @@ bio: a polished press-ready bio in 2 short paragraphs, third person, grounded on
     }
 
     // Footer band
+    const fy = y + 8;
     doc.setFillColor(...DARK);
-    doc.rect(0, H - 22, W, 22, "F");
+    doc.rect(0, fy, W, 22, "F");
     doc.setFillColor(...GREEN);
-    doc.rect(0, H - 22, W, 1.5, "F");
+    doc.rect(0, fy, W, 1.5, "F");
     doc.setFontSize(8.5);
     doc.setTextColor(...GREEN);
     doc.setFont(F, "bold");
-    if (form.music_url) doc.text("Listen: " + form.music_url.slice(0, 80), 12, H - 13);
+    if (form.music_url) doc.text("Listen: " + form.music_url.slice(0, 80), 12, fy + 9);
     doc.setFont(F, "normal");
     doc.setTextColor(...GRAY);
-    if (form.contact_email) doc.text(form.contact_email, 12, H - 6);
-    doc.text("Built with SoundReady", W - 12, H - 13, { align: "right" });
+    if (form.contact_email) doc.text(form.contact_email, 12, fy + 16);
+    doc.text("Built with SoundReady", W - 12, fy + 9, { align: "right" });
 
-    return doc;
+    return { doc, endY: fy + 22 };
+  };
+
+  const buildPdf = async () => {
+    const first = await drawPdf(297);
+    // A one-page kit gets a page that ends at the footer, with no empty gap
+    if (first.doc.getNumberOfPages() === 1) return (await drawPdf(Math.ceil(first.endY))).doc;
+    return first.doc;
   };
 
   const fileName = () =>
