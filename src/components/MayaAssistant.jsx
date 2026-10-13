@@ -20,7 +20,7 @@ const QUICK_STARTS = [
   "What's my biggest opportunity right now?",
 ];
 
-function buildSystemPrompt(profile, challenges, goals) {
+export function buildSystemPrompt(profile, challenges, goals) {
   if (!profile) {
     return `You are Sam, an AI music industry manager built into SoundReady. The artist hasn't set up their profile yet. Encourage them to complete their Artist Profile for personalized advice. You speak like a real, direct manager — no fluff, no generic advice. Be concise and actionable.`;
   }
@@ -127,7 +127,7 @@ If their numbers are low, address it directly without sugarcoating. If they have
 RESPONSE STYLE — short by default: lead with a direct 1-2 sentence answer, then at most 3-4 tight bullets only when they add real value. No preamble, no padding, no restating the question. Go deeper only when the artist asks or the task truly requires it; offer detail instead of dumping it. Use markdown bold and bullets to stay scannable. End with one concrete next step when relevant.`;
 }
 
-function buildPlatformDataContext(platformConns) {
+export function buildPlatformDataContext(platformConns) {
   if (!platformConns || platformConns.length === 0) return "";
 
   const lines = ["\nLIVE PLATFORM DATA (real numbers, auto-synced):"];
@@ -194,7 +194,7 @@ function buildPlatformDataContext(platformConns) {
   return lines.join("\n");
 }
 
-function buildPipelineContext(pipelineSongs, deskActivities) {
+export function buildPipelineContext(pipelineSongs, deskActivities) {
   const lines = [];
 
   if (pipelineSongs?.length) {
@@ -222,7 +222,7 @@ function buildPipelineContext(pipelineSongs, deskActivities) {
 
 // Confirmed/dismissed memories travel with every conversation so Sam's
 // advice always reflects what the artist has actually told them.
-function buildMemorySection(memories) {
+export function buildMemorySection(memories) {
   if (!memories?.length) return "";
   const confirmed = memories.filter(m => m.status === "confirmed");
   const dismissed = memories.filter(m => m.status === "dismissed");

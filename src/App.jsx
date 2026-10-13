@@ -81,6 +81,7 @@ import ProGate from './components/ProGate';
 import AiManagerGate from './components/AiManagerGate';
 import DemoPlayer from './pages/DemoPlayer';
 import EpkShare from './pages/EpkShare';
+import AskSam from './pages/AskSam';
 import LogoDownload from './pages/LogoDownload';
 import ToolLibrary from './pages/ToolLibrary';
 import Touring from './pages/Touring';
@@ -130,6 +131,7 @@ const AuthenticatedApp = () => {
 
       {/* Protected routes — every app page requires login */}
       <Route element={<ProtectedRoute unauthenticatedElement={<Navigate to="/login" replace />} />}>
+        <Route path="/ask-sam" element={<AskSam />} />
         <Route element={<AppLayout />}>
         <Route path="/dashboard" element={<Navigate to="/history" replace />} />
         <Route path="/tools" element={<ToolLibrary />} />
