@@ -8,7 +8,7 @@ import EpkForm from "@/components/epk/EpkForm";
 import EpkPreview, { fmtNumber } from "@/components/epk/EpkPreview";
 import EpkUpsellCard from "@/components/epk/EpkUpsellCard";
 import { motion } from "framer-motion";
-import { squarePhoto } from "@/lib/epkPhoto";
+import { coverPhoto } from "@/lib/epkPhoto";
 
 const EMPTY_FORM = {
   artist_name: "",
@@ -23,7 +23,16 @@ const EMPTY_FORM = {
   social_proof: [],
   photo_url: "",
   photo_data: "",
+  phone: "",
+  website: "",
+  instagram: "",
+  tiktok: "",
+  youtube: "",
+  highlights: "",
+  notable_shows: "",
 };
+
+const lines = (t) => (t || "").split("\n").map((l) => l.trim()).filter(Boolean);
 
 /**
  * Electronic Press Kit Generator: the artist's bio, real numbers, social
@@ -67,6 +76,13 @@ export default function PitchDeck() {
         followers: prev?.followers ?? instagram[0]?.stats?.followers ?? "",
         social_proof: prev?.social_proof || [],
         photo_url: prev?.photo_url || "",
+        phone: prev?.phone || "",
+        website: prev?.website || "",
+        instagram: prev?.instagram || "",
+        tiktok: prev?.tiktok || "",
+        youtube: prev?.youtube || "",
+        highlights: prev?.highlights || "",
+        notable_shows: prev?.notable_shows || "",
       }));
       if (prev?.featured_songs) {
         setSelectedSongs(prev.featured_songs.map((s) => s.song_id).filter(Boolean));
@@ -96,6 +112,8 @@ Total streams: ${form.total_streams || "not reported"}
 Social followers: ${form.followers || "not reported"}
 Social proof: ${JSON.stringify(form.social_proof.filter(p => p.text?.trim()))}
 Featured songs: ${featured.map((s) => `${s.title}${s.genre ? ` (${s.genre})` : ""}`).join("; ") || "none"}
+Career highlights: ${lines(form.highlights).join("; ") || "none"}
+Notable shows: ${lines(form.notable_shows).join("; ") || "none"}
 
 Write:
 tagline: a hook line under the artist name, max 8 words, no ending period
@@ -135,8 +153,15 @@ bio: a polished press-ready bio in 2 short paragraphs, third person, grounded on
     const F = "helvetica";
     const YEAR = String(new Date().getFullYear());
 
-    const photo = form.photo_data || (form.photo_url ? await squarePhoto(form.photo_url) : "");
-    const SIDEBAR = photo ? 64 : 0;
+    const SIDEBAR = form.photo_data || form.photo_url ? 64 : 0;
+    // Crop (never squash) the photo to the exact shape of its panel
+    const panelH = prevEndY ? Math.max(prevEndY - 44, 60) : PAGE;
+    const photoSrc = form.photo_url || form.photo_data;
+    const photo = photoSrc
+      ? await coverPhoto(photoSrc, SIDEBAR / panelH, 900).catch(() =>
+          form.photo_data ? coverPhoto(form.photo_data, SIDEBAR / panelH, 900) : ""
+        )
+      : "";
 
     let sx = photo ? 76 : 16;
     let rw = W - sx - 14;
@@ -150,10 +175,7 @@ bio: a polished press-ready bio in 2 short paragraphs, third person, grounded on
 
     // Photo panel: on the final single-page pass it stops just above the
     // metric bar and footer; pass 1 covers the full page and is discarded.
-    if (photo) {
-      const photoH = prevEndY ? Math.max(prevEndY - 44, 60) : PAGE;
-      doc.addImage(photo, "JPEG", 0, 0, SIDEBAR, photoH);
-    }
+    if (photo) doc.addImage(photo, "JPEG", 0, 0, SIDEBAR, panelH);
 
     // Pagination stays fixed at A4 height so both passes break identically.
     const ensureSpace = (h) => {
@@ -205,11 +227,19 @@ bio: a polished press-ready bio in 2 short paragraphs, third person, grounded on
 
     // Contact
     const where = [form.location, form.genre].filter(Boolean).join(" \u00b7 ");
-    if (where || form.contact_email || form.music_url) {
+    const contactLines = [
+      where,
+      form.contact_email,
+      form.phone,
+      form.website,
+      form.instagram && `Instagram ${form.instagram}`,
+      form.tiktok && `TikTok ${form.tiktok}`,
+      form.youtube && `YouTube ${form.youtube}`,
+      form.music_url,
+    ].filter(Boolean);
+    if (contactLines.length) {
       label("Contact");
-      if (where) para(where.toUpperCase(), 8, DIM);
-      if (form.contact_email) para(form.contact_email.toUpperCase(), 8, DIM);
-      if (form.music_url) para(form.music_url.toUpperCase(), 8, DIM);
+      contactLines.forEach((c) => para(c.toUpperCase(), 8, DIM));
       y += 3;
     }
 
@@ -217,6 +247,15 @@ bio: a polished press-ready bio in 2 short paragraphs, third person, grounded on
     label("Biography");
     (epk.copy.bio || "").split(/\n{2,}/).filter(Boolean).forEach((p) => para(p));
     y += 4;
+
+    // Highlights and notable shows, as bullet lists
+    [["Career Highlights", form.highlights], ["Notable Shows", form.notable_shows]].forEach(([title, text]) => {
+      const items = lines(text);
+      if (!items.length) return;
+      label(title);
+      items.slice(0, 10).forEach((it) => para(`\u2022  ${it}`, 9.5, WHITE));
+      y += 3;
+    });
 
     // Featured songs, numbered
     if (epk.featured.length) {
@@ -341,6 +380,13 @@ bio: a polished press-ready bio in 2 short paragraphs, third person, grounded on
         followers: Number(form.followers) || 0,
         social_proof: form.social_proof.filter((p) => p.text?.trim()),
         photo_url: form.photo_url || "",
+        phone: form.phone,
+        website: form.website,
+        instagram: form.instagram,
+        tiktok: form.tiktok,
+        youtube: form.youtube,
+        highlights: form.highlights,
+        notable_shows: form.notable_shows,
         featured_songs: epk.featured.map((s) => ({ song_id: s.id, title: s.title, genre: s.genre || "" })),
         file_uri,
         active: true,

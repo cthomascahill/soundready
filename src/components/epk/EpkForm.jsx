@@ -2,6 +2,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import SocialProofEditor from "@/components/epk/SocialProofEditor";
 import EpkPhotoUpload from "@/components/epk/EpkPhotoUpload";
+import EpkExtraFields from "@/components/epk/EpkExtraFields";
 import { Zap, Music2 } from "lucide-react";
 
 const textareaClass =
@@ -36,6 +37,8 @@ export default function EpkForm({ form, setForm, songs, selectedSongs, onToggleS
           <Input placeholder="Link to your music (Spotify, Apple Music, or your page)" value={form.music_url} onChange={set("music_url")} />
           <Input placeholder="Booking / contact email" value={form.contact_email} onChange={set("contact_email")} />
         </div>
+
+        <EpkExtraFields form={form} setForm={setForm} />
 
         <SocialProofEditor value={form.social_proof} onChange={(sp) => setForm((f) => ({ ...f, social_proof: sp }))} />
       </div>

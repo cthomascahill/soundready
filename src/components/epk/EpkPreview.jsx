@@ -105,6 +105,12 @@ export default function EpkPreview({ epk, form }) {
                   <span className="truncate">{form.contact_email}</span>
                 </span>
               )}
+              {[form.phone, form.website, form.instagram && `IG ${form.instagram}`, form.tiktok && `TikTok ${form.tiktok}`, form.youtube].filter(Boolean).map((c) => (
+                <span key={c} className="inline-flex items-center gap-1.5 min-w-0 max-w-full">
+                  <ExternalLink className="h-3.5 w-3.5 shrink-0" style={{ color: GREEN }} />
+                  <span className="truncate">{c}</span>
+                </span>
+              ))}
               {form.music_url && (
                 <span className="inline-flex items-center gap-1.5 min-w-0 max-w-full">
                   <ExternalLink className="h-3.5 w-3.5 shrink-0" style={{ color: GREEN }} />
@@ -124,6 +130,24 @@ export default function EpkPreview({ epk, form }) {
               ))}
             </div>
           </section>
+
+          {[["Career Highlights", form.highlights], ["Notable Shows", form.notable_shows]].map(([title, text]) => {
+            const items = (text || "").split("\n").map((l) => l.trim()).filter(Boolean);
+            if (!items.length) return null;
+            return (
+              <section key={title} className="relative space-y-3">
+                <Label>{title}</Label>
+                <ul className="space-y-1.5 text-sm text-white/85">
+                  {items.slice(0, 10).map((it, i) => (
+                    <li key={i} className="flex gap-2">
+                      <span style={{ color: GREEN }}>•</span>
+                      <span>{it}</span>
+                    </li>
+                  ))}
+                </ul>
+              </section>
+            );
+          })}
 
           {featured.length > 0 && (
             <section className="relative space-y-3">

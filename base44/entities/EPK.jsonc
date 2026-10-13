@@ -43,6 +43,34 @@
       "type": "string",
       "description": "Booking/contact email on the kit"
     },
+    "phone": {
+      "type": "string",
+      "description": "Booking phone shown on the kit"
+    },
+    "website": {
+      "type": "string",
+      "description": "Artist website"
+    },
+    "instagram": {
+      "type": "string",
+      "description": "Instagram handle"
+    },
+    "tiktok": {
+      "type": "string",
+      "description": "TikTok handle"
+    },
+    "youtube": {
+      "type": "string",
+      "description": "YouTube channel link"
+    },
+    "highlights": {
+      "type": "string",
+      "description": "Career highlights, one per line"
+    },
+    "notable_shows": {
+      "type": "string",
+      "description": "Notable shows and collaborations, one per line"
+    },
     "monthly_listeners": {
       "type": "number",
       "description": "Monthly listeners reported on the kit"
