@@ -1,12 +1,13 @@
 import { useState, useEffect } from "react";
 import { Outlet, Link, useLocation, useNavigate } from "react-router-dom";
 import { useAuth } from "@/lib/AuthContext";
-import { Search, Menu, X } from "lucide-react";
+import { Search, Menu, X, GraduationCap } from "lucide-react";
 import SoundReadyLogo from "@/components/SoundReadyLogo";
 import SidebarNav from "@/components/layout/SidebarNav";
 import CommandPalette from "@/components/CommandPalette";
 import NotificationCenter from "@/components/NotificationCenter";
 import MayaAssistant from "@/components/MayaAssistant";
+import GuidedTour from "@/components/tour/GuidedTour";
 import TrialBanner from "@/components/billing/TrialBanner";
 import PointsBadge from "@/components/PointsBadge";
 import LanguagePicker from "@/components/LanguagePicker";
@@ -21,6 +22,17 @@ export default function AppLayout() {
   const { t } = useLang();
   const [cmdOpen, setCmdOpen] = useState(false);
   const [drawerOpen, setDrawerOpen] = useState(false);
+  const [tourOpen, setTourOpen] = useState(false);
+
+  // New accounts see the guided tour once, automatically. Marking it seen
+  // (on exit or finish) stops it from starting again — replay stays
+  // available from the sidebar. Accounts older than a week skip the
+  // auto-start so existing artists are never interrupted.
+  useEffect(() => {
+    if (!user || tourOpen || user.guided_tour_seen === true) return;
+    const created = user.created_date ? new Date(user.created_date).getTime() : 0;
+    if (created && Date.now() - created < 7 * 24 * 60 * 60 * 1000) setTourOpen(true);
+  }, [user, tourOpen]);
 
   // Cmd+K / Ctrl+K listener
   useEffect(() => {
@@ -34,10 +46,10 @@ export default function AppLayout() {
   // Onboarding: connect profiles is Step 1 — new users who land on the
   // Vault get taken there first until they complete or skip it.
   useEffect(() => {
-    if (user && user.onboarding_complete !== true && location.pathname === "/history") {
+    if (user && !tourOpen && user.onboarding_complete !== true && location.pathname === "/history") {
       navigate("/artist-profile", { replace: true });
     }
-  }, [user, location.pathname, navigate]);
+  }, [user, tourOpen, location.pathname, navigate]);
 
   const closeDrawer = () => setDrawerOpen(false);
 
@@ -77,6 +89,11 @@ export default function AppLayout() {
               <span className="flex-1 text-left">{t("Search…")}</span>
               <kbd className="text-[10px] border border-border rounded px-1.5 py-0.5">⌘K</kbd>
             </button>
+            <button onClick={() => setTourOpen(true)}
+              className="w-full flex items-center gap-2 px-3 py-2 rounded-lg text-sm text-muted-foreground hover:text-foreground hover:bg-secondary transition-colors">
+              <GraduationCap className="h-4 w-4" />
+              <span className="flex-1 text-left">{t("Guided Tour")}</span>
+            </button>
             <LanguagePicker className="w-full" />
             <ThemeToggle className="w-full" />
           </div>
@@ -100,6 +117,11 @@ export default function AppLayout() {
                   className="w-full flex items-center gap-2 px-3 py-2 rounded-lg text-sm text-muted-foreground hover:text-foreground hover:bg-secondary transition-colors">
                   <Search className="h-4 w-4" /> {t("Search…")}
                 </button>
+                <button onClick={() => { closeDrawer(); setTourOpen(true); }}
+                  className="w-full flex items-center gap-2 px-3 py-2 rounded-lg text-sm text-muted-foreground hover:text-foreground hover:bg-secondary transition-colors">
+                  <GraduationCap className="h-4 w-4" />
+                  <span className="flex-1 text-left">{t("Guided Tour")}</span>
+                </button>
                 <LanguagePicker className="w-full" />
                 <ThemeToggle className="w-full" />
               </div>
@@ -115,6 +137,7 @@ export default function AppLayout() {
 
       <CommandPalette open={cmdOpen} onClose={() => setCmdOpen(false)} />
       <MayaAssistant />
+      <GuidedTour open={tourOpen} onClose={() => setTourOpen(false)} />
       </div>
   );
 }
