@@ -200,10 +200,10 @@ export default function About() {
         <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="max-w-7xl mx-auto space-y-7">
           <div className="text-center space-y-2">
             <h2 className="font-heading text-3xl sm:text-5xl font-black tracking-tight">
-              Watch how {t("SAM works")}
+              Watch how <span className="text-primary">SAM</span> {t("works")}
             </h2>
             <p className="text-sm sm:text-base text-muted-foreground max-w-xl mx-auto leading-relaxed">
-              {t("A guided tour of SAM and the whole SoundReady platform: give SAM a task in plain words, connect your profiles, read your analytics, track your music, and find real opportunities.")}
+              {t("A guided tour of SAM and the whole SoundReady platform.")}
             </p>
           </div>
           <SamOverviewVideo />
