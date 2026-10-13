@@ -3,7 +3,7 @@ import { base44 } from "@/api/base44Client";
 import { useAuth } from "@/lib/AuthContext";
 import { getTier } from "@/lib/tier";
 import { Button } from "@/components/ui/button";
-import { Download, Save, CheckCircle2, Pencil } from "lucide-react";
+import { Download, Save, CheckCircle2, Pencil, Copy, Link2 } from "lucide-react";
 import EpkForm from "@/components/epk/EpkForm";
 import EpkPreview, { fmtNumber } from "@/components/epk/EpkPreview";
 import EpkUpsellCard from "@/components/epk/EpkUpsellCard";
@@ -50,6 +50,8 @@ export default function PitchDeck() {
   const [songs, setSongs] = useState([]);
   const [selectedSongs, setSelectedSongs] = useState([]);
   const [epk, setEpk] = useState(null);
+  const [shareToken, setShareToken] = useState("");
+  const [copied, setCopied] = useState(false);
 
   // Prefill from the artist's own data: saved kit, profile, connected platforms
   useEffect(() => {
@@ -87,12 +89,19 @@ export default function PitchDeck() {
       if (prev?.featured_songs) {
         setSelectedSongs(prev.featured_songs.map((s) => s.song_id).filter(Boolean));
       }
+      setShareToken(prev?.share_token || "");
       setLoading(false);
     });
   }, [user]);
 
   const toggleSong = (id) =>
     setSelectedSongs((prev) => (prev.includes(id) ? prev.filter((s) => s !== id) : [...prev, id]));
+
+  const copyShare = () => {
+    navigator.clipboard?.writeText(`${window.location.origin}/epk/${shareToken}`);
+    setCopied(true);
+    setTimeout(() => setCopied(false), 2000);
+  };
 
   const generate = async () => {
     setGenerating(true);
@@ -343,12 +352,13 @@ bio: a polished press-ready bio in 2 short paragraphs, third person, grounded on
       const blob = doc.output("blob");
       const file = new File([blob], fileName(), { type: "application/pdf" });
       const { file_uri } = await base44.integrations.Core.UploadPrivateFile({ file });
+      let created;
       // Older kits step aside; the newest one is what Sam attaches
       await base44.entities.EPK.updateMany(
         { created_by_id: user.id, active: true },
         { $set: { active: false } }
       );
-      await base44.entities.EPK.create({
+      created = await base44.entities.EPK.create({
         user_id: user.id,
         artist_name: form.artist_name,
         tagline: epk.copy.tagline || "",
@@ -375,6 +385,10 @@ bio: a polished press-ready bio in 2 short paragraphs, third person, grounded on
         active: true,
       });
       setSaved(true);
+      // Share link for this kit, like the demo links for songs
+      base44.functions.invoke("epkShare", { action: "create", epk_id: created.id })
+        .then((res) => setShareToken(res.data?.token || ""))
+        .catch(() => {});
     } catch (e) {
       setError("Couldn't save the kit to Storage. Try again.");
     }
@@ -449,6 +463,21 @@ bio: a polished press-ready bio in 2 short paragraphs, third person, grounded on
             )}
 
             {error && <p className="text-sm text-destructive">{error}</p>}
+
+            {shareToken && (
+              <div className="rounded-xl border border-border bg-card px-4 py-3 flex flex-wrap items-center gap-3">
+                <Link2 className="h-4 w-4 text-primary shrink-0" />
+                <div className="flex-1 min-w-0">
+                  <p className="text-sm font-semibold">Share your EPK online</p>
+                  <p className="text-xs text-muted-foreground truncate">
+                    {`${window.location.origin}/epk/${shareToken}`}
+                  </p>
+                </div>
+                <Button variant="outline" size="sm" className="gap-2 shrink-0" onClick={copyShare}>
+                  <Copy className="h-3.5 w-3.5" /> {copied ? "Copied" : "Copy link"}
+                </Button>
+              </div>
+            )}
 
             <EpkPreview epk={epk} form={form} />
           </div>
