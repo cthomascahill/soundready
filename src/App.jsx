@@ -28,7 +28,6 @@ import BudgetTracker from './pages/BudgetTracker';
 import PitchDeck from './pages/PitchDeck';
 import SpotifyConnect from './pages/SpotifyConnect';
 import About from './pages/About';
-import PlaylistPitcher from './pages/PlaylistPitcher';
 import ReleasePlanInput from './pages/ReleasePlanInput';
 import ReleaseKit from './pages/ReleaseKit';
 import LinkInBio from './pages/LinkInBio';
@@ -148,7 +147,6 @@ const AuthenticatedApp = () => {
         <Route path="/budget" element={<BudgetTracker />} />
         <Route path="/pitch-deck" element={pro(PitchDeck)} />
         <Route path="/spotify" element={<SpotifyConnect />} />
-        <Route path="/playlist-pitcher" element={pro(PlaylistPitcher)} />
         <Route path="/touring" element={pro(Touring)} />
         <Route path="/gig-finder" element={pro(GigFinder)} />
         <Route path="/algorithm-guide" element={<AlgorithmGuide />} />

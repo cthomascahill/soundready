@@ -11,7 +11,7 @@ const ACCENTS = [
 ];
 
 const ACTION_LINKS = {
-  "song vault": "/history", release: "/history", playlist: "/playlist-pitcher",
+  "song vault": "/history", release: "/history", playlist: "/sam-desk",
   epk: "/pitch-deck", tour: "/tour-planner", venue: "/gig-finder",
   analytics: "/analytics", branding: "/branding-studio",
   royalt: "/royalties",

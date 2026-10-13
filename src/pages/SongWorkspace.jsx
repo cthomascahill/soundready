@@ -209,8 +209,8 @@ export default function SongWorkspace() {
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div className="rounded-xl bg-card border border-border p-5 space-y-3">
                   <p className="font-heading font-semibold">Pitch to Playlist Curators</p>
-                  <p className="text-sm text-muted-foreground">Find curators and generate personalized pitch emails for this song.</p>
-                  <Button variant="outline" onClick={() => navigate("/playlist-pitcher")} className="w-full">Open Playlist Pitcher</Button>
+                  <p className="text-sm text-muted-foreground">Sam matches your song to real curators and drafts the pitch for your approval.</p>
+                  <Button variant="outline" onClick={() => navigate("/sam-desk")} className="w-full">Open Sam's Playlists</Button>
                 </div>
               </div>
             </div>

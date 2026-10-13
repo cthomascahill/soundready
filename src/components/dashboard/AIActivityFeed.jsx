@@ -79,7 +79,7 @@ function ActivityItem({ item }) {
 
 const SUGGESTION_ROUTES = {
   "Vault": "/history",
-  "Playlist Pitching": "/playlist-pitcher",
+  "Playlist Pitching": "/sam-desk",
   "EPK Builder": "/pitch-deck",
   "Branding Studio": "/branding-studio",
   "Career Roadmap": "/career-roadmap",

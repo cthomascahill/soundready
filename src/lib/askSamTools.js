@@ -36,7 +36,6 @@ const COMPONENTS = {
   "/pitch-deck": React.lazy(() => import("@/pages/PitchDeck")),
   "/analytics": React.lazy(() => import("@/pages/Analytics")),
   "/contract-analyzer": React.lazy(() => import("@/pages/ContractAnalyzer")),
-  "/playlist-pitcher": React.lazy(() => import("@/pages/PlaylistPitcher")),
   "/deals": React.lazy(() => import("@/pages/Deals")),
   "/royalties": React.lazy(() => import("@/pages/RoyaltyDashboard")),
   "/royalty-calculator": React.lazy(() => import("@/pages/RoyaltyCalculator")),

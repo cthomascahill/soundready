@@ -1,5 +1,5 @@
 import {
-  Music2, ListChecks, Calendar, Mic2, BarChart2, Scale, Handshake,
+  Music2, ListChecks, Calendar, BarChart2, Scale, Handshake,
   MapPin, Megaphone, Route, PiggyBank, FileSignature, Map, UserCircle,
   Newspaper, Radar, TrendingUp, Flame, Bot, MessagesSquare, Shield, DollarSign,
   GraduationCap, AudioLines, Sparkles, PenLine, Receipt, ClipboardCheck,
@@ -27,12 +27,7 @@ export const TOOL_CATEGORIES = [
       { name: "Contract Analyzer", to: "/contract-analyzer", desc: "AI review of any deal you're offered", icon: Shield, tier: "ai" },
     ],
   },
-  {
-    label: "Marketing",
-    tools: [
-      { name: "Playlist Pitcher", to: "/playlist-pitcher", desc: "Find and pitch matching playlists", icon: Mic2, tier: "pro" },
-    ],
-  },
+
   {
     label: "Money",
     tools: [

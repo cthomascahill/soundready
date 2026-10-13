@@ -103,7 +103,7 @@ const PRO_ONLY = new Set([
   "/studio", "/artist-feed",
   "/touring", "/gig-finder", "/tour-opportunities", "/tour-planner", "/tour-finance",
   "/contracts", "/team-chat",
-  "/playlist-pitcher", "/music-news",
+  "/music-news",
   "/release-plan", "/analytics", "/pitch-deck", "/legal",
   "/career-roadmap",
 ]);
