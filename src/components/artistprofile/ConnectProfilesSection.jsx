@@ -6,12 +6,11 @@ import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import {
-  Link2, BarChart2, Shield, Zap, Loader2, RefreshCw,
+  Link2, Shield, Zap, Loader2, RefreshCw,
   LogOut, AlertCircle, AlertTriangle, ArrowRight, Mic2,
 } from "lucide-react";
 import AccountTypePicker from "@/components/AccountTypePicker";
-import TikTokCard from "@/components/artistprofile/TikTokCard";
-import { getFreshness, FreshnessBadge, Stat, Field } from "@/components/artistprofile/platformShared";
+import { getFreshness, FreshnessBadge, Stat } from "@/components/artistprofile/platformShared";
 
 // Pull the real reason out of an SDK error; the raw message is a generic
 // "Request failed with status code 500" that hides what actually broke.
@@ -310,136 +309,27 @@ function PlatformCard({ platform, conn, onUpdated, oauthLoading, oauthError }) {
             <p className="font-semibold text-sm">{platform.name}</p>
             <p className="text-xs text-muted-foreground mt-0.5">
               {platform.id === "spotify" ? "Artist profile · Auto-synced"
-                : platform.id === "youtube" ? "YouTube Data API v3 · Auto-synced daily"
-                : platform.id === "tiktok" ? "TikTok Display API · Auto-synced"
-                : "Manual entry"}
+                : "YouTube Data API v3 · Auto-synced daily"}
             </p>
           </div>
         </div>
         <span className={`text-[10px] font-bold px-2 py-0.5 rounded-full border ${
           platform.id === "spotify" ? "bg-primary/10 text-primary border-primary/20"
-            : platform.id === "youtube" ? "bg-red-500/10 text-red-400 border-red-500/20"
-            : platform.id === "tiktok" ? "bg-chart-5/10 text-chart-5 border-chart-5/20"
-            : "bg-secondary text-muted-foreground border-border"
+            : "bg-red-500/10 text-red-400 border-red-500/20"
         }`}>
-          {platform.id === "spotify" ? "Sync" : platform.id === "youtube" ? "API" : platform.id === "tiktok" ? "OAuth" : "Manual"}
+          {platform.id === "spotify" ? "Sync" : "API"}
         </span>
       </div>
 
       {platform.id === "spotify" && <SpotifyCard conn={conn} onUpdated={onUpdated} oauthLoading={oauthLoading} oauthError={oauthError} />}
       {platform.id === "youtube" && <YouTubeCard conn={conn} onUpdated={onUpdated} />}
-      {platform.id === "tiktok" && <TikTokCard conn={conn} onUpdated={onUpdated} />}
-      {platform.id === "apple_music" && <ManualForm platform={platform} conn={conn} onUpdated={onUpdated} />}
     </motion.div>
   );
 }
-
-// ── Manual form for Apple Music ───────────────────────────────────────────────
-function ManualForm({ platform, conn, onUpdated }) {
-  const existing = conn?.stats || {};
-  const [form, setForm] = useState({ ...existing });
-  const [loading, setLoading] = useState(false);
-  const set = (k, v) => setForm(f => ({ ...f, [k]: v }));
-
-  const handleSave = async () => {
-    setLoading(true);
-    const res = await base44.functions.invoke("syncPlatformData", {
-      platform: "manual",
-      sub_platform: platform.id,
-      manual_stats: form,
-      display_name: form.display_name,
-    }).catch(e => ({ data: { error: friendlyError(e) } }));
-    setLoading(false);
-    if (res.data?.data) onUpdated(res.data.data);
-  };
-
-  if (platform.id === "apple_music") return (
-    <div className="space-y-3">
-      {conn && (
-        <div className="rounded-xl bg-secondary/40 border border-border p-3 grid grid-cols-2 gap-2">
-          <Stat label="Monthly Listeners" value={existing.apple_monthly_listeners ? existing.apple_monthly_listeners.toLocaleString() : "—"} />
-          <Stat label="Shazams" value={existing.shazam_count ? existing.shazam_count.toLocaleString() : "—"} />
-          {conn.last_synced && <p className="col-span-2"><FreshnessBadge last_synced={conn.last_synced} /></p>}
-        </div>
-      )}
-      <div className="grid grid-cols-2 gap-3">
-        <div className="col-span-2">
-          <Field label="Apple Music Profile URL" value={form.apple_music_url || ""} onChange={v => set("apple_music_url", v)} placeholder="https://music.apple.com/..." />
-        </div>
-        <Field label="Monthly Listeners" value={form.apple_monthly_listeners || ""} onChange={v => set("apple_monthly_listeners", Number(v))} placeholder="5000" type="number" />
-        <Field label="Shazam Count" value={form.shazam_count || ""} onChange={v => set("shazam_count", Number(v))} placeholder="1200" type="number" />
-      </div>
-      <Button size="sm" onClick={handleSave} disabled={loading} className="gap-2">
-        {loading ? <Loader2 className="h-3.5 w-3.5 animate-spin" /> : null} Save Apple Music Stats
-      </Button>
-    </div>
-  );
-
-  return null;
-}
-
-// ── Self-Reported Stats Card ──────────────────────────────────────────────────
-function SelfReportedCard({ conn, onUpdated }) {
-  const existing = conn?.stats || {};
-  const [form, setForm] = useState({ ...existing });
-  const [loading, setLoading] = useState(false);
-  const set = (k, v) => setForm(f => ({ ...f, [k]: v }));
-
-  const handleSave = async () => {
-    setLoading(true);
-    const res = await base44.functions.invoke("syncPlatformData", {
-      platform: "manual",
-      sub_platform: "self_reported",
-      manual_stats: form,
-    }).catch(e => ({ data: { error: friendlyError(e) } }));
-    setLoading(false);
-    if (res.data?.data) onUpdated(res.data.data);
-  };
-
-  return (
-    <motion.div initial={{ opacity: 0, y: 6 }} animate={{ opacity: 1, y: 0 }}
-      className="rounded-2xl border border-border bg-card p-5 space-y-4">
-      <div className="flex items-center justify-between">
-        <div className="flex items-center gap-3">
-          <div className="h-10 w-10 rounded-xl bg-primary/10 flex items-center justify-center text-xl">📊</div>
-          <div>
-            <p className="font-semibold text-sm">Live / Business Stats</p>
-            <p className="text-xs text-muted-foreground mt-0.5">Update monthly for best Sam results</p>
-          </div>
-        </div>
-        <span className="text-[10px] font-bold px-2 py-0.5 rounded-full border bg-secondary text-muted-foreground border-border">Manual</span>
-      </div>
-
-      {conn && (
-        <div className="rounded-xl bg-secondary/40 border border-border p-3 grid grid-cols-2 gap-2">
-          <Stat label="Email List" value={(existing.email_list_size || 0).toLocaleString()} />
-          <Stat label="Merch Revenue" value={existing.merch_revenue_12mo ? `$${existing.merch_revenue_12mo.toLocaleString()}` : "—"} />
-          <Stat label="Press Placements" value={existing.press_placements || "—"} />
-          <Stat label="Sync Placements" value={existing.sync_placements || "—"} />
-          {conn.last_synced && <p className="col-span-2"><FreshnessBadge last_synced={conn.last_synced} /></p>}
-        </div>
-      )}
-
-      <div className="grid grid-cols-2 gap-3">
-        <Field label="Email List Size" value={form.email_list_size || ""} onChange={v => set("email_list_size", Number(v))} placeholder="2500" type="number" />
-        <Field label="Merch Revenue (12mo $)" value={form.merch_revenue_12mo || ""} onChange={v => set("merch_revenue_12mo", Number(v))} placeholder="8000" type="number" />
-        <Field label="Press Placements" value={form.press_placements || ""} onChange={v => set("press_placements", Number(v))} placeholder="5" type="number" />
-        <Field label="Sync Placements" value={form.sync_placements || ""} onChange={v => set("sync_placements", Number(v))} placeholder="2" type="number" />
-      </div>
-      <Button size="sm" onClick={handleSave} disabled={loading} className="gap-2 w-full">
-        {loading ? <Loader2 className="h-3.5 w-3.5 animate-spin" /> : null} Save Self-Reported Stats
-      </Button>
-    </motion.div>
-  );
-}
-
-
 
 const PLATFORMS = [
   { id: "spotify", name: "Spotify", emoji: "🎵", bg: "bg-green-500/10" },
   { id: "youtube", name: "YouTube", emoji: "▶️", bg: "bg-red-500/10" },
-  { id: "tiktok", name: "TikTok", emoji: "🎵", bg: "bg-zinc-800" },
-  { id: "apple_music", name: "Apple Music", emoji: "🍎", bg: "bg-pink-500/10" },
 ];
 
 // The "Connect Your Profiles" experience, now a section of the Artist Profile page.
@@ -493,18 +383,7 @@ export default function ConnectProfilesSection() {
       .catch(() => {});
   }, [user]);
 
-  // Keep a connected TikTok fresh: quietly re-sync whenever it's over a day old
-  useEffect(() => {
-    const t = connections.tiktok;
-    if (!t || t.connection_type !== "oauth" || t.status !== "connected") return;
-    const ageMs = t.last_synced ? Date.now() - new Date(t.last_synced).getTime() : Infinity;
-    if (ageMs < 24 * 60 * 60 * 1000) return;
-    base44.functions.invoke("syncPlatformData", { platform: "tiktok_sync" })
-      .then(res => { if (res.data?.data) setConnections(prev => ({ ...prev, tiktok: res.data.data })); })
-      .catch(() => {});
-  }, [connections.tiktok?.id, connections.tiktok?.last_synced, connections.tiktok?.connection_type]);
-
-  // Same for a linked Spotify artist: re-read the public numbers when they're over a day old
+  // Keep a linked Spotify artist fresh: quietly re-read the public numbers when they're over a day old
   useEffect(() => {
     const sp = connections.spotify;
     if (!sp || sp.status !== "connected" || !sp.profile_url || !sp.stats?.artist_id) return;
@@ -533,7 +412,7 @@ export default function ConnectProfilesSection() {
     }
   };
 
-  const allPlatforms = [...PLATFORMS, { id: "self_reported" }];
+  const allPlatforms = PLATFORMS;
   const connectedCount = Object.values(connections).filter(c => c.status === "connected").length;
 
   const totalDataPoints = Object.values(connections).reduce((acc, c) => {
@@ -543,7 +422,7 @@ export default function ConnectProfilesSection() {
   const healthItems = allPlatforms.map(p => {
     const conn = connections[p.id];
     const freshness = conn?.status === "connected" ? getFreshness(conn.last_synced) : null;
-    return { name: p.id === "self_reported" ? "Live/Business Stats" : PLATFORMS.find(x => x.id === p.id)?.name || p.id, conn, freshness };
+    return { name: p.name, conn, freshness };
   });
 
   return (
@@ -580,7 +459,7 @@ export default function ConnectProfilesSection() {
         </div>
         <div className="flex-1">
           <p className="font-semibold">Sam has access to <span className="text-primary">{totalDataPoints} data points</span> about your career</p>
-          <p className="text-xs text-muted-foreground mt-0.5">Spotify, YouTube, and TikTok sync automatically. Apple Music is entered manually.</p>
+          <p className="text-xs text-muted-foreground mt-0.5">Spotify and YouTube sync automatically.</p>
         </div>
         <div className="text-right shrink-0">
           <p className="text-2xl font-bold text-primary">{connectedCount}</p>
@@ -612,7 +491,7 @@ export default function ConnectProfilesSection() {
             <p className="font-heading font-bold text-lg">Done connecting?</p>
           </div>
           <p className="text-sm text-muted-foreground leading-relaxed">
-            Connected data powers Sam's advice, your roadmap and your release strategy. Spotify, YouTube, and TikTok sync automatically. Apple Music stats are entered manually.
+            Connected data powers Sam's advice, your roadmap and your release strategy. Spotify and YouTube sync automatically.
           </p>
           <Button
             onClick={async () => {
@@ -627,17 +506,6 @@ export default function ConnectProfilesSection() {
           </Button>
         </div>
       )}
-
-      {/* Self-Reported */}
-      <section className="space-y-4">
-        <div>
-          <h2 className="font-heading font-semibold text-lg flex items-center gap-2">
-            <BarChart2 className="h-4 w-4 text-primary" /> Self-Reported Stats
-          </h2>
-          <p className="text-xs text-muted-foreground mt-1">Numbers that can't be pulled automatically. Show and ticket stats live in your profile's Live & Touring section.</p>
-        </div>
-        <SelfReportedCard conn={connections["self_reported"] || null} onUpdated={handleUpdated("self_reported")} />
-      </section>
 
       {/* Data Health */}
       <section className="space-y-4">
@@ -669,8 +537,8 @@ export default function ConnectProfilesSection() {
             </div>
             <p className="text-xs text-muted-foreground mt-2">
               {connectedCount === 0 && "Connect at least Spotify or YouTube to get real data into Sam."}
-              {connectedCount > 0 && connectedCount < 3 && "Good start! Connect more platforms for richer AI advice."}
-              {connectedCount >= 3 && "🔥 Sam has strong context about your career."}
+              {connectedCount > 0 && connectedCount < allPlatforms.length && "Good start! Connect the other platform for richer AI advice."}
+              {connectedCount >= allPlatforms.length && "🔥 Sam has strong context about your career."}
             </p>
           </div>
         </div>
