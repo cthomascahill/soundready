@@ -49,7 +49,7 @@ const FAQ = [
   },
   {
     q: "Which plan do I actually need?",
-    a: "Free keeps your music organized forever, no card needed. Artist Pro adds the full career toolkit: unlimited Vault, release planning, playlist discovery, venues, touring and team tools, $39/month after the trial. Digital Manager adds SAM on top of all of that, $59/month while the founding offer lasts.",
+    a: "Free keeps your music organized forever, no card needed, and it starts with the free Release Starter Kit in your welcome email: the playlist pitch template that has landed songs on Spotify editorial playlists, a filled-in example, a week-by-week release timeline and the metadata checklist most artists miss. Artist Pro adds the full career toolkit: unlimited Vault, release planning, playlist discovery, venues, touring and team tools, $39/month after the trial. Digital Manager adds SAM on top of all of that, $59/month while the founding offer lasts.",
   },
   {
     q: "What happens when I cancel?",
@@ -203,7 +203,7 @@ export default function Pricing() {
               <p className="text-2xl font-black mb-1">$0</p>
               <p className="text-sm font-semibold text-chart-5 mb-3">Free forever</p>
               <p className="text-sm text-muted-foreground leading-relaxed mb-5">
-                Keep your songs and releases in one place.
+                Sign up free and your Release Starter Kit lands in your inbox the moment you join: pitch template, filled-in example, release timeline, metadata checklist.
               </p>
               <div className="flex-1">
                 <TierItems items={CARD_FREE_ITEMS} check="text-chart-5" />

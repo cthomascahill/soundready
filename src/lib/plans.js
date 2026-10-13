@@ -8,7 +8,8 @@ export const FREE_ITEMS = [
   "Artist Profile: connect Spotify & YouTube",
   "Streaming Royalty Calculator: estimate what your streams pay",
   "Royalties: see what every release actually earns",
-  "Release Kit: a free release checklist and the Spotify playlist pitch template",
+  "Release Kit: your release checklist and pitch template, free in the app",
+  "Release Starter Kit PDF in your welcome email: pitch template, filled-in example, release timeline, metadata checklist",
   "Music Academy: learn the business of music",
 ];
 
@@ -47,7 +48,8 @@ export const CARD_FREE_ITEMS = [
   "Track songs from idea to release",
   "Connect Spotify and YouTube to your artist profile",
   "Streaming royalty calculator",
-  "Release Kit: release checklist + playlist pitch template",
+  "Release Starter Kit PDF on signup: pitch template, example, timeline",
+  "Release Kit: checklist + pitch template in the app",
   "Music Academy: learn the business of music",
 ];
 

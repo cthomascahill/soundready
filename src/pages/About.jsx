@@ -32,11 +32,13 @@ const TIERS = [
     tagline: "Get your music organized.",
     limit: "Up to 5 songs",
     price: "$0 — Free forever",
-    desc: "Keep your songs and releases in one place.",
+    desc: "Sign up free and get your Release Starter Kit: a 5-page PDF in your inbox that walks your next release out the door.",
     items: [
+      "Release Starter Kit PDF on signup: pitch template, filled-in example, release timeline, metadata checklist",
       "Store up to 5 songs in your Vault",
       "Track songs from idea to release",
       "Connect Spotify and YouTube to your artist profile",
+      "Release Kit: your checklist and pitch template in the app",
       "Streaming royalty calculator",
       "Music Academy: learn the business of music",
     ],
@@ -159,7 +161,7 @@ export default function About() {
               </Button>
             </div>
 
-            <p className="text-xs sm:text-sm text-muted-foreground">{t("Free workspace. SAM plans from $59/month.")}</p>
+            <p className="text-xs sm:text-sm text-muted-foreground">{t("Free forever. Your Release Starter Kit lands in your inbox the moment you sign up.")}</p>
           </div>
 
           {/* SAM mascot, big on the right, floating */}
