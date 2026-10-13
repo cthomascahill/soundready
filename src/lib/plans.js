@@ -10,7 +10,7 @@ export const FREE_ITEMS = [
   "Royalties: see what every release actually earns",
   "Spotify Playlist Pitch template: the same exact template used to get on thousands of Spotify playlists, for free",
   "Release checklist",
-  "Music Academy: learn the business of music",
+  "Music Academy: a step-by-step guide on how to create and scale your music business",
 ];
 
 export const PRO_ITEMS = [
@@ -50,7 +50,7 @@ export const CARD_FREE_ITEMS = [
   "Streaming royalty calculator",
   "Spotify Playlist Pitch template: the same exact template used to get on thousands of Spotify playlists, for free",
   "Release checklist",
-  "Music Academy: learn the business of music",
+  "Music Academy: a step-by-step guide on how to create and scale your music business",
 ];
 
 export const CARD_PRO_ITEMS = [

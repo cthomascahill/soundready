@@ -40,7 +40,7 @@ const TIERS = [
       "Streaming royalty calculator",
       "Spotify Playlist Pitch template: the same exact template used to get on thousands of Spotify playlists, for free",
       "Release checklist",
-      "Music Academy: learn the business of music",
+      "Music Academy: a step-by-step guide on how to create and scale your music business",
     ],
     cta: "Start Free",
     checkout: "/checkout/free",
