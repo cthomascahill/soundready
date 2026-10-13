@@ -34,11 +34,11 @@ const TIERS = [
     price: "$0 — Free forever",
     desc: "Sign up free and get your Release Starter Kit: a 5-page PDF in your inbox that walks your next release out the door.",
     items: [
-      "Release Starter Kit PDF on signup: pitch template, filled-in example, release timeline, metadata checklist",
+      "Spotify Playlist Pitch template: the same exact template used to get on thousands of Spotify playlists, for free",
+      "Release checklist",
       "Store up to 5 songs in your Vault",
       "Track songs from idea to release",
       "Connect Spotify and YouTube to your artist profile",
-      "Release Kit: your checklist and pitch template in the app",
       "Streaming royalty calculator",
       "Music Academy: learn the business of music",
     ],
