@@ -37,6 +37,11 @@
     "venue_name": {
       "type": "string",
       "description": "Venue the feedback concerns, when it's about a venue target"
+    },
+    "description": {
+      "type": "string",
+      "maxLength": 1000,
+      "description": "Optional description of this feedback entry"
     }
   },
   "required": [

@@ -54,6 +54,11 @@
     "note": {
       "type": "string",
       "description": "Why the entry changed, e.g. estimate reserved, action complete (with AI call count), released on failure"
+    },
+    "description": {
+      "type": "string",
+      "maxLength": 1000,
+      "description": "Optional description of this usage entry"
     }
   },
   "required": [

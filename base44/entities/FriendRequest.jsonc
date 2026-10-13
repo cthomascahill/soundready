@@ -27,6 +27,11 @@
       ],
       "default": "pending",
       "description": "Requests are approved manually by the recipient"
+    },
+    "description": {
+      "type": "string",
+      "maxLength": 1000,
+      "description": "Optional description of this request"
     }
   },
   "required": [

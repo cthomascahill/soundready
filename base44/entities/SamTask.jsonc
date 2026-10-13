@@ -149,6 +149,11 @@
     "error": {
       "type": "string",
       "description": "Why the task failed, when status is failed"
+    },
+    "description": {
+      "type": "string",
+      "maxLength": 1000,
+      "description": "Optional description of this task"
     }
   },
   "required": [

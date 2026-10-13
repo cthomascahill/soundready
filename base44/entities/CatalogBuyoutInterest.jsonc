@@ -35,6 +35,11 @@
       ],
       "default": "interested",
       "description": "Where this advance conversation stands"
+    },
+    "description": {
+      "type": "string",
+      "maxLength": 1000,
+      "description": "Optional description of this interest submission"
     }
   },
   "required": [

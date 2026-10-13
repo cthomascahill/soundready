@@ -77,6 +77,11 @@
     "metadata": {
       "type": "object",
       "description": "Extra context, e.g. manual application details"
+    },
+    "description": {
+      "type": "string",
+      "maxLength": 1000,
+      "description": "Optional description of this outreach"
     }
   },
   "required": [

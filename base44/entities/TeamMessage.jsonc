@@ -28,6 +28,11 @@
         "type": "string"
       },
       "description": "Emails allowed to read this message: the team owner plus roster for team channels, or the two people for DMs"
+    },
+    "description": {
+      "type": "string",
+      "maxLength": 1000,
+      "description": "Optional description of this message"
     }
   },
   "required": [

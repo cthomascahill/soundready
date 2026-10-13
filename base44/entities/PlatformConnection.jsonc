@@ -176,6 +176,11 @@
     "raw_channel_id": {
       "type": "string",
       "description": "YouTube channel ID or SoundCloud user ID"
+    },
+    "description": {
+      "type": "string",
+      "maxLength": 1000,
+      "description": "Optional description of this connection"
     }
   },
   "required": [

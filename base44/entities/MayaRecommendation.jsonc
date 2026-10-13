@@ -81,6 +81,11 @@
     "metadata": {
       "type": "object",
       "description": "Extra context, e.g. outcome_recorded_at"
+    },
+    "description": {
+      "type": "string",
+      "maxLength": 1000,
+      "description": "Optional description of this recommendation"
     }
   },
   "required": [

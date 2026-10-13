@@ -39,6 +39,11 @@
     "source": {
       "type": "string",
       "description": "Where this memory came from, e.g. 'chat'"
+    },
+    "description": {
+      "type": "string",
+      "maxLength": 1000,
+      "description": "Optional description of this memory"
     }
   },
   "required": [

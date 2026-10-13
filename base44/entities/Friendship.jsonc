@@ -13,6 +13,11 @@
     "friend_name": {
       "type": "string",
       "description": "Display name of the friend"
+    },
+    "description": {
+      "type": "string",
+      "maxLength": 1000,
+      "description": "Optional description of this friendship"
     }
   },
   "required": [

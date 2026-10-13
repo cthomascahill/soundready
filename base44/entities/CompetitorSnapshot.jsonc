@@ -26,6 +26,11 @@
     },
     "yt_video_count": {
       "type": "number"
+    },
+    "description": {
+      "type": "string",
+      "maxLength": 1000,
+      "description": "Optional description of this snapshot"
     }
   },
   "required": [

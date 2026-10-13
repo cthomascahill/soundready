@@ -124,6 +124,11 @@
         "error"
       ],
       "description": "Analysis status"
+    },
+    "description": {
+      "type": "string",
+      "maxLength": 1000,
+      "description": "Optional description of this analysis"
     }
   },
   "required": [

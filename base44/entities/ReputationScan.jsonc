@@ -74,6 +74,11 @@
       "type": "number",
       "default": 0,
       "description": "How many findings were new versus the previous scan"
+    },
+    "description": {
+      "type": "string",
+      "maxLength": 1000,
+      "description": "Optional description of this scan"
     }
   },
   "required": [

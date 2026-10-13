@@ -28,6 +28,11 @@
     "source_id": {
       "type": "string",
       "description": "ID of the action's record, used so the same action never awards twice"
+    },
+    "description": {
+      "type": "string",
+      "maxLength": 1000,
+      "description": "Optional description of this points award"
     }
   },
   "required": [

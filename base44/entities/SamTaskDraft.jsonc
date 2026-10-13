@@ -69,6 +69,11 @@
     "outcome_note": {
       "type": "string",
       "description": "What happened after the outreach, noted by the artist"
+    },
+    "description": {
+      "type": "string",
+      "maxLength": 1000,
+      "description": "Optional description of this draft"
     }
   },
   "required": [

@@ -21,6 +21,11 @@
     "completed": {
       "type": "boolean",
       "default": false
+    },
+    "description": {
+      "type": "string",
+      "maxLength": 1000,
+      "description": "Optional description of this goal"
     }
   },
   "required": [

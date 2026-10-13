@@ -95,6 +95,11 @@
         "live"
       ],
       "default": "draft"
+    },
+    "description": {
+      "type": "string",
+      "maxLength": 1000,
+      "description": "Optional description of this distribution task"
     }
   },
   "required": [
