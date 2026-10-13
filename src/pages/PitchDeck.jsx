@@ -8,6 +8,7 @@ import EpkForm from "@/components/epk/EpkForm";
 import EpkPreview, { fmtNumber } from "@/components/epk/EpkPreview";
 import EpkUpsellCard from "@/components/epk/EpkUpsellCard";
 import { motion } from "framer-motion";
+import { squarePhoto } from "@/lib/epkPhoto";
 
 const EMPTY_FORM = {
   artist_name: "",
@@ -20,6 +21,8 @@ const EMPTY_FORM = {
   total_streams: "",
   followers: "",
   social_proof: [],
+  photo_url: "",
+  photo_data: "",
 };
 
 /**
@@ -63,6 +66,7 @@ export default function PitchDeck() {
         total_streams: prev?.total_streams ?? "",
         followers: prev?.followers ?? instagram[0]?.stats?.followers ?? "",
         social_proof: prev?.social_proof || [],
+        photo_url: prev?.photo_url || "",
       }));
       if (prev?.featured_songs) {
         setSelectedSongs(prev.featured_songs.map((s) => s.song_id).filter(Boolean));
@@ -120,13 +124,25 @@ bio: a polished press-ready bio in 2 short paragraphs, third person, grounded on
     const H = 297;
     const GREEN = [33, 196, 93];
     const DARK = [10, 13, 11];
+    const HEADER = [18, 24, 20];
     const GRAY = [140, 145, 140];
     const WHITE = [245, 245, 245];
     const F = "helvetica";
 
+    const photo = form.photo_data || (form.photo_url ? await squarePhoto(form.photo_url) : "");
+    const textW = photo ? W - 24 - 52 : W - 24;
+
+    // Every page gets the dark background so light text always reads
+    const paintPage = () => {
+      doc.setFillColor(...DARK);
+      doc.rect(0, 0, W, H, "F");
+    };
+    paintPage();
+
     // Header band
-    doc.setFillColor(...DARK);
+    doc.setFillColor(...HEADER);
     doc.rect(0, 0, W, 66, "F");
+    if (photo) doc.addImage(photo, "JPEG", W - 12 - 44, 11, 44, 44);
     doc.setFillColor(...GREEN);
     doc.rect(0, 0, 3.5, 66, "F");
     doc.setFont(F, "bold");
@@ -135,13 +151,13 @@ bio: a polished press-ready bio in 2 short paragraphs, third person, grounded on
     doc.text("ELECTRONIC PRESS KIT", 12, 16);
     doc.setFontSize(26);
     doc.setTextColor(...WHITE);
-    const nameLines = doc.splitTextToSize(form.artist_name || "Artist", W - 24);
+    const nameLines = doc.splitTextToSize(form.artist_name || "Artist", textW);
     doc.text(nameLines, 12, 30);
     let hy = 30 + (nameLines.length - 1) * 10;
     if (epk.copy.tagline) {
       doc.setFontSize(12);
       doc.setTextColor(...GREEN);
-      doc.text(doc.splitTextToSize(epk.copy.tagline, W - 24), 12, hy + 8);
+      doc.text(doc.splitTextToSize(epk.copy.tagline, textW), 12, hy + 8);
       hy += 8;
     }
     const where = [form.location, form.genre].filter(Boolean).join(" · ");
@@ -155,7 +171,7 @@ bio: a polished press-ready bio in 2 short paragraphs, third person, grounded on
     let y = 78;
     // Starts a new page before content would run past the footer band.
     const ensureSpace = (h) => {
-      if (y + h > H - 32) { doc.addPage(); y = 24; }
+      if (y + h > H - 32) { doc.addPage(); paintPage(); y = 24; }
     };
     const label = (t) => {
       ensureSpace(14);
@@ -293,6 +309,7 @@ bio: a polished press-ready bio in 2 short paragraphs, third person, grounded on
         total_streams: Number(form.total_streams) || 0,
         followers: Number(form.followers) || 0,
         social_proof: form.social_proof.filter((p) => p.text?.trim()),
+        photo_url: form.photo_url || "",
         featured_songs: epk.featured.map((s) => ({ song_id: s.id, title: s.title, genre: s.genre || "" })),
         file_uri,
         active: true,

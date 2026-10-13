@@ -1,6 +1,7 @@
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import SocialProofEditor from "@/components/epk/SocialProofEditor";
+import EpkPhotoUpload from "@/components/epk/EpkPhotoUpload";
 import { Zap, Music2 } from "lucide-react";
 
 const textareaClass =
@@ -15,6 +16,7 @@ export default function EpkForm({ form, setForm, songs, selectedSongs, onToggleS
       <div className="space-y-4">
         <div className="rounded-2xl bg-card border border-border p-5 space-y-4">
           <p className="font-heading font-semibold">Who you are</p>
+          <EpkPhotoUpload form={form} setForm={setForm} />
           <Input placeholder="Artist / Band name" value={form.artist_name} onChange={set("artist_name")} />
           <div className="grid grid-cols-2 gap-3">
             <Input placeholder="City, State" value={form.location} onChange={set("location")} />

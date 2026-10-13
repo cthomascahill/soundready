@@ -31,6 +31,10 @@
       "type": "string",
       "description": "Primary genre"
     },
+    "photo_url": {
+      "type": "string",
+      "description": "Artist photo shown on the kit"
+    },
     "music_url": {
       "type": "string",
       "description": "Clickable link to the artist's music"
