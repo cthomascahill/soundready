@@ -125,6 +125,10 @@
         ]
       }
     },
+    "share_token": {
+      "type": "string",
+      "description": "Secret code in the public /epk/ share URL; empty when not shared"
+    },
     "file_uri": {
       "type": "string",
       "description": "Generated EPK PDF in private storage; what Sam attaches to emails"

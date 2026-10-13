@@ -177,18 +177,7 @@ bio: a polished press-ready bio in 2 short paragraphs, third person, grounded on
     // metric bar and footer; pass 1 covers the full page and is discarded.
     if (photo) doc.addImage(photo, "JPEG", 0, 0, SIDEBAR, panelH);
 
-    // Pagination stays fixed at A4 height so both passes break identically.
-    const ensureSpace = (h) => {
-      if (y + h > PAGE - 36) {
-        doc.addPage();
-        paintPage();
-        y = 20;
-        sx = 16;
-        rw = W - 32;
-      }
-    };
     const label = (t) => {
-      ensureSpace(16);
       doc.setFont(F, "bold");
       doc.setFontSize(7.5);
       doc.setTextColor(...GREEN);
@@ -200,7 +189,6 @@ bio: a polished press-ready bio in 2 short paragraphs, third person, grounded on
       doc.setFontSize(size);
       doc.setTextColor(...color);
       const lines = doc.splitTextToSize(t || "", rw);
-      ensureSpace(lines.length * (size * 0.42) + 4);
       doc.text(lines, sx, y);
       y += lines.length * (size * 0.42) + 2.5;
     };
@@ -261,7 +249,6 @@ bio: a polished press-ready bio in 2 short paragraphs, third person, grounded on
     if (epk.featured.length) {
       label("Featured Songs");
       epk.featured.slice(0, 6).forEach((s, i) => {
-        ensureSpace(10);
         doc.setFont(F, "bold");
         doc.setFontSize(9);
         doc.setTextColor(...GREEN);
@@ -299,7 +286,6 @@ bio: a polished press-ready bio in 2 short paragraphs, third person, grounded on
       { label: "SOCIAL FOLLOWERS", value: form.followers },
     ].filter((s) => Number(s.value) > 0);
     if (stats.length) {
-      ensureSpace(36);
       doc.setFillColor(...BAND);
       doc.rect(0, y, W, 22, "F");
       const cell = W / stats.length;
@@ -318,7 +304,6 @@ bio: a polished press-ready bio in 2 short paragraphs, third person, grounded on
     }
 
     // Footer
-    ensureSpace(20);
     doc.setFillColor(...GREEN);
     doc.rect(0, y, W, 1, "F");
     doc.setFont(F, "bold");
@@ -336,12 +321,10 @@ bio: a polished press-ready bio in 2 short paragraphs, third person, grounded on
 
   const buildPdf = async () => {
     const first = await drawPdf(297);
-    // A one-page kit gets a page that ends at the footer, with no empty gap
-    if (first.doc.getNumberOfPages() === 1) {
-      const h = Math.ceil(first.endY);
-      return (await drawPdf(h, h)).doc;
-    }
-    return first.doc;
+    // The kit is always one page: the page height is trimmed to end right
+    // after the footer, so extra info makes the page taller, never a page 2.
+    const h = Math.ceil(first.endY);
+    return (await drawPdf(h, h)).doc;
   };
 
   const fileName = () =>

@@ -80,6 +80,7 @@ import MayaProfile from './pages/MayaProfile';
 import ProGate from './components/ProGate';
 import AiManagerGate from './components/AiManagerGate';
 import DemoPlayer from './pages/DemoPlayer';
+import EpkShare from './pages/EpkShare';
 import LogoDownload from './pages/LogoDownload';
 import ToolLibrary from './pages/ToolLibrary';
 import Touring from './pages/Touring';
@@ -118,6 +119,7 @@ const AuthenticatedApp = () => {
       <Route path="/terms" element={<Terms />} />
       <Route path="/checkout/:plan" element={<Checkout />} />
       <Route path="/demo/:token" element={<DemoPlayer />} />
+      <Route path="/epk/:token" element={<EpkShare />} />
       <Route path="/logo-download" element={<LogoDownload />} />
 
       {/* Auth pages */}
