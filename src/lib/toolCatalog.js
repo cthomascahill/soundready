@@ -2,7 +2,7 @@ import {
   Music2, ListChecks, Calendar, Mic2, BarChart2, Scale, Handshake,
   MapPin, Megaphone, Route, PiggyBank, FileSignature, Map, UserCircle,
   Newspaper, Radar, TrendingUp, Flame, Bot, MessagesSquare, Shield, DollarSign,
-  GraduationCap, AudioLines, Sparkles, PenLine, Receipt,
+  GraduationCap, AudioLines, Sparkles, PenLine, Receipt, ClipboardCheck,
 } from "lucide-react";
 
 // Every tool on the platform, grouped by category.
@@ -57,6 +57,7 @@ export const TOOL_CATEGORIES = [
     label: "Career",
     tools: [
       { name: "Career Roadmap", to: "/career-roadmap", desc: "Your personalized growth plan", icon: Map, tier: "pro" },
+      { name: "Release Kit", to: "/release-kit", desc: "Free release checklist and playlist pitch template", icon: ClipboardCheck, tier: "free" },
       { name: "Release Plan", to: "/release-plan", desc: "An AI plan for your next release", icon: Calendar, tier: "pro" },
       { name: "Contracts", to: "/legal", desc: "Contract templates and guides", icon: Scale, tier: "pro" },
       { name: "Artist Profile", to: "/artist-profile", desc: "Your full career intake", icon: UserCircle, tier: "free" },

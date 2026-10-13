@@ -1,0 +1,58 @@
+{
+  "name": "ReleaseChecklistItem",
+  "type": "object",
+  "description": "One step on the artist's free release checklist, checked off as they prepare a release.",
+  "properties": {
+    "user_id": {
+      "type": "string",
+      "description": "User this checklist item belongs to"
+    },
+    "phase": {
+      "type": "string",
+      "enum": [
+        "4-6 weeks out",
+        "2 weeks out",
+        "Release week",
+        "After release"
+      ],
+      "description": "When in the release timeline this step happens"
+    },
+    "label": {
+      "type": "string",
+      "description": "The checklist step, in plain words"
+    },
+    "done": {
+      "type": "boolean",
+      "default": false,
+      "description": "Whether the artist has checked this step off"
+    },
+    "sort_order": {
+      "type": "number",
+      "default": 0,
+      "description": "Position of this step within the checklist"
+    },
+    "description": {
+      "type": "string",
+      "maxLength": 1000,
+      "description": "Optional description of this checklist item"
+    }
+  },
+  "required": [
+    "user_id",
+    "label"
+  ],
+  "rls": {
+    "read": {
+      "created_by_id": "{{user.id}}"
+    },
+    "create": {
+      "created_by_id": "{{user.id}}"
+    },
+    "update": {
+      "created_by_id": "{{user.id}}"
+    },
+    "delete": {
+      "created_by_id": "{{user.id}}"
+    }
+  }
+}

@@ -8,7 +8,7 @@ import {
   Home, Music2, Users, ListChecks, LayoutGrid, FolderOpen,
   Map, Newspaper, CreditCard, UserCircle,
   Route, Mic, Building2, Bot, Sparkles, Handshake, Wand2, ListTodo, Shield,
-  Flame, Calendar, Scale, Calculator, ChevronDown, UserCog,
+  Flame, Calendar, Scale, Calculator, ChevronDown, UserCog, ClipboardCheck,
 } from "lucide-react";
 
 const NAV_SECTIONS = (isAdmin) => [
@@ -44,6 +44,7 @@ const NAV_SECTIONS = (isAdmin) => [
     items: [
       { to: "/career-roadmap", icon: Map, label: "Career Roadmap" },
       { to: "/royalty-calculator", icon: Calculator, label: "Royalty Calculator" },
+      { to: "/release-kit", icon: ClipboardCheck, label: "Release Kit" },
       { to: "/release-plan", icon: Calendar, label: "Release Plan" },
       { to: "/legal", icon: Scale, label: "Contracts" },
     ],

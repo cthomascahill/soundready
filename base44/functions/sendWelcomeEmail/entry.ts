@@ -49,6 +49,7 @@ Deno.serve(async (req) => {
       <div class="tool-item"><div class="tool-dot"></div><div class="tool-text">Vault — every song, fully organized, free forever</div></div>
       <div class="tool-item"><div class="tool-dot"></div><div class="tool-text">Tracker — take a song from idea to release</div></div>
       <div class="tool-item"><div class="tool-dot"></div><div class="tool-text">Connect Spotify & YouTube to see your real numbers</div></div>
+      <div class="tool-item"><div class="tool-dot"></div><div class="tool-text">Free PDF attached — the Spotify Playlist Pitch Template, the pitch format that has landed songs on Spotify editorial playlists</div></div>
       <div class="tool-item"><div class="tool-dot"></div><div class="tool-text">24 integrated tools — one login</div></div>
       <div class="tool-item"><div class="tool-dot"></div><div class="tool-text">Sam, your digital manager — outbounds for you every week, you approve or deny</div></div>
     </div>
@@ -72,6 +73,10 @@ Deno.serve(async (req) => {
       to: userEmail,
       subject: "Welcome to SoundReady — your career, in motion.",
       body: htmlBody,
+      attachments: [{
+        filename: "Spotify-Playlist-Pitch-Template.pdf",
+        file_url: "https://base44.app/api/apps/69dcf0ecc907e43a438a626b/files/mp/public/69dcf0ecc907e43a438a626b/5329d97a6_Spotify-Playlist-Pitch-Template.pdf",
+      }],
     });
 
     return Response.json({ success: true });

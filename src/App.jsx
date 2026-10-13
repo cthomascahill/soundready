@@ -30,6 +30,7 @@ import SpotifyConnect from './pages/SpotifyConnect';
 import About from './pages/About';
 import PlaylistPitcher from './pages/PlaylistPitcher';
 import ReleasePlanInput from './pages/ReleasePlanInput';
+import ReleaseKit from './pages/ReleaseKit';
 import LinkInBio from './pages/LinkInBio';
 import RoyaltyDashboard from './pages/RoyaltyDashboard';
 import RoyaltyCalculator from './pages/RoyaltyCalculator';
@@ -131,6 +132,7 @@ const AuthenticatedApp = () => {
         <Route path="/dashboard" element={<Navigate to="/history" replace />} />
         <Route path="/tools" element={<ToolLibrary />} />
         <Route path="/storage" element={<Storage />} />
+        <Route path="/release-kit" element={<ReleaseKit />} />
         <Route path="/release-plan" element={pro(ReleasePlanInput)} />
         <Route path="/results" element={<Results />} /> 
         <Route path="/history" element={<SongLibrary />} />
