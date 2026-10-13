@@ -34,8 +34,9 @@ export default function GuidedTour({ open, onClose }) {
   const isLast = index === TOUR_STEPS.length - 1;
   const Icon = step.icon;
 
-  const close = async () => {
-    await base44.auth.updateMe({ guided_tour_seen: true }).catch(() => {});
+  const close = () => {
+    // Close right away; saving the "seen" flag happens in the background
+    base44.auth.updateMe({ guided_tour_seen: true }).catch(() => {});
     const back = startPathRef.current;
     if (back && back !== location.pathname) navigate(back);
     onClose();

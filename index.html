@@ -8,7 +8,7 @@
     <script>
       // Paint the right theme before React loads (dark is the default)
       try {
-        if (localStorage.getItem("theme") !== "light") {
+        if (localStorage.getItem("sr-theme") !== "light") {
           document.documentElement.classList.add("dark");
         }
       } catch (e) {
