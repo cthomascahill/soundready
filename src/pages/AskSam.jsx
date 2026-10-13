@@ -97,6 +97,7 @@ export default function AskSam() {
     } catch (err) {
       console.error("Ask Sam chat error:", err);
     }
+    // Only a real path from the catalog ever opens — a hallucinated path is dropped
     const navPath = (result?.navigate_path || "").trim();
     const tool = navPath ? toolByPath(navPath) : null;
     setMessages((prev) => [
@@ -107,7 +108,7 @@ export default function AskSam() {
         tool_path: tool?.path || null,
       },
     ]);
-    setChips(result?.chips || []);
+    setChips((result?.chips || []).filter((c) => typeof c === "string" && c.trim()).slice(0, 3));
     setLoading(false);
   };
 
