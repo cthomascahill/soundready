@@ -22,9 +22,10 @@ function PitchModal({ playlist, song, onClose, onSent }) {
 
 Song: "${song.title}" | Genre: ${song.genre} | Mood: ${song.mood} | Energy: ${song.energy}
 Song description: ${song.description || "Not provided"}
+Spotify link: ${song.spotify_url || "Not provided"}
 Playlist note from curator: "${playlist.note}"
 
-Write 3-4 sentences only. First sentence addresses the curator by name (${playlist.curator}). Reference why THIS song fits THIS specific playlist — be concrete, not generic. End with a clear ask. No subject line, just the email body. First person from the artist.`,
+Write 3-4 sentences only. First sentence addresses the curator by name (${playlist.curator}). Reference why THIS song fits THIS specific playlist — be concrete, not generic. End with a clear ask. If a Spotify link is provided, include it as the listen link. No subject line, just the email body. First person from the artist.`,
     });
     setPitch(typeof res === "string" ? res : res?.text || res?.content || "");
     setGenerating(false);
@@ -32,10 +33,11 @@ Write 3-4 sentences only. First sentence addresses the curator by name (${playli
 
   const sendPitch = async () => {
     setSending(true);
+    const signature = `\n\nBest,\n${song.artist}\nReply directly to this email, or reach me at ${user.email}.`;
     await base44.integrations.Core.SendEmail({
       to: playlist.email,
       subject: `Playlist Submission — "${song.title}" by ${song.artist}`,
-      body: pitch + `\n\nBest,\n${song.artist}\nReply directly to this email, or reach me at ${user.email}.`,
+      body: pitch + (song.spotify_url ? `\n\nListen here: ${song.spotify_url}` : "") + signature,
       from_name: song.artist,
       reply_to: user.email,
     });
@@ -131,14 +133,24 @@ export default function PlaylistPitcher() {
   const [loading, setLoading] = useState(true);
   const [manualSong, setManualSong] = useState({ title: "", artist: "", genre: "Pop", mood: "Happy", energy: "Medium", description: "" });
   const [useManual, setUseManual] = useState(false);
+  const [trackerSongs, setTrackerSongs] = useState([]);
+  const [trackerSong, setTrackerSong] = useState(null);
+  const [useTracker, setUseTracker] = useState(false);
+  const [spotifyUrl, setSpotifyUrl] = useState("");
 
   useEffect(() => {
     if (!user?.id) return;
-    base44.entities.SongAnalysis.filter({ created_by_id: user.id, status: "complete" }, "-created_date", 20)
-      .then(setSongs).finally(() => setLoading(false));
+    Promise.all([
+      base44.entities.SongAnalysis.filter({ created_by_id: user.id, status: "complete" }, "-created_date", 20).catch(() => []),
+      base44.entities.PipelineSong.filter({ created_by_id: user.id }, "sort_order", 50).catch(() => []),
+    ]).then(([analyses, pipeline]) => {
+      setSongs(analyses);
+      setTrackerSongs(pipeline.filter((s) => s.song_name));
+    }).finally(() => setLoading(false));
   }, [user]);
 
-  const activeSong = useManual ? manualSong : selectedSong;
+  const activeSong = useManual ? manualSong : useTracker ? trackerSong : selectedSong;
+  const pitchSong = activeSong ? { ...activeSong, spotify_url: spotifyUrl.trim() } : null;
 
   const findMatches = () => {
     if (!activeSong?.genre) return;
@@ -153,7 +165,7 @@ export default function PlaylistPitcher() {
 
   return (
     <div className="min-h-screen bg-background px-4 py-10">
-      {pitching && <PitchModal playlist={pitching} song={activeSong} onClose={() => setPitching(null)} onSent={(name) => setPitched((p) => [...p, name])} />}
+      {pitching && pitchSong && <PitchModal playlist={pitching} song={pitchSong} onClose={() => setPitching(null)} onSent={(name) => setPitched((p) => [...p, name])} />}
 
       <div className="max-w-4xl mx-auto space-y-8">
         <motion.div initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }}>
@@ -167,11 +179,50 @@ export default function PlaylistPitcher() {
         <div className="rounded-2xl bg-card border border-border p-5 space-y-4">
           <p className="font-heading font-semibold">Select Your Song</p>
           <div className="flex gap-3 flex-wrap">
-            <Button size="sm" variant={!useManual ? "default" : "outline"} onClick={() => setUseManual(false)}>From Library</Button>
-            <Button size="sm" variant={useManual ? "default" : "outline"} onClick={() => setUseManual(true)}>Enter Manually</Button>
+            <Button size="sm" variant={useTracker ? "default" : "outline"} onClick={() => { setUseTracker(true); setUseManual(false); }}>From Tracker</Button>
+            <Button size="sm" variant={!useTracker && !useManual ? "default" : "outline"} onClick={() => { setUseTracker(false); setUseManual(false); }}>From Library</Button>
+            <Button size="sm" variant={useManual ? "default" : "outline"} onClick={() => { setUseManual(true); setUseTracker(false); }}>Enter Manually</Button>
           </div>
 
-          {!useManual ? (
+          {useTracker ? (
+            loading ? <div className="flex justify-center py-4"><div className="h-5 w-5 border-2 border-primary/20 border-t-primary rounded-full animate-spin" /></div>
+            : trackerSongs.length === 0 ? <p className="text-sm text-muted-foreground">No songs in your Tracker yet. Add one in the Tracker first, or enter details manually.</p>
+            : (
+              <div className="space-y-2">
+                {trackerSongs.map((s) => (
+                  <button key={s.id} onClick={() => setTrackerSong((prev) => ({
+                    title: s.song_name,
+                    artist: user.artist_name || user.full_name || "",
+                    genre: prev?.title === s.song_name ? prev.genre : "Pop",
+                    mood: prev?.title === s.song_name ? prev.mood : "Happy",
+                    energy: "Medium",
+                    description: prev?.title === s.song_name ? prev.description : (s.notes || ""),
+                  }))}
+                    className={`w-full flex items-center gap-3 p-3 rounded-xl border text-left transition-colors ${trackerSong?.title === s.song_name ? "bg-primary/10 border-primary/30" : "border-border hover:bg-secondary/20"}`}>
+                    <Music className="h-4 w-4 text-muted-foreground shrink-0" />
+                    <div className="flex-1 min-w-0">
+                      <p className="text-sm font-medium">{s.song_name}</p>
+                      <p className="text-xs text-muted-foreground">{s.stage_released ? "Released" : s.release_date ? `Planned: ${s.release_date}` : "In progress"}</p>
+                    </div>
+                    {trackerSong?.title === s.song_name && <Check className="h-4 w-4 text-primary ml-auto shrink-0" />}
+                  </button>
+                ))}
+                {trackerSong && (
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-2">
+                    <select value={trackerSong.genre} onChange={(e) => setTrackerSong((f) => ({ ...f, genre: e.target.value }))}
+                      className="h-9 rounded-md border border-input bg-transparent px-3 text-sm text-foreground focus:outline-none focus:ring-1 focus:ring-ring">
+                      {GENRES.map((g) => <option key={g}>{g}</option>)}
+                    </select>
+                    <select value={trackerSong.mood} onChange={(e) => setTrackerSong((f) => ({ ...f, mood: e.target.value }))}
+                      className="h-9 rounded-md border border-input bg-transparent px-3 text-sm text-foreground focus:outline-none focus:ring-1 focus:ring-ring">
+                      {MOODS.map((m) => <option key={m}>{m}</option>)}
+                    </select>
+                    <Input placeholder="Song description (optional)" value={trackerSong.description} onChange={(e) => setTrackerSong((f) => ({ ...f, description: e.target.value }))} className="sm:col-span-2" />
+                  </div>
+                )}
+              </div>
+            )
+          ) : !useManual ? (
             loading ? <div className="flex justify-center py-4"><div className="h-5 w-5 border-2 border-primary/20 border-t-primary rounded-full animate-spin" /></div>
             : songs.length === 0 ? <p className="text-sm text-muted-foreground">No saved songs. Generate and save a report first, or enter details manually.</p>
             : (
@@ -204,6 +255,12 @@ export default function PlaylistPitcher() {
               <Input placeholder="Song description (optional)" value={manualSong.description} onChange={(e) => setManualSong((f) => ({ ...f, description: e.target.value }))} className="sm:col-span-2" />
             </div>
           )}
+
+          <div className="space-y-1.5 border-t border-border pt-4">
+            <p className="text-xs font-semibold text-muted-foreground">Spotify link for this song</p>
+            <Input placeholder="https://open.spotify.com/track/..." value={spotifyUrl} onChange={(e) => setSpotifyUrl(e.target.value)} />
+            <p className="text-[11px] text-muted-foreground">Paste your song's Spotify link — Sam includes it in every pitch so curators can listen.</p>
+          </div>
         </div>
 
         {/* Results */}
