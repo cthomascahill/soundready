@@ -56,12 +56,6 @@ function SpotifyCard({ conn, onUpdated, oauthLoading, oauthError }) {
 
   // Artist profile linking — paste the Spotify artist URL to pull artist stats
   const [artistUrl, setArtistUrl] = useState("");
-  const [monthlyListeners, setMonthlyListeners] = useState(conn?.stats?.monthly_listeners || "");
-  const [artistFollowers, setArtistFollowers] = useState(conn?.stats?.artist_followers || "");
-  useEffect(() => {
-    setMonthlyListeners(conn?.stats?.monthly_listeners || "");
-    setArtistFollowers(conn?.stats?.artist_followers || "");
-  }, [conn?.last_synced]);
 
   const linkArtist = async () => {
     if (!artistUrl.trim()) return;
@@ -75,19 +69,6 @@ function SpotifyCard({ conn, onUpdated, oauthLoading, oauthError }) {
     if (res.data?.error) { setError(res.data.error); return; }
     setArtistUrl("");
     if (res.data?.data) onUpdated(res.data.data);
-  };
-
-  const saveMonthlyListeners = async () => {
-    setLoading(true);
-    setError("");
-    const res = await base44.functions.invoke("spotifyOAuth", {
-      action: "save_artist_manual",
-      monthly_listeners: Number(monthlyListeners) || 0,
-      artist_followers: Number(artistFollowers) || 0,
-    }).catch(e => ({ data: { error: friendlyError(e) } }));
-    setLoading(false);
-    if (res.data?.data) onUpdated(res.data.data);
-    else if (res.data?.error) setError(res.data.error);
   };
 
   const isConnected = conn?.status === "connected" && !!conn?.stats?.artist_id;
@@ -109,8 +90,9 @@ function SpotifyCard({ conn, onUpdated, oauthLoading, oauthError }) {
           </div>
 
           <div className="grid grid-cols-2 gap-2">
-            <Stat label="Artist Followers" value={s.artist_followers ? s.artist_followers.toLocaleString() : "—"} />
             <Stat label="Monthly Listeners" value={s.monthly_listeners ? s.monthly_listeners.toLocaleString() : "—"} />
+            {s.total_plays > 0 && <Stat label="Total Streams" value={s.total_plays.toLocaleString()} />}
+            {s.artist_followers > 0 && <Stat label="Artist Followers" value={s.artist_followers.toLocaleString()} />}
             {s.popularity > 0 && <Stat label="Popularity" value={`${s.popularity}/100`} />}
           </div>
 
@@ -128,18 +110,6 @@ function SpotifyCard({ conn, onUpdated, oauthLoading, oauthError }) {
                 Link Artist
               </Button>
             </div>
-            <div className="space-y-2">
-              <div className="grid grid-cols-2 gap-2">
-                <Field label="Monthly Listeners (Spotify for Artists)" value={monthlyListeners} onChange={v => setMonthlyListeners(v)} placeholder="12400" type="number" />
-                <Field label="Artist Followers (Spotify artist page)" value={artistFollowers} onChange={v => setArtistFollowers(v)} placeholder="8500" type="number" />
-              </div>
-              <Button size="sm" variant="outline" onClick={saveMonthlyListeners} disabled={anyLoading} className="w-full">
-                {loading ? <Loader2 className="h-3.5 w-3.5 animate-spin" /> : null} Save My Numbers
-              </Button>
-              <p className="text-xs text-muted-foreground leading-relaxed">
-                Spotify no longer shares these counts through its API, so enter them from your Spotify for Artists dashboard. Sam uses them for your pitches and advice.
-              </p>
-            </div>
           </div>
 
           {s.top_tracks?.length > 0 && (
@@ -148,7 +118,7 @@ function SpotifyCard({ conn, onUpdated, oauthLoading, oauthError }) {
               {s.top_tracks.slice(0, 5).map((t, i) => (
                 <div key={i} className="flex items-center justify-between text-xs py-0.5">
                   <span className="truncate text-muted-foreground">{i + 1}. {t.title}</span>
-                  {t.popularity && <span className="text-primary/70 shrink-0 ml-2">{t.popularity}/100</span>}
+                  {t.streams > 0 && <span className="text-primary/70 shrink-0 ml-2">{t.streams.toLocaleString()} streams</span>}
                 </div>
               ))}
             </div>
@@ -167,7 +137,7 @@ function SpotifyCard({ conn, onUpdated, oauthLoading, oauthError }) {
         </>
       ) : (
         <div className="space-y-3">
-          <p className="text-sm text-muted-foreground">Paste the link to your Spotify artist profile and SoundReady syncs your artist followers, popularity, genres and top tracks.</p>
+          <p className="text-sm text-muted-foreground">Paste the link to your Spotify artist profile and SoundReady pulls your monthly listeners, total streams and top tracks automatically.</p>
           <div className="flex gap-2">
             <Input
               placeholder="https://open.spotify.com/artist/..."
@@ -533,6 +503,17 @@ export default function ConnectProfilesSection() {
       .then(res => { if (res.data?.data) setConnections(prev => ({ ...prev, tiktok: res.data.data })); })
       .catch(() => {});
   }, [connections.tiktok?.id, connections.tiktok?.last_synced, connections.tiktok?.connection_type]);
+
+  // Same for a linked Spotify artist: re-read the public numbers when they're over a day old
+  useEffect(() => {
+    const sp = connections.spotify;
+    if (!sp || sp.status !== "connected" || !sp.profile_url || !sp.stats?.artist_id) return;
+    const ageMs = sp.last_synced ? Date.now() - new Date(sp.last_synced).getTime() : Infinity;
+    if (ageMs < 24 * 60 * 60 * 1000) return;
+    base44.functions.invoke("spotifyOAuth", { action: "link_artist", artist_url: sp.profile_url })
+      .then(res => { if (res.data?.data) setConnections(prev => ({ ...prev, spotify: res.data.data })); })
+      .catch(() => {});
+  }, [connections.spotify?.id, connections.spotify?.last_synced]);
 
   const handleAccountType = async (key) => {
     setAccountType(key);
