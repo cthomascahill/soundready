@@ -10,18 +10,10 @@ import WorkspaceToggle from "@/components/asksam/WorkspaceToggle";
 import ChatMessage from "@/components/asksam/ChatMessage";
 import { askSamCall } from "@/lib/askSam";
 import { toolByPath } from "@/lib/askSamTools";
+import SuggestionCards from "@/components/asksam/SuggestionCards";
 import {
   buildSystemPrompt, buildPlatformDataContext, buildPipelineContext, buildMemorySection,
 } from "@/components/MayaAssistant";
-
-const SUGGESTIONS = [
-  "Show me my song tracker",
-  "What should I focus on this week?",
-  "Help me pitch my song to playlists",
-  "Where should I play live next?",
-  "What are my royalties looking like?",
-  "Open my Vault",
-];
 
 /**
  * Ask Sam: the chat-first view of the whole platform. Looks like a simple
@@ -129,6 +121,10 @@ export default function AskSam() {
       {/* Header */}
       <header className="h-14 shrink-0 border-b border-border flex items-center gap-3 px-4 sm:px-6">
         <Link to="/history"><SoundReadyLogo size={24} /></Link>
+        <div className="flex items-center gap-2 ml-2">
+          <SamLogo className="h-5 w-5 text-primary" />
+          <p className="font-heading font-bold">Ask <span className="text-primary">SAM</span></p>
+        </div>
         <div className="flex-1" />
         <WorkspaceToggle mode="chat" />
         <button
@@ -164,17 +160,7 @@ export default function AskSam() {
                   </p>
                 </div>
               </div>
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5 max-w-xl mx-auto">
-                {SUGGESTIONS.map((s) => (
-                  <button
-                    key={s}
-                    onClick={() => send(s)}
-                    className="text-left text-sm px-4 py-3 rounded-xl bg-card border border-border text-foreground/85 hover:border-primary/40 hover:text-foreground transition-colors"
-                  >
-                    {s}
-                  </button>
-                ))}
-              </div>
+              <SuggestionCards onPick={send} />
             </div>
           )}
 
