@@ -148,19 +148,21 @@ export default function About() {
           </div>
         </motion.div>
 
-        <motion.div
-          initial={{ opacity: 0, y: 40 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.15 }}
-          className="relative max-w-5xl mx-auto mt-12 sm:mt-16"
-        >
-          <WorkspacePreview />
-        </motion.div>
-
       </section>
 
       {/* THE VSL: one artist's whole journey, right after Start Free */}
       <VslSection />
+
+      <section className="px-4 pt-2 pb-16">
+        <motion.div
+          initial={{ opacity: 0, y: 40 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.15 }}
+          className="relative max-w-5xl mx-auto"
+        >
+          <WorkspacePreview />
+        </motion.div>
+      </section>
 
       {/* MEET SAM */}
       <MeetSamSection />
