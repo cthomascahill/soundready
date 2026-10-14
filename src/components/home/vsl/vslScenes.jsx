@@ -106,7 +106,7 @@ export const VSL_SCENES = [
     id: "research",
     label: "SAM works",
     duration: 8,
-    narration: "SAM researches real venues and playlists that fit Jordan's sound, and verifies every contact.",
+    narration: "SAM researches real venues that fit Jordan's sound, and verifies every contact.",
     render: () => <Centered Screen={StepResearchScreen} />,
   },
   {
