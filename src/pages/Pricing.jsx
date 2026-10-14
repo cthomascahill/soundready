@@ -119,6 +119,9 @@ export default function Pricing() {
             Your music<br />
             <span className="text-primary">in motion</span>
           </h1>
+          <p className="mt-4 text-sm sm:text-base text-muted-foreground max-w-2xl mx-auto leading-relaxed">
+            Keep your songs, mixes, and releases together. Use SAM to find opportunities and handle outreach with your approval.
+          </p>
         </motion.div>
       </section>
 
