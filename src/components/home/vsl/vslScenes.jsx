@@ -135,13 +135,13 @@ export const VSL_SCENES = [
     id: "outro",
     label: "Start free",
     duration: 6,
-    narration: "You made the music. Give it a team. Start free.",
+    narration: "Your music, in motion. Start free.",
     render: () => (
       <div className="h-full flex flex-col items-center justify-center gap-5 text-center px-6">
         <motion.div initial={{ opacity: 0, scale: 0.94 }} animate={{ opacity: 1, scale: 1 }} transition={{ duration: 0.5 }}>
           <p className="font-heading text-2xl sm:text-4xl font-black tracking-tight leading-tight">
-            You made the music<br />
-            <span className="text-primary">Give it a team</span>
+            Your music<br />
+            <span className="text-primary">in motion</span>
           </p>
           <p className="text-sm sm:text-base text-muted-foreground mt-3">Start free. Your next five songs are on us.</p>
         </motion.div>

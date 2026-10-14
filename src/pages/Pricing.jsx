@@ -116,8 +116,8 @@ export default function Pricing() {
         <div className="absolute inset-0 bg-gradient-to-b from-transparent via-background/60 to-background pointer-events-none" />
         <motion.div initial={{ opacity: 0, y: 24 }} animate={{ opacity: 1, y: 0 }} className="relative max-w-4xl mx-auto">
           <h1 className="font-heading text-4xl sm:text-5xl font-black tracking-tight leading-[0.95]">
-            Take action<br />
-            <span className="text-primary">on your career</span>
+            Your music<br />
+            <span className="text-primary">in motion</span>
           </h1>
         </motion.div>
       </section>

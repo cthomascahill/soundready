@@ -130,8 +130,8 @@ export default function About() {
           {/* Left: the offer and the artist search */}
           <motion.div initial={{ opacity: 0, y: 32 }} animate={{ opacity: 1, y: 0 }} className="space-y-5 text-center lg:text-left">
             <h1 className="font-heading text-4xl sm:text-6xl lg:text-7xl font-black tracking-tight leading-[0.95]">
-              {t("You made the music")}<br />
-              <span className="text-primary">{t("Give it a team")}</span>
+              {t("Your music")}<br />
+              <span className="text-primary">{t("in motion")}</span>
             </h1>
             <p className="text-base sm:text-lg text-muted-foreground max-w-xl mx-auto lg:mx-0 leading-relaxed">
               {t("Keep your songs and mixes together, prepare your releases, and let SAM find opportunities and handle outreach with your approval.")}
@@ -272,8 +272,8 @@ export default function About() {
         <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="max-w-4xl mx-auto space-y-6">
           <div className="space-y-4">
             <h2 className="font-heading text-4xl sm:text-5xl lg:text-6xl font-black tracking-tight">
-              {t("You made the music")}<br />
-              <span className="text-primary">{t("Give it a team")}</span>
+              {t("Your music")}<br />
+              <span className="text-primary">{t("in motion")}</span>
             </h2>
             <p className="text-sm sm:text-base text-muted-foreground max-w-xl mx-auto leading-relaxed">
               {t("Start with five songs free. Add SAM when you're ready.")}
