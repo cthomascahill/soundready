@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import { CheckCircle2, Link2, Mic2, Music2 } from "lucide-react";
+import { CheckCircle2, FileText, Link2, Mic2, Music2, Paperclip } from "lucide-react";
 import { Art, DropZoneMock, GroupMock, VersionRowMock } from "@/components/home/mockPieces";
 
 const rise = (delay) => ({ initial: { opacity: 0, y: 16 }, animate: { opacity: 1, y: 0 }, transition: { duration: 0.45, delay } });
@@ -225,7 +225,50 @@ export const TeamChatMock = () => (
   </Frame>
 );
 
-// 9 · SAM finding Spotify playlists and drafting pitches
+// 9 · SAM building your electronic press kit to get you booked
+export const EpkMock = () => (
+  <Frame>
+    <div className="rounded-2xl border border-border bg-card p-5 space-y-3 max-w-md mx-auto">
+      <div>
+        <p className="text-sm font-bold">Your Electronic Press Kit</p>
+        <p className="text-xs text-muted-foreground">Built by SAM from your music and stats</p>
+      </div>
+      <motion.div {...rise(0.4)} className="flex items-center gap-3 rounded-xl border border-border bg-background/40 p-3">
+        <Art className="h-12 w-12 shrink-0" />
+        <div className="min-w-0">
+          <p className="font-heading text-sm font-black">Jordan Lane</p>
+          <p className="text-[11px] text-primary font-semibold">Alt-pop · Nashville, TN</p>
+          <p className="text-[10px] text-muted-foreground truncate">"Neon-soaked songs built for late-night drives."</p>
+        </div>
+      </motion.div>
+      <div className="grid grid-cols-3 gap-2">
+        {[
+          ["Listeners", "18.2K/mo"],
+          ["Streams", "410K"],
+          ["Shows", "34"],
+        ].map(([label, value], i) => (
+          <motion.div key={label} {...rise(0.8 + i * 0.25)} className="rounded-xl border border-border bg-background/40 p-2.5 text-center">
+            <p className="text-[10px] uppercase font-bold text-muted-foreground">{label}</p>
+            <p className="text-xs font-bold mt-0.5">{value}</p>
+          </motion.div>
+        ))}
+      </div>
+      <motion.div {...rise(1.6)} className="flex items-center gap-2.5 rounded-xl border border-primary/25 bg-primary/5 p-3">
+        <FileText className="h-4 w-4 text-primary shrink-0" />
+        <p className="text-xs font-semibold text-primary flex-1">jordan-lane-epk.pdf</p>
+        <span className="text-[9px] font-bold uppercase text-primary bg-primary/15 border border-primary/25 rounded-full px-2 py-0.5 shrink-0">
+          Built by SAM
+        </span>
+      </motion.div>
+      <motion.div {...rise(2.1)} className="flex items-center gap-2 rounded-xl border border-border bg-background/40 p-3">
+        <Paperclip className="h-3.5 w-3.5 text-primary shrink-0" />
+        <p className="text-[11px] text-muted-foreground">Attached to every booking email, so venues have everything they need to say yes.</p>
+      </motion.div>
+    </div>
+  </Frame>
+);
+
+// 10 · SAM finding Spotify playlists and drafting pitches
 export const PlaylistsMock = () => (
   <Frame>
     <div className="rounded-2xl border border-border bg-card p-5 space-y-3">

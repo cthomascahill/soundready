@@ -3,7 +3,7 @@ import StepTellSamScreen from "@/components/home/walkthrough/StepTellSamScreen";
 import StepAnalyticsScreen from "@/components/home/walkthrough/StepAnalyticsScreen";
 import StepResearchScreen from "@/components/home/walkthrough/StepResearchScreen";
 import StepApproveScreen from "@/components/home/walkthrough/StepApproveScreen";
-import { SignupMock, VaultDropMock, SongInfoMock, TrackerSetupMock, MixesMock, NotesMock, DemoLinkMock, TeamChatMock, PlaylistsMock } from "@/components/home/vsl/vslMocks";
+import { SignupMock, VaultDropMock, SongInfoMock, TrackerSetupMock, MixesMock, NotesMock, DemoLinkMock, TeamChatMock, EpkMock, PlaylistsMock } from "@/components/home/vsl/vslMocks";
 
 const Centered = ({ Screen, screenProps }) => (
   <div className="h-full flex items-center justify-center px-4 sm:px-10 py-6">
@@ -123,6 +123,13 @@ export const VSL_SCENES = [
     duration: 7,
     narration: "The pitch arrives already written. Approve, edit, or deny. Nothing sends without the artist.",
     render: () => <Centered Screen={StepApproveScreen} />,
+  },
+  {
+    id: "epk",
+    label: "Your press kit",
+    duration: 8,
+    narration: "SAM also builds your electronic press kit, real numbers, bio, and photos, and attaches it to every booking email, so venues have everything they need to book you.",
+    render: () => <EpkMock />,
   },
   {
     id: "playlists",
