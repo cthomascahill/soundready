@@ -13,7 +13,6 @@ import PublicFooter from "@/components/public/PublicFooter";
 import SEO from "@/components/SEO";
 import ManagerCostSlider from "@/components/home/ManagerCostSlider";
 import FullToolkitSection from "@/components/pricing/FullToolkitSection";
-import SamTaskProof from "@/components/home/SamTaskProof";
 import BillingToggle from "@/components/billing/BillingToggle";
 import { CARD_FREE_ITEMS, CARD_PRO_ITEMS, CARD_AI_ITEMS } from "@/lib/plans";
 
@@ -115,19 +114,11 @@ export default function Pricing() {
         <div className="absolute -top-48 -left-48 h-[640px] w-[640px] rounded-full bg-primary/15 blur-[140px] pointer-events-none" />
         <div className="absolute -top-40 -right-56 h-[560px] w-[560px] rounded-full bg-chart-2/10 blur-[160px] pointer-events-none" />
         <div className="absolute inset-0 bg-gradient-to-b from-transparent via-background/60 to-background pointer-events-none" />
-        <motion.div initial={{ opacity: 0, y: 24 }} animate={{ opacity: 1, y: 0 }} className="relative max-w-4xl mx-auto space-y-4">
+        <motion.div initial={{ opacity: 0, y: 24 }} animate={{ opacity: 1, y: 0 }} className="relative max-w-4xl mx-auto">
           <h1 className="font-heading text-4xl sm:text-5xl font-black tracking-tight leading-[0.95]">
-            Your music, from idea to release<br />
-            <span className="text-primary">Pick the plan that fits</span>
+            Take action<br />
+            <span className="text-primary">on your career</span>
           </h1>
-          <p className="text-sm sm:text-base text-muted-foreground leading-relaxed max-w-xl mx-auto">
-            SoundReady keeps your songs, mixes, feedback, and release progress together in one workspace, and your next five songs are free to start. SAM, your AI manager, is included with Digital Manager, $59 a month for the first 100 artists, $79 a month after.
-          </p>
-          {!isAuth && (
-            <Button size="lg" className="gap-2 font-heading font-bold text-base px-8 h-12" onClick={() => document.getElementById("plans")?.scrollIntoView({ behavior: "smooth" })}>
-              See Plans <ArrowRight className="h-4 w-4" />
-            </Button>
-          )}
         </motion.div>
       </section>
 
@@ -330,9 +321,6 @@ export default function Pricing() {
         </div>
       </section>
 
-      {/* SAM PROOF: a real task from a real workspace */}
-      <SamTaskProof />
-
       {/* FAQ */}
       <section className="px-4 pb-24 border-t border-border pt-16">
         <div className="max-w-2xl mx-auto space-y-8">
@@ -371,21 +359,6 @@ export default function Pricing() {
             ))}
           </div>
         </div>
-      </section>
-
-      {/* FINAL CTA */}
-      <section className="px-4 py-28 border-t border-border text-center bg-gradient-to-t from-primary/8 via-background to-background">
-        <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="max-w-4xl mx-auto space-y-8">
-          <h2 className="font-heading text-4xl sm:text-5xl font-black leading-[0.95]">
-            Your biggest release<br />
-            <span className="text-primary">is next</span>
-          </h2>
-          <p className="text-muted-foreground">Start free today. Upgrade when you're ready. The work is already done for you.</p>
-          <Button size="lg" className="gap-2 font-heading font-bold text-base px-8 h-12" onClick={() => document.getElementById("plans")?.scrollIntoView({ behavior: "smooth" })}>
-            See Plans <ArrowRight className="h-4 w-4" />
-          </Button>
-          <p className="text-xs text-muted-foreground">No contracts. No percentage cuts. Cancel anytime.</p>
-        </motion.div>
       </section>
 
       <PublicFooter />
