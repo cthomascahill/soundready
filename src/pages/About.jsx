@@ -26,7 +26,7 @@ const TIERS = [
     bg: "bg-chart-5/10",
     border: "border-chart-5/20",
     name: "Free",
-    tagline: "Start organizing your music.",
+    tagline: "Your next five songs, free.",
     limit: "Up to 5 songs",
     price: "$0 — Free forever",
     desc: "Sign up free and your Release Starter Kit lands in your inbox the moment you join: pitch template, filled-in example, release timeline, metadata checklist.",
@@ -73,7 +73,7 @@ const TIERS = [
     bg: "bg-primary/10",
     border: "border-primary/30",
     name: "Digital Manager",
-    tagline: "Your workspace, with SAM's help.",
+    tagline: "A team behind your releases.",
     limit: "2,500 SAM credits/mo",
     price: "$59/month",
     strike: "$79/month",
@@ -133,11 +133,11 @@ export default function About() {
             {t("Built for independent artists")}
           </p>
           <h1 className="font-heading text-4xl sm:text-6xl lg:text-7xl font-black tracking-tight leading-[0.95]">
-            {t("Your music,")}<br />
-            <span className="text-primary">{t("from idea to release.")}</span>
+            {t("You made the music.")}<br />
+            <span className="text-primary">{t("Give it a team.")}</span>
           </h1>
           <p className="text-sm sm:text-base text-muted-foreground max-w-2xl mx-auto leading-relaxed">
-            {t("Keep your songs, mixes, feedback, and releases organized in one place — with an AI manager to help you take the next step.")}
+            {t("Drop your next five songs into SoundReady. Keep every mix and collaborator's feedback together, prepare each release, and let your AI manager help get your music in front of people.")}
           </p>
           <div className="pt-1">
             <Button size="lg" className="gap-2 font-heading font-bold text-sm sm:text-base px-6 sm:px-8 h-12" onClick={handleCTA}>
@@ -197,7 +197,7 @@ export default function About() {
           <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="text-center space-y-4">
             <p className="text-xs text-primary uppercase tracking-wider font-bold">{t("Pricing")}</p>
             <h2 className="font-heading text-3xl sm:text-5xl font-black tracking-tight">
-              {t("Start free. ")}<span className="text-primary">{t("Add SAM when you're ready.")}</span>
+              {t("Your next five songs are free. ")}<span className="text-primary">{t("Add the team when you're ready.")}</span>
             </h2>
           </motion.div>
 
@@ -277,10 +277,10 @@ export default function About() {
         <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="max-w-4xl mx-auto space-y-6">
           <div className="space-y-4">
             <h2 className="font-heading text-4xl sm:text-5xl lg:text-6xl font-black tracking-tight">
-              {t("Give your music a ")}<span className="text-primary">{t("home.")}</span>
+              {t("You made the music. ")}<span className="text-primary">{t("Give it a team.")}</span>
             </h2>
             <p className="text-sm sm:text-base text-muted-foreground max-w-xl mx-auto leading-relaxed">
-              {t("Keep your songs together and your next release moving.")}
+              {t("Drop your next five songs in and start turning them into releases.")}
             </p>
           </div>
           <Button size="lg" className="gap-2 font-heading font-bold text-base px-8 h-12" onClick={handleCTA}>

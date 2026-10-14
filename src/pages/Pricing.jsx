@@ -121,7 +121,7 @@ export default function Pricing() {
             <span className="text-primary">Pick the plan that fits.</span>
           </h1>
           <p className="text-sm sm:text-base text-muted-foreground leading-relaxed max-w-xl mx-auto">
-            SoundReady keeps your songs, mixes, feedback, and release progress together in one workspace. SAM, your AI manager, is included with Digital Manager — $59 a month for the first 100 artists, $79 a month after.
+            SoundReady keeps your songs, mixes, feedback, and release progress together in one workspace — and your next five songs are free to start. SAM, your AI manager, is included with Digital Manager — $59 a month for the first 100 artists, $79 a month after.
           </p>
           {!isAuth && (
             <Button size="lg" className="gap-2 font-heading font-bold text-base px-8 h-12" onClick={() => document.getElementById("plans")?.scrollIntoView({ behavior: "smooth" })}>
@@ -198,7 +198,7 @@ export default function Pricing() {
                 <Zap className="h-5 w-5 text-chart-5" />
               </div>
               <p className="font-heading font-black text-2xl">Free</p>
-              <p className="text-sm font-semibold mt-0.5 mb-2 text-chart-5">Start organizing your music.</p>
+              <p className="text-sm font-semibold mt-0.5 mb-2 text-chart-5">Your next five songs, free.</p>
               <p className="text-2xl font-black mb-1">$0</p>
               <p className="text-sm font-semibold text-chart-5 mb-3">Free forever</p>
               <p className="text-sm text-muted-foreground leading-relaxed mb-5">
@@ -272,7 +272,7 @@ export default function Pricing() {
                 <Bot className="h-5 w-5 text-primary" />
               </div>
               <p className="font-heading font-black text-2xl">Digital Manager</p>
-              <p className="text-sm font-semibold mt-0.5 mb-2 text-primary">Your workspace, with SAM's help.</p>
+              <p className="text-sm font-semibold mt-0.5 mb-2 text-primary">A team behind your releases.</p>
               <div className="mb-3 flex items-baseline gap-2 flex-wrap">
                 <span className="text-base text-muted-foreground line-through font-semibold">{billing === "yearly" ? "$699" : "$79"}</span>
                 <p className="text-2xl font-black">{billing === "yearly" ? "$47.42" : "$59"}<span className="text-sm text-muted-foreground font-medium">/month</span></p>

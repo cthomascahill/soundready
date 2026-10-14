@@ -77,9 +77,11 @@ export default function WorkflowSection() {
           className="text-center space-y-4"
         >
           <h2 className="font-heading text-3xl sm:text-5xl font-black tracking-tight">
-            {t("Less time managing files.")}<br />
-            <span className="text-primary">{t("More time making music.")}</span>
+            {t("The journey of your ")}<span className="text-primary">{t("next five songs")}</span>
           </h2>
+          <p className="text-sm sm:text-base text-muted-foreground max-w-2xl mx-auto leading-relaxed">
+            {t("Drop them in once. SoundReady keeps every mix, note, and release step together — so your music keeps moving.")}
+          </p>
         </motion.div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-5">
