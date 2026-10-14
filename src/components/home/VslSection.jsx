@@ -21,14 +21,9 @@ export default function VslSection() {
           viewport={{ once: true }}
           className="text-center space-y-3"
         >
-          <p className="text-xs text-primary uppercase tracking-wider font-bold">{t("Watch the film")}</p>
-          <h2 className="font-heading text-3xl sm:text-5xl font-black tracking-tight">
-            {t("From first upload")}<br />
-            <span className="text-primary">{t("to first pitch")}</span>
+          <h2 className="font-heading text-3xl sm:text-6xl font-black tracking-tight">
+            {t("How SoundReady ")}<span className="text-primary">{t("works")}</span>
           </h2>
-          <p className="text-sm sm:text-base text-muted-foreground max-w-xl mx-auto leading-relaxed">
-            {t("The Vault, the Tracker, demo links, notes, your team, and SAM pitching your music.")}
-          </p>
         </motion.div>
 
         <ScenePlayer

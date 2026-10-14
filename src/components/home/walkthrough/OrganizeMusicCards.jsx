@@ -56,40 +56,35 @@ const LadderMock = () => (
   </div>
 );
 
-const STEPS = [
+const CARDS = [
   { num: "1", title: "Add your music", blurb: "Drop a folder. Your songs, versions, and duplicates land organized in the Vault.", Mock: AddMusicMock },
   { num: "2", title: "Keep mixes and feedback together", blurb: "Every version lives with its song, ready to compare, with your notes attached.", Mock: MixesMock },
   { num: "3", title: "Share a demo link", blurb: "Send one private link. Anyone can listen, no account, no expiring transfers.", Mock: DemoLinkMock },
   { num: "4", title: "Track each song toward release", blurb: "See every song's stage at a glance, from idea to release day.", Mock: LadderMock },
 ];
 
-// The core workflow, shown with pieces of the real UI — nothing implied that
-// the product doesn't already do.
-export default function WorkflowSection() {
+// The "Organize your music" toggle view: the Vault pictures that used to live
+// in their own section further down the page.
+export default function OrganizeMusicCards() {
   const { t } = useLang();
   return (
-    <section className="px-4 py-16">
-      <div className="max-w-6xl mx-auto space-y-10">
-        <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-5">
-          {STEPS.map((s, i) => (
-            <motion.div
-              key={s.title}
-              initial={{ opacity: 0, y: 24 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: i * 0.08 }}
-              className="rounded-2xl border border-border bg-card p-4 sm:p-5 space-y-4"
-            >
-              <s.Mock />
-              <div className="space-y-1.5">
-                <p className="text-xs font-bold text-primary">{s.num}</p>
-                <p className="font-heading font-bold text-sm sm:text-base leading-snug">{t(s.title)}</p>
-                <p className="text-xs sm:text-sm text-muted-foreground leading-relaxed">{t(s.blurb)}</p>
-              </div>
-            </motion.div>
-          ))}
-        </div>
-      </div>
-    </section>
+    <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-5">
+      {CARDS.map((s, i) => (
+        <motion.div
+          key={s.title}
+          initial={{ opacity: 0, y: 24 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: i * 0.08 }}
+          className="rounded-2xl border border-border bg-card p-4 sm:p-5 space-y-4"
+        >
+          <s.Mock />
+          <div className="space-y-1.5">
+            <p className="text-xs font-bold text-primary">{s.num}</p>
+            <p className="font-heading font-bold text-sm sm:text-base leading-snug">{t(s.title)}</p>
+            <p className="text-xs sm:text-sm text-muted-foreground leading-relaxed">{t(s.blurb)}</p>
+          </div>
+        </motion.div>
+      ))}
+    </div>
   );
 }

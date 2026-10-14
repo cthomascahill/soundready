@@ -1,7 +1,8 @@
 import { useState } from "react";
 import SamTaskProof from "@/components/home/SamTaskProof";
-import { MapPin, Music2 } from "lucide-react";
+import { FolderUp, MapPin, Music2 } from "lucide-react";
 import WalkthroughSection from "@/components/home/WalkthroughSection";
+import OrganizeMusicCards from "@/components/home/walkthrough/OrganizeMusicCards";
 import StepTellSamScreen from "@/components/home/walkthrough/StepTellSamScreen";
 import StepResearchScreen from "@/components/home/walkthrough/StepResearchScreen";
 import StepApproveScreen from "@/components/home/walkthrough/StepApproveScreen";
@@ -9,7 +10,7 @@ import StepPlaylistTellSamScreen from "@/components/home/walkthrough/StepPlaylis
 import StepPlaylistResearchScreen from "@/components/home/walkthrough/StepPlaylistResearchScreen";
 import StepPlaylistApproveScreen from "@/components/home/walkthrough/StepPlaylistApproveScreen";
 
-// One Sam walkthrough with two example tasks the visitor can switch between.
+// One Sam walkthrough with three example tasks the visitor can switch between.
 // The flow is always: tell Sam, Sam does the work, you approve.
 const SCENARIOS = {
   tour: {
@@ -22,6 +23,11 @@ const SCENARIOS = {
       { num: "2", title: "Sam does the work.", Screen: StepResearchScreen },
       { num: "3", title: "You approve.", Screen: StepApproveScreen },
     ],
+  },
+  organize: {
+    key: "organize",
+    label: "Organize your music",
+    icon: FolderUp,
   },
   playlist: {
     key: "playlist",
@@ -46,7 +52,7 @@ export default function SamWalkthrough() {
       headline="SAM does the work"
       headlineAccent="You approve"
       headerExtra={
-        <div className="flex justify-center gap-2 pt-2">
+        <div className="flex flex-wrap justify-center gap-2 pt-2">
           {Object.values(SCENARIOS).map((s) => {
             const isActive = s.key === scenario.key;
             return (
@@ -67,7 +73,8 @@ export default function SamWalkthrough() {
         </div>
       }
       steps={active.steps}
-      below={<SamTaskProof />}
+      body={active.key === "organize" ? <OrganizeMusicCards /> : undefined}
+      below={active.key === "organize" ? null : <SamTaskProof />}
     />
   );
 }

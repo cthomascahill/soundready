@@ -5,7 +5,7 @@ import { useLang } from "@/lib/i18n/LanguageContext";
 
 // Shared 3-step walkthrough: numbered steps, arrows between them, and a
 // product-accurate screen mock for each step.
-export default function WalkthroughSection({ id, eyebrow, headline, headlineAccent, sub, headerExtra, steps, below }) {
+export default function WalkthroughSection({ id, eyebrow, headline, headlineAccent, sub, headerExtra, steps, body, below }) {
   const { t } = useLang();
   return (
     <section id={id} className="px-4 py-16 scroll-mt-20">
@@ -21,6 +21,7 @@ export default function WalkthroughSection({ id, eyebrow, headline, headlineAcce
           {headerExtra}
         </motion.div>
 
+        {body || (
         <div className="grid grid-cols-1 lg:grid-cols-[1fr_auto_1fr_auto_1fr] gap-8 lg:gap-3 items-center">
           {steps.map((step, i) => (
             <Fragment key={step.num}>
@@ -46,6 +47,7 @@ export default function WalkthroughSection({ id, eyebrow, headline, headlineAcce
             </Fragment>
           ))}
         </div>
+        )}
 
         {below}
       </div>

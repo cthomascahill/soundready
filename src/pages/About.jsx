@@ -7,8 +7,7 @@ import { Button } from "@/components/ui/button";
 import PublicNav from "@/components/public/PublicNav";
 import PublicFooter from "@/components/public/PublicFooter";
 import SEO from "@/components/SEO";
-import WorkspacePreview from "@/components/home/WorkspacePreview";
-import WorkflowSection from "@/components/home/WorkflowSection";
+
 import BenefitsSection from "@/components/home/BenefitsSection";
 import MeetSamSection from "@/components/home/MeetSamSection";
 import MattCormanSection from "@/components/home/MattCormanSection";
@@ -122,74 +121,58 @@ export default function About() {
 
       <PublicNav showHome={false} />
 
-      {/* HERO: the workspace leads, SAM supports */}
-      <section className="relative px-4 pt-24 pb-14 text-center overflow-hidden">
+      {/* HERO: your career in motion, SAM big right beside it */}
+      <section className="relative px-4 pt-24 pb-16 overflow-hidden">
         {/* Soft ambient glows behind the hero */}
         <div className="absolute -top-48 -left-48 h-[640px] w-[640px] rounded-full bg-primary/15 blur-[140px] pointer-events-none" />
         <div className="absolute -top-40 -right-56 h-[560px] w-[560px] rounded-full bg-chart-2/10 blur-[160px] pointer-events-none" />
-        <div className="absolute inset-0 bg-gradient-to-b from-transparent via-background/60 to-background pointer-events-none" />
 
-        {/* SAM, standing by on the right side of the hero */}
-        <div className="hidden lg:flex absolute right-8 xl:right-24 top-1/2 -translate-y-1/2 flex-col items-center gap-3 pointer-events-none z-10">
-          <motion.img
-            src="https://media.base44.com/images/public/69dcf0ecc907e43a438a626b/b7f9a17dc_generated_f31f1bbd.png"
-            alt="SAM, your SoundReady Artist Manager"
-            className="h-44 xl:h-52 w-auto drop-shadow-xl"
-            initial={{ opacity: 0, x: 24 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ delay: 0.3 }}
-          />
+        <div className="relative max-w-[1400px] mx-auto grid lg:grid-cols-2 gap-10 xl:gap-20 items-center">
+          {/* Left: the offer and the artist search */}
+          <motion.div initial={{ opacity: 0, y: 32 }} animate={{ opacity: 1, y: 0 }} className="space-y-5 text-center lg:text-left">
+            <h1 className="font-heading text-4xl sm:text-6xl lg:text-7xl font-black tracking-tight leading-[0.95]">
+              {t("Your career")} <span className="text-primary">{t("in motion")}</span>
+            </h1>
+            <p className="text-base sm:text-xl font-heading font-bold flex items-center justify-center lg:justify-start gap-2">
+              {t("Search your profile below")} <ArrowDown className="h-5 w-5 sm:h-6 sm:w-6 text-primary" />
+            </p>
+            <HeroArtistSearch />
+            <div className="pt-1">
+              <Button size="lg" className="gap-2 font-heading font-bold text-sm sm:text-base px-6 sm:px-8 h-12" onClick={handleCTA}>
+                {t("Start Free")}
+              </Button>
+            </div>
+          </motion.div>
+
+          {/* Right: SAM, big, right next to the copy */}
           <motion.div
-            initial={{ opacity: 0, y: 12 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.45 }}
-            className="rounded-xl border border-primary/30 bg-card px-3.5 py-2 shadow-xl text-center"
+            initial={{ opacity: 0, x: 32 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ delay: 0.25 }}
+            className="flex flex-col items-center justify-center gap-4"
           >
-            <p className="text-xs font-bold text-primary">Meet SAM</p>
-            <p className="text-[10px] text-muted-foreground">SoundReady Artist Manager</p>
+            <motion.img
+              src="https://media.base44.com/images/public/69dcf0ecc907e43a438a626b/b7f9a17dc_generated_f31f1bbd.png"
+              alt="SAM, your SoundReady Artist Manager"
+              className="h-[300px] sm:h-[400px] lg:h-[440px] xl:h-[520px] w-auto drop-shadow-2xl"
+              animate={{ y: [0, -10, 0] }}
+              transition={{ repeat: Infinity, duration: 4, ease: "easeInOut" }}
+            />
+            <div className="rounded-xl border border-primary/30 bg-card px-4 py-2.5 shadow-xl text-center">
+              <p className="text-sm font-bold text-primary">Meet SAM</p>
+              <p className="text-xs text-muted-foreground">SoundReady Artist Manager</p>
+            </div>
           </motion.div>
         </div>
-
-        <motion.div initial={{ opacity: 0, y: 32 }} animate={{ opacity: 1, y: 0 }} className="relative max-w-4xl mx-auto space-y-5">
-          <h1 className="font-heading text-4xl sm:text-6xl lg:text-7xl font-black tracking-tight leading-[0.95]">
-            {t("Your career")} <span className="text-primary">{t("in motion")}</span>
-          </h1>
-          <p className="text-base sm:text-xl font-heading font-bold flex items-center justify-center gap-2">
-            {t("Search your profile below")} <ArrowDown className="h-5 w-5 sm:h-6 sm:w-6 text-primary" />
-          </p>
-          <p className="text-sm sm:text-base text-muted-foreground max-w-xl mx-auto leading-relaxed">
-            {t("Search your artist name to see your Spotify numbers and a 12-month growth projection, the same stats SAM works from.")}
-          </p>
-          <HeroArtistSearch />
-          <div className="pt-1">
-            <Button size="lg" className="gap-2 font-heading font-bold text-sm sm:text-base px-6 sm:px-8 h-12" onClick={handleCTA}>
-              {t("Start Free")}
-            </Button>
-            <p className="text-xs sm:text-sm text-muted-foreground mt-2.5">{t("Start with 5 songs. No card required.")}</p>
-          </div>
-        </motion.div>
-
       </section>
 
       {/* THE VSL: one artist's whole journey, right after Start Free */}
       <VslSection />
 
-      <section className="px-4 pt-2 pb-16">
-        <motion.div
-          initial={{ opacity: 0, y: 40 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.15 }}
-          className="relative max-w-5xl mx-auto"
-        >
-          <WorkspacePreview />
-        </motion.div>
-      </section>
-
       {/* MEET SAM */}
       <MeetSamSection />
 
-      {/* THE CORE WORKFLOW */}
-      <WorkflowSection />
+
 
       {/* THREE CONNECTED BENEFITS */}
       <BenefitsSection />
