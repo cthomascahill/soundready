@@ -4,10 +4,10 @@ import StepResearchScreen from "@/components/home/walkthrough/StepResearchScreen
 import StepApproveScreen from "@/components/home/walkthrough/StepApproveScreen";
 import { SignupMock, VaultDropMock, SongInfoMock, TrackerSetupMock, MixesMock, NotesMock, DemoLinkMock, TeamChatMock, PlaylistsMock } from "@/components/home/vsl/vslMocks";
 
-const Centered = ({ Screen }) => (
+const Centered = ({ Screen, screenProps }) => (
   <div className="h-full flex items-center justify-center px-4 sm:px-10 py-6">
     <motion.div className="w-full max-w-xl" initial={{ opacity: 0, y: 24 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5 }}>
-      <Screen />
+      <Screen {...(screenProps || {})} />
     </motion.div>
   </div>
 );
@@ -90,9 +90,17 @@ export const VSL_SCENES = [
   {
     id: "tell",
     label: "Tell SAM",
-    duration: 7,
-    narration: "Then give SAM a task in plain words. Book my spring tour. Pitch my new single.",
-    render: () => <Centered Screen={StepTellSamScreen} />,
+    duration: 8,
+    narration: "Then give SAM a task in plain words. Book my spring tour. Pitch my new single. Find me artists to open up for.",
+    render: () => (
+      <Centered
+        Screen={StepTellSamScreen}
+        screenProps={{
+          task: "Book my spring tour, pitch my new single, find me artists to open up for.",
+          hint: "Who or where? (optional), spring dates, my new single, good fits to support",
+        }}
+      />
+    ),
   },
   {
     id: "research",
