@@ -136,3 +136,21 @@
 :not(.dark) .text-zinc-500,
 :not(.dark) .text-gray-500,
 :not(.dark) .text-slate-500 { color: hsl(30 6% 30%); }
+
+/* Dark mode only: the zinc grays are tuned for light UIs and wash out to an
+   unreadable dim gray on the near-black background. Render them as bright,
+   readable values instead, matching the muted-text brightening above.
+   (gray-500/600 are left alone: the LinkInBio light themes use them on
+   white surfaces.) */
+.dark .text-zinc-400 { color: hsl(0 0% 78%); }
+.dark .text-zinc-500 { color: hsl(0 0% 72%); }
+.dark .text-zinc-600 { color: hsl(0 0% 66%); }
+
+/* Dark mode only: opacity-faded muted text (text-muted-foreground/40 etc.)
+   is a separate generated class, so the .dark brightening above never
+   reached it and it rendered as the raw dim gray. Brighten it too. */
+.dark .text-muted-foreground\/40 { color: hsl(0 0% 74%); }
+.dark .text-muted-foreground\/50,
+.dark .text-muted-foreground\/60,
+.dark .text-muted-foreground\/70 { color: hsl(0 0% 80%); }
+.dark .text-muted-foreground\/80 { color: hsl(0 0% 84%); }
