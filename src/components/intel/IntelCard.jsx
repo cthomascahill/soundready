@@ -35,22 +35,22 @@ export default function IntelCard({ item }) {
         )}
       </div>
 
-      <p className="text-xs text-foreground/80 leading-relaxed">{item.summary}</p>
-      {item.detail && <p className="text-xs text-foreground/60 leading-relaxed">{item.detail}</p>}
+      <p className="text-xs text-foreground leading-relaxed">{item.summary}</p>
+      {item.detail && <p className="text-xs text-foreground leading-relaxed">{item.detail}</p>}
 
       {(chips.length > 0 || (item.tags && item.tags.length > 0)) && (
         <div className="flex flex-wrap items-center gap-1.5">
           {chips.map((c) => (
             <span
               key={c.text}
-              className="inline-flex items-center gap-1 text-[10px] text-foreground/70 bg-secondary border border-border rounded-full px-2 py-0.5 max-w-[240px] truncate"
+              className="inline-flex items-center gap-1 text-[10px] text-foreground bg-secondary border border-border rounded-full px-2 py-0.5 max-w-[240px] truncate"
             >
               <c.icon className="h-3 w-3 shrink-0" />
               <span className="truncate">{c.text}</span>
             </span>
           ))}
           {(item.tags || []).slice(0, 3).map((t) => (
-            <span key={t} className="text-[10px] text-foreground/60 border border-border rounded-full px-2 py-0.5">
+            <span key={t} className="text-[10px] text-foreground border border-border rounded-full px-2 py-0.5">
               {t}
             </span>
           ))}
@@ -60,7 +60,7 @@ export default function IntelCard({ item }) {
       {item.action_tip && (
         <div className="flex items-start gap-2 rounded-xl bg-primary/5 border border-primary/20 p-3 mt-auto">
           <Zap className="h-3.5 w-3.5 text-primary shrink-0 mt-0.5" />
-          <p className="text-xs text-primary/90 leading-relaxed">{item.action_tip}</p>
+          <p className="text-xs text-primary leading-relaxed">{item.action_tip}</p>
         </div>
       )}
 

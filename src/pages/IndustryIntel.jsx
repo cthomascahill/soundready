@@ -71,7 +71,7 @@ export default function IndustryIntel() {
             <div className="flex items-center gap-3">
               <button
                 onClick={() => setActiveId(null)}
-                className="inline-flex items-center gap-1.5 text-xs font-semibold text-muted-foreground hover:text-foreground border border-border rounded-full px-3 py-1.5 transition-colors"
+                className="inline-flex items-center gap-1.5 text-xs font-semibold text-foreground hover:text-primary border border-border rounded-full px-3 py-1.5 transition-colors"
               >
                 <ArrowLeft className="h-3.5 w-3.5" />
                 All opportunities
@@ -81,12 +81,12 @@ export default function IndustryIntel() {
             <div className="flex items-center gap-3 flex-wrap">
               <h2 className="font-heading text-2xl font-bold">{active.label}</h2>
               {genreText && (
-                <span className="text-[10px] font-bold uppercase tracking-wide text-muted-foreground bg-secondary px-2 py-1 rounded">
+                <span className="text-[10px] font-bold uppercase tracking-wide text-foreground bg-secondary px-2 py-1 rounded">
                   {genreText}
                 </span>
               )}
             </div>
-            <p className="text-sm text-muted-foreground -mt-4">{active.description}</p>
+            <p className="text-sm text-foreground -mt-4">{active.description}</p>
 
             {profileLoaded && (
               <IntelFeed key={`${active.id}-${genreText}-${city}`} feed={active} genres={genreText} city={city} />

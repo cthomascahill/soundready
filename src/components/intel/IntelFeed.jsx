@@ -96,7 +96,7 @@ export default function IntelFeed({ feed, genres, city }) {
           </div>
           <div>
             <p className="text-[10px] font-bold uppercase tracking-widest text-primary mb-1">Quick read</p>
-            <p className="text-sm text-foreground/90 leading-relaxed">{briefing}</p>
+            <p className="text-sm text-foreground leading-relaxed">{briefing}</p>
           </div>
         </div>
       )}

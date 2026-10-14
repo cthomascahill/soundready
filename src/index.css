@@ -104,38 +104,38 @@
 
 /* Light mode only: darken the tinted text used in stage badges, status
    pills and other bubble elements so they read clearly on warm surfaces. */
-:not(.dark) .text-primary { color: hsl(142 71% 30%); }
-:not(.dark) .text-cyan-400 { color: hsl(190 85% 30%); }
-:not(.dark) .text-blue-400 { color: hsl(217 80% 38%); }
-:not(.dark) .text-purple-400 { color: hsl(271 65% 45%); }
-:not(.dark) .text-pink-400 { color: hsl(330 70% 42%); }
-:not(.dark) .text-orange-400 { color: hsl(25 90% 38%); }
-:not(.dark) .text-yellow-400 { color: hsl(40 85% 34%); }
-:not(.dark) .text-teal-400 { color: hsl(172 70% 28%); }
-:not(.dark) .text-red-400 { color: hsl(0 70% 42%); }
-:not(.dark) .text-green-400 { color: hsl(142 70% 32%); }
-:not(.dark) .text-green-500 { color: hsl(142 70% 32%); }
+:root:not(.dark) .text-primary { color: hsl(142 71% 30%); }
+:root:not(.dark) .text-cyan-400 { color: hsl(190 85% 30%); }
+:root:not(.dark) .text-blue-400 { color: hsl(217 80% 38%); }
+:root:not(.dark) .text-purple-400 { color: hsl(271 65% 45%); }
+:root:not(.dark) .text-pink-400 { color: hsl(330 70% 42%); }
+:root:not(.dark) .text-orange-400 { color: hsl(25 90% 38%); }
+:root:not(.dark) .text-yellow-400 { color: hsl(40 85% 34%); }
+:root:not(.dark) .text-teal-400 { color: hsl(172 70% 28%); }
+:root:not(.dark) .text-red-400 { color: hsl(0 70% 42%); }
+:root:not(.dark) .text-green-400 { color: hsl(142 70% 32%); }
+:root:not(.dark) .text-green-500 { color: hsl(142 70% 32%); }
 
 /* Light mode readability pass: faded grays and zinc-based grays were tuned
    for dark surfaces and wash out on light backgrounds. Render them as
    solid, readable values in light mode only. Dark-intent screens use
    white-based text classes, which these rules do not touch. */
-:not(.dark) .text-muted-foreground\/50,
-:not(.dark) .text-muted-foreground\/60,
-:not(.dark) .text-muted-foreground\/70 { color: hsl(30 6% 34%); }
-:not(.dark) .text-muted-foreground\/80 { color: hsl(30 6% 36%); }
-:not(.dark) .text-foreground\/50,
-:not(.dark) .text-foreground\/60,
-:not(.dark) .text-foreground\/70 { color: hsl(30 8% 26%); }
-:not(.dark) .text-foreground\/80 { color: hsl(30 8% 28%); }
-:not(.dark) .text-zinc-200,
-:not(.dark) .text-zinc-300 { color: hsl(30 8% 18%); }
-:not(.dark) .text-zinc-400,
-:not(.dark) .text-gray-400,
-:not(.dark) .text-slate-400 { color: hsl(30 6% 32%); }
-:not(.dark) .text-zinc-500,
-:not(.dark) .text-gray-500,
-:not(.dark) .text-slate-500 { color: hsl(30 6% 30%); }
+:root:not(.dark) .text-muted-foreground\/50,
+:root:not(.dark) .text-muted-foreground\/60,
+:root:not(.dark) .text-muted-foreground\/70 { color: hsl(30 6% 34%); }
+:root:not(.dark) .text-muted-foreground\/80 { color: hsl(30 6% 36%); }
+:root:not(.dark) .text-foreground\/50,
+:root:not(.dark) .text-foreground\/60,
+:root:not(.dark) .text-foreground\/70 { color: hsl(30 8% 26%); }
+:root:not(.dark) .text-foreground\/80 { color: hsl(30 8% 28%); }
+:root:not(.dark) .text-zinc-200,
+:root:not(.dark) .text-zinc-300 { color: hsl(30 8% 18%); }
+:root:not(.dark) .text-zinc-400,
+:root:not(.dark) .text-gray-400,
+:root:not(.dark) .text-slate-400 { color: hsl(30 6% 32%); }
+:root:not(.dark) .text-zinc-500,
+:root:not(.dark) .text-gray-500,
+:root:not(.dark) .text-slate-500 { color: hsl(30 6% 30%); }
 
 /* Dark mode only: the zinc grays are tuned for light UIs and wash out to an
    unreadable dim gray on the near-black background. Render them as bright,
