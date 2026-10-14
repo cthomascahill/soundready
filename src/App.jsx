@@ -83,6 +83,7 @@ import EpkShare from './pages/EpkShare';
 import AskSam from './pages/AskSam';
 import LogoDownload from './pages/LogoDownload';
 import ToolLibrary from './pages/ToolLibrary';
+import VaultHome from './pages/VaultHome';
 import Touring from './pages/Touring';
 import CreatorProfile from './pages/CreatorProfile';
 import BuyoutLeads from './pages/BuyoutLeads';
@@ -132,7 +133,7 @@ const AuthenticatedApp = () => {
       <Route element={<ProtectedRoute unauthenticatedElement={<Navigate to="/login" replace />} />}>
         <Route path="/ask-sam" element={<AskSam />} />
         <Route element={<AppLayout />}>
-        <Route path="/dashboard" element={<Navigate to="/history" replace />} />
+        <Route path="/dashboard" element={<VaultHome />} />
         <Route path="/tools" element={<ToolLibrary />} />
         <Route path="/storage" element={<Storage />} />
         <Route path="/release-kit" element={<ReleaseKit />} />

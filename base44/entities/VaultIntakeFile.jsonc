@@ -1,0 +1,108 @@
+{
+  "name": "VaultIntakeFile",
+  "type": "object",
+  "description": "One file from a folder drop into the Vault: SAM's grouping decision (auto-grouped song version, exact duplicate, or needs review) so the artist can audit and correct the organization. The original upload and filename are always preserved.",
+  "properties": {
+    "user_id": {
+      "type": "string",
+      "description": "User this intake file belongs to"
+    },
+    "batch_id": {
+      "type": "string",
+      "description": "Identifier shared by all files from one folder upload"
+    },
+    "original_filename": {
+      "type": "string",
+      "description": "Filename as uploaded, never altered"
+    },
+    "file_uri": {
+      "type": "string",
+      "description": "Uploaded audio file in private storage; kept even for duplicates and dismissed files"
+    },
+    "file_size": {
+      "type": "number",
+      "description": "Size in bytes"
+    },
+    "file_hash": {
+      "type": "string",
+      "description": "SHA-256 fingerprint (size + head + tail) used to detect exact duplicates"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "auto_grouped",
+        "needs_review",
+        "confirmed",
+        "dismissed"
+      ],
+      "default": "needs_review",
+      "description": "auto_grouped = SAM filed it with high confidence, needs_review = SAM wasn't sure, confirmed = artist filed a reviewed file, dismissed = artist rejected it"
+    },
+    "group_key": {
+      "type": "string",
+      "description": "Normalized song title SAM grouped this file under"
+    },
+    "suggested_title": {
+      "type": "string",
+      "description": "Title SAM read from the filename"
+    },
+    "version_label": {
+      "type": "string",
+      "description": "Version label SAM inferred, e.g. Master, Mix 2, V3, Demo"
+    },
+    "suggested_stage": {
+      "type": "string",
+      "description": "Stage SAM inferred from the filename: Demo, Recorded, Mixed or Mastered"
+    },
+    "stage_from_filename": {
+      "type": "boolean",
+      "default": false,
+      "description": "Whether the filename gave clear evidence for the suggested stage"
+    },
+    "is_exact_duplicate": {
+      "type": "boolean",
+      "default": false,
+      "description": "Byte-identical to another file in the vault"
+    },
+    "duplicate_of": {
+      "type": "string",
+      "description": "Filename of the original this file duplicates"
+    },
+    "song_id": {
+      "type": "string",
+      "description": "SongVault song this file was filed under"
+    },
+    "pipeline_song_id": {
+      "type": "string",
+      "description": "Tracker song this version is attached to"
+    },
+    "reason": {
+      "type": "string",
+      "description": "What SAM did with this file and why, in plain words"
+    },
+    "description": {
+      "type": "string",
+      "maxLength": 1000,
+      "description": "Optional description of this intake file"
+    }
+  },
+  "required": [
+    "user_id",
+    "original_filename",
+    "status"
+  ],
+  "rls": {
+    "read": {
+      "created_by_id": "{{user.id}}"
+    },
+    "create": {
+      "created_by_id": "{{user.id}}"
+    },
+    "update": {
+      "created_by_id": "{{user.id}}"
+    },
+    "delete": {
+      "created_by_id": "{{user.id}}"
+    }
+  }
+}
