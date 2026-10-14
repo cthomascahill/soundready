@@ -37,7 +37,8 @@ export default function FaqSection() {
         >
           <p className="text-xs text-primary uppercase tracking-wider font-bold">{t("FAQ")}</p>
           <h2 className="font-heading text-3xl sm:text-4xl lg:text-5xl font-bold leading-tight">
-            {t("Questions, ")}<span className="text-primary font-black">{t("answered")}</span>
+            {t("Questions,")}<br />
+            <span className="text-primary font-black">{t("answered")}</span>
           </h2>
         </motion.div>
 

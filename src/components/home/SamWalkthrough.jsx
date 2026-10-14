@@ -43,8 +43,8 @@ export default function SamWalkthrough() {
   return (
     <WalkthroughSection
       id="the-promise"
-      headline="SAM does the work. "
-      headlineAccent="You approve."
+      headline="SAM does the work"
+      headlineAccent="You approve"
       headerExtra={
         <div className="flex justify-center gap-2 pt-2">
           {Object.values(SCENARIOS).map((s) => {

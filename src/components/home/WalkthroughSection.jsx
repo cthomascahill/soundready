@@ -14,7 +14,8 @@ export default function WalkthroughSection({ id, eyebrow, headline, headlineAcce
           className="text-center space-y-4 max-w-3xl mx-auto">
           {eyebrow && <p className="text-xs text-primary uppercase tracking-wider font-bold">{t(eyebrow)}</p>}
           <h2 className="font-heading text-3xl sm:text-4xl lg:text-5xl font-bold leading-tight">
-            {t(headline)} <span className="text-primary font-black">{t(headlineAccent)}</span>
+            {t(headline)}<br />
+            <span className="text-primary font-black">{t(headlineAccent)}</span>
           </h2>
           {sub && <p className="text-sm sm:text-base text-muted-foreground leading-relaxed">{t(sub)}</p>}
           {headerExtra}

@@ -36,7 +36,8 @@ export default function VsRestSection() {
         >
           <p className="text-sm sm:text-base text-primary uppercase tracking-wider font-bold">{t("The stack you're using now")}</p>
           <h2 className="font-heading text-5xl sm:text-6xl lg:text-7xl font-bold leading-tight">
-            {t("12 tools in ")}<span className="text-primary font-black">{t("1 Place")}</span>
+            {t("12 tools in")}<br />
+            <span className="text-primary font-black">{t("1 Place")}</span>
           </h2>
           <p className="text-lg sm:text-xl text-muted-foreground max-w-3xl mx-auto leading-relaxed">
             {t("Every tool you use, in one home.")}

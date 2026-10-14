@@ -117,8 +117,8 @@ export default function Pricing() {
         <div className="absolute inset-0 bg-gradient-to-b from-transparent via-background/60 to-background pointer-events-none" />
         <motion.div initial={{ opacity: 0, y: 24 }} animate={{ opacity: 1, y: 0 }} className="relative max-w-4xl mx-auto space-y-4">
           <h1 className="font-heading text-4xl sm:text-5xl font-black tracking-tight leading-[0.95]">
-            Your music, from idea to release.<br />
-            <span className="text-primary">Pick the plan that fits.</span>
+            Your music, from idea to release<br />
+            <span className="text-primary">Pick the plan that fits</span>
           </h1>
           <p className="text-sm sm:text-base text-muted-foreground leading-relaxed max-w-xl mx-auto">
             SoundReady keeps your songs, mixes, feedback, and release progress together in one workspace, and your next five songs are free to start. SAM, your AI manager, is included with Digital Manager, $59 a month for the first 100 artists, $79 a month after.
@@ -376,8 +376,9 @@ export default function Pricing() {
       {/* FINAL CTA */}
       <section className="px-4 py-28 border-t border-border text-center bg-gradient-to-t from-primary/8 via-background to-background">
         <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="max-w-4xl mx-auto space-y-8">
-          <h2 className="font-heading text-4xl sm:text-5xl font-black leading-[0.95] lg:whitespace-nowrap">
-            Your biggest release <span className="text-primary">is next</span>
+          <h2 className="font-heading text-4xl sm:text-5xl font-black leading-[0.95]">
+            Your biggest release<br />
+            <span className="text-primary">is next</span>
           </h2>
           <p className="text-muted-foreground">Start free today. Upgrade when you're ready. The work is already done for you.</p>
           <Button size="lg" className="gap-2 font-heading font-bold text-base px-8 h-12" onClick={() => document.getElementById("plans")?.scrollIntoView({ behavior: "smooth" })}>

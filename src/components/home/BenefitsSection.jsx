@@ -55,7 +55,8 @@ export default function BenefitsSection() {
         >
           <p className="text-xs text-primary uppercase tracking-wider font-bold">{t("One connected workspace")}</p>
           <h2 className="font-heading text-3xl sm:text-5xl font-black tracking-tight">
-            {t("Everything about a song, ")}<span className="text-primary">{t("with the song.")}</span>
+            {t("Everything about a song,")}<br />
+            <span className="text-primary">{t("with the song")}</span>
           </h2>
         </motion.div>
 

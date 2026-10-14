@@ -17,8 +17,8 @@ export default function SamInActionSection() {
         <motion.div initial={{ opacity: 0, x: -24 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }} className="space-y-5 order-2 lg:order-1">
           <p className="text-xs text-primary uppercase tracking-wider font-bold">{t("SAM In Action")}</p>
           <h2 className="font-heading text-3xl sm:text-4xl lg:text-5xl font-bold leading-tight">
-            {t("SAM finds opportunities and writes the pitches. ")}
-            <span className="text-primary font-black">{t("You approve. SAM sends.")}</span>
+            {t("SAM finds opportunities and writes the pitches")}<br />
+            <span className="text-primary font-black">{t("You approve. SAM sends")}</span>
           </h2>
         </motion.div>
         <motion.div initial={{ opacity: 0, x: 24 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }} className="relative order-1 lg:order-2">

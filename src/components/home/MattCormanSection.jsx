@@ -75,8 +75,8 @@ export default function MattCormanSection() {
             {t("Created by Matt Corman")}
           </p>
           <h2 className="font-heading text-4xl sm:text-6xl font-black tracking-tight">
-            {t("Built by an independent artist.")}<br />
-            <span className="text-primary">{t("For independent artists.")}</span>
+            {t("Built by an independent artist")}<br />
+            <span className="text-primary">{t("For independent artists")}</span>
           </h2>
           <p className="text-lg sm:text-xl text-muted-foreground leading-relaxed max-w-2xl mx-auto">
             {t("I built my music career without a label, going from zero monthly listeners to over one million, while my songs, versions, and release plans lived in folders and spreadsheets. SoundReady is the one home for your music I wish I had back then.")}

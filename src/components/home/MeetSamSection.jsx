@@ -12,7 +12,8 @@ export default function MeetSamSection() {
         <div className="max-w-3xl mx-auto text-center space-y-4">
           <p className="text-xs text-primary uppercase tracking-wider font-bold">{t("Your AI manager")}</p>
           <h2 className="font-heading text-3xl sm:text-5xl font-black tracking-tight">
-            {t("SAM is ")}<span className="text-primary">{t("the team behind your releases.")}</span>
+            {t("SAM is")}<br />
+            <span className="text-primary">{t("the team behind your releases")}</span>
           </h2>
           <p className="text-sm sm:text-base text-muted-foreground leading-relaxed">
             {t("SAM uses your music, stats, and goals to research opportunities and prepare personalized pitches. You approve supported emails before they're sent.")}

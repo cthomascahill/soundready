@@ -77,7 +77,8 @@ export default function WorkflowSection() {
           className="text-center space-y-4"
         >
           <h2 className="font-heading text-3xl sm:text-5xl font-black tracking-tight">
-            {t("The journey of your ")}<span className="text-primary">{t("next five songs")}</span>
+            {t("The journey of your")}<br />
+            <span className="text-primary">{t("next five songs")}</span>
           </h2>
           <p className="text-sm sm:text-base text-muted-foreground max-w-2xl mx-auto leading-relaxed">
             {t("Drop them in once. Everything stays together.")}
