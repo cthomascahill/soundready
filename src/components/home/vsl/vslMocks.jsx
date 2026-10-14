@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import { CheckCircle2, Mic2, Music2 } from "lucide-react";
+import { CheckCircle2, Link2, Mic2, Music2 } from "lucide-react";
 import { Art, DropZoneMock, GroupMock, VersionRowMock } from "@/components/home/mockPieces";
 
 const rise = (delay) => ({ initial: { opacity: 0, y: 16 }, animate: { opacity: 1, y: 0 }, transition: { duration: 0.45, delay } });
@@ -158,6 +158,103 @@ export const NotesMock = () => (
           </motion.p>
         ))}
       </div>
+    </div>
+  </Frame>
+);
+
+// 7 · A live demo link anyone can listen to
+export const DemoLinkMock = () => (
+  <Frame>
+    <div className="rounded-2xl border border-border bg-card p-5 space-y-4">
+      <div className="flex items-center gap-3">
+        <Art className="h-11 w-11" />
+        <div>
+          <p className="text-sm font-bold">Midnight Drive · Mix V2</p>
+          <p className="text-xs text-muted-foreground">Share a private listening link</p>
+        </div>
+      </div>
+      <motion.div {...rise(0.5)} className="h-9 rounded-md bg-primary text-primary-foreground flex items-center justify-center text-xs font-bold w-36">
+        Create demo link
+      </motion.div>
+      <motion.div {...rise(1.2)} className="flex items-center gap-2.5 rounded-xl border border-primary/25 bg-primary/5 p-3">
+        <Link2 className="h-3.5 w-3.5 text-primary shrink-0" />
+        <p className="text-xs text-primary font-semibold truncate">soundready.ai/demo/xK9mQz</p>
+        <span className="ml-auto text-[10px] text-muted-foreground shrink-0">3 plays</span>
+      </motion.div>
+      <motion.p {...rise(1.8)} className="text-xs text-muted-foreground">
+        Anyone with the link listens in the browser. No MP3s. No texts.
+      </motion.p>
+    </div>
+  </Frame>
+);
+
+// 8 · Working with your engineer in Team Chat
+export const TeamChatMock = () => (
+  <Frame>
+    <div className="rounded-2xl border border-border bg-card overflow-hidden">
+      <div className="px-4 py-2.5 border-b border-border flex items-center gap-2">
+        <div className="flex -space-x-1.5">
+          <span className="h-5 w-5 rounded-full bg-primary text-primary-foreground text-[9px] font-bold flex items-center justify-center ring-2 ring-card">J</span>
+          <span className="h-5 w-5 rounded-full bg-chart-5 text-primary-foreground text-[9px] font-bold flex items-center justify-center ring-2 ring-card">A</span>
+        </div>
+        <p className="text-xs font-bold">Team Chat · Midnight Drive</p>
+      </div>
+      <div className="p-4 space-y-2.5">
+        <motion.div {...rise(0.4)} className="flex justify-end">
+          <p className="rounded-2xl rounded-br-sm bg-primary text-primary-foreground text-xs px-3.5 py-2 max-w-[75%]">
+            Notes are on Mix 2. Chorus vocal needs more punch.
+          </p>
+        </motion.div>
+        <motion.div {...rise(1)} className="flex justify-start">
+          <p className="rounded-2xl rounded-bl-sm bg-muted text-foreground text-xs px-3.5 py-2 max-w-[75%]">
+            Read them all. Sending Mix 3 tonight.
+          </p>
+        </motion.div>
+        <motion.div {...rise(1.6)} className="flex justify-end">
+          <p className="rounded-2xl rounded-br-sm bg-primary text-primary-foreground text-xs px-3.5 py-2 max-w-[75%]">
+            Demo link is live for the label too.
+          </p>
+        </motion.div>
+      </div>
+      <div className="px-4 pb-4">
+        <div className="h-9 rounded-full border border-input bg-background/40 flex items-center px-3.5">
+          <span className="text-xs text-muted-foreground">Message Alex…</span>
+        </div>
+      </div>
+    </div>
+  </Frame>
+);
+
+// 9 · SAM finding Spotify playlists and drafting pitches
+export const PlaylistsMock = () => (
+  <Frame>
+    <div className="rounded-2xl border border-border bg-card p-5 space-y-3">
+      <div>
+        <p className="text-sm font-bold">Playlists that fit Midnight Drive</p>
+        <p className="text-xs text-muted-foreground">Found and verified by SAM</p>
+      </div>
+      {[
+        ["Late Night Alt-Pop", "84,000 followers", "92% fit"],
+        ["Indie Shuffle Picks", "45,000 followers", "88% fit"],
+        ["Bedroom Pop Radar", "22,000 followers", "81% fit"],
+      ].map(([name, followers, fit], i) => (
+        <motion.div key={name} {...rise(0.4 + i * 0.4)} className="flex items-center gap-2.5 rounded-xl border border-border bg-background/40 p-2.5">
+          <div className="h-8 w-8 rounded-md bg-primary/15 border border-primary/25 flex items-center justify-center shrink-0">
+            <Music2 className="h-3.5 w-3.5 text-primary" />
+          </div>
+          <div className="min-w-0 flex-1">
+            <p className="text-xs font-semibold truncate">{name}</p>
+            <p className="text-[10px] text-muted-foreground">{followers}</p>
+          </div>
+          <span className="text-[10px] font-bold text-primary shrink-0">{fit}</span>
+          <span className="text-[9px] font-bold uppercase text-primary bg-primary/15 border border-primary/25 rounded-full px-2 py-0.5 shrink-0">
+            Pitch drafted
+          </span>
+        </motion.div>
+      ))}
+      <motion.p {...rise(1.9)} className="text-xs text-muted-foreground">
+        SAM pitches once the song is released. You approve every send.
+      </motion.p>
     </div>
   </Frame>
 );

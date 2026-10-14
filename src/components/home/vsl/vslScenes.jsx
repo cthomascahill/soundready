@@ -2,7 +2,7 @@ import { motion } from "framer-motion";
 import StepTellSamScreen from "@/components/home/walkthrough/StepTellSamScreen";
 import StepResearchScreen from "@/components/home/walkthrough/StepResearchScreen";
 import StepApproveScreen from "@/components/home/walkthrough/StepApproveScreen";
-import { SignupMock, VaultDropMock, SongInfoMock, TrackerSetupMock, MixesMock, NotesMock } from "@/components/home/vsl/vslMocks";
+import { SignupMock, VaultDropMock, SongInfoMock, TrackerSetupMock, MixesMock, NotesMock, DemoLinkMock, TeamChatMock, PlaylistsMock } from "@/components/home/vsl/vslMocks";
 
 const Centered = ({ Screen }) => (
   <div className="h-full flex items-center justify-center px-4 sm:px-10 py-6">
@@ -74,6 +74,20 @@ export const VSL_SCENES = [
     render: () => <NotesMock />,
   },
   {
+    id: "demo-link",
+    label: "Share a demo link",
+    duration: 7,
+    narration: "Done with a mix? Generate a live demo link. Anyone with the link listens right in the browser. No more sending MP3s and WAVs through text.",
+    render: () => <DemoLinkMock />,
+  },
+  {
+    id: "team-chat",
+    label: "Team Chat",
+    duration: 7,
+    narration: "Invite your engineer to the platform. They read your notes right on the song, and you talk it through in Team Chat.",
+    render: () => <TeamChatMock />,
+  },
+  {
     id: "tell",
     label: "Tell SAM",
     duration: 7,
@@ -93,6 +107,13 @@ export const VSL_SCENES = [
     duration: 7,
     narration: "The pitch arrives already written. Approve, edit, or deny. Nothing sends without the artist.",
     render: () => <Centered Screen={StepApproveScreen} />,
+  },
+  {
+    id: "playlists",
+    label: "Playlist pitches",
+    duration: 8,
+    narration: "And it doesn't stop at booking shows. Once the song is released, SAM finds the Spotify playlists that fit and writes a pitch for each one. You approve every send.",
+    render: () => <PlaylistsMock />,
   },
   {
     id: "outro",
