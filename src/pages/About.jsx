@@ -11,6 +11,7 @@ import SEO from "@/components/SEO";
 import MeetSamSection from "@/components/home/MeetSamSection";
 import MattCormanSection from "@/components/home/MattCormanSection";
 import HeroArtistSearch from "@/components/home/HeroArtistSearch";
+import VslSection from "@/components/home/VslSection";
 import VsRestSection from "@/components/home/VsRestSection";
 import FaqSection from "@/components/home/FaqSection";
 import { useLang } from "@/lib/i18n/LanguageContext";
@@ -163,6 +164,9 @@ export default function About() {
           </motion.div>
         </div>
       </section>
+
+      {/* THE VSL: one artist's whole journey, right after Start Free */}
+      <VslSection />
 
       {/* MEET SAM */}
       <MeetSamSection />
