@@ -274,8 +274,10 @@ ${poolSection}${depth === 'quick' ? 'QUICK MODE: the artist chose speed over bre
 
     await mark('research', 'Researching the web, reading your files and drafting; this is usually the longest step…');
 
+    // Quick depth is the artist choosing speed over breadth: run the main
+    // pass on the fast model so the answer lands sooner.
     const llm = await withTimeout(base44.integrations.Core.InvokeLLM({
-      model: 'gemini_3_1_pro',
+      model: depth === 'quick' ? 'gemini_3_flash' : 'gemini_3_1_pro',
       prompt,
       add_context_from_internet: true,
       ...(fileUrls.length ? { file_urls: fileUrls } : {}),
@@ -489,7 +491,9 @@ Also return "summary": one short paragraph for the artist, in plain words, descr
     if (stillMissing.length) {
       fallbackRan = true;
       const fallback = await withTimeout(base44.integrations.Core.InvokeLLM({
-        model: 'gemini_3_1_pro',
+        // Simple find-and-report extraction: the fast model handles it
+        // and returns noticeably sooner than the pro tier.
+        model: 'gemini_3_flash',
         add_context_from_internet: true,
         prompt: `You are finding publicly listed booking/contact emails for music venues and music companies. For EACH target below, search the web and return the booking or contact email that the target itself publishes on its own official website, booking page or contact page.
 

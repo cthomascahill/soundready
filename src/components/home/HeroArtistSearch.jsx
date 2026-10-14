@@ -47,7 +47,7 @@ export default function HeroArtistSearch() {
       } finally {
         if (seq === suggestSeq.current) setSuggestLoading(false);
       }
-    }, 600);
+    }, 350);
     return () => clearTimeout(timer);
   }, [name, loading, result, isSpotifyUrl]);
 

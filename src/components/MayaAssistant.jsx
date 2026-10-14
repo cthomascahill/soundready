@@ -343,7 +343,9 @@ Return your response as JSON:
 
   const result = await base44.integrations.Core.InvokeLLM({
     prompt,
-    model: searchQuery ? "gemini_3_1_pro" : "claude_sonnet_4_6",
+    // Web-search replies use the fast model so answers land sooner; the
+    // no-search path stays on Sonnet for writing quality.
+    model: searchQuery ? "gemini_3_flash" : "claude_sonnet_4_6",
     add_context_from_internet: !!searchQuery,
     response_json_schema: {
       type: "object",
