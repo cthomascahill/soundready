@@ -156,7 +156,30 @@ export default function About() {
         >
           <WorkspacePreview />
         </motion.div>
+
+        {/* WHERE YOU STAND: back up in the hero */}
+        <motion.div
+          initial={{ opacity: 0, y: 24 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.3 }}
+          className="relative max-w-3xl mx-auto mt-16 sm:mt-20 space-y-6 text-center"
+        >
+          <div className="space-y-3">
+            <p className="text-xs text-primary uppercase tracking-wider font-bold">{t("Where you stand")}</p>
+            <h2 className="font-heading text-2xl sm:text-3xl font-black tracking-tight">
+              {t("Know your numbers")}<br />
+              <span className="text-primary">{t("Then take the next step")}</span>
+            </h2>
+            <p className="text-sm sm:text-base text-muted-foreground max-w-xl mx-auto leading-relaxed">
+              {t("Search your artist name to see your Spotify numbers and a 12-month growth projection, the same stats SAM works from.")}
+            </p>
+          </div>
+          <HeroArtistSearch />
+        </motion.div>
       </section>
+
+      {/* MEET SAM, right under the hero */}
+      <MeetSamSection />
 
       {/* THE VSL: one artist's whole journey */}
       <VslSection />
@@ -167,28 +190,8 @@ export default function About() {
       {/* THREE CONNECTED BENEFITS */}
       <BenefitsSection />
 
-      {/* MEET SAM, inside the workspace */}
-      <MeetSamSection />
-
       {/* FOUNDER STORY */}
       <MattCormanSection />
-
-      {/* SECONDARY: where you stand today (moved out of the hero) */}
-      <section className="px-4 py-16 border-t border-border">
-        <div className="max-w-3xl mx-auto space-y-6 text-center">
-          <div className="space-y-3">
-            <p className="text-xs text-primary uppercase tracking-wider font-bold">{t("Where you stand")}</p>
-            <h2 className="font-heading text-3xl sm:text-5xl font-black tracking-tight">
-              {t("Know your numbers")}<br />
-              <span className="text-primary">{t("Then take the next step")}</span>
-            </h2>
-            <p className="text-sm sm:text-base text-muted-foreground max-w-xl mx-auto leading-relaxed">
-              {t("Search your artist name to see your Spotify numbers and a 12-month growth projection, the same stats SAM works from.")}
-            </p>
-          </div>
-          <HeroArtistSearch />
-        </div>
-      </section>
 
       {/* TODAY VS. SOUNDREADY */}
       <VsRestSection />
