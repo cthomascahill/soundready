@@ -12,7 +12,7 @@ import IntakeSummary from "@/components/vaulthome/IntakeSummary";
 import NeedsReviewList from "@/components/vaulthome/NeedsReviewList";
 import SongGroupCard from "@/components/vaulthome/SongGroupCard";
 import ReleasePlanDialog from "@/components/vault/ReleasePlanDialog";
-import { Loader2, Music2 } from "lucide-react";
+import { AlertCircle, Loader2 } from "lucide-react";
 
 const MAX_BATCH = 100;
 const pipeKey = (t) => t?.toLowerCase().trim();
@@ -36,6 +36,7 @@ export default function VaultHome() {
   const [capPrompt, setCapPrompt] = useState(false);
   const [planSong, setPlanSong] = useState(null);
   const [busyReview, setBusyReview] = useState(null);
+  const [showReview, setShowReview] = useState(false);
 
   const isFree = !!user && !isProOrAbove(user);
 
@@ -298,20 +299,18 @@ export default function VaultHome() {
 
   return (
     <div className="min-h-screen bg-background">
-      <div className="max-w-5xl mx-auto px-4 py-10 space-y-8">
-        {/* Entry promise */}
-        <div className="space-y-1.5">
-          <p className="text-xs text-primary uppercase tracking-widest font-medium">Your Vault</p>
-          <h1 className="font-heading text-3xl sm:text-4xl font-bold leading-tight max-w-2xl">
-            Turn your messy music folder into an organized song vault.
-          </h1>
-          <p className="text-sm text-muted-foreground max-w-2xl">
-            Upload everything you've made. SAM sorts it into songs and versions
-            so you can see what you have — and plan a release only when you're ready.
+      <div className="max-w-5xl mx-auto px-4 py-8 space-y-5">
+        {/* One calm header — the library is the main event */}
+        <div>
+          <h1 className="font-heading text-2xl sm:text-3xl font-bold">Vault</h1>
+          <p className="text-sm text-muted-foreground mt-0.5">
+            {songs.length === 0
+              ? "Drop your music below and SAM builds your song library."
+              : `${songs.length} ${songs.length === 1 ? "song" : "songs"} · versions grouped automatically`}
           </p>
         </div>
 
-        <FolderDropZone onFiles={runIntake} disabled={intakeBusy} />
+        <FolderDropZone onFiles={runIntake} disabled={intakeBusy} compact={songs.length > 0} />
 
         {intakeBusy && (
           <div className="rounded-xl border border-primary/25 bg-primary/5 px-5 py-4 flex items-center gap-3">
@@ -329,24 +328,37 @@ export default function VaultHome() {
 
         <IntakeSummary summary={summary} />
 
-        <NeedsReviewList items={reviewItems} busyId={busyReview} onConfirm={confirmReview} onDismiss={dismissReview} />
+        {/* Review — one quiet signpost; the details open only on demand */}
+        {reviewItems.length > 0 && (
+          showReview ? (
+            <NeedsReviewList
+              items={reviewItems}
+              busyId={busyReview}
+              onConfirm={confirmReview}
+              onDismiss={dismissReview}
+              onCollapse={() => setShowReview(false)}
+            />
+          ) : (
+            <button
+              onClick={() => setShowReview(true)}
+              className="w-full flex items-center gap-2.5 rounded-xl border border-yellow-500/25 bg-yellow-500/5 px-4 py-3 text-left hover:bg-yellow-500/10 transition-colors"
+            >
+              <AlertCircle className="h-4 w-4 text-yellow-400 shrink-0" />
+              <span className="text-sm font-medium flex-1">
+                {reviewItems.length} {reviewItems.length === 1 ? "file needs" : "files need"} a name
+              </span>
+              <span className="text-xs text-muted-foreground shrink-0">Review</span>
+            </button>
+          )
+        )}
 
-        {/* The organized vault */}
-        <section className="space-y-4">
-          <div className="flex items-baseline justify-between gap-2 flex-wrap">
-            <h2 className="font-heading text-2xl font-bold">Your music, grouped by song</h2>
-            <span className="text-xs text-muted-foreground">{songs.length} {songs.length === 1 ? "song" : "songs"}</span>
-          </div>
+        {/* The library */}
+        <section className="space-y-3">
           {loading ? (
             <div className="flex justify-center py-16">
               <div className="h-8 w-8 border-2 border-primary/20 border-t-primary rounded-full animate-spin" />
             </div>
-          ) : songs.length === 0 ? (
-            <div className="text-center py-14 space-y-3">
-              <Music2 className="h-12 w-12 text-zinc-700 mx-auto" />
-              <p className="text-muted-foreground">Nothing here yet. Drop your music folder above and SAM will build your vault.</p>
-            </div>
-          ) : (
+          ) : songs.length > 0 && (
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               {songs.map((song) => (
                 <SongGroupCard

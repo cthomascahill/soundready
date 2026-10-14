@@ -1,35 +1,30 @@
-import { CheckCircle2, Music2, Layers, Copy, AlertCircle } from "lucide-react";
+import { CheckCircle2 } from "lucide-react";
 
-// What SAM did with the last folder drop, in one glance
+// What SAM did with the last drop — one glance, one line
 export default function IntakeSummary({ summary }) {
   if (!summary) return null;
 
-  const chips = [
-    { icon: Music2, label: `${summary.songs} ${summary.songs === 1 ? "song" : "songs"} created` },
-    { icon: Layers, label: `${summary.versions} ${summary.versions === 1 ? "version" : "versions"} grouped` },
-    { icon: Copy, label: `${summary.duplicates} exact ${summary.duplicates === 1 ? "duplicate" : "duplicates"} found` },
-    { icon: AlertCircle, label: `${summary.review} ${summary.review === 1 ? "file" : "files"} need your review` },
-  ];
+  const parts = [
+    `${summary.songs} ${summary.songs === 1 ? "song" : "songs"}`,
+    `${summary.versions} ${summary.versions === 1 ? "version" : "versions"}`,
+    summary.duplicates > 0 && `${summary.duplicates} exact ${summary.duplicates === 1 ? "duplicate" : "duplicates"}`,
+    summary.review > 0 && `${summary.review} to review`,
+  ].filter(Boolean);
 
   return (
-    <div className="rounded-2xl border border-primary/25 bg-primary/5 px-5 py-4 space-y-3">
-      <p className="flex items-center gap-2 font-heading font-bold">
-        <CheckCircle2 className="h-5 w-5 text-primary shrink-0" />
-        SAM organized {summary.files} {summary.files === 1 ? "file" : "files"}
-      </p>
-      <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
-        {chips.map(({ icon: Icon, label }) => (
-          <div key={label} className="flex items-center gap-2 rounded-lg border border-border bg-card px-3 py-2">
-            <Icon className="h-4 w-4 text-primary shrink-0" />
-            <span className="text-xs font-medium">{label}</span>
-          </div>
-        ))}
-      </div>
-      {summary.skipped > 0 && (
-        <p className="text-xs text-muted-foreground">
-          {summary.skipped} {summary.skipped === 1 ? "song wasn't" : "songs weren't"} added — your vault is at its plan limit.
+    <div className="rounded-xl border border-primary/25 bg-primary/5 px-4 py-3 flex items-start gap-2.5">
+      <CheckCircle2 className="h-4 w-4 text-primary shrink-0 mt-0.5" />
+      <div className="min-w-0 space-y-1">
+        <p className="text-sm font-semibold">
+          SAM organized {summary.files} {summary.files === 1 ? "file" : "files"}
         </p>
-      )}
+        <p className="text-xs text-muted-foreground">{parts.join(" · ")}</p>
+        {summary.skipped > 0 && (
+          <p className="text-xs text-muted-foreground">
+            {summary.skipped} {summary.skipped === 1 ? "song wasn't" : "songs weren't"} added — your vault is at its plan limit.
+          </p>
+        )}
+      </div>
     </div>
   );
 }

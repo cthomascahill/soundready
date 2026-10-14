@@ -30,7 +30,7 @@ function ReviewRow({ item, busy, onConfirm, onDismiss }) {
 }
 
 // The files SAM couldn't confidently name — the artist settles each in seconds
-export default function NeedsReviewList({ items, busyId, onConfirm, onDismiss }) {
+export default function NeedsReviewList({ items, busyId, onConfirm, onDismiss, onCollapse }) {
   if (!items?.length) return null;
 
   return (
@@ -40,6 +40,11 @@ export default function NeedsReviewList({ items, busyId, onConfirm, onDismiss })
         <span className="text-xs text-muted-foreground">
           {items.length} {items.length === 1 ? "file" : "files"} SAM wasn't sure about
         </span>
+        {onCollapse && (
+          <button onClick={onCollapse} className="ml-auto text-xs text-muted-foreground hover:text-foreground transition-colors">
+            Hide
+          </button>
+        )}
       </div>
       {items.map((item) => (
         <ReviewRow key={item.id} item={item} busy={busyId === item.id} onConfirm={onConfirm} onDismiss={onDismiss} />
