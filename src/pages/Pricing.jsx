@@ -219,7 +219,7 @@ export default function Pricing() {
                 <Users className="h-5 w-5 text-chart-5" />
               </div>
               <p className="font-heading font-black text-2xl">Artist Pro</p>
-              <p className="text-sm font-semibold mt-0.5 mb-2 text-chart-5">Your full music workspace.</p>
+              <p className="text-sm font-semibold mt-0.5 mb-2 text-chart-5">Workspace tools. SAM not included.</p>
               <p className="text-2xl font-black mb-1">
                 {billing === "yearly" ? "$31.17" : "$39"}<span className="text-sm text-muted-foreground font-medium">/month</span>
               </p>
@@ -271,7 +271,7 @@ export default function Pricing() {
                 <span className="px-2 py-0.5 rounded-full bg-primary/15 text-primary text-[10px] font-bold uppercase tracking-wide">First 100 Artists · Regular price {billing === "yearly" ? "$699/yr" : "$79/mo"}</span>
               </div>
               <p className="text-sm text-muted-foreground leading-relaxed mb-5">
-                SAM uses your music, stats, and goals to research opportunities and prepare personalized pitches. You stay in control.
+                You get your music workspace, personalized release plans, promotion targets that fit your sound, pitches ready to approve, and outreach tracking. SAM works from your music, stats, and goals. You stay in control.
               </p>
               <div className="flex-1">
                 <TierItems items={CARD_AI_ITEMS} />

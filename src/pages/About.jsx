@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
 import { base44 } from "@/api/base44Client";
-import { ArrowDown, Bot, CheckCircle2, Sparkles, Users, Zap } from "lucide-react";
+import { Bot, CheckCircle2, Sparkles, Users, Zap } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import PublicNav from "@/components/public/PublicNav";
 import PublicFooter from "@/components/public/PublicFooter";
@@ -80,7 +80,7 @@ const TIERS = [
     badge: "Founding Artist Offer",
     badgeStyle: "bg-primary text-primary-foreground",
     glow: true,
-    desc: "SAM, your AI manager, is included with this plan. SAM uses your music, stats, and goals to research opportunities and prepare personalized pitches. You approve every email before it's sent.",
+    desc: "You get your music workspace, personalized release plans, promotion targets that fit your sound, pitches ready to approve, and outreach tracking. SAM works from your music, stats, and goals, and you approve every email before it's sent.",
     items: [
       "Everything in Artist Pro",
       "Ask SAM to research venues, playlists, labels, press, and sync opportunities",
@@ -130,16 +130,19 @@ export default function About() {
           {/* Left: the offer and the artist search */}
           <motion.div initial={{ opacity: 0, y: 32 }} animate={{ opacity: 1, y: 0 }} className="space-y-5 text-center lg:text-left">
             <h1 className="font-heading text-4xl sm:text-6xl lg:text-7xl font-black tracking-tight leading-[0.95]">
-              {t("Your career")} <span className="text-primary">{t("in motion")}</span>
+              {t("You made the music")}<br />
+              <span className="text-primary">{t("Give it a team")}</span>
             </h1>
-            <p className="text-base sm:text-xl font-heading font-bold flex items-center justify-center lg:justify-start gap-2">
-              {t("Search your profile below")} <ArrowDown className="h-5 w-5 sm:h-6 sm:w-6 text-primary" />
+            <p className="text-base sm:text-lg text-muted-foreground max-w-xl mx-auto lg:mx-0 leading-relaxed">
+              {t("Keep your songs and mixes together, prepare your releases, and let SAM find opportunities and handle outreach with your approval.")}
             </p>
-            <HeroArtistSearch />
-            <div className="pt-1">
+            <div>
               <Button size="lg" className="gap-2 font-heading font-bold text-sm sm:text-base px-6 sm:px-8 h-12" onClick={handleCTA}>
                 {t("Start Free")}
               </Button>
+            </div>
+            <div className="pt-2">
+              <HeroArtistSearch />
             </div>
           </motion.div>
 
@@ -273,7 +276,7 @@ export default function About() {
               <span className="text-primary">{t("Give it a team")}</span>
             </h2>
             <p className="text-sm sm:text-base text-muted-foreground max-w-xl mx-auto leading-relaxed">
-              {t("Start with five songs. Free.")}
+              {t("Start with five songs free. Add SAM when you're ready.")}
             </p>
           </div>
           <Button size="lg" className="gap-2 font-heading font-bold text-base px-8 h-12" onClick={handleCTA}>

@@ -14,7 +14,7 @@ export default function ManagerCostSlider({ billing = "monthly" }) {
   const sam = SAM_PRICING[billing] || SAM_PRICING.monthly;
   const managerMonthly = income * MANAGER_RATE;
   const managerYearly = managerMonthly * 12;
-  const samYearly = sam.fee;
+  const samYearly = billing === "yearly" ? sam.fee : sam.fee * 12;
   const savings = managerYearly - samYearly;
   // Income level where a manager's 17.5% commission equals SAM's price
   const feeBreak = samYearly / (MANAGER_RATE * 12);
