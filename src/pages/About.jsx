@@ -8,7 +8,6 @@ import PublicNav from "@/components/public/PublicNav";
 import PublicFooter from "@/components/public/PublicFooter";
 import SEO from "@/components/SEO";
 
-import BenefitsSection from "@/components/home/BenefitsSection";
 import MeetSamSection from "@/components/home/MeetSamSection";
 import MattCormanSection from "@/components/home/MattCormanSection";
 import HeroArtistSearch from "@/components/home/HeroArtistSearch";
@@ -173,9 +172,6 @@ export default function About() {
       <MeetSamSection />
 
 
-
-      {/* THREE CONNECTED BENEFITS */}
-      <BenefitsSection />
 
       {/* FOUNDER STORY */}
       <MattCormanSection />
