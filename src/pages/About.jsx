@@ -13,6 +13,7 @@ import BenefitsSection from "@/components/home/BenefitsSection";
 import MeetSamSection from "@/components/home/MeetSamSection";
 import MattCormanSection from "@/components/home/MattCormanSection";
 import HeroArtistSearch from "@/components/home/HeroArtistSearch";
+import VslSection from "@/components/home/VslSection";
 import VsRestSection from "@/components/home/VsRestSection";
 import FaqSection from "@/components/home/FaqSection";
 import { useLang } from "@/lib/i18n/LanguageContext";
@@ -156,6 +157,9 @@ export default function About() {
           <WorkspacePreview />
         </motion.div>
       </section>
+
+      {/* THE VSL: one artist's whole journey */}
+      <VslSection />
 
       {/* THE CORE WORKFLOW */}
       <WorkflowSection />
