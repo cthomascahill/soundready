@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 import { motion } from "framer-motion";
 import { Search, Loader2, X, Sparkles } from "lucide-react";
 import { base44 } from "@/api/base44Client";
@@ -6,8 +6,11 @@ import { Button } from "@/components/ui/button";
 import { useLang } from "@/lib/i18n/LanguageContext";
 import PersonalGrowthChart from "@/components/home/PersonalGrowthChart";
 import SamPreviewCard from "@/components/home/SamPreviewCard";
+import ArtistSuggestDropdown from "@/components/home/ArtistSuggestDropdown";
 
 const compact = (v) => new Intl.NumberFormat("en", { notation: "compact", maximumFractionDigits: 1 }).format(v);
+
+const SPOTIFY_ARTIST_URL = /open\.spotify\.com\/artist\/[A-Za-z0-9]+/i;
 
 export default function HeroArtistSearch() {
   const { t } = useLang();
@@ -15,28 +18,69 @@ export default function HeroArtistSearch() {
   const [loading, setLoading] = useState(false);
   const [result, setResult] = useState(null);
   const [error, setError] = useState("");
+  const [suggestions, setSuggestions] = useState([]);
+  const [suggestLoading, setSuggestLoading] = useState(false);
+  const [suggestOpen, setSuggestOpen] = useState(false);
+  const suggestSeq = useRef(0);
 
+  const isSpotifyUrl = SPOTIFY_ARTIST_URL.test(name.trim());
   const ready = name.trim().length >= 2 && !loading;
 
-  const search = async (e) => {
-    e.preventDefault();
-    if (!ready) return;
+  // Live dropdown: debounced Spotify search as the visitor types
+  useEffect(() => {
+    const q = name.trim();
+    if (isSpotifyUrl || q.length < 2 || loading || result) {
+      setSuggestions([]);
+      setSuggestLoading(false);
+      return;
+    }
+    setSuggestLoading(true);
+    const seq = ++suggestSeq.current;
+    const timer = setTimeout(async () => {
+      try {
+        const res = await base44.functions.invoke("artistGrowthLookup", { mode: "suggest", query: q });
+        if (seq !== suggestSeq.current) return;
+        setSuggestions(res?.data?.suggestions || []);
+        setSuggestOpen(true);
+      } catch {
+        if (seq === suggestSeq.current) setSuggestions([]);
+      } finally {
+        if (seq === suggestSeq.current) setSuggestLoading(false);
+      }
+    }, 600);
+    return () => clearTimeout(timer);
+  }, [name, loading, result, isSpotifyUrl]);
+
+  const runLookup = async (payload) => {
+    setSuggestOpen(false);
     setLoading(true);
     setError("");
     setResult(null);
     try {
-      const res = await base44.functions.invoke("artistGrowthLookup", { artistName: name.trim() });
+      const res = await base44.functions.invoke("artistGrowthLookup", payload);
       const data = res?.data || {};
       if (data.found && data.artist) {
         setResult(data.artist);
       } else {
-        setError(t("Couldn't find that artist on Spotify. Try the exact artist name."));
+        setError(t("Couldn't find that artist on Spotify. Try picking from the list or paste your Spotify artist link."));
       }
     } catch {
       setError(t("Something went wrong looking that up. Try again."));
     } finally {
       setLoading(false);
     }
+  };
+
+  const search = (e) => {
+    e.preventDefault();
+    if (!ready) return;
+    const q = name.trim();
+    runLookup(isSpotifyUrl ? { spotifyUrl: q } : { artistName: q });
+  };
+
+  const pickSuggestion = (s) => {
+    setName(s.name);
+    runLookup({ spotifyUrl: s.spotify_url });
   };
 
   const reset = () => {
@@ -54,9 +98,17 @@ export default function HeroArtistSearch() {
             id="artist-search-input"
             value={name}
             onChange={(e) => setName(e.target.value)}
-            placeholder={t("Search your artist name")}
+            onFocus={() => suggestions.length > 0 && setSuggestOpen(true)}
+            onBlur={() => setTimeout(() => setSuggestOpen(false), 150)}
+            placeholder={t("Search your artist name or paste your Spotify link")}
             className="w-full h-12 pl-11 pr-4 rounded-xl bg-card border border-border text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/50"
             disabled={loading}
+          />
+          <ArtistSuggestDropdown
+            suggestions={suggestions}
+            loading={suggestLoading}
+            open={suggestOpen}
+            onPick={pickSuggestion}
           />
         </div>
         <Button type="submit" size="lg" className="h-12 px-3 sm:px-6 font-heading font-bold shrink-0 text-sm sm:text-base" disabled={!ready}>
