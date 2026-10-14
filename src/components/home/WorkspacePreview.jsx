@@ -47,7 +47,7 @@ export default function WorkspacePreview() {
       </div>
 
       {/* SAM, the supporting element */}
-      <div className="absolute -bottom-5 left-4 sm:-left-5 flex items-start gap-2.5 rounded-xl border border-primary/30 bg-card px-3.5 py-2.5 shadow-xl max-w-[260px]">
+      <div className="absolute -bottom-5 right-4 sm:-right-5 flex items-start gap-2.5 rounded-xl border border-primary/30 bg-card px-3.5 py-2.5 shadow-xl max-w-[260px]">
         <img src={SAM_IMG} alt="SAM, your AI manager" className="h-8 w-8 shrink-0" />
         <p className="text-xs text-foreground/90 leading-snug">
           "Midnight Drive is mastered, want me to prep a demo link for it?"
