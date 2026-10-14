@@ -16,7 +16,7 @@ export default function DropSongZone({ onFiles }) {
     <div
       onDragOver={(e) => { e.preventDefault(); setDragging(true); }}
       onDragLeave={() => setDragging(false)}
-      onDrop={(e) => { e.preventDefault(); setDragging(false); handle(e.dataTransfer.files); }}
+      onDrop={(e) => { e.preventDefault(); e.stopPropagation(); setDragging(false); handle(e.dataTransfer.files); }}
       onClick={() => inputRef.current?.click()}
       className={`flex flex-col items-center justify-center gap-1.5 h-32 rounded-2xl border-2 border-dashed cursor-pointer transition-all
         ${dragging ? "border-primary bg-primary/10 scale-[1.005]" : "border-border hover:border-primary/40 hover:bg-secondary/40"}`}

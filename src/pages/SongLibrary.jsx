@@ -415,6 +415,7 @@ export default function SongLibrary() {
 
       {dropQueue.length > 0 && (
         <SamFileModal
+          key={`${dropQueue[0].name}-${dropQueue[0].size}`}
           file={dropQueue[0]}
           onFiled={handleFiled}
           onAddArtwork={(song) => { setDropQueue([]); openEdit(song); }}
