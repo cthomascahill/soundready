@@ -56,7 +56,7 @@ Best,
 {artist_name}`,
 };
 
-// Used when the tour's dates already happened — the pitch targets their NEXT tour
+// Used when the tour's dates already happened, the pitch targets their NEXT tour
 const NEXT_TOUR_TEMPLATE = `Hi {booking_contact},
 
 I'm {artist_name}, an artist with {listener_count} monthly listeners. I caught the recent {tour_name} run that {tour_artist} just wrapped, and it confirmed what the streaming numbers already suggest: our audiences overlap significantly ({fan_overlap} of their listeners also follow me).

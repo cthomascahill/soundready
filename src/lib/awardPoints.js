@@ -1,6 +1,6 @@
 import { base44 } from "@/api/base44Client";
 
-// Points each full action earns — mirrors base44/shared/points.ts
+// Points each full action earns, mirrors base44/shared/points.ts
 export const POINTS_TABLE = {
   todo_done: 10,
   song_uploaded: 15,

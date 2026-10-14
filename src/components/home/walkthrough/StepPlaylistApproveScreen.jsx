@@ -1,7 +1,7 @@
 import { Send, Pencil, X, Sparkles, ShieldCheck } from "lucide-react";
 
 // A static, product-accurate mock of the playlist pitch approval card
-// (playlist walkthrough, step 3) — mirrors SAM's Desk.
+// (playlist walkthrough, step 3), mirrors SAM's Desk.
 export default function StepPlaylistApproveScreen() {
   return (
     <div className="rounded-2xl border border-border bg-card p-5 space-y-3 text-left pointer-events-none select-none shadow-xl">

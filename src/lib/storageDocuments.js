@@ -21,7 +21,7 @@ export function buildDocuments(data) {
   const docs = [];
   const push = (d) => { if (d?.title) docs.push(d); };
 
-  // Sam's task results — money analyses (tax estimates, income averages)
+  // Sam's task results, money analyses (tax estimates, income averages)
   // file under Money, everything else under Reports
   (data.tasks || []).forEach(t => push({
     id: `task-${t.id}`,
@@ -37,7 +37,7 @@ export function buildDocuments(data) {
   (data.drafts || []).forEach(d => push({
     id: `draft-${d.id}`,
     category: "outreach",
-    title: `${d.target_name || "Target"} — outreach draft`,
+    title: `${d.target_name || "Target"}, outreach draft`,
     subtitle: clip((d.draft || "").replace(/^Subject:.*\n/, "")),
     status: d.status,
     date: d.created_date,
@@ -50,7 +50,7 @@ export function buildDocuments(data) {
   (data.deals || []).forEach(d => push({
     id: `deal-${d.id}`,
     category: "outreach",
-    title: `${d.company_name} — ${(d.category || "deal").replace(/_/g, " ")}`,
+    title: `${d.company_name}, ${(d.category || "deal").replace(/_/g, " ")}`,
     subtitle: clip(d.why_fit),
     status: d.status,
     date: d.created_date,
@@ -93,7 +93,7 @@ export function buildDocuments(data) {
   (data.scans || []).forEach(s => push({
     id: `scan-${s.id}`,
     category: "scans",
-    title: `Reputation scan — ${s.artist_name || "you"}`,
+    title: `Reputation scan, ${s.artist_name || "you"}`,
     subtitle: clip(s.scan_summary) || s.query,
     status: s.new_count ? `${s.new_count} new` : "",
     date: s.created_date,
@@ -114,7 +114,7 @@ export function buildDocuments(data) {
   (data.royalties || []).forEach(r => push({
     id: `roy-${r.id}`,
     category: "money",
-    title: `${r.distributor} statement — ${r.period_label}`,
+    title: `${r.distributor} statement, ${r.period_label}`,
     subtitle: `$${Number(r.total_earnings || 0).toLocaleString()} total earnings · ${r.rows?.length || 0} line items`,
     date: r.created_date,
     link: "/royalties",
@@ -124,7 +124,7 @@ export function buildDocuments(data) {
   (data.invoices || []).forEach(inv => push({
     id: `inv-${inv.id}`,
     category: "money",
-    title: `Invoice ${inv.invoice_number} — ${inv.to_name}`,
+    title: `Invoice ${inv.invoice_number}, ${inv.to_name}`,
     subtitle: `$${Number(inv.total || 0).toLocaleString()}${inv.due_date ? ` · due ${inv.due_date}` : ""}`,
     status: inv.status,
     date: inv.created_date,
@@ -135,7 +135,7 @@ export function buildDocuments(data) {
   (data.venueContracts || []).forEach(c => push({
     id: `vc-${c.id}`,
     category: "legal",
-    title: `${c.venue_name} — performance contract`,
+    title: `${c.venue_name}, performance contract`,
     subtitle: `${c.performance_date || "Date TBD"}${c.payout_amount ? ` · $${c.payout_amount.toLocaleString()} (${c.payout_structure || "Flat Fee"})` : ""}`,
     status: c.status,
     date: c.created_date,

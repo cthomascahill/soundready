@@ -30,7 +30,7 @@ Replay Value: ${analysis.replay_value}/100
 TikTok Score: ${analysis.tiktok_score}
 Strengths: ${(analysis.strengths || []).join(", ")}
 
-Based on the genre, energy, and hook strength data, identify the most likely timestamps for the best hooks and drops. Explain specifically WHY each clip is strong — lyrically, melodically, energetically, or emotionally. Be specific to this song.`,
+Based on the genre, energy, and hook strength data, identify the most likely timestamps for the best hooks and drops. Explain specifically WHY each clip is strong, lyrically, melodically, energetically, or emotionally. Be specific to this song.`,
       response_json_schema: {
         type: "object",
         properties: {

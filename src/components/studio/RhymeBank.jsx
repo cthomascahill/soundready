@@ -21,7 +21,7 @@ Return a JSON object with these keys:
 - last_syllable: array of 6-8 words that rhyme only on the last syllable
 - phrases: array of 5-6 natural phrases that end on that sound (usable as line endings)
 
-Make them useful for actual songwriting — not just dictionary words. Include slang and phrases that feel natural in music.`,
+Make them useful for actual songwriting, not just dictionary words. Include slang and phrases that feel natural in music.`,
       response_json_schema: {
         type: "object",
         properties: {

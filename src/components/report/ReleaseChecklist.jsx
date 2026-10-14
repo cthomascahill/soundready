@@ -11,20 +11,20 @@ function buildChecklist(song) {
     "2 Weeks Before": [
       `Submit "${title}" to DistroKid or your distributor with the release date set exactly 2 weeks out`,
       `Pitch to independent ${genre} playlist curators using your SoundReady pitch package from Section 5`,
-      `Record 3 teaser clips using the timestamps from Best Clip Moments — keep them unedited and raw`,
+      `Record 3 teaser clips using the timestamps from Best Clip Moments, keep them unedited and raw`,
       `Set up your Spotify for Artists pre-save campaign and share the link in your bio`,
     ],
     "1 Week Before": [
-      `Post the first teaser clip on ${platform} using Hook 1 timestamp — caption it with release date only`,
-      `Email your press release to 5 music blogs that cover ${genre} — no attachments, just the pitch in the body`,
-      `Create a 3-second hook clip for TikTok timed to your chorus drop — post it without context`,
-      `Reach out to ${genre} playlist curators on SubmitHub or Groover — personalize every message`,
+      `Post the first teaser clip on ${platform} using Hook 1 timestamp, caption it with release date only`,
+      `Email your press release to 5 music blogs that cover ${genre}, no attachments, just the pitch in the body`,
+      `Create a 3-second hook clip for TikTok timed to your chorus drop, post it without context`,
+      `Reach out to ${genre} playlist curators on SubmitHub or Groover, personalize every message`,
     ],
     "Release Day": [
       `Post the full song link on all platforms at midnight with your strongest visual`,
-      `Go live on Instagram or TikTok for 20 minutes and play the song — answer comments in real time`,
-      `Post behind-the-scenes content from the making of "${title}" — studio, voice memo, writing session`,
-      `DM 20 superfans personally with the link before you post publicly — make them feel like insiders`,
+      `Go live on Instagram or TikTok for 20 minutes and play the song, answer comments in real time`,
+      `Post behind-the-scenes content from the making of "${title}", studio, voice memo, writing session`,
+      `DM 20 superfans personally with the link before you post publicly, make them feel like insiders`,
     ],
   };
 }

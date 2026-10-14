@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 
 // Live voice dictation via the browser's built-in speech recognition.
-// onText is called with each finalized phrase as the artist speaks —
+// onText is called with each finalized phrase as the artist speaks -
 // no audio is stored anywhere, transcription happens on the device/browser.
 export function useVoiceDictation(onText) {
   const [listening, setListening] = useState(false);

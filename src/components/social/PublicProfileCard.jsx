@@ -6,7 +6,7 @@ import { Input } from "@/components/ui/input";
 import { Globe, Save, Check, Loader2 } from "lucide-react";
 
 /**
- * Public profile editor for the Profile page — the card other creators
+ * Public profile editor for the Profile page, the card other creators
  * see when they visit your public profile page.
  */
 export default function PublicProfileCard() {

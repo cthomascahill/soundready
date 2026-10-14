@@ -15,7 +15,7 @@ const TYPE_LABELS = {
 };
 
 /**
- * A creator's public profile — what other SoundReady users see
+ * A creator's public profile, what other SoundReady users see
  * when they visit this creator's page.
  */
 export default function CreatorProfile() {
@@ -35,7 +35,7 @@ export default function CreatorProfile() {
 
   return (
     <div className="min-h-screen bg-background px-4 py-8">
-      <SEO title={`${profile?.display_name || "Creator"} — SoundReady`} />
+      <SEO title={`${profile?.display_name || "Creator"}, SoundReady`} />
       <div className="max-w-xl mx-auto">
         {profile === undefined ? (
           <div className="flex justify-center py-24">

@@ -4,7 +4,7 @@ import { FolderOpen, Plus, X, Folder } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 
-// Project / album folders as recognizable tiles above the songs — one tap
+// Project / album folders as recognizable tiles above the songs, one tap
 // scopes the catalog to that project. "All Songs" is the folder that clears it.
 export default function ProjectFolders({ projects, songs, activeProject, setActiveProject, onProjectCreate, onProjectDelete }) {
   const [creating, setCreating] = useState(false);

@@ -77,11 +77,11 @@ INSTRUCTIONS:
 Return ONLY a raw JSON array (no markdown, no code blocks, no explanation) of 5-8 objects, each with:
 {
   "type": one of "GigOpportunity" | "PlaylistPitch" | "PressOpportunity" | "CollabOpportunity" | "CampaignIdea" | "IndustryAlert",
-  "title": "short specific headline (e.g. 'Pitch to LoFi Dreamer playlist — 280K followers')",
+  "title": "short specific headline (e.g. 'Pitch to LoFi Dreamer playlist, 280K followers')",
   "description": "2-3 sentences explaining the opportunity and exactly why it fits this artist",
   "action": "specific one-sentence action to take",
   "draftAvailable": true or false,
-  "draft": "if draftAvailable: full ready-to-send email or pitch message — include subject line at top as 'Subject: ...' then the body. Personalize to the specific curator/venue/outlet and reference the artist's actual songs and numbers.",
+  "draft": "if draftAvailable: full ready-to-send email or pitch message, include subject line at top as 'Subject: ...' then the body. Personalize to the specific curator/venue/outlet and reference the artist's actual songs and numbers.",
   "approvalRequired": true,
   "status": "pending"
 }`;

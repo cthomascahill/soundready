@@ -104,8 +104,8 @@ Every line must be short, upbeat, and specific to the artist's real data. No lec
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
             {[
               { icon: Music2, label: "Songs in Vault", val: songs.length, color: "text-primary" },
-              { icon: TrendingUp, label: "Monthly Listeners", val: profile?.spotify_monthly_listeners ? profile.spotify_monthly_listeners.toLocaleString() : "—", color: "text-purple-400" },
-              { icon: MapPin, label: "Career Stage", val: profile?.career_stage || "—", color: "text-orange-400" },
+              { icon: TrendingUp, label: "Monthly Listeners", val: profile?.spotify_monthly_listeners ? profile.spotify_monthly_listeners.toLocaleString() : "-", color: "text-purple-400" },
+              { icon: MapPin, label: "Career Stage", val: profile?.career_stage || "-", color: "text-orange-400" },
             ].map(stat => (
               <div key={stat.label} className="rounded-xl bg-card border border-border p-4 flex items-center gap-3">
                 <stat.icon className={`h-5 w-5 ${stat.color}`} />

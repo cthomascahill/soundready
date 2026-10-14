@@ -18,7 +18,7 @@ export default function TellSam() {
   const [loading, setLoading] = useState(true);
   const [selectedId, setSelectedId] = useState(null);
 
-  // Deep-link from Storage — /tell-sam?task=<id> opens that task directly
+  // Deep-link from Storage, /tell-sam?task=<id> opens that task directly
   useEffect(() => {
     const taskId = new URLSearchParams(window.location.search).get("task");
     if (taskId) setSelectedId(taskId);
@@ -28,7 +28,7 @@ export default function TellSam() {
     if (!user?.id) return;
     let list = await base44.entities.SamTask.filter({ user_id: user.id }, "-created_date", 30).catch(() => []);
     // A run cut off mid-flight (connection dropped, hard timeout) would spin
-    // "working" forever — after 8 minutes, mark it failed so the artist can
+    // "working" forever, after 8 minutes, mark it failed so the artist can
     // retry or narrow it down.
     const STALE_MS = 8 * 60 * 1000;
     const staleMsg = "This run was cut off before it finished. Try again, or narrow the task so Sam can finish faster.";
@@ -67,12 +67,12 @@ export default function TellSam() {
           </div>
           <p className="font-heading font-bold text-lg">Telling Sam what to do is part of the Digital Manager plan</p>
           <p className="text-sm text-muted-foreground leading-relaxed">
-            Hand Sam any task — book a tour, pitch your song to labels, crunch your streaming reports. Sam researches real
+            Hand Sam any task, book a tour, pitch your song to labels, crunch your streaming reports. Sam researches real
             targets and drafts everything, and nothing sends until you approve it.
           </p>
           <Link to="/pricing-account">
             <Button className="w-full gap-2 font-semibold">
-              <Zap className="h-4 w-4" /> Start Manager — $60/mo
+              <Zap className="h-4 w-4" /> Start Manager, $60/mo
             </Button>
           </Link>
           <p className="text-[10px] text-muted-foreground/60">Cancel anytime</p>
@@ -94,7 +94,7 @@ export default function TellSam() {
           </h1>
           <p className="text-muted-foreground text-sm max-w-xl">
             Give Sam any task, in plain words. Book a tour, send your song to labels, average your streaming income,
-            estimate your taxes — Sam researches, drafts and reports back, and nothing goes out without your approval.
+            estimate your taxes, Sam researches, drafts and reports back, and nothing goes out without your approval.
           </p>
         </motion.div>
 

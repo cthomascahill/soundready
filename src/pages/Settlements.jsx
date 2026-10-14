@@ -40,7 +40,7 @@ export default function Settlements() {
 
   return (
     <div className="p-6 md:p-10 max-w-6xl mx-auto space-y-8">
-      <SEO title="Settlements — SoundReady" description="Count the money after the night: door counts, deal terms, deductions, merch and net payout, tracked until you're paid." />
+      <SEO title="Settlements, SoundReady" description="Count the money after the night: door counts, deal terms, deductions, merch and net payout, tracked until you're paid." />
 
       <div className="flex flex-wrap items-end justify-between gap-4">
         <div className="space-y-2">
@@ -49,7 +49,7 @@ export default function Settlements() {
             <Receipt className="h-8 w-8 text-chart-5" /> Settlements
           </h1>
           <p className="text-muted-foreground text-sm max-w-2xl leading-relaxed">
-            The after-show math — door count, deal terms, deductions and merch — with the net payout tracked until the money is in your account.
+            The after-show math, door count, deal terms, deductions and merch, with the net payout tracked until the money is in your account.
           </p>
         </div>
         <Button onClick={() => { setEditing(null); setFormOpen(true); }} className="gap-2">
@@ -57,7 +57,7 @@ export default function Settlements() {
         </Button>
       </div>
 
-      {/* Totals strip — one aggregate per load, grouped by status */}
+      {/* Totals strip, one aggregate per load, grouped by status */}
       <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
         {[
           { label: "Total net (all shows)", value: totalAll, count: totals.reduce((n, r) => n + r.count, 0), accent: "text-chart-5" },
@@ -81,7 +81,7 @@ export default function Settlements() {
         <div className="rounded-2xl border border-dashed border-border p-12 text-center space-y-3">
           <Receipt className="h-8 w-8 text-muted-foreground mx-auto" />
           <p className="font-heading font-bold">No settlements yet</p>
-          <p className="text-sm text-muted-foreground">After your next show, put the numbers in here — you'll see exactly what each gig really paid.</p>
+          <p className="text-sm text-muted-foreground">After your next show, put the numbers in here, you'll see exactly what each gig really paid.</p>
           <Button onClick={() => { setEditing(null); setFormOpen(true); }} className="gap-2">
             <Plus className="h-4 w-4" /> New Settlement
           </Button>

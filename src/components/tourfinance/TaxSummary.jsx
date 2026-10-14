@@ -95,7 +95,7 @@ export default function TaxSummary({ venues, expenses, merchSales, royalties }) 
         <div className="space-y-1">
           <p className="text-xs font-semibold text-yellow-400">Key Tax Tips for Musicians</p>
           <ul className="text-xs text-muted-foreground space-y-1 list-disc list-inside">
-            <li>Keep all receipts — gas, lodging, food on tour are deductible</li>
+            <li>Keep all receipts, gas, lodging, food on tour are deductible</li>
             <li>Home studio costs may qualify as home office deduction</li>
             <li>Instrument purchases, gear, and software are deductible</li>
             <li>Pay quarterly estimated taxes to avoid underpayment penalty</li>

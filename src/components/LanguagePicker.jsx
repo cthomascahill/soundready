@@ -3,7 +3,7 @@ import { Globe, Check } from "lucide-react";
 import { useLang } from "@/lib/i18n/LanguageContext";
 
 /**
- * Global language picker — English, Español, Français, Deutsch.
+ * Global language picker, English, Español, Français, Deutsch.
  * The choice applies app-wide and persists immediately.
  * The menu flips upward when there isn't room below the button.
  */

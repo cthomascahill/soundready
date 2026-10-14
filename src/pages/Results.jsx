@@ -82,7 +82,7 @@ export default function Results() {
       similar_artists: report.similar_artists || [],
       algorithm_outlook: (report.algorithm_outlook || []).join("\n"),
       content_ideas: (report.content_video_ideas || []).map((v) => `${v.title} (${v.platform}): ${v.description}`).join("\n\n"),
-      release_recommendations: `${report.release_day || ""} — ${report.release_day_reason || ""}\n\n` + (report.pre_release_plan || []).map((d) => `${d.day}: ${d.action}`).join("\n"),
+      release_recommendations: `${report.release_day || ""}, ${report.release_day_reason || ""}\n\n` + (report.pre_release_plan || []).map((d) => `${d.day}: ${d.action}`).join("\n"),
       playlist_pitch: report.playlist_pitch || "",
       first_impression: report.firstImpression || "",
       lyrics_analysis: report.lyricsAnalysis || "",
@@ -113,17 +113,17 @@ export default function Results() {
         {/* Real audio data card */}
         <RawAudioData audioData={song.audioData || report._audioData} />
 
-        {/* First Impression — A&R notes */}
+        {/* First Impression, A&R notes */}
         <FirstImpression text={report.firstImpression} />
 
-        {/* Lyrics Analysis — right after first impression */}
+        {/* Lyrics Analysis, right after first impression */}
         <LyricsAnalysis
           lyricsAnalysis={report.lyricsAnalysis}
           lyricsText={report._lyrics}
           lyricsSource={report._lyricsSource}
         />
 
-        {/* Score — upgraded */}
+        {/* Score, upgraded */}
         <ScoreDisplay genre={song.genre} energy={song.energy} song={song} />
 
         {/* Waveform */}
@@ -151,7 +151,7 @@ export default function Results() {
         <SocialAssetGenerator song={song} />
         <CollabSuggestions song={song} similarArtists={report.similar_artists} />
 
-        {/* Verdict — closing statement */}
+        {/* Verdict, closing statement */}
         <Verdict text={report.verdict} />
 
         {/* Collaboration section */}

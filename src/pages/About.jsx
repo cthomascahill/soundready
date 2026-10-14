@@ -17,7 +17,7 @@ import FaqSection from "@/components/home/FaqSection";
 import { useLang } from "@/lib/i18n/LanguageContext";
 
 // Plans: prices, limits, trial conditions and checkout destinations are unchanged.
-// Only the framing changes — the workspace is the product; SAM lives inside it.
+// Only the framing changes, the workspace is the product; SAM lives inside it.
 const TIERS = [
   {
     icon: Zap,

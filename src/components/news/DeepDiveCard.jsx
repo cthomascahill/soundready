@@ -18,7 +18,7 @@ export default function DeepDiveCard({ dive }) {
 
   return (
     <div className="rounded-2xl bg-card border border-primary/25 overflow-hidden">
-      {/* Header — always visible */}
+      {/* Header, always visible */}
       <button type="button" onClick={() => setOpen(!open)} className="w-full text-left p-5 space-y-3">
         <div className="flex items-center justify-between gap-2">
           <div className="flex items-center gap-2">

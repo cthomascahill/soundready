@@ -183,7 +183,7 @@ function ContractEditor({ contract, venues, onSave, onClose }) {
         {/* Header */}
         <div className="flex items-center justify-between p-5 border-b border-border">
           <p className="font-heading font-bold text-lg">
-            {contract ? "Edit Contract" : "New Contract"} {form.venue_name && `— ${form.venue_name}`}
+            {contract ? "Edit Contract" : "New Contract"} {form.venue_name && `- ${form.venue_name}`}
           </p>
           <div className="flex items-center gap-2">
             <button onClick={() => setPreview(v => !v)}

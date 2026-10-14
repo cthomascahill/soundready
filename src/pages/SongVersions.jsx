@@ -8,7 +8,7 @@ import { Button } from "@/components/ui/button";
 import { resolvePlayableAudioUrl } from "@/lib/audioPlayback";
 
 const fmtDuration = (s) => {
-  if (s == null) return "—";
+  if (s == null) return "-";
   const m = Math.floor(s / 60);
   const sec = Math.round(s % 60);
   return `${m}:${String(sec).padStart(2, "0")}`;
@@ -16,10 +16,10 @@ const fmtDuration = (s) => {
 
 const fmtDate = (d) => d
   ? new Date(d).toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" })
-  : "—";
+  : "-";
 
 const gapLabel = (from, to) => {
-  if (!from || !to) return "—";
+  if (!from || !to) return "-";
   const days = Math.round((new Date(to) - new Date(from)) / 86400000);
   if (days <= 0) return "same day";
   return `+${days} day${days === 1 ? "" : "s"}`;
@@ -51,7 +51,7 @@ export default function SongVersions() {
       .finally(() => setLoading(false));
   }, [songId]);
 
-  // A mix saved elsewhere (the Tracker's A/B player) appears here live — no refresh needed
+  // A mix saved elsewhere (the Tracker's A/B player) appears here live, no refresh needed
   useEffect(() => {
     if (!songId) return undefined;
     const unsub = base44.entities.SongVersion.subscribe(() => {

@@ -22,7 +22,7 @@ const STATUS_PILL = {
 };
 
 /**
- * Sam's playlist pitching board — matched playlists from the curator database.
+ * Sam's playlist pitching board, matched playlists from the curator database.
  * Drafting a pitch files it into the Awaiting Approval queue; nothing sends
  * without the artist's approval.
  */
@@ -109,7 +109,7 @@ export default function PlaylistPitchPanel({ user, activities = [], onQueued, on
         </div>
         {song && !song.genre && (
           <p className="text-[11px] text-muted-foreground">
-            This song has no genre set — add one in the Vault for closer playlist matches.
+            This song has no genre set, add one in the Vault for closer playlist matches.
           </p>
         )}
       </div>
@@ -124,7 +124,7 @@ export default function PlaylistPitchPanel({ user, activities = [], onQueued, on
       <div className="space-y-3">
         <div className="flex items-center justify-between gap-3">
           <p className="text-xs text-muted-foreground">
-            Sam matched {matches.length} playlists for this song — closest genre matches first, then the biggest open lists.
+            Sam matched {matches.length} playlists for this song, closest genre matches first, then the biggest open lists.
           </p>
         </div>
 
@@ -178,7 +178,7 @@ export default function PlaylistPitchPanel({ user, activities = [], onQueued, on
           })
         )}
         <p className="text-[11px] text-muted-foreground/70">
-          Every drafted pitch lands in your Awaiting Approval queue — nothing sends until you approve it.
+          Every drafted pitch lands in your Awaiting Approval queue, nothing sends until you approve it.
         </p>
       </div>
     </div>

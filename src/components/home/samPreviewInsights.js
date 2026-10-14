@@ -1,5 +1,5 @@
 // Zero-cost rule engine: SAM-style suggestions derived only from the
-// public numbers the search already returned. No AI call, no guessing —
+// public numbers the search already returned. No AI call, no guessing -
 // every line references a real stat the artist just saw.
 // The pool holds 30+ variants and rotates per search so repeat lookups
 // always surface a fresh insight instead of the same one.

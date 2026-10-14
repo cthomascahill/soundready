@@ -219,7 +219,7 @@ Platforms: Instagram, TikTok, Twitter/X, YouTube, Spotify, Email, All.`,
             <Label>Track</Label>
             <select value={selectedId} onChange={(e) => setSelectedId(e.target.value)}
               className="w-full h-10 rounded-lg bg-secondary border border-border px-3 text-sm focus:outline-none focus:ring-2 focus:ring-ring">
-              {songs.map((s) => <option key={s.id} value={s.id}>{s.title} — {s.artist_name}</option>)}
+              {songs.map((s) => <option key={s.id} value={s.id}>{s.title}, {s.artist_name}</option>)}
             </select>
           </div>
           <div className="space-y-1.5">

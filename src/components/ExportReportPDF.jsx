@@ -19,7 +19,7 @@ function scoreBar(doc, x, y, label, score, color) {
   doc.text(label, x, y);
   doc.setTextColor(220, 220, 220);
   doc.setFontSize(8.5);
-  doc.text(String(score ?? "—"), x + barW + 6, y);
+  doc.text(String(score ?? "-"), x + barW + 6, y);
 
   // track bg
   doc.setFillColor(40, 40, 40);
@@ -95,7 +95,7 @@ export default function ExportReportPDF({ analysis }) {
       doc.setFontSize(20);
       doc.setFont("helvetica", "bold");
       doc.setTextColor(...primaryGreen);
-      doc.text(String(analysis.overall_score ?? "—"), cx, cy + 3, { align: "center" });
+      doc.text(String(analysis.overall_score ?? "-"), cx, cy + 3, { align: "center" });
 
       doc.setFontSize(7);
       doc.setFont("helvetica", "normal");

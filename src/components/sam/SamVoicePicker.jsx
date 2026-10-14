@@ -12,8 +12,8 @@ import { Volume2, Square, Loader2, Sparkles } from "lucide-react";
 
 const SAMPLE = "Hey, it's Sam. This is how I'll sound reading your plans back to you.";
 
-/** Lets the artist pick which voice Sam speaks with — premium AI voices or
- *  the free device voice — and hear a preview of the choice. */
+/** Lets the artist pick which voice Sam speaks with, premium AI voices or
+ *  the free device voice, and hear a preview of the choice. */
 export default function SamVoicePicker() {
   const {
     supported, voices, voiceName, setVoiceName,

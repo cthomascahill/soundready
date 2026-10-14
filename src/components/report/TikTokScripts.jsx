@@ -67,7 +67,7 @@ export default function TikTokScripts({ song = {}, tiktokScripts }) {
   const generate = async () => {
     setLoading(true);
     const audioData = song.audioData || {};
-    const prompt = `Generate 10 TikTok launch script ideas for this specific song. Each one must be completely different in format and creative angle — no two should feel similar. Use the actual song data, lyrics, and mood to make each idea specific to this track. Generic ideas that could apply to any song are not acceptable.
+    const prompt = `Generate 10 TikTok launch script ideas for this specific song. Each one must be completely different in format and creative angle, no two should feel similar. Use the actual song data, lyrics, and mood to make each idea specific to this track. Generic ideas that could apply to any song are not acceptable.
 
 SONG DATA:
 - Title: ${song.title}
@@ -83,10 +83,10 @@ SONG DATA:
 - Description / notes: ${song.description || "none"}
 
 For each script include:
-1. format_name: A creative label that describes the unique angle (e.g. "The Vulnerable Confession", "The Unexpected Transition", "The Producer Breakdown") — draw this from what the song is actually about and how it sounds, not from a generic template
-2. hook: The first 3 seconds — the exact line or action that stops the scroll
-3. body: What happens in the middle 10–20 seconds — be specific about camera angles, text overlays, actions
-4. cta: How it ends — the final moment that drives saves/follows/streams
+1. format_name: A creative label that describes the unique angle (e.g. "The Vulnerable Confession", "The Unexpected Transition", "The Producer Breakdown"), draw this from what the song is actually about and how it sounds, not from a generic template
+2. hook: The first 3 seconds, the exact line or action that stops the scroll
+3. body: What happens in the middle 10–20 seconds, be specific about camera angles, text overlays, actions
+4. cta: How it ends, the final moment that drives saves/follows/streams
 
 Return exactly 10 scripts. Make them radically different from each other.`;
 

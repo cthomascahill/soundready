@@ -24,19 +24,19 @@ const TIERS = [
     id: "pro",
     label: "Artist Pro",
     badge: "bg-chart-5/10 text-chart-5 border-chart-5/25",
-    blurb: "The full toolkit: touring, pitching, deals and team tools — $39/mo.",
+    blurb: "The full toolkit: touring, pitching, deals and team tools, $39/mo.",
     icon: Zap,
   },
   {
     id: "ai",
     label: "Digital Manager",
     badge: "bg-purple-500/15 text-purple-400 border-purple-500/25",
-    blurb: "Sam works for you: research, drafts, contracts and outreach — $59/mo for the first 100 artists.",
+    blurb: "Sam works for you: research, drafts, contracts and outreach, $59/mo for the first 100 artists.",
     icon: Bot,
   },
 ];
 
-// One browsable, searchable home for every tool — grouped so it's obvious
+// One browsable, searchable home for every tool, grouped so it's obvious
 // what each plan (Free, Artist Pro, AI Manager) unlocks.
 export default function ToolLibrary() {
   const { user } = useAuth();
@@ -74,7 +74,7 @@ export default function ToolLibrary() {
             <p className="text-xs text-primary uppercase tracking-widest font-medium">Everything in one place</p>
             <h1 className="font-heading text-4xl font-bold">Tool Library</h1>
             <p className="text-muted-foreground text-sm mt-1">
-              {total} tools for artists — grouped by plan, so you always know what you've unlocked.
+              {total} tools for artists, grouped by plan, so you always know what you've unlocked.
             </p>
           </div>
           <div className="relative max-w-md">

@@ -19,7 +19,7 @@ export default function BillingToggle({ value, onChange, yearlyNote }) {
         className={`${base} ${value === "yearly" ? active : idle}`}
         onClick={() => onChange("yearly")}
       >
-        Yearly{yearlyNote ? ` — ${yearlyNote}` : ""}
+        Yearly{yearlyNote ? `, ${yearlyNote}` : ""}
       </button>
     </div>
   );

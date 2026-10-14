@@ -1,6 +1,6 @@
 import { CheckCircle2 } from "lucide-react";
 
-// What SAM did with the last drop — one glance, one line
+// What SAM did with the last drop, one glance, one line
 export default function IntakeSummary({ summary }) {
   if (!summary) return null;
 
@@ -21,7 +21,7 @@ export default function IntakeSummary({ summary }) {
         <p className="text-xs text-muted-foreground">{parts.join(" · ")}</p>
         {summary.skipped > 0 && (
           <p className="text-xs text-muted-foreground">
-            {summary.skipped} {summary.skipped === 1 ? "song wasn't" : "songs weren't"} added — your vault is at its plan limit.
+            {summary.skipped} {summary.skipped === 1 ? "song wasn't" : "songs weren't"} added, your vault is at its plan limit.
           </p>
         )}
       </div>

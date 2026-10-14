@@ -16,7 +16,7 @@ const SECTIONS = [
     content: [
       {
         heading: "Collaborative Filtering (The Most Powerful)",
-        body: "This is the engine behind Discover Weekly, Release Radar, and Radio. Spotify clusters you with listeners based on behavioral overlap — if people who listen to Artist X also save your track, Spotify learns to recommend you alongside Artist X. This is why your 'similar artists' matter enormously — not just aesthetically, but algorithmically. Your goal is to infiltrate listener clusters of artists in your lane.",
+        body: "This is the engine behind Discover Weekly, Release Radar, and Radio. Spotify clusters you with listeners based on behavioral overlap, if people who listen to Artist X also save your track, Spotify learns to recommend you alongside Artist X. This is why your 'similar artists' matter enormously, not just aesthetically, but algorithmically. Your goal is to infiltrate listener clusters of artists in your lane.",
       },
       {
         heading: "Natural Language Processing (NLP)",
@@ -24,11 +24,11 @@ const SECTIONS = [
       },
       {
         heading: "Audio Analysis",
-        body: "Spotify's audio models analyze your actual audio file for tempo, key, danceability, energy, acousticness, valence (positivity/negativity), and speechiness. These signals help Spotify match your track to listeners' current listening context — workout sessions, late-night drives, focus playlists, etc. This is partially why mastering loudness and sonic texture matter beyond just sound quality.",
+        body: "Spotify's audio models analyze your actual audio file for tempo, key, danceability, energy, acousticness, valence (positivity/negativity), and speechiness. These signals help Spotify match your track to listeners' current listening context, workout sessions, late-night drives, focus playlists, etc. This is partially why mastering loudness and sonic texture matter beyond just sound quality.",
       },
       {
         heading: "The Feedback Loop",
-        body: "All three systems feed each other. When listeners engage (save, add to playlist, finish the track), Spotify's algorithm amplifies. When they skip in the first 30 seconds, it suppresses. The algorithm doesn't push music — it amplifies what's already resonating. Your job is to create that initial resonance through your own marketing, then let Spotify multiply it.",
+        body: "All three systems feed each other. When listeners engage (save, add to playlist, finish the track), Spotify's algorithm amplifies. When they skip in the first 30 seconds, it suppresses. The algorithm doesn't push music, it amplifies what's already resonating. Your job is to create that initial resonance through your own marketing, then let Spotify multiply it.",
       },
     ],
   },
@@ -43,15 +43,15 @@ const SECTIONS = [
     content: [
       {
         heading: "Why Friday at Midnight is Non-Negotiable",
-        body: "New Music Friday — Spotify's most powerful editorial playlist — updates every Friday. Editorial pitching, algorithmic playlists like Release Radar, and listener discovery habits are all tuned to Friday drops. Releasing on any other day means you're fighting against the current. Friday at midnight EST ensures your track is live for the full new release cycle.",
+        body: "New Music Friday, Spotify's most powerful editorial playlist, updates every Friday. Editorial pitching, algorithmic playlists like Release Radar, and listener discovery habits are all tuned to Friday drops. Releasing on any other day means you're fighting against the current. Friday at midnight EST ensures your track is live for the full new release cycle.",
       },
       {
         heading: "The 7-Day Algorithm Window",
-        body: "Spotify's 'New Release' algorithm boost is strongest in the first 7 days after release. This is your most critical window. Every stream, save, and playlist add in Week 1 carries more algorithmic weight than the same action in Week 3. Concentrate your marketing push — social content, playlist pitches, email to fans — into this 7-day window.",
+        body: "Spotify's 'New Release' algorithm boost is strongest in the first 7 days after release. This is your most critical window. Every stream, save, and playlist add in Week 1 carries more algorithmic weight than the same action in Week 3. Concentrate your marketing push, social content, playlist pitches, email to fans, into this 7-day window.",
       },
       {
         heading: "Pre-Save Campaigns (The Secret Weapon)",
-        body: "Pre-saves are one of the strongest signals you can send Spotify before release. Each pre-save tells Spotify's algorithm that a listener is actively waiting for your music — which significantly boosts your Release Radar and personal playlist appearances on drop day. Run a pre-save campaign starting 2 weeks out using Hypeddit, Toneden, or Feature.fm.",
+        body: "Pre-saves are one of the strongest signals you can send Spotify before release. Each pre-save tells Spotify's algorithm that a listener is actively waiting for your music, which significantly boosts your Release Radar and personal playlist appearances on drop day. Run a pre-save campaign starting 2 weeks out using Hypeddit, Toneden, or Feature.fm.",
       },
       {
         heading: "Submit to Editorial 7+ Days Before",
@@ -70,7 +70,7 @@ const SECTIONS = [
     content: [
       {
         heading: "The Save Rate Is King",
-        body: "Spotify measures the ratio of saves to streams. A 5%+ save rate signals to the algorithm that your track has above-average resonance. Actively tell your audience to 'heart' the song — not just stream it. A save means a listener wants to come back, which drives future stream counts, and signals quality to editorial teams reviewing your metrics.",
+        body: "Spotify measures the ratio of saves to streams. A 5%+ save rate signals to the algorithm that your track has above-average resonance. Actively tell your audience to 'heart' the song, not just stream it. A save means a listener wants to come back, which drives future stream counts, and signals quality to editorial teams reviewing your metrics.",
       },
       {
         heading: "Skip Rate in the First 30 Seconds",
@@ -78,15 +78,15 @@ const SECTIONS = [
       },
       {
         heading: "Playlist Adds by Listeners (User-Created)",
-        body: "When regular users — not curators — add your track to their personal playlists, it's one of the strongest organic signals Spotify's algorithm receives. Encourage your audience explicitly: 'Add this to your playlist' in every social caption. Make it a specific CTA, not vague.",
+        body: "When regular users, not curators, add your track to their personal playlists, it's one of the strongest organic signals Spotify's algorithm receives. Encourage your audience explicitly: 'Add this to your playlist' in every social caption. Make it a specific CTA, not vague.",
       },
       {
         heading: "Streaming Velocity Matters",
-        body: "A sudden spike in streams (from a viral TikTok, a feature, or a playlist placement) followed by sustained listening tells the algorithm you have momentum. Steady consistent streams from repeat listeners beat a one-time spike that drops off. Focus on content that brings listeners back to the song again — not just one-time awareness plays.",
+        body: "A sudden spike in streams (from a viral TikTok, a feature, or a playlist placement) followed by sustained listening tells the algorithm you have momentum. Steady consistent streams from repeat listeners beat a one-time spike that drops off. Focus on content that brings listeners back to the song again, not just one-time awareness plays.",
       },
       {
         heading: "Context Playlists (Mood & Activity Based)",
-        body: "Spotify's mood and activity playlists (Focus, Workout, Chill Vibes, Late Night, etc.) are algorithmically generated and carry millions of daily streams. Your sonic profile — tempo, energy, valence — directly determines your eligibility. If you want to enter 'Chill Vibes' playlists, your track needs low energy and high valence. Know your audio fingerprint.",
+        body: "Spotify's mood and activity playlists (Focus, Workout, Chill Vibes, Late Night, etc.) are algorithmically generated and carry millions of daily streams. Your sonic profile, tempo, energy, valence, directly determines your eligibility. If you want to enter 'Chill Vibes' playlists, your track needs low energy and high valence. Know your audio fingerprint.",
       },
     ],
   },
@@ -101,11 +101,11 @@ const SECTIONS = [
     content: [
       {
         heading: "TikTok as a Streaming Funnel",
-        body: "TikTok's algorithm and Spotify's algorithm are interconnected through behavior: when a TikTok video sends a wave of listeners to stream a song, Spotify's algorithm notices the velocity spike and begins amplifying. The most efficient TikTok format is a 15-30 second clip of your hook with a clear emotional hook — not a music video clip, but a personal, authentic moment that makes people want to hear the full song.",
+        body: "TikTok's algorithm and Spotify's algorithm are interconnected through behavior: when a TikTok video sends a wave of listeners to stream a song, Spotify's algorithm notices the velocity spike and begins amplifying. The most efficient TikTok format is a 15-30 second clip of your hook with a clear emotional hook, not a music video clip, but a personal, authentic moment that makes people want to hear the full song.",
       },
       {
         heading: "Post Consistently Around Release Week",
-        body: "The first 7 days after release, you should post at least once per day across platforms. Each post should use the song as background audio — this trains each platform's algorithm to associate your content with the track. Diversity of content type matters: talking head, behind-the-scenes, visual aesthetic, challenge, day-in-my-life. All with the same song.",
+        body: "The first 7 days after release, you should post at least once per day across platforms. Each post should use the song as background audio, this trains each platform's algorithm to associate your content with the track. Diversity of content type matters: talking head, behind-the-scenes, visual aesthetic, challenge, day-in-my-life. All with the same song.",
       },
       {
         heading: "Instagram Reels & Spotify Integration",
@@ -116,8 +116,8 @@ const SECTIONS = [
         body: "While YouTube doesn't directly feed Spotify, it builds search discoverability that drives long-term streaming. A strong YouTube presence means when someone hears your name and searches, they find you and convert to a Spotify listener. Official visualizers, lyric videos, and acoustic versions are SEO-optimized content that works for years.",
       },
       {
-        heading: "Email List — The Algorithm's Kryptonite",
-        body: "An email list is the only distribution channel you fully own. Emailing your list on release day and asking them specifically to 'stream, save, and add to a playlist' creates a concentrated engagement spike in the first 24 hours — exactly when the algorithm is watching hardest. Even 500 engaged subscribers can meaningfully move your first-day metrics.",
+        heading: "Email List, The Algorithm's Kryptonite",
+        body: "An email list is the only distribution channel you fully own. Emailing your list on release day and asking them specifically to 'stream, save, and add to a playlist' creates a concentrated engagement spike in the first 24 hours, exactly when the algorithm is watching hardest. Even 500 engaged subscribers can meaningfully move your first-day metrics.",
       },
     ],
   },
@@ -132,11 +132,11 @@ const SECTIONS = [
     content: [
       {
         heading: "Editorial Playlists (New Music Friday, Rap Caviar, etc.)",
-        body: "Spotify's editorial team manually curates these flagship playlists. Pitching through Spotify for Artists is the only legitimate route. Getting placed requires a combination of strong streaming velocity, editorial pitch quality, label relationships, and timing. Focus your energy here but don't make it your primary strategy — independent curators are more attainable and still drive real numbers.",
+        body: "Spotify's editorial team manually curates these flagship playlists. Pitching through Spotify for Artists is the only legitimate route. Getting placed requires a combination of strong streaming velocity, editorial pitch quality, label relationships, and timing. Focus your energy here but don't make it your primary strategy, independent curators are more attainable and still drive real numbers.",
       },
       {
         heading: "Algorithmic Playlists (Discover Weekly, Release Radar)",
-        body: "These are generated automatically by Spotify's algorithm for individual listeners. You cannot pitch for these — you earn them. Release Radar is triggered by your followers; your followers get your new releases automatically. Discover Weekly is earned by engagement signals. Growing your Spotify followers (not just streams) directly expands your Release Radar reach.",
+        body: "These are generated automatically by Spotify's algorithm for individual listeners. You cannot pitch for these, you earn them. Release Radar is triggered by your followers; your followers get your new releases automatically. Discover Weekly is earned by engagement signals. Growing your Spotify followers (not just streams) directly expands your Release Radar reach.",
       },
       {
         heading: "Independent Curator Playlists (Your Real Opportunity)",
@@ -144,7 +144,7 @@ const SECTIONS = [
       },
       {
         heading: "Playlist Stacking Strategy",
-        body: "Instead of hoping for one big placement, aim for 10-20 small to mid-size placements simultaneously. The combined streaming effect of 15 independent playlist placements (averaging 25K followers each) often equals or exceeds a single editorial placement — with higher listener quality and save rates. This is the strategy that moves your algorithmic position.",
+        body: "Instead of hoping for one big placement, aim for 10-20 small to mid-size placements simultaneously. The combined streaming effect of 15 independent playlist placements (averaging 25K followers each) often equals or exceeds a single editorial placement, with higher listener quality and save rates. This is the strategy that moves your algorithmic position.",
       },
     ],
   },
@@ -155,7 +155,7 @@ const SECTIONS = [
     bg: "bg-purple-500/10",
     border: "border-purple-500/20",
     title: "Optimizing Your Spotify Artist Profile",
-    tldr: "Your Spotify profile is a landing page. Treat it like one. Most artists ignore it — that's your competitive advantage.",
+    tldr: "Your Spotify profile is a landing page. Treat it like one. Most artists ignore it, that's your competitive advantage.",
     content: [
       {
         heading: "Artist Pick (Monthly Feature)",
@@ -175,7 +175,7 @@ const SECTIONS = [
       },
       {
         heading: "Merch & Concert Links",
-        body: "Spotify allows you to link merch and upcoming shows directly to your artist page. Fans who engage with your concerts section have a higher likelihood of becoming long-term followers — which means higher algorithmic loyalty signals. Keep these updated even if shows are small.",
+        body: "Spotify allows you to link merch and upcoming shows directly to your artist page. Fans who engage with your concerts section have a higher likelihood of becoming long-term followers, which means higher algorithmic loyalty signals. Keep these updated even if shows are small.",
       },
     ],
   },
@@ -188,7 +188,7 @@ const SECTIONS = [
     title: "The 7 Biggest Mistakes That Kill Your Algorithm",
     tldr: "Most artists accidentally suppress their own growth. Here's exactly what to stop doing.",
     content: [
-      { heading: "1. Buying Streams or Fake Plays", body: "Spotify detects bot streams and removes them — plus flags your account for review. Even if you don't get banned, fake streams damage your save rate, skip rate, and listener quality metrics, which all suppress algorithmic distribution. This permanently hurts your algorithmic standing. Never do it." },
+      { heading: "1. Buying Streams or Fake Plays", body: "Spotify detects bot streams and removes them, plus flags your account for review. Even if you don't get banned, fake streams damage your save rate, skip rate, and listener quality metrics, which all suppress algorithmic distribution. This permanently hurts your algorithmic standing. Never do it." },
       { heading: "2. Long Intros (Over 20 Seconds)", body: "A listener who skips within 30 seconds registers a negative signal. If your intro is a 30-second ambient build before the hook, you are algorithmically penalizing yourself. Get to the emotional core of the song immediately. Save the long version for your superfans and the album." },
       { heading: "3. Releasing Without Building Any Audience First", body: "If you have 0 followers and 0 social audience, even a great song has no momentum engine. Before releasing, build a minimum viable audience: 1,000 TikTok followers, 500 Instagram followers, a small email list. These people generate the first-day engagement spike the algorithm needs to pay attention." },
       { heading: "4. Uploading Multiple Songs Too Close Together", body: "Releasing two tracks within 1-2 weeks splits your promotional attention and confuses Spotify's collaborative filtering clusters. Each release needs a dedicated promotional window of at least 4-6 weeks to establish listener behavior data before the next release dilutes it." },
@@ -209,7 +209,7 @@ const CHECKLIST = [
   "Pitch 10-20 independent playlists in your genre/mood",
   "Add Canvas (looping video) to your track in Spotify for Artists",
   "Update your Artist Pick to the new release",
-  "Ask fans to 'save' and 'add to playlist' — not just stream",
+  "Ask fans to 'save' and 'add to playlist', not just stream",
 ];
 
 function Section({ section, index }) {

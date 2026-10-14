@@ -7,7 +7,7 @@ import SamLogo from "@/components/SamLogo";
 import { buildSamSuggestions } from "@/components/home/samPreviewInsights";
 
 // Zero-cost rule engine: SAM-style suggestions derived only from the
-// public numbers the search already returned. No AI call, no guessing —
+// public numbers the search already returned. No AI call, no guessing -
 // every line references a real stat the artist just saw.
 
 export default function SamPreviewCard({ artist }) {

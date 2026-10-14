@@ -138,7 +138,7 @@ Assignee: ___________________________ Date: ___________
     bg: "bg-purple-500/10",
     border: "border-purple-500/20",
     title: "Producer Agreement",
-    description: "Define the relationship between an artist and producer — including beat licensing, royalty splits, credits, and deliverables.",
+    description: "Define the relationship between an artist and producer, including beat licensing, royalty splits, credits, and deliverables.",
     fields: [
       { key: "song_title", label: "Song / Project Title", placeholder: "e.g. Midnight Run" },
       { key: "artist_name", label: "Artist Name", placeholder: "e.g. Sam Lane" },
@@ -240,7 +240,7 @@ TERMS & CONDITIONS
 
 2. OWNERSHIP. The parties shall jointly own the Work in accordance with their revenue split (${f.revenue_split || "[SPLIT]"}), unless otherwise specified.
 
-3. REVENUE SHARING. All net revenue generated from the Work — including streaming royalties, sync fees, master royalties, and live performance royalties — shall be split ${f.revenue_split || "[SPLIT]"} between Party 1 and Party 2.
+3. REVENUE SHARING. All net revenue generated from the Work, including streaming royalties, sync fees, master royalties, and live performance royalties, shall be split ${f.revenue_split || "[SPLIT]"} between Party 1 and Party 2.
 
 4. CREDIT. Both parties shall receive credit on all commercial releases and promotional materials.
 
@@ -338,7 +338,7 @@ For Venue: ___________________________ Date: ___________
     bg: "bg-teal-500/10",
     border: "border-teal-500/20",
     title: "Sync License Agreement",
-    description: "License a song for use in film, TV, advertising, or video games — covering media, territory, term, and the sync fee.",
+    description: "License a song for use in film, TV, advertising, or video games, covering media, territory, term, and the sync fee.",
     fields: [
       { key: "song_title", label: "Song Title", placeholder: "e.g. Midnight Run" },
       { key: "licensor_name", label: "Licensor (Song Owner)", placeholder: "e.g. Sam Lane" },
@@ -375,7 +375,7 @@ TERMS & CONDITIONS
 
 3. OWNERSHIP. Licensor retains all ownership of the Work. No ownership rights are transferred by this Agreement. Licensee may not assign or sublicense the rights granted herein except in connection with the distribution and exhibition of the Production.
 
-4. CREDITS. Licensee shall accord credit to Licensor in the end titles of the Production as follows: "${f.song_title || "[SONG TITLE]"} — Written and Performed by ${f.licensor_name || "[LICENSOR NAME]"}."
+4. CREDITS. Licensee shall accord credit to Licensor in the end titles of the Production as follows: "${f.song_title || "[SONG TITLE]"}, Written and Performed by ${f.licensor_name || "[LICENSOR NAME]"}."
 
 5. DERIVATIVE USE. Licensee may edit, loop, or adapt the Work as needed for timing and creative purposes in the Production, provided such use does not disparage Licensor.
 
@@ -401,7 +401,7 @@ For Licensee: ___________________________ Date: ___________
     bg: "bg-yellow-500/5",
     border: "border-yellow-500/20",
     title: "Beat Lease Agreement",
-    description: "Lease a beat non-exclusively: distribution caps, term, monetization limits, and producer credit — the standard indie lease deal.",
+    description: "Lease a beat non-exclusively: distribution caps, term, monetization limits, and producer credit, the standard indie lease deal.",
     fields: [
       { key: "beat_title", label: "Beat Title", placeholder: "e.g. Midnight Run (Instrumental)" },
       { key: "producer_name", label: "Producer Name", placeholder: "e.g. DJ Beats" },
@@ -463,7 +463,7 @@ Artist: ___________________________ Date: ___________
     bg: "bg-red-500/10",
     border: "border-red-500/20",
     title: "Session Musician Agreement (Work-for-Hire)",
-    description: "Hire a session player or vocalist for a flat fee — the recordings are work-for-hire, with agreed credit and no future royalties.",
+    description: "Hire a session player or vocalist for a flat fee, the recordings are work-for-hire, with agreed credit and no future royalties.",
     fields: [
       { key: "musician_name", label: "Musician / Vocalist Name", placeholder: "e.g. Alex Rowe" },
       { key: "instrument", label: "Instrument / Service", placeholder: "e.g. Electric guitar, backing vocals" },
@@ -555,11 +555,11 @@ TERMS & CONDITIONS
 
 2. BAND NAME. The name "${f.band_name || "[BAND NAME]"}" is ${f.name_ownership || "[JOINTLY OWNED / RETAINED BY FOUNDING MEMBER]"}. No member may license or use the Band name for outside projects without written consent of the other members.
 
-3. REVENUE. All net revenue earned by the Band — including recording royalties, performance fees, merchandise, and sync income — shall be divided as follows: ${f.revenue_split || "[SPLIT]"}, after deduction of Band expenses approved under this Agreement.
+3. REVENUE. All net revenue earned by the Band, including recording royalties, performance fees, merchandise, and sync income, shall be divided as follows: ${f.revenue_split || "[SPLIT]"}, after deduction of Band expenses approved under this Agreement.
 
 4. SONGWRITING. Songwriting ownership for any song is governed by a separate Song Split Agreement for that song; unless a split sheet says otherwise, Band-owned songs are credited and divided per the revenue split above.
 
-5. DECISIONS. Day-to-day decisions may be made by any member; major decisions — releasing a recording, signing any agreement, hiring or dismissing a member, spending over $[AMOUNT], or licensing the Band name — require unanimous written consent of all members.
+5. DECISIONS. Day-to-day decisions may be made by any member; major decisions, releasing a recording, signing any agreement, hiring or dismissing a member, spending over $[AMOUNT], or licensing the Band name, require unanimous written consent of all members.
 
 6. EXPENSES. Band expenses (recording, gear, van, promotion) are paid from Band revenue first, with each member responsible for their own personal instruments unless otherwise agreed.
 
@@ -587,7 +587,7 @@ Member 2: ___________________________ Date: ___________
     bg: "bg-chart-4/10",
     border: "border-chart-4/20",
     title: "Merch Consignment Agreement",
-    description: "Leave your merch with a store, venue, or vendor to sell on your behalf — pricing, the split, payment schedule, and what happens to unsold stock.",
+    description: "Leave your merch with a store, venue, or vendor to sell on your behalf, pricing, the split, payment schedule, and what happens to unsold stock.",
     fields: [
       { key: "artist_name", label: "Artist Name", placeholder: "e.g. Sam Lane" },
       { key: "consignee_name", label: "Store / Venue Name", placeholder: "e.g. Rocky Mountain Records" },

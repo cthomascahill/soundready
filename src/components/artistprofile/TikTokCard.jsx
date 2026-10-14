@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Loader2, RefreshCw, LogOut } from "lucide-react";
 import { FreshnessBadge, Stat, Field } from "@/components/artistprofile/platformShared";
 
-// "Artist TikTok" workspace connector — each artist connects their own account
+// "Artist TikTok" workspace connector, each artist connects their own account
 export const TIKTOK_CONNECTOR_ID = "6ac576aac6c81b30e8f0a86d";
 
 export default function TikTokCard({ conn, onUpdated }) {
@@ -81,10 +81,10 @@ export default function TikTokCard({ conn, onUpdated }) {
       <div className="pt-2 border-t border-border space-y-3">
         {conn && (
           <div className="rounded-xl bg-secondary/40 border border-border p-3 grid grid-cols-2 gap-2">
-            <Stat label="Followers" value={existing.followers ? existing.followers.toLocaleString() : "—"} />
-            <Stat label="Total Likes" value={existing.total_likes ? existing.total_likes.toLocaleString() : "—"} />
-            <Stat label="Videos" value={existing.video_count || "—"} />
-            <Stat label="Avg Views / Video" value={existing.avg_views_per_video ? existing.avg_views_per_video.toLocaleString() : "—"} />
+            <Stat label="Followers" value={existing.followers ? existing.followers.toLocaleString() : "-"} />
+            <Stat label="Total Likes" value={existing.total_likes ? existing.total_likes.toLocaleString() : "-"} />
+            <Stat label="Videos" value={existing.video_count || "-"} />
+            <Stat label="Avg Views / Video" value={existing.avg_views_per_video ? existing.avg_views_per_video.toLocaleString() : "-"} />
             {conn.last_synced && <p className="col-span-2"><FreshnessBadge last_synced={conn.last_synced} /></p>}
           </div>
         )}
@@ -122,7 +122,7 @@ export default function TikTokCard({ conn, onUpdated }) {
         <Stat label="Followers" value={(existing.followers || 0).toLocaleString()} />
         <Stat label="Total Likes" value={(existing.total_likes || 0).toLocaleString()} />
         <Stat label="Videos" value={(existing.video_count || 0).toLocaleString()} />
-        <Stat label="Avg Views / Video" value={existing.avg_views_per_video ? existing.avg_views_per_video.toLocaleString() : "—"} />
+        <Stat label="Avg Views / Video" value={existing.avg_views_per_video ? existing.avg_views_per_video.toLocaleString() : "-"} />
       </div>
 
       <div className="grid grid-cols-2 gap-3">

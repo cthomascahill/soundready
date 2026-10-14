@@ -41,7 +41,7 @@ IMPORTANT: Reference the actual mood, tempo, and feel of THIS specific song. Do 
               properties: {
                 title: { type: "string", description: "Short, catchy concept title" },
                 platform: { type: "string", description: "Best platform: Instagram Reels, TikTok, YouTube Shorts, Twitter/X, or All Platforms" },
-                description: { type: "string", description: "2-3 sentences describing the concept — specific to this song's vibe" },
+                description: { type: "string", description: "2-3 sentences describing the concept, specific to this song's vibe" },
                 visual_style: { type: "string", description: "e.g. 'Slow motion, golden hour, handheld camera'" },
                 why_it_works: { type: "string", description: "1 sentence on why this works for this song specifically" },
               }
@@ -71,7 +71,7 @@ IMPORTANT: Reference the actual mood, tempo, and feel of THIS specific song. Do 
         {!ideas && !loading && (
           <motion.div key="idle" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
             className="text-center py-6">
-            <p className="text-sm text-muted-foreground mb-4">Get 5 video concepts tailored to your song's mood, tempo, and feel — not generic ideas.</p>
+            <p className="text-sm text-muted-foreground mb-4">Get 5 video concepts tailored to your song's mood, tempo, and feel, not generic ideas.</p>
             <Button onClick={generate} variant="outline" className="gap-2">
               <Sparkles className="h-4 w-4" />Generate Video Ideas
             </Button>

@@ -12,7 +12,7 @@ import SamLogo from "@/components/SamLogo";
 import { Button } from "@/components/ui/button";
 import { Lock, Zap, Target, SlidersHorizontal, ShieldAlert, Mail, ChevronRight, Loader2, Disc3 } from "lucide-react";
 
-// The four areas the user defines upfront — Sam reads all of these before every suggestion
+// The four areas the user defines upfront, Sam reads all of these before every suggestion
 const SECTIONS = [
   {
     category: "goals",
@@ -44,12 +44,12 @@ const SECTIONS = [
     category: "constraints",
     title: "Constraints",
     icon: ShieldAlert,
-    description: "Your hard limits — time, money, geography. Sam won't suggest past these.",
+    description: "Your hard limits, time, money, geography. Sam won't suggest past these.",
     placeholder: "e.g. I can only tour regionally (Southeast)",
     suggestions: [
       "I can only tour regionally (Southeast)",
       "My recording budget is capped at $500 per song",
-      "I have a day job — weekdays only",
+      "I have a day job, weekdays only",
       "No shows further than 4 hours from home",
     ],
   },
@@ -57,10 +57,10 @@ const SECTIONS = [
     category: "projects",
     title: "Projects & Collaborators",
     icon: Disc3,
-    description: "Details about your projects, collaborators, and release plans — so you never have to repeat yourself.",
+    description: "Details about your projects, collaborators, and release plans, so you never have to repeat yourself.",
     placeholder: "e.g. My EP 'Midnight Drive' drops March 14, Rico is mixing it",
     suggestions: [
-      "My EP 'Midnight Drive' drops March 14 — Rico is mixing it",
+      "My EP 'Midnight Drive' drops March 14, Rico is mixing it",
       "The album has 8 tracks with 2 features",
       "I record at Sound City with engineer Dana",
       "The next single needs artwork before we submit it",
@@ -150,11 +150,11 @@ export default function MayaProfile() {
           </div>
           <p className="font-heading font-bold text-lg">Sam's profile is part of the Digital Manager plan</p>
           <p className="text-sm text-muted-foreground leading-relaxed">
-            Define your goals, preferences, and constraints once — and Sam factors them into every suggestion, draft, and plan they make.
+            Define your goals, preferences, and constraints once, and Sam factors them into every suggestion, draft, and plan they make.
           </p>
           <Link to="/pricing-account">
             <Button className="w-full gap-2 font-semibold">
-              <Zap className="h-4 w-4" /> Start Manager — <span className="line-through opacity-60">$79</span> $59/mo
+              <Zap className="h-4 w-4" /> Start Manager, <span className="line-through opacity-60">$79</span> $59/mo
             </Button>
           </Link>
           <p className="text-[10px] text-muted-foreground/60">Cancel anytime</p>

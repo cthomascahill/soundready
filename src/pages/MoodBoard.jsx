@@ -92,7 +92,7 @@ BPM: ~${selectedSong.bpm_estimate}
 Similar Artists: ${(selectedSong.similar_artists || []).slice(0, 4).join(", ")}
 Strengths: ${(selectedSong.strengths || []).slice(0, 3).join(", ")}
 
-Create a cohesive visual identity that perfectly captures this song's sonic personality. Be SPECIFIC — not generic. Every color, font, and aesthetic choice should directly reflect something about this song.`,
+Create a cohesive visual identity that perfectly captures this song's sonic personality. Be SPECIFIC, not generic. Every color, font, and aesthetic choice should directly reflect something about this song.`,
       response_json_schema: {
         type: "object",
         properties: {
@@ -181,7 +181,7 @@ Create a cohesive visual identity that perfectly captures this song's sonic pers
           <label className="text-sm font-medium">Select Track</label>
           <select value={selectedId} onChange={(e) => { setSelectedId(e.target.value); setResult(null); }}
             className="w-full h-10 rounded-lg bg-secondary border border-border px-3 text-sm focus:outline-none focus:ring-2 focus:ring-ring">
-            {songs.map((s) => <option key={s.id} value={s.id}>{s.title} — {s.artist_name}</option>)}
+            {songs.map((s) => <option key={s.id} value={s.id}>{s.title}, {s.artist_name}</option>)}
           </select>
         </div>
         <Button onClick={generate} disabled={generating || !selectedSong} className="gap-2 shrink-0">
@@ -272,7 +272,7 @@ Create a cohesive visual identity that perfectly captures this song's sonic pers
                   <ul className="space-y-2">
                     {result.content_mood?.donts?.map((d, i) => (
                       <li key={i} className="flex items-start gap-2 text-sm">
-                        <span className="text-destructive mt-0.5">—</span>
+                        <span className="text-destructive mt-0.5">-</span>
                         <span className="text-muted-foreground">{d}</span>
                       </li>
                     ))}

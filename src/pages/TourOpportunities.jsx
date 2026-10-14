@@ -64,7 +64,7 @@ export default function TourOpportunities() {
         user_id: artistData.id,
         action_type: "tour_opportunity",
         title: `Opening slot pitch: ${pitchData.tour_artist}`,
-        description: `Opening slot pitch for ${pitchData.tour_artist}${pitchData.tour_name ? ` — ${pitchData.tour_name}` : ""}. Review the draft, add the booking contact's email, then approve or deny it.`,
+        description: `Opening slot pitch for ${pitchData.tour_artist}${pitchData.tour_name ? `, ${pitchData.tour_name}` : ""}. Review the draft, add the booking contact's email, then approve or deny it.`,
         status: "pending",
         draft_email: pitchData.draft_email,
         recipient_email: "",
@@ -243,7 +243,7 @@ export default function TourOpportunities() {
 
                 {isPast(tour) && (
                   <div className="rounded-lg bg-primary/5 border border-primary/20 px-3 py-2 text-xs text-muted-foreground leading-relaxed">
-                    This run already played. They clearly tour — reach out now to be on their radar for the{" "}
+                    This run already played. They clearly tour, reach out now to be on their radar for the{" "}
                     <span className="text-primary font-semibold">next tour</span> before slots fill.
                   </div>
                 )}

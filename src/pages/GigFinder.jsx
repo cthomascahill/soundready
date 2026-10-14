@@ -534,7 +534,7 @@ const BOOKING_RESOURCES = [
   { name: "Sonicbids", url: "https://www.sonicbids.com", desc: "EPK platform connecting artists to venues and festivals worldwide. Submit your EPK once, apply to hundreds of gigs.", icon: "📁" },
   { name: "GigSalad", url: "https://www.gigsalad.com", desc: "Book private events, corporate gigs, weddings, and parties. Great for supplemental income.", icon: "🎉" },
   { name: "ReverbNation", url: "https://www.reverbnation.com", desc: "Venue showcase opportunities and promoter connections. Good for building early touring history.", icon: "🎸" },
-  { name: "SubmitHub (Live)", url: "https://www.submithub.com", desc: "Not just for playlists — some curators also book shows and live sessions.", icon: "📨" },
+  { name: "SubmitHub (Live)", url: "https://www.submithub.com", desc: "Not just for playlists, some curators also book shows and live sessions.", icon: "📨" },
   { name: "Bandsintown for Artists", url: "https://artists.bandsintown.com", desc: "Announce shows and reach fans. Also connects you with promoters in your area.", icon: "📍" },
 ];
 
@@ -584,7 +584,7 @@ Write 3-4 short paragraphs: (1) introduce the artist and their sound, (2) explai
         )}
         <div className="flex items-center justify-between gap-2 flex-wrap">
           <div className="flex items-center gap-2 flex-wrap">
-            <a href={`mailto:${venue.booking_email}?subject=Booking Inquiry — ${artist.name}`}
+            <a href={`mailto:${venue.booking_email}?subject=Booking Inquiry, ${artist.name}`}
               className="text-xs text-primary underline">{venue.booking_email}</a>
             {venue.email_verified && (
               <span className="flex items-center gap-1 text-[10px] text-primary font-medium" title={`Email published on ${venue.email_source}`}>

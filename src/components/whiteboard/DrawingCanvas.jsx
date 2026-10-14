@@ -85,7 +85,7 @@ export default function DrawingCanvas({ boardId, canvasOffset, activeTool, drawC
     return unsub;
   }, [boardId]);
 
-  // Full re-render — always reads from refs so it never goes stale during drawing
+  // Full re-render, always reads from refs so it never goes stale during drawing
   const render = useCallback(() => {
     const canvas = canvasRef.current;
     if (!canvas) return;

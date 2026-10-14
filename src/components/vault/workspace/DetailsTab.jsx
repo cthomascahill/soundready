@@ -7,7 +7,7 @@ const GENRES = ["Hip-Hop", "R&B", "Pop", "Trap", "Drill", "Afrobeats", "Gospel",
 const MOODS = ["Dark", "Uplifting", "Chill", "Aggressive", "Romantic", "Melancholic", "Party", "Introspective", "Hype", "Spiritual", "Nostalgic", "Cinematic"];
 
 // The paperwork, tucked away under its own tab: credits, genre, BPM, key,
-// moods, tags, lyrics and notes — all optional, none blocking.
+// moods, tags, lyrics and notes, all optional, none blocking.
 export default function DetailsTab({ form, setForm, projects = [] }) {
   const [newTag, setNewTag] = useState("");
   const set = (key) => (e) => setForm((f) => ({ ...f, [key]: e.target.value }));

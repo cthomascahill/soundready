@@ -24,7 +24,7 @@ const PLANS = [
     tagline: "You're the manager",
     icon: Zap,
     color: "text-chart-5",
-    features: ["Unlimited analyses", "Full toolkit — all 25+ tools", "Playlist pitching + press kits", "Finance + royalty tracking"],
+    features: ["Unlimited analyses", "Full toolkit, all 25+ tools", "Playlist pitching + press kits", "Finance + royalty tracking"],
   },
   {
     id: "ai_manager",
@@ -43,7 +43,7 @@ const PLANS = [
     tagline: "Real human in your corner",
     icon: UserCheck,
     color: "text-yellow-400",
-    features: ["Everything in AI Manager", "Dedicated human rep", "Active pitching for you", "Rev share — we win when you win"],
+    features: ["Everything in AI Manager", "Dedicated human rep", "Active pitching for you", "Rev share, we win when you win"],
   },
 ];
 
@@ -73,7 +73,7 @@ export default function Home() {
           </h1>
 
           <p className="text-xl sm:text-2xl text-muted-foreground leading-relaxed max-w-3xl mx-auto">
-            SoundReady does everything a manager does — without taking <span className="text-foreground font-bold">15–20% of your income.</span>
+            SoundReady does everything a manager does, without taking <span className="text-foreground font-bold">15–20% of your income.</span>
           </p>
 
           <div className="flex flex-col sm:flex-row items-center justify-center gap-3 pt-2">
@@ -105,7 +105,7 @@ export default function Home() {
             <p className="text-xs text-primary uppercase tracking-wider font-bold">The Fix</p>
             <h2 className="font-heading text-4xl font-bold">SoundReady is your manager now.</h2>
             <p className="text-lg text-muted-foreground leading-relaxed">
-              AI-powered tools that handle everything from release strategy to tour booking to sync pitching — for a flat fee. Or let our AI handle the prep and you just approve. Or get a real human rep who already knows your whole catalog.
+              AI-powered tools that handle everything from release strategy to tour booking to sync pitching, for a flat fee. Or let our AI handle the prep and you just approve. Or get a real human rep who already knows your whole catalog.
             </p>
           </motion.div>
         </div>

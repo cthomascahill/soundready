@@ -88,7 +88,7 @@ export default function TourFinance() {
         <motion.div initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }}>
           <p className="text-xs text-primary uppercase tracking-widest font-medium">Finances & Legal</p>
           <h1 className="font-heading text-4xl font-bold">Tour Finance</h1>
-          <p className="text-muted-foreground text-sm mt-1">Every tour's money in one place — open a tour to track its expenses, merch, tickets, and net profit.</p>
+          <p className="text-muted-foreground text-sm mt-1">Every tour's money in one place, open a tour to track its expenses, merch, tickets, and net profit.</p>
         </motion.div>
 
         {loading ? (
@@ -102,7 +102,7 @@ export default function TourFinance() {
               <div className="rounded-2xl border border-border bg-card p-12 text-center">
                 <DollarSign className="h-10 w-10 text-muted-foreground/30 mx-auto mb-3" />
                 <p className="font-heading font-bold text-lg">No tours yet</p>
-                <p className="text-sm text-muted-foreground mt-1 mb-4">Plan a tour first — its finances will live here.</p>
+                <p className="text-sm text-muted-foreground mt-1 mb-4">Plan a tour first, its finances will live here.</p>
                 <Button asChild className="mx-auto"><Link to="/tour-planner">Go to Tour Planner</Link></Button>
               </div>
             ) : (

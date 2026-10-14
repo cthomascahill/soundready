@@ -12,7 +12,7 @@ export default function MerchItemCard({ item, onEdit, onDelete, onChanged }) {
   const stockPill = stock === 0
     ? { label: "Sold out", cls: "bg-red-500/5 border-red-500/20 text-red-400" }
     : stock <= 5
-      ? { label: `Low — ${stock} left`, cls: "bg-orange-500/5 border-orange-500/20 text-orange-400" }
+      ? { label: `Low, ${stock} left`, cls: "bg-orange-500/5 border-orange-500/20 text-orange-400" }
       : { label: `${stock} in stock`, cls: "bg-purple-500/15 border-purple-500/25 text-purple-400" };
 
   const sellOne = async () => {

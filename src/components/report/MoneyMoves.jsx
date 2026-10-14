@@ -3,7 +3,7 @@ import ReportCard, { CardHeader } from "./ReportCard";
 
 const OPPORTUNITY_POOLS = {
   sync: {
-    title: "Sync Licensing — Film & TV",
+    title: "Sync Licensing, Film & TV",
     icon: "🎬",
     getBody: (song) => `"${song.title || "Your track"}" has strong sync potential given its ${song.mood?.toLowerCase() || "emotional"} mood and ${song.energy?.toLowerCase() || "dynamic"} energy. ${song.genre} tracks with this kind of emotional texture are consistently placed in drama series, indie films, and branded content. Sync deals typically pay $500–$5,000 for indie placements and $10,000–$100,000+ for major TV/film.`,
     action: "Register your track with a sync licensing platform like Musicbed, Artlist, or Pond5. Submit directly to music supervisors on LinkedIn using your release's press kit.",
@@ -11,7 +11,7 @@ const OPPORTUNITY_POOLS = {
   brand: {
     title: "Brand Partnership Opportunity",
     icon: "🤝",
-    getBody: (song) => `The ${song.mood?.toLowerCase() || "emotional"} atmosphere of "${song.title || "your track"}" aligns well with lifestyle, wellness, and fashion brands targeting ${song.audience || "young"} consumers. Brands actively seek independent artists with engaged audiences — your sound creates an authentic backdrop for product campaigns without feeling forced.`,
+    getBody: (song) => `The ${song.mood?.toLowerCase() || "emotional"} atmosphere of "${song.title || "your track"}" aligns well with lifestyle, wellness, and fashion brands targeting ${song.audience || "young"} consumers. Brands actively seek independent artists with engaged audiences, your sound creates an authentic backdrop for product campaigns without feeling forced.`,
     action: "Build a one-page media kit with your streaming stats, social following, and song profile. Pitch directly to brand partnership managers on LinkedIn or through platforms like AspireIQ or Creator.co.",
   },
   youtube: {
@@ -23,14 +23,14 @@ const OPPORTUNITY_POOLS = {
   live: {
     title: "Live Performance Market Expansion",
     icon: "🎤",
-    getBody: (song) => `${song.genre} is experiencing strong live market growth in mid-size venues (300–1,500 capacity) across major college towns and coastal cities. A track with this level of energy and audience match creates strong booking leverage — promoters use streaming data to assess draw potential. Your AI score directly translates to pitch credibility.`,
+    getBody: (song) => `${song.genre} is experiencing strong live market growth in mid-size venues (300–1,500 capacity) across major college towns and coastal cities. A track with this level of energy and audience match creates strong booking leverage, promoters use streaming data to assess draw potential. Your AI score directly translates to pitch credibility.`,
     action: "Use your SoundReady streaming data export as leverage when booking. Target college venues, local festivals, and genre-specific showcase events. Apply to SXSW, CMJ, or regional genre showcases with your release as the centerpiece.",
   },
   merch: {
     title: "Merchandise Concept",
     icon: "👕",
-    getBody: (song) => `The Visual Identity from your SoundReady report gives you a complete merchandise brief without hiring a designer. The ${MOOD_COLOR[song.mood] || "aesthetic"} palette and "${song.title || "track"}" artwork can anchor a limited merch drop timed to release — hoodies, tote bags, and printed lyric art are the highest-converting items for independent artists at this stage.`,
-    action: "Use Printful or Printify connected to a Shopify store. Drop merch the same day as the release — the announcement post performs better with a visual product attached. Limit to 50 units to create scarcity.",
+    getBody: (song) => `The Visual Identity from your SoundReady report gives you a complete merchandise brief without hiring a designer. The ${MOOD_COLOR[song.mood] || "aesthetic"} palette and "${song.title || "track"}" artwork can anchor a limited merch drop timed to release, hoodies, tote bags, and printed lyric art are the highest-converting items for independent artists at this stage.`,
+    action: "Use Printful or Printify connected to a Shopify store. Drop merch the same day as the release, the announcement post performs better with a visual product attached. Limit to 50 units to create scarcity.",
   },
   tiktok_fund: {
     title: "TikTok Creator Fund & Sound Revenue",

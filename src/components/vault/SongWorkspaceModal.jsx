@@ -11,7 +11,7 @@ import ReleaseTab from "@/components/vault/workspace/ReleaseTab";
 import ReleasePlanDialog from "@/components/vault/ReleasePlanDialog";
 import { vaultStatusDot } from "@/lib/vaultStatus";
 
-// The song view: what you came for is what you see — the player, the latest
+// The song view: what you came for is what you see, the player, the latest
 // version, notes. Everything else waits behind one "More details" toggle.
 export default function SongWorkspaceModal({ song, pipeline, projects = [], onClose, onSave }) {
   const isNew = !song?.id;

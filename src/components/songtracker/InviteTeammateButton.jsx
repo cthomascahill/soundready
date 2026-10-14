@@ -62,7 +62,7 @@ export default function InviteTeammateButton() {
         <DialogHeader>
           <DialogTitle className="font-heading">Invite a teammate</DialogTitle>
           <DialogDescription>
-            They get access to view your Tracker — songs, stages and mix files — read-only.
+            They get access to view your Tracker, songs, stages and mix files, read-only.
           </DialogDescription>
         </DialogHeader>
 
@@ -88,7 +88,7 @@ export default function InviteTeammateButton() {
           {status === "success" && (
             <p className="text-xs text-green-500 flex items-center gap-1.5">
               <CheckCircle2 className="h-3.5 w-3.5" />
-              Invited — they'll see your Tracker under "Shared with me" when they log in.
+              Invited, they'll see your Tracker under "Shared with me" when they log in.
             </p>
           )}
           {status === "error" && (

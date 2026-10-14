@@ -270,7 +270,7 @@ export default function OnboardingWizard({ user, onComplete }) {
                   ))}
                 </div>
 
-                <p className="text-xs text-muted-foreground">All fields are optional—you can add these later.</p>
+                <p className="text-xs text-muted-foreground">All fields are optional, you can add these later.</p>
               </motion.div>
             )}
           </AnimatePresence>

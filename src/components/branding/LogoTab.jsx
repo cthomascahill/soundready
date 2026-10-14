@@ -42,14 +42,14 @@ ${tagline ? `Tagline: "${tagline}"` : ""}
 Vibe: ${vibe || "bold, modern, dark"}
 Style: ${styleDesc}
 
-Rules — follow ALL of these strictly:
+Rules, follow ALL of these strictly:
 - Return ONLY the raw SVG code, nothing else, no markdown, no explanation
 - viewBox must be exactly "0 0 400 200"
 - Dark background rectangle covering the full viewBox
 - Use only SVG primitives: rect, text, circle, line, path, polygon
-- No external fonts — use font-family="Arial Black, Impact, sans-serif" or similar system fonts
+- No external fonts, use font-family="Arial Black, Impact, sans-serif" or similar system fonts
 - No images or foreign objects
-- Bold, strong typography — make the artist name the hero
+- Bold, strong typography, make the artist name the hero
 - Apply the vibe aesthetically through shapes, spacing, and color
 - Accent color should be #22c55e (green) used sparingly for highlights`;
 

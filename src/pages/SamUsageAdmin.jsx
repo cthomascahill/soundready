@@ -5,7 +5,7 @@ import { Loader2, Gauge, AlertTriangle, TrendingUp } from "lucide-react";
 
 // Admin view of Sam credit usage across all artists: workspace capacity
 // (usage, remaining, projection), per-month credits, purchased extra
-// credits, and recent task failures. Numbers only — one artist's task
+// credits, and recent task failures. Numbers only, one artist's task
 // content is never shown here.
 export default function SamUsageAdmin() {
   const [data, setData] = useState(null);
@@ -41,7 +41,7 @@ export default function SamUsageAdmin() {
         <p className="text-sm text-muted-foreground">How much AI capacity each artist is using this month, across every AI feature.</p>
       </motion.div>
 
-      {/* Workspace capacity — the owner's cost view */}
+      {/* Workspace capacity, the owner's cost view */}
       {workspace && (
         <div className="rounded-2xl bg-card border border-primary/20 overflow-hidden">
           <div className="px-5 py-3.5 border-b border-border flex items-center gap-2">
@@ -64,7 +64,7 @@ export default function SamUsageAdmin() {
           </div>
           <p className="px-5 py-3 text-[11px] text-muted-foreground/70 leading-relaxed border-t border-border">
             Credits are projected linearly from month-to-date usage at the planning rate of ${config.creditRate} per Base44 integration
-            credit. Purchased top-ups fund our Base44 bill — they don't automatically add workspace capacity.
+            credit. Purchased top-ups fund our Base44 bill, they don't automatically add workspace capacity.
           </p>
         </div>
       )}
@@ -153,8 +153,8 @@ export default function SamUsageAdmin() {
                   <tr key={r.user_id} className="border-b border-border/50 last:border-0">
                     <td className="px-5 py-2.5 max-w-56 truncate">{byId.get(r.user_id) || r.user_id}</td>
                     <td className="px-3 py-2.5 font-semibold">{r.month_units} / {config.monthlyIncluded}</td>
-                    <td className="px-3 py-2.5">{r.addon_purchased || "—"}</td>
-                    <td className="px-3 py-2.5">{r.addon_purchased ? r.addon_remaining : "—"}</td>
+                    <td className="px-3 py-2.5">{r.addon_purchased || "-"}</td>
+                    <td className="px-3 py-2.5">{r.addon_purchased ? r.addon_remaining : "-"}</td>
                     <td className="px-3 py-2.5">{r.tasks}</td>
                   </tr>
                 ))}
@@ -188,9 +188,9 @@ export default function SamUsageAdmin() {
 
       <p className="text-[11px] text-muted-foreground/70 leading-relaxed">
         One shared allowance covers every AI feature: research, recommendations, playlist pitches, EPK, tour scouts, digests, intel feeds
-        and deal research. 1 SAM credit tracks 1 estimated Base44 integration credit of AI work at the ${config.creditRate} planning rate —
-        a conservative calibrated estimate, not a guaranteed dollar cap. Purchased credits never expire. To adjust the policy — monthly
-        allowance, warn threshold, feature costs, or extra-pack size — just say the word and they'll be updated everywhere at once.
+        and deal research. 1 SAM credit tracks 1 estimated Base44 integration credit of AI work at the ${config.creditRate} planning rate,
+        a conservative calibrated estimate, not a guaranteed dollar cap. Purchased credits never expire. To adjust the policy, monthly
+        allowance, warn threshold, feature costs, or extra-pack size, just say the word and they'll be updated everywhere at once.
       </p>
     </div>
   );

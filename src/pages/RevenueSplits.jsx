@@ -66,7 +66,7 @@ export default function RevenueSplits() {
               <p className="font-semibold text-sm flex items-center gap-2"><Music2 className="h-4 w-4 text-primary" />Song</p>
               <select value={selectedSong || ""} onChange={e => setSelectedSong(e.target.value || null)}
                 className="w-full h-9 rounded-lg border border-input bg-transparent px-3 text-sm focus:outline-none focus:ring-1 focus:ring-ring">
-                <option value="">— Custom / Unlisted Song —</option>
+                <option value="">- Custom / Unlisted Song -</option>
                 {songs.map(s => <option key={s.id} value={s.id}>{s.title}</option>)}
               </select>
             </div>

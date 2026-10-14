@@ -47,7 +47,7 @@ export default function LapsedProCard({ feature }) {
           {feature ? `${feature} is waiting for you` : "Your Pro tools are waiting"}
         </h1>
         <p className="text-sm text-muted-foreground leading-relaxed">
-          Nothing was deleted — your work is exactly where you left it. Come back and pick up where you stopped.
+          Nothing was deleted, your work is exactly where you left it. Come back and pick up where you stopped.
         </p>
       </div>
       {items.length > 0 && (
@@ -64,7 +64,7 @@ export default function LapsedProCard({ feature }) {
         Reactivate Artist Pro
       </CheckoutButton>
       <p className="text-center text-xs text-muted-foreground">
-        Reactivate anytime — everything is still here.
+        Reactivate anytime, everything is still here.
       </p>
     </div>
   );

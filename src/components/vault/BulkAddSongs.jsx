@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button";
 import { FREE_VAULT_CAP } from "@/components/vault/VaultCapPrompt";
 import { awardPoints } from "@/lib/awardPoints";
 
-// Paste a list of song titles — every line becomes a Released song in the vault.
+// Paste a list of song titles, every line becomes a Released song in the vault.
 export default function BulkAddSongs({ max, onClose, onCreated }) {
   const [text, setText] = useState("");
   const [saving, setSaving] = useState(false);
@@ -42,7 +42,7 @@ export default function BulkAddSongs({ max, onClose, onCreated }) {
         </div>
 
         <p className="text-sm text-muted-foreground">
-          Paste your song titles — one per line. Each becomes a Released song in your vault, ready to organize.
+          Paste your song titles, one per line. Each becomes a Released song in your vault, ready to organize.
         </p>
 
         <textarea
@@ -56,7 +56,7 @@ export default function BulkAddSongs({ max, onClose, onCreated }) {
         {titles.length > 0 && (
           <p className="text-xs text-muted-foreground">
             {allowed.length} song{allowed.length === 1 ? "" : "s"} will be added.
-            {skipped > 0 && ` ${skipped} skipped — the free plan holds ${FREE_VAULT_CAP} songs. Upgrade for unlimited.`}
+            {skipped > 0 && ` ${skipped} skipped, the free plan holds ${FREE_VAULT_CAP} songs. Upgrade for unlimited.`}
           </p>
         )}
 

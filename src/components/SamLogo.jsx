@@ -1,4 +1,4 @@
-// Sam — Soundready Artist Manager. The little cream robot with a green
+// Sam, Soundready Artist Manager. The little cream robot with a green
 // pixel face, matching the official character art.
 const CREAM = "#F0EEE9";
 const MATTE = "#2B2B2B";

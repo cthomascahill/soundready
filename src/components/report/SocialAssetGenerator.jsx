@@ -60,9 +60,9 @@ Genre: ${song.genre || "music"}
 Energy: ${song.energy || "medium"}
 
 Visual style requirements:
-- Color palette: ${colors} — use these exact colors as the dominant palette
+- Color palette: ${colors}, use these exact colors as the dominant palette
 - Aesthetic keywords: ${keywords}
-- Typography style: inspired by ${font} font — bold, clear, legible
+- Typography style: inspired by ${font} font, bold, clear, legible
 - The song title text "${song.title}" must appear prominently and be clearly legible
 - The artist name "${song.artist}" must appear in the design
 
@@ -176,7 +176,7 @@ export default function SocialAssetGenerator({ song = {} }) {
     <ReportCard borderColor="border-l-purple-500">
       <CardHeader icon={Wand2} title="Social Asset Generator" iconColor="text-purple-400" badge="Section 12" />
       <p className="text-sm text-muted-foreground -mt-2">
-        AI-generated promo assets using your Visual Identity palette — <span className="text-foreground font-medium">{palette.aesthetic.join(", ")}</span> with colors {palette.colors.map((c) => (
+        AI-generated promo assets using your Visual Identity palette, <span className="text-foreground font-medium">{palette.aesthetic.join(", ")}</span> with colors {palette.colors.map((c) => (
           <span key={c} className="inline-flex items-center gap-1 mx-0.5">
             <span className="inline-block h-2.5 w-2.5 rounded-full border border-border/50 align-middle" style={{ backgroundColor: c }} />
             <span className="font-mono text-xs">{c}</span>

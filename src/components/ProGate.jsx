@@ -7,10 +7,10 @@ import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
 
 const UNLOCKS = [
-  "The Studio — lyrics, ideas & beats",
-  "Gig Finder — 1,341+ venues nationwide",
+  "The Studio, lyrics, ideas & beats",
+  "Gig Finder, 1,341+ venues nationwide",
   "Tour Planner, Tour Finance & Venue Contracts",
-  "The Wall — the artist community",
+  "The Wall, the artist community",
   "Team Chat + shared Whiteboard",
   "Genre Trends, Lyric Room & Studio",
 ];
@@ -58,7 +58,7 @@ export default function ProGate({ children, feature }) {
               {feature ? `${feature} is part of Artist Pro` : "This is part of Artist Pro"}
             </h1>
             <p className="text-sm text-muted-foreground leading-relaxed">
-              Your Vault and Tracker are free forever. Artist Pro unlocks the full toolkit — and it's free for 7 days.
+              Your Vault and Tracker are free forever. Artist Pro unlocks the full toolkit, and it's free for 7 days.
             </p>
           </div>
           <div className="space-y-2">
@@ -73,7 +73,7 @@ export default function ProGate({ children, feature }) {
             Start Pro
           </CheckoutButton>
           <p className="text-center text-xs text-muted-foreground">
-            Card required — charged $39 automatically after 7 days. Cancel before then, pay nothing.
+            Card required, charged $39 automatically after 7 days. Cancel before then, pay nothing.
           </p>
           <p className="text-center">
             <Link to="/pricing-account" className="text-xs text-muted-foreground hover:text-foreground transition-colors inline-flex items-center gap-1">

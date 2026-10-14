@@ -15,7 +15,7 @@ function daysUntil(deadline) {
   return Math.ceil((d.getTime() - Date.now()) / 86400000);
 }
 
-// Opportunities: Sam's personally chosen intel feeds — signings, playlist
+// Opportunities: Sam's personally chosen intel feeds, signings, playlist
 // moves, trends, local events, grants, tour routing, and a weekly digest.
 export default function IndustryIntel() {
   const { user } = useAuth();
@@ -101,7 +101,7 @@ export default function IndustryIntel() {
               </p>
               <h1 className="font-heading text-4xl font-bold">Opportunities</h1>
               <p className="text-muted-foreground text-sm mt-1">
-                Hand-picked by Sam for your genre{city ? ` and ${city}` : ""} — tap any card to see everything he found.
+                Hand-picked by Sam for your genre{city ? ` and ${city}` : ""}, tap any card to see everything he found.
               </p>
             </div>
 

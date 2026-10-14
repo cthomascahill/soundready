@@ -22,7 +22,7 @@ function formatViews(v) {
 }
 
 // The Scroll tab: recent long-form music videos, interviews and industry
-// podcasts pulled from YouTube — click one to watch it right here.
+// podcasts pulled from YouTube, click one to watch it right here.
 export default function ScrollTab({ genre }) {
   const [videos, setVideos] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -79,7 +79,7 @@ export default function ScrollTab({ genre }) {
       {/* Header */}
       <div className="flex items-start justify-between gap-4">
         <p className="text-xs text-zinc-500 leading-relaxed">
-          Fresh long-form music content from across YouTube — interviews, industry podcasts and artist
+          Fresh long-form music content from across YouTube, interviews, industry podcasts and artist
           conversations, pulled from the last 28 days. Click any video to watch it here.
         </p>
         <Button variant="outline" size="sm" onClick={() => fetchVideos(true)} disabled={loading}
@@ -133,7 +133,7 @@ export default function ScrollTab({ genre }) {
       {!loading && error && (
         <div className="text-center py-16 space-y-4">
           <Youtube className="h-12 w-12 text-zinc-700 mx-auto" />
-          <p className="text-zinc-400 text-sm">Couldn't load the scroll feed — try again</p>
+          <p className="text-zinc-400 text-sm">Couldn't load the scroll feed, try again</p>
           <p className="text-xs text-zinc-600">{error}</p>
           <Button onClick={() => fetchVideos(true)} variant="outline" className="border-zinc-700">Retry</Button>
         </div>
@@ -143,7 +143,7 @@ export default function ScrollTab({ genre }) {
       {!loading && !error && videos.length === 0 && (
         <div className="text-center py-16 space-y-3">
           <PlayCircle className="h-10 w-10 text-zinc-700 mx-auto" />
-          <p className="text-zinc-500 text-sm">No new videos in the last 28 days — check back soon.</p>
+          <p className="text-zinc-500 text-sm">No new videos in the last 28 days, check back soon.</p>
         </div>
       )}
 

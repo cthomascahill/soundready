@@ -7,7 +7,7 @@ import { Play, Pause, Download, Star, Trash2, Loader2, Music2 } from "lucide-rea
 import { resolvePlayableAudioUrl } from "@/lib/audioPlayback";
 
 const fmtDuration = (s) => {
-  if (s == null) return "—";
+  if (s == null) return "-";
   const m = Math.floor(s / 60);
   const sec = Math.round(s % 60);
   return `${m}:${String(sec).padStart(2, "0")}`;
@@ -15,10 +15,10 @@ const fmtDuration = (s) => {
 
 const fmtDate = (d) => d
   ? new Date(d).toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" })
-  : "—";
+  : "-";
 
 // Side-by-side comparison of every version of a song: Mix V1 next to Mix V2
-// next to the master, each column with its metadata — so you can see (and hear)
+// next to the master, each column with its metadata, so you can see (and hear)
 // the progress between mixes at a glance. Playback restarts each version from
 // the top so comparisons are fair.
 export default function VersionCompare({ song, versions, open, onOpenChange, onMakeLatest, onRemove }) {
@@ -114,7 +114,7 @@ export default function VersionCompare({ song, versions, open, onOpenChange, onM
         <DialogHeader>
           <DialogTitle className="flex items-center gap-2">
             <Music2 className="h-5 w-5 text-primary" />
-            {song.song_name} — version history
+            {song.song_name}, version history
           </DialogTitle>
           <DialogDescription>
             Every mix and master side by side, oldest to newest. Playback restarts each version from the top so you can A/B fairly.

@@ -77,7 +77,7 @@ export default function SharedTracker() {
             <p className="text-xs text-primary uppercase tracking-widest font-medium">Shared with you</p>
             <h1 className="font-heading text-4xl font-bold">Shared Trackers</h1>
             <p className="text-muted-foreground text-sm mt-1">
-              Trackers artists have invited you to. You can listen to their mix files — read-only.
+              Trackers artists have invited you to. You can listen to their mix files, read-only.
             </p>
           </div>
           {owners.length === 0 ? (

@@ -40,7 +40,7 @@ export default function MerchInventory() {
 
   return (
     <div className="p-6 md:p-10 max-w-6xl mx-auto space-y-8">
-      <SEO title="Merch Inventory — SoundReady" description="Track your merch on the road: costs, prices, stock, sold tallies and what the table can make." />
+      <SEO title="Merch Inventory, SoundReady" description="Track your merch on the road: costs, prices, stock, sold tallies and what the table can make." />
 
       <div className="flex flex-wrap items-end justify-between gap-4">
         <div className="space-y-2">
@@ -49,7 +49,7 @@ export default function MerchInventory() {
             <Shirt className="h-8 w-8 text-purple-400" /> Merch Inventory
           </h1>
           <p className="text-muted-foreground text-sm max-w-2xl leading-relaxed">
-            Everything in the merch bin — what it cost, what it sells for, how many are left — with a one-tap tally at the table.
+            Everything in the merch bin, what it cost, what it sells for, how many are left, with a one-tap tally at the table.
           </p>
         </div>
         <Button onClick={() => { setEditing(null); setFormOpen(true); }} className="gap-2">
@@ -57,7 +57,7 @@ export default function MerchInventory() {
         </Button>
       </div>
 
-      {/* Totals strip — one aggregate per load */}
+      {/* Totals strip, one aggregate per load */}
       <div className="grid grid-cols-3 gap-3">
         {[
           { label: "Inventory cost value", value: totals?.stock_value, accent: "text-purple-400" },

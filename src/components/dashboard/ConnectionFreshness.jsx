@@ -52,7 +52,7 @@ export default function ConnectionFreshness() {
           >
             <RefreshCw className="h-3 w-3" />
             {(PLATFORM_LABELS[c.platform] || c.platform) + ": " + label}
-            {stale && <span className="font-normal opacity-80">— update</span>}
+            {stale && <span className="font-normal opacity-80">- update</span>}
           </button>
         );
       })}

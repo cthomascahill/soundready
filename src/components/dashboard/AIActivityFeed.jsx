@@ -376,7 +376,7 @@ export default function AIActivityFeed({ user }) {
               </div>
               <p className="font-heading font-bold text-base">Your Digital Manager is working 24/7</p>
               <p className="text-sm text-muted-foreground max-w-sm mx-auto leading-relaxed">
-                Upgrade to Digital Manager and SoundReady automatically pitches playlists, finds tour opportunities, drafts booking emails, and sends you a weekly career digest — all without lifting a finger.
+                Upgrade to Digital Manager and SoundReady automatically pitches playlists, finds tour opportunities, drafts booking emails, and sends you a weekly career digest, all without lifting a finger.
               </p>
               <Link to="/pricing-account">
                 <Button size="sm" className="gap-2 font-semibold">

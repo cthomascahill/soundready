@@ -27,7 +27,7 @@ const STEPS = [
   },
   {
     title: "Sam finds the right companies",
-    desc: "Labels, distributors, sync houses — Sam targets companies that work with artists at your traction level, with verified public contacts. Not blast lists.",
+    desc: "Labels, distributors, sync houses, Sam targets companies that work with artists at your traction level, with verified public contacts. Not blast lists.",
   },
   {
     title: "Sam drafts the outreach",
@@ -175,7 +175,7 @@ export default function DealsOutreach() {
       <div className="rounded-xl border border-border bg-secondary/40 px-5 py-4 flex flex-col sm:flex-row sm:items-center gap-3">
         <CheckCircle2 className="h-5 w-5 text-primary shrink-0" />
         <p className="text-xs text-muted-foreground leading-relaxed">
-          You keep ownership of everything. Sam only opens conversations using publicly listed contact info — you approve every pitch before it goes out, and you walk away from any deal you don't like.
+          You keep ownership of everything. Sam only opens conversations using publicly listed contact info, you approve every pitch before it goes out, and you walk away from any deal you don't like.
         </p>
       </div>
     </div>

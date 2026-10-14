@@ -68,7 +68,7 @@ export default function PreSaveTracker() {
           <div className="rounded-2xl bg-card border border-border p-5 space-y-3">
             <select value={form.song_id} onChange={(e) => setForm(f => ({ ...f, song_id: e.target.value }))} className="w-full h-9 rounded-md border border-input bg-transparent px-3 text-sm">
               <option value="">Select song</option>
-              {songs.map(s => <option key={s.id} value={s.id}>{s.title} — {s.artist_name}</option>)}
+              {songs.map(s => <option key={s.id} value={s.id}>{s.title}, {s.artist_name}</option>)}
             </select>
             <Input placeholder="Pre-save URL (Spotify link)" value={form.pre_save_url} onChange={(e) => setForm(f => ({ ...f, pre_save_url: e.target.value }))} />
             <Input type="number" placeholder="Target pre-saves (e.g. 500)" value={form.target_presaves} onChange={(e) => setForm(f => ({ ...f, target_presaves: e.target.value }))} />

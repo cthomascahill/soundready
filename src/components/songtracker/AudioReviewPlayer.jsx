@@ -121,7 +121,7 @@ export default function AudioReviewPlayer({ song, onUpdate, open, onOpenChange, 
           sameOrigin = true;
           urlsRef.current.add(url);
         } catch {
-          // Cross-origin fetch blocked — play the URL directly (no meters)
+          // Cross-origin fetch blocked, play the URL directly (no meters)
         }
       }
       if (sameOrigin) {
@@ -431,7 +431,7 @@ export default function AudioReviewPlayer({ song, onUpdate, open, onOpenChange, 
         </option>
         {versions.map((v) => (
           <option key={v.id} value={v.id}>
-            {(song.song_name || "Untitled")} — {v.label}
+            {(song.song_name || "Untitled")}, {v.label}
           </option>
         ))}
       </select>
@@ -453,10 +453,10 @@ export default function AudioReviewPlayer({ song, onUpdate, open, onOpenChange, 
           <div className="min-w-0">
             <p className="text-[10px] tracking-[0.2em] text-zinc-400 font-semibold">A/B MIX COMPARISON</p>
             <h2 className="font-heading text-2xl font-bold text-foreground truncate">
-              {(song.song_name || "Untitled")} — {aVersion?.label || "No mix"}
+              {(song.song_name || "Untitled")}, {aVersion?.label || "No mix"}
             </h2>
             <p className="text-xs text-zinc-400 truncate">
-              {(aVersion?.label || "—")} · Original file playback
+              {(aVersion?.label || "-")} · Original file playback
             </p>
           </div>
           <div className="flex items-center gap-3 shrink-0">
@@ -628,7 +628,7 @@ export default function AudioReviewPlayer({ song, onUpdate, open, onOpenChange, 
         {/* Footer */}
         <div className="flex items-center justify-center gap-2 flex-wrap">
           {[
-            "One shared clock — A and B stay in sync",
+            "One shared clock, A and B stay in sync",
             "Only the selected mix is audible",
             "Notes save with mix + timestamp",
           ].map((hint) => (

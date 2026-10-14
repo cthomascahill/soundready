@@ -63,15 +63,15 @@ export default function ProspectPicker({ category, onCreated }) {
       setError(/allowance is used up/i.test(res.data.error)
         ? "Your monthly AI allowance is used up. Add extra usage to keep going today."
         : res.data.error === "profile_incomplete"
-        ? "Sam needs your name, genre and location first — complete your artist profile below."
-        : "Sam's research hit a snag — try again in a moment.");
+        ? "Sam needs your name, genre and location first, complete your artist profile below."
+        : "Sam's research hit a snag, try again in a moment.");
       return;
     }
     const list = res.data?.prospects || [];
     setSearches(res.data?.searches || 3);
     setProspects(list);
     setSelected(Object.fromEntries(list.map((p, i) => [i, p.route !== "none" && p.accepts_submissions !== "no"])));
-    if (list.length === 0) setError("Sam couldn't verify any companies right now — try again in a bit.");
+    if (list.length === 0) setError("Sam couldn't verify any companies right now, try again in a bit.");
   };
 
   const toggle = (i) => setSelected(prev => ({ ...prev, [i]: !prev[i] }));
@@ -90,7 +90,7 @@ export default function ProspectPicker({ category, onCreated }) {
     if (res.data?.error) {
       setError(/allowance is used up/i.test(res.data.error)
         ? "Your monthly AI allowance is used up. Add extra usage to keep going today."
-        : "Sam couldn't finish the drafts — try again in a moment.");
+        : "Sam couldn't finish the drafts, try again in a moment.");
       return;
     }
     onCreated(res.data?.created || []);
@@ -111,7 +111,7 @@ export default function ProspectPicker({ category, onCreated }) {
       <div>
         <p className="font-heading font-bold text-sm">New outreach</p>
         <p className="text-xs text-muted-foreground mt-0.5">
-          Sam runs three targeted searches — genre fit, career-stage fit, and open submission routes — then ranks what it finds by realistic fit for you.
+          Sam runs three targeted searches, genre fit, career-stage fit, and open submission routes, then ranks what it finds by realistic fit for you.
         </p>
       </div>
 
@@ -128,7 +128,7 @@ export default function ProspectPicker({ category, onCreated }) {
               ? <CheckCircle2 className="h-3.5 w-3.5 text-primary shrink-0" />
               : <AlertCircle className="h-3.5 w-3.5 text-orange-400 shrink-0" />}
             <span className={c.ok ? "text-foreground" : "text-muted-foreground"}>
-              {c.label}{c.ok ? "" : " — missing"}
+              {c.label}{c.ok ? "" : ", missing"}
             </span>
           </div>
         ))}
@@ -136,7 +136,7 @@ export default function ProspectPicker({ category, onCreated }) {
 
       {!ready ? (
         <div className="flex flex-wrap items-center gap-3">
-          <p className="text-xs text-muted-foreground">Sam needs these before researching — it only takes a minute.</p>
+          <p className="text-xs text-muted-foreground">Sam needs these before researching, it only takes a minute.</p>
           <Link to="/artist-profile">
             <Button size="sm" variant="outline" className="font-semibold">Complete your artist profile</Button>
           </Link>
@@ -149,7 +149,7 @@ export default function ProspectPicker({ category, onCreated }) {
           </Button>
           {researching && (
             <p className="text-xs text-muted-foreground">
-              This can take up to a minute — Sam is running three separate web searches and cross-checking what it finds.
+              This can take up to a minute, Sam is running three separate web searches and cross-checking what it finds.
             </p>
           )}
         </div>
@@ -159,7 +159,7 @@ export default function ProspectPicker({ category, onCreated }) {
       {prospects.length > 0 && (
         <div className="space-y-3">
           <p className="text-xs font-bold uppercase tracking-wider text-muted-foreground">
-            Sam found {prospects.length} across {searches} searches — ranked by fit, pick who to pitch
+            Sam found {prospects.length} across {searches} searches, ranked by fit, pick who to pitch
           </p>
           <div className="space-y-3">
             {prospects.map((pr, i) => (
@@ -188,7 +188,7 @@ export default function ProspectPicker({ category, onCreated }) {
                     )}
                   </div>
                   <p className="text-xs text-muted-foreground">
-                    {[pr.company_type, pr.location].filter(Boolean).join(" · ") || "—"}
+                    {[pr.company_type, pr.location].filter(Boolean).join(" · ") || "-"}
                   </p>
                   <p className="text-xs text-muted-foreground leading-relaxed">{pr.why_fit}</p>
                   {pr.fit_evidence && (
@@ -196,7 +196,7 @@ export default function ProspectPicker({ category, onCreated }) {
                   )}
                   {pr.accepts_submissions === "no" && (
                     <p className="text-xs text-red-400/90">
-                      Their public pages say they don't take unsolicited submissions — pitch carefully or skip.
+                      Their public pages say they don't take unsolicited submissions, pitch carefully or skip.
                     </p>
                   )}
                   <div className="flex flex-wrap gap-x-4 gap-y-1 text-[11px] pt-0.5">

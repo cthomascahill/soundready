@@ -69,7 +69,7 @@ Release Date: ${track.release_date}
 
 ${delta > 5 ? "The track is OUTPERFORMING its prediction." : delta < -5 ? "The track is UNDERPERFORMING its prediction." : "The track is performing close to its prediction."}
 
-Provide 3 specific, data-driven insights about WHY this gap exists and what the artist can do. Reference the actual numbers. Be direct and actionable — not generic.`,
+Provide 3 specific, data-driven insights about WHY this gap exists and what the artist can do. Reference the actual numbers. Be direct and actionable, not generic.`,
       response_json_schema: {
         type: "object",
         properties: {
@@ -203,7 +203,7 @@ export default function SpotifyComparison({ analysis }) {
             <div>
               <p className="text-sm font-medium">Look Up on Spotify</p>
               <p className="text-xs text-muted-foreground mt-1 max-w-xs mx-auto">
-                Compare your SoundScore prediction against this track's real Spotify popularity — and get AI insights on any gap.
+                Compare your SoundScore prediction against this track's real Spotify popularity, and get AI insights on any gap.
               </p>
             </div>
             <Button onClick={lookup} className="gap-2 bg-[#1DB954] hover:bg-[#1DB954]/90 text-black font-semibold">

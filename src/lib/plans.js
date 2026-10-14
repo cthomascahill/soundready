@@ -1,4 +1,4 @@
-// Shared plan content — single source of truth for the pricing page and the
+// Shared plan content, single source of truth for the pricing page and the
 // per-plan checkout pages.
 import { Bot, Users, Zap } from "lucide-react";
 
@@ -83,7 +83,7 @@ export const BOOST_ITEMS = [
 
 // Keyed by checkout URL slug. tierKey matches the Stripe checkout function's tier.
 // Founding prices ($59/mo, $569/yr) apply while the founding prices are active
-// in Stripe — deactivate them there to end the offer.
+// in Stripe, deactivate them there to end the offer.
 export const PLANS = {
   free: {
     slug: "free",

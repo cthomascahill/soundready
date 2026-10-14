@@ -142,7 +142,7 @@ export default function VaultHome() {
             song_id: song.id,
             reason:
               u === best
-                ? `Grouped under "${group.title}"${group.files.length > 1 ? ` with ${group.files.length - 1} other version${group.files.length > 2 ? "s" : ""}` : ""}${u.analysis.stage ? ` — ${u.analysis.stage} read from the filename` : ""}. Set as the current version.`
+                ? `Grouped under "${group.title}"${group.files.length > 1 ? ` with ${group.files.length - 1} other version${group.files.length > 2 ? "s" : ""}` : ""}${u.analysis.stage ? `, ${u.analysis.stage} read from the filename` : ""}. Set as the current version.`
                 : `Grouped under "${group.title}" as a version${u.analysis.stage ? ` (${u.analysis.stage})` : ""}.`,
           });
         }
@@ -162,7 +162,7 @@ export default function VaultHome() {
           status: "auto_grouped",
           is_exact_duplicate: true,
           duplicate_of: dup.duplicate_of,
-          reason: `Exact duplicate of "${dup.duplicate_of}" — the original is in your vault; this copy is stored but not added twice.`,
+          reason: `Exact duplicate of "${dup.duplicate_of}", the original is in your vault; this copy is stored but not added twice.`,
         });
       }
 
@@ -182,7 +182,7 @@ export default function VaultHome() {
           suggested_title: f.suggestedTitle,
           version_label: f.analysis.versionLabel || "",
           suggested_stage: f.analysis.stage || "",
-          reason: "SAM couldn't tell the song from this filename — name it and it joins the vault.",
+          reason: "SAM couldn't tell the song from this filename, name it and it joins the vault.",
         });
       }
 
@@ -228,7 +228,7 @@ export default function VaultHome() {
       setIntake({ phase: "done", done: uploadTotal, total: uploadTotal });
       await refreshData();
     } catch (e) {
-      setError("Something went wrong while SAM was organizing your folder — try again.");
+      setError("Something went wrong while SAM was organizing your folder, try again.");
       setIntake({ phase: "idle" });
     }
   };
@@ -273,7 +273,7 @@ export default function VaultHome() {
       }
       await refreshData();
     } catch (e) {
-      setError("Couldn't add that file as a song — try again.");
+      setError("Couldn't add that file as a song, try again.");
     }
     setBusyReview(null);
   };
@@ -284,7 +284,7 @@ export default function VaultHome() {
       await base44.entities.VaultIntakeFile.update(item.id, { status: "dismissed" });
       setReviewItems((prev) => prev.filter((r) => r.id !== item.id));
     } catch {
-      setError("Couldn't dismiss that file — try again.");
+      setError("Couldn't dismiss that file, try again.");
     }
     setBusyReview(null);
   };
@@ -294,7 +294,7 @@ export default function VaultHome() {
   return (
     <div className="min-h-screen bg-background">
       <div className="max-w-5xl mx-auto px-4 py-8 space-y-5">
-        {/* One calm header — the library is the main event */}
+        {/* One calm header, the library is the main event */}
         <div>
           <h1 className="font-heading text-2xl sm:text-3xl font-bold">Vault</h1>
           <p className="text-sm text-muted-foreground mt-0.5">
@@ -322,7 +322,7 @@ export default function VaultHome() {
 
         <IntakeSummary summary={summary} />
 
-        {/* Review — one quiet signpost; the details open only on demand */}
+        {/* Review, one quiet signpost; the details open only on demand */}
         {reviewItems.length > 0 && (
           showReview ? (
             <NeedsReviewList
@@ -373,7 +373,7 @@ export default function VaultHome() {
       {capPrompt && <VaultCapPrompt kind="song" onClose={() => setCapPrompt(false)} />}
       <PageDropOverlay
         onFiles={(files) => { if (intake.phase !== "reading" && intake.phase !== "organizing") runIntake(files); }}
-        title="Drop it — Sam organizes it"
+        title="Drop it, Sam organizes it"
         subtitle="Songs and versions grouped automatically"
       />
     </div>

@@ -60,7 +60,7 @@ export default function WaveformDisplay({ peaks, progress = 0, onSeek, loading =
       )}
       {!loading && !peaks?.length && (
         <div className="absolute inset-0 flex items-center justify-center">
-          <span className="text-[10px] text-muted-foreground">Waveform unavailable — playback still works</span>
+          <span className="text-[10px] text-muted-foreground">Waveform unavailable, playback still works</span>
         </div>
       )}
     </div>

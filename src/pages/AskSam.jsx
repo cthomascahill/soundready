@@ -97,7 +97,7 @@ export default function AskSam() {
     } catch (err) {
       console.error("Ask Sam chat error:", err);
     }
-    // Only a real path from the catalog ever opens — a hallucinated path is dropped
+    // Only a real path from the catalog ever opens, a hallucinated path is dropped
     const navPath = (result?.navigate_path || "").trim();
     const tool = navPath ? toolByPath(navPath) : null;
     setMessages((prev) => [

@@ -26,7 +26,7 @@ export default function StudioControls({ params, setParams, inputs, setInputs, b
 
   return (
     <div className="space-y-5">
-      {/* Block 1 — Song Setup */}
+      {/* Block 1, Song Setup */}
       <div className="space-y-3">
         <p className="text-xs font-bold text-primary uppercase tracking-widest">Song Setup</p>
 
@@ -42,7 +42,7 @@ export default function StudioControls({ params, setParams, inputs, setInputs, b
           <div className="flex items-center justify-between">
             <label className="text-xs text-white/60">BPM</label>
             <span className="text-xs font-mono font-bold text-primary">
-              {params.bpm} <span className="text-white/50 font-normal">— {bpmLabel(params.bpm)}</span>
+              {params.bpm} <span className="text-white/50 font-normal">- {bpmLabel(params.bpm)}</span>
             </span>
           </div>
           <input
@@ -107,7 +107,7 @@ export default function StudioControls({ params, setParams, inputs, setInputs, b
 
       <div className="border-t border-zinc-800" />
 
-      {/* Block 2 — Your Input */}
+      {/* Block 2, Your Input */}
       <div className="space-y-3">
         <p className="text-xs font-bold text-primary uppercase tracking-widest">Your Input</p>
 
@@ -116,7 +116,7 @@ export default function StudioControls({ params, setParams, inputs, setInputs, b
           <textarea
             value={inputs.seed}
             onChange={e => updateInput("seed", e.target.value)}
-            placeholder={"Start writing anything — a line, a feeling, a concept...\n\"Started from nothing, now the city knows my name\""}
+            placeholder={"Start writing anything, a line, a feeling, a concept...\n\"Started from nothing, now the city knows my name\""}
             rows={4}
             className="w-full rounded-md border border-zinc-700 bg-zinc-900 px-3 py-2 text-sm text-white placeholder:text-zinc-600 focus:outline-none focus:ring-1 focus:ring-primary resize-none font-mono"
           />

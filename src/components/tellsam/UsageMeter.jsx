@@ -48,7 +48,7 @@ export default function UsageMeter({ state, loading }) {
           </p>
           <Link to="/checkout/sam-extra-usage" className="shrink-0">
             <Button size="sm" className="h-7 text-[11px] gap-1.5 shrink-0">
-              <Zap className="h-3 w-3" /> Add extra — $15
+              <Zap className="h-3 w-3" /> Add extra, $15
             </Button>
           </Link>
         </div>

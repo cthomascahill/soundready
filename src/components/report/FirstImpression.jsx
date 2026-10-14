@@ -11,7 +11,7 @@ export default function FirstImpression({ text }) {
     >
       <div className="flex items-center gap-2">
         <Mic2 className="h-4 w-4 text-primary shrink-0" />
-        <p className="text-xs text-primary uppercase tracking-widest font-semibold">First Impression — A&R Notes</p>
+        <p className="text-xs text-primary uppercase tracking-widest font-semibold">First Impression, A&R Notes</p>
       </div>
       <p className="text-foreground leading-relaxed text-[15px]">{text}</p>
     </motion.div>

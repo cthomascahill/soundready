@@ -12,7 +12,7 @@ const fmt = (s) => {
   return `${m}:${String(sec).padStart(2, "0")}`;
 };
 
-// Public demo player — an artist shares a /demo/<token> link and anyone
+// Public demo player, an artist shares a /demo/<token> link and anyone
 // can listen in the browser. No SoundReady account needed. Works for one
 // song or an entire project (album), which plays every track in order.
 export default function DemoPlayer() {
@@ -54,7 +54,7 @@ export default function DemoPlayer() {
       setDuration(null);
       await audio.play();
     } catch (e) {
-      setError(e?.response?.data?.error || "Couldn't load this demo — try again.");
+      setError(e?.response?.data?.error || "Couldn't load this demo, try again.");
       setPlaying(false);
     } finally {
       setStarting(false);
@@ -216,7 +216,7 @@ export default function DemoPlayer() {
             </div>
 
             <p className="text-center text-xs text-zinc-600 mt-6">
-              Powered by <span className="text-primary font-semibold">SoundReady</span> — the operating system for independent artists
+              Powered by <span className="text-primary font-semibold">SoundReady</span>, the operating system for independent artists
             </p>
           </div>
         ) : null}

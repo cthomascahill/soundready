@@ -242,7 +242,7 @@ export default function LinkInBio() {
         <motion.div initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }}>
           <p className="text-xs text-primary uppercase tracking-widest font-medium">Release Marketing</p>
           <h1 className="font-heading text-4xl font-bold">Link-in-Bio Builder</h1>
-          <p className="text-muted-foreground">Create a custom landing page for every release — auto-populated with your song links, tour dates, and merch.</p>
+          <p className="text-muted-foreground">Create a custom landing page for every release, auto-populated with your song links, tour dates, and merch.</p>
         </motion.div>
 
         {!editing ? (

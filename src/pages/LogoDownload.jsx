@@ -128,7 +128,7 @@ export default function LogoDownload() {
 
   return (
     <div className="min-h-screen bg-background flex items-center justify-center px-4 py-16">
-      <SEO title="SoundReady logo — download" description="Download the SoundReady logo as JPG, PNG or SVG." />
+      <SEO title="SoundReady logo, download" description="Download the SoundReady logo as JPG, PNG or SVG." />
       <div className="w-full max-w-xl space-y-6 text-center">
         <h1 className="font-heading text-3xl font-bold">The SoundReady logo</h1>
         <p className="text-sm text-muted-foreground">

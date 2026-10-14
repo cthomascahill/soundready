@@ -273,7 +273,7 @@ export async function generateClipVideo(clip, vibe, onProgress) {
       });
 
     } else {
-      // minimal_quote — clean italic centered
+      // minimal_quote, clean italic centered
       const fadeIn = Math.min(1, t / 0.15);
       const fadeOut = t > 0.8 ? Math.max(0, 1 - (t - 0.8) / 0.2) : 1;
       const alpha = fadeIn * fadeOut;

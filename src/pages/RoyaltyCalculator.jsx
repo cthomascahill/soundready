@@ -54,7 +54,7 @@ export default function RoyaltyCalculator() {
 
   return (
     <div className="p-4 sm:p-8 max-w-3xl mx-auto space-y-6">
-      <SEO title="Streaming Royalty Calculator — SoundReady" description="Estimate what your streams pay across every platform." />
+      <SEO title="Streaming Royalty Calculator, SoundReady" description="Estimate what your streams pay across every platform." />
       <div className="text-center space-y-1">
         <h1 className="font-heading text-3xl sm:text-4xl font-bold">Streaming Royalty Calculator</h1>
         <p className="text-sm text-muted-foreground">Enter your stream counts and see what they actually pay.</p>

@@ -67,7 +67,7 @@ export default function FolderDropZone({ onFiles, disabled, compact }) {
               Drop your music folder.
             </p>
             <p className="text-sm text-muted-foreground">
-              SAM sorts everything into songs and versions — no tagging, no forms.
+              SAM sorts everything into songs and versions, no tagging, no forms.
             </p>
           </div>
           <div className="flex flex-wrap justify-center gap-2 mt-1">

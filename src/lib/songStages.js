@@ -22,7 +22,7 @@ export const RELEASE_PREP = [
   { key: "stage_submit", label: "Submitted" },
 ];
 
-// The vault statuses, earliest to furthest — the ladder both views share
+// The vault statuses, earliest to furthest, the ladder both views share
 export const VAULT_STATUS_ORDER = VAULT_STATUSES;
 
 // The vault status that matches a pipeline song's checked-off tracker stages

@@ -13,15 +13,15 @@ const STEPS = [
     border: "border-primary/20",
     title: "Song Creation",
     subtitle: "Writing, composing & demoing",
-    overview: "Every great release starts with a great song. This is the foundation — and no amount of marketing can save a weak song. Focus on crafting something that connects emotionally.",
+    overview: "Every great release starts with a great song. This is the foundation, and no amount of marketing can save a weak song. Focus on crafting something that connects emotionally.",
     sections: [
       {
         heading: "Songwriting Fundamentals",
-        body: "Start with a concept, emotion, or story you want to tell. Structure your song with an intro, verse, pre-chorus, chorus, bridge, and outro. The chorus should contain your strongest hook — the 5–10 seconds someone remembers. Write lyrics that are specific (not generic) — specific details make listeners feel seen.",
+        body: "Start with a concept, emotion, or story you want to tell. Structure your song with an intro, verse, pre-chorus, chorus, bridge, and outro. The chorus should contain your strongest hook, the 5–10 seconds someone remembers. Write lyrics that are specific (not generic), specific details make listeners feel seen.",
       },
       {
         heading: "Demoing Your Idea",
-        body: "Before spending money in a studio, demo your song at home using GarageBand, Logic Pro, FL Studio, Ableton, or even Voice Memos. A voice memo demo is enough to capture the melody and lyrics. Demo as many versions as you need until the song feels right. Don't fall in love with the demo — it's just a reference.",
+        body: "Before spending money in a studio, demo your song at home using GarageBand, Logic Pro, FL Studio, Ableton, or even Voice Memos. A voice memo demo is enough to capture the melody and lyrics. Demo as many versions as you need until the song feels right. Don't fall in love with the demo, it's just a reference.",
       },
       {
         heading: "Co-Writing",
@@ -29,7 +29,7 @@ const STEPS = [
       },
       {
         heading: "Knowing When the Song Is Done",
-        body: "A song is done when it consistently gives you an emotional reaction. If something feels 'off' — it is. Sit with it for a few days, get feedback from one or two trusted people, and revise. Don't over-polish at this stage.",
+        body: "A song is done when it consistently gives you an emotional reaction. If something feels 'off', it is. Sit with it for a few days, get feedback from one or two trusted people, and revise. Don't over-polish at this stage.",
       },
     ],
   },
@@ -41,19 +41,19 @@ const STEPS = [
     border: "border-chart-5/20",
     title: "Recording",
     subtitle: "Studio vs home recording",
-    overview: "Recording is where your song comes to life. You have two paths: a professional recording studio or a home setup. Both can produce world-class results — the choice depends on your budget, genre, and skill level.",
+    overview: "Recording is where your song comes to life. You have two paths: a professional recording studio or a home setup. Both can produce world-class results, the choice depends on your budget, genre, and skill level.",
     sections: [
       {
         heading: "Professional Studio Recording",
-        body: "Book a reputable studio with an experienced engineer. Bring a complete demo so the session is focused. Studio time ranges from $50–$500/hr. Aim to track drums, bass, and main instruments first, then vocals. Use the engineer's expertise — they've heard what works. Budget 2–4 hours for a single.",
+        body: "Book a reputable studio with an experienced engineer. Bring a complete demo so the session is focused. Studio time ranges from $50–$500/hr. Aim to track drums, bass, and main instruments first, then vocals. Use the engineer's expertise, they've heard what works. Budget 2–4 hours for a single.",
       },
       {
         heading: "Home Studio Recording",
-        body: "A basic home studio needs: an audio interface (Focusrite Scarlett, $120+), a condenser microphone (AT2020, $100+), headphones or studio monitors, acoustic treatment (foam panels or blankets), and a DAW. The room matters more than the gear — record in a carpeted room with soft furnishings to minimize reflections.",
+        body: "A basic home studio needs: an audio interface (Focusrite Scarlett, $120+), a condenser microphone (AT2020, $100+), headphones or studio monitors, acoustic treatment (foam panels or blankets), and a DAW. The room matters more than the gear, record in a carpeted room with soft furnishings to minimize reflections.",
       },
       {
         heading: "Tracking Vocals",
-        body: "Vocals make or break a record. Warm up your voice before every session. Do multiple takes — usually 3 comps per section. Record in a small, dead room. Pop filters eliminate plosives. Keep the vibe relaxed; tension shows up in the recording. Distance from mic = more room sound (closer = drier, more intimate).",
+        body: "Vocals make or break a record. Warm up your voice before every session. Do multiple takes, usually 3 comps per section. Record in a small, dead room. Pop filters eliminate plosives. Keep the vibe relaxed; tension shows up in the recording. Distance from mic = more room sound (closer = drier, more intimate).",
       },
       {
         heading: "File Management",
@@ -73,11 +73,11 @@ const STEPS = [
     sections: [
       {
         heading: "What Mixing Involves",
-        body: "A mix engineer adjusts levels (volume of each element), panning (left/right placement), EQ (frequency shaping), compression (dynamic control), reverb and delay (space and depth), and automation (volume/effects changes over time). The goal is clarity — every element has its own space in the frequency spectrum.",
+        body: "A mix engineer adjusts levels (volume of each element), panning (left/right placement), EQ (frequency shaping), compression (dynamic control), reverb and delay (space and depth), and automation (volume/effects changes over time). The goal is clarity, every element has its own space in the frequency spectrum.",
       },
       {
         heading: "DIY Mixing",
-        body: "If you're mixing yourself, start with gain staging (make sure nothing is clipping). Apply a high-pass filter to everything except kick and bass. Use compression to tame dynamics. Pan instruments to create width. Reference your mix on multiple devices — headphones, laptop speakers, and earbuds. Compare your mix to a professional reference track in the same genre.",
+        body: "If you're mixing yourself, start with gain staging (make sure nothing is clipping). Apply a high-pass filter to everything except kick and bass. Use compression to tame dynamics. Pan instruments to create width. Reference your mix on multiple devices, headphones, laptop speakers, and earbuds. Compare your mix to a professional reference track in the same genre.",
       },
       {
         heading: "Hiring a Mix Engineer",
@@ -97,7 +97,7 @@ const STEPS = [
     border: "border-chart-4/20",
     title: "Mastering",
     subtitle: "Loudness, polish & streaming readiness",
-    overview: "Mastering is the final step in audio production. A mastered track is optimized for playback across all devices and streaming platforms — it sounds consistent whether played on Spotify, Apple Music, a club system, or a phone speaker.",
+    overview: "Mastering is the final step in audio production. A mastered track is optimized for playback across all devices and streaming platforms, it sounds consistent whether played on Spotify, Apple Music, a club system, or a phone speaker.",
     sections: [
       {
         heading: "What Mastering Does",
@@ -105,7 +105,7 @@ const STEPS = [
       },
       {
         heading: "Loudness Standards",
-        body: "Spotify normalizes to -14 LUFS. Apple Music uses -16 LUFS. YouTube uses -14 LUFS. Master your track to these standards — going louder than -8 LUFS integrated is considered 'brick wall limiting' and will sound distorted on normalized platforms. Aim for -14 LUFS integrated, -1 dBTP true peak.",
+        body: "Spotify normalizes to -14 LUFS. Apple Music uses -16 LUFS. YouTube uses -14 LUFS. Master your track to these standards, going louder than -8 LUFS integrated is considered 'brick wall limiting' and will sound distorted on normalized platforms. Aim for -14 LUFS integrated, -1 dBTP true peak.",
       },
       {
         heading: "Professional vs AI Mastering",
@@ -141,7 +141,7 @@ const STEPS = [
       },
       {
         heading: "ISRC & UPC Codes",
-        body: "ISRC (International Standard Recording Code) is the unique identifier for each recording — like a song's fingerprint. UPC (Universal Product Code) identifies the release (single or album). Your distributor assigns both. Keep records of every ISRC you've ever been issued — they're used for royalty tracking globally.",
+        body: "ISRC (International Standard Recording Code) is the unique identifier for each recording, like a song's fingerprint. UPC (Universal Product Code) identifies the release (single or album). Your distributor assigns both. Keep records of every ISRC you've ever been issued, they're used for royalty tracking globally.",
       },
     ],
   },
@@ -157,7 +157,7 @@ const STEPS = [
     sections: [
       {
         heading: "Pre-Release Strategy",
-        body: "Start promoting 3–4 weeks out. Post teaser content (lyrics snippets, behind-the-scenes studio clips, countdown posts). Set up a pre-save link (through DistroKid, SmartURL, or Toneden) — pre-saves trigger Spotify's algorithm to flag your release as high-demand. Email your list and direct message fans to pre-save.",
+        body: "Start promoting 3–4 weeks out. Post teaser content (lyrics snippets, behind-the-scenes studio clips, countdown posts). Set up a pre-save link (through DistroKid, SmartURL, or Toneden), pre-saves trigger Spotify's algorithm to flag your release as high-demand. Email your list and direct message fans to pre-save.",
       },
       {
         heading: "Content Strategy",
@@ -165,7 +165,7 @@ const STEPS = [
       },
       {
         heading: "Playlist Pitching",
-        body: "Independent curators control thousands of playlists that can add millions of streams. Pitch your song to curators 2–3 weeks before release using SubmitHub, Groover, or Playlist Push. Write personalized pitches — mention specific playlists, explain why your song fits, and keep it under 200 words. Pitch 20–30 playlists per release.",
+        body: "Independent curators control thousands of playlists that can add millions of streams. Pitch your song to curators 2–3 weeks before release using SubmitHub, Groover, or Playlist Push. Write personalized pitches, mention specific playlists, explain why your song fits, and keep it under 200 words. Pitch 20–30 playlists per release.",
       },
       {
         heading: "Paid Advertising",
@@ -185,7 +185,7 @@ const STEPS = [
     sections: [
       {
         heading: "Spotify Editorial Pitching",
-        body: "Through Spotify for Artists, you can pitch your unreleased song to Spotify's editorial team — but ONLY once per release and ONLY before the release date. Pitching opens 7 days before your scheduled release. Fill out every field: mood, instrumentation, style, story. Be specific — Spotify's editorial team reads these. Pitches go to playlist editors like RapCaviar, New Music Friday, and genre-specific playlists.",
+        body: "Through Spotify for Artists, you can pitch your unreleased song to Spotify's editorial team, but ONLY once per release and ONLY before the release date. Pitching opens 7 days before your scheduled release. Fill out every field: mood, instrumentation, style, story. Be specific, Spotify's editorial team reads these. Pitches go to playlist editors like RapCaviar, New Music Friday, and genre-specific playlists.",
       },
       {
         heading: "Independent Playlist Curators",
@@ -217,7 +217,7 @@ const STEPS = [
       },
       {
         heading: "Pitching Small Venues",
-        body: "Start local. Research venues in your city that book artists at your level — look at who's playing there, what nights they host, and what genres they focus on. Find the booking contact (often listed on their website or Instagram). Send a personalized email with your EPK attached, 3 song links, available dates, and a specific ask. Follow up once after 10 days.",
+        body: "Start local. Research venues in your city that book artists at your level, look at who's playing there, what nights they host, and what genres they focus on. Find the booking contact (often listed on their website or Instagram). Send a personalized email with your EPK attached, 3 song links, available dates, and a specific ask. Follow up once after 10 days.",
       },
       {
         heading: "Working with Booking Agents",
@@ -237,15 +237,15 @@ const STEPS = [
     border: "border-chart-3/20",
     title: "Performing Live",
     subtitle: "Stage presence, setlists & growing at shows",
-    overview: "The live show is where you convert casual listeners into die-hard fans. A memorable performance can generate more long-term growth than any social media post. It's a skill you develop — the more you play, the better you get.",
+    overview: "The live show is where you convert casual listeners into die-hard fans. A memorable performance can generate more long-term growth than any social media post. It's a skill you develop, the more you play, the better you get.",
     sections: [
       {
         heading: "Building Your Setlist",
-        body: "Your setlist should be a carefully crafted arc: open with something high-energy, build through the middle, peak with your most recognizable or emotionally charged song, and close with something memorable. For a 30-minute set, plan 7–10 songs with 1–2 transitional moments (talking to the audience). Practice your set in order — muscle memory matters when you're nervous under stage lights.",
+        body: "Your setlist should be a carefully crafted arc: open with something high-energy, build through the middle, peak with your most recognizable or emotionally charged song, and close with something memorable. For a 30-minute set, plan 7–10 songs with 1–2 transitional moments (talking to the audience). Practice your set in order, muscle memory matters when you're nervous under stage lights.",
       },
       {
         heading: "Stage Presence",
-        body: "Stage presence is learnable. Make eye contact with the audience, not the floor. Move — even simple movement (nodding, stepping forward on choruses) makes you look confident. Address the crowd by name ('How are you doing, [city]?'). Tell stories between songs. Connect the performance to real moments in your life. Audiences feel authenticity immediately.",
+        body: "Stage presence is learnable. Make eye contact with the audience, not the floor. Move, even simple movement (nodding, stepping forward on choruses) makes you look confident. Address the crowd by name ('How are you doing, [city]?'). Tell stories between songs. Connect the performance to real moments in your life. Audiences feel authenticity immediately.",
       },
       {
         heading: "Soundcheck & Technical Rider",
@@ -253,7 +253,7 @@ const STEPS = [
       },
       {
         heading: "Converting Show Attendees Into Fans",
-        body: "After every show: sell or give away merch with your social handle prominently featured, invite people to join your email list (QR code on stage or merch table), offer an exclusive download or pre-save in exchange for an email, and personally engage with fans after the set. Shows are your best conversion event — treat them like a sales funnel.",
+        body: "After every show: sell or give away merch with your social handle prominently featured, invite people to join your email list (QR code on stage or merch table), offer an exclusive download or pre-save in exchange for an email, and personally engage with fans after the set. Shows are your best conversion event, treat them like a sales funnel.",
       },
     ],
   },
@@ -265,19 +265,19 @@ const STEPS = [
     border: "border-chart-4/20",
     title: "Monetization & Revenue Streams",
     subtitle: "Getting paid as an independent artist",
-    overview: "Independent artists have more monetization options than ever before — but most leave money on the table. Understanding where money comes from and how to collect it is essential to building a sustainable music career.",
+    overview: "Independent artists have more monetization options than ever before, but most leave money on the table. Understanding where money comes from and how to collect it is essential to building a sustainable music career.",
     sections: [
       {
         heading: "Streaming Royalties",
-        body: "Streaming pays two types of royalties: master royalties (paid to whoever owns the recording, typically you as an indie artist, collected via your distributor) and publishing royalties (paid to songwriters, collected via a PRO — ASCAP, BMI, or SESAC). Register every song you write with a PRO. Royalty rates: Spotify pays roughly $0.003–$0.005/stream. 1 million streams ≈ $3,000–$5,000.",
+        body: "Streaming pays two types of royalties: master royalties (paid to whoever owns the recording, typically you as an indie artist, collected via your distributor) and publishing royalties (paid to songwriters, collected via a PRO, ASCAP, BMI, or SESAC). Register every song you write with a PRO. Royalty rates: Spotify pays roughly $0.003–$0.005/stream. 1 million streams ≈ $3,000–$5,000.",
       },
       {
         heading: "Sync Licensing",
-        body: "Sync licensing is placing your music in TV shows, films, commercials, video games, and YouTube videos. A single sync placement can earn anywhere from $500 to $50,000+. Register your music with sync licensing platforms like Musicbed, Artlist, Pond5, and Songtradr. Protect your rights — never grant sync without a signed license. Instrumental versions and clean edits improve your sync chances.",
+        body: "Sync licensing is placing your music in TV shows, films, commercials, video games, and YouTube videos. A single sync placement can earn anywhere from $500 to $50,000+. Register your music with sync licensing platforms like Musicbed, Artlist, Pond5, and Songtradr. Protect your rights, never grant sync without a signed license. Instrumental versions and clean edits improve your sync chances.",
       },
       {
         heading: "Merch & Direct Sales",
-        body: "Merchandise is often the highest-margin revenue stream for touring artists. T-shirts, hoodies, hats, vinyl, and CDs. Use Printful or Printify for on-demand printing (no upfront cost). Sell directly through your website (Shopify or Bandcamp). Bandcamp also lets fans pay above the listed price — a meaningful signal of fan loyalty. Bundle merch with exclusive content or experiences.",
+        body: "Merchandise is often the highest-margin revenue stream for touring artists. T-shirts, hoodies, hats, vinyl, and CDs. Use Printful or Printify for on-demand printing (no upfront cost). Sell directly through your website (Shopify or Bandcamp). Bandcamp also lets fans pay above the listed price, a meaningful signal of fan loyalty. Bundle merch with exclusive content or experiences.",
       },
       {
         heading: "Crowdfunding, Fan Clubs & Patronage",
@@ -299,7 +299,7 @@ export default function MusicAcademy() {
           <p className="text-xs text-primary uppercase tracking-widest font-medium">Learn</p>
           <h1 className="font-heading text-4xl sm:text-5xl font-bold">Music Academy</h1>
           <p className="text-muted-foreground text-lg max-w-2xl">
-            The complete independent artist playbook — from writing your first note to performing on stage and getting paid. 10 steps. Everything you need to know.
+            The complete independent artist playbook, from writing your first note to performing on stage and getting paid. 10 steps. Everything you need to know.
           </p>
         </motion.div>
 

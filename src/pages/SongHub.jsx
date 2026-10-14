@@ -51,7 +51,7 @@ const TOOLS = [
   {
     icon: FileText,
     label: "Pitch Package",
-    description: "Curator pitch, DSP tags, similar artists, press sheet — all as a downloadable PDF.",
+    description: "Curator pitch, DSP tags, similar artists, press sheet, all as a downloadable PDF.",
     path: (id) => `/pitch?id=${id}`,
     color: "primary",
   },
@@ -175,7 +175,7 @@ export default function SongHub() {
             { label: "Production", val: analysis.production_quality },
           ].map(({ label, val }) => (
             <div key={label} className="text-center">
-              <p className="font-heading font-bold text-xl">{val || "—"}</p>
+              <p className="font-heading font-bold text-xl">{val || "-"}</p>
               <p className="text-xs text-muted-foreground">{label}</p>
             </div>
           ))}

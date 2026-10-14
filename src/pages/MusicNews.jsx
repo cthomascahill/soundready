@@ -240,7 +240,7 @@ export default function MusicNews() {
             ) : (
               <>
                 <p className="text-xs text-zinc-500 leading-relaxed">
-                  Sam combs the entire web — news sites, court filings and YouTube — for the biggest stories unfolding right now,
+                  Sam combs the entire web, news sites, court filings and YouTube, for the biggest stories unfolding right now,
                   and breaks down what each one means for independent artists. Sources included, nothing invented.
                 </p>
                 {deepDives.map((d, i) => (
@@ -268,7 +268,7 @@ export default function MusicNews() {
             {error && (
               <div className="text-center py-20 space-y-4">
                 <Newspaper className="h-12 w-12 text-zinc-700 mx-auto" />
-                <p className="text-zinc-400">Couldn't load today's news — check back soon</p>
+                <p className="text-zinc-400">Couldn't load today's news, check back soon</p>
                 <p className="text-xs text-zinc-600">{error}</p>
                 <Button onClick={() => fetchNews(1, true)} variant="outline" className="border-zinc-700">Retry</Button>
               </div>

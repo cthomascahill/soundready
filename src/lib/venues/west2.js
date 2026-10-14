@@ -1,5 +1,5 @@
 // ─────────────────────────────────────────────────────────────────────────────
-// West expansion vol. 2 — deeper coverage of CA, WA, OR, CO, AZ, NV, UT, NM,
+// West expansion vol. 2, deeper coverage of CA, WA, OR, CO, AZ, NV, UT, NM,
 // ID, MT, WY, AK, HI. Same record shape as the in-page VENUE_DB in GigFinder.jsx.
 // Duplicates are filtered at merge time in GigFinder.
 // ─────────────────────────────────────────────────────────────────────────────

@@ -56,11 +56,11 @@ export default function TaskDetail({ task, onChanged }) {
     try {
       await base44.functions.invoke("samTaskRun", { task_id: task.id, depth: task.progress?.depth });
     } catch {
-      // Invoke died before the function started (temporary service error) —
+      // Invoke died before the function started (temporary service error) -
       // mark it failed so it never spins "working" forever.
       await base44.entities.SamTask.update(task.id, {
         status: "failed",
-        error: "Sam couldn't start this run — a temporary service error cut it off. Try again.",
+        error: "Sam couldn't start this run, a temporary service error cut it off. Try again.",
       }).catch(() => {});
     }
     setRetrying(false);
@@ -70,7 +70,7 @@ export default function TaskDetail({ task, onChanged }) {
   const result = task.result || {};
   const isWorking = task.status === "working" || retrying;
 
-  // Sam's voice — speaks each stage change while working, and a short
+  // Sam's voice, speaks each stage change while working, and a short
   // wrap-up with the summary when the task finishes in front of you.
   const { speaking, speak, stop } = useSamSpeech();
   const spokenStage = useRef(task.progress?.stage || null);
@@ -213,7 +213,7 @@ export default function TaskDetail({ task, onChanged }) {
                 Outreach drafts
               </p>
               {drafts.length > 0 && (
-                <p className="text-[11px] text-muted-foreground/70">Approve each one — nothing sends until you do</p>
+                <p className="text-[11px] text-muted-foreground/70">Approve each one, nothing sends until you do</p>
               )}
             </div>
             {loadingDrafts ? (

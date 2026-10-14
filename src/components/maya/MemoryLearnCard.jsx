@@ -25,7 +25,7 @@ export default function MemoryLearnCard({ item, onConfirm, onDismiss }) {
       <div className="flex items-center gap-2">
         <Brain className="h-3.5 w-3.5 text-primary shrink-0" />
         <p className="text-[11px] font-semibold text-primary">
-          Sam wants to remember this — edit it if they're off
+          Sam wants to remember this, edit it if they're off
         </p>
       </div>
       <div className="space-y-1">

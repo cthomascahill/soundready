@@ -119,7 +119,7 @@ export default function BuyoutLeads() {
                           <div className="h-8 w-8 rounded-full bg-primary/15 border border-primary/30 flex items-center justify-center shrink-0">
                             <Building2 className="h-3.5 w-3.5 text-primary" />
                           </div>
-                          <span className="font-medium truncate max-w-[180px]">{lead.creator_name || "—"}</span>
+                          <span className="font-medium truncate max-w-[180px]">{lead.creator_name || "-"}</span>
                         </div>
                       </td>
                       <td className="px-4 py-3">

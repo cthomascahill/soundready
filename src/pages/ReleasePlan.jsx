@@ -147,7 +147,7 @@ Energy: ${analysis.energy_level}
 Similar Artists: ${(analysis.similar_artists || []).join(", ")}
 Strengths: ${(analysis.strengths || []).join(", ")}
 
-Make each caption feel HUMAN and specific to this song's vibe — not generic. One for Instagram, one for TikTok, one for Twitter/X, two Wildcard options. Include 3-5 relevant hashtags per caption.`,
+Make each caption feel HUMAN and specific to this song's vibe, not generic. One for Instagram, one for TikTok, one for Twitter/X, two Wildcard options. Include 3-5 relevant hashtags per caption.`,
       response_json_schema: {
         type: "object",
         properties: {

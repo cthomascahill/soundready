@@ -134,7 +134,7 @@ export default function BudgetForecast({ venues, expenses, routeData }) {
             <BarChart data={forecast.projectedCosts} margin={{ top: 0, right: 0, left: 0, bottom: 20 }}>
               <XAxis dataKey="venue" tick={{ fontSize: 10, fill: "hsl(var(--muted-foreground))" }} angle={-45} textAnchor="end" height={80} />
               <YAxis tick={{ fontSize: 11, fill: "hsl(var(--muted-foreground))" }} tickLine={false} axisLine={false} />
-              <Tooltip formatter={(v) => [v ? `$${v}` : "—", ""]} contentStyle={{ background: "hsl(var(--card))", border: "1px solid hsl(var(--border))", borderRadius: 8, fontSize: 12 }} />
+              <Tooltip formatter={(v) => [v ? `$${v}` : "-", ""]} contentStyle={{ background: "hsl(var(--card))", border: "1px solid hsl(var(--border))", borderRadius: 8, fontSize: 12 }} />
               <Legend />
               <Bar dataKey="projected" fill="hsl(var(--chart-5))" opacity={0.8} radius={[4, 4, 0, 0]} />
               <Bar dataKey="actual" fill="hsl(var(--primary))" radius={[4, 4, 0, 0]} />

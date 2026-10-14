@@ -4,7 +4,7 @@ import SamLogo from "@/components/SamLogo";
 import { useLang } from "@/lib/i18n/LanguageContext";
 
 // Product proof: a light-mode mock of the artist's ask in the Tell Sam
-// composer, paired with a readable example of SAM's actual output — one
+// composer, paired with a readable example of SAM's actual output, one
 // verified venue match and the drafted pitch waiting for approval.
 function TaskAskMock() {
   return (

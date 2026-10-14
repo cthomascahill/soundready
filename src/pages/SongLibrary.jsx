@@ -185,7 +185,7 @@ export default function SongLibrary() {
 
   const isFree = !isProOrAbove(user);
   const atCap = isFree && songs.length >= FREE_VAULT_CAP;
-  // Songs also in the Tracker, matched by title — keeps the two views in unison
+  // Songs also in the Tracker, matched by title, keeps the two views in unison
   const pipelineByTitle = new Map();
   pipelineSongs.forEach((p) => {
     const key = p.song_name?.toLowerCase().trim();
@@ -199,7 +199,7 @@ export default function SongLibrary() {
     if (atCap) { setShowCapPrompt(true); return; }
     setShowBulk(true);
   };
-  // Drag-and-drop intake — a dropped song goes straight to Sam's two-question flow
+  // Drag-and-drop intake, a dropped song goes straight to Sam's two-question flow
   const handleFilesDropped = (files) => {
     if (atCap) { setShowCapPrompt(true); return; }
     setDropQueue((q) => [...q, ...files]);
@@ -255,7 +255,7 @@ export default function SongLibrary() {
         </div>
 
         <div className="space-y-4">
-          {/* Project folders — tap one to scope the catalog */}
+          {/* Project folders, tap one to scope the catalog */}
           <ProjectFolders
             projects={projects}
             songs={songs}
@@ -265,7 +265,7 @@ export default function SongLibrary() {
             onProjectDelete={handleProjectDelete}
           />
 
-          {/* Drop a song in — Sam files it */}
+          {/* Drop a song in, Sam files it */}
           <DropSongZone onFiles={handleFilesDropped} />
 
             {/* Toolbar */}

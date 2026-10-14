@@ -54,7 +54,7 @@ export default function OutreachCard({ record, onUpdated }) {
         <div className="min-w-0">
           <p className="font-heading font-bold">{record.company_name}</p>
           <p className="text-xs text-muted-foreground">
-            {[record.company_type, record.location].filter(Boolean).join(" · ") || "—"}
+            {[record.company_type, record.location].filter(Boolean).join(" · ") || "-"}
           </p>
         </div>
         <span className={`text-[10px] font-bold px-2.5 py-1 rounded-full border shrink-0 ${meta.chip}`}>
@@ -65,7 +65,7 @@ export default function OutreachCard({ record, onUpdated }) {
       <p className="text-xs text-muted-foreground leading-relaxed">{record.why_fit}</p>
       {!!record.metadata?.fit_score && (
         <p className="text-[11px] text-muted-foreground/80">
-          Sam's fit rating: {record.metadata.fit_score}/10{record.metadata.fit_evidence ? ` — ${record.metadata.fit_evidence}` : ""}
+          Sam's fit rating: {record.metadata.fit_score}/10{record.metadata.fit_evidence ? `, ${record.metadata.fit_evidence}` : ""}
         </p>
       )}
 
@@ -85,7 +85,7 @@ export default function OutreachCard({ record, onUpdated }) {
         )}
       </div>
 
-      {/* Awaiting approval — editable draft */}
+      {/* Awaiting approval, editable draft */}
       {record.status === "draft" && (
         <div className="space-y-3">
           <textarea
@@ -112,7 +112,7 @@ export default function OutreachCard({ record, onUpdated }) {
           {!record.contact_email && (
             <div className="flex flex-wrap items-center gap-3 rounded-lg border border-border bg-secondary/40 px-3 py-2.5">
               <p className="text-xs text-muted-foreground flex-1 min-w-40">
-                No public email on file — apply via their submissions page, then mark it as applied.
+                No public email on file, apply via their submissions page, then mark it as applied.
               </p>
               <Button
                 variant="outline"
@@ -136,7 +136,7 @@ export default function OutreachCard({ record, onUpdated }) {
         </div>
       )}
 
-      {/* In motion — record what happened */}
+      {/* In motion, record what happened */}
       {(record.status === "sent" || record.status === "approved") && (
         <div className="space-y-3 border-t border-border pt-3">
           <div className="flex flex-wrap items-center gap-2">
@@ -165,7 +165,7 @@ export default function OutreachCard({ record, onUpdated }) {
         </div>
       )}
 
-      {/* Later stages — just the recorded outcome */}
+      {/* Later stages, just the recorded outcome */}
       {["replied", "follow_up", "paused", "declined"].includes(record.status) && (
         <div className="border-t border-border pt-3">
           {record.outcome_note && (

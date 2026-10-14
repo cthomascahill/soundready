@@ -56,7 +56,7 @@ export default function ColorsTab({ artistName, onSave }) {
 
       {/* Active palette swatches */}
       <div className="space-y-2">
-        <p className="text-xs text-muted-foreground">Active Palette — click to preview on text</p>
+        <p className="text-xs text-muted-foreground">Active Palette, click to preview on text</p>
         <div className="flex flex-wrap gap-2">
           {palette.map((c, i) => (
             <button key={i} onClick={() => setPreviewColor(c)}

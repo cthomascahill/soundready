@@ -115,13 +115,13 @@ export default function Profile() {
           </div>
         </div>
 
-        {/* Account type — enable or disable roles */}
+        {/* Account type, enable or disable roles */}
         <div className="rounded-2xl bg-card border border-border p-6 space-y-4">
           <p className="font-heading font-semibold flex items-center gap-2">
             <Layers className="h-4 w-4 text-primary" />
             Account Type
           </p>
-          <p className="text-xs text-muted-foreground -mt-2">Enable or disable roles — your tools adapt to how you create.</p>
+          <p className="text-xs text-muted-foreground -mt-2">Enable or disable roles, your tools adapt to how you create.</p>
           <AccountTypePicker value={accountType} onChange={handleAccountType} />
         </div>
 
@@ -158,7 +158,7 @@ export default function Profile() {
           </div>
         </div>
 
-        {/* Billing — plan, renewal and cancellation */}
+        {/* Billing, plan, renewal and cancellation */}
         <BillingPanel />
 
         {/* Profile form */}
@@ -234,7 +234,7 @@ export default function Profile() {
           </Button>
         </div>
 
-        {/* Public profile — what other creators see */}
+        {/* Public profile, what other creators see */}
         <PublicProfileCard />
 
         {/* Logout */}

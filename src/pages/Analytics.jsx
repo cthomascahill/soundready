@@ -147,7 +147,7 @@ export default function Analytics() {
             className="h-9 rounded-lg border border-input bg-card px-3 text-sm text-foreground focus:outline-none focus:ring-1 focus:ring-ring"
           >
             <option value="all">All Songs</option>
-            {songs.map((s) => <option key={s.id} value={s.id}>{s.title} — {s.artist_name}</option>)}
+            {songs.map((s) => <option key={s.id} value={s.id}>{s.title}, {s.artist_name}</option>)}
           </select>
           <DateRangeFilter value={range} onChange={setRange} />
           {songs.length === 0 && (

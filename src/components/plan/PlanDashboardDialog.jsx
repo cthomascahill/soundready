@@ -37,7 +37,7 @@ export default function PlanDashboardDialog({ open, onOpenChange }) {
           ? "Free forever"
           : user?.subscription_status === "past_due"
             ? "Payment issue"
-            : "—";
+            : "-";
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
@@ -80,7 +80,7 @@ export default function PlanDashboardDialog({ open, onOpenChange }) {
             {isAIManager && (
               <Link to="/checkout/sam-extra-usage" onClick={() => onOpenChange(false)}>
                 <Button variant="outline" className="w-full gap-2">
-                  <Zap className="h-4 w-4" /> Add 1,500 extra credits — $15
+                  <Zap className="h-4 w-4" /> Add 1,500 extra credits, $15
                 </Button>
               </Link>
             )}

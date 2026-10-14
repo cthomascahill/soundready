@@ -16,7 +16,7 @@ export const INTEL_FEEDS = [
     id: "playlist_watch",
     label: "Playlist & Curator Watch",
     icon: ListMusic,
-    description: "Playlists adding tracks in your genre — with submission contacts.",
+    description: "Playlists adding tracks in your genre, with submission contacts.",
   },
   {
     id: "genre_pulse",
@@ -34,7 +34,7 @@ export const INTEL_FEEDS = [
     id: "grants",
     label: "Grants & Funding",
     icon: PiggyBank,
-    description: "Grants, arts council funding and sponsorships — with countdown timers.",
+    description: "Grants, arts council funding and sponsorships, with countdown timers.",
   },
   {
     id: "tour_news",

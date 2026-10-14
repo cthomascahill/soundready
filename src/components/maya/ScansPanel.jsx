@@ -34,7 +34,7 @@ export default function ScansPanel() {
         <ScanLine className="h-8 w-8 text-muted-foreground/30 mx-auto" />
         <p className="font-semibold">No reputation scans yet</p>
         <p className="text-sm text-muted-foreground max-w-sm mx-auto">
-          Ask Sam in chat "what's being said about me online right now" — every scan is
+          Ask Sam in chat "what's being said about me online right now", every scan is
           snapshotted here so Sam can show you what's new since the last one.
         </p>
       </div>

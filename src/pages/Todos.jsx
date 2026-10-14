@@ -9,7 +9,7 @@ import TodoItem from "@/components/todos/TodoItem";
 import RewardsCard from "@/components/todos/RewardsCard";
 import CadenceCard from "@/components/todos/CadenceCard";
 
-// Monday of the current week (ISO date) — the to-do list is a weekly list.
+// Monday of the current week (ISO date), the to-do list is a weekly list.
 const mondayOfThisWeek = () => {
   const d = new Date();
   d.setDate(d.getDate() - (d.getDay() + 6) % 7);
@@ -17,7 +17,7 @@ const mondayOfThisWeek = () => {
 };
 
 /**
- * "This Week" — the artist's to-do list for Sam. Everything added here goes
+ * "This Week", the artist's to-do list for Sam. Everything added here goes
  * into Sam's daily morning reminder email until it's checked off. Open items
  * can be dragged up and down, and the order is what Sam's email uses too.
  */
@@ -102,8 +102,8 @@ export default function Todos() {
         <p className="text-xs font-bold uppercase tracking-widest text-primary">This Week</p>
         <h1 className="font-heading text-4xl font-bold">Tell Sam what needs to get done</h1>
         <p className="text-sm text-muted-foreground max-w-xl">
-          Load up your week here. Sam emails you what's left until it's all checked off — as
-          often as you want — and every box you tick earns SoundReady Points.
+          Load up your week here. Sam emails you what's left until it's all checked off, as
+          often as you want, and every box you tick earns SoundReady Points.
         </p>
       </div>
 
@@ -129,7 +129,7 @@ export default function Todos() {
               <CheckCircle2 className="h-8 w-8 text-muted-foreground/30 mx-auto" />
               <p className="font-semibold">Nothing on the list yet</p>
               <p className="text-sm text-muted-foreground">
-                Add what this week needs — bookings to chase, songs to finish, emails to send.
+                Add what this week needs, bookings to chase, songs to finish, emails to send.
               </p>
             </div>
           )}

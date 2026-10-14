@@ -16,7 +16,7 @@ const GROUPS = [
   { label: "Released", statuses: ["Released"] },
 ];
 
-// The project's songs, grouped into collapsible stage sections — the whole
+// The project's songs, grouped into collapsible stage sections, the whole
 // pipeline reads at a glance instead of one long mixed list. Toggling a stage
 // moves the song into its new section, so progress is visible feedback.
 export default function TrackerList({ songs, moveTargets, onAdd, onUpdate, onDelete }) {
@@ -86,7 +86,7 @@ export default function TrackerList({ songs, moveTargets, onAdd, onUpdate, onDel
                     />
                   )) : (
                     <p className="px-4 pb-4 pt-1 text-xs text-muted-foreground">
-                      Nothing here yet — songs land in this section as they progress.
+                      Nothing here yet, songs land in this section as they progress.
                     </p>
                   )
                 )}

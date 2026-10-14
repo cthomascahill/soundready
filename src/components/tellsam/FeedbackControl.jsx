@@ -9,7 +9,7 @@ import { ThumbsUp, ThumbsDown, HelpCircle, Loader2, CheckCircle2, Building2, Dis
 
 // Lets the artist rate Sam's work (useful / off target / missing info) and,
 // for venue targets, correct or add the venue; for label/distributor/sync
-// targets, correct or add the company — corrections land in the shared
+// targets, correct or add the company, corrections land in the shared
 // directories and feedback feeds Sam's next task.
 export default function FeedbackControl({ taskId, draftId = null, targetName = "" }) {
   const { user } = useAuth();
@@ -77,9 +77,9 @@ export default function FeedbackControl({ taskId, draftId = null, targetName = "
         else await base44.entities.CompanyRecord.create(payload);
       }
       setDone(true);
-      toast({ description: "Thanks — Sam will factor that into future work." });
+      toast({ description: "Thanks, Sam will factor that into future work." });
     } catch (err) {
-      toast({ description: err.message || "Couldn't save feedback — try again." });
+      toast({ description: err.message || "Couldn't save feedback, try again." });
     } finally {
       setSending(false);
     }
@@ -88,7 +88,7 @@ export default function FeedbackControl({ taskId, draftId = null, targetName = "
   if (done) {
     return (
       <p className="flex items-center gap-1.5 text-[11px] text-primary/90">
-        <CheckCircle2 className="h-3.5 w-3.5" /> Saved — Sam learns from this on the next task.
+        <CheckCircle2 className="h-3.5 w-3.5" /> Saved, Sam learns from this on the next task.
       </p>
     );
   }
@@ -130,7 +130,7 @@ export default function FeedbackControl({ taskId, draftId = null, targetName = "
           <button onClick={() => { setFixVenue(!fixVenue); if (!fixVenue) setFixCompany(false); }}
             className="inline-flex items-center gap-1.5 text-[11px] text-muted-foreground hover:text-primary transition-colors">
             <Building2 className="h-3.5 w-3.5" />
-            {fixVenue ? "— Skip venue correction" : "+ Add or correct a venue (helps Sam everywhere)"}
+            {fixVenue ? "- Skip venue correction" : "+ Add or correct a venue (helps Sam everywhere)"}
           </button>
           {fixVenue && (
             <div className="grid grid-cols-2 gap-2">
@@ -143,7 +143,7 @@ export default function FeedbackControl({ taskId, draftId = null, targetName = "
           <button onClick={() => { setFixCompany(!fixCompany); if (!fixCompany) setFixVenue(false); }}
             className="inline-flex items-center gap-1.5 text-[11px] text-muted-foreground hover:text-primary transition-colors">
             <Disc3 className="h-3.5 w-3.5" />
-            {fixCompany ? "— Skip company correction" : "+ Add or correct a label, distributor or sync company"}
+            {fixCompany ? "- Skip company correction" : "+ Add or correct a label, distributor or sync company"}
           </button>
           {fixCompany && (
             <div className="grid grid-cols-2 gap-2">

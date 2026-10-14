@@ -59,7 +59,7 @@ export default function RewardsCard() {
 
       <div className="rounded-xl border border-primary/20 bg-primary/5 p-4 space-y-2">
         <p className="flex items-center gap-2 text-xs font-bold uppercase tracking-widest text-primary">
-          <Gift className="h-3.5 w-3.5" /> Rewards program — coming soon
+          <Gift className="h-3.5 w-3.5" /> Rewards program, coming soon
         </p>
         <p className="text-xs text-muted-foreground">
           Points will convert into real rewards. On the table so far:
@@ -72,7 +72,7 @@ export default function RewardsCard() {
           ))}
         </ul>
         <p className="text-[11px] text-muted-foreground/70">
-          We're still deciding the full rewards menu — your points are already stacking either way.
+          We're still deciding the full rewards menu, your points are already stacking either way.
         </p>
       </div>
     </div>

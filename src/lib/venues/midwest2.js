@@ -1,5 +1,5 @@
 // ─────────────────────────────────────────────────────────────────────────────
-// Midwest expansion vol. 2 — deeper coverage of OH, MI, IL, IN, WI, MN, IA,
+// Midwest expansion vol. 2, deeper coverage of OH, MI, IL, IN, WI, MN, IA,
 // MO, KS, NE, ND, SD. Same record shape as the in-page VENUE_DB in GigFinder.jsx.
 // Duplicates are filtered at merge time in GigFinder.
 // ─────────────────────────────────────────────────────────────────────────────

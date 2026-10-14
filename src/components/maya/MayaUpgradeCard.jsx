@@ -22,7 +22,7 @@ export default function MayaUpgradeCard() {
       {/* What Sam does */}
       <ul className="space-y-2.5">
         {[
-          { icon: Search, text: "Searches for gigs and festivals in your city — with real venue names and submission links" },
+          { icon: Search, text: "Searches for gigs and festivals in your city, with real venue names and submission links" },
           { icon: Mail, text: "Drafts personalized playlist pitch emails for your songs targeting real curators" },
           { icon: Mic2, text: "Surfaces press features, collab opportunities, and opening slot gigs" },
           { icon: TrendingUp, text: "Analyzes your full career profile and tells you exactly what to do next, not generic advice" },

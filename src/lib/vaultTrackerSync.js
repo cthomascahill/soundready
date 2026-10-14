@@ -24,7 +24,7 @@ function stagesFromVaultStatus(status) {
 }
 
 /**
- * Adds each Vault song to the Tracker as a PipelineSong — unless a tracker
+ * Adds each Vault song to the Tracker as a PipelineSong, unless a tracker
  * entry with the same song name already exists. Returns the created tracker
  * entries (empty array if nothing needed mirroring).
  */

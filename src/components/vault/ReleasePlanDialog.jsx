@@ -5,7 +5,7 @@ import { X, Sparkles, ListChecks, CalendarClock, Loader2 } from "lucide-react";
 const STAGE_ORDER = ["Idea", "Demo", "Recorded", "Mixed", "Mastered", "Released"];
 
 /**
- * AI-generated, stage-aware release plan for a Vault song —
+ * AI-generated, stage-aware release plan for a Vault song -
  * tells the artist exactly what to do next based on where the song is.
  */
 export default function ReleasePlanDialog({ song, onClose }) {
@@ -40,7 +40,7 @@ ${details}
 
 The song is currently at the "${song.status}" stage (lifecycle in order: ${STAGE_ORDER.join(" → ")}).
 
-Write a personalized release plan telling them EXACTLY what to do next, starting from their current stage and ending with the song out on streaming platforms and promoted. Be concrete and specific to this song's genre, moods and situation — not generic advice. Each step should be an action they can actually take.
+Write a personalized release plan telling them EXACTLY what to do next, starting from their current stage and ending with the song out on streaming platforms and promoted. Be concrete and specific to this song's genre, moods and situation, not generic advice. Each step should be an action they can actually take.
 
 If the song is already "Released", focus the plan on post-release promotion and growing the song instead.`,
           response_json_schema: {
@@ -89,7 +89,7 @@ If the song is already "Released", focus the plan on post-release promotion and 
             <div className="min-w-0">
               <h2 className="font-heading font-bold text-lg truncate">Release Plan</h2>
               <p className="text-xs text-muted-foreground truncate">
-                {song.title || "Untitled song"} — currently at {song.status || "Idea"} stage
+                {song.title || "Untitled song"}, currently at {song.status || "Idea"} stage
               </p>
             </div>
           </div>

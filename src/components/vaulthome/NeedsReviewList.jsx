@@ -29,7 +29,7 @@ function ReviewRow({ item, busy, onConfirm, onDismiss }) {
   );
 }
 
-// The files SAM couldn't confidently name — the artist settles each in seconds
+// The files SAM couldn't confidently name, the artist settles each in seconds
 export default function NeedsReviewList({ items, busyId, onConfirm, onDismiss, onCollapse }) {
   if (!items?.length) return null;
 

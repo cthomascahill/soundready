@@ -38,7 +38,7 @@ export default function TaskDraftCard({ draft }) {
         ...extra,
       });
       setEditing(false);
-      toast({ description: action === "send" ? "Sent — it's on its way." : action === "approve" ? "Marked as handled." : "Draft dismissed." });
+      toast({ description: action === "send" ? "Sent, it's on its way." : action === "approve" ? "Marked as handled." : "Draft dismissed." });
     } catch (err) {
       setError(err.message || "Something went wrong");
     } finally {
@@ -49,9 +49,9 @@ export default function TaskDraftCard({ draft }) {
   const copyDraft = async () => {
     try {
       await navigator.clipboard.writeText(text);
-      toast({ description: "Draft copied — paste it on their contact page." });
+      toast({ description: "Draft copied, paste it on their contact page." });
     } catch {
-      setError("Couldn't copy — select the text manually.");
+      setError("Couldn't copy, select the text manually.");
     }
   };
 
@@ -75,7 +75,7 @@ export default function TaskDraftCard({ draft }) {
             <Mail className="h-3 w-3 text-primary" /> {draft.target_email}
           </span>
         ) : (
-          <span className="text-yellow-500/90">No verifiable email found — send via the official page below</span>
+          <span className="text-yellow-500/90">No verifiable email found, send via the official page below</span>
         )}
         {draft.source_url && (
           <a href={draft.source_url} target="_blank" rel="noopener noreferrer"

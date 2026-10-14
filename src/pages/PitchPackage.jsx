@@ -35,7 +35,7 @@ function generatePitchPDF(analysis, pitchData) {
   doc.setTextColor(255, 255, 255);
   doc.setFontSize(8);
   doc.setFont("helvetica", "bold");
-  doc.text("SOUNDSCORE — PLAYLIST PITCH PACKAGE", margin, 8);
+  doc.text("SOUNDSCORE, PLAYLIST PITCH PACKAGE", margin, 8);
   doc.text(new Date().toLocaleDateString(), W - margin, 8, { align: "right" });
 
   y = 28;
@@ -50,7 +50,7 @@ function generatePitchPDF(analysis, pitchData) {
   doc.text(`${analysis.artist_name}  ·  ${analysis.genre}`, margin, y);
   y += 6;
   doc.setFontSize(11);
-  doc.text(`Mood: ${analysis.mood || "—"}  ·  Energy: ${analysis.energy_level || "—"}  ·  BPM: ~${analysis.bpm_estimate || "?"}`, margin, y);
+  doc.text(`Mood: ${analysis.mood || "-"}  ·  Energy: ${analysis.energy_level || "-"}  ·  BPM: ~${analysis.bpm_estimate || "?"}`, margin, y);
 
   // Divider
   y += 8;
@@ -116,7 +116,7 @@ function generatePitchPDF(analysis, pitchData) {
   doc.setFont("helvetica", "normal");
   doc.setFontSize(10);
   doc.setTextColor(50, 50, 70);
-  doc.text(pitchData.target_playlist_category || "—", margin, y);
+  doc.text(pitchData.target_playlist_category || "-", margin, y);
   y += 14;
 
   // Footer
@@ -140,7 +140,7 @@ function generatePressPDF(analysis, pressData) {
   doc.setTextColor(255, 255, 255);
   doc.setFontSize(8);
   doc.setFont("helvetica", "bold");
-  doc.text("SOUNDSCORE — ELECTRONIC PRESS KIT", margin, 8);
+  doc.text("SOUNDSCORE, ELECTRONIC PRESS KIT", margin, 8);
   doc.text(new Date().toLocaleDateString(), W - margin, 8, { align: "right" });
 
   y = 28;
@@ -173,7 +173,7 @@ function generatePressPDF(analysis, pressData) {
     doc.setFont("helvetica", "bold");
     doc.text(k + ":", margin, y);
     doc.setFont("helvetica", "normal");
-    doc.text(v || "—", margin + 30, y);
+    doc.text(v || "-", margin + 30, y);
     y += 7;
   });
   y += 4;
@@ -288,7 +288,7 @@ Similar Artists: ${(analysis.similar_artists || []).join(", ")}
 Strengths: ${(analysis.strengths || []).join(", ")}
 TikTok Score: ${analysis.tiktok_score}, Spotify Score: ${analysis.spotify_score}
 
-Write the pitch paragraph in the style of a professional curator submission — first person from the artist, compelling, concise (3-4 sentences). Be specific to this song's feel.`,
+Write the pitch paragraph in the style of a professional curator submission, first person from the artist, compelling, concise (3-4 sentences). Be specific to this song's feel.`,
       response_json_schema: {
         type: "object",
         properties: {
@@ -372,7 +372,7 @@ The bio should be a compelling 3-sentence placeholder that captures the artist's
                 <Music className="h-12 w-12 text-primary mx-auto mb-4 opacity-50" />
                 <h3 className="font-heading font-semibold text-lg mb-2">Generate Your Pitch Package</h3>
                 <p className="text-sm text-muted-foreground mb-6 max-w-sm mx-auto">
-                  A complete curator submission package — pitch paragraph, DSP tags, similar artists, and target playlist category. Ready to send.
+                  A complete curator submission package, pitch paragraph, DSP tags, similar artists, and target playlist category. Ready to send.
                 </p>
                 <Button onClick={generatePitch} disabled={generating} className="gap-2">
                   {generating ? <><Loader2 className="h-4 w-4 animate-spin" />Generating...</> : <><Sparkles className="h-4 w-4" />Generate Pitch Package</>}
@@ -423,7 +423,7 @@ The bio should be a compelling 3-sentence placeholder that captures the artist's
                 <Newspaper className="h-12 w-12 text-primary mx-auto mb-4 opacity-50" />
                 <h3 className="font-heading font-semibold text-lg mb-2">Generate Your Press Sheet</h3>
                 <p className="text-sm text-muted-foreground mb-6 max-w-sm mx-auto">
-                  A clean, professional EPK-style press sheet for the single — ready to send to blogs, curators, and press contacts.
+                  A clean, professional EPK-style press sheet for the single, ready to send to blogs, curators, and press contacts.
                 </p>
                 <Button onClick={generatePressSheet} disabled={generating} className="gap-2">
                   {generating ? <><Loader2 className="h-4 w-4 animate-spin" />Generating...</> : <><Sparkles className="h-4 w-4" />Generate Press Sheet</>}

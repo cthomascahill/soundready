@@ -3,7 +3,7 @@ import { Link2, Copy, Check, Loader2, Ban, ExternalLink, Disc3 } from "lucide-re
 import { base44 } from "@/api/base44Client";
 import { Button } from "@/components/ui/button";
 
-// "Album demo link" — a private listen link for an entire project. Anyone
+// "Album demo link", a private listen link for an entire project. Anyone
 // with the URL hears every song in the project, in order, no account needed.
 export default function AlbumDemoLinkCard({ project, songs }) {
   const [link, setLink] = useState(null);
@@ -31,7 +31,7 @@ export default function AlbumDemoLinkCard({ project, songs }) {
       const res = await base44.functions.invoke("demoLink", { action: "create", project_id: projectId });
       setLink(res.data?.link || null);
     } catch (e) {
-      setError(e?.response?.data?.error || "Couldn't create the link — try again.");
+      setError(e?.response?.data?.error || "Couldn't create the link, try again.");
     } finally {
       setCreating(false);
     }
@@ -75,7 +75,7 @@ export default function AlbumDemoLinkCard({ project, songs }) {
         <div className="flex items-center justify-between gap-3 flex-wrap">
           <div className="flex items-center gap-2 text-sm text-zinc-400">
             <Disc3 className="h-4 w-4 text-primary" />
-            Album demo link — all {tracksWithAudio.length} track{tracksWithAudio.length === 1 ? "" : "s"}, one link
+            Album demo link, all {tracksWithAudio.length} track{tracksWithAudio.length === 1 ? "" : "s"}, one link
           </div>
           <Button size="sm" onClick={create} disabled={creating} className="gap-2 font-semibold">
             {creating ? <Loader2 className="h-4 w-4 animate-spin" /> : <Link2 className="h-4 w-4" />}

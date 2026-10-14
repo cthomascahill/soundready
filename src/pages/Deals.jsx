@@ -5,7 +5,7 @@ import DealsOutreach from "@/components/deals/DealsOutreach";
 export default function Deals() {
   return (
     <div className="min-h-screen bg-background">
-      <SEO title="Deals — SoundReady" description="Advances on your catalog and Sam's deal outreach to labels, distributors and sync houses." />
+      <SEO title="Deals, SoundReady" description="Advances on your catalog and Sam's deal outreach to labels, distributors and sync houses." />
       <div className="max-w-5xl mx-auto px-4 py-8 space-y-8">
         <div>
           <p className="text-xs text-primary uppercase tracking-widest font-medium">Digital Manager</p>

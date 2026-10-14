@@ -6,7 +6,7 @@ import {
 } from "lucide-react";
 
 // Every tool on the platform, grouped by category.
-// tier: "free" | "pro" | "ai" — must match the page gating in App.jsx / ProGate.
+// tier: "free" | "pro" | "ai", must match the page gating in App.jsx / ProGate.
 export const TOOL_CATEGORIES = [
   {
     label: "Music",

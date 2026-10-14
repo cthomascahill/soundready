@@ -80,7 +80,7 @@ function TaskModal({ task, date, prefill, venues, onSave, onClose }) {
         className="bg-card border border-border rounded-2xl p-6 w-full max-w-md space-y-4 shadow-2xl"
         onClick={e => e.stopPropagation()}>
         <div className="flex items-center justify-between">
-          <p className="font-heading font-bold">{task ? "Edit Task" : `Add Task — ${moment(form.date).format("MMM D")}`}</p>
+          <p className="font-heading font-bold">{task ? "Edit Task" : `Add Task, ${moment(form.date).format("MMM D")}`}</p>
           <button onClick={onClose}><X className="h-4 w-4 text-muted-foreground" /></button>
         </div>
         <div className="space-y-3">
@@ -116,7 +116,7 @@ function TaskModal({ task, date, prefill, venues, onSave, onClose }) {
             <label className="text-xs text-muted-foreground font-medium">Link to Venue (optional)</label>
             <select value={form.venue_id} onChange={set("venue_id")} className="w-full h-9 rounded-md border border-input bg-transparent px-3 text-sm text-foreground focus:outline-none focus:ring-1 focus:ring-ring">
               <option value="">None</option>
-              {venues.map(v => <option key={v.id} value={v.id}>{v.name} — {v.city}</option>)}
+              {venues.map(v => <option key={v.id} value={v.id}>{v.name}, {v.city}</option>)}
             </select>
           </div>
           <div className="space-y-1.5">

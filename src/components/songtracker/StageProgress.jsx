@@ -18,7 +18,7 @@ const Toggle = ({ done, label, onToggle }) => (
 );
 
 // Workflow progress: the six-stage ladder shared with the Vault, then the
-// release-prep checklist as its own row — those don't change the song's stage
+// release-prep checklist as its own row, those don't change the song's stage
 export default function StageProgress({ song, onToggle }) {
   return (
     <div className="space-y-3">

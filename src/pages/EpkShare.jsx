@@ -6,7 +6,7 @@ import { Button } from "@/components/ui/button";
 import SEO from "@/components/SEO";
 import { AlertTriangle, Download, Loader2 } from "lucide-react";
 
-// Public EPK viewer — an artist shares an /epk/<token> link and anyone can
+// Public EPK viewer, an artist shares an /epk/<token> link and anyone can
 // open the press kit in the browser, no SoundReady account needed.
 export default function EpkShare() {
   const { token } = useParams();
@@ -30,7 +30,7 @@ export default function EpkShare() {
       if (!res.data?.signed_url) throw new Error("no url");
       window.open(res.data.signed_url, "_blank");
     } catch {
-      setError("Couldn't load the PDF — try again.");
+      setError("Couldn't load the PDF, try again.");
     }
     setDownloading(false);
   };
@@ -62,7 +62,7 @@ export default function EpkShare() {
 
   return (
     <div className="min-h-screen bg-[#0a0d0b] text-white">
-      <SEO title={`${kit?.artist_name || "Artist"} — Electronic Press Kit`} />
+      <SEO title={`${kit?.artist_name || "Artist"}, Electronic Press Kit`} />
       <header className="border-b border-white/10">
         <div className="max-w-4xl mx-auto px-4 py-4 flex items-center justify-between gap-3">
           <p className="font-heading font-black tracking-tight">
@@ -95,7 +95,7 @@ export default function EpkShare() {
         )}
 
         <p className="text-center text-xs text-white/40 uppercase tracking-widest">
-          Press kit by <Link to="/" className="text-primary font-bold">SoundReady</Link> — the digital music manager
+          Press kit by <Link to="/" className="text-primary font-bold">SoundReady</Link>, the digital music manager
         </p>
       </main>
     </div>

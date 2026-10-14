@@ -176,7 +176,7 @@ function OpportunityAlerts({ songs }) {
 
     try {
       const res = await base44.integrations.Core.InvokeLLM({
-        prompt: `You are an A&R executive who just reviewed an independent artist's catalog. Based on the current music landscape in ${new Date().toLocaleDateString('en-US', { month: 'long', year: 'numeric' })}, identify 3 specific pitching or release opportunities for these songs. Reference actual song titles and their audio data. Be specific and actionable — not generic.
+        prompt: `You are an A&R executive who just reviewed an independent artist's catalog. Based on the current music landscape in ${new Date().toLocaleDateString('en-US', { month: 'long', year: 'numeric' })}, identify 3 specific pitching or release opportunities for these songs. Reference actual song titles and their audio data. Be specific and actionable, not generic.
 
 Artist's songs:
 ${songList}
@@ -269,10 +269,10 @@ export default function ARIntelligence() {
     try {
       const res = await base44.integrations.Core.InvokeLLM({
         prompt: `You are a senior A&R executive giving your weekly briefing to an independent artist. The date is ${new Date().toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric', year: 'numeric' })}. Give a specific, opinionated, and actionable weekly briefing covering EXACTLY these 4 areas:
-1. "What's Charting & Why" — what sounds, tempos, moods, and lyrical themes are resonating right now with real algorithmic momentum.
-2. "Pitching Window" — what playlist curators and DSP editorial teams are looking for this week and what genre/mood has an open submission window.
-3. "Algorithm Watch" — specific Spotify/TikTok algorithm behavior patterns artists should exploit or avoid right now.
-4. "Release Timing" — the best and worst days/weeks to release over the next 30 days based on market activity.
+1. "What's Charting & Why", what sounds, tempos, moods, and lyrical themes are resonating right now with real algorithmic momentum.
+2. "Pitching Window", what playlist curators and DSP editorial teams are looking for this week and what genre/mood has an open submission window.
+3. "Algorithm Watch", specific Spotify/TikTok algorithm behavior patterns artists should exploit or avoid right now.
+4. "Release Timing", the best and worst days/weeks to release over the next 30 days based on market activity.
 Be direct and opinionated. Reference real genre names and platform behavior. Write like a real industry insider talking to an artist you believe in.`,
         response_json_schema: {
           type: "object",
@@ -309,7 +309,7 @@ Be direct and opinionated. Reference real genre names and platform behavior. Wri
         <motion.div initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }} className="space-y-1">
           <p className="text-xs text-primary uppercase tracking-widest font-medium">Weekly Intelligence</p>
           <h1 className="font-heading text-4xl font-bold">A&R Intelligence</h1>
-          <p className="text-muted-foreground">What's working in the music landscape right now — and how your catalog fits in.</p>
+          <p className="text-muted-foreground">What's working in the music landscape right now, and how your catalog fits in.</p>
         </motion.div>
 
         <TrendBriefing briefing={briefing} lastUpdated={lastUpdated} onRefresh={generateBriefing} loading={briefingLoading} />

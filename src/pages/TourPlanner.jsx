@@ -35,7 +35,7 @@ function NewTourModal({ onSave, onClose }) {
         <div className="flex items-center justify-between">
           <div>
             <p className="font-heading font-bold text-lg">Plan a New Tour</p>
-            <p className="text-xs text-muted-foreground">Give it a name — you'll add shows next.</p>
+            <p className="text-xs text-muted-foreground">Give it a name, you'll add shows next.</p>
           </div>
           <button onClick={onClose}><X className="h-4 w-4 text-muted-foreground" /></button>
         </div>

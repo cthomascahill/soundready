@@ -1,4 +1,4 @@
-// Comprehensive Spotify Playlist Curator Database — 1,000+ playlists
+// Comprehensive Spotify Playlist Curator Database, 1,000+ playlists
 // Core entries live here; genre expansions live in ./playlists/* and merge in below.
 
 import { HIP_HOP_EXTRA } from "./playlists/hipHop.js";

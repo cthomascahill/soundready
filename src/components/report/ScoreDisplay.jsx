@@ -80,7 +80,7 @@ export default function ScoreDisplay({ genre, energy, song = {} }) {
     setLoadingSummary(true);
     const scores = categories.map((c) => `${c.label}: ${c.value}/10`).join(", ");
     base44.integrations.Core.InvokeLLM({
-      prompt: `You are a senior music industry analyst. Write a single paragraph executive summary (3-4 sentences) for the song "${song.title}" by ${song.artist || "the artist"}. Genre: ${genre}. Mood: ${song.mood || "not specified"}. Energy: ${energy}. Overall SoundReady score: ${score}/100. Category scores: ${scores}. Write confidently and specifically — tie the scores together into a coherent narrative about this song's key strengths and the single most important opportunity. Be direct and specific, not generic.`,
+      prompt: `You are a senior music industry analyst. Write a single paragraph executive summary (3-4 sentences) for the song "${song.title}" by ${song.artist || "the artist"}. Genre: ${genre}. Mood: ${song.mood || "not specified"}. Energy: ${energy}. Overall SoundReady score: ${score}/100. Category scores: ${scores}. Write confidently and specifically, tie the scores together into a coherent narrative about this song's key strengths and the single most important opportunity. Be direct and specific, not generic.`,
     }).then((res) => {
       setSummary(typeof res === "string" ? res : res?.text || res?.content || "");
       setLoadingSummary(false);
@@ -137,7 +137,7 @@ export default function ScoreDisplay({ genre, energy, song = {} }) {
           <p className="text-sm text-foreground/90 leading-relaxed">{summary}</p>
         ) : (
           <p className="text-sm text-foreground/80 leading-relaxed">
-            This {genre} track scores {score}/100 on SoundReady's algorithm analysis. With {energy?.toLowerCase()} energy and a {song.mood?.toLowerCase() || "defined"} mood, it's positioned well for streaming discovery — particularly on platforms that reward emotional authenticity and strong hooks.
+            This {genre} track scores {score}/100 on SoundReady's algorithm analysis. With {energy?.toLowerCase()} energy and a {song.mood?.toLowerCase() || "defined"} mood, it's positioned well for streaming discovery, particularly on platforms that reward emotional authenticity and strong hooks.
           </p>
         )}
       </div>

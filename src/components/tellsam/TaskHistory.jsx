@@ -22,7 +22,7 @@ export default function TaskHistory({ tasks, loading, onOpen }) {
       <div className="rounded-2xl bg-card border border-dashed border-border p-10 text-center space-y-2">
         <p className="font-semibold">No tasks yet</p>
         <p className="text-sm text-muted-foreground max-w-sm mx-auto">
-          Whatever you give Sam lands here — with the research, the numbers and every draft ready for your review.
+          Whatever you give Sam lands here, with the research, the numbers and every draft ready for your review.
         </p>
       </div>
     );

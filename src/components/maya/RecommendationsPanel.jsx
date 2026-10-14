@@ -38,12 +38,12 @@ export default function RecommendationsPanel({ user, onPendingChange }) {
     if (res.data?.error) {
       setNote(/allowance is used up/i.test(res.data.error)
         ? "Your monthly AI allowance is used up. Add extra usage to keep going today."
-        : "Sam hit a snag building your plan — try again in a moment.");
+        : "Sam hit a snag building your plan, try again in a moment.");
       return;
     }
     const found = res.data?.found ?? 0;
     setNote(found > 0
-      ? `Sam filed ${found} new recommendation${found === 1 ? "" : "s"} — review them below.`
+      ? `Sam filed ${found} new recommendation${found === 1 ? "" : "s"}, review them below.`
       : "Sam reviewed everything but has nothing new right now. Tell them your goals in chat to give them more to work with.");
     load();
   };
@@ -63,7 +63,7 @@ export default function RecommendationsPanel({ user, onPendingChange }) {
     <div className="space-y-4">
       <div className="flex items-center justify-between gap-3 flex-wrap">
         <p className="text-xs text-muted-foreground max-w-md leading-relaxed">
-          Sam's game plan for you — grounded in your numbers, your Tracker, and what you've told them in chat. Nothing happens until you approve it.
+          Sam's game plan for you, grounded in your numbers, your Tracker, and what you've told them in chat. Nothing happens until you approve it.
         </p>
         <Button onClick={generate} disabled={generating} size="sm" className="gap-2 font-semibold shrink-0">
           {generating ? <Loader2 className="h-3.5 w-3.5 animate-spin" /> : <Sparkles className="h-3.5 w-3.5" />}
@@ -84,7 +84,7 @@ export default function RecommendationsPanel({ user, onPendingChange }) {
           <Lightbulb className="h-10 w-10 text-muted-foreground/30 mx-auto" />
           <p className="font-semibold">No recommendations yet</p>
           <p className="text-sm text-muted-foreground max-w-sm mx-auto">
-            Ask Sam to review your data for a plan, or tell them your goals and constraints in chat — they'll remember and use them here.
+            Ask Sam to review your data for a plan, or tell them your goals and constraints in chat, they'll remember and use them here.
           </p>
         </div>
       ) : (
@@ -94,7 +94,7 @@ export default function RecommendationsPanel({ user, onPendingChange }) {
           </div>
           {done.length > 0 && (
             <div className="space-y-3 pt-2">
-              <p className="text-[10px] uppercase tracking-widest text-muted-foreground font-bold">In motion — record what happens</p>
+              <p className="text-[10px] uppercase tracking-widest text-muted-foreground font-bold">In motion, record what happens</p>
               {done.map((rec) => <RecommendationCard key={rec.id} rec={rec} onUpdated={onUpdated} />)}
             </div>
           )}

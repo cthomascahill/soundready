@@ -87,7 +87,7 @@ Return a JSON object with:
   }
 - clips: array of exactly 4 objects, each with:
     id: number (1-4)
-    title: string (e.g. "Hook Drop — Dark Cinematic")
+    title: string (e.g. "Hook Drop, Dark Cinematic")
     duration: number (between 8 and 15)
     visual_style: string (evocative description of the visual concept, 1-2 sentences)
     footage_tags: array of 4-6 strings (specific visual elements, e.g. "wolf in slow motion", "neon rain streets", "lone figure silhouette")
@@ -210,7 +210,7 @@ Make all 4 clips use different visuals, text styles, and feel unique.`,
                   {[
                     { icon: Music2, color: "text-primary", bg: "bg-primary/10", title: "Hook Detection", desc: "AI finds the most impactful 5–15 second section of your track" },
                     { icon: Film, color: "text-chart-5", bg: "bg-chart-5/10", title: "Visual Matching", desc: "Cinematic stock footage matched to your song's vibe and energy" },
-                    { icon: Zap, color: "text-chart-4", bg: "bg-chart-4/10", title: "4 Unique Clips", desc: "Different visuals, text styles, and angles — built for vertical video" },
+                    { icon: Zap, color: "text-chart-4", bg: "bg-chart-4/10", title: "4 Unique Clips", desc: "Different visuals, text styles, and angles, built for vertical video" },
                   ].map((f) => (
                     <div key={f.title} className="rounded-xl bg-card border border-border p-4 space-y-2">
                       <div className={`h-8 w-8 rounded-lg ${f.bg} flex items-center justify-center`}><f.icon className={`h-4 w-4 ${f.color}`} /></div>

@@ -81,7 +81,7 @@ export default function Settings() {
           <div className="space-y-1.5">
             <Label>Display Name</Label>
             <Input value={displayName} disabled className="opacity-50 cursor-not-allowed" />
-            <p className="text-xs text-muted-foreground">Managed by your account — contact support to change.</p>
+            <p className="text-xs text-muted-foreground">Managed by your account, contact support to change.</p>
           </div>
           <div className="space-y-1.5">
             <Label>Email</Label>

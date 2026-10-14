@@ -14,7 +14,7 @@ const num = (v) => (v === "" || v === null || v === undefined ? null : Number(v)
 
 // Spotify profile connection. Spotify doesn't allow third-party apps to pull
 // artist stats for most accounts, so the artist pastes their artist link and
-// enters their numbers from Spotify for Artists — the same place Sam reads them.
+// enters their numbers from Spotify for Artists, the same place Sam reads them.
 export default function SpotifyConnect() {
   const [connected, setConnected] = useState(null);
   const [url, setUrl] = useState("");
@@ -45,7 +45,7 @@ export default function SpotifyConnect() {
     setError("");
     const match = url.trim().match(/spotify\.com(?:\/intl-[a-z]+)?\/artist\/([A-Za-z0-9]+)/);
     if (!match) {
-      setError("Paste your Spotify artist link — it looks like open.spotify.com/artist/...");
+      setError("Paste your Spotify artist link, it looks like open.spotify.com/artist/...");
       return;
     }
     if (!name.trim()) {
@@ -125,7 +125,7 @@ export default function SpotifyConnect() {
                 <div className="flex-1 min-w-0">
                   <h2 className="font-heading font-bold text-2xl">{connected.artist_name}</h2>
                   <p className="text-xs text-muted-foreground mt-1">
-                    Last updated: {connected.last_synced ? new Date(connected.last_synced).toLocaleString() : "—"}
+                    Last updated: {connected.last_synced ? new Date(connected.last_synced).toLocaleString() : "-"}
                   </p>
                 </div>
                 <div className="flex gap-2 flex-wrap">

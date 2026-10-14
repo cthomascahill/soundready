@@ -7,7 +7,7 @@ import { TOUR_STEPS } from "@/lib/tourSteps";
 
 // The new-account guided tour. Each step visits its real page while this
 // presenter card explains it. Closing, exiting or finishing all mark the
-// tour as seen so it never auto-starts again — it stays replayable from
+// tour as seen so it never auto-starts again, it stays replayable from
 // the sidebar, and the artist returns to wherever they started.
 export default function GuidedTour({ open, onClose }) {
   const navigate = useNavigate();

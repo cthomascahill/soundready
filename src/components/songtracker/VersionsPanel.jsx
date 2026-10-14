@@ -5,7 +5,7 @@ import { Plus, Play, Pause, Download, Star, Trash2, Loader2, Columns3, Maximize2
 import { resolvePlayableAudioUrl } from "@/lib/audioPlayback";
 import VersionCompare from "./VersionCompare";
 
-// Every version of one song — Mix V1, Mix V2, Master V1, Final Master —
+// Every version of one song, Mix V1, Mix V2, Master V1, Final Master -
 // stored under the same record instead of duplicate songs.
 export default function VersionsPanel({ song, onUpdate }) {
   const navigate = useNavigate();
@@ -23,7 +23,7 @@ export default function VersionsPanel({ song, onUpdate }) {
       .catch(() => {});
   }, [song?.id]);
 
-  // A mix saved anywhere (the A/B player, another view) shows up here live — no refresh needed
+  // A mix saved anywhere (the A/B player, another view) shows up here live, no refresh needed
   useEffect(() => {
     if (!song?.id) return undefined;
     const unsub = base44.entities.SongVersion.subscribe(() => {
@@ -142,7 +142,7 @@ export default function VersionsPanel({ song, onUpdate }) {
       ))}
       {versions.length === 0 && (
         <p className="text-xs text-muted-foreground">
-          No versions yet. Upload your first mix below — every version of this record lives here.
+          No versions yet. Upload your first mix below, every version of this record lives here.
         </p>
       )}
       <div className="flex items-center gap-2">

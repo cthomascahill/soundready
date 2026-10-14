@@ -1,6 +1,6 @@
 // ─────────────────────────────────────────────────────────────────────────────
 // Expanded nationwide venue database for Gig Finder.
-// Covers all 50 states — smaller markets and secondary cities that the core
+// Covers all 50 states, smaller markets and secondary cities that the core
 // list misses. Same record shape as the in-page VENUE_DB in GigFinder.jsx.
 // ─────────────────────────────────────────────────────────────────────────────
 export const EXPANDED_VENUE_DB = [
@@ -242,7 +242,7 @@ export const EXPANDED_VENUE_DB = [
   { name: "The Wild Buffalo", city: "Bellingham, WA", capacity: 400, genres: ["Rock", "Indie", "Jam", "Hip Hop"], pay: "$150-$600", booking_email: "booking@wildbuffalo.net", type: "Club", website: "https://www.wildbuffalo.net", notes: "Bellingham's larger room. National touring acts between Seattle and BC." },
   { name: "Jazzbones", city: "Tacoma, WA", capacity: 400, genres: ["Rock", "Metal", "Indie", "Hip Hop"], pay: "$150-$600", booking_email: "booking@jazzbonestacoma.com", type: "Club", website: "https://www.jazzbonestacoma.com", notes: "Tacoma's main club. Halfway between Seattle and Portland." },
   { name: "Bob's Java Jive", city: "Tacoma, WA", capacity: 150, genres: ["Punk", "Rock", "Indie", "Metal"], pay: "$50-$250", booking_email: "booking@bobsjavajive.com", type: "Bar/Venue", website: "https://www.bobsjavajive.com", notes: "Tiki-hut dive shaped like a coffee pot. Punk institution since 1929." },
-  { name: "The Capitol Theater", city: "Olympia, WA", capacity: 800, genres: ["Rock", "Indie", "Punk", "Folk"], pay: "$250-$900", booking_email: "booking@capitoltheater.org", type: "Concert Hall", website: "https://www.capitoltheater.org", notes: "Olympia's 1924 theater. K Records heritage — riot grrrl history lives here." },
+  { name: "The Capitol Theater", city: "Olympia, WA", capacity: 800, genres: ["Rock", "Indie", "Punk", "Folk"], pay: "$250-$900", booking_email: "booking@capitoltheater.org", type: "Concert Hall", website: "https://www.capitoltheater.org", notes: "Olympia's 1924 theater. K Records heritage, riot grrrl history lives here." },
 
   // ── Pennsylvania (expanded) ──
   { name: "The Chameleon Club", city: "Lancaster, PA", capacity: 600, genres: ["Rock", "Metal", "Indie", "Hip Hop"], pay: "$200-$800", booking_email: "booking@lancasterchameleon.com", type: "Club", website: "https://www.lancasterchameleon.com", notes: "Lancaster's main venue. Four rooms in one club, all-ages shows." },

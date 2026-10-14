@@ -270,7 +270,7 @@ function drawTwitterCard(canvas, analysis, coverImg, palette) {
   ctx.fillText("SoundScore", W - 40, H - 30);
 }
 
-// ── TikTok / Reels (1080×1920) — different layout ───────────────────────────
+// ── TikTok / Reels (1080×1920), different layout ───────────────────────────
 function drawTikTokCard(canvas, analysis, coverImg, palette) {
   const W = 1080, H = 1920;
   canvas.width = W; canvas.height = H;
@@ -470,7 +470,7 @@ export default function MarketingAssets() {
             className="w-full h-11 rounded-lg bg-secondary border border-border px-3 text-sm text-foreground focus:outline-none focus:ring-2 focus:ring-ring"
           >
             {analyses.map((a) => (
-              <option key={a.id} value={a.id}>{a.title} — {a.artist_name}</option>
+              <option key={a.id} value={a.id}>{a.title}, {a.artist_name}</option>
             ))}
           </select>
         </div>

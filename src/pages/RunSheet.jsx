@@ -30,7 +30,7 @@ export default function RunSheet() {
 
   return (
     <div className="p-6 md:p-10 max-w-6xl mx-auto space-y-8">
-      <SEO title="Show Run Sheet — SoundReady" description="The day-of game plan for every gig: load-in, soundcheck, doors, set time, parking, contacts and merch notes." />
+      <SEO title="Show Run Sheet, SoundReady" description="The day-of game plan for every gig: load-in, soundcheck, doors, set time, parking, contacts and merch notes." />
 
       <div className="flex flex-wrap items-end justify-between gap-4">
         <div className="space-y-2">
@@ -39,7 +39,7 @@ export default function RunSheet() {
             <ClipboardList className="h-8 w-8 text-teal-400" /> Show Run Sheet
           </h1>
           <p className="text-muted-foreground text-sm max-w-2xl leading-relaxed">
-            Everything the band and crew need on show day — times, parking, venue contact, deal and merch — in one card you can copy and send.
+            Everything the band and crew need on show day, times, parking, venue contact, deal and merch, in one card you can copy and send.
           </p>
         </div>
         <Button onClick={() => { setEditing(null); setFormOpen(true); }} className="gap-2">

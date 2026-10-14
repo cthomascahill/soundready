@@ -294,7 +294,7 @@ Focus on: energy shifts, melodic hooks, bass drops, vocal moments, unexpected tr
         <p className="text-xs text-muted-foreground uppercase tracking-widest font-medium mb-1">AI Tool</p>
         <h1 className="font-heading text-3xl font-bold">Hook Finder</h1>
         <p className="text-muted-foreground mt-1 text-sm">
-          Identify the most viral 15-second segments in your track — with TikTok edit concepts to match.
+          Identify the most viral 15-second segments in your track, with TikTok edit concepts to match.
         </p>
       </motion.div>
 

@@ -40,7 +40,7 @@ export default function LevelMeters({ meter }) {
       </div>
       <p className="text-[7px] text-zinc-500 text-center mt-0.5 tracking-[0.15em]">PEAK · dBFS</p>
       <p className="text-[8px] text-zinc-500 text-center tabular-nums mt-0.5">
-        {isFinite(pl) ? `${pl.toFixed(1)}` : "—"} / {isFinite(pr) ? `${pr.toFixed(1)}` : "—"}
+        {isFinite(pl) ? `${pl.toFixed(1)}` : "-"} / {isFinite(pr) ? `${pr.toFixed(1)}` : "-"}
       </p>
     </div>
   );

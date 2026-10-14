@@ -92,7 +92,7 @@ export default function AnalyzingLoader({ onCancel }) {
         >
           <div className="flex items-center gap-2 text-sm text-muted-foreground">
             <Clock className="h-4 w-4" />
-            <span>Taking longer than usual — AI is still working...</span>
+            <span>Taking longer than usual, AI is still working...</span>
           </div>
           {onCancel && (
             <Button variant="outline" size="sm" onClick={onCancel}>

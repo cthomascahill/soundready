@@ -1,5 +1,5 @@
 // ─────────────────────────────────────────────────────────────────────────────
-// South expansion vol. 2 — deeper coverage of TX, FL, GA, NC, SC, TN, AL, MS,
+// South expansion vol. 2, deeper coverage of TX, FL, GA, NC, SC, TN, AL, MS,
 // LA, AR, VA, WV, KY, OK. Same record shape as the in-page VENUE_DB in
 // GigFinder.jsx. Duplicates are filtered at merge time in GigFinder.
 // ─────────────────────────────────────────────────────────────────────────────

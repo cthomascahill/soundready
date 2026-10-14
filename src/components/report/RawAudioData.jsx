@@ -35,7 +35,7 @@ export default function RawAudioData({ audioData }) {
   const { bpm, key, energy, danceability, loudness, valence, duration, energyProfile, moodTag } = audioData;
 
   const fmtDuration = (s) => {
-    if (!s) return "—";
+    if (!s) return "-";
     const m = Math.floor(s / 60);
     const sec = Math.round(s % 60);
     return `${m}:${sec.toString().padStart(2, "0")}`;
@@ -59,10 +59,10 @@ export default function RawAudioData({ audioData }) {
       <div className="p-5 space-y-5">
         {/* Key metrics grid */}
         <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
-          <Metric icon={Activity} label="BPM" value={bpm ? Math.round(bpm) : "—"} color="text-primary" />
-          <Metric icon={Music} label="Key" value={key || "—"} color="text-chart-5" />
+          <Metric icon={Activity} label="BPM" value={bpm ? Math.round(bpm) : "-"} color="text-primary" />
+          <Metric icon={Music} label="Key" value={key || "-"} color="text-chart-5" />
           <Metric icon={Clock} label="Duration" value={fmtDuration(duration)} color="text-chart-3" />
-          <Metric icon={Volume2} label="Loudness" value={loudness ? `${loudness.toFixed(1)} LUFS` : "—"} color="text-orange-400" />
+          <Metric icon={Volume2} label="Loudness" value={loudness ? `${loudness.toFixed(1)} LUFS` : "-"} color="text-orange-400" />
         </div>
 
         {/* Bar metrics */}

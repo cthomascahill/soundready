@@ -78,7 +78,7 @@ export default function Storage() {
           <p className="text-xs text-primary uppercase tracking-widest font-medium">Storage</p>
           <h1 className="font-heading text-4xl font-bold">All Documents</h1>
           <p className="text-muted-foreground text-sm max-w-xl">
-            Every report, draft, scan, contract and number Sam has saved for you — organized in one place.
+            Every report, draft, scan, contract and number Sam has saved for you, organized in one place.
           </p>
         </div>
 
@@ -128,7 +128,7 @@ export default function Storage() {
             <div className="text-center py-20 space-y-3">
               <FolderOpen className="h-10 w-10 text-muted-foreground/40 mx-auto" />
               <p className="text-muted-foreground text-sm">
-                Nothing stored yet — ask Sam to run a task, or upload a royalty statement, and it'll show up here.
+                Nothing stored yet, ask Sam to run a task, or upload a royalty statement, and it'll show up here.
               </p>
             </div>
           ) : (

@@ -1,5 +1,5 @@
 // SoundReady interface translations.
-// Keys are the English source strings — anything missing falls back to English.
+// Keys are the English source strings, anything missing falls back to English.
 import { HOME_STRINGS } from "./homeStrings";
 
 const INTERFACE_STRINGS = {

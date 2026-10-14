@@ -11,7 +11,7 @@ import { getCurrentStage, getNextStage } from "@/lib/songStatus";
 import { applyTrackerSongUpdate } from "@/lib/trackerSongUpdate";
 
 // A song's own page: open a row in the Tracker and the rest of the list falls
-// away — just this song, its stages, notes and (on demand) its details.
+// away, just this song, its stages, notes and (on demand) its details.
 export default function TrackerSong() {
   const { songId } = useParams();
   const navigate = useNavigate();

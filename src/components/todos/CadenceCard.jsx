@@ -85,7 +85,7 @@ export default function CadenceCard() {
       </div>
       <p className="text-xs text-muted-foreground">
         {error
-          ? "Couldn't save that — try again."
+          ? "Couldn't save that, try again."
           : cadence === "daily"
             ? "Sam sends your open to-dos every morning at 8am ET."
             : cadence === "weekly"

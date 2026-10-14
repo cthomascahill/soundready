@@ -26,7 +26,7 @@ export default function AppLayout() {
   const [tourOpen, setTourOpen] = useState(false);
 
   // New accounts see the guided tour once, automatically. Marking it seen
-  // (on exit or finish) stops it from starting again — replay stays
+  // (on exit or finish) stops it from starting again, replay stays
   // available from the sidebar. Accounts older than a week skip the
   // auto-start so existing artists are never interrupted.
   useEffect(() => {
@@ -44,7 +44,7 @@ export default function AppLayout() {
     return () => window.removeEventListener("keydown", handle);
   }, []);
 
-  // Onboarding: connect profiles is Step 1 — new users who land on the
+  // Onboarding: connect profiles is Step 1, new users who land on the
   // Vault get taken there first until they complete or skip it.
   useEffect(() => {
     if (user && !tourOpen && user.onboarding_complete !== true && location.pathname === "/history") {

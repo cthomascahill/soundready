@@ -52,7 +52,7 @@ export default function UploadZone({ file, onFileSelect, onClear }) {
             </div>
             <div>
               <p className="font-heading font-semibold text-sm">Drop your track here</p>
-              <p className="text-xs text-muted-foreground mt-1">MP3, WAV, AAC, FLAC — up to 50MB</p>
+              <p className="text-xs text-muted-foreground mt-1">MP3, WAV, AAC, FLAC, up to 50MB</p>
             </div>
             <span className="px-3 py-1.5 rounded-lg bg-secondary text-xs text-muted-foreground font-medium">Browse files</span>
           </>

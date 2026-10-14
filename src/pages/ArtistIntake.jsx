@@ -112,7 +112,7 @@ export default function ArtistIntake() {
         <motion.div initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }} className="space-y-1">
           <p className="text-xs text-primary uppercase tracking-widest font-medium">Sam · Your Digital Manager</p>
           <h1 className="font-heading text-4xl font-bold">Build your artist profile</h1>
-          <p className="text-muted-foreground text-sm">Your profile is the foundation of everything Sam does — outreach, pitches, recommendations and digests all pull from this. Connect your platforms above, then fill in what you can. A little goes a long way.</p>
+          <p className="text-muted-foreground text-sm">Your profile is the foundation of everything Sam does, outreach, pitches, recommendations and digests all pull from this. Connect your platforms above, then fill in what you can. A little goes a long way.</p>
         </motion.div>
 
         {/* Completion bar */}
@@ -130,14 +130,14 @@ export default function ArtistIntake() {
             />
           </div>
           <p className="text-xs text-muted-foreground">
-            {completionPct < 30 && "⚠️ Sam can't give specific advice yet — connect your platforms and fill in a few sections."}
+            {completionPct < 30 && "⚠️ Sam can't give specific advice yet, connect your platforms and fill in a few sections."}
             {completionPct >= 30 && completionPct < 60 && "Getting there! Complete more sections for hyper-personalized insights."}
             {completionPct >= 60 && completionPct < 90 && "Great progress! Sam is getting smarter about your career."}
-            {completionPct >= 90 && "🔥 Your profile is nearly complete — Sam has everything it needs."}
+            {completionPct >= 90 && "🔥 Your profile is nearly complete, Sam has everything it needs."}
           </p>
         </div>
 
-        {/* Connected platforms — Sam's data layer */}
+        {/* Connected platforms, Sam's data layer */}
         <ConnectProfilesSection />
 
         {/* Blocks */}
@@ -228,7 +228,7 @@ function Block1({ p, u }) {
       {p.editorial_playlist === "Yes" && (
         <TextField label="Which Playlist(s)?" placeholder="e.g. Fresh Finds" value={p.editorial_playlist_name} onChange={(v) => u("editorial_playlist_name", v)} />
       )}
-      <p className="sm:col-span-2 text-xs text-muted-foreground">Your Spotify, Apple Music and YouTube listener and follower counts sync automatically from Connect Profiles above — no need to enter them here.</p>
+      <p className="sm:col-span-2 text-xs text-muted-foreground">Your Spotify, Apple Music and YouTube listener and follower counts sync automatically from Connect Profiles above, no need to enter them here.</p>
     </div>
   );
 }
@@ -322,8 +322,8 @@ function Block6({ p, u }) {
     <div className="grid grid-cols-1 gap-4">
       <SelectField label="#1 Goal Right Now" value={p.primary_goal} onChange={(v) => u("primary_goal", v)}
         options={["Get a booking agent","Grow streaming numbers","Land a sync deal","Build a fanbase","Get signed","Make a living from music","Headline a major venue","Go viral","Other"]} />
-      <TextareaField label="Biggest Challenge Right Now" placeholder="Be honest — what's holding you back?" value={p.biggest_challenge} onChange={(v) => u("biggest_challenge", v)} />
-      <TextareaField label="What does success look like for you in 12 months?" placeholder="Be specific — numbers, milestones, feelings..." value={p.success_in_12_months} onChange={(v) => u("success_in_12_months", v)} />
+      <TextareaField label="Biggest Challenge Right Now" placeholder="Be honest, what's holding you back?" value={p.biggest_challenge} onChange={(v) => u("biggest_challenge", v)} />
+      <TextareaField label="What does success look like for you in 12 months?" placeholder="Be specific, numbers, milestones, feelings..." value={p.success_in_12_months} onChange={(v) => u("success_in_12_months", v)} />
       <SelectField label="Willing to invest money into your career?" value={p.willing_to_invest} onChange={(v) => u("willing_to_invest", v)} options={["Yes actively","Yes but limited budget","Not right now"]} />
       <NumberField label="Hours per week dedicated to music" placeholder="e.g. 20" value={p.hours_per_week} onChange={(v) => u("hours_per_week", v)} />
       <SelectField label="Release Strategy" value={p.has_release_strategy} onChange={(v) => u("has_release_strategy", v)} options={["Detailed strategy","Loose plan","Winging it"]} />

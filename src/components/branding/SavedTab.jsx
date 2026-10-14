@@ -7,7 +7,7 @@ function EmptyState() {
         <Palette className="h-7 w-7 text-muted-foreground/40" />
       </div>
       <p className="font-heading font-semibold">Nothing saved yet</p>
-      <p className="text-sm text-muted-foreground">Generate logos, palettes, and font combos — then save them here.</p>
+      <p className="text-sm text-muted-foreground">Generate logos, palettes, and font combos, then save them here.</p>
     </div>
   );
 }

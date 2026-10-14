@@ -13,8 +13,8 @@ const fmtDate = (iso) =>
   iso ? moment(iso).format("MMMM D, YYYY") : "the end of your paid period";
 
 /**
- * Settings → Billing: the live subscription as Stripe sees it — plan,
- * frequency, renewal date and amount — with cancel / resume actions.
+ * Settings → Billing: the live subscription as Stripe sees it, plan,
+ * frequency, renewal date and amount, with cancel / resume actions.
  * Success is only shown after Stripe confirms the change.
  */
 export default function BillingPanel() {
@@ -103,7 +103,7 @@ export default function BillingPanel() {
         {canceled ? (
           <div className="flex justify-between sm:block sm:space-y-0.5 sm:col-span-2">
             <span className="text-muted-foreground">Status</span>
-            <p className="font-semibold text-yellow-400">Canceled — access ends {fmtDate(paidThrough)}.</p>
+            <p className="font-semibold text-yellow-400">Canceled, access ends {fmtDate(paidThrough)}.</p>
           </div>
         ) : (
           <>
@@ -113,7 +113,7 @@ export default function BillingPanel() {
             </div>
             <div className="flex justify-between sm:block sm:space-y-0.5">
               <span className="text-muted-foreground">Renewal amount</span>
-              <p className="font-semibold">{loading ? "…" : (amountLabel || "—")}</p>
+              <p className="font-semibold">{loading ? "…" : (amountLabel || "-")}</p>
             </div>
           </>
         )}

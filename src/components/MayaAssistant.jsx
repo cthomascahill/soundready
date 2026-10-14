@@ -22,7 +22,7 @@ const QUICK_STARTS = [
 
 export function buildSystemPrompt(profile, challenges, goals) {
   if (!profile) {
-    return `You are Sam, an AI music industry manager built into SoundReady. The artist hasn't set up their profile yet. Encourage them to complete their Artist Profile for personalized advice. You speak like a real, direct manager — no fluff, no generic advice. Be concise and actionable.`;
+    return `You are Sam, an AI music industry manager built into SoundReady. The artist hasn't set up their profile yet. Encourage them to complete their Artist Profile for personalized advice. You speak like a real, direct manager, no fluff, no generic advice. Be concise and actionable.`;
   }
 
   const ap = profile;
@@ -56,12 +56,12 @@ export function buildSystemPrompt(profile, challenges, goals) {
     : "Has not performed live yet.";
 
   const goalStr = goals?.length > 0
-    ? goals.map(g => `"${g.title}" — ${g.current_number || 0}/${g.target_number} ${g.target_metric} (deadline: ${g.deadline || "none"})`).join("; ")
+    ? goals.map(g => `"${g.title}", ${g.current_number || 0}/${g.target_number} ${g.target_metric} (deadline: ${g.deadline || "none"})`).join("; ")
     : "No goals set";
 
   const challengeStr = challenges?.filter(c => !c.badge_earned).map(c => {
     const steps = c.completed_steps?.length || 0;
-    return `"${c.title}" — ${steps} steps completed`;
+    return `"${c.title}", ${steps} steps completed`;
   }).join("; ") || "No active challenges";
 
   const earnedBadges = challenges?.filter(c => c.badge_earned).map(c => c.title).join(", ") || "none";
@@ -124,7 +124,7 @@ You speak directly, honestly, and like a real manager who is invested in their s
 
 If their numbers are low, address it directly without sugarcoating. If they have an upcoming release, reference it. If they completed a challenge, acknowledge it. You remember the full conversation history within this session.
 
-RESPONSE STYLE — short by default: lead with a direct 1-2 sentence answer, then at most 3-4 tight bullets only when they add real value. No preamble, no padding, no restating the question. Go deeper only when the artist asks or the task truly requires it; offer detail instead of dumping it. Use markdown bold and bullets to stay scannable. End with one concrete next step when relevant.`;
+RESPONSE STYLE, short by default: lead with a direct 1-2 sentence answer, then at most 3-4 tight bullets only when they add real value. No preamble, no padding, no restating the question. Go deeper only when the artist asks or the task truly requires it; offer detail instead of dumping it. Use markdown bold and bullets to stay scannable. End with one concrete next step when relevant.`;
 }
 
 export function buildPlatformDataContext(platformConns) {
@@ -158,7 +158,7 @@ export function buildPlatformDataContext(platformConns) {
       if (s.top_tracks?.length) {
         lines.push(`  - Top Videos:`);
         s.top_tracks.slice(0, 3).forEach(v => {
-          lines.push(`    · "${v.title}" — ${v.views?.toLocaleString() || "?"} views`);
+          lines.push(`    · "${v.title}", ${v.views?.toLocaleString() || "?"} views`);
         });
       }
     }
@@ -203,7 +203,7 @@ export function buildPipelineContext(pipelineSongs, deskActivities) {
       if (!s.song_name) return;
       const stages = ["write", "record", "mix", "master", "review", "artwork", "submit", "released"]
         .filter(st => s[`stage_${st}`]);
-      lines.push(`  · "${s.song_name}" — completed stages: ${stages.join(", ") || "none yet"}${s.release_date ? ` | planned release: ${s.release_date}` : ""}`);
+      lines.push(`  · "${s.song_name}", completed stages: ${stages.join(", ") || "none yet"}${s.release_date ? ` | planned release: ${s.release_date}` : ""}`);
     });
     lines.push("  Use this to give release-stage-specific advice (e.g. what's still pending before they can release).");
   }
@@ -214,7 +214,7 @@ export function buildPipelineContext(pipelineSongs, deskActivities) {
     drafts.slice(0, 8).forEach(a => {
       lines.push(`  · ${a.title} (${a.action_type.replace(/_/g, " ")}, status: ${a.status})`);
     });
-    lines.push("  Reference these — don't re-draft what's already waiting, and remind the artist to approve or deny pending drafts.");
+    lines.push("  Reference these, don't re-draft what's already waiting, and remind the artist to approve or deny pending drafts.");
   }
 
   return lines.join("\n");
@@ -228,11 +228,11 @@ export function buildMemorySection(memories) {
   const dismissed = memories.filter(m => m.status === "dismissed");
   const lines = [];
   if (confirmed.length) {
-    lines.push("\nCONFIRMED PREFERENCES & PROJECT DETAILS (durable things the artist told you and confirmed — apply them in every response, and never ask the artist to repeat any of it):");
+    lines.push("\nCONFIRMED PREFERENCES & PROJECT DETAILS (durable things the artist told you and confirmed, apply them in every response, and never ask the artist to repeat any of it):");
     confirmed.forEach(m => lines.push(`  - [${m.category}] ${m.key}: ${m.value}`));
   }
   if (dismissed.length) {
-    lines.push("\nDISMISSED (the artist rejected these — do not propose them again):");
+    lines.push("\nDISMISSED (the artist rejected these, do not propose them again):");
     dismissed.forEach(m => lines.push(`  - [${m.category}] ${m.key}: ${m.value}`));
   }
   return lines.join("\n");
@@ -255,7 +255,7 @@ function buildIdentityBlock(profile) {
 
   return bits
     ? `${bits}\n`
-    : "Identity details are incomplete — use the name and context the artist gave in chat and clearly note the ambiguity.\n";
+    : "Identity details are incomplete, use the name and context the artist gave in chat and clearly note the ambiguity.\n";
 }
 
 // Fast local pre-checks so obvious messages skip the routing model call
@@ -264,7 +264,7 @@ const WRITE_HINT = /^(help me |can you |could you |please )?(write|draft|rewrite
 const LOOKUP_HINT = /(find|look ?up|who is|contact|email for|book (a |us |me )?show|venues?|festival|label|playlist|curator|latest|news|current|right now|price|deadline|open for|accepting|20\d\d)/i;
 
 async function routeForSearch(userMsg, artistName) {
-  // An explicit scan searches straight away — no routing call needed
+  // An explicit scan searches straight away, no routing call needed
   if (SCAN_HINT.test(userMsg)) return { query: artistName ? `${userMsg} ${artistName}` : userMsg, scan: true };
   // A writing/advice ask with no external lookup is answered from Sam's own knowledge
   if (WRITE_HINT.test(userMsg) && !LOOKUP_HINT.test(userMsg)) return null;
@@ -307,15 +307,15 @@ LEARNING: While responding, check whether the artist revealed a durable preferen
 
 REPUTATION SCAN MODE: Live internet results are attached for the query "${searchQuery}". This is a scan of the artist's presence across the web.
 
-IDENTITY CHECK — only report results about THIS artist:
+IDENTITY CHECK, only report results about THIS artist:
 ${buildIdentityBlock(profile)}
 If a result might refer to a different act with a similar name, exclude it and say the match was ambiguous. Judge relevance using the artist's profile, goals and confirmed preferences above.
 
 STRUCTURE your response as markdown:
-1. **TL;DR** — one honest paragraph (also return it in "scan_summary").
-2. **Findings** grouped by category (Press, Playlists, Social, Events, Industry, Other) — each with its date, a markdown link, and a clear label of VERIFIED FACT vs CLAIM/RUMOR.
-3. **Opportunities** — playlist features, press angles, booking openings, grants, sync calls, and local events that fit this artist's profile and goals.
-4. **Recommended next steps** — 2-3 concrete actions you would take as their manager.
+1. **TL;DR**, one honest paragraph (also return it in "scan_summary").
+2. **Findings** grouped by category (Press, Playlists, Social, Events, Industry, Other), each with its date, a markdown link, and a clear label of VERIFIED FACT vs CLAIM/RUMOR.
+3. **Opportunities**, playlist features, press angles, booking openings, grants, sync calls, and local events that fit this artist's profile and goals.
+4. **Recommended next steps**, 2-3 concrete actions you would take as their manager.
 
 Return every finding in "findings": {category, title, summary, url, date, stance: "verified"|"claim"|"opportunity"}. Cite inline with markdown links and list every page you used in "sources". If the results are thin or irrelevant, say so plainly instead of guessing.` : `
 
@@ -329,7 +329,7 @@ ${history}
 
 Now respond as Sam to the artist's latest message. Also provide 2-3 follow-up suggestion chips.
 
-RESPONSE STYLE: keep it SHORT. Open with the direct answer in 1-2 sentences, then at most 3-4 tight bullets only when they genuinely help. No preamble, no restating the question, no essays — offer to go deeper instead of dumping depth up front. (Reputation-scan responses keep their structured TL;DR/findings format.)${learningBlock}${searchBlock}
+RESPONSE STYLE: keep it SHORT. Open with the direct answer in 1-2 sentences, then at most 3-4 tight bullets only when they genuinely help. No preamble, no restating the question, no essays, offer to go deeper instead of dumping depth up front. (Reputation-scan responses keep their structured TL;DR/findings format.)${learningBlock}${searchBlock}
 
 Return your response as JSON:
 {
@@ -444,12 +444,12 @@ export default function MayaAssistant() {
     });
   }, [open, profileLoaded, user]);
 
-  // Chat memory — restore this user's last conversation
+  // Chat memory, restore this user's last conversation
   useEffect(() => {
     if (!user?.id) return;
     try {
       const saved = JSON.parse(localStorage.getItem(`maya_chat_${user.id}`) || "[]");
-      // Older conversations stored Sam's messages under other role names —
+      // Older conversations stored Sam's messages under other role names -
       // normalize so every Sam message gets the full assistant treatment.
       if (Array.isArray(saved) && saved.length) {
         setMessages(saved.map(m => (m?.role && m.role !== "user" ? { ...m, role: "assistant" } : m)));
@@ -700,7 +700,7 @@ export default function MayaAssistant() {
                         )}
                         {msg.scan_saved && (
                           <p className="mt-2 flex items-center gap-1 text-[10px] text-muted-foreground">
-                            <ScanLine className="h-3 w-3 text-primary" /> Snapshot saved — see Sam's Desk → Reputation Scans for what changed
+                            <ScanLine className="h-3 w-3 text-primary" /> Snapshot saved, see Sam's Desk → Reputation Scans for what changed
                           </p>
                         )}
                         <SamReadAloudButton text={msg.content} className="mt-2" />

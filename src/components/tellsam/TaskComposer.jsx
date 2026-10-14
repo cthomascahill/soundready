@@ -12,7 +12,7 @@ import { Link } from "react-router-dom";
 import { Paperclip, X, Loader2, Send, Upload, Zap } from "lucide-react";
 
 const EXAMPLES = [
-  "Book me a tour across New York City, Boston and Ohio — find the right venues and draft the booking emails.",
+  "Book me a tour across New York City, Boston and Ohio, find the right venues and draft the booking emails.",
   "Send my new single to Warner Music Group, Atlantic Records and Def Jam.",
   "Average my monthly streaming income from these reports and tell me my top-earning song.",
   "Estimate how much I should expect to owe in taxes this year.",
@@ -41,7 +41,7 @@ export default function TaskComposer({ user, onCreated }) {
         const res = await base44.integrations.Core.UploadPrivateFile({ file: f });
         uploaded.push({ name: f.name, file_uri: res.file_uri });
       } catch (err) {
-        setError(`Couldn't upload ${f.name} — try again.`);
+        setError(`Couldn't upload ${f.name}, try again.`);
       }
     }
     setFiles(prev => [...prev, ...uploaded]);
@@ -71,7 +71,7 @@ export default function TaskComposer({ user, onCreated }) {
         status: "working",
       });
       // Sam acknowledges out loud, then the task opens to show live progress.
-      speak("Got it — I'm on it.");
+      speak("Got it, I'm on it.");
       onCreated(created.id);
       const res = await base44.functions.invoke("samTaskRun", { task_id: created.id, depth });
       const d = res.data || {};
@@ -83,20 +83,20 @@ export default function TaskComposer({ user, onCreated }) {
         setTargets("");
         setFiles([]);
         setNotice(d.usage_warning
-          ? { type: "warn", message: `Done — heads up, only ${d.usage_warning.remaining} SAM credits left in this month's AI allowance.` }
+          ? { type: "warn", message: `Done, heads up, only ${d.usage_warning.remaining} SAM credits left in this month's AI allowance.` }
           : null);
       }
     } catch (err) {
       // The invoke can die before the function even starts (e.g. a brief
-      // platform hiccup) — the task would spin "working" forever. Mark it
+      // platform hiccup), the task would spin "working" forever. Mark it
       // failed right away so the artist can retry from the task list.
       if (created) {
         await base44.entities.SamTask.update(created.id, {
           status: "failed",
-          error: "Sam couldn't start this run — a temporary service error cut it off. Try again.",
+          error: "Sam couldn't start this run, a temporary service error cut it off. Try again.",
         }).catch(() => {});
       }
-      setError(err.message || "Sam hit a snag — try again.");
+      setError(err.message || "Sam hit a snag, try again.");
     } finally {
       setWorking(false);
       refreshUsage();
@@ -108,23 +108,23 @@ export default function TaskComposer({ user, onCreated }) {
       <div className="px-5 pt-5 pb-3 space-y-3">
         <div className="flex items-center gap-2.5">
           <SamLogo className="h-5 w-5 text-primary" />
-          <p className="font-heading font-bold">Tell Sam what to do — be descriptive</p>
+          <p className="font-heading font-bold">Tell Sam what to do, be descriptive</p>
         </div>
         <Textarea
           value={prompt}
           onChange={(e) => setPrompt(e.target.value)}
           disabled={working}
           rows={5}
-          placeholder="e.g. Book me a 5-stop tour through New York City, Boston and Ohio this spring — find venues that fit my sound and draft the booking emails."
+          placeholder="e.g. Book me a 5-stop tour through New York City, Boston and Ohio this spring, find venues that fit my sound and draft the booking emails."
           className="border-none bg-secondary/40 p-4 text-sm leading-relaxed focus-visible:ring-0 resize-none"
         />
       </div>
 
-      {/* Use your voice — talk the task instead of typing it */}
+      {/* Use your voice, talk the task instead of typing it */}
       <div className="px-5 pb-3 flex flex-wrap items-center gap-3">
         <VoiceButton size="lg" onText={text => setPrompt(prev => (prev ? prev.trim() + " " : "") + text.trim())} />
         <p className="text-[11px] text-muted-foreground/80 leading-snug">
-          Don't feel like typing? Just talk — Sam transcribes as you speak.
+          Don't feel like typing? Just talk, Sam transcribes as you speak.
         </p>
       </div>
 
@@ -162,7 +162,7 @@ export default function TaskComposer({ user, onCreated }) {
           value={targets}
           onChange={(e) => setTargets(e.target.value)}
           disabled={working}
-          placeholder="Who or where? (optional) — e.g. Warner Music Group, venues under 500 cap in NYC"
+          placeholder="Who or where? (optional), e.g. Warner Music Group, venues under 500 cap in NYC"
           className="border-border bg-secondary/40 text-sm"
         />
       </div>
@@ -206,7 +206,7 @@ export default function TaskComposer({ user, onCreated }) {
 
       {working && (
         <p className="px-5 pb-4 -mt-1 text-xs text-primary/90 leading-relaxed">
-          Sam is researching this now — finding real targets, verifying contacts and writing drafts. This can take a
+          Sam is researching this now, finding real targets, verifying contacts and writing drafts. This can take a
           minute or two; you can leave this page and check back under your tasks.
         </p>
       )}
@@ -220,7 +220,7 @@ export default function TaskComposer({ user, onCreated }) {
           {(notice.type === "paused" || notice.type === "cap") && (
             <Link to="/checkout/sam-extra-usage">
               <Button size="sm" className="h-7 text-[11px] gap-1.5">
-                <Zap className="h-3 w-3" /> Add extra credits — $15
+                <Zap className="h-3 w-3" /> Add extra credits, $15
               </Button>
             </Link>
           )}

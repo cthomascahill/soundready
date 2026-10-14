@@ -42,20 +42,20 @@ ARTIST INPUT:
 - Words to avoid: ${inputs.wordsAvoid || "None"}
 - Reference artist style: ${inputs.refArtist || "None"}
 
-IMPORTANT: Your output must feel like it came from a real, talented songwriter — not an AI. Be vivid, specific, and use natural language. Respect the BPM when thinking about syllable density.
+IMPORTANT: Your output must feel like it came from a real, talented songwriter, not an AI. Be vivid, specific, and use natural language. Respect the BPM when thinking about syllable density.
 `.trim();
 }
 
 const TOOL_PROMPTS = {
-  write: (ctx) => `You are a top-tier ghostwriter. Write a full ${ctx.section || "Verse"} (16 bars minimum) based on this context:\n\n${ctx.context}\n\nWrite ONLY the lyrics — no explanations, no labels, just the bars.`,
+  write: (ctx) => `You are a top-tier ghostwriter. Write a full ${ctx.section || "Verse"} (16 bars minimum) based on this context:\n\n${ctx.context}\n\nWrite ONLY the lyrics, no explanations, no labels, just the bars.`,
   rewrite: (ctx) => `You are a ghostwriter known for making lyrics hit harder. Take these seed lyrics and rewrite them with more punch, better rhymes, stronger imagery, and improved flow:\n\n${ctx.seed}\n\nFull session context:\n${ctx.context}\n\nOutput ONLY the rewritten lyrics.`,
   rhymes: (ctx) => `Find rhymes for the last word or phrase in: "${ctx.seed || ctx.topic}"\n\n${ctx.context}\n\nReturn: 6 perfect rhymes, 6 slant rhymes, 4 multisyllabic options, and 3 full line endings that use those sounds naturally. Label each group.`,
   hook: (ctx) => `Write 5 distinct hook/chorus options based on this context:\n\n${ctx.context}\n\nLabel each "Hook Option 1", "Hook Option 2" etc. Each hook should be 4–8 lines, catchy, memorable, and singable. Vary the energy and approach across the 5 options.`,
-  expand: (ctx) => `Take this concept and expand it into a full 16-bar verse with a story arc:\n\nConcept: ${ctx.seed || ctx.topic}\n\n${ctx.context}\n\nBuild it out — opening, rising tension, peak moment, landing. Output ONLY the verse.`,
+  expand: (ctx) => `Take this concept and expand it into a full 16-bar verse with a story arc:\n\nConcept: ${ctx.seed || ctx.topic}\n\n${ctx.context}\n\nBuild it out, opening, rising tension, peak moment, landing. Output ONLY the verse.`,
   syllable: (ctx) => `Count the syllables for each WORD in these lyrics, then give the total count per line:\n\n"${ctx.seed}"\n\nFormat: list each line, then each word with its syllable count in parentheses, then the line total. Also note if the total syllable density fits ${ctx.bpm} BPM.`,
-  flow: (ctx) => `Suggest a detailed rhythmic delivery pattern for a ${ctx.section} at ${ctx.bpm} BPM in ${ctx.genre || "hip-hop"} style.\n\nContext:\n${ctx.context}\n\nDescribe: where to ride the beat, where to syncopate, where to breathe, double-time moments, and how to land the last word of each bar. Be specific — like a real producer or rap coach explaining to an artist.`,
+  flow: (ctx) => `Suggest a detailed rhythmic delivery pattern for a ${ctx.section} at ${ctx.bpm} BPM in ${ctx.genre || "hip-hop"} style.\n\nContext:\n${ctx.context}\n\nDescribe: where to ride the beat, where to syncopate, where to breathe, double-time moments, and how to land the last word of each bar. Be specific, like a real producer or rap coach explaining to an artist.`,
   title: (ctx) => `Generate 10 potential song title options based on this context:\n\n${ctx.context}\n\nMake them memorable, marketable, and fitting for the genre/mood. Mix different styles: cryptic, direct, emotional, clever. Number them 1–10.`,
-  punchup: (ctx) => `Take these lyrics and punch them up — make every line more vivid, specific, and impactful. Replace generic phrases with concrete imagery. Make weak rhymes stronger:\n\n${ctx.seed}\n\nContext:\n${ctx.context}\n\nOutput the punched-up version only, then briefly note what you changed.`,
+  punchup: (ctx) => `Take these lyrics and punch them up, make every line more vivid, specific, and impactful. Replace generic phrases with concrete imagery. Make weak rhymes stronger:\n\n${ctx.seed}\n\nContext:\n${ctx.context}\n\nOutput the punched-up version only, then briefly note what you changed.`,
   translate: (ctx) => `Take these lyrics and rewrite them in a completely different genre style while keeping the core theme and emotion:\n\nOriginal:\n${ctx.seed}\n\nContext:\n${ctx.context}\n\nSuggest 2 genre translations (e.g. rap → R&B hook, R&B → country, etc.) and rewrite accordingly. Label each clearly.`,
 };
 
@@ -95,7 +95,7 @@ export default function Studio() {
     setLoading(true);
     setTab("Write");
 
-    const beatContext = beatFile ? `\n- Beat loaded: "${beatFile.name}" — write lyrics that feel made for this beat.` : "";
+    const beatContext = beatFile ? `\n- Beat loaded: "${beatFile.name}", write lyrics that feel made for this beat.` : "";
     const ctx = {
       ...params,
       ...inputs,
@@ -106,9 +106,9 @@ export default function Studio() {
     const prompt = promptFn(ctx);
 
     const toolLabels = {
-      write: `${params.section} — ${params.title || "Untitled"}`,
+      write: `${params.section}, ${params.title || "Untitled"}`,
       rewrite: "Rewritten Lyrics",
-      rhymes: `Rhyme Bank — "${inputs.seed?.split(/\s+/).pop() || inputs.topic}"`,
+      rhymes: `Rhyme Bank, "${inputs.seed?.split(/\s+/).pop() || inputs.topic}"`,
       hook: "Hook Options",
       expand: "Expanded Verse",
       syllable: "Syllable Count",

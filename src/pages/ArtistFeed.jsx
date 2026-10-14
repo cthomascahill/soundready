@@ -274,7 +274,7 @@ export default function ArtistFeed() {
                 ))}
               </div>
               <p className="text-xs text-muted-foreground mt-2">
-                {tab === "friends" ? "Posts from artists you've added as friends." : "Every artist on SoundReady — posts, wins, collabs, and questions."}
+                {tab === "friends" ? "Posts from artists you've added as friends." : "Every artist on SoundReady, posts, wins, collabs, and questions."}
               </p>
             </div>
 

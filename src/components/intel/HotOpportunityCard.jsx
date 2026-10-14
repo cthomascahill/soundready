@@ -15,7 +15,7 @@ function daysLabel(deadline) {
   return `${days}d left`;
 }
 
-// Sam's single top pick across every feed — the robot grabs the card to
+// Sam's single top pick across every feed, the robot grabs the card to
 // say "check this one out first."
 export default function HotOpportunityCard({ item, feedLabel, onOpenFeed }) {
   if (!item) return null;

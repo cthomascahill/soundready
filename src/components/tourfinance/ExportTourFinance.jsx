@@ -7,13 +7,13 @@ const esc = (v) => {
 };
 
 /**
- * Exports a tour's full finances — summary, shows, expenses, tickets, merch —
+ * Exports a tour's full finances, summary, shows, expenses, tickets, merch -
  * as one CSV download.
  */
 export default function ExportTourFinance({ tour, venues, expenses, merchSales, ticketSales, totals }) {
   const handleExport = () => {
     const rows = [
-      [`Tour Finance Export — ${tour?.name || "Tour"}`],
+      [`Tour Finance Export, ${tour?.name || "Tour"}`],
       ["Show Payouts", totals.totalPayout],
       ["Ticket Revenue", totals.totalTicketRevenue],
       ["Merch Net", (totals.totalMerchRevenue || 0) - (totals.totalMerchCost || 0)],
@@ -26,16 +26,16 @@ export default function ExportTourFinance({ tour, venues, expenses, merchSales, 
       [],
       ["EXPENSES"],
       ["Show", "Date", "Category", "Description", "Amount", "Paid By", "Reimbursed"],
-      ...expenses.map(e => [e.venue_name || "—", e.show_date, e.category, e.description, e.amount, e.paid_by, e.reimbursed ? "Yes" : "No"]),
+      ...expenses.map(e => [e.venue_name || "-", e.show_date, e.category, e.description, e.amount, e.paid_by, e.reimbursed ? "Yes" : "No"]),
       [],
       ["TICKET SALES"],
       ["Show", "Date", "Tickets Sold", "Ticket Price", "Gross Revenue"],
-      ...ticketSales.map(t => [t.venue_name || "—", t.show_date, t.tickets_sold, t.ticket_price, t.gross_revenue]),
+      ...ticketSales.map(t => [t.venue_name || "-", t.show_date, t.tickets_sold, t.ticket_price, t.gross_revenue]),
       [],
       ["MERCH SALES"],
       ["Show", "Date", "Product", "Quantity", "Unit Price", "Unit Cost", "Total Revenue", "Total Cost"],
       ...merchSales.map(m => [
-        m.venue_name || "—", m.show_date, m.product_name, m.quantity_sold, m.unit_price, m.unit_cost, m.total_revenue, m.total_cost,
+        m.venue_name || "-", m.show_date, m.product_name, m.quantity_sold, m.unit_price, m.unit_cost, m.total_revenue, m.total_cost,
       ]),
     ];
     const csv = rows.map(r => r.map(esc).join(",")).join("\n");

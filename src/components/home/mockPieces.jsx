@@ -1,7 +1,7 @@
 import { ChevronDown, Folder, Music2, Play } from "lucide-react";
 
 // Small static pieces of the real product UI, shared by the homepage previews.
-// No interactivity — they show what the workspace actually looks like.
+// No interactivity, they show what the workspace actually looks like.
 
 export const Dot = ({ c }) => <span className={`h-1.5 w-1.5 rounded-full ${c}`} />;
 

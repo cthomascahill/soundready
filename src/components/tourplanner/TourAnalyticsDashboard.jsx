@@ -440,12 +440,12 @@ Tour data:
               <div className="space-y-5">
                 <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
                   {[
-                    { label: "Cost per Mile", value: totalMiles > 0 ? `$${costPerMile.toFixed(2)}` : "—", sub: `${Math.round(totalMiles)} total miles`, icon: Navigation, color: "text-orange-400", bg: "bg-orange-500/10", border: "border-orange-500/20" },
-                    { label: "Cost per Day", value: tourDays > 0 ? fmt(costPerDay) : "—", sub: `${tourDays} tour days`, icon: DollarSign, color: "text-yellow-400", bg: "bg-yellow-500/10", border: "border-yellow-500/20" },
+                    { label: "Cost per Mile", value: totalMiles > 0 ? `$${costPerMile.toFixed(2)}` : "-", sub: `${Math.round(totalMiles)} total miles`, icon: Navigation, color: "text-orange-400", bg: "bg-orange-500/10", border: "border-orange-500/20" },
+                    { label: "Cost per Day", value: tourDays > 0 ? fmt(costPerDay) : "-", sub: `${tourDays} tour days`, icon: DollarSign, color: "text-yellow-400", bg: "bg-yellow-500/10", border: "border-yellow-500/20" },
                     { label: "Revenue per Show", value: fmt(revenuePerShow), sub: `${venueStats.length} shows`, icon: Zap, color: "text-primary", bg: "bg-primary/10", border: "border-primary/20" },
-                    { label: "Avg Capacity", value: venueStats.filter(v => v.capacity).length > 0 ? Math.round(venueStats.filter(v => v.capacity).reduce((s, v) => s + v.capacity, 0) / venueStats.filter(v => v.capacity).length) : "—", sub: "seats per venue", icon: Target, color: "text-chart-5", bg: "bg-chart-5/10", border: "border-chart-5/20" },
+                    { label: "Avg Capacity", value: venueStats.filter(v => v.capacity).length > 0 ? Math.round(venueStats.filter(v => v.capacity).reduce((s, v) => s + v.capacity, 0) / venueStats.filter(v => v.capacity).length) : "-", sub: "seats per venue", icon: Target, color: "text-chart-5", bg: "bg-chart-5/10", border: "border-chart-5/20" },
                     { label: "Budget Variance", value: fmt(Math.abs(budgetTotals.variance)), sub: budgetTotals.variance <= 0 ? "under budget ✓" : "over budget ✗", icon: TrendingUp, color: budgetTotals.variance <= 0 ? "text-primary" : "text-destructive", bg: budgetTotals.variance <= 0 ? "bg-primary/10" : "bg-destructive/10", border: budgetTotals.variance <= 0 ? "border-primary/20" : "border-destructive/20" },
-                    { label: "Margin", value: totalProjected > 0 ? `${Math.round((netTotal / totalProjected) * 100)}%` : "—", sub: "net margin", icon: TrendingUp, color: netTotal >= 0 ? "text-primary" : "text-destructive", bg: netTotal >= 0 ? "bg-primary/10" : "bg-destructive/10", border: netTotal >= 0 ? "border-primary/20" : "border-destructive/20" },
+                    { label: "Margin", value: totalProjected > 0 ? `${Math.round((netTotal / totalProjected) * 100)}%` : "-", sub: "net margin", icon: TrendingUp, color: netTotal >= 0 ? "text-primary" : "text-destructive", bg: netTotal >= 0 ? "bg-primary/10" : "bg-destructive/10", border: netTotal >= 0 ? "border-primary/20" : "border-destructive/20" },
                   ].map(m => {
                     const Icon = m.icon;
                     return (

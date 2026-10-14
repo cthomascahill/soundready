@@ -143,7 +143,7 @@ export default function WhiteboardToolbar({ tool, onToolChange, selectedBlock, o
         </div>
       </div>
 
-      {/* Styling — only when text block selected */}
+      {/* Styling, only when text block selected */}
       {selectedBlock && !isDrawTool && (
         <div className="flex flex-col gap-2 pt-2 w-full px-1.5 items-center border-t border-white/5">
           <button

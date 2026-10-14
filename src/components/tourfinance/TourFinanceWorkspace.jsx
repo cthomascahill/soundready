@@ -134,7 +134,7 @@ function AddTicketSaleForm({ venues, onAdd, onClose }) {
   );
 }
 
-// Per-tour finance workspace — everything (expenses, merch, tickets, payouts,
+// Per-tour finance workspace, everything (expenses, merch, tickets, payouts,
 // map, tax, forecast) is scoped to the shows and records of this tour.
 export default function TourFinanceWorkspace({ tour }) {
   const [venues, setVenues] = useState([]);
@@ -317,7 +317,7 @@ export default function TourFinanceWorkspace({ tour }) {
                             <div key={e.id} className="flex items-center justify-between gap-2 text-sm py-1.5 border-b border-border/50 last:border-0">
                               <div className="flex items-center gap-2 min-w-0">
                                 <span className={`px-2 py-0.5 rounded-full text-[10px] font-medium ${CAT_COLORS[e.category] || CAT_COLORS.Other}`}>{e.category}</span>
-                                <span className="text-muted-foreground truncate">{e.description || "—"}</span>
+                                <span className="text-muted-foreground truncate">{e.description || "-"}</span>
                                 {e.show_date && <span className="text-[10px] text-muted-foreground/60">{moment(e.show_date).format("MMM D")}</span>}
                               </div>
                               <div className="flex items-center gap-2 shrink-0">

@@ -2,7 +2,7 @@ import { Volume2, Square } from "lucide-react";
 import useSamSpeech, { stripForSpeech } from "@/hooks/useSamSpeech";
 import { cn } from "@/lib/utils";
 
-/** "Have Sam read this" toggle — speaks the given text aloud, stops on click. */
+/** "Have Sam read this" toggle, speaks the given text aloud, stops on click. */
 export default function SamReadAloudButton({ text, label = "Have Sam read this", className }) {
   const { speaking, supported, speak, stop } = useSamSpeech();
   if (!supported || !text?.trim()) return null;

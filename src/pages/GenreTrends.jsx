@@ -84,7 +84,7 @@ Return a JSON object with exactly these fields:
           <div>
             <p className="text-xs text-primary uppercase tracking-widest font-medium">Discovery</p>
             <h1 className="font-heading text-3xl font-bold">What's Trending in Your Genre</h1>
-            <p className="text-muted-foreground text-sm mt-1">Live intelligence from Spotify, TikTok & YouTube — updated weekly.</p>
+            <p className="text-muted-foreground text-sm mt-1">Live intelligence from Spotify, TikTok & YouTube, updated weekly.</p>
           </div>
           <div className="flex items-center gap-3">
             <select value={genre} onChange={e => setGenre(e.target.value)}

@@ -95,7 +95,7 @@ export default function SamStatsBoard({ user }) {
         <SamLogo className="h-10 w-10 text-muted-foreground/40 mx-auto" />
         <p className="font-semibold">The scoreboard fills as Sam works</p>
         <p className="text-sm text-muted-foreground max-w-sm mx-auto">
-          Give Sam a task, run a search, or upload a song — every pitch, scan and piece of advice lands on this board.
+          Give Sam a task, run a search, or upload a song, every pitch, scan and piece of advice lands on this board.
         </p>
       </div>
     );

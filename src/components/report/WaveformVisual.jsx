@@ -141,7 +141,7 @@ export default function WaveformVisual({ title, artist, genre, audioUrl, wavefor
         ) : (
           <span className="text-muted-foreground/50 text-xs italic">Awaiting audio analysis…</span>
         )}
-        <span>{audioDuration > 0 ? formatTime(audioDuration) : "—"}</span>
+        <span>{audioDuration > 0 ? formatTime(audioDuration) : "-"}</span>
       </div>
     </div>
   );

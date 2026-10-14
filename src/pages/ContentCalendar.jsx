@@ -72,7 +72,7 @@ function PostCard({ post, onDelete, onEdit, onMarkPosted, provided }) {
       </div>
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-1 text-[10px] text-muted-foreground">
-          <Clock className="h-2.5 w-2.5" />{post.scheduled_time || "—"}
+          <Clock className="h-2.5 w-2.5" />{post.scheduled_time || "-"}
           {PEAK_TIMES[post.platform]?.includes(post.scheduled_time) && (
             <span className="text-primary font-semibold">⚡ peak</span>
           )}
@@ -129,7 +129,7 @@ function NewPostModal({ songs, onClose, onSave, defaultDate }) {
             <label className="text-xs font-medium text-muted-foreground uppercase tracking-wide">Track</label>
             <select value={trackId} onChange={e => setTrackId(e.target.value)}
               className="w-full h-10 rounded-lg bg-secondary border border-border px-3 text-sm focus:outline-none focus:ring-2 focus:ring-ring">
-              {songs.map(s => <option key={s.id} value={s.id}>{s.title} — {s.artist_name}</option>)}
+              {songs.map(s => <option key={s.id} value={s.id}>{s.title}, {s.artist_name}</option>)}
             </select>
           </div>
 

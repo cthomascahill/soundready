@@ -3,7 +3,7 @@ import { Link2, Copy, Check, Loader2, Ban, ExternalLink } from "lucide-react";
 import { base44 } from "@/api/base44Client";
 import { Button } from "@/components/ui/button";
 
-// "Demo link" — a private listen link for one song. Anyone with the URL
+// "Demo link", a private listen link for one song. Anyone with the URL
 // hears it in the SoundReady player, no account needed.
 export default function DemoLinkCard({ song }) {
   const [link, setLink] = useState(null);
@@ -29,7 +29,7 @@ export default function DemoLinkCard({ song }) {
       const res = await base44.functions.invoke("demoLink", { action: "create", song_id: song.id });
       setLink(res.data?.link || null);
     } catch (e) {
-      setError(e?.response?.data?.error || "Couldn't create the link — try again.");
+      setError(e?.response?.data?.error || "Couldn't create the link, try again.");
     } finally {
       setCreating(false);
     }
@@ -73,7 +73,7 @@ export default function DemoLinkCard({ song }) {
         <div className="flex items-center justify-between gap-3 flex-wrap">
           <div className="flex items-center gap-2 text-sm text-zinc-400">
             <Link2 className="h-4 w-4 text-primary" />
-            Private demo link — let anyone listen, no account needed
+            Private demo link, let anyone listen, no account needed
           </div>
           <Button size="sm" onClick={create} disabled={creating} className="gap-2 font-semibold">
             {creating ? <Loader2 className="h-4 w-4 animate-spin" /> : <Link2 className="h-4 w-4" />}

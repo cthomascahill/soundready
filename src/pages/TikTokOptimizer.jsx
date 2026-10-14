@@ -65,7 +65,7 @@ Return:
 1. The single best 3-second hook moment (timestamp + what happens musically) that will make people stop scrolling
 2. The trending sound category this song fits into on TikTok (be specific, e.g. "sad girl fall aesthetic", "gym motivation", "late night drive vibes")
 3. The #1 hashtag strategy with 5-7 specific hashtags ranked by potential reach
-4. 5 TikTok video concepts — each must specify a distinct TikTok format/trend and be hyper-specific to this song's mood and energy`,
+4. 5 TikTok video concepts, each must specify a distinct TikTok format/trend and be hyper-specific to this song's mood and energy`,
       response_json_schema: {
         type: "object",
         properties: {
@@ -141,7 +141,7 @@ Return:
           <label className="text-sm font-medium">Select Track</label>
           <select value={selectedId} onChange={(e) => { setSelectedId(e.target.value); setResult(null); }}
             className="w-full h-10 rounded-lg bg-secondary border border-border px-3 text-sm focus:outline-none focus:ring-2 focus:ring-ring">
-            {songs.map((s) => <option key={s.id} value={s.id}>{s.title} — {s.artist_name}</option>)}
+            {songs.map((s) => <option key={s.id} value={s.id}>{s.title}, {s.artist_name}</option>)}
           </select>
         </div>
         <Button onClick={generate} disabled={generating || !selectedSong} className="gap-2 bg-[#69C9D0] hover:bg-[#69C9D0]/90 text-black font-semibold shrink-0">

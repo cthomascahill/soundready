@@ -40,7 +40,7 @@ export default function CollabSuggestions({ song = {}, similarArtists = [] }) {
   const generate = async () => {
     setLoading(true);
     const result = await base44.integrations.Core.InvokeLLM({
-      prompt: `You are a music industry A&R consultant. Based on the track "${song.title}" by ${song.artist} — a ${song.genre} song with ${song.mood} mood and ${song.energy} energy — and considering artists with a similar sonic profile like: ${similarArtists.join(", ")}, suggest 4 potential feature collaboration artists.
+      prompt: `You are a music industry A&R consultant. Based on the track "${song.title}" by ${song.artist}, a ${song.genre} song with ${song.mood} mood and ${song.energy} energy, and considering artists with a similar sonic profile like: ${similarArtists.join(", ")}, suggest 4 potential feature collaboration artists.
 
 For each collaborator, reason as if you've analyzed both artists' catalogues and sonic compatibility.
 

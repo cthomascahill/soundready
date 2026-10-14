@@ -44,9 +44,9 @@ function AIInsightPanel({ song, snapshots }) {
 
     // Flag divergence: SoundScore going up but Spotify going down (or vice versa)
     const divergence = delta > 3 && spotifyDelta != null && spotifyDelta < -3
-      ? "WARNING: Overall SoundScore is improving but Spotify score is declining — possible genre mismatch or release timing issue."
+      ? "WARNING: Overall SoundScore is improving but Spotify score is declining, possible genre mismatch or release timing issue."
       : delta < -3 && spotifyDelta != null && spotifyDelta > 3
-      ? "OPPORTUNITY: Spotify momentum is building despite lower overall score — double down on Spotify-specific strategies."
+      ? "OPPORTUNITY: Spotify momentum is building despite lower overall score, double down on Spotify-specific strategies."
       : null;
 
     const res = await base44.integrations.Core.InvokeLLM({
@@ -54,10 +54,10 @@ function AIInsightPanel({ song, snapshots }) {
 
 Song: "${song.title}" by ${song.artist_name}
 Genre: ${song.genre} | Mood: ${song.mood} | Energy: ${song.energy_level}
-Current Scores — Overall: ${song.overall_score}, Spotify: ${song.spotify_score}, TikTok: ${song.tiktok_score}, Hook: ${song.hook_strength}, Production: ${song.production_quality}
+Current Scores, Overall: ${song.overall_score}, Spotify: ${song.spotify_score}, TikTok: ${song.tiktok_score}, Hook: ${song.hook_strength}, Production: ${song.production_quality}
 
 Snapshot History (${snapshots.length} data points):
-${history || "No historical snapshots — analyze current scores only."}
+${history || "No historical snapshots, analyze current scores only."}
 
 Overall trend: ${delta > 0 ? `+${delta.toFixed(1)} pts improvement` : delta < 0 ? `${delta.toFixed(1)} pts decline` : "stable (no snapshots)"}
 Spotify score trend: ${spotifyDelta !== null ? (spotifyDelta > 0 ? `+${spotifyDelta.toFixed(1)} pts` : `${spotifyDelta.toFixed(1)} pts`) : "N/A"}
@@ -296,7 +296,7 @@ export default function GrowthTracker() {
           onChange={(e) => setSongs((prev) => { const s = prev.find((x) => x.id === e.target.value); setSelectedSong(s); return prev; })}
           className="h-10 rounded-lg bg-card border border-border px-3 text-sm focus:outline-none focus:ring-2 focus:ring-ring"
         >
-          {songs.map((s) => <option key={s.id} value={s.id}>{s.title} — {s.artist_name}</option>)}
+          {songs.map((s) => <option key={s.id} value={s.id}>{s.title}, {s.artist_name}</option>)}
         </select>
         {selectedSong && snapshots.length > 1 && <TrendBadge snapshots={snapshots} />}
       </div>
@@ -350,7 +350,7 @@ export default function GrowthTracker() {
         )}
       </motion.div>
 
-      {/* AI Insights — always show for selected song */}
+      {/* AI Insights, always show for selected song */}
       {selectedSong && (
         <AIInsightPanel song={selectedSong} snapshots={snapshots} />
       )}

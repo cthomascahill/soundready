@@ -6,7 +6,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import moment from "moment";
 
 /**
- * Global messages bell — live unread DM count in the top bar (icon) or the
+ * Global messages bell, live unread DM count in the top bar (icon) or the
  * desktop sidebar (row). Lists recent conversations; clicking one jumps
  * straight into that chat on the Friends page.
  */

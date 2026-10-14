@@ -41,7 +41,7 @@ export default function ExportTourPDF({ venues, tasks, routeData, travelGapsByDa
       doc.setFontSize(7);
       doc.setTextColor(255, 255, 255);
       doc.setFont("helvetica", "bold");
-      doc.text("SOUNDREADY — TOUR ITINERARY", margin, 6.5);
+      doc.text("SOUNDREADY, TOUR ITINERARY", margin, 6.5);
       doc.text(`Generated ${moment().format("MMM D, YYYY")}`, W - margin, 6.5, { align: "right" });
       doc.setTextColor(30, 30, 30);
     };
@@ -173,7 +173,7 @@ export default function ExportTourPDF({ venues, tasks, routeData, travelGapsByDa
           doc.setTextColor(80, 80, 80);
           const status = task.status === "Done" ? "✓" : task.status === "In Progress" ? "◑" : "○";
           const costStr = task.cost ? `  ${fmt(task.cost)}` : "";
-          const taskLines = doc.splitTextToSize(`  ${status}  [${task.category}]  ${task.title}${costStr}${task.notes ? `  — ${task.notes}` : ""}`, W - margin * 2 - 2);
+          const taskLines = doc.splitTextToSize(`  ${status}  [${task.category}]  ${task.title}${costStr}${task.notes ? ` , ${task.notes}` : ""}`, W - margin * 2 - 2);
           doc.text(taskLines, margin + 2, y);
           y += 5.5 + (taskLines.length - 1) * 4;
         });
@@ -255,7 +255,7 @@ export default function ExportTourPDF({ venues, tasks, routeData, travelGapsByDa
         doc.text(moment(v.performance_date).format("MMM D"), cols[0], y);
         doc.text((v.name || "").substring(0, 20), cols[1], y);
         doc.text((v.city || "").substring(0, 18), cols[2], y);
-        doc.text(v.capacity ? String(v.capacity) : "—", cols[3], y);
+        doc.text(v.capacity ? String(v.capacity) : "-", cols[3], y);
         doc.text(v.payout_received ? fmt(v.payout_received) : (v.pay_range || "TBD"), cols[4], y);
         y += 7;
       });

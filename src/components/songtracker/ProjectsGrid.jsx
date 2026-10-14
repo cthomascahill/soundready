@@ -25,7 +25,7 @@ function CardMeta({ songs }) {
   );
 }
 
-// Project folders: All Songs, Singles, and each Album/EP — click one to open its song list
+// Project folders: All Songs, Singles, and each Album/EP, click one to open its song list
 export default function ProjectsGrid({ songs, projects, onOpen, onDeleteProject, onCreateProject }) {
   return (
     <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">

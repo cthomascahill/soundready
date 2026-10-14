@@ -104,7 +104,7 @@ export default function VersionsTab({ song, pipeline, hasAudio, onAudioUploaded 
         </div>
       ) : (
         <p className="text-sm text-muted-foreground">
-          One version so far — drop another file of this song on the Vault page and SAM groups it here.
+          One version so far, drop another file of this song on the Vault page and SAM groups it here.
         </p>
       )}
       <input

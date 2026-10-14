@@ -1,7 +1,7 @@
 import { cleanSongTitle } from "@/lib/audioFiles";
 
 // SAM's vault intake engine: turn a messy folder of audio files into
-// organized songs — no tagging, no forms. Only high-confidence calls are
+// organized songs, no tagging, no forms. Only high-confidence calls are
 // applied automatically; everything SAM isn't sure about is marked for review.
 
 // Version/stage tokens SAM looks for in a filename, strongest match first.
@@ -51,9 +51,9 @@ function scanTokens(work) {
   };
 
   // Underscores are word characters, so "MASTER_v2" reads as one word to the
-  // token rules — normalize them away first
+  // token rules, normalize them away first
   work = work.replace(/_+/g, " ");
-  // Bracketed extras first — "(Master)", "[v2]" — then the bare name
+  // Bracketed extras first, "(Master)", "[v2]", then the bare name
   let text = work.replace(/[([[][^)\]]*[\])]/g, (b) => ` ${b.slice(1, -1)} `);
   let prev;
   do { prev = text; text = grabOnce(text); } while (text !== prev);
@@ -72,7 +72,7 @@ function scanTokens(work) {
 export function parseFilename(filename = "") {
   const stem = filename
     .replace(/\.[^.]+$/, "")
-    .replace(/^\s*\d{1,3}\s*[-._)–—]?\s*/, "");
+    .replace(/^\s*\d{1,3}\s*[-._)–-]?\s*/, "");
   const segments = stem.split(/\s+-\s+/);
 
   // "Artist - Title" convention: the last segment usually names the song.
@@ -87,7 +87,7 @@ export function parseFilename(filename = "") {
 
 /**
  * Fingerprint for exact-duplicate detection: SHA-256 over the file size plus
- * its first and last megabyte — byte-identical files always match, and it
+ * its first and last megabyte, byte-identical files always match, and it
  * never reads a whole 50 MB bounce into memory.
  */
 export async function fingerprintFile(file) {

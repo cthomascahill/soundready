@@ -18,7 +18,7 @@ function fmt(n) {
 }
 
 function TrendBadge({ current, previous }) {
-  if (!previous || previous === 0) return <span className="text-xs text-muted-foreground">—</span>;
+  if (!previous || previous === 0) return <span className="text-xs text-muted-foreground">-</span>;
   const pct = (((current - previous) / previous) * 100).toFixed(1);
   const up = pct > 0;
   const flat = Math.abs(pct) < 0.1;
@@ -222,10 +222,10 @@ export default function CompetitorTracker() {
                           <span className="font-semibold">{myAnalyses[0].artist_name} <span className="text-xs text-primary">(You)</span></span>
                         </div>
                       </td>
-                      <td className="text-right px-4 py-3 font-heading font-bold">{myAnalyses[0].spotify_score ?? "—"}</td>
-                      <td className="text-right px-4 py-3 text-muted-foreground">—</td>
-                      <td className="text-right px-4 py-3 text-muted-foreground">—</td>
-                      <td className="text-right px-4 py-3 text-muted-foreground">—</td>
+                      <td className="text-right px-4 py-3 font-heading font-bold">{myAnalyses[0].spotify_score ?? "-"}</td>
+                      <td className="text-right px-4 py-3 text-muted-foreground">-</td>
+                      <td className="text-right px-4 py-3 text-muted-foreground">-</td>
+                      <td className="text-right px-4 py-3 text-muted-foreground">-</td>
                       <td className="text-right px-5 py-3"><span className="text-xs text-muted-foreground">SoundScore</span></td>
                     </tr>
                   )}
@@ -241,7 +241,7 @@ export default function CompetitorTracker() {
                             <span>{c.name}</span>
                           </div>
                         </td>
-                        <td className="text-right px-4 py-3 font-heading font-bold">{snap.spotify_popularity ?? "—"}</td>
+                        <td className="text-right px-4 py-3 font-heading font-bold">{snap.spotify_popularity ?? "-"}</td>
                         <td className="text-right px-4 py-3">{fmt(snap.spotify_followers)}</td>
                         <td className="text-right px-4 py-3">{fmt(snap.yt_subscribers)}</td>
                         <td className="text-right px-4 py-3">{fmt(snap.yt_views)}</td>

@@ -189,7 +189,7 @@ export default function HotelEstimator({ travelGaps, tasks, onAddTask }) {
 
                   {!linked && (
                     <Button size="sm" variant="outline" className="h-7 text-xs shrink-0 gap-1"
-                      onClick={() => onAddTask({ date: night.date, category: "Hotel", title: `Hotel — ${night.city}`, cost: est?.avg_rate || "" })}>
+                      onClick={() => onAddTask({ date: night.date, category: "Hotel", title: `Hotel, ${night.city}`, cost: est?.avg_rate || "" })}>
                       <Hotel className="h-3 w-3" />Add Task
                     </Button>
                   )}

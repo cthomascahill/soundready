@@ -10,7 +10,7 @@ export const TOUR_STEPS = [
   {
     icon: Sparkles,
     title: "Welcome to SoundReady",
-    body: "I'm Sam, your digital manager. Here's how the whole app fits together — connect, upload, release, then let me work. Exit anytime and replay this tour from the sidebar.",
+    body: "I'm Sam, your digital manager. Here's how the whole app fits together, connect, upload, release, then let me work. Exit anytime and replay this tour from the sidebar.",
   },
   {
     icon: Mic,
@@ -21,32 +21,32 @@ export const TOUR_STEPS = [
   {
     icon: Upload,
     route: "/history",
-    title: "The Vault — upload your songs",
+    title: "The Vault, upload your songs",
     body: "Drop in finished tracks, demos and ideas. Every song gets artwork, files, lyrics and versions.",
   },
   {
     icon: Headphones,
     title: "Inside every song",
-    body: "Click a song to listen to your mixes, leave notes for your engineer, and send private demo links that anyone can play — no account needed.",
+    body: "Click a song to listen to your mixes, leave notes for your engineer, and send private demo links that anyone can play, no account needed.",
   },
   {
     icon: ListChecks,
     route: "/song-tracker",
     title: "Track songs to release",
-    body: "Move each song along the pipeline — Idea, Demo, Recorded, Mixed, Mastered, Released. Checking things off earns SoundReady Points.",
+    body: "Move each song along the pipeline, Idea, Demo, Recorded, Mixed, Mastered, Released. Checking things off earns SoundReady Points.",
   },
   {
     icon: CalendarRange,
     route: "/release-plan",
     title: "Plan your release",
-    body: "Generate a full release plan — timing, assets, playlists and promo — for any song in your Vault.",
+    body: "Generate a full release plan, timing, assets, playlists and promo, for any song in your Vault.",
     note: "Included with the Artist Pro plan.",
   },
   {
     icon: Wand2,
     route: "/tell-sam",
     title: "Tell Sam what you need",
-    body: "Type a task in plain English — find venues, research labels, pitch playlists — and I do the research and draft the outreach.",
+    body: "Type a task in plain English, find venues, research labels, pitch playlists, and I do the research and draft the outreach.",
     note: "Included with the Digital Manager plan.",
   },
   {
@@ -59,7 +59,7 @@ export const TOUR_STEPS = [
   {
     icon: Bot,
     route: "/sam-desk",
-    title: "Sam's Desk — mission control",
+    title: "Sam's Desk, mission control",
     body: "My recommendations, playlist pitches, tour opportunities and intel scans all wait here for your approval. Nothing ever sends without you.",
     note: "Included with the Digital Manager plan.",
   },
@@ -94,11 +94,11 @@ export const TOUR_STEPS = [
     icon: LayoutGrid,
     route: "/tools",
     title: "The full tool library",
-    body: "Analytics, contracts, branding, invoices, a whiteboard, lyric room and more — it's all here. Press ⌘K to search everything, anytime.",
+    body: "Analytics, contracts, branding, invoices, a whiteboard, lyric room and more, it's all here. Press ⌘K to search everything, anytime.",
   },
   {
     icon: Sparkles,
     title: "You're all set",
-    body: "Connect your profiles, upload your first song, then tell me what you need — I'll take it from there. Replay this tour anytime from the sidebar.",
+    body: "Connect your profiles, upload your first song, then tell me what you need, I'll take it from there. Replay this tour anytime from the sidebar.",
   },
 ];

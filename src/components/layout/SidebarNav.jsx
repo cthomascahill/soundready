@@ -108,7 +108,7 @@ const PRO_ONLY = new Set([
   "/career-roadmap",
 ]);
 
-// Pages under the AI Manager tab — AI Manager subscribers only
+// Pages under the AI Manager tab, AI Manager subscribers only
 const AI_ONLY = new Set([
   "/tell-sam", "/todos", "/sam-desk", "/industry-intel",
   "/contract-analyzer", "/ar-intelligence", "/deals",

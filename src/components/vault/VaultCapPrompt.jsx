@@ -21,7 +21,7 @@ export function VaultUsageBadge({ count, label }) {
 }
 
 // Friendly upgrade prompt shown instead of the add form when the cap is hit.
-// Nothing is lost — existing records stay readable, editable, deletable.
+// Nothing is lost, existing records stay readable, editable, deletable.
 export default function VaultCapPrompt({ kind, onClose }) {
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 backdrop-blur-sm p-4" onClick={onClose}>
@@ -36,13 +36,13 @@ export default function VaultCapPrompt({ kind, onClose }) {
           Your free {kind} vault is full
         </h3>
         <p className="text-sm text-muted-foreground leading-relaxed">
-          You've used all {FREE_VAULT_CAP} free {kind} slots. Everything you've added stays yours —
+          You've used all {FREE_VAULT_CAP} free {kind} slots. Everything you've added stays yours -
           unlock unlimited {kind === "song" ? "songs" : "beats"} plus the full toolkit with Artist
           Pro, free for 7 days.
         </p>
         <Link to="/pricing" onClick={onClose}>
           <Button className="w-full font-semibold gap-2">
-            <Sparkles className="h-4 w-4" /> Unlock Unlimited — 7 Days Free
+            <Sparkles className="h-4 w-4" /> Unlock Unlimited, 7 Days Free
           </Button>
         </Link>
         <button onClick={onClose} className="text-xs text-muted-foreground hover:text-foreground transition-colors">

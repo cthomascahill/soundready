@@ -10,7 +10,7 @@ import SamLogo from "@/components/SamLogo";
 
 const STAGES = ["Idea", "Demo", "Recorded", "Mixed", "Mastered", "Released"];
 
-// The two-question intake: name it, pick a stage — Sam files it in the Vault + Tracker
+// The two-question intake: name it, pick a stage, Sam files it in the Vault + Tracker
 export default function SamFileModal({ file, onFiled, onAddArtwork, onClose }) {
   const [title, setTitle] = useState(() => cleanSongTitle(file.name));
   const [stage, setStage] = useState(null);
@@ -49,7 +49,7 @@ export default function SamFileModal({ file, onFiled, onAddArtwork, onClose }) {
       setFiled(result);
       onFiled?.(result);
     } catch (e) {
-      setError("Upload failed — try again.");
+      setError("Upload failed, try again.");
     }
     setBusy(false);
   };

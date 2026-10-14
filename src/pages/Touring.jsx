@@ -13,7 +13,7 @@ const TOOLS = [
     bg: "bg-orange-500/10",
     border: "border-orange-500/20",
     title: "Gig Finder",
-    desc: "1,341+ venues that book independent artists, with contacts, capacity and genre fit — generate a booking inquiry in seconds.",
+    desc: "1,341+ venues that book independent artists, with contacts, capacity and genre fit, generate a booking inquiry in seconds.",
   },
   {
     to: "/tour-opportunities",
@@ -31,7 +31,7 @@ const TOOLS = [
     bg: "bg-pink-500/10",
     border: "border-pink-500/20",
     title: "Tour Planner",
-    desc: "Build the route — dates, venues, drives and hotels — and see the whole tour on one map before you commit.",
+    desc: "Build the route, dates, venues, drives and hotels, and see the whole tour on one map before you commit.",
   },
   {
     to: "/tour-finance",
@@ -40,7 +40,7 @@ const TOOLS = [
     bg: "bg-yellow-500/5",
     border: "border-yellow-500/20",
     title: "Tour Finance",
-    desc: "Every dollar in and out — guarantees, merch, expenses, payouts and taxes — so each run is actually profitable.",
+    desc: "Every dollar in and out, guarantees, merch, expenses, payouts and taxes, so each run is actually profitable.",
   },
   {
     to: "/show-run-sheet",
@@ -49,7 +49,7 @@ const TOOLS = [
     bg: "bg-teal-500/10",
     border: "border-teal-500/20",
     title: "Show Run Sheet",
-    desc: "The day-of game plan — load-in, soundcheck, doors, set time, parking, venue contact and merch notes — one card to copy and send to the band.",
+    desc: "The day-of game plan, load-in, soundcheck, doors, set time, parking, venue contact and merch notes, one card to copy and send to the band.",
   },
   {
     to: "/settlements",
@@ -58,7 +58,7 @@ const TOOLS = [
     bg: "bg-chart-5/10",
     border: "border-chart-5/20",
     title: "Settlements",
-    desc: "The after-show math — door count, deal terms, deductions and merch — with the net payout tracked until the money is in your account.",
+    desc: "The after-show math, door count, deal terms, deductions and merch, with the net payout tracked until the money is in your account.",
   },
   {
     to: "/merch-inventory",
@@ -67,7 +67,7 @@ const TOOLS = [
     bg: "bg-purple-500/15",
     border: "border-purple-500/25",
     title: "Merch Inventory",
-    desc: "Everything in the merch bin — costs, prices, stock left and a one-tap sold tally at the table, with what the whole bin can make.",
+    desc: "Everything in the merch bin, costs, prices, stock left and a one-tap sold tally at the table, with what the whole bin can make.",
   },
   {
     to: "/contracts",
@@ -76,7 +76,7 @@ const TOOLS = [
     bg: "bg-chart-3/10",
     border: "border-chart-3/25",
     title: "Venue Contracts",
-    desc: "Send offer sheets and booking contracts venues actually sign — e-signed and stored on the deal.",
+    desc: "Send offer sheets and booking contracts venues actually sign, e-signed and stored on the deal.",
   },
   {
     to: "/pitch-deck",
@@ -85,7 +85,7 @@ const TOOLS = [
     bg: "bg-primary/10",
     border: "border-primary/20",
     title: "EPK Builder",
-    desc: "An electronic press kit that books shows — your music, numbers and press in one link venues can't ignore.",
+    desc: "An electronic press kit that books shows, your music, numbers and press in one link venues can't ignore.",
   },
 ];
 
@@ -94,7 +94,7 @@ export default function Touring() {
 
   return (
     <div className="p-6 md:p-10 max-w-6xl mx-auto space-y-10">
-      <SEO title="Touring — SoundReady" description="Every booking and touring tool in one place: Gig Finder, Tour Opportunities, Tour Planner, Tour Finance, Venue Contracts and the EPK Builder." />
+      <SEO title="Touring, SoundReady" description="Every booking and touring tool in one place: Gig Finder, Tour Opportunities, Tour Planner, Tour Finance, Venue Contracts and the EPK Builder." />
 
       <motion.div initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }} className="space-y-2">
         <p className="text-xs text-primary uppercase tracking-widest font-bold">{t("Touring")}</p>
@@ -102,7 +102,7 @@ export default function Touring() {
           <Mic2 className="h-8 w-8 text-primary" /> {t("Your booking & touring HQ")}
         </h1>
         <p className="text-muted-foreground text-sm max-w-2xl leading-relaxed">
-          {t("Everything about playing live lives here — finding the rooms, landing the slots, planning the run, counting the money, and signing the deal. Open any tool below.")}
+          {t("Everything about playing live lives here, finding the rooms, landing the slots, planning the run, counting the money, and signing the deal. Open any tool below.")}
         </p>
       </motion.div>
 

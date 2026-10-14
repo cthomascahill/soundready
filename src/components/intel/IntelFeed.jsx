@@ -78,7 +78,7 @@ export default function IntelFeed({ feed, genres, city }) {
   if (error) {
     return (
       <div className="text-center py-16 space-y-3">
-        <p className="text-zinc-400 text-sm">Couldn't load this feed right now — check back soon.</p>
+        <p className="text-zinc-400 text-sm">Couldn't load this feed right now, check back soon.</p>
         <p className="text-xs text-zinc-600">{error}</p>
         <Button variant="outline" className="border-zinc-700" onClick={() => load(true)}>
           Retry
@@ -116,7 +116,7 @@ export default function IntelFeed({ feed, genres, city }) {
 
       {items && items.length === 0 ? (
         <div className="text-center py-12">
-          <p className="text-zinc-500 text-sm">Nothing in this feed right now — check back tomorrow.</p>
+          <p className="text-zinc-500 text-sm">Nothing in this feed right now, check back tomorrow.</p>
         </div>
       ) : (
         <div className="grid gap-4 md:grid-cols-2">

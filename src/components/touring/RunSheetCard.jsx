@@ -34,13 +34,13 @@ export default function RunSheetCard({ sheet, onEdit, onDelete }) {
 
   const copy = () => {
     const text = [
-      `SHOW-DAY RUN SHEET — ${fmtDate(sheet.show_date)}`,
-      `${sheet.venue}${sheet.city ? ` — ${sheet.city}` : ""}`,
+      `SHOW-DAY RUN SHEET, ${fmtDate(sheet.show_date)}`,
+      `${sheet.venue}${sheet.city ? `, ${sheet.city}` : ""}`,
       "",
       `Load-in: ${sheet.load_in || "TBD"}   Soundcheck: ${sheet.soundcheck || "TBD"}   Doors: ${sheet.doors || "TBD"}`,
       `Set: ${sheet.set_time || "TBD"} (${sheet.set_length || "TBD"})`,
       `Parking / loading: ${sheet.parking || "TBD"}`,
-      `Venue contact: ${sheet.contact_name || "TBD"}${sheet.contact_phone ? ` — ${sheet.contact_phone}` : ""}`,
+      `Venue contact: ${sheet.contact_name || "TBD"}${sheet.contact_phone ? `, ${sheet.contact_phone}` : ""}`,
       `Deal: ${sheet.deal_note || "TBD"}`,
       `Merch: ${sheet.merch_note || "TBD"}`,
       sheet.notes ? `Notes: ${sheet.notes}` : "",
@@ -68,7 +68,7 @@ export default function RunSheetCard({ sheet, onEdit, onDelete }) {
         {TIMES.map(([key, label]) => (
           <div key={key} className="rounded-lg bg-teal-500/5 border border-teal-500/20 px-2.5 py-2 text-center">
             <p className="text-[10px] text-teal-400 font-bold uppercase tracking-wide">{label}</p>
-            <p className="text-xs font-semibold mt-0.5 truncate">{sheet[key] || "—"}</p>
+            <p className="text-xs font-semibold mt-0.5 truncate">{sheet[key] || "-"}</p>
           </div>
         ))}
       </div>

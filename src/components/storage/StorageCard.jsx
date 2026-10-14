@@ -6,7 +6,7 @@ const GREEN = new Set(["sent", "paid", "signed", "approved", "executed", "comple
 const RED = new Set(["failed", "denied", "declined", "dismissed", "overdue", "cancelled"]);
 const YELLOW = new Set(["draft", "drafts", "pending", "ready_to_send", "working", "proposed", "researched", "in progress", "follow_up"]);
 
-// Statuses that mean the outreach already went out — clicking those opens
+// Statuses that mean the outreach already went out, clicking those opens
 // the proof-of-send dialog instead of navigating away
 const SENT_PROOF = new Set(["sent", "executed", "replied", "follow_up"]);
 

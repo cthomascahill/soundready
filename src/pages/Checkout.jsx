@@ -26,7 +26,7 @@ function CheckoutSuccess() {
 
   return (
     <div className="min-h-screen bg-background font-body">
-      <SEO title="Welcome aboard — SoundReady" description="Payment received — your SoundReady plan is activating." />
+      <SEO title="Welcome aboard, SoundReady" description="Payment received, your SoundReady plan is activating." />
       <PublicNav />
       <section className="relative px-4 pt-32 pb-20 flex items-center justify-center overflow-hidden">
         <div className="pointer-events-none absolute inset-0">
@@ -41,15 +41,15 @@ function CheckoutSuccess() {
           <h1 className="font-heading text-3xl font-black tracking-tight">{boosted ? "Extra usage added." : "You're in."}</h1>
           <p className="text-sm text-muted-foreground leading-relaxed">
             {boosted
-              ? "Payment received — the extra 1,500 SAM credits are on your balance now. If the meter hasn't updated yet, give it a minute and refresh."
-              : "Payment received — your plan is activating right now. If anything still looks locked, give it a minute and refresh."}
+              ? "Payment received, the extra 1,500 SAM credits are on your balance now. If the meter hasn't updated yet, give it a minute and refresh."
+              : "Payment received, your plan is activating right now. If anything still looks locked, give it a minute and refresh."}
           </p>
           <Link to={destination}>
             <Button size="lg" className="w-full gap-2 font-heading font-bold h-12">
               {boosted ? "Back to Sam" : tier === "ai_manager" ? "Go to Sam's Desk" : "Go to your Vault"} <ArrowRight className="h-4 w-4" />
             </Button>
           </Link>
-          <p className="text-xs text-muted-foreground">No percentage cuts — ever. Cancel anytime from your plan page.</p>
+          <p className="text-xs text-muted-foreground">No percentage cuts, ever. Cancel anytime from your plan page.</p>
         </motion.div>
       </section>
     </div>
@@ -91,8 +91,8 @@ export default function Checkout() {
   return (
     <div className="min-h-screen bg-background font-body">
       <SEO
-        title={`${meta.name} Checkout — SoundReady`}
-        description={`${meta.name} — ${meta.tagline} ${meta.price}${meta.period}.`}
+        title={`${meta.name} Checkout, SoundReady`}
+        description={`${meta.name}, ${meta.tagline} ${meta.price}${meta.period}.`}
       />
       <PublicNav />
 
@@ -154,7 +154,7 @@ export default function Checkout() {
             <div className="space-y-3">
               {cancelled && (
                 <div className="rounded-xl border border-border bg-secondary/40 px-4 py-3 text-sm text-muted-foreground">
-                  Checkout cancelled — no charge was made.
+                  Checkout cancelled, no charge was made.
                 </div>
               )}
 

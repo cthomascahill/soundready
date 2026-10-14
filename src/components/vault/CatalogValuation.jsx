@@ -46,7 +46,7 @@ export default function CatalogValuation() {
           </div>
           <h2 className="font-heading text-xl font-bold">Get an advance on your catalog</h2>
           <p className="text-sm text-zinc-500 mt-1 max-w-md">
-            Slide to your average monthly catalog revenue and see an estimated advance from SoundReady Records — 12 months of your revenue, paid upfront.
+            Slide to your average monthly catalog revenue and see an estimated advance from SoundReady Records, 12 months of your revenue, paid upfront.
           </p>
         </div>
         <span className="text-[10px] px-2.5 py-1 rounded-full border border-border bg-secondary text-muted-foreground shrink-0">

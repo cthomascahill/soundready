@@ -1,5 +1,5 @@
 // ─────────────────────────────────────────────────────────────────────────────
-// Northeast expansion vol. 2 — deeper coverage of NY, NJ, PA, New England.
+// Northeast expansion vol. 2, deeper coverage of NY, NJ, PA, New England.
 // Same record shape as the in-page VENUE_DB in GigFinder.jsx. Duplicates
 // against earlier lists are filtered out at merge time in GigFinder.
 // ─────────────────────────────────────────────────────────────────────────────

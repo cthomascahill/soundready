@@ -1,5 +1,5 @@
 // ─────────────────────────────────────────────────────────────────────────────
-// Additional venue expansion batch — second rooms in states already covered.
+// Additional venue expansion batch, second rooms in states already covered.
 // Same record shape as the in-page VENUE_DB in GigFinder.jsx. Duplicates
 // against earlier lists are filtered out at merge time in GigFinder.
 // ─────────────────────────────────────────────────────────────────────────────

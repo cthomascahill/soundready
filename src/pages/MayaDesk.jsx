@@ -63,7 +63,7 @@ function HistoryRow({ item, onRecordOutcome }) {
               <span>
                 Emailed to {item.recipient_email || "the contact on file"}
                 {item.sent_at ? ` on ${new Date(item.sent_at).toLocaleString("en-US", { month: "short", day: "numeric", hour: "numeric", minute: "2-digit" })}` : ""}
-                {" "}— sent by Sam from your SoundReady account.
+                {" "}sent by Sam from your SoundReady account.
               </span>
             </p>
             <div className="rounded-lg bg-secondary/50 border border-border p-3 text-xs text-foreground whitespace-pre-wrap leading-relaxed max-h-56 overflow-y-auto">
@@ -103,12 +103,12 @@ export default function MayaDesk() {
     const res = await base44.functions.invoke("aiTourOpportunities", {}).catch(e => ({ data: { error: e.message } }));
     setSearching(false);
     if (res.data?.error) {
-      setSearchNote("Sam's search hit a snag — try again in a moment.");
+      setSearchNote("Sam's search hit a snag, try again in a moment.");
       return;
     }
     const found = res.data?.found ?? res.data?.opportunities_found ?? 0;
     setSearchNote(found > 0
-      ? `Sam found ${found} new ${found === 1 ? "opportunity" : "opportunities"} — filed to your queue below.`
+      ? `Sam found ${found} new ${found === 1 ? "opportunity" : "opportunities"}, filed to your queue below.`
       : "Sam searched but found nothing new right now. Sam also sweeps weekly automatically.");
   };
 
@@ -134,7 +134,7 @@ export default function MayaDesk() {
     setActivities(prev => prev.map(a => a.id === updated.id ? updated : a));
   };
 
-  // The artist records what happened after Sam's outreach — Sam factors it into future plans
+  // The artist records what happened after Sam's outreach, Sam factors it into future plans
   const recordOutcome = async (item, outcome, note) => {
     const updated = await base44.entities.AIActivity.update(item.id, {
       metadata: { ...(item.metadata || {}), outcome, outcome_note: note, outcome_at: new Date().toISOString() },
@@ -155,11 +155,11 @@ export default function MayaDesk() {
           </div>
           <p className="font-heading font-bold text-lg">Sam's Desk is part of the Digital Manager plan</p>
           <p className="text-sm text-muted-foreground leading-relaxed">
-            Sam drafts your playlist pitches, tour outreach, EPKs and weekly digests — and nothing sends until you approve it here.
+            Sam drafts your playlist pitches, tour outreach, EPKs and weekly digests, and nothing sends until you approve it here.
           </p>
           <Link to="/pricing-account">
             <Button className="w-full gap-2 font-semibold">
-              <Zap className="h-4 w-4" /> Start Manager — $60/mo
+              <Zap className="h-4 w-4" /> Start Manager, $60/mo
             </Button>
           </Link>
           <p className="text-[10px] text-muted-foreground/60">Cancel anytime</p>
@@ -180,7 +180,7 @@ export default function MayaDesk() {
           </h1>
           <div className="flex items-start justify-between gap-4">
             <p className="text-muted-foreground text-sm max-w-xl">
-              Everything Sam has drafted for you, based on your real connected data. Nothing goes out without your approval — edit any draft before you send it.
+              Everything Sam has drafted for you, based on your real connected data. Nothing goes out without your approval, edit any draft before you send it.
             </p>
             <Button onClick={runSearch} disabled={searching} variant="outline" size="sm"
               className="gap-2 font-semibold shrink-0 border-primary/30 text-primary hover:bg-primary/10">
@@ -194,7 +194,7 @@ export default function MayaDesk() {
             </p>
           )}
           <Link to="/sam-profile" className="inline-flex items-center gap-1.5 text-xs text-primary hover:underline font-medium">
-            <UserCog className="h-3.5 w-3.5" /> Define what matters to you — Sam's profile
+            <UserCog className="h-3.5 w-3.5" /> Define what matters to you, Sam's profile
           </Link>
         </motion.div>
 

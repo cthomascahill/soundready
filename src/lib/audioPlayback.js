@@ -46,7 +46,7 @@ export async function resolvePlayableAudioUrl(src) {
       playable = URL.createObjectURL(new Blob([buf], { type: MIME_BY_EXT[ext] || "audio/mpeg" }));
     }
   } catch {
-    // Fetch blocked — fall back to the original URL; the browser may still play it.
+    // Fetch blocked, fall back to the original URL; the browser may still play it.
   }
   cache.set(src, playable);
   return playable;

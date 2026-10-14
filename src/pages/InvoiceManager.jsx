@@ -277,18 +277,18 @@ export default function InvoiceManager() {
                 <div className="space-y-3 text-sm font-mono">
                   <div className="flex justify-between text-xs text-muted-foreground border-b border-border pb-3">
                     <span>Invoice #{inv.invoice_number || "INV-001"}</span>
-                    <span>{inv.invoice_date || "—"}</span>
+                    <span>{inv.invoice_date || "-"}</span>
                   </div>
                   <div className="grid grid-cols-2 gap-4 text-xs pb-3 border-b border-border">
-                    <div><p className="text-muted-foreground mb-1">FROM</p><p className="font-semibold">{inv.from_name || "—"}</p><p className="text-muted-foreground">{inv.from_email}</p></div>
-                    <div><p className="text-muted-foreground mb-1">BILL TO</p><p className="font-semibold">{inv.to_name || "—"}</p><p className="text-muted-foreground">{inv.to_email}</p></div>
+                    <div><p className="text-muted-foreground mb-1">FROM</p><p className="font-semibold">{inv.from_name || "-"}</p><p className="text-muted-foreground">{inv.from_email}</p></div>
+                    <div><p className="text-muted-foreground mb-1">BILL TO</p><p className="font-semibold">{inv.to_name || "-"}</p><p className="text-muted-foreground">{inv.to_email}</p></div>
                   </div>
                   <table className="w-full text-xs">
                     <thead><tr className="text-muted-foreground border-b border-border"><th className="text-left pb-1">Description</th><th className="text-right pb-1">Qty</th><th className="text-right pb-1">Rate</th><th className="text-right pb-1">Amount</th></tr></thead>
                     <tbody>
                       {items.map((item, i) => (
                         <tr key={i} className="border-b border-border/50">
-                          <td className="py-1.5">{item.description || "—"}</td>
+                          <td className="py-1.5">{item.description || "-"}</td>
                           <td className="text-right">{item.qty}</td>
                           <td className="text-right">${parseFloat(item.rate || 0).toFixed(2)}</td>
                           <td className="text-right">${((parseFloat(item.qty) || 0) * (parseFloat(item.rate) || 0)).toFixed(2)}</td>

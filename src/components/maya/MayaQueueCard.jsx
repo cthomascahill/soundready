@@ -18,7 +18,7 @@ const ACTION_META = {
 
 /**
  * One Sam draft awaiting the artist's decision.
- * Nothing sends until the artist approves — the draft is editable first.
+ * Nothing sends until the artist approves, the draft is editable first.
  */
 export default function MayaQueueCard({ item, user, onUpdated }) {
   const meta = ACTION_META[item.action_type] || ACTION_META.playlist_pitch;
@@ -41,7 +41,7 @@ export default function MayaQueueCard({ item, user, onUpdated }) {
   const approve = async () => {
     setError("");
     if (!recipient.trim()) {
-      setError("Enter the recipient's email address — Sam never guesses who to send to.");
+      setError("Enter the recipient's email address, Sam never guesses who to send to.");
       return;
     }
     setBusy(true);
@@ -148,7 +148,7 @@ export default function MayaQueueCard({ item, user, onUpdated }) {
           <div className="space-y-1.5">
             {!prefilledRecipient && (
               <p className="text-[10px] text-muted-foreground/70">
-                Sam couldn't find a published contact email — add one to send, or submit manually via the opportunity's link.
+                Sam couldn't find a published contact email, add one to send, or submit manually via the opportunity's link.
               </p>
             )}
             <div className="flex items-center gap-2">
@@ -185,7 +185,7 @@ export default function MayaQueueCard({ item, user, onUpdated }) {
           </Button>
         </div>
         <p className="text-[10px] text-muted-foreground/70">
-          Sent as "Sam for {user?.artist_name || user?.full_name || "you"}" — replies go straight to you at {user?.email}.
+          Sent as "Sam for {user?.artist_name || user?.full_name || "you"}", replies go straight to you at {user?.email}.
         </p>
       </div>
     </div>

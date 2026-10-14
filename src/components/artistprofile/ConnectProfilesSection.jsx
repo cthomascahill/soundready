@@ -53,7 +53,7 @@ function SpotifyCard({ conn, onUpdated, oauthLoading, oauthError }) {
     else setError(res.data?.error || "Failed to disconnect");
   };
 
-  // Artist profile linking — paste the Spotify artist URL to pull artist stats
+  // Artist profile linking, paste the Spotify artist URL to pull artist stats
   const [artistUrl, setArtistUrl] = useState("");
 
   const linkArtist = async () => {
@@ -89,7 +89,7 @@ function SpotifyCard({ conn, onUpdated, oauthLoading, oauthError }) {
           </div>
 
           <div className="grid grid-cols-2 gap-2">
-            <Stat label="Monthly Listeners" value={s.monthly_listeners ? s.monthly_listeners.toLocaleString() : "—"} />
+            <Stat label="Monthly Listeners" value={s.monthly_listeners ? s.monthly_listeners.toLocaleString() : "-"} />
             {s.total_plays > 0 && <Stat label="Total Streams" value={s.total_plays.toLocaleString()} />}
             {s.artist_followers > 0 && <Stat label="Artist Followers" value={s.artist_followers.toLocaleString()} />}
             {s.popularity > 0 && <Stat label="Popularity" value={`${s.popularity}/100`} />}
@@ -428,12 +428,12 @@ export default function ConnectProfilesSection() {
   return (
     <div className="space-y-6">
 
-      {/* Step 1 onboarding — pick your role before anything else */}
+      {/* Step 1 onboarding, pick your role before anything else */}
       {user?.onboarding_complete !== true && (
         <div className="rounded-2xl border border-primary/25 bg-primary/10 p-5 space-y-4">
           <div className="flex items-center gap-2.5 flex-wrap">
             <span className="px-2 py-0.5 rounded-full bg-primary text-primary-foreground text-[10px] font-bold uppercase tracking-wider">Step 1</span>
-            <p className="font-heading font-bold text-lg">First — what kind of creator are you?</p>
+            <p className="font-heading font-bold text-lg">First, what kind of creator are you?</p>
           </div>
           <AccountTypePicker value={accountType} onChange={handleAccountType} />
           <p className="text-xs text-muted-foreground">Your tools adapt to your role. You can change this anytime from your Profile.</p>
@@ -482,7 +482,7 @@ export default function ConnectProfilesSection() {
         </div>
       </section>
 
-      {/* Step 2 onboarding banner — sits below the platform cards so linking
+      {/* Step 2 onboarding banner, sits below the platform cards so linking
           profiles is the first thing available, not just the skip button */}
       {user?.onboarding_complete !== true && (
         <div className="rounded-2xl border border-primary/25 bg-primary/10 p-5 space-y-3">
@@ -502,7 +502,7 @@ export default function ConnectProfilesSection() {
             variant={connectedCount > 0 ? "default" : "outline"}
             className="gap-2 w-fit"
           >
-            {connectedCount > 0 ? "I'm Done — Go to Dashboard" : "Skip for now"} <ArrowRight className="h-3.5 w-3.5" />
+            {connectedCount > 0 ? "I'm Done, Go to Dashboard" : "Skip for now"} <ArrowRight className="h-3.5 w-3.5" />
           </Button>
         </div>
       )}

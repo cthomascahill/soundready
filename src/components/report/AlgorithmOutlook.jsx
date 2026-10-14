@@ -37,23 +37,23 @@ function MetricBar({ label, score, color, delay }) {
 const GENRE_TRENDS = {
   "Hip Hop": [
     "Tempos between 85–100 BPM are dominating hip hop playlists right now, particularly in melodic rap and trap-soul crossovers.",
-    "Introspective and emotional moods are outperforming aggressive tracks on Spotify's editorial playlists — vulnerability is the new flex.",
+    "Introspective and emotional moods are outperforming aggressive tracks on Spotify's editorial playlists, vulnerability is the new flex.",
     "Short-form content showing 'studio sessions' and candid freestyles is generating 3x more profile visits than polished music videos.",
   ],
   "Pop": [
-    "Mid-tempo tracks (100–120 BPM) with a nostalgic 2000s production feel are surging — 'hyperpop-lite' is the dominant sound on New Music Friday.",
+    "Mid-tempo tracks (100–120 BPM) with a nostalgic 2000s production feel are surging, 'hyperpop-lite' is the dominant sound on New Music Friday.",
     "Uplifting and bittersweet moods are dominating editorial placement; pure sad-pop has plateaued while hopeful-melancholic is growing.",
-    "Vertical video content shot in one take with no cuts performs best for pop — authenticity is beating high production value on TikTok.",
+    "Vertical video content shot in one take with no cuts performs best for pop, authenticity is beating high production value on TikTok.",
   ],
   "R&B": [
     "Slow-burn tempos (65–80 BPM) with live instrument textures are getting premium editorial support on Apple Music R&B playlists.",
-    "Romantic and sensual moods dominate late-night listening algorithms — tracks released Thursday night see the strongest weekend streaming spikes.",
-    "Artists showing 'behind the vocal' content — raw takes, voice memos, writing sessions — are seeing 40% higher saves-to-stream ratios.",
+    "Romantic and sensual moods dominate late-night listening algorithms, tracks released Thursday night see the strongest weekend streaming spikes.",
+    "Artists showing 'behind the vocal' content, raw takes, voice memos, writing sessions, are seeing 40% higher saves-to-stream ratios.",
   ],
   "EDM": [
-    "Melodic house and progressive builds (124–128 BPM) are the algorithm's current favorites — pure drops with no emotional arc are underperforming.",
+    "Melodic house and progressive builds (124–128 BPM) are the algorithm's current favorites, pure drops with no emotional arc are underperforming.",
     "Euphoric moods with cinematic builds are getting placed in Spotify's mood-based playlists far more than aggressive or dark EDM in 2025.",
-    "Visualizer content timed to the drop — simple but synced perfectly — is the highest-performing content format for electronic artists.",
+    "Visualizer content timed to the drop, simple but synced perfectly, is the highest-performing content format for electronic artists.",
   ],
   "Country": [
     "Cross-genre country (country-pop and country-R&B hybrids at 90–110 BPM) is outperforming traditional country on streaming by a wide margin.",
@@ -62,25 +62,25 @@ const GENRE_TRENDS = {
   ],
   "Rock": [
     "Alt-rock and indie-rock hybrids in the 120–140 BPM range are experiencing a major playlist resurgence, driven by Gen Z rediscovering guitar.",
-    "Angsty and cathartic moods are dominating rock editorial — tracks that feel emotionally unfiltered get significantly more editorial consideration.",
-    "Live performance clips — even low-fi phone recordings — consistently outperform studio content for rock artists across all short-form platforms.",
+    "Angsty and cathartic moods are dominating rock editorial, tracks that feel emotionally unfiltered get significantly more editorial consideration.",
+    "Live performance clips, even low-fi phone recordings, consistently outperform studio content for rock artists across all short-form platforms.",
   ],
   "Latin": [
     "Reggaeton and latin pop fusions at 90–100 BPM continue to lead streaming globally, with dembow patterns driving the highest skip-resistance.",
-    "Romantic and hype moods split the Latin playlist market — targeting both with different clips for the same track is a proven strategy in 2025.",
+    "Romantic and hype moods split the Latin playlist market, targeting both with different clips for the same track is a proven strategy in 2025.",
     "Dance challenge content with clear, repeatable choreography is the single most effective content format for Latin artists on TikTok right now.",
   ],
   "Indie": [
-    "Dreamy lo-fi indie at 80–110 BPM is experiencing a golden moment on playlist algorithms — bedroom pop and shoegaze-influenced tracks are peaking.",
-    "Bittersweet and introspective moods are being heavily curated by Spotify's mood-based editorial — 'sad but beautiful' is dominating indie charts.",
-    "Aesthetic visual content — color-graded film photography style reels timed to the song's most emotional moment — is outperforming all other formats.",
+    "Dreamy lo-fi indie at 80–110 BPM is experiencing a golden moment on playlist algorithms, bedroom pop and shoegaze-influenced tracks are peaking.",
+    "Bittersweet and introspective moods are being heavily curated by Spotify's mood-based editorial, 'sad but beautiful' is dominating indie charts.",
+    "Aesthetic visual content, color-graded film photography style reels timed to the song's most emotional moment, is outperforming all other formats.",
   ],
 };
 
 const DEFAULT_TRENDS = [
   "Mid-tempo tracks with strong melodic hooks are consistently outperforming both very fast and very slow tracks in streaming algorithms this year.",
-  "Emotional authenticity is the dominant mood across all genres right now — tracks that feel real and unfiltered get significantly more editorial support.",
-  "Short-form content showing the artist's process and personality — not just polished promo — is generating the highest playlist save rates.",
+  "Emotional authenticity is the dominant mood across all genres right now, tracks that feel real and unfiltered get significantly more editorial support.",
+  "Short-form content showing the artist's process and personality, not just polished promo, is generating the highest playlist save rates.",
 ];
 
 export default function AlgorithmOutlook({ data = [], song = {} }) {

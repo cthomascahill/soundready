@@ -5,7 +5,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { Plus, Loader2 } from "lucide-react";
 import VoiceButton from "@/components/VoiceButton";
 
-// Add anything to this week's list — one line per thing Sam should stay on you about.
+// Add anything to this week's list, one line per thing Sam should stay on you about.
 export default function TodoForm({ onAdd }) {
   const [title, setTitle] = useState("");
   const [notes, setNotes] = useState("");
@@ -47,7 +47,7 @@ export default function TodoForm({ onAdd }) {
         <Textarea
           value={notes}
           onChange={(e) => setNotes(e.target.value)}
-          placeholder="Optional details — links, numbers, context Sam should remember"
+          placeholder="Optional details, links, numbers, context Sam should remember"
           rows={2}
         />
       ) : (

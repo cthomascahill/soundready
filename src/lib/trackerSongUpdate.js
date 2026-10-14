@@ -11,7 +11,7 @@ export async function applyTrackerSongUpdate(userId, song, changes) {
   const wasReleased = !!song.stage_released;
   await base44.entities.PipelineSong.update(song.id, changes);
 
-  // A brand-new release is a full action — SoundReady Points for shipping it
+  // A brand-new release is a full action, SoundReady Points for shipping it
   if (changes.stage_released && !wasReleased) {
     awardPoints("song_released", song.id, `Released: ${song?.song_name || "song"}`);
   }
@@ -32,7 +32,7 @@ export async function applyTrackerSongUpdate(userId, song, changes) {
         await base44.entities.SongVault.update(existing[0].id, { status: vaultStatus });
       }
     } else if (merged.stage_released && !wasReleased) {
-      // First release and no vault record yet — graduate it into the catalog
+      // First release and no vault record yet, graduate it into the catalog
       await base44.entities.SongVault.create({
         title: song.song_name,
         status: "Released",
