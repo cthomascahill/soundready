@@ -2,7 +2,7 @@ import { useRef, useState } from "react";
 import { Play, Pause, Loader2 } from "lucide-react";
 import { resolveAudioSource } from "@/lib/audioPlayback";
 import VaultArtwork from "@/components/vault/VaultArtwork";
-import { vaultStatusStyle } from "@/lib/vaultStatus";
+import { vaultStatusDot } from "@/lib/vaultStatus";
 
 function MiniPlayer({ url, name }) {
   const [playing, setPlaying] = useState(false);
@@ -26,7 +26,7 @@ function MiniPlayer({ url, name }) {
   return (
     <button
       onClick={toggle}
-      className="h-9 w-9 rounded-full bg-primary/20 border border-primary/40 flex items-center justify-center text-primary hover:bg-primary/30 transition-colors shrink-0"
+      className="h-9 w-9 rounded-full bg-foreground/10 border border-foreground/15 flex items-center justify-center text-foreground hover:bg-foreground/20 transition-colors shrink-0"
       title={`Play ${name}`}
     >
       {loading ? <Loader2 className="h-3.5 w-3.5 animate-spin" /> : playing ? <Pause className="h-3.5 w-3.5" /> : <Play className="h-3.5 w-3.5 ml-0.5" />}
@@ -35,8 +35,8 @@ function MiniPlayer({ url, name }) {
   );
 }
 
-// One song, at rest: artwork, title, stage and play. Clicking opens the song
-// workspace — audio, versions, details and release in one focused place.
+// One song in the collection: artwork, title, play. The stage is a quiet dot,
+// and everything else lives behind the click into the song workspace.
 export default function SongGroupCard({ song, onOpen }) {
   return (
     <div
@@ -44,16 +44,23 @@ export default function SongGroupCard({ song, onOpen }) {
       tabIndex={0}
       onClick={() => onOpen(song)}
       onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); onOpen(song); } }}
-      className="rounded-xl bg-card border border-border hover:border-primary/30 transition-colors flex items-center gap-3 p-4 cursor-pointer text-left"
+      className="rounded-xl bg-card border border-border hover:border-foreground/20 transition-colors flex items-center gap-4 p-3.5 cursor-pointer text-left"
     >
-      <VaultArtwork url={song.artwork_url} title={song.title} className="h-14 w-14 rounded-xl shrink-0 object-cover" iconClass="h-5 w-5" />
+      <div className="relative shrink-0">
+        <VaultArtwork url={song.artwork_url} title={song.title} className="h-16 w-16 rounded-lg shrink-0 object-cover" iconClass="h-6 w-6" />
+        {song.file_url && (
+          <div className="absolute -bottom-1.5 -right-1.5" onClick={(e) => e.stopPropagation()}>
+            <MiniPlayer url={song.file_url} name={song.title} />
+          </div>
+        )}
+      </div>
       <div className="flex-1 min-w-0">
         <p className="font-heading font-bold leading-snug line-clamp-2">{song.title}</p>
-        <span className={`inline-block mt-1 text-[10px] font-semibold px-2 py-0.5 rounded-full border ${vaultStatusStyle(song.status)}`}>
+        <p className="mt-1.5 flex items-center gap-1.5 text-xs text-muted-foreground">
+          <span className={`h-1.5 w-1.5 rounded-full ${vaultStatusDot(song.status)}`} />
           {song.status}
-        </span>
+        </p>
       </div>
-      {song.file_url && <MiniPlayer url={song.file_url} name={song.title} />}
     </div>
   );
 }

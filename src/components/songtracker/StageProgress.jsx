@@ -8,11 +8,11 @@ const Toggle = ({ done, label, onToggle }) => (
     onClick={onToggle}
     className={`flex items-center gap-2 rounded-lg border px-3 py-2 text-xs font-medium transition-colors ${
       done
-        ? "bg-primary/15 border-primary/40 text-primary"
-        : "border-border text-muted-foreground hover:border-primary/40 hover:text-foreground"
+        ? "bg-foreground/10 border-foreground/25 text-foreground"
+        : "border-border text-muted-foreground hover:border-foreground/30 hover:text-foreground"
     }`}
   >
-    {done ? <CheckCircle2 className="h-3.5 w-3.5 shrink-0" /> : <Circle className="h-3.5 w-3.5 shrink-0" />}
+    {done ? <CheckCircle2 className="h-3.5 w-3.5 shrink-0 fill-current" /> : <Circle className="h-3.5 w-3.5 shrink-0" />}
     <span className="truncate">{label}</span>
   </button>
 );

@@ -1,15 +1,13 @@
-import { VAULT_STATUS_STYLES } from "@/lib/vaultStatus";
+import { vaultStatusDot } from "@/lib/vaultStatus";
 
-// Color-coded pill showing the stage a song is currently at — same
-// ladder and palette as the Vault's stage badges
+// The song's current stage, as quiet as it can be: a small color dot and the
+// stage name in muted text. Same ladder and palette as the Vault's dots.
 export default function StageBadge({ stage }) {
+  const status = stage ? stage.status : "Idea";
   return (
-    <span
-      className={`inline-block whitespace-nowrap text-[11px] font-semibold px-2.5 py-0.5 rounded-full border ${
-        stage ? stage.badge : VAULT_STATUS_STYLES.Idea
-      }`}
-    >
-      {stage ? stage.status : "Idea"}
+    <span className="inline-flex items-center gap-1.5 text-xs text-muted-foreground whitespace-nowrap">
+      <span className={`h-1.5 w-1.5 rounded-full ${vaultStatusDot(status)}`} />
+      {status}
     </span>
   );
 }

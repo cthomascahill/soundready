@@ -1,91 +1,28 @@
-import { useState } from "react";
-import { ChevronRight, ArrowRight } from "lucide-react";
-import { format, parseISO } from "date-fns";
-import useDebouncedField from "@/hooks/useDebouncedField";
-import { getCurrentStage, getNextStage, isOverdue } from "@/lib/songStatus";
+import { getCurrentStage, getNextStage } from "@/lib/songStatus";
 import StageBadge from "./StageBadge";
 import SongRowMenu from "./SongRowMenu";
-import SongDetails from "./SongDetails";
 
-// One song: a quiet summary row that expands into the full details
-export default function SongRow({ song, isNew, moveTargets, onUpdate, onDelete }) {
-  const [open, setOpen] = useState(!!isNew);
-  const [nameEditing, setNameEditing] = useState(!!isNew);
-  const [name, setName] = useDebouncedField(song.song_name, (v) => onUpdate(song.id, { song_name: v }));
+// One song, one quiet row: title, stage, actions. Clicking opens the song's
+// own page so the rest of the list falls away while you work.
+export default function SongRow({ song, moveTargets, onUpdate, onDelete, onOpen }) {
   const current = getCurrentStage(song);
   const next = getNextStage(song);
-  const overdue = isOverdue(song);
 
   return (
-    <div className="border-b border-border">
+    <div className="border-b border-border last:border-b-0">
       <div
-        onClick={() => setOpen((v) => !v)}
-        className={`flex items-center gap-3 px-3 min-h-[56px] cursor-pointer transition-colors hover:bg-secondary/20 ${open ? "bg-secondary/20" : ""}`}
+        onClick={() => onOpen(song)}
+        className="flex items-center gap-3 px-3 min-h-[52px] cursor-pointer hover:bg-secondary/20 transition-colors"
       >
-        <button
-          type="button"
-          aria-expanded={open}
-          aria-label={open ? "Collapse song details" : "Expand song details"}
-          className="shrink-0 text-muted-foreground"
-        >
-          <ChevronRight className={`h-4 w-4 transition-transform ${open ? "rotate-90" : ""}`} />
-        </button>
-
         <div className="flex-1 min-w-0">
-          {nameEditing ? (
-            <input
-              value={name}
-              autoFocus
-              onClick={(e) => e.stopPropagation()}
-              onChange={(e) => setName(e.target.value)}
-              onBlur={() => setNameEditing(false)}
-              onKeyDown={(e) => {
-                if (e.key === "Enter" || e.key === "Escape") setNameEditing(false);
-              }}
-              placeholder="Song name..."
-              className="w-full bg-transparent text-sm font-medium text-foreground placeholder:text-muted-foreground/40 focus:outline-none border-b border-primary/40"
-            />
-          ) : (
-            <span
-              onContextMenu={(e) => {
-                e.preventDefault();
-                e.stopPropagation();
-                setNameEditing(true);
-              }}
-              title="Right-click to rename"
-              className="block truncate text-sm font-medium text-foreground cursor-text select-none"
-            >
-              {song.song_name || "Untitled"}
-            </span>
-          )}
+          <p className="truncate text-sm font-medium text-foreground">{song.song_name || "Untitled"}</p>
           <p className="md:hidden text-xs text-muted-foreground truncate">
-            {current ? current.status : "Idea"} · {next ? next.action : "All done"}
+            {current ? current.status : "Idea"}{next ? ` · ${next.action}` : ""}
           </p>
         </div>
 
-        <div className="hidden md:block w-36 shrink-0">
+        <div className="hidden md:block w-28 shrink-0">
           <StageBadge stage={current} />
-        </div>
-
-        <div className="hidden md:flex w-56 shrink-0 items-center gap-1.5 text-sm">
-          {next ? (
-            <>
-              <ArrowRight className="h-3.5 w-3.5 text-primary shrink-0" />
-              <span className="text-foreground truncate">{next.action}</span>
-            </>
-          ) : (
-            <span className="text-muted-foreground">All done</span>
-          )}
-        </div>
-
-        <div className="hidden md:block w-32 shrink-0 text-sm">
-          {song.release_date ? (
-            <span className={overdue ? "text-destructive" : "text-foreground"} title={overdue ? "Release date has passed" : undefined}>
-              {format(parseISO(song.release_date), "MMM d, yyyy")}
-            </span>
-          ) : (
-            <span className="text-muted-foreground/50">No date</span>
-          )}
         </div>
 
         <SongRowMenu
@@ -97,8 +34,6 @@ export default function SongRow({ song, isNew, moveTargets, onUpdate, onDelete }
           onDelete={() => onDelete(song.id)}
         />
       </div>
-
-      {open && <SongDetails song={song} onUpdate={onUpdate} />}
     </div>
   );
 }

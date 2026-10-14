@@ -12,4 +12,16 @@ export const VAULT_STATUS_STYLES = {
   Released: "bg-green-500/15 text-green-400 border-green-500/25",
 };
 
+// The same ladder as a tiny color dot — the subtle way statuses are shown on
+// cards and rows, so bright green stays reserved for the main action
+export const VAULT_STATUS_DOTS = {
+  Idea: "bg-muted-foreground/50",
+  Demo: "bg-yellow-400",
+  Recorded: "bg-blue-400",
+  Mixed: "bg-purple-400",
+  Mastered: "bg-orange-400",
+  Released: "bg-green-400",
+};
+
 export const vaultStatusStyle = (status) => VAULT_STATUS_STYLES[status] || VAULT_STATUS_STYLES.Demo;
+export const vaultStatusDot = (status) => VAULT_STATUS_DOTS[status] || VAULT_STATUS_DOTS.Idea;
