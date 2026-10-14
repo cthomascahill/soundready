@@ -79,14 +79,6 @@ export default function VsRestSection() {
           ))}
         </div>
 
-        <motion.p
-          initial={{ opacity: 0 }}
-          whileInView={{ opacity: 1 }}
-          viewport={{ once: true }}
-          className="text-center text-sm sm:text-base text-muted-foreground max-w-2xl mx-auto leading-relaxed"
-        >
-          {t("SAM's research and outreach help is included with the Digital Manager plan. Nothing sends without your approval.")}
-        </motion.p>
       </div>
     </section>
   );

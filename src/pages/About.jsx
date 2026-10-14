@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
 import { base44 } from "@/api/base44Client";
-import { Bot, CheckCircle2, Sparkles, Users, Zap } from "lucide-react";
+import { Bot, CheckCircle2, ShieldCheck, Sparkles, Users, Zap } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import PublicNav from "@/components/public/PublicNav";
 import PublicFooter from "@/components/public/PublicFooter";
@@ -261,6 +261,11 @@ export default function About() {
               </div>
             ))}
           </div>
+
+          <p className="flex items-center justify-center gap-1.5 text-xs text-muted-foreground">
+            <ShieldCheck className="h-3.5 w-3.5 text-primary" />
+            {t("Payments secured by Stripe · Cancel anytime")}
+          </p>
         </div>
       </section>
 
