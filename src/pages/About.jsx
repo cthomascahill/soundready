@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
 import { base44 } from "@/api/base44Client";
-import { Bot, CheckCircle2, Sparkles, Users, Zap } from "lucide-react";
+import { ArrowDown, Bot, CheckCircle2, Sparkles, Users, Zap } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import PublicNav from "@/components/public/PublicNav";
 import PublicFooter from "@/components/public/PublicFooter";
@@ -130,26 +130,16 @@ export default function About() {
         <div className="absolute inset-0 bg-gradient-to-b from-transparent via-background/60 to-background pointer-events-none" />
 
         <motion.div initial={{ opacity: 0, y: 32 }} animate={{ opacity: 1, y: 0 }} className="relative max-w-4xl mx-auto space-y-5">
-          <p className="text-xs sm:text-sm text-primary uppercase tracking-wider font-bold">
-            {t("Built for independent artists")}
-          </p>
           <h1 className="font-heading text-4xl sm:text-6xl lg:text-7xl font-black tracking-tight leading-[0.95]">
-            {t("You made the music")}<br />
-            <span className="text-primary">{t("Give it a team")}</span>
+            {t("Your career in motion")}
           </h1>
-          <p className="text-sm sm:text-base text-muted-foreground max-w-2xl mx-auto leading-relaxed">
-            {t("One home for your next five songs, every mix, note, and release.")}
+          <p className="text-base sm:text-xl font-heading font-bold flex items-center justify-center gap-2">
+            {t("Search your profile below")} <ArrowDown className="h-5 w-5 sm:h-6 sm:w-6 text-primary" />
           </p>
-          {/* WHERE YOU STAND: the first thing a visitor does */}
-          <div className="pt-4 space-y-4 text-center">
-            <div className="space-y-2">
-              <p className="text-xs text-primary uppercase tracking-wider font-bold">{t("Where you stand")}</p>
-              <p className="text-sm sm:text-base text-muted-foreground max-w-xl mx-auto leading-relaxed">
-                {t("Search your artist name to see your Spotify numbers and a 12-month growth projection, the same stats SAM works from.")}
-              </p>
-            </div>
-            <HeroArtistSearch />
-          </div>
+          <p className="text-sm sm:text-base text-muted-foreground max-w-xl mx-auto leading-relaxed">
+            {t("Search your artist name to see your Spotify numbers and a 12-month growth projection, the same stats SAM works from.")}
+          </p>
+          <HeroArtistSearch />
           <div className="pt-1">
             <Button size="lg" className="gap-2 font-heading font-bold text-sm sm:text-base px-6 sm:px-8 h-12" onClick={handleCTA}>
               {t("Start Free")}
