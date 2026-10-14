@@ -11,7 +11,8 @@ import FolderDropZone from "@/components/vaulthome/FolderDropZone";
 import IntakeSummary from "@/components/vaulthome/IntakeSummary";
 import NeedsReviewList from "@/components/vaulthome/NeedsReviewList";
 import SongGroupCard from "@/components/vaulthome/SongGroupCard";
-import ReleasePlanDialog from "@/components/vault/ReleasePlanDialog";
+import SongWorkspaceModal from "@/components/vault/SongWorkspaceModal";
+import PageDropOverlay from "@/components/vault/PageDropOverlay";
 import { AlertCircle, Loader2 } from "lucide-react";
 
 const MAX_BATCH = 100;
@@ -28,33 +29,25 @@ export default function VaultHome() {
   const [loading, setLoading] = useState(true);
   const [songs, setSongs] = useState([]);
   const [pipeByTitle, setPipeByTitle] = useState(new Map());
-  const [versionsByPipeline, setVersionsByPipeline] = useState({});
   const [reviewItems, setReviewItems] = useState([]);
   const [intake, setIntake] = useState({ phase: "idle" });
   const [summary, setSummary] = useState(null);
   const [error, setError] = useState("");
   const [capPrompt, setCapPrompt] = useState(false);
-  const [planSong, setPlanSong] = useState(null);
+  const [workspace, setWorkspace] = useState(null);
   const [busyReview, setBusyReview] = useState(null);
   const [showReview, setShowReview] = useState(false);
 
   const isFree = !!user && !isProOrAbove(user);
 
   const refreshData = async () => {
-    const [songList, pipelines, versions, reviewList] = await Promise.all([
+    const [songList, pipelines, reviewList] = await Promise.all([
       base44.entities.SongVault.filter({ created_by_id: user.id }, "-created_date", 200),
       base44.entities.PipelineSong.filter({ created_by_id: user.id }, "sort_order", 500),
-      base44.entities.SongVersion.list("-created_date", 500),
       base44.entities.VaultIntakeFile.filter({ created_by_id: user.id, status: "needs_review" }, "-created_date", 100),
     ]);
     setSongs(songList);
     setPipeByTitle(new Map(pipelines.map((p) => [pipeKey(p.song_name), p])));
-    setVersionsByPipeline(
-      versions.reduce((acc, v) => {
-        (acc[v.pipeline_song_id] ||= []).push(v);
-        return acc;
-      }, {})
-    );
     setReviewItems(reviewList);
     setLoading(false);
   };
@@ -65,6 +58,7 @@ export default function VaultHome() {
   }, [user?.id]);
 
   const runIntake = async (fileList) => {
+    if (intake.phase === "reading" || intake.phase === "organizing") return;
     const audio = Array.from(fileList).filter(isAudioFile).slice(0, MAX_BATCH);
     if (!audio.length) return;
     const batchId = crypto.randomUUID?.() || String(Date.now());
@@ -361,20 +355,27 @@ export default function VaultHome() {
           ) : songs.length > 0 && (
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               {songs.map((song) => (
-                <SongGroupCard
-                  key={song.id}
-                  song={song}
-                  versions={versionsByPipeline[pipeByTitle.get(pipeKey(song.title))?.id] || []}
-                  onPlanRelease={setPlanSong}
-                />
+                <SongGroupCard key={song.id} song={song} onOpen={setWorkspace} />
               ))}
             </div>
           )}
         </section>
       </div>
 
-      {planSong && <ReleasePlanDialog song={planSong} onClose={() => setPlanSong(null)} />}
+      {workspace && (
+        <SongWorkspaceModal
+          song={workspace}
+          pipeline={pipeByTitle.get(pipeKey(workspace.title))}
+          onClose={() => setWorkspace(null)}
+          onSave={(updated) => setSongs((prev) => prev.map((s) => (s.id === updated.id ? updated : s)))}
+        />
+      )}
       {capPrompt && <VaultCapPrompt kind="song" onClose={() => setCapPrompt(false)} />}
+      <PageDropOverlay
+        onFiles={(files) => { if (intake.phase !== "reading" && intake.phase !== "organizing") runIntake(files); }}
+        title="Drop it — Sam organizes it"
+        subtitle="Songs and versions grouped automatically"
+      />
     </div>
   );
 }

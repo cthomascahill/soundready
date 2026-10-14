@@ -4,15 +4,17 @@ import { useAuth } from "@/lib/AuthContext";
 import { useNavigate } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import {
-  Music2, Plus, Search, Grid, List, Play, Pause, Tag, ListPlus,
-  Folder, SlidersHorizontal, X, ChevronDown, Loader2
+  Music2, Plus, Search, Grid, List, Play, Pause, ListPlus,
+  Folder, SlidersHorizontal, X, Loader2, MoreHorizontal, Trash2, Pencil
 } from "lucide-react";
 import { resolveAudioSource } from "@/lib/audioPlayback";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import moment from "moment";
-import SongCardModal from "@/components/vault/SongCardModal";
-import SongDeleteButton from "@/components/vault/SongDeleteButton";
+import SongWorkspaceModal from "@/components/vault/SongWorkspaceModal";
+import {
+  DropdownMenu, DropdownMenuTrigger, DropdownMenuContent, DropdownMenuItem,
+} from "@/components/ui/dropdown-menu";
+import { VAULT_STATUSES as STATUSES, vaultStatusStyle } from "@/lib/vaultStatus";
 import AlbumDemoLinkCard from "@/components/vault/AlbumDemoLinkCard";
 import ProjectsSidebar from "@/components/vault/ProjectsSidebar";
 import VaultCapPrompt, { VaultUsageBadge, FREE_VAULT_CAP } from "@/components/vault/VaultCapPrompt";
@@ -20,21 +22,10 @@ import BulkAddSongs from "@/components/vault/BulkAddSongs";
 import DropSongZone from "@/components/vault/DropSongZone";
 import SamFileModal from "@/components/vault/SamFileModal";
 import PageDropOverlay from "@/components/vault/PageDropOverlay";
-import TrackerStageDots from "@/components/vault/TrackerStageDots";
 import VaultArtwork from "@/components/vault/VaultArtwork";
 import { isProOrAbove } from "@/lib/tier";
 import { mirrorVaultSongsToTracker } from "@/lib/vaultTrackerSync";
 
-const STATUS_COLORS = {
-  Idea: "bg-secondary text-foreground border-border",
-  Demo: "bg-yellow-500/15 text-yellow-400 border-yellow-500/25",
-  Recorded: "bg-blue-500/15 text-blue-400 border-blue-500/25",
-  Mixed: "bg-purple-500/15 text-purple-400 border-purple-500/25",
-  Mastered: "bg-orange-500/15 text-orange-400 border-orange-500/25",
-  Released: "bg-green-500/15 text-green-400 border-green-500/25",
-};
-
-const STATUSES = ["Idea", "Demo", "Recorded", "Mixed", "Mastered", "Released"];
 const GENRES = ["Hip-Hop", "R&B", "Pop", "Trap", "Drill", "Afrobeats", "Gospel", "Country", "Rock", "Electronic", "Jazz", "Soul", "Alternative", "Other"];
 
 function AudioMiniPlayer({ url, name }) {
@@ -63,42 +54,61 @@ function AudioMiniPlayer({ url, name }) {
   );
 }
 
-function SongCard({ song, onEdit, viewMode, pipeline, onDelete }) {
+function SongCardMenu({ song, onOpen, onDelete }) {
+  return (
+    <div className="shrink-0" onClick={(e) => e.stopPropagation()}>
+      <DropdownMenu>
+        <DropdownMenuTrigger asChild>
+          <button
+            title="More"
+            className="h-8 w-8 rounded-lg flex items-center justify-center text-muted-foreground hover:text-foreground hover:bg-secondary transition-colors"
+          >
+            <MoreHorizontal className="h-4 w-4" />
+          </button>
+        </DropdownMenuTrigger>
+        <DropdownMenuContent align="end">
+          <DropdownMenuItem onClick={() => onOpen(song)} className="gap-2">
+            <Pencil className="h-3.5 w-3.5" /> Edit details
+          </DropdownMenuItem>
+          <DropdownMenuItem onClick={() => onDelete(song.id)} className="gap-2 text-destructive focus:text-destructive">
+            <Trash2 className="h-3.5 w-3.5" /> Delete song
+          </DropdownMenuItem>
+        </DropdownMenuContent>
+      </DropdownMenu>
+    </div>
+  );
+}
+
+// One song, at rest: artwork, title, stage and play. Everything else lives in
+// the song workspace the card opens.
+function SongCard({ song, onOpen, viewMode, onDelete }) {
+  const menu = <SongCardMenu song={song} onOpen={onOpen} onDelete={onDelete} />;
+  const status = (
+    <span className={`text-[11px] font-semibold px-2.5 py-1 rounded-full border ${vaultStatusStyle(song.status)}`}>
+      {song.status}
+    </span>
+  );
+
   if (viewMode === "list") {
     return (
       <motion.div initial={{ opacity: 0, y: 6 }} animate={{ opacity: 1, y: 0 }}
-        onClick={() => onEdit(song)}
+        onClick={() => onOpen(song)}
         className="flex items-center gap-4 px-5 py-4 rounded-xl bg-card border border-border hover:border-primary/30 hover:bg-card/80 transition-all cursor-pointer">
-        <VaultArtwork url={song.artwork_url} title={song.title} className="h-16 w-16 rounded-xl shrink-0 object-cover" iconClass="h-6 w-6" />
-        <div className="flex-1 min-w-0">
-          <p className="font-heading font-bold text-base truncate">{song.title}</p>
-          <p className="text-sm text-zinc-500 truncate mt-0.5">
-            {[song.producer && `Prod. ${song.producer}`, song.genre].filter(Boolean).join(" · ")}
-          </p>
+        <VaultArtwork url={song.artwork_url} title={song.title} className="h-14 w-14 rounded-xl shrink-0 object-cover" iconClass="h-5 w-5" />
+        <div className="flex-1 min-w-0 space-y-1">
+          <p className="font-heading font-bold truncate">{song.title}</p>
+          {status}
         </div>
-        <div className="flex items-center gap-2 shrink-0">
-          {song.moods?.slice(0, 2).map(m => (
-            <span key={m} className="text-[11px] px-2.5 py-1 rounded-full bg-primary/10 text-primary border border-primary/20 hidden sm:inline">{m}</span>
-          ))}
-          {song.tags?.slice(0, 1).map(t => (
-            <span key={t} className="text-[11px] px-2.5 py-1 rounded-full bg-secondary text-muted-foreground border border-border hidden md:inline">{t}</span>
-          ))}
-          <span className={`text-[11px] font-semibold px-2.5 py-1 rounded-full border ${STATUS_COLORS[song.status] || STATUS_COLORS.Demo}`}>
-            {song.status}
-          </span>
-          {pipeline && <TrackerStageDots song={pipeline} />}
-          {song.file_url && <AudioMiniPlayer url={song.file_url} name={song.title} />}
-          <span className="text-xs text-zinc-600 hidden lg:block">{moment(song.created_date).format("MMM D")}</span>
-          <SongDeleteButton onDelete={() => onDelete(song.id)} />
-        </div>
+        {song.file_url && <AudioMiniPlayer url={song.file_url} name={song.title} />}
+        {menu}
       </motion.div>
     );
   }
 
   return (
     <motion.div initial={{ opacity: 0, scale: 0.97 }} animate={{ opacity: 1, scale: 1 }}
-      onClick={() => onEdit(song)}
-      className="rounded-xl bg-card border border-border hover:border-primary/30 transition-all cursor-pointer p-4 flex items-start gap-4 group">
+      onClick={() => onOpen(song)}
+      className="rounded-xl bg-card border border-border hover:border-primary/30 transition-all cursor-pointer p-4 flex items-start gap-4">
       <div className="relative shrink-0">
         <VaultArtwork url={song.artwork_url} title={song.title} className="h-20 w-20 rounded-xl shrink-0 object-cover" iconClass="h-8 w-8" />
         {song.file_url && (
@@ -107,33 +117,12 @@ function SongCard({ song, onEdit, viewMode, pipeline, onDelete }) {
           </div>
         )}
       </div>
-      <div className="flex-1 min-w-0 space-y-2">
-        <div className="flex items-start justify-between gap-2">
-          <p className="font-heading font-bold text-base truncate">{song.title}</p>
-          <div className="flex items-center gap-1 shrink-0">
-            <span className={`text-[10px] font-semibold px-2 py-0.5 rounded-full border shrink-0 ${STATUS_COLORS[song.status] || STATUS_COLORS.Demo}`}>
-              {song.status}
-            </span>
-            <SongDeleteButton onDelete={() => onDelete(song.id)} />
-          </div>
+      <div className="flex-1 min-w-0">
+        <div className="flex items-start justify-between gap-1">
+          <p className="font-heading font-bold leading-snug line-clamp-2 flex-1 min-w-0">{song.title}</p>
+          {menu}
         </div>
-        {(song.producer || song.genre) && (
-          <p className="text-xs text-zinc-500 truncate">
-            {[song.producer && `Prod. ${song.producer}`, song.genre].filter(Boolean).join(" · ")}
-          </p>
-        )}
-        <div className="flex flex-wrap gap-1.5">
-          {song.moods?.slice(0, 2).map(m => (
-            <span key={m} className="text-[11px] px-2 py-0.5 rounded-full bg-primary/10 text-primary border border-primary/20">{m}</span>
-          ))}
-          {song.tags?.slice(0, 1).map(t => (
-            <span key={t} className="text-[11px] px-2 py-0.5 rounded-full bg-secondary text-muted-foreground border border-border flex items-center gap-1">
-              <Tag className="h-3 w-3" />{t}
-            </span>
-          ))}
-        </div>
-        {pipeline && <TrackerStageDots song={pipeline} />}
-        <p className="text-[11px] text-zinc-600">{moment(song.created_date).format("MMM D")}</p>
+        <div className="mt-2">{status}</div>
       </div>
     </motion.div>
   );
@@ -180,6 +169,8 @@ export default function SongLibrary() {
   };
 
   const handleDelete = async (id) => {
+    const song = songs.find(s => s.id === id);
+    if (song && !window.confirm(`Delete "${song.title}" from your Vault?`)) return;
     await base44.entities.SongVault.delete(id);
     setSongs(prev => prev.filter(s => s.id !== id));
   };
@@ -379,15 +370,13 @@ export default function SongLibrary() {
             ) : viewMode === "grid" ? (
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
                 {filtered.map(song => (
-                  <SongCard key={song.id} song={song} onEdit={openEdit} viewMode="grid"
-                    pipeline={pipelineByTitle.get(song.title?.toLowerCase().trim())} onDelete={handleDelete} />
+                  <SongCard key={song.id} song={song} onOpen={openEdit} viewMode="grid" onDelete={handleDelete} />
                 ))}
               </div>
             ) : (
               <div className="space-y-3">
                 {filtered.map(song => (
-                  <SongCard key={song.id} song={song} onEdit={openEdit} viewMode="list"
-                    pipeline={pipelineByTitle.get(song.title?.toLowerCase().trim())} onDelete={handleDelete} />
+                  <SongCard key={song.id} song={song} onOpen={openEdit} viewMode="list" onDelete={handleDelete} />
                 ))}
               </div>
             )}
@@ -398,8 +387,9 @@ export default function SongLibrary() {
 
       {/* Modal */}
       {showModal && (
-        <SongCardModal
+        <SongWorkspaceModal
           song={modalSong}
+          pipeline={modalSong ? pipelineByTitle.get(modalSong.title?.toLowerCase().trim()) : null}
           projects={projects}
           onClose={() => { setShowModal(false); setModalSong(null); }}
           onSave={handleModalSave}

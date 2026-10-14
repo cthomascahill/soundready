@@ -38,7 +38,7 @@ export default function FolderDropZone({ onFiles, disabled, compact }) {
         <div className="flex items-center gap-3 px-4 py-3">
           <FolderUp className="h-4 w-4 text-primary shrink-0" />
           <p className="text-sm text-muted-foreground flex-1 min-w-0 truncate">
-            {dragging ? "Drop to organize with SAM" : "Add more music — drop files or a folder here"}
+            {dragging ? "Drop to organize with SAM" : "Drop more music here anytime"}
           </p>
           <div className="flex gap-2 shrink-0">
             <button
@@ -46,7 +46,7 @@ export default function FolderDropZone({ onFiles, disabled, compact }) {
               disabled={disabled}
               className="h-8 px-3 rounded-lg bg-primary text-primary-foreground text-xs font-semibold hover:bg-primary/90 transition-colors disabled:opacity-50"
             >
-              Choose files
+              Add Song
             </button>
             <button
               onClick={pickFolder}

@@ -3,7 +3,7 @@ import { Upload } from "lucide-react";
 import { isAudioFile } from "@/lib/audioFiles";
 
 // Whole page becomes a drop target: shows a big overlay while a file is being dragged
-export default function PageDropOverlay({ onFiles }) {
+export default function PageDropOverlay({ onFiles, title = "Drop it — Sam will file it", subtitle = "Name it, pick a stage, done." }) {
   const [dragging, setDragging] = useState(false);
   const cbRef = useRef(onFiles);
   useEffect(() => { cbRef.current = onFiles; });
@@ -38,8 +38,8 @@ export default function PageDropOverlay({ onFiles }) {
     <div className="fixed inset-0 z-40 bg-primary/10 backdrop-blur-[2px] pointer-events-none flex items-center justify-center p-6">
       <div className="rounded-2xl border-2 border-dashed border-primary bg-card/95 px-10 py-8 flex flex-col items-center gap-2 shadow-2xl">
         <Upload className="h-8 w-8 text-primary" />
-        <p className="font-heading font-bold text-lg">Drop it — Sam will file it</p>
-        <p className="text-xs text-muted-foreground">Name it, pick a stage, done.</p>
+        <p className="font-heading font-bold text-lg">{title}</p>
+        <p className="text-xs text-muted-foreground">{subtitle}</p>
       </div>
     </div>
   );
