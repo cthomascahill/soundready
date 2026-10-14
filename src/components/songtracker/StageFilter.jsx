@@ -13,7 +13,7 @@ import { STAGES } from "@/lib/songStages";
 
 const OPTIONS = [
   { value: "all", label: "All stages" },
-  { value: "none", label: "Not Started" },
+  { value: "none", label: "Idea" },
   ...STAGES.map((s) => ({ value: s.key, label: s.status })),
 ];
 

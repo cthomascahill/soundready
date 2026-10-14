@@ -33,7 +33,7 @@ export default function SongRowMenu({ song, nextStage, moveTargets, onAdvance, o
           {nextStage && (
             <>
               <DropdownMenuItem onSelect={() => onAdvance(nextStage.key)}>
-                <CheckCircle2 className="h-4 w-4 mr-2" /> Mark {nextStage.label} as done
+                <CheckCircle2 className="h-4 w-4 mr-2" /> Mark as {nextStage.status}
               </DropdownMenuItem>
               <DropdownMenuSeparator />
             </>

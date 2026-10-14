@@ -20,7 +20,7 @@ export default function SongDetails({ song, onUpdate }) {
   const [versionsRefresh, setVersionsRefresh] = useState(0);
 
   return (
-    <div className="px-4 md:px-10 pb-5 pt-3 space-y-5 bg-secondary/10">
+    <div className="px-6 pb-6 pt-5 space-y-5">
       <DetailField label="Workflow progress">
         <StageProgress song={song} onToggle={(key, val) => onUpdate(song.id, { [key]: val })} />
       </DetailField>

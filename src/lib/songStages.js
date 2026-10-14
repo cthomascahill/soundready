@@ -1,21 +1,29 @@
-// Tracker workflow stages, in order.
+import { VAULT_STATUSES, VAULT_STATUS_STYLES } from "@/lib/vaultStatus";
+
+// The unified six-stage ladder shared with the Vault: both views show the
+// same status for the same song. The Tracker's toggles map onto it directly.
 // label  = name in the workflow progress list
 // status = name shown as the song's current stage (badge + filter)
 // action = what the user needs to do to reach this stage
-// badge  = color of the current-stage badge
+// badge  = color of the current-stage badge (same palette as the Vault)
 export const STAGES = [
-  { key: "stage_write", label: "Written", status: "Written", action: "Write the song", badge: "bg-cyan-500/10 text-cyan-400 border-cyan-500/25" },
-  { key: "stage_record", label: "Recorded", status: "Recorded", action: "Record the song", badge: "bg-blue-500/10 text-blue-400 border-blue-500/25" },
-  { key: "stage_mix", label: "Mixed", status: "Mixed", action: "Send for mixing", badge: "bg-purple-500/10 text-purple-400 border-purple-500/25" },
-  { key: "stage_master", label: "Mastered", status: "Mastered", action: "Send for mastering", badge: "bg-pink-500/10 text-pink-400 border-pink-500/25" },
-  { key: "stage_review", label: "Review", status: "In Review", action: "Review the mix", badge: "bg-orange-500/10 text-orange-400 border-orange-500/25" },
-  { key: "stage_artwork", label: "Artwork", status: "Artwork Done", action: "Finish cover artwork", badge: "bg-yellow-500/10 text-yellow-400 border-yellow-500/25" },
-  { key: "stage_submit", label: "Submitted", status: "Submitted", action: "Submit to distributor", badge: "bg-teal-500/10 text-teal-400 border-teal-500/25" },
-  { key: "stage_released", label: "Released", status: "Released", action: "Release the song", badge: "bg-primary/15 text-primary border-primary/25" },
+  { key: "stage_write", label: "Demo", status: "Demo", action: "Write the song", badge: VAULT_STATUS_STYLES.Demo },
+  { key: "stage_record", label: "Recorded", status: "Recorded", action: "Record the song", badge: VAULT_STATUS_STYLES.Recorded },
+  { key: "stage_mix", label: "Mixed", status: "Mixed", action: "Send for mixing", badge: VAULT_STATUS_STYLES.Mixed },
+  { key: "stage_master", label: "Mastered", status: "Mastered", action: "Send for mastering", badge: VAULT_STATUS_STYLES.Mastered },
+  { key: "stage_released", label: "Released", status: "Released", action: "Release the song", badge: VAULT_STATUS_STYLES.Released },
 ];
 
-// Vault statuses, earliest to furthest — used to sync tracker stages to the vault
-export const VAULT_STATUS_ORDER = ["Idea", "Demo", "Recorded", "Mixed", "Mastered", "Released"];
+// Release-prep checklist: real steps toward a release, but they don't move the
+// song along the ladder, so they're shown as their own thing in the panel.
+export const RELEASE_PREP = [
+  { key: "stage_review", label: "Reviewed" },
+  { key: "stage_artwork", label: "Artwork" },
+  { key: "stage_submit", label: "Submitted" },
+];
+
+// The vault statuses, earliest to furthest — the ladder both views share
+export const VAULT_STATUS_ORDER = VAULT_STATUSES;
 
 // The vault status that matches a pipeline song's checked-off tracker stages
 export function vaultStatusFromStages(song) {
