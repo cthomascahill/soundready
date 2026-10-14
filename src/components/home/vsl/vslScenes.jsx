@@ -1,5 +1,6 @@
 import { motion } from "framer-motion";
 import StepTellSamScreen from "@/components/home/walkthrough/StepTellSamScreen";
+import StepAnalyticsScreen from "@/components/home/walkthrough/StepAnalyticsScreen";
 import StepResearchScreen from "@/components/home/walkthrough/StepResearchScreen";
 import StepApproveScreen from "@/components/home/walkthrough/StepApproveScreen";
 import { SignupMock, VaultDropMock, SongInfoMock, TrackerSetupMock, MixesMock, NotesMock, DemoLinkMock, TeamChatMock, PlaylistsMock } from "@/components/home/vsl/vslMocks";
@@ -86,6 +87,13 @@ export const VSL_SCENES = [
     duration: 7,
     narration: "Invite your engineer to the platform. They read your notes right on the song, and you talk it through in Team Chat.",
     render: () => <TeamChatMock />,
+  },
+  {
+    id: "analytics",
+    label: "Review your analytics",
+    duration: 7,
+    narration: "Connect Spotify and YouTube, and your numbers land in one place. Listeners, streams, followers, every week.",
+    render: () => <Centered Screen={StepAnalyticsScreen} />,
   },
   {
     id: "tell",
