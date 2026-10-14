@@ -1,13 +1,15 @@
 import { useState } from "react";
-import { ArrowRight } from "lucide-react";
+import { ChevronRight, ArrowRight } from "lucide-react";
 import { format, parseISO } from "date-fns";
 import useDebouncedField from "@/hooks/useDebouncedField";
 import { getCurrentStage, getNextStage, isOverdue } from "@/lib/songStatus";
 import StageBadge from "./StageBadge";
 import SongRowMenu from "./SongRowMenu";
+import SongDetails from "./SongDetails";
 
-// One song: a quiet summary row that opens the full details in the side panel
-export default function SongRow({ song, isNew, moveTargets, onOpen, onUpdate, onDelete }) {
+// One song: a quiet summary row that expands into the full details
+export default function SongRow({ song, isNew, moveTargets, onUpdate, onDelete }) {
+  const [open, setOpen] = useState(!!isNew);
   const [nameEditing, setNameEditing] = useState(!!isNew);
   const [name, setName] = useDebouncedField(song.song_name, (v) => onUpdate(song.id, { song_name: v }));
   const current = getCurrentStage(song);
@@ -17,9 +19,18 @@ export default function SongRow({ song, isNew, moveTargets, onOpen, onUpdate, on
   return (
     <div className="border-b border-border">
       <div
-        onClick={() => onOpen(song)}
-        className="flex items-center gap-3 px-3 min-h-[56px] cursor-pointer transition-colors hover:bg-secondary/20"
+        onClick={() => setOpen((v) => !v)}
+        className={`flex items-center gap-3 px-3 min-h-[56px] cursor-pointer transition-colors hover:bg-secondary/20 ${open ? "bg-secondary/20" : ""}`}
       >
+        <button
+          type="button"
+          aria-expanded={open}
+          aria-label={open ? "Collapse song details" : "Expand song details"}
+          className="shrink-0 text-muted-foreground"
+        >
+          <ChevronRight className={`h-4 w-4 transition-transform ${open ? "rotate-90" : ""}`} />
+        </button>
+
         <div className="flex-1 min-w-0">
           {nameEditing ? (
             <input
@@ -86,6 +97,8 @@ export default function SongRow({ song, isNew, moveTargets, onOpen, onUpdate, on
           onDelete={() => onDelete(song.id)}
         />
       </div>
+
+      {open && <SongDetails song={song} onUpdate={onUpdate} />}
     </div>
   );
 }

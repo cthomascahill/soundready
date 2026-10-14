@@ -2,7 +2,6 @@ import { useState, useMemo, useRef, useEffect } from "react";
 import { Plus, ArrowUp, ArrowDown } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import SongRow from "./SongRow";
-import SongDetailsSheet from "./SongDetailsSheet";
 import TrackerTabs from "./TrackerTabs";
 import StageFilter from "./StageFilter";
 import SortControl from "./SortControl";
@@ -37,8 +36,6 @@ export default function TrackerList({ songs, moveTargets, onAdd, onUpdate, onDel
   const [stageFilter, setStageFilter] = useState("all");
   const [sort, setSort] = useState({ key: null, dir: "asc" });
   const [newSongId, setNewSongId] = useState(null);
-  // The song whose details are open in the side panel
-  const [openId, setOpenId] = useState(null);
   // The song whose stage was toggled last. Toggling "Released" moves a song out
   // of the Active tab (and stage changes move it out of a stage filter), which
   // made the row vanish mid-edit and the toggle look like it did nothing.
@@ -116,6 +113,7 @@ export default function TrackerList({ songs, moveTargets, onAdd, onUpdate, onDel
 
       <div className="rounded-2xl bg-card border border-border overflow-hidden">
         <div className="hidden md:flex items-center gap-3 px-3 min-h-[40px] bg-secondary/30 border-b border-border text-xs font-semibold text-muted-foreground uppercase tracking-wider">
+          <div className="w-4 shrink-0" />
           <SortHeader label="Song" sortKey="name" sort={sort} onSort={cycleSort} width="flex-1" />
           <SortHeader label="Current Stage" sortKey="stage" sort={sort} onSort={cycleSort} width="w-36" />
           <SortHeader label="Next Action" sortKey="next" sort={sort} onSort={cycleSort} width="w-56" />
@@ -146,24 +144,12 @@ export default function TrackerList({ songs, moveTargets, onAdd, onUpdate, onDel
               song={song}
               isNew={song.id === newSongId}
               moveTargets={moveTargets}
-              onOpen={(s) => setOpenId(s.id)}
               onUpdate={handleUpdate}
               onDelete={onDelete}
             />
           ))
         )}
       </div>
-
-      {openId && (() => {
-        const selected = songs.find((s) => s.id === openId);
-        return selected ? (
-          <SongDetailsSheet
-            song={selected}
-            onUpdate={handleUpdate}
-            onClose={() => setOpenId(null)}
-          />
-        ) : null;
-      })()}
     </div>
   );
 }
