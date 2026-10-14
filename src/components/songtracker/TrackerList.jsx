@@ -1,154 +1,100 @@
-import { useState, useMemo, useRef, useEffect } from "react";
+import { useMemo, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { Plus, ArrowUp, ArrowDown } from "lucide-react";
+import { Plus, ChevronDown } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import SongRow from "./SongRow";
-import TrackerTabs from "./TrackerTabs";
-import StageFilter from "./StageFilter";
-import SortControl from "./SortControl";
 import InviteTeammateButton from "./InviteTeammateButton";
-import { TABS, getCurrentStage, sortSongs, compareBy } from "@/lib/songStatus";
+import { getCurrentStage, sortSongs } from "@/lib/songStatus";
+import { vaultStatusDot } from "@/lib/vaultStatus";
 
-const EMPTY_MESSAGES = {
-  active: "No songs in progress.",
-  upcoming: "No songs with an upcoming release date.",
-  released: "No released songs yet.",
-  all: "No songs yet.",
-};
+// The six-stage ladder, in language an artist scans in a second
+const GROUPS = [
+  { label: "Ideas", statuses: ["Idea"] },
+  { label: "Demos", statuses: ["Demo"] },
+  { label: "In production", statuses: ["Recorded", "Mixed"] },
+  { label: "Ready to release", statuses: ["Mastered"] },
+  { label: "Released", statuses: ["Released"] },
+];
 
-// Clickable column header: first click sorts ascending, second descending, third resets
-const SortHeader = ({ label, sortKey, sort, onSort, width }) => {
-  const active = sort.key === sortKey;
-  return (
-    <button
-      type="button"
-      onClick={() => onSort(sortKey)}
-      className={`flex items-center gap-1 text-left shrink-0 transition-colors ${width} ${active ? "text-foreground" : "hover:text-foreground"}`}
-    >
-      {label}
-      {active && (sort.dir === "asc" ? <ArrowUp className="h-3 w-3" /> : <ArrowDown className="h-3 w-3" />)}
-    </button>
-  );
-};
-
-// The song list inside one project: tabs, stage filter, sorting and rows.
-// Each row is quiet on purpose — clicking it opens the song's own page.
+// The project's songs, grouped into collapsible stage sections — the whole
+// pipeline reads at a glance instead of one long mixed list. Toggling a stage
+// moves the song into its new section, so progress is visible feedback.
 export default function TrackerList({ songs, moveTargets, onAdd, onUpdate, onDelete }) {
   const navigate = useNavigate();
-  const [tab, setTab] = useState("active");
-  const [stageFilter, setStageFilter] = useState("all");
-  const [sort, setSort] = useState({ key: null, dir: "asc" });
-  // The song whose stage was toggled last. Toggling "Released" moves a song out
-  // of the Active tab (and stage changes move it out of a stage filter), which
-  // made the row vanish mid-edit and the toggle look like it did nothing.
-  // The pinned row stays visible in its spot until the user changes view.
-  const [pinnedId, setPinnedId] = useState(null);
-  const orderRef = useRef([]);
-
-  // Switching tab or filter lets go of the pinned row
-  useEffect(() => { setPinnedId(null); }, [tab, stageFilter]);
-
-  // Pin any song whose stage flags just changed, then save as usual
-  const handleUpdate = (id, changes) => {
-    if (Object.keys(changes).some((k) => k.startsWith("stage_"))) setPinnedId(id);
-    onUpdate(id, changes);
-  };
+  const [collapsed, setCollapsed] = useState({});
 
   const addSong = async () => {
     const song = await onAdd();
-    // Jump to Active so the new song is visible, then open its page to name it
-    setTab("active");
-    setStageFilter("all");
     navigate(`/song-tracker/${song.id}`);
   };
 
-  // First click sorts ascending, second descending, third back to the default order
-  const cycleSort = (key) =>
-    setSort((s) => (s.key === key
-      ? (s.dir === "asc" ? { key, dir: "desc" } : { key: null, dir: "asc" })
-      : { key, dir: "asc" }));
-
-  const counts = useMemo(
-    () => Object.fromEntries(TABS.map((t) => [t.value, songs.filter(t.test).length])),
+  const groups = useMemo(
+    () => {
+      const ordered = sortSongs(songs);
+      return GROUPS.map((g) => ({
+        ...g,
+        dot: vaultStatusDot(g.statuses[0]),
+        songs: ordered.filter((s) => g.statuses.includes(getCurrentStage(s)?.status || "Idea")),
+      }));
+    },
     [songs]
   );
 
-  const visibleSongs = useMemo(() => {
-    const inTab = TABS.find((t) => t.value === tab).test;
-    const list = songs.filter(inTab).filter((s) => {
-      if (stageFilter === "all") return true;
-      const current = getCurrentStage(s);
-      return stageFilter === "none" ? !current : current?.key === stageFilter;
-    });
-    const ordered = sortSongs(list);
-    if (sort.key) {
-      ordered.sort((a, b) => (sort.dir === "asc" ? compareBy(sort.key, a, b) : -compareBy(sort.key, a, b)));
-    }
-    // Keep a just-toggled song in the list at its previous position even when
-    // the change moved it out of the current tab or filter
-    const pinnedSong = pinnedId && songs.find((s) => s.id === pinnedId);
-    if (pinnedSong && !ordered.some((s) => s.id === pinnedId)) {
-      const prevPos = orderRef.current.findIndex((s) => s.id === pinnedId);
-      ordered.splice(Math.min(prevPos >= 0 ? prevPos : ordered.length, ordered.length), 0, pinnedSong);
-    }
-    orderRef.current = ordered;
-    return ordered;
-  }, [songs, tab, stageFilter, sort, pinnedId]);
+  const toggle = (label) => setCollapsed((c) => ({ ...c, [label]: !c[label] }));
 
   return (
-    <div className="space-y-6">
-      {songs.length > 0 && (
-        <div className="flex items-center justify-between gap-3 flex-wrap">
-          <TrackerTabs value={tab} counts={counts} onChange={setTab} />
-          <div className="flex items-center gap-2">
-            <StageFilter value={stageFilter} onChange={setStageFilter} />
-            <InviteTeammateButton />
-            <div className="md:hidden">
-              <SortControl sort={sort} onChange={setSort} />
-            </div>
-            <Button onClick={addSong} size="sm" className="gap-2">
-              <Plus className="h-4 w-4" /> Add Song
-            </Button>
-          </div>
+    <div className="space-y-5">
+      <div className="flex items-center justify-end gap-2">
+        <InviteTeammateButton />
+        <Button onClick={addSong} size="sm" className="gap-2">
+          <Plus className="h-4 w-4" /> Add Song
+        </Button>
+      </div>
+
+      {songs.length === 0 ? (
+        <div className="rounded-2xl bg-card border border-border text-center py-20 space-y-3">
+          <p className="text-muted-foreground text-sm">No songs in this project yet.</p>
+          <Button onClick={addSong} variant="outline" className="gap-2">
+            <Plus className="h-4 w-4" /> Add the First Song
+          </Button>
+        </div>
+      ) : (
+        <div className="space-y-3">
+          {groups.map((g) => {
+            const open = !collapsed[g.label];
+            return (
+              <div key={g.label} className="rounded-2xl bg-card border border-border overflow-hidden">
+                <button
+                  type="button"
+                  onClick={() => toggle(g.label)}
+                  className="w-full flex items-center gap-3 px-4 py-3 hover:bg-secondary/20 transition-colors"
+                >
+                  <ChevronDown className={`h-4 w-4 text-muted-foreground transition-transform ${open ? "" : "-rotate-90"}`} />
+                  <span className={`h-1.5 w-1.5 rounded-full ${g.dot}`} />
+                  <span className="text-sm font-semibold text-foreground">{g.label}</span>
+                  <span className="text-xs text-muted-foreground tabular-nums">{g.songs.length}</span>
+                </button>
+                {open && (
+                  g.songs.length > 0 ? g.songs.map((song) => (
+                    <SongRow
+                      key={song.id}
+                      song={song}
+                      moveTargets={moveTargets}
+                      onUpdate={onUpdate}
+                      onDelete={onDelete}
+                      onOpen={(s) => navigate(`/song-tracker/${s.id}`)}
+                    />
+                  )) : (
+                    <p className="px-4 pb-4 pt-1 text-xs text-muted-foreground">
+                      Nothing here yet — songs land in this section as they progress.
+                    </p>
+                  )
+                )}
+              </div>
+            );
+          })}
         </div>
       )}
-
-      <div className="rounded-2xl bg-card border border-border overflow-hidden">
-        <div className="hidden md:flex items-center gap-3 px-3 min-h-[40px] bg-secondary/30 border-b border-border text-xs font-semibold text-muted-foreground uppercase tracking-wider">
-          <SortHeader label="Song" sortKey="name" sort={sort} onSort={cycleSort} width="flex-1" />
-          <div className="w-28 shrink-0" />
-          <div className="w-8 shrink-0" />
-        </div>
-
-        {songs.length === 0 ? (
-          <div className="text-center py-20 space-y-3">
-            <p className="text-muted-foreground text-sm">No songs in this project yet.</p>
-            <Button onClick={addSong} variant="outline" className="gap-2">
-              <Plus className="h-4 w-4" /> Add the First Song
-            </Button>
-          </div>
-        ) : visibleSongs.length === 0 ? (
-          <div className="text-center py-12 space-y-2">
-            <p className="text-muted-foreground text-sm">
-              {stageFilter === "all" ? EMPTY_MESSAGES[tab] : "No songs match this stage filter."}
-            </p>
-            {stageFilter !== "all" && (
-              <Button variant="ghost" size="sm" onClick={() => setStageFilter("all")}>Clear filter</Button>
-            )}
-          </div>
-        ) : (
-          visibleSongs.map((song) => (
-            <SongRow
-              key={song.id}
-              song={song}
-              moveTargets={moveTargets}
-              onUpdate={handleUpdate}
-              onDelete={onDelete}
-              onOpen={(s) => navigate(`/song-tracker/${s.id}`)}
-            />
-          ))
-        )}
-      </div>
     </div>
   );
 }

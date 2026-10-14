@@ -9,8 +9,9 @@ import StageProgress from "./StageProgress";
 import VersionsPanel from "./VersionsPanel";
 import AudioReviewPlayer from "./AudioReviewPlayer";
 
-// The song's working surface: the stage ladder and notes stay in view, and the
-// paperwork plus version controls wait under "More details".
+// The song's working surface, in the order an artist cares: the audio and its
+// versions first, then the workflow paperwork, then notes. Codes and dates
+// wait behind "More details".
 export default function SongDetails({ song, onUpdate }) {
   const save = (field) => (val) => onUpdate(song.id, { [field]: val });
   const [notes, setNotes] = useDebouncedField(song.notes, save("notes"));
@@ -19,10 +20,21 @@ export default function SongDetails({ song, onUpdate }) {
   const [upc, setUpc] = useDebouncedField(song.upc_code, save("upc_code"));
   const [moreOpen, setMoreOpen] = useState(false);
   const [reviewOpen, setReviewOpen] = useState(false);
-  const [versionsRefresh, setVersionsRefresh] = useState(0);
 
   return (
     <div className="space-y-6">
+      <DetailField label="Audio & versions">
+        <div className="space-y-3">
+          <button
+            onClick={() => setReviewOpen(true)}
+            className="h-9 px-4 rounded-md border border-border text-xs font-semibold tracking-wide flex items-center gap-2 hover:bg-secondary transition-colors"
+          >
+            <Headphones className="h-4 w-4" /> A/B compare mixes
+          </button>
+          <VersionsPanel song={song} onUpdate={onUpdate} />
+        </div>
+      </DetailField>
+
       <DetailField label="Workflow progress">
         <StageProgress song={song} onToggle={(key, val) => onUpdate(song.id, { [key]: val })} />
       </DetailField>
@@ -43,14 +55,6 @@ export default function SongDetails({ song, onUpdate }) {
       {moreOpen && (
         <div className="space-y-5 rounded-xl border border-border p-4 md:p-5">
           <div className="grid gap-4 md:grid-cols-3">
-            <DetailField label="Mixes">
-              <button
-                onClick={() => setReviewOpen(true)}
-                className="h-9 w-full px-4 rounded-md border border-border text-xs font-semibold tracking-wide flex items-center justify-center gap-2 hover:bg-secondary transition-colors"
-              >
-                <Headphones className="h-4 w-4" /> Listen to mixes
-              </button>
-            </DetailField>
             <DetailField label="Artwork">
               <div className="min-h-9 flex items-center rounded-md border border-border bg-secondary/30 px-3 py-0.5">
                 <ArtworkCell song={song} onUpdate={onUpdate} className="w-auto justify-start" />
@@ -63,12 +67,12 @@ export default function SongDetails({ song, onUpdate }) {
                 onChange={(e) => onUpdate(song.id, { release_date: e.target.value })}
               />
             </DetailField>
-          </div>
-
-          <div className="grid gap-4 md:grid-cols-3">
             <DetailField label="Mix version label">
               <Input value={version} onChange={(e) => setVersion(e.target.value)} placeholder="e.g. MIX 5" />
             </DetailField>
+          </div>
+
+          <div className="grid gap-4 md:grid-cols-2">
             <DetailField label="ISRC">
               <Input value={isrc} onChange={(e) => setIsrc(e.target.value)} placeholder="CC-XXX-YY-NNNNN" />
             </DetailField>
@@ -76,10 +80,6 @@ export default function SongDetails({ song, onUpdate }) {
               <Input value={upc} onChange={(e) => setUpc(e.target.value)} placeholder="UPC / Barcode" />
             </DetailField>
           </div>
-
-          <DetailField label="Versions — every mix and master of this record">
-            <VersionsPanel key={versionsRefresh} song={song} onUpdate={onUpdate} />
-          </DetailField>
         </div>
       )}
 
@@ -88,7 +88,6 @@ export default function SongDetails({ song, onUpdate }) {
         onUpdate={onUpdate}
         open={reviewOpen}
         onOpenChange={setReviewOpen}
-        onVersionsChanged={() => setVersionsRefresh((k) => k + 1)}
       />
     </div>
   );

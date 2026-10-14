@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   Music2, Plus, Search, Grid, List, Play, Pause, ListPlus,
-  Folder, SlidersHorizontal, X, Loader2, MoreHorizontal, Trash2, Pencil
+  SlidersHorizontal, X, Loader2, MoreHorizontal, Trash2, Pencil
 } from "lucide-react";
 import { resolveAudioSource } from "@/lib/audioPlayback";
 import { Button } from "@/components/ui/button";
@@ -16,7 +16,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { VAULT_STATUSES as STATUSES, vaultStatusDot } from "@/lib/vaultStatus";
 import AlbumDemoLinkCard from "@/components/vault/AlbumDemoLinkCard";
-import ProjectsSidebar from "@/components/vault/ProjectsSidebar";
+import ProjectFolders from "@/components/vault/ProjectFolders";
 import VaultCapPrompt, { VaultUsageBadge, FREE_VAULT_CAP } from "@/components/vault/VaultCapPrompt";
 import BulkAddSongs from "@/components/vault/BulkAddSongs";
 import DropSongZone from "@/components/vault/DropSongZone";
@@ -143,7 +143,6 @@ export default function SongLibrary() {
   const [activeProject, setActiveProject] = useState(null);
   const [sortBy, setSortBy] = useState("newest");
   const [showFilters, setShowFilters] = useState(false);
-  const [showSidebar, setShowSidebar] = useState(true);
   const [showCapPrompt, setShowCapPrompt] = useState(false);
   const [pipelineSongs, setPipelineSongs] = useState([]);
   const [showBulk, setShowBulk] = useState(false);
@@ -232,7 +231,6 @@ export default function SongLibrary() {
   else if (sortBy === "title") filtered = [...filtered].sort((a, b) => a.title?.localeCompare(b.title));
   else if (sortBy === "status") filtered = [...filtered].sort((a, b) => STATUSES.indexOf(a.status) - STATUSES.indexOf(b.status));
 
-  const activeProjectName = activeProject ? projects.find(p => p.id === activeProject)?.name : "All Songs";
   const hasFilters = filterStatus || filterGenre || search;
 
   return (
@@ -256,25 +254,19 @@ export default function SongLibrary() {
           </div>
         </div>
 
-        <div className="flex gap-6">
-          {/* Sidebar */}
-          {showSidebar && (
-            <div className="w-52 shrink-0 hidden md:block">
-              <ProjectsSidebar
-                projects={projects}
-                songs={songs}
-                activeProject={activeProject}
-                setActiveProject={setActiveProject}
-                onProjectCreate={handleProjectCreate}
-                onProjectDelete={handleProjectDelete}
-              />
-            </div>
-          )}
+        <div className="space-y-4">
+          {/* Project folders — tap one to scope the catalog */}
+          <ProjectFolders
+            projects={projects}
+            songs={songs}
+            activeProject={activeProject}
+            setActiveProject={setActiveProject}
+            onProjectCreate={handleProjectCreate}
+            onProjectDelete={handleProjectDelete}
+          />
 
-          {/* Main content */}
-          <div className="flex-1 min-w-0 space-y-4">
-            {/* Drop a song in — Sam files it */}
-            <DropSongZone onFiles={handleFilesDropped} />
+          {/* Drop a song in — Sam files it */}
+          <DropSongZone onFiles={handleFilesDropped} />
 
             {/* Toolbar */}
             <div className="flex items-center gap-2 flex-wrap">
@@ -336,15 +328,6 @@ export default function SongLibrary() {
               )}
             </AnimatePresence>
 
-            {/* Project label */}
-            {activeProject && (
-              <div className="flex items-center gap-2">
-                <Folder className="h-4 w-4 text-primary" />
-                <span className="text-sm font-medium">{activeProjectName}</span>
-                <button onClick={() => setActiveProject(null)} className="text-zinc-600 hover:text-zinc-400"><X className="h-3.5 w-3.5" /></button>
-              </div>
-            )}
-
             {/* Album demo link for this project */}
             {activeProject && (
               <AlbumDemoLinkCard
@@ -382,7 +365,6 @@ export default function SongLibrary() {
               </div>
             )}
 
-          </div>
         </div>
       </div>
 
