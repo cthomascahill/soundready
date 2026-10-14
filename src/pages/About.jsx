@@ -137,7 +137,7 @@ export default function About() {
             <span className="text-primary">{t("Give it a team.")}</span>
           </h1>
           <p className="text-sm sm:text-base text-muted-foreground max-w-2xl mx-auto leading-relaxed">
-            {t("Drop your next five songs into SoundReady. Keep every mix and collaborator's feedback together, prepare each release, and let your AI manager help get your music in front of people.")}
+            {t("One home for your next five songs — every mix, note, and release.")}
           </p>
           <div className="pt-1">
             <Button size="lg" className="gap-2 font-heading font-bold text-sm sm:text-base px-6 sm:px-8 h-12" onClick={handleCTA}>
@@ -280,7 +280,7 @@ export default function About() {
               {t("You made the music. ")}<span className="text-primary">{t("Give it a team.")}</span>
             </h2>
             <p className="text-sm sm:text-base text-muted-foreground max-w-xl mx-auto leading-relaxed">
-              {t("Drop your next five songs in and start turning them into releases.")}
+              {t("Start with five songs. Free.")}
             </p>
           </div>
           <Button size="lg" className="gap-2 font-heading font-bold text-base px-8 h-12" onClick={handleCTA}>

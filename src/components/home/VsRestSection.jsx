@@ -39,7 +39,7 @@ export default function VsRestSection() {
             {t("12 tools in ")}<span className="text-primary font-black">{t("1 Place")}</span>
           </h2>
           <p className="text-lg sm:text-xl text-muted-foreground max-w-3xl mx-auto leading-relaxed">
-            {t("The tools you juggle to manage your music — and the one place that brings it all together.")}
+            {t("Every tool you use, in one home.")}
           </p>
         </motion.div>
 

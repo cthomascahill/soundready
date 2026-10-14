@@ -80,7 +80,7 @@ export default function WorkflowSection() {
             {t("The journey of your ")}<span className="text-primary">{t("next five songs")}</span>
           </h2>
           <p className="text-sm sm:text-base text-muted-foreground max-w-2xl mx-auto leading-relaxed">
-            {t("Drop them in once. SoundReady keeps every mix, note, and release step together — so your music keeps moving.")}
+            {t("Drop them in once. Everything stays together.")}
           </p>
         </motion.div>
 
