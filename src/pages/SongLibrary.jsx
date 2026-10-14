@@ -14,7 +14,7 @@ import SongWorkspaceModal from "@/components/vault/SongWorkspaceModal";
 import {
   DropdownMenu, DropdownMenuTrigger, DropdownMenuContent, DropdownMenuItem,
 } from "@/components/ui/dropdown-menu";
-import { VAULT_STATUSES as STATUSES, vaultStatusStyle } from "@/lib/vaultStatus";
+import { VAULT_STATUSES as STATUSES, vaultStatusDot } from "@/lib/vaultStatus";
 import AlbumDemoLinkCard from "@/components/vault/AlbumDemoLinkCard";
 import ProjectsSidebar from "@/components/vault/ProjectsSidebar";
 import VaultCapPrompt, { VaultUsageBadge, FREE_VAULT_CAP } from "@/components/vault/VaultCapPrompt";
@@ -47,7 +47,7 @@ function AudioMiniPlayer({ url, name }) {
     setLoading(false);
   };
   return (
-    <button onClick={toggle} className="h-9 w-9 rounded-full bg-primary/20 border border-primary/40 flex items-center justify-center text-primary hover:bg-primary/30 transition-colors shrink-0">
+    <button onClick={toggle} className="h-9 w-9 rounded-full bg-foreground/10 border border-foreground/15 flex items-center justify-center text-foreground hover:bg-foreground/20 transition-colors shrink-0">
       {loading ? <Loader2 className="h-3.5 w-3.5 animate-spin" /> : playing ? <Pause className="h-3.5 w-3.5" /> : <Play className="h-3.5 w-3.5 ml-0.5" />}
       <audio ref={audioRef} onEnded={() => setPlaying(false)} />
     </button>
@@ -84,7 +84,8 @@ function SongCardMenu({ song, onOpen, onDelete }) {
 function SongCard({ song, onOpen, viewMode, onDelete }) {
   const menu = <SongCardMenu song={song} onOpen={onOpen} onDelete={onDelete} />;
   const status = (
-    <span className={`text-[11px] font-semibold px-2.5 py-1 rounded-full border ${vaultStatusStyle(song.status)}`}>
+    <span className="flex items-center gap-1.5 text-xs text-muted-foreground">
+      <span className={`h-1.5 w-1.5 rounded-full ${vaultStatusDot(song.status)}`} />
       {song.status}
     </span>
   );
@@ -240,7 +241,7 @@ export default function SongLibrary() {
         {/* Top Header */}
         <div className="flex items-center justify-between gap-4 mb-6 flex-wrap">
           <div>
-            <p className="text-xs text-primary uppercase tracking-widest font-medium">Your Catalog</p>
+            <p className="text-xs text-muted-foreground uppercase tracking-widest font-medium">Your Catalog</p>
             <h1 className="font-heading text-3xl font-bold">Vault</h1>
             <p className="text-zinc-500 text-sm mt-0.5">{songs.length} {songs.length === 1 ? "song" : "songs"}</p>
           </div>
@@ -282,7 +283,7 @@ export default function SongLibrary() {
                 <Input placeholder="Search songs, tags, producer..." value={search} onChange={e => setSearch(e.target.value)} className="pl-9 bg-card border-zinc-800" />
               </div>
               <button onClick={() => setShowFilters(v => !v)}
-                className={`flex items-center gap-1.5 h-9 px-3 rounded-lg border text-sm transition-colors ${showFilters || hasFilters ? "border-primary/40 text-primary bg-primary/5" : "border-border text-muted-foreground hover:border-foreground/40 hover:text-foreground"}`}>
+                className={`flex items-center gap-1.5 h-9 px-3 rounded-lg border text-sm transition-colors ${showFilters || hasFilters ? "border-foreground/40 text-foreground bg-secondary" : "border-border text-muted-foreground hover:border-foreground/40 hover:text-foreground"}`}>
                 <SlidersHorizontal className="h-4 w-4" /> Filters
                 {hasFilters && <span className="h-1.5 w-1.5 rounded-full bg-primary" />}
               </button>
@@ -294,10 +295,10 @@ export default function SongLibrary() {
                 <option value="status">Status</option>
               </select>
               <div className="flex rounded-lg border border-zinc-800 overflow-hidden">
-                <button onClick={() => setViewMode("grid")} className={`h-9 px-2.5 transition-colors ${viewMode === "grid" ? "bg-primary/10 text-primary" : "text-zinc-500 hover:text-foreground"}`}>
+                <button onClick={() => setViewMode("grid")} className={`h-9 px-2.5 transition-colors ${viewMode === "grid" ? "bg-secondary text-foreground" : "text-zinc-500 hover:text-foreground"}`}>
                   <Grid className="h-4 w-4" />
                 </button>
-                <button onClick={() => setViewMode("list")} className={`h-9 px-2.5 transition-colors ${viewMode === "list" ? "bg-primary/10 text-primary" : "text-zinc-500 hover:text-foreground"}`}>
+                <button onClick={() => setViewMode("list")} className={`h-9 px-2.5 transition-colors ${viewMode === "list" ? "bg-secondary text-foreground" : "text-zinc-500 hover:text-foreground"}`}>
                   <List className="h-4 w-4" />
                 </button>
               </div>
@@ -310,12 +311,12 @@ export default function SongLibrary() {
                   className="flex flex-wrap gap-2 overflow-hidden">
                   <div className="flex flex-wrap gap-2">
                     <button onClick={() => setFilterStatus("")}
-                      className={`text-xs px-3 py-1 rounded-full border transition-colors ${!filterStatus ? "bg-primary text-black border-primary" : "border-zinc-700 text-zinc-400 hover:border-zinc-500"}`}>
+                      className={`text-xs px-3 py-1 rounded-full border transition-colors ${!filterStatus ? "bg-foreground/10 text-foreground border-foreground/30" : "border-zinc-700 text-zinc-400 hover:border-zinc-500"}`}>
                       All Statuses
                     </button>
                     {STATUSES.map(s => (
                       <button key={s} onClick={() => setFilterStatus(s === filterStatus ? "" : s)}
-                        className={`text-xs px-3 py-1 rounded-full border transition-colors ${filterStatus === s ? "bg-primary text-black border-primary" : "border-zinc-700 text-zinc-400 hover:border-zinc-500"}`}>
+                        className={`text-xs px-3 py-1 rounded-full border transition-colors ${filterStatus === s ? "bg-foreground/10 text-foreground border-foreground/30" : "border-zinc-700 text-zinc-400 hover:border-zinc-500"}`}>
                         {s}
                       </button>
                     ))}

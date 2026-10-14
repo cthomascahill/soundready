@@ -1,4 +1,5 @@
 import { useState, useMemo, useRef, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import { Plus, ArrowUp, ArrowDown } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import SongRow from "./SongRow";
@@ -30,12 +31,13 @@ const SortHeader = ({ label, sortKey, sort, onSort, width }) => {
   );
 };
 
-// The song list inside one project: tabs, stage filter, sorting and rows
+// The song list inside one project: tabs, stage filter, sorting and rows.
+// Each row is quiet on purpose — clicking it opens the song's own page.
 export default function TrackerList({ songs, moveTargets, onAdd, onUpdate, onDelete }) {
+  const navigate = useNavigate();
   const [tab, setTab] = useState("active");
   const [stageFilter, setStageFilter] = useState("all");
   const [sort, setSort] = useState({ key: null, dir: "asc" });
-  const [newSongId, setNewSongId] = useState(null);
   // The song whose stage was toggled last. Toggling "Released" moves a song out
   // of the Active tab (and stage changes move it out of a stage filter), which
   // made the row vanish mid-edit and the toggle look like it did nothing.
@@ -54,10 +56,10 @@ export default function TrackerList({ songs, moveTargets, onAdd, onUpdate, onDel
 
   const addSong = async () => {
     const song = await onAdd();
-    // Jump to Active so the new song is visible, opened and ready to name
+    // Jump to Active so the new song is visible, then open its page to name it
     setTab("active");
     setStageFilter("all");
-    setNewSongId(song.id);
+    navigate(`/song-tracker/${song.id}`);
   };
 
   // First click sorts ascending, second descending, third back to the default order
@@ -113,11 +115,8 @@ export default function TrackerList({ songs, moveTargets, onAdd, onUpdate, onDel
 
       <div className="rounded-2xl bg-card border border-border overflow-hidden">
         <div className="hidden md:flex items-center gap-3 px-3 min-h-[40px] bg-secondary/30 border-b border-border text-xs font-semibold text-muted-foreground uppercase tracking-wider">
-          <div className="w-4 shrink-0" />
           <SortHeader label="Song" sortKey="name" sort={sort} onSort={cycleSort} width="flex-1" />
-          <SortHeader label="Current Stage" sortKey="stage" sort={sort} onSort={cycleSort} width="w-36" />
-          <SortHeader label="Next Action" sortKey="next" sort={sort} onSort={cycleSort} width="w-56" />
-          <SortHeader label="Release Date" sortKey="release_date" sort={sort} onSort={cycleSort} width="w-32" />
+          <div className="w-28 shrink-0" />
           <div className="w-8 shrink-0" />
         </div>
 
@@ -142,10 +141,10 @@ export default function TrackerList({ songs, moveTargets, onAdd, onUpdate, onDel
             <SongRow
               key={song.id}
               song={song}
-              isNew={song.id === newSongId}
               moveTargets={moveTargets}
               onUpdate={handleUpdate}
               onDelete={onDelete}
+              onOpen={(s) => navigate(`/song-tracker/${s.id}`)}
             />
           ))
         )}

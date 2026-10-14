@@ -1,8 +1,7 @@
 import { useRef, useState } from "react";
 import { base44 } from "@/api/base44Client";
-import { X, Play, Pause, ImagePlus, Loader2 } from "lucide-react";
+import { X, Play, Pause, ImagePlus, Loader2, ChevronDown, Upload } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { resolvePlayableAudioUrl } from "@/lib/audioPlayback";
 import { awardPoints } from "@/lib/awardPoints";
 import VaultArtwork from "@/components/vault/VaultArtwork";
@@ -10,11 +9,10 @@ import VersionsTab from "@/components/vault/workspace/VersionsTab";
 import DetailsTab from "@/components/vault/workspace/DetailsTab";
 import ReleaseTab from "@/components/vault/workspace/ReleaseTab";
 import ReleasePlanDialog from "@/components/vault/ReleasePlanDialog";
-import { vaultStatusStyle } from "@/lib/vaultStatus";
+import { vaultStatusDot } from "@/lib/vaultStatus";
 
-// The song workspace — what "Edit Song" used to be. A song opens on its audio
-// and versions, not a form: Details (credits, genre, BPM, moods) and Release
-// (stage, links, plan) are tabs you visit when you need them.
+// The song view: what you came for is what you see — the player, the latest
+// version, notes. Everything else waits behind one "More details" toggle.
 export default function SongWorkspaceModal({ song, pipeline, projects = [], onClose, onSave }) {
   const isNew = !song?.id;
   const [form, setForm] = useState({
@@ -42,8 +40,13 @@ export default function SongWorkspaceModal({ song, pipeline, projects = [], onCl
   const [playing, setPlaying] = useState(false);
   const [planOpen, setPlanOpen] = useState(false);
   const [uploadingArt, setUploadingArt] = useState(false);
+  const [uploadingAudio, setUploadingAudio] = useState(false);
+  const [moreOpen, setMoreOpen] = useState(isNew);
   const audioRef = useRef(null);
   const artworkRef = useRef(null);
+  const audioInputRef = useRef(null);
+
+  const set = (key) => (e) => setForm((f) => ({ ...f, [key]: e.target.value }));
 
   const handleArtwork = async (file) => {
     if (!file || !file.type.startsWith("image/")) return;
@@ -51,6 +54,22 @@ export default function SongWorkspaceModal({ song, pipeline, projects = [], onCl
     const { file_url } = await base44.integrations.Core.UploadPublicFile({ file });
     setForm((f) => ({ ...f, artwork_url: file_url }));
     setUploadingArt(false);
+  };
+
+  const handleAudioFile = async (file) => {
+    if (!file || !file.type.startsWith("audio/")) return;
+    setUploadingAudio(true);
+    const localUrl = URL.createObjectURL(file);
+    const duration = await new Promise((resolve) => {
+      const a = new Audio();
+      a.src = localUrl;
+      a.onloadedmetadata = () => resolve(Math.round(a.duration));
+      a.onerror = () => resolve(null);
+      setTimeout(() => resolve(null), 5000);
+    });
+    const { file_uri } = await base44.integrations.Core.UploadPrivateFile({ file });
+    setForm((f) => ({ ...f, file_url: file_uri, file_name: file.name, duration }));
+    setUploadingAudio(false);
   };
 
   const togglePlay = async () => {
@@ -78,8 +97,8 @@ export default function SongWorkspaceModal({ song, pipeline, projects = [], onCl
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 backdrop-blur-sm p-4">
-      <div className="bg-card border border-border rounded-2xl w-full max-w-3xl max-h-[90vh] flex flex-col">
-        {/* Header: artwork, title, one stage */}
+      <div className="bg-card border border-border rounded-2xl w-full max-w-2xl max-h-[90vh] flex flex-col">
+        {/* Header: artwork, title, quiet stage */}
         <div className="flex items-start gap-4 px-6 py-5 border-b border-border">
           <button onClick={() => artworkRef.current?.click()} title="Change artwork"
             className="relative shrink-0 rounded-xl group">
@@ -95,64 +114,94 @@ export default function SongWorkspaceModal({ song, pipeline, projects = [], onCl
               placeholder="Song title"
               className="w-full bg-transparent font-heading text-xl font-bold outline-none placeholder:text-muted-foreground/50"
             />
-            <span className={`inline-block text-[10px] font-semibold px-2 py-0.5 rounded-full border ${vaultStatusStyle(form.status)}`}>
+            <p className="flex items-center gap-1.5 text-xs text-muted-foreground">
+              <span className={`h-1.5 w-1.5 rounded-full ${vaultStatusDot(form.status)}`} />
               {form.status}
-            </span>
+            </p>
           </div>
           <button onClick={onClose} className="text-muted-foreground hover:text-foreground transition-colors shrink-0">
             <X className="h-5 w-5" />
           </button>
         </div>
 
-        {/* The song's audio, front and center */}
-        {form.file_url && (
-          <div className="flex items-center gap-3 px-6 py-3 border-b border-border bg-primary/5">
-            <button onClick={togglePlay}
-              className="h-9 w-9 rounded-full bg-primary/20 border border-primary/40 flex items-center justify-center text-primary hover:bg-primary/30 transition-colors shrink-0">
-              {playing ? <Pause className="h-4 w-4" /> : <Play className="h-4 w-4 ml-0.5" />}
-            </button>
-            <div className="flex-1 min-w-0">
-              <p className="text-sm truncate">{form.file_name || "Current version"}</p>
-              {form.duration != null && (
-                <p className="text-xs text-muted-foreground">{Math.floor(form.duration / 60)}:{String(form.duration % 60).padStart(2, "0")}</p>
-              )}
+        <div className="flex-1 overflow-y-auto px-6 py-5 space-y-5">
+          {/* The song's audio, front and center */}
+          {form.file_url ? (
+            <div className="flex items-center gap-3 rounded-xl border border-border px-4 py-3">
+              <button onClick={togglePlay}
+                className="h-10 w-10 rounded-full bg-foreground/10 border border-foreground/15 flex items-center justify-center text-foreground hover:bg-foreground/20 transition-colors shrink-0">
+                {playing ? <Pause className="h-4 w-4" /> : <Play className="h-4 w-4 ml-0.5" />}
+              </button>
+              <div className="flex-1 min-w-0">
+                <p className="text-[11px] font-semibold uppercase tracking-wider text-muted-foreground">Latest version</p>
+                <p className="text-sm truncate">{form.file_name || "Current version"}</p>
+                {form.duration != null && (
+                  <p className="text-xs text-muted-foreground">{Math.floor(form.duration / 60)}:{String(form.duration % 60).padStart(2, "0")}</p>
+                )}
+              </div>
+              <audio ref={audioRef} onEnded={() => setPlaying(false)} />
             </div>
-            <audio ref={audioRef} onEnded={() => setPlaying(false)} />
-          </div>
-        )}
+          ) : (
+            <div
+              onClick={() => audioInputRef.current?.click()}
+              className="rounded-xl border-2 border-dashed border-border hover:border-foreground/30 cursor-pointer flex items-center justify-center gap-2 py-5 text-sm text-muted-foreground transition-colors"
+            >
+              {uploadingAudio ? <Loader2 className="h-4 w-4 animate-spin" /> : <Upload className="h-4 w-4" />}
+              {uploadingAudio ? "Uploading…" : "Add this song's audio"}
+            </div>
+          )}
 
-        {/* Tabs: audio and versions first, the rest on demand */}
-        <div className="flex-1 overflow-y-auto px-6 py-5">
-          <Tabs defaultValue={isNew ? "details" : "versions"}>
-            <TabsList className="mb-5">
-              {!isNew && <TabsTrigger value="versions">Versions</TabsTrigger>}
-              <TabsTrigger value="details">Details</TabsTrigger>
-              <TabsTrigger value="release">Release</TabsTrigger>
-            </TabsList>
-            {!isNew && (
-              <TabsContent value="versions">
-                <VersionsTab
-                  song={song}
-                  pipeline={pipeline}
-                  hasAudio={!!form.file_url}
-                  onAudioUploaded={({ file_uri, file_name, duration }) =>
-                    setForm((f) => ({ ...f, file_url: file_uri, file_name, duration }))
-                  }
-                />
-              </TabsContent>
-            )}
-            <TabsContent value="details">
-              <DetailsTab form={form} setForm={setForm} projects={projects} />
-            </TabsContent>
-            <TabsContent value="release">
-              <ReleaseTab form={form} setForm={setForm} song={song} onPlanRelease={() => setPlanOpen(true)} />
-            </TabsContent>
-          </Tabs>
+          {/* Notes */}
+          <label className="block space-y-1.5">
+            <span className="text-[11px] font-semibold uppercase tracking-wider text-muted-foreground">Notes</span>
+            <textarea
+              value={form.notes || ""}
+              onChange={set("notes")}
+              placeholder="Production notes, ideas, references..."
+              rows={3}
+              className="w-full rounded-lg border border-input bg-transparent px-3 py-2 text-sm placeholder:text-muted-foreground/60 focus:outline-none focus:ring-1 focus:ring-ring resize-none"
+            />
+          </label>
+
+          {/* Everything else, on demand */}
+          <button
+            type="button"
+            onClick={() => setMoreOpen((v) => !v)}
+            className="flex items-center gap-2 text-sm font-medium text-muted-foreground hover:text-foreground transition-colors"
+          >
+            <ChevronDown className={`h-4 w-4 transition-transform ${moreOpen ? "rotate-180" : ""}`} />
+            {moreOpen ? "Hide details" : "More details"}
+          </button>
+
+          {moreOpen && (
+            <div className="space-y-8 pt-1">
+              {!isNew && (
+                <section className="space-y-3">
+                  <h3 className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">Versions</h3>
+                  <VersionsTab
+                    song={song}
+                    pipeline={pipeline}
+                    hasAudio={!!form.file_url}
+                    onAudioUploaded={({ file_uri, file_name, duration }) =>
+                      setForm((f) => ({ ...f, file_url: file_uri, file_name, duration }))
+                    }
+                  />
+                </section>
+              )}
+              <section className="space-y-3">
+                <h3 className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">Details</h3>
+                <DetailsTab form={form} setForm={setForm} projects={projects} />
+              </section>
+              <section className="space-y-3">
+                <h3 className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">Release</h3>
+                <ReleaseTab form={form} setForm={setForm} song={song} onPlanRelease={() => setPlanOpen(true)} />
+              </section>
+            </div>
+          )}
         </div>
 
-        {/* Footer */}
-        <div className="px-6 py-4 border-t border-border flex items-center justify-end gap-3">
-          <Button variant="outline" onClick={onClose}>Cancel</Button>
+        {/* One main action */}
+        <div className="px-6 py-4 border-t border-border flex justify-end">
           <Button onClick={handleSave} disabled={saving || !form.title.trim()} className="gap-2">
             {saving && <Loader2 className="h-4 w-4 animate-spin" />}
             {isNew ? "Add to Vault" : "Save changes"}
@@ -161,6 +210,8 @@ export default function SongWorkspaceModal({ song, pipeline, projects = [], onCl
 
         <input ref={artworkRef} type="file" accept="image/*" className="hidden"
           onChange={(e) => { handleArtwork(e.target.files[0]); e.target.value = ""; }} />
+        <input ref={audioInputRef} type="file" accept="audio/*" className="hidden"
+          onChange={(e) => { handleAudioFile(e.target.files[0]); e.target.value = ""; }} />
       </div>
       {planOpen && <ReleasePlanDialog song={form} onClose={() => setPlanOpen(false)} />}
     </div>

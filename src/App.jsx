@@ -50,6 +50,7 @@ import Settlements from './pages/Settlements';
 import MerchInventory from './pages/MerchInventory';
 import TaxEstimator from './pages/TaxEstimator';
 import SongTracker from './pages/SongTracker';
+import TrackerSong from './pages/TrackerSong';
 import SharedTracker from './pages/SharedTracker';
 import SongVersions from './pages/SongVersions';
 import ArtistIntake from './pages/ArtistIntake';
@@ -167,6 +168,7 @@ const AuthenticatedApp = () => {
         <Route path="/merch-inventory" element={pro(MerchInventory)} />
         <Route path="/tax-estimator" element={<TaxEstimator />} />
         <Route path="/song-tracker" element={<SongTracker />} />
+        <Route path="/song-tracker/:songId" element={<TrackerSong />} />
         <Route path="/tracker/shared" element={<SharedTracker />} />
         <Route path="/song-versions/:songId" element={<SongVersions />} />
         <Route path="/artist-profile" element={<ArtistIntake />} />

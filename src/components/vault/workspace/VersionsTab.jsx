@@ -28,14 +28,14 @@ function VersionRow({ version }) {
       <button
         onClick={toggle}
         title={`Play ${version.label}`}
-        className="h-8 w-8 rounded-full bg-primary/20 border border-primary/40 flex items-center justify-center text-primary hover:bg-primary/30 transition-colors shrink-0"
+        className="h-8 w-8 rounded-full bg-foreground/10 border border-foreground/15 flex items-center justify-center text-foreground hover:bg-foreground/20 transition-colors shrink-0"
       >
         {loading ? <Loader2 className="h-3.5 w-3.5 animate-spin" /> : playing ? <Pause className="h-3.5 w-3.5" /> : <Play className="h-3.5 w-3.5 ml-0.5" />}
       </button>
       <span className="text-sm flex-1 min-w-0 truncate">{version.label}</span>
       {version.is_current && (
-        <span className="text-[10px] font-semibold text-primary flex items-center gap-1 shrink-0">
-          <Star className="h-3 w-3 fill-primary" /> Current
+        <span className="text-[10px] font-semibold text-foreground flex items-center gap-1 shrink-0">
+          <Star className="h-3 w-3 fill-foreground" /> Current
         </span>
       )}
       <audio ref={audioRef} onEnded={() => setPlaying(false)} />
@@ -119,7 +119,7 @@ export default function VersionsTab({ song, pipeline, hasAudio, onAudioUploaded 
           <p className="text-xs text-muted-foreground">Every mix and master of this song, grouped automatically.</p>
           <Link
             to={`/song-versions/${pipeline.id}`}
-            className="flex items-center gap-1.5 text-xs font-medium text-primary hover:underline shrink-0"
+            className="flex items-center gap-1.5 text-xs font-medium text-foreground hover:underline shrink-0"
           >
             <Maximize2 className="h-3.5 w-3.5" /> Full version history
           </Link>

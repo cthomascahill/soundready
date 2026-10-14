@@ -67,7 +67,7 @@ export default function DetailsTab({ form, setForm, projects = [] }) {
         <div className="flex flex-wrap gap-2">
           {MOODS.map((m) => (
             <button key={m} onClick={() => toggleMood(m)}
-              className={`px-3 py-1 rounded-full text-xs border transition-colors ${form.moods?.includes(m) ? "bg-primary/15 text-primary border-primary/30" : "border-border text-muted-foreground hover:text-foreground hover:border-foreground/40"}`}>
+              className={`px-3 py-1 rounded-full text-xs border transition-colors ${form.moods?.includes(m) ? "bg-foreground/10 text-foreground border-foreground/25" : "border-border text-muted-foreground hover:text-foreground hover:border-foreground/40"}`}>
               {m}
             </button>
           ))}
@@ -80,7 +80,7 @@ export default function DetailsTab({ form, setForm, projects = [] }) {
           <div className="flex flex-wrap gap-2">
             {projects.map((p) => (
               <button key={p.id} onClick={() => toggleProject(p.id)}
-                className={`px-3 py-1 rounded-full text-xs border transition-colors ${form.project_ids?.includes(p.id) ? "bg-primary/15 text-primary border-primary/30" : "border-border text-muted-foreground hover:text-foreground hover:border-foreground/40"}`}>
+                className={`px-3 py-1 rounded-full text-xs border transition-colors ${form.project_ids?.includes(p.id) ? "bg-foreground/10 text-foreground border-foreground/25" : "border-border text-muted-foreground hover:text-foreground hover:border-foreground/40"}`}>
                 {p.name}
               </button>
             ))}

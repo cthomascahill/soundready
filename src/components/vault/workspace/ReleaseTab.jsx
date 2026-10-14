@@ -2,7 +2,7 @@ import { Sparkles } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import DemoLinkCard from "@/components/vault/DemoLinkCard";
-import { VAULT_STATUSES, vaultStatusStyle } from "@/lib/vaultStatus";
+import { VAULT_STATUSES } from "@/lib/vaultStatus";
 
 // Everything about moving this song out into the world: its stage on the one
 // shared ladder, release links once it's out, a private demo link, and SAM's
@@ -17,7 +17,7 @@ export default function ReleaseTab({ form, setForm, song, onPlanRelease }) {
         <div className="flex flex-wrap gap-2">
           {VAULT_STATUSES.map((s) => (
             <button key={s} onClick={() => setForm((f) => ({ ...f, status: s }))}
-              className={`px-3 py-1 rounded-full text-xs font-semibold border transition-colors ${form.status === s ? vaultStatusStyle(s) : "border-border text-muted-foreground hover:text-foreground hover:border-foreground/40"}`}>
+              className={`px-3 py-1 rounded-full text-xs font-semibold border transition-colors ${form.status === s ? "bg-foreground/10 text-foreground border-foreground/25" : "border-border text-muted-foreground hover:text-foreground hover:border-foreground/40"}`}>
               {s}
             </button>
           ))}
@@ -39,8 +39,7 @@ export default function ReleaseTab({ form, setForm, song, onPlanRelease }) {
       )}
 
       <div>
-        <Button variant="outline" onClick={onPlanRelease} disabled={!form.file_url || !form.title.trim()}
-          className="gap-2 border-primary/30 text-primary hover:bg-primary/10 hover:text-primary">
+        <Button variant="outline" onClick={onPlanRelease} disabled={!form.file_url || !form.title.trim()} className="gap-2">
           <Sparkles className="h-4 w-4" /> Generate release plan
         </Button>
         <p className="text-xs text-muted-foreground mt-2">
