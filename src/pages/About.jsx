@@ -129,6 +129,27 @@ export default function About() {
         <div className="absolute -top-40 -right-56 h-[560px] w-[560px] rounded-full bg-chart-2/10 blur-[160px] pointer-events-none" />
         <div className="absolute inset-0 bg-gradient-to-b from-transparent via-background/60 to-background pointer-events-none" />
 
+        {/* SAM, standing by on the right side of the hero */}
+        <div className="hidden lg:flex absolute right-8 xl:right-24 top-1/2 -translate-y-1/2 flex-col items-center gap-3 pointer-events-none z-10">
+          <motion.img
+            src="https://media.base44.com/images/public/69dcf0ecc907e43a438a626b/b7f9a17dc_generated_f31f1bbd.png"
+            alt="SAM, your SoundReady Artist Manager"
+            className="h-44 xl:h-52 w-auto drop-shadow-xl"
+            initial={{ opacity: 0, x: 24 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ delay: 0.3 }}
+          />
+          <motion.div
+            initial={{ opacity: 0, y: 12 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.45 }}
+            className="rounded-xl border border-primary/30 bg-card px-3.5 py-2 shadow-xl text-center"
+          >
+            <p className="text-xs font-bold text-primary">Meet SAM</p>
+            <p className="text-[10px] text-muted-foreground">SoundReady Artist Manager</p>
+          </motion.div>
+        </div>
+
         <motion.div initial={{ opacity: 0, y: 32 }} animate={{ opacity: 1, y: 0 }} className="relative max-w-4xl mx-auto space-y-5">
           <h1 className="font-heading text-4xl sm:text-6xl lg:text-7xl font-black tracking-tight leading-[0.95]">
             {t("Your career")} <span className="text-primary">{t("in motion")}</span>
