@@ -189,7 +189,7 @@ export default function About() {
             <p className="text-xs text-primary uppercase tracking-wider font-bold">{t("Pricing")}</p>
             <h2 className="font-heading text-3xl sm:text-5xl font-black tracking-tight">
               {t("Your next five songs are free")}<br />
-              <span className="text-primary">{t("Add the team when you're ready")}</span>
+              <span className="text-primary">{t("Add SAM when you're ready")}</span>
             </h2>
           </motion.div>
 
