@@ -1,5 +1,4 @@
 import { useState } from "react";
-import SamTaskProof from "@/components/home/SamTaskProof";
 import { FolderUp, MapPin, Music2 } from "lucide-react";
 import WalkthroughSection from "@/components/home/WalkthroughSection";
 import OrganizeMusicCards from "@/components/home/walkthrough/OrganizeMusicCards";
@@ -74,7 +73,6 @@ export default function SamWalkthrough() {
       }
       steps={active.steps}
       body={active.key === "organize" ? <OrganizeMusicCards /> : undefined}
-      below={active.key === "organize" ? null : <SamTaskProof />}
     />
   );
 }
