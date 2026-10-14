@@ -1,29 +1,24 @@
-import { useState, useEffect } from "react";
+import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
 import { base44 } from "@/api/base44Client";
-import {
-  ArrowRight, Flame, Zap, BarChart2, Music2, DollarSign, FileText, Users,
-  CheckCircle2, Mic2, MapPin, BookOpen, Wand2, Link2, TrendingUp, Newspaper,
-  Send, CalendarDays, AlertTriangle, Clock, PhoneOff, TrendingDown, Star, ArrowDown,
-  Bot, ChevronRight, Sparkles, Radar
-} from "lucide-react";
+import { Bot, CheckCircle2, Sparkles, Users, Zap } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import PublicNav from "@/components/public/PublicNav";
 import PublicFooter from "@/components/public/PublicFooter";
 import SEO from "@/components/SEO";
-import GrowthComparisonChart from "@/components/home/GrowthComparisonChart";
-import CountUpStat from "@/components/home/CountUpStat";
-import PlatformShowcaseSection from "@/components/home/PlatformShowcaseSection";
-import VsRestSection from "@/components/home/VsRestSection";
+import WorkspacePreview from "@/components/home/WorkspacePreview";
+import WorkflowSection from "@/components/home/WorkflowSection";
+import BenefitsSection from "@/components/home/BenefitsSection";
+import MeetSamSection from "@/components/home/MeetSamSection";
 import MattCormanSection from "@/components/home/MattCormanSection";
 import HeroArtistSearch from "@/components/home/HeroArtistSearch";
-import SamOverviewVideo from "@/components/home/SamOverviewVideo";
-import SamWalkthrough from "@/components/home/SamWalkthrough";
-import ForYouIfSection from "@/components/home/ForYouIfSection";
+import VsRestSection from "@/components/home/VsRestSection";
 import FaqSection from "@/components/home/FaqSection";
 import { useLang } from "@/lib/i18n/LanguageContext";
 
+// Plans: prices, limits, trial conditions and checkout destinations are unchanged.
+// Only the framing changes — the workspace is the product; SAM lives inside it.
 const TIERS = [
   {
     icon: Zap,
@@ -31,7 +26,7 @@ const TIERS = [
     bg: "bg-chart-5/10",
     border: "border-chart-5/20",
     name: "Free",
-    tagline: "Get your music organized.",
+    tagline: "Start organizing your music.",
     limit: "Up to 5 songs",
     price: "$0 — Free forever",
     desc: "Sign up free and your Release Starter Kit lands in your inbox the moment you join: pitch template, filled-in example, release timeline, metadata checklist.",
@@ -54,7 +49,7 @@ const TIERS = [
     bg: "bg-chart-5/10",
     border: "border-chart-5/20",
     name: "Artist Pro",
-    tagline: "Tools to manage it yourself.",
+    tagline: "Your full music workspace.",
     limit: "Unlimited songs",
     price: "$39/month",
     badge: "7-Day Free Trial",
@@ -78,7 +73,7 @@ const TIERS = [
     bg: "bg-primary/10",
     border: "border-primary/30",
     name: "Digital Manager",
-    tagline: "For artists who want help doing the work.",
+    tagline: "Your workspace, with SAM's help.",
     limit: "2,500 SAM credits/mo",
     price: "$59/month",
     strike: "$79/month",
@@ -86,7 +81,7 @@ const TIERS = [
     badge: "Founding Artist Offer",
     badgeStyle: "bg-primary text-primary-foreground",
     glow: true,
-    desc: "SAM uses your music, stats, and goals to research opportunities and prepare personalized pitches. You stay in control.",
+    desc: "SAM, your AI manager, is included with this plan. SAM uses your music, stats, and goals to research opportunities and prepare personalized pitches. You approve every email before it's sent.",
     items: [
       "Everything in Artist Pro",
       "Ask SAM to research venues, playlists, labels, press, and sync opportunities",
@@ -106,7 +101,6 @@ const TIERS = [
 
 export default function About() {
   const [isAuth, setIsAuth] = useState(false);
-  const [showScenarios, setShowScenarios] = useState(false);
   const { t } = useLang();
 
   useEffect(() => {
@@ -114,125 +108,97 @@ export default function About() {
   }, []);
 
   const handleCTA = () => {
-    if (isAuth) window.location.href = "/history";
+    if (isAuth) window.location.href = "/dashboard";
     else window.location.href = "/register";
   };
-
 
   return (
     <div className="min-h-screen bg-background">
       <SEO
-        title="SoundReady: Your Digital Music Manager for Independent Artists"
-        description="SoundReady is your digital music manager: organize your songs, plan releases, book shows, and let SAM draft your pitches from your real numbers. Start free."
+        title="SoundReady: Your Music Workspace for Independent Artists"
+        description="SoundReady keeps your songs, mixes, feedback, and release progress together in one workspace — with SAM, an AI manager, to help you take the next step. Start free."
       />
 
       <PublicNav showHome={false} />
 
-      {/* HERO */}
+      {/* HERO: the workspace leads, SAM supports */}
       <section className="relative px-4 pt-24 pb-14 text-center overflow-hidden">
-        {/* Soft ambient glows, Too Lost style: oversized blurred color fields behind the hero */}
+        {/* Soft ambient glows behind the hero */}
         <div className="absolute -top-48 -left-48 h-[640px] w-[640px] rounded-full bg-primary/15 blur-[140px] pointer-events-none" />
         <div className="absolute -top-40 -right-56 h-[560px] w-[560px] rounded-full bg-chart-2/10 blur-[160px] pointer-events-none" />
         <div className="absolute inset-0 bg-gradient-to-b from-transparent via-background/60 to-background pointer-events-none" />
-        <motion.div initial={{ opacity: 0, y: 32 }} animate={{ opacity: 1, y: 0 }} className="relative max-w-7xl mx-auto grid lg:grid-cols-[1.1fr_1fr] items-center gap-6">
-          {/* Hero copy */}
-          <div className="space-y-4 lg:space-y-5 text-center">
-            <h1 className="font-heading text-4xl sm:text-5xl lg:text-7xl font-black tracking-tight leading-[0.9]">
-              {t("Your own digital")}<br />
-              <span className="text-primary">{t("music manager")}</span>
-            </h1>
-            <p className="font-heading text-lg sm:text-xl font-bold tracking-tight">
-              {t("Stop doing everything alone.")}
-            </p>
-            <p className="text-sm sm:text-base text-muted-foreground max-w-xl mx-auto leading-relaxed">
-              {t("SAM finds music opportunities, drafts your pitches, and helps plan your next release. You approve what goes out.")}
-            </p>
 
-            <div className="flex flex-col items-center gap-1.5 sm:gap-2">
-              <p className="font-heading text-xl sm:text-2xl lg:text-4xl font-black text-foreground tracking-tight">
-                {t("Search your artist name now")}
-              </p>
-              <ArrowDown className="h-4 w-4 sm:h-6 sm:w-6 text-foreground animate-bounce" />
-            </div>
-
-            <HeroArtistSearch />
-
-            <div className="flex flex-col sm:flex-row items-center justify-center gap-3 pt-1">
-              <Button size="lg" className="gap-2 font-heading font-bold text-sm sm:text-base px-6 sm:px-8 h-12" onClick={handleCTA}>
-                {t("Start Free")}
-              </Button>
-            </div>
-
-            <p className="text-xs sm:text-sm text-muted-foreground">{t("Free forever. Your Release Starter Kit lands in your inbox the moment you sign up.")}</p>
-          </div>
-
-          {/* SAM mascot, big on the right, floating */}
-          <div className="relative flex flex-col items-center justify-center lg:items-end pt-8 lg:pt-0">
-            <motion.img
-              src="https://media.base44.com/images/public/69dcf0ecc907e43a438a626b/cbca442cd_generated_76ab93fb.png"
-              alt="SAM, the Soundready Artist Manager robot"
-              className="h-52 sm:h-72 lg:h-[360px] w-auto drop-shadow-[0_24px_60px_rgba(34,197,94,0.25)]"
-              initial={{ opacity: 0, x: 24 }}
-              animate={{ opacity: 1, x: 0, y: [0, -14, 0] }}
-              transition={{
-                opacity: { duration: 0.6 },
-                x: { duration: 0.6 },
-                y: { repeat: Infinity, duration: 4, ease: "easeInOut" }
-              }}
-            />
-            <p className="mt-2 font-heading text-lg sm:text-2xl font-black tracking-tight text-foreground whitespace-nowrap">
-              <span className="text-primary">S</span>oundready&nbsp;<span className="text-primary">A</span>rtist&nbsp;<span className="text-primary">M</span>anager
-            </p>
-            <div className="absolute -top-2 lg:top-6 -left-2 lg:left-auto lg:right-52 -rotate-6 flex flex-col items-center pointer-events-none z-20">
-              <p className="font-heading text-2xl sm:text-4xl font-black text-foreground whitespace-nowrap">{t("Meet SAM")}</p>
-              <svg width="110" height="80" viewBox="-11 0 110 80" fill="none" className="text-primary mt-1 w-[90px] h-auto sm:w-[110px] sm:h-[80px]">
-                <path d="M4 6 C 44 10, 76 30, 82 66" stroke="currentColor" strokeWidth="5" strokeLinecap="round" />
-                <path d="M68 62 L 84 74 L 76 52" stroke="currentColor" strokeWidth="5" strokeLinecap="round" strokeLinejoin="round" />
-              </svg>
-            </div>
+        <motion.div initial={{ opacity: 0, y: 32 }} animate={{ opacity: 1, y: 0 }} className="relative max-w-4xl mx-auto space-y-5">
+          <p className="text-xs sm:text-sm text-primary uppercase tracking-wider font-bold">
+            {t("Built for independent artists")}
+          </p>
+          <h1 className="font-heading text-4xl sm:text-6xl lg:text-7xl font-black tracking-tight leading-[0.95]">
+            {t("Your music,")}<br />
+            <span className="text-primary">{t("from idea to release.")}</span>
+          </h1>
+          <p className="text-sm sm:text-base text-muted-foreground max-w-2xl mx-auto leading-relaxed">
+            {t("Keep your songs, mixes, feedback, and releases organized in one place — with an AI manager to help you take the next step.")}
+          </p>
+          <div className="pt-1">
+            <Button size="lg" className="gap-2 font-heading font-bold text-sm sm:text-base px-6 sm:px-8 h-12" onClick={handleCTA}>
+              {t("Start Free")}
+            </Button>
+            <p className="text-xs sm:text-sm text-muted-foreground mt-2.5">{t("Start with 5 songs. No card required.")}</p>
           </div>
         </motion.div>
 
-      </section>
-
-      {/* HOW-TO VIDEO: the narrated, chaptered SAM overview */}
-      <section className="px-4 py-10">
-        <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="max-w-7xl mx-auto space-y-7">
-          <div className="text-center space-y-2">
-            <h2 className="font-heading text-3xl sm:text-5xl font-black tracking-tight">
-              Watch how <span className="text-primary">SAM</span> {t("works")}
-            </h2>
-            <p className="text-sm sm:text-base text-muted-foreground max-w-xl mx-auto leading-relaxed">
-              {t("A guided tour of SAM and the whole SoundReady platform.")}
-            </p>
-          </div>
-          <SamOverviewVideo />
+        <motion.div
+          initial={{ opacity: 0, y: 40 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.15 }}
+          className="relative max-w-5xl mx-auto mt-12 sm:mt-16"
+        >
+          <WorkspacePreview />
         </motion.div>
       </section>
 
-      {/* MEET SAM: one step-by-step walkthrough, two example tasks */}
-      <SamWalkthrough />
+      {/* THE CORE WORKFLOW */}
+      <WorkflowSection />
 
-      {/* PROOF: built by an independent artist, right after the SAM demo */}
+      {/* THREE CONNECTED BENEFITS */}
+      <BenefitsSection />
+
+      {/* MEET SAM, inside the workspace */}
+      <MeetSamSection />
+
+      {/* FOUNDER STORY */}
       <MattCormanSection />
 
-      {/* AUDIENCE: artist identification and transformation */}
-      <ForYouIfSection />
+      {/* SECONDARY: where you stand today (moved out of the hero) */}
+      <section className="px-4 py-16 border-t border-border">
+        <div className="max-w-3xl mx-auto space-y-6 text-center">
+          <div className="space-y-3">
+            <p className="text-xs text-primary uppercase tracking-wider font-bold">{t("Where you stand")}</p>
+            <h2 className="font-heading text-3xl sm:text-5xl font-black tracking-tight">
+              {t("Know your numbers. ")}<span className="text-primary">{t("Then take the next step.")}</span>
+            </h2>
+            <p className="text-sm sm:text-base text-muted-foreground max-w-xl mx-auto leading-relaxed">
+              {t("Search your artist name to see your Spotify numbers and a 12-month growth projection — the same stats SAM works from.")}
+            </p>
+          </div>
+          <HeroArtistSearch />
+        </div>
+      </section>
 
-      {/* THE PLATFORM: compact product screenshots */}
-      <PlatformShowcaseSection />
-
-      {/* SOUNDREADY VS. THE REST */}
+      {/* TODAY VS. SOUNDREADY */}
       <VsRestSection />
 
       {/* PRICING, 3 tiers */}
       <section id="pricing" className="relative px-4 py-16 overflow-hidden scroll-mt-20">
-        {/* Soft ambient gradient glows, mirrored to the opposing side from the showcase above */}
+        {/* Soft ambient gradient glows */}
         <div className="absolute -top-48 -right-56 h-[620px] w-[620px] rounded-full bg-primary/15 blur-[150px] pointer-events-none" />
         <div className="absolute -bottom-40 -left-64 h-[560px] w-[560px] rounded-full bg-chart-2/10 blur-[160px] pointer-events-none" />
         <div className="relative max-w-5xl mx-auto space-y-14">
           <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="text-center space-y-4">
             <p className="text-xs text-primary uppercase tracking-wider font-bold">{t("Pricing")}</p>
+            <h2 className="font-heading text-3xl sm:text-5xl font-black tracking-tight">
+              {t("Start free. ")}<span className="text-primary">{t("Add SAM when you're ready.")}</span>
+            </h2>
           </motion.div>
 
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-5">
@@ -259,7 +225,7 @@ export default function About() {
                 {tier.name === "Digital Manager" && (
                   <motion.img
                     src="https://media.base44.com/images/public/69dcf0ecc907e43a438a626b/b7f9a17dc_generated_f31f1bbd.png"
-                    alt="SAM, the Soundready Artist Manager robot pointing at the Digital Manager card"
+                    alt="SAM, the SoundReady Artist Manager robot pointing at the Digital Manager card"
                     className="pointer-events-none absolute -right-3 xl:-right-14 top-8 h-24 sm:h-44 w-auto drop-shadow-xl z-10"
                     initial={{ opacity: 0, x: 16 }}
                     whileInView={{ opacity: 1, x: 0 }}
@@ -306,62 +272,21 @@ export default function About() {
       {/* FAQ */}
       <FaqSection />
 
-      {/* SOCIAL PROOF STATS */}
-      <section className="px-4 py-14">
-        <div className="max-w-5xl mx-auto space-y-8">
-          <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="text-center space-y-2">
-            <h2 className="font-heading text-4xl font-bold">{t("See what's possible with SoundReady")}</h2>
-          </motion.div>
-          {showScenarios ? (
-            <div className="space-y-6">
-              <GrowthComparisonChart />
-              <p className="text-center text-sm text-muted-foreground">{t("Illustrative comparison, not a guarantee, results depend on your releases, effort, and genre.")}</p>
-              <div className="flex justify-center">
-                <Button variant="outline" className="h-12 px-8 font-heading font-bold" onClick={() => setShowScenarios(false)}>
-                  {t("Hide scenarios")}
-                </Button>
-              </div>
-            </div>
-          ) : (
-            <div className="flex justify-center">
-              <Button variant="outline" className="h-12 px-8 gap-2 font-heading font-bold" onClick={() => setShowScenarios(true)}>
-                {t("Compare growth scenarios")} <ArrowDown className="h-4 w-4" />
-              </Button>
-            </div>
-          )}
-          <div className="grid grid-cols-2 lg:grid-cols-5 gap-2 sm:gap-4">
-            {[
-              { num: "1,341+", label: "venues ready to pitch" },
-              { num: "30", label: "integrated tools" },
-              { num: "10+ hrs", label: "back in your week" },
-              { num: "$0", label: "to get started" },
-              { num: "15–20%", label: "traditional management takes" },
-            ].map((s, i) => (
-              <motion.div key={i} initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: i * 0.08 }}
-                className="p-4 sm:p-6 space-y-1.5 sm:space-y-2 text-center">
-                <p className="font-heading text-xl sm:text-3xl lg:text-4xl font-black text-primary">{s.num}</p>
-                <p className="text-[10px] sm:text-sm text-muted-foreground">{t(s.label)}</p>
-              </motion.div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* CTA */}
-      <section className="px-4 py-24 text-center bg-gradient-to-t from-primary/8 via-background to-background">
-        <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="max-w-5xl mx-auto space-y-8">
+      {/* FINAL CTA */}
+      <section className="px-4 py-24 text-center bg-gradient-to-t from-primary/8 via-background to-background border-t border-border">
+        <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="max-w-4xl mx-auto space-y-6">
           <div className="space-y-4">
             <h2 className="font-heading text-4xl sm:text-5xl lg:text-6xl font-black tracking-tight">
-              {t("Your music deserves ")}<span className="text-primary">{t("more than guesswork")}</span>
+              {t("Give your music a ")}<span className="text-primary">{t("home.")}</span>
             </h2>
             <p className="text-sm sm:text-base text-muted-foreground max-w-xl mx-auto leading-relaxed">
-              {t("You've already put the work into making the music. Now it's time to build the career around it.")}
+              {t("Keep your songs together and your next release moving.")}
             </p>
           </div>
           <Button size="lg" className="gap-2 font-heading font-bold text-base px-8 h-12" onClick={handleCTA}>
-            {t("Get Your Digital Music Manager")} <ArrowRight className="h-4 w-4" />
+            {t("Start Free")}
           </Button>
-          <p className="text-xs sm:text-sm text-muted-foreground">{t("Start free. No contracts. No percentage cuts, ever.")}</p>
+          <p className="text-xs sm:text-sm text-muted-foreground">{t("Start with 5 songs. No card required.")}</p>
         </motion.div>
       </section>
 

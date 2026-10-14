@@ -24,7 +24,7 @@ export default function FullToolkitSection() {
         className="max-w-4xl mx-auto p-8 space-y-5 text-center"
       >
         <div className="space-y-1.5">
-          <h2 className="font-heading text-2xl font-bold">{ALL_TOOLS.length} {t("tools. One login.")}</h2>
+          <h2 className="font-heading text-2xl font-bold">{t("Everything included, by plan.")}</h2>
           <p className="text-sm text-muted-foreground">
             {t("Free tools on every plan")} · {t("Pro tools with Artist Pro")} · {t("AI tools with Digital Manager")}
           </p>
