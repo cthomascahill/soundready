@@ -70,21 +70,6 @@ export default function WorkflowSection() {
   return (
     <section className="px-4 py-16">
       <div className="max-w-6xl mx-auto space-y-10">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          className="text-center space-y-4"
-        >
-          <h2 className="font-heading text-3xl sm:text-5xl font-black tracking-tight">
-            {t("The journey of your")}<br />
-            <span className="text-primary">{t("next five songs")}</span>
-          </h2>
-          <p className="text-sm sm:text-base text-muted-foreground max-w-2xl mx-auto leading-relaxed">
-            {t("Drop them in once. Everything stays together.")}
-          </p>
-        </motion.div>
-
         <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-5">
           {STEPS.map((s, i) => (
             <motion.div
