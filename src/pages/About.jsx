@@ -131,7 +131,7 @@ export default function About() {
 
         <motion.div initial={{ opacity: 0, y: 32 }} animate={{ opacity: 1, y: 0 }} className="relative max-w-4xl mx-auto space-y-5">
           <h1 className="font-heading text-4xl sm:text-6xl lg:text-7xl font-black tracking-tight leading-[0.95]">
-            {t("Your career in motion")}
+            {t("Your career")} <span className="text-primary">{t("in motion")}</span>
           </h1>
           <p className="text-base sm:text-xl font-heading font-bold flex items-center justify-center gap-2">
             {t("Search your profile below")} <ArrowDown className="h-5 w-5 sm:h-6 sm:w-6 text-primary" />
@@ -159,11 +159,11 @@ export default function About() {
 
       </section>
 
-      {/* MEET SAM, right under the hero */}
-      <MeetSamSection />
-
-      {/* THE VSL: one artist's whole journey */}
+      {/* THE VSL: one artist's whole journey, right after Start Free */}
       <VslSection />
+
+      {/* MEET SAM */}
+      <MeetSamSection />
 
       {/* THE CORE WORKFLOW */}
       <WorkflowSection />
