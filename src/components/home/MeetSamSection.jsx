@@ -36,7 +36,7 @@ export default function MeetSamSection() {
 
       <section className="px-4 pb-16">
         <p className="max-w-2xl mx-auto text-center text-xs text-muted-foreground leading-relaxed">
-          {t("SAM helps with research and preparation — the results depend on your music, your effort, and the opportunities out there. Nothing sends without your approval.")}
+          {t("SAM helps with research and preparation, the results depend on your music, your effort, and the opportunities out there. Nothing sends without your approval.")}
         </p>
       </section>
     </div>

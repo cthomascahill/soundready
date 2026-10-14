@@ -17,7 +17,7 @@ export default function WorkspacePreview() {
             <span className="h-2.5 w-2.5 rounded-full bg-zinc-600" />
             <span className="h-2.5 w-2.5 rounded-full bg-zinc-600" />
           </div>
-          <p className="ml-2 text-xs font-semibold text-muted-foreground">SoundReady — Vault</p>
+          <p className="ml-2 text-xs font-semibold text-muted-foreground">SoundReady, Vault</p>
         </div>
 
         <div className="p-4 sm:p-5 grid lg:grid-cols-2 gap-4 bg-gradient-to-br from-card via-card to-secondary/20">
@@ -37,7 +37,7 @@ export default function WorkspacePreview() {
             <GroupMock label="Released" count={2} dot="bg-green-400" rows={["Golden Hour", "Paper Planes"]} />
             <div className="rounded-xl border border-border bg-background/40 p-3 space-y-2">
               <p className="text-[11px] font-semibold uppercase tracking-wider text-muted-foreground flex items-center gap-2">
-                <Art className="h-6 w-6" /> Midnight Drive — versions
+                <Art className="h-6 w-6" /> Midnight Drive, versions
               </p>
               <VersionRowMock label="Master V1" latest />
               <VersionRowMock label="Mix V2" />
@@ -50,7 +50,7 @@ export default function WorkspacePreview() {
       <div className="absolute -bottom-5 left-4 sm:-left-5 flex items-start gap-2.5 rounded-xl border border-primary/30 bg-card px-3.5 py-2.5 shadow-xl max-w-[260px]">
         <img src={SAM_IMG} alt="SAM, your AI manager" className="h-8 w-8 shrink-0" />
         <p className="text-xs text-foreground/90 leading-snug">
-          "Midnight Drive is mastered — want me to prep a demo link for it?"
+          "Midnight Drive is mastered, want me to prep a demo link for it?"
         </p>
       </div>
     </div>

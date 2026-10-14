@@ -18,7 +18,7 @@ function TaskAskMock() {
           Find indie-rock rooms in Chicago that fit my sound and draft the booking emails.
         </div>
         <div className="rounded-lg bg-secondary/40 border border-border px-3 py-2 text-xs text-muted-foreground">
-          Who or where? (optional) — rooms within two hours of Chicago
+          Who or where? (optional), rooms within two hours of Chicago
         </div>
       </div>
       <div className="flex items-center justify-end px-5 py-3.5 border-t border-border bg-secondary/30">
@@ -71,7 +71,7 @@ export default function SamTaskProof() {
             </div>
             <div className="flex items-center gap-2 text-xs text-muted-foreground">
               <Mail className="h-3.5 w-3.5 text-primary" />
-              <span>booking@emptybottle.com — found on their booking page</span>
+              <span>booking@emptybottle.com, found on their booking page</span>
             </div>
             <p className="text-sm leading-relaxed">
               Books indie and rock on weeknights, two hours from your top market. Your streamed-most city is Chicago.
@@ -86,13 +86,13 @@ export default function SamTaskProof() {
               </span>
             </div>
             <div className="rounded-xl bg-card border border-border p-4 space-y-2">
-              <p className="text-sm font-semibold">Subject: Booking inquiry — weeknight bill, April dates</p>
+              <p className="text-sm font-semibold">Subject: Booking inquiry, weeknight bill, April dates</p>
               <p className="text-xs text-muted-foreground leading-relaxed">
-                Hi — I'm an indie-rock artist with 670K monthly listeners, and Chicago is one of my top three cities.
+                Hi, I'm an indie-rock artist with 670K monthly listeners, and Chicago is one of my top three cities.
                 I'd love to open a weeknight bill. Press kit attached. Either way, thanks for listening.
               </p>
             </div>
-            <p className="text-xs text-muted-foreground">{t("Approve, edit, or deny — nothing sends without you.")}</p>
+            <p className="text-xs text-muted-foreground">{t("Approve, edit, or deny, nothing sends without you.")}</p>
           </div>
         </div>
       </div>

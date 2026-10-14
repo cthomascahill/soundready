@@ -11,10 +11,10 @@ export default function StepTellSamScreen() {
           <p className="font-heading font-bold text-sm">Tell Sam what to do</p>
         </div>
         <div className="rounded-xl bg-secondary/40 border border-border p-4 text-sm leading-relaxed min-h-[96px]">
-          Book me shows in Denver and Boulder this spring — indie rooms under 300 cap that fit my sound, and draft the booking emails.
+          Book me shows in Denver and Boulder this spring, indie rooms under 300 cap that fit my sound, and draft the booking emails.
         </div>
         <div className="rounded-lg bg-secondary/40 border border-border px-3 py-2 text-xs text-muted-foreground">
-          Who or where? (optional) — venues under 300 cap in Colorado
+          Who or where? (optional), venues under 300 cap in Colorado
         </div>
       </div>
       <div className="flex items-center justify-between gap-3 px-5 py-3.5 border-t border-border bg-secondary/30">

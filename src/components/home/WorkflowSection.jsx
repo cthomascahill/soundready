@@ -59,8 +59,8 @@ const LadderMock = () => (
 const STEPS = [
   { num: "1", title: "Add your music", blurb: "Drop a folder. Your songs, versions, and duplicates land organized in the Vault.", Mock: AddMusicMock },
   { num: "2", title: "Keep mixes and feedback together", blurb: "Every version lives with its song, ready to compare, with your notes attached.", Mock: MixesMock },
-  { num: "3", title: "Share a demo link", blurb: "Send one private link. Anyone can listen — no account, no expiring transfers.", Mock: DemoLinkMock },
-  { num: "4", title: "Track each song toward release", blurb: "See every song's stage at a glance — from idea to release day.", Mock: LadderMock },
+  { num: "3", title: "Share a demo link", blurb: "Send one private link. Anyone can listen, no account, no expiring transfers.", Mock: DemoLinkMock },
+  { num: "4", title: "Track each song toward release", blurb: "See every song's stage at a glance, from idea to release day.", Mock: LadderMock },
 ];
 
 // The core workflow, shown with pieces of the real UI — nothing implied that

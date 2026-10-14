@@ -28,7 +28,7 @@ const TIERS = [
     name: "Free",
     tagline: "Your next five songs, free.",
     limit: "Up to 5 songs",
-    price: "$0 — Free forever",
+    price: "$0, free forever",
     desc: "Sign up free and your Release Starter Kit lands in your inbox the moment you join: pitch template, filled-in example, release timeline, metadata checklist.",
     items: [
       "Store up to 5 songs in your Vault",
@@ -116,7 +116,7 @@ export default function About() {
     <div className="min-h-screen bg-background">
       <SEO
         title="SoundReady: Your Music Workspace for Independent Artists"
-        description="SoundReady keeps your songs, mixes, feedback, and release progress together in one workspace — with SAM, an AI manager, to help you take the next step. Start free."
+        description="SoundReady keeps your songs, mixes, feedback, and release progress together in one workspace, with SAM, an AI manager, to help you take the next step. Start free."
       />
 
       <PublicNav showHome={false} />
@@ -137,7 +137,7 @@ export default function About() {
             <span className="text-primary">{t("Give it a team.")}</span>
           </h1>
           <p className="text-sm sm:text-base text-muted-foreground max-w-2xl mx-auto leading-relaxed">
-            {t("One home for your next five songs — every mix, note, and release.")}
+            {t("One home for your next five songs, every mix, note, and release.")}
           </p>
           <div className="pt-1">
             <Button size="lg" className="gap-2 font-heading font-bold text-sm sm:text-base px-6 sm:px-8 h-12" onClick={handleCTA}>
@@ -178,7 +178,7 @@ export default function About() {
               {t("Know your numbers. ")}<span className="text-primary">{t("Then take the next step.")}</span>
             </h2>
             <p className="text-sm sm:text-base text-muted-foreground max-w-xl mx-auto leading-relaxed">
-              {t("Search your artist name to see your Spotify numbers and a 12-month growth projection — the same stats SAM works from.")}
+              {t("Search your artist name to see your Spotify numbers and a 12-month growth projection, the same stats SAM works from.")}
             </p>
           </div>
           <HeroArtistSearch />

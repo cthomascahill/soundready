@@ -79,7 +79,7 @@ export default function MattCormanSection() {
             <span className="text-primary">{t("For independent artists.")}</span>
           </h2>
           <p className="text-lg sm:text-xl text-muted-foreground leading-relaxed max-w-2xl mx-auto">
-            {t("I built my music career without a label, going from zero monthly listeners to over one million — while my songs, versions, and release plans lived in folders and spreadsheets. SoundReady is the one home for your music I wish I had back then.")}
+            {t("I built my music career without a label, going from zero monthly listeners to over one million, while my songs, versions, and release plans lived in folders and spreadsheets. SoundReady is the one home for your music I wish I had back then.")}
           </p>
         </motion.div>
 

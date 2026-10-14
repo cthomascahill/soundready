@@ -32,7 +32,7 @@ export default function StepApproveScreen() {
       <p className="text-xs text-muted-foreground leading-relaxed border border-border/60 bg-secondary/30 rounded-lg p-3">
         <span className="font-semibold text-foreground">Subject:</span> Indie artist playing The Marquee Room this spring
         <br />
-        Hi — I'm an indie artist out of Denver. Your room has been on my list since the last show I caught there…
+        Hi, I'm an indie artist out of Denver. Your room has been on my list since the last show I caught there…
       </p>
       <div className="flex flex-wrap items-center gap-2 pt-1">
         <span className="inline-flex items-center gap-1.5 text-xs font-semibold bg-primary text-primary-foreground rounded-md px-3 py-1.5">

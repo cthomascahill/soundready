@@ -2,7 +2,7 @@ import { CheckCircle2, Music2, TrendingUp } from "lucide-react";
 
 const STAGES = [
   "Scanning 1,300+ curated playlists for your sound",
-  'Matching "Midnight Drive" — genre, mood and tempo',
+  'Matching "Midnight Drive", genre, mood and tempo',
   "Finding each curator's real contact route",
 ];
 

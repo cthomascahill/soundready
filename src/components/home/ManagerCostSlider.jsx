@@ -45,13 +45,13 @@ export default function ManagerCostSlider({ billing = "monthly" }) {
 
       <p className="text-center text-sm font-semibold">
         {savings > 0 ? (
-          <span className="text-foreground">A traditional manager's fee on that income would be <span className="text-primary">{fmt(managerYearly)}/year</span>. Digital Manager is <span className="text-primary">{fmt(samYearly)}/year</span> — <span className="text-primary">{fmt(savings)} less in fees</span>.</span>
+          <span className="text-foreground">A traditional manager's fee on that income would be <span className="text-primary">{fmt(managerYearly)}/year</span>. Digital Manager is <span className="text-primary">{fmt(samYearly)}/year</span>, <span className="text-primary">{fmt(savings)} less in fees</span>.</span>
         ) : (
           <span className="text-muted-foreground">Earning under {fmt(feeBreak)}/mo? Then your problem isn't the fee, it's revenue. SAM is built to fix exactly that, working your career every week until you clear it. And above that, SAM costs less than a manager's fee, forever.</span>
         )}
       </p>
       <p className="text-center text-xs text-muted-foreground -mt-2">
-        Fee comparison only. It assumes you would otherwise pay a human manager the typical 15–20% commission (17.5% shown). Digital Manager doesn't do the same work a human manager does, and this isn't a guarantee of the same results — or guaranteed savings.
+        Fee comparison only. It assumes you would otherwise pay a human manager the typical 15–20% commission (17.5% shown). Digital Manager doesn't do the same work a human manager does, and this isn't a guarantee of the same results, or guaranteed savings.
       </p>
     </div>
   );

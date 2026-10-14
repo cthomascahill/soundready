@@ -121,7 +121,7 @@ export default function Pricing() {
             <span className="text-primary">Pick the plan that fits.</span>
           </h1>
           <p className="text-sm sm:text-base text-muted-foreground leading-relaxed max-w-xl mx-auto">
-            SoundReady keeps your songs, mixes, feedback, and release progress together in one workspace — and your next five songs are free to start. SAM, your AI manager, is included with Digital Manager — $59 a month for the first 100 artists, $79 a month after.
+            SoundReady keeps your songs, mixes, feedback, and release progress together in one workspace, and your next five songs are free to start. SAM, your AI manager, is included with Digital Manager, $59 a month for the first 100 artists, $79 a month after.
           </p>
           {!isAuth && (
             <Button size="lg" className="gap-2 font-heading font-bold text-base px-8 h-12" onClick={() => document.getElementById("plans")?.scrollIntoView({ behavior: "smooth" })}>
@@ -291,7 +291,7 @@ export default function Pricing() {
                 </Link>
               </div>
               <p className="text-center text-xs text-muted-foreground mt-2">No percentage cuts. Cancel anytime. Founding price stays locked while subscribed.</p>
-              <p className="text-center text-[11px] text-muted-foreground mt-1 leading-relaxed">Includes 2,500 SAM credits each month, shared across all SAM features. Add 1,500 extra credits anytime for $15 — they never expire. Some opportunities require manual submission.</p>
+              <p className="text-center text-[11px] text-muted-foreground mt-1 leading-relaxed">Includes 2,500 SAM credits each month, shared across all SAM features. Add 1,500 extra credits anytime for $15, they never expire. Some opportunities require manual submission.</p>
             </motion.div>
             </div>
           </div>

@@ -11,10 +11,10 @@ export default function StepPlaylistTellSamScreen() {
           <p className="font-heading font-bold text-sm">Tell Sam what to do</p>
         </div>
         <div className="rounded-xl bg-secondary/40 border border-border p-4 text-sm leading-relaxed min-h-[96px]">
-          Pitch my new single "Midnight Drive" to Spotify playlists that fit — chill, late-night driving vibes — and draft the curator emails.
+          Pitch my new single "Midnight Drive" to Spotify playlists that fit, chill, late-night driving vibes, and draft the curator emails.
         </div>
         <div className="rounded-lg bg-secondary/40 border border-border px-3 py-2 text-xs text-muted-foreground">
-          Who or where? (optional) — Chill Vibes Daily and similar playlists
+          Who or where? (optional), Chill Vibes Daily and similar playlists
         </div>
       </div>
       <div className="flex items-center justify-between gap-3 px-5 py-3.5 border-t border-border bg-secondary/30">

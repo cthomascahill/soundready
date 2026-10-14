@@ -15,27 +15,27 @@ const POOL = [
       : null,
   ({ listeners, followers, ratio }) =>
     followers > 0 && ratio >= 1.5
-      ? `For every follower you have, roughly ${ratio.toFixed(1)} people stream you monthly. Follower conversion is the cheapest growth lever you own right now — a follow-to-save loop on your profile would compound every future release.`
+      ? `For every follower you have, roughly ${ratio.toFixed(1)} people stream you monthly. Follower conversion is the cheapest growth lever you own right now, a follow-to-save loop on your profile would compound every future release.`
       : null,
   ({ listeners, followers, ratio }) =>
     followers > 0 && ratio >= 1.5
-      ? `You reach ${compact(listeners)} listeners a month on a base of just ${compact(followers)} followers. That means most of your reach is algorithmic, not owned — one strong follow campaign stabilizes your floor.`
+      ? `You reach ${compact(listeners)} listeners a month on a base of just ${compact(followers)} followers. That means most of your reach is algorithmic, not owned, one strong follow campaign stabilizes your floor.`
       : null,
   ({ listeners, followers, ratio }) =>
     followers > 0 && ratio >= 1.5
-      ? `You reach ${compact(listeners)} listeners a month against ${compact(followers)} followers. Listeners and followers are counted separately, so some of that reach almost certainly isn't locked in yet — a follow prompt on your profile is the cheapest way to keep more of it for your next release.`
+      ? `You reach ${compact(listeners)} listeners a month against ${compact(followers)} followers. Listeners and followers are counted separately, so some of that reach almost certainly isn't locked in yet, a follow prompt on your profile is the cheapest way to keep more of it for your next release.`
       : null,
   ({ listeners, followers, ratio }) =>
     followers > 0 && ratio >= 1.5
-      ? `Your listener-to-follower ratio sits at ${ratio.toFixed(1)}:1 — for every follower you have, ${ratio.toFixed(1)} people stream you monthly. A listener who follows hears about your next release; a listener who doesn't may be gone next month. Turning more of the first group into the second is the cheapest retention you own.`
+      ? `Your listener-to-follower ratio sits at ${ratio.toFixed(1)}:1, for every follower you have, ${ratio.toFixed(1)} people stream you monthly. A listener who follows hears about your next release; a listener who doesn't may be gone next month. Turning more of the first group into the second is the cheapest retention you own.`
       : null,
   ({ listeners, followers }) =>
     followers > 0 && listeners > 0 && listeners / followers < 0.5
-      ? `You have ${compact(followers)} followers but your monthly listeners sit at ${compact(listeners)}. Your core audience is bigger than your reach right now — a release cycle aimed at re-engaging followers is the play.`
+      ? `You have ${compact(followers)} followers but your monthly listeners sit at ${compact(listeners)}. Your core audience is bigger than your reach right now, a release cycle aimed at re-engaging followers is the play.`
       : null,
   ({ listeners, followers }) =>
     followers > 0 && listeners > 0 && listeners / followers < 0.5
-      ? `${compact(followers)} followers, only ${compact(listeners)} monthly listeners: your catalog is sleeping. A re-engagement push — teaser, live version, or remix — wakes followers the algorithm forgot about.`
+      ? `${compact(followers)} followers, only ${compact(listeners)} monthly listeners: your catalog is sleeping. A re-engagement push, teaser, live version, or remix, wakes followers the algorithm forgot about.`
       : null,
   ({ listeners, followers }) =>
     followers > 0 && listeners > 0 && listeners / followers < 0.5
@@ -43,13 +43,13 @@ const POOL = [
       : null,
   ({ listeners, followers }) =>
     followers > 0 && listeners > 0 && listeners / followers >= 0.5 && listeners / followers < 1.5
-      ? `Listeners and followers are nearly balanced (${compact(listeners)} vs ${compact(followers)}). You have a real core audience — the next move is widening reach, not deepening it.`
+      ? `Listeners and followers are nearly balanced (${compact(listeners)} vs ${compact(followers)}). You have a real core audience, the next move is widening reach, not deepening it.`
       : null,
 
   // ---- Discovery tier: under 10k ----
   ({ listeners, genre }) =>
     listeners > 0 && listeners < 10000
-      ? `At ${compact(listeners)} monthly listeners you're in the discovery stage. Curated independent playlists in ${genre || "your genre"} are still reachable at this size — that door narrows fast as you grow, so pitch now.`
+      ? `At ${compact(listeners)} monthly listeners you're in the discovery stage. Curated independent playlists in ${genre || "your genre"} are still reachable at this size, that door narrows fast as you grow, so pitch now.`
       : null,
   ({ listeners, genre }) =>
     listeners > 0 && listeners < 10000
@@ -61,7 +61,7 @@ const POOL = [
       : null,
   ({ listeners }) =>
     listeners > 0 && listeners < 10000
-      ? `At ${compact(listeners)} listeners, your leverage isn't numbers — it's access. Small venues, local press and independent curators all still answer direct emails at this size. That window closes above 10k.`
+      ? `At ${compact(listeners)} listeners, your leverage isn't numbers, it's access. Small venues, local press and independent curators all still answer direct emails at this size. That window closes above 10k.`
       : null,
   ({ listeners, genre }) =>
     listeners > 0 && listeners < 10000
@@ -79,7 +79,7 @@ const POOL = [
       : null,
   ({ listeners }) =>
     listeners >= 10000 && listeners < 100000
-      ? `At ${compact(listeners)} monthly listeners you're out of the hardest zone. The next lever is consistency of release cadence — the algorithm rewards artists who show up every 6-8 weeks at your size.`
+      ? `At ${compact(listeners)} monthly listeners you're out of the hardest zone. The next lever is consistency of release cadence, the algorithm rewards artists who show up every 6-8 weeks at your size.`
       : null,
   ({ listeners, genre }) =>
     listeners >= 10000 && listeners < 100000
@@ -95,13 +95,13 @@ const POOL = [
       : null,
   ({ listeners, genre }) =>
     listeners >= 10000 && listeners < 100000
-      ? `${compact(listeners)} monthly listeners puts you in the strongest playlisting window of your career — mid-size ${genre || "genre"} lists actively need artists at your numbers to keep their own stats healthy.`
+      ? `${compact(listeners)} monthly listeners puts you in the strongest playlisting window of your career, mid-size ${genre || "genre"} lists actively need artists at your numbers to keep their own stats healthy.`
       : null,
 
   // ---- Established tier: 100k-1M ----
   ({ listeners }) =>
     listeners >= 100000 && listeners < 1000000
-      ? `With ${compact(listeners)} monthly listeners you're past the hardest threshold. Labels and sync libraries start reading your numbers as leverage — this is when deal terms matter more than getting any deal.`
+      ? `With ${compact(listeners)} monthly listeners you're past the hardest threshold. Labels and sync libraries start reading your numbers as leverage, this is when deal terms matter more than getting any deal.`
       : null,
   ({ listeners }) =>
     listeners >= 100000 && listeners < 1000000
@@ -127,7 +127,7 @@ const POOL = [
       : null,
   ({ listeners }) =>
     listeners >= 1000000
-      ? `${compact(listeners)} monthly listeners makes you a business. Catalog valuation, publishing buyouts and brand deals are all live options now — the order you take them in changes your outcome permanently.`
+      ? `${compact(listeners)} monthly listeners makes you a business. Catalog valuation, publishing buyouts and brand deals are all live options now, the order you take them in changes your outcome permanently.`
       : null,
   ({ listeners }) =>
     listeners >= 1000000
@@ -145,7 +145,7 @@ const POOL = [
       : null,
   ({ genre }) =>
     genre
-      ? `${genre} audiences over-index on live shows and social clips over algorithmic discovery — your release plan should treat every drop as content fuel, not just a stream play.`
+      ? `${genre} audiences over-index on live shows and social clips over algorithmic discovery, your release plan should treat every drop as content fuel, not just a stream play.`
       : null,
 
   // ---- Evergreen (always apply) ----
@@ -154,11 +154,11 @@ const POOL = [
   ({ name }) =>
     `Every opportunity SAM finds for ${name} comes with a ready-to-send email, personalized with your actual stats. Nothing sends without your OK.`,
   ({ name, listeners }) =>
-    `Most artists at ${compact(listeners)} monthly listeners lose months to busywork — finding contacts, writing cold emails, tracking who replied. That entire layer is what SAM takes over.`,
+    `Most artists at ${compact(listeners)} monthly listeners lose months to busywork, finding contacts, writing cold emails, tracking who replied. That entire layer is what SAM takes over.`,
   ({ name }) =>
     `${name}'s next 90 days can be pre-built: which playlists to pitch, which venues to email, which releases to schedule. SAM plans it weekly and executes what you approve.`,
   ({ listeners }) =>
-    `Numbers like ${compact(listeners)} monthly listeners change weekly. SAM watches the trend line — not the snapshot — and moves when your momentum moves.`,
+    `Numbers like ${compact(listeners)} monthly listeners change weekly. SAM watches the trend line, not the snapshot, and moves when your momentum moves.`,
   ({ name }) =>
     `SAM builds a running file on ${name}: what worked, what flopped, which curators replied. Every outreach gets smarter than the last one.`,
 ];
