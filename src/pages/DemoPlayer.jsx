@@ -25,6 +25,7 @@ export default function DemoPlayer() {
   const [currentTime, setCurrentTime] = useState(0);
   const [duration, setDuration] = useState(null);
   const [currentTrackId, setCurrentTrackId] = useState(null);
+  const [scrubbing, setScrubbing] = useState(false);
   const audioRef = useRef(null);
   const barRef = useRef(null);
 
@@ -87,15 +88,35 @@ export default function DemoPlayer() {
     setCurrentTime(0);
   };
 
-  const seek = (e) => {
-    const audio = audioRef.current;
+  const ratioFromEvent = (e) => {
     const bar = barRef.current;
-    if (!audio || !bar || !duration) return;
+    if (!bar) return 0;
     const rect = bar.getBoundingClientRect();
-    const ratio = Math.min(1, Math.max(0, (e.clientX - rect.left) / rect.width));
-    audio.currentTime = ratio * duration;
+    return Math.min(1, Math.max(0, (e.clientX - rect.left) / rect.width));
+  };
+
+  const seekRatio = (ratio) => {
+    const audio = audioRef.current;
+    const dur = duration || meta?.duration || 0;
+    if (!audio || !dur) return;
+    audio.currentTime = ratio * dur;
     setCurrentTime(audio.currentTime);
   };
+
+  // Press and drag anywhere on the bar to scrub through the song.
+  const startScrub = (e) => {
+    if (!duration && !meta?.duration) return;
+    e.currentTarget.setPointerCapture(e.pointerId);
+    setScrubbing(true);
+    seekRatio(ratioFromEvent(e));
+  };
+
+  const moveScrub = (e) => {
+    if (!scrubbing) return;
+    seekRatio(ratioFromEvent(e));
+  };
+
+  const endScrub = () => setScrubbing(false);
 
   const audioDur = duration || meta?.duration || 0;
   const currentTrack = tracks.find(t => t.id === currentTrackId);
@@ -169,10 +190,16 @@ export default function DemoPlayer() {
                     : playing ? <Pause className="h-5 w-5" /> : <Play className="h-5 w-5 ml-0.5" />}
                 </button>
                 <div className="flex-1 min-w-0">
-                  <div ref={barRef} onClick={seek}
-                    className="group h-2 rounded-full bg-zinc-800 cursor-pointer relative overflow-hidden">
+                  <div ref={barRef}
+                    onPointerDown={startScrub}
+                    onPointerMove={moveScrub}
+                    onPointerUp={endScrub}
+                    onPointerCancel={endScrub}
+                    className="group h-2 rounded-full bg-zinc-800 cursor-pointer relative touch-none">
                     <div className="absolute inset-y-0 left-0 bg-primary rounded-full"
                       style={{ width: `${audioDur ? (currentTime / audioDur) * 100 : 0}%` }} />
+                    <div className="absolute top-1/2 -translate-y-1/2 -translate-x-1/2 h-3.5 w-3.5 rounded-full bg-primary shadow transition-opacity opacity-0 group-hover:opacity-100"
+                      style={{ left: `${audioDur ? (currentTime / audioDur) * 100 : 0}%`, opacity: scrubbing ? 1 : undefined }} />
                   </div>
                   <div className="flex justify-between text-[10px] text-white/50 mt-1 tabular-nums">
                     <span>{fmt(currentTime)}</span>
