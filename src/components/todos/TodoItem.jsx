@@ -6,20 +6,23 @@ import { Textarea } from "@/components/ui/textarea";
 import { POINTS_TABLE } from "@/lib/awardPoints";
 import TodoPriorityBadge, { priorityOf } from "@/components/todos/TodoPriorityBadge";
 import TodoPriorityPicker from "@/components/todos/TodoPriorityPicker";
+import { TodoCategoryTag, TodoCategoryInput } from "@/components/todos/TodoCategory";
 
 // One to-do row. Checking it off earns Sound Ready Points; the pencil
-// turns the row into an inline edit for the title, details and priority.
-export default function TodoItem({ todo, onToggle, onDelete, onEdit, handleProps }) {
+// turns the row into an inline edit for the title, details, priority and folder.
+export default function TodoItem({ todo, onToggle, onDelete, onEdit, handleProps, categories = [] }) {
   const [editing, setEditing] = useState(false);
   const [title, setTitle] = useState(todo.title);
   const [notes, setNotes] = useState(todo.notes || "");
   const [priority, setPriority] = useState(priorityOf(todo.priority));
+  const [category, setCategory] = useState(todo.category || "");
   const [saving, setSaving] = useState(false);
 
   const startEdit = () => {
     setTitle(todo.title);
     setNotes(todo.notes || "");
     setPriority(priorityOf(todo.priority));
+    setCategory(todo.category || "");
     setEditing(true);
   };
 
@@ -27,7 +30,7 @@ export default function TodoItem({ todo, onToggle, onDelete, onEdit, handleProps
     const t = title.trim();
     if (!t || saving) return;
     setSaving(true);
-    await onEdit(todo.id, t, notes.trim(), priority);
+    await onEdit(todo.id, t, notes.trim(), priority, category.trim());
     setSaving(false);
     setEditing(false);
   };
@@ -51,6 +54,8 @@ export default function TodoItem({ todo, onToggle, onDelete, onEdit, handleProps
         <div className="flex items-center gap-3 flex-wrap">
           <span className="text-xs font-bold uppercase tracking-widest text-muted-foreground/60">Priority</span>
           <TodoPriorityPicker value={priority} onChange={setPriority} />
+          <span className="text-xs font-bold uppercase tracking-widest text-muted-foreground/60">Folder</span>
+          <TodoCategoryInput value={category} onChange={setCategory} categories={categories} />
           <div className="flex items-center gap-2 ml-auto">
             <Button size="sm" onClick={save} disabled={!title.trim() || saving} className="font-semibold">
               Save
@@ -77,7 +82,7 @@ export default function TodoItem({ todo, onToggle, onDelete, onEdit, handleProps
       {handleProps && (
         <button
           {...handleProps}
-          aria-label="Drag to reorder or move between priorities"
+          aria-label="Drag to reorder or move between groups"
           className="mt-0.5 shrink-0 text-muted-foreground/30 hover:text-muted-foreground cursor-grab active:cursor-grabbing transition-colors"
         >
           <GripVertical className="h-4 w-4" />
@@ -104,6 +109,7 @@ export default function TodoItem({ todo, onToggle, onDelete, onEdit, handleProps
       </div>
       <div className="flex items-center gap-3 shrink-0">
         <TodoPriorityBadge priority={todo.priority} />
+        <TodoCategoryTag category={todo.category} />
         {todo.done && (
           <span className="text-[10px] font-bold px-2 py-0.5 rounded-full border bg-primary/10 text-primary border-primary/20">
             +{POINTS_TABLE.todo_done} pts

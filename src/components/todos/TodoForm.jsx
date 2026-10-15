@@ -5,12 +5,14 @@ import { Textarea } from "@/components/ui/textarea";
 import { Plus, Loader2 } from "lucide-react";
 import VoiceButton from "@/components/VoiceButton";
 import TodoPriorityPicker from "@/components/todos/TodoPriorityPicker";
+import { TodoCategoryInput } from "@/components/todos/TodoCategory";
 
 // Add anything to this week's list, one line per thing Sam should stay on you about.
-export default function TodoForm({ onAdd }) {
+export default function TodoForm({ onAdd, categories = [] }) {
   const [title, setTitle] = useState("");
   const [notes, setNotes] = useState("");
   const [priority, setPriority] = useState("medium");
+  const [category, setCategory] = useState("");
   const [dictating, setDictating] = useState(false);
   const [showNotes, setShowNotes] = useState(false);
   const [saving, setSaving] = useState(false);
@@ -20,10 +22,11 @@ export default function TodoForm({ onAdd }) {
     const t = title.trim();
     if (!t || saving) return;
     setSaving(true);
-    await onAdd(t, notes.trim(), priority);
+    await onAdd(t, notes.trim(), priority, category.trim());
     setTitle("");
     setNotes("");
     setPriority("medium");
+    setCategory("");
     setShowNotes(false);
     setSaving(false);
   };
@@ -49,6 +52,8 @@ export default function TodoForm({ onAdd }) {
       <div className="flex items-center gap-3 flex-wrap">
         <span className="text-xs font-bold uppercase tracking-widest text-muted-foreground/60">Priority</span>
         <TodoPriorityPicker value={priority} onChange={setPriority} />
+        <span className="text-xs font-bold uppercase tracking-widest text-muted-foreground/60">Folder</span>
+        <TodoCategoryInput value={category} onChange={setCategory} categories={categories} />
         {showNotes ? null : (
           <button
             type="button"
