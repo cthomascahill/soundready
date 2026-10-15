@@ -10,8 +10,8 @@ import CancelSubscriptionButton from "@/components/plan/CancelSubscriptionButton
 
 const PLANS = {
   free: { icon: Zap, name: "Free", price: "$0", color: "text-muted-foreground", desc: "Your music, organized." },
-  pro: { icon: Users, name: "Artist Pro", price: "$39/month", color: "text-chart-5", desc: "Your career toolkit." },
-  ai_manager: { icon: Bot, name: "Digital Manager", price: "$59/month", color: "text-primary", desc: "For artists who want help doing the work." },
+  pro: { icon: Users, name: "Artist Pro", price: "$9.99/month", color: "text-chart-5", desc: "Your career toolkit." },
+  ai_manager: { icon: Bot, name: "Digital Manager", price: "$24.99/month", color: "text-primary", desc: "For artists who want help doing the work." },
 };
 
 /**

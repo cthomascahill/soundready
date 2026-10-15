@@ -2,19 +2,15 @@ import { useState } from "react";
 import { Slider } from "@/components/ui/slider";
 
 const MANAGER_RATE = 0.175; // midpoint of the typical 15–20% commission
-// SAM's price follows the billing option selected on the pricing page
-const SAM_PRICING = {
-  monthly: { fee: 59, strike: "$79", suffix: "/mo" },
-  yearly: { fee: 569, strike: "$699", suffix: "/yr" },
-};
-const fmt = (n) => `$${Math.round(n).toLocaleString()}`;
+// Digital Manager early bird monthly price while the special runs
+const SAM_PRICE = { fee: 24.99, strike: "$89", suffix: "/mo" };
+const fmt = (n) => `$${(Math.round(n * 100) / 100).toLocaleString()}`;
 
-export default function ManagerCostSlider({ billing = "monthly" }) {
+export default function ManagerCostSlider() {
   const [income, setIncome] = useState(3000);
-  const sam = SAM_PRICING[billing] || SAM_PRICING.monthly;
   const managerMonthly = income * MANAGER_RATE;
   const managerYearly = managerMonthly * 12;
-  const samYearly = billing === "yearly" ? sam.fee : sam.fee * 12;
+  const samYearly = SAM_PRICE.fee * 12;
   const savings = managerYearly - samYearly;
   // Income level where a manager's 17.5% commission equals SAM's price
   const feeBreak = samYearly / (MANAGER_RATE * 12);
@@ -38,8 +34,8 @@ export default function ManagerCostSlider({ billing = "monthly" }) {
         </div>
         <div className="space-y-1.5">
           <p className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground">SoundReady Digital Manager</p>
-          <p className="font-heading text-2xl font-black text-primary"><span className="text-xs line-through opacity-60 font-bold text-muted-foreground mr-1">{sam.strike}</span>{fmt(sam.fee)}<span className="text-xs font-bold text-muted-foreground">{sam.suffix}</span></p>
-          <p className="text-xs text-muted-foreground">{fmt(samYearly)} every year, flat, forever{billing === "yearly" ? ", billed once" : ", paying monthly"}</p>
+          <p className="font-heading text-2xl font-black text-primary"><span className="text-xs line-through opacity-60 font-bold text-muted-foreground mr-1">{SAM_PRICE.strike}</span>{fmt(SAM_PRICE.fee)}<span className="text-xs font-bold text-muted-foreground">{SAM_PRICE.suffix}</span></p>
+          <p className="text-xs text-muted-foreground">{fmt(samYearly)} every year, flat, forever, paying monthly</p>
         </div>
       </div>
 

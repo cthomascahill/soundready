@@ -43,50 +43,50 @@ export default function GuidedTour({ open, onClose }) {
   };
 
   return (
-    <div className="fixed bottom-20 sm:bottom-6 left-1/2 -translate-x-1/2 z-[60] w-[min(92vw,480px)]">
+    <div className="fixed bottom-20 sm:bottom-6 left-1/2 -translate-x-1/2 z-[60] w-[min(94vw,760px)]">
       <div className="rounded-2xl border border-primary/25 bg-card shadow-2xl overflow-hidden">
-        <div className="h-1 bg-primary/80 transition-all duration-300" style={{ width: `${((index + 1) / TOUR_STEPS.length) * 100}%` }} />
-        <div className="p-5">
+        <div className="h-1.5 bg-primary/80 transition-all duration-300" style={{ width: `${((index + 1) / TOUR_STEPS.length) * 100}%` }} />
+        <div className="p-6 sm:p-8">
           <div className="flex items-start justify-between gap-3">
             <div className="flex items-center gap-2.5 min-w-0">
-              <div className="h-8 w-8 rounded-lg bg-primary/10 flex items-center justify-center shrink-0">
-                <Icon className="h-4 w-4 text-primary" />
+              <div className="h-11 w-11 rounded-lg bg-primary/10 flex items-center justify-center shrink-0">
+                <Icon className="h-5 w-5 text-primary" />
               </div>
               <div className="min-w-0">
-                <p className="text-[10px] font-bold uppercase tracking-wider text-primary">
+                <p className="text-xs font-bold uppercase tracking-wider text-primary">
                   {index === 0 ? "Welcome" : `Step ${index} of ${TOUR_STEPS.length - 1}`}
                 </p>
-                <h3 className="font-heading font-bold text-base leading-tight truncate">{step.title}</h3>
+                <h3 className="font-heading font-bold text-lg sm:text-xl leading-tight truncate">{step.title}</h3>
               </div>
             </div>
             <button onClick={close} aria-label="Exit tour"
               className="text-muted-foreground hover:text-foreground transition-colors shrink-0 mt-0.5">
-              <X className="h-4 w-4" />
+              <X className="h-5 w-5" />
             </button>
           </div>
 
-          <p className="text-sm text-muted-foreground leading-relaxed mt-3">{step.body}</p>
+          <p className="text-base text-muted-foreground leading-relaxed mt-3">{step.body}</p>
           {step.note && (
-            <p className="text-xs text-primary/80 mt-2 font-medium">{step.note}</p>
+            <p className="text-sm text-primary/80 mt-2 font-medium">{step.note}</p>
           )}
 
-          <div className="flex items-center justify-between mt-4">
-            <button onClick={close} className="text-xs text-muted-foreground hover:text-foreground transition-colors">
+          <div className="flex items-center justify-between mt-5">
+            <button onClick={close} className="text-sm text-muted-foreground hover:text-foreground transition-colors">
               Exit tour
             </button>
-            <div className="flex items-center gap-2">
+            <div className="flex items-center gap-2.5">
               {index > 0 && (
-                <Button size="sm" variant="outline" onClick={() => setIndex(i => i - 1)} className="gap-1">
-                  <ChevronLeft className="h-3.5 w-3.5" /> Back
+                <Button variant="outline" onClick={() => setIndex(i => i - 1)} className="gap-1.5">
+                  <ChevronLeft className="h-4 w-4" /> Back
                 </Button>
               )}
               {isLast ? (
-                <Button size="sm" onClick={close} className="gap-1">
-                  <Check className="h-3.5 w-3.5" /> Done
+                <Button onClick={close} className="gap-1.5">
+                  <Check className="h-4 w-4" /> Done
                 </Button>
               ) : (
-                <Button size="sm" onClick={() => setIndex(i => i + 1)} className="gap-1">
-                  Next <ChevronRight className="h-3.5 w-3.5" />
+                <Button onClick={() => setIndex(i => i + 1)} className="gap-1.5">
+                  Next <ChevronRight className="h-4 w-4" />
                 </Button>
               )}
             </div>

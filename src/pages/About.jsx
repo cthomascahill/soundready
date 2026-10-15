@@ -25,12 +25,12 @@ const TIERS = [
     bg: "bg-chart-5/10",
     border: "border-chart-5/20",
     name: "Free",
-    tagline: "Your next five songs, free.",
-    limit: "Up to 5 songs",
+    tagline: "Your next three songs, free.",
+    limit: "Up to 3 songs",
     price: "$0, free forever",
     desc: "Sign up free and your Release Starter Kit lands in your inbox the moment you join: pitch template, filled-in example, release timeline, metadata checklist.",
     items: [
-      "Store up to 5 songs in your Vault",
+      "Store up to 3 songs in your Vault",
       "Track songs from idea to release",
       "Connect Spotify and YouTube to your artist profile",
       "Streaming royalty calculator",
@@ -50,8 +50,10 @@ const TIERS = [
     name: "Artist Pro",
     tagline: "Your full music workspace.",
     limit: "Unlimited songs",
-    price: "$39/month",
-    badge: "7-Day Free Trial",
+    price: "$9.99/month",
+    strike: "$49/month",
+    founding: true,
+    badge: "Early Bird Special · 7-Day Free Trial",
     desc: "Plan releases, find opportunities, and work with your team in one workspace.",
     items: [
       "Everything in Free, unlocked",
@@ -64,7 +66,7 @@ const TIERS = [
     ],
     cta: "Start Pro",
     checkout: "/checkout/artist-pro",
-    subtext: "Card required. $39/month after 7 days unless canceled.",
+    subtext: "Card required. $9.99/month after 7 days unless canceled. Early bird, on sale from $49/month.",
   },
   {
     icon: Bot,
@@ -74,10 +76,10 @@ const TIERS = [
     name: "Digital Manager",
     tagline: "A team behind your releases.",
     limit: "2,500 SAM credits/mo",
-    price: "$59/month",
-    strike: "$79/month",
+    price: "$24.99/month",
+    strike: "$89/month",
     founding: true,
-    badge: "Founding Artist Offer",
+    badge: "Early Bird Special",
     badgeStyle: "bg-primary text-primary-foreground",
     glow: true,
     desc: "You get your music workspace, personalized release plans, promotion targets that fit your sound, pitches ready to approve, and outreach tracking. SAM works from your music, stats, and goals, and you approve every email before it's sent.",
@@ -93,7 +95,7 @@ const TIERS = [
     ],
     cta: "Start Digital Manager",
     checkout: "/checkout/ai-manager",
-    subtext: "No percentage cuts. Cancel anytime. Founding price stays locked while subscribed.",
+    subtext: "No percentage cuts. Cancel anytime. Early bird price stays locked while subscribed.",
     smallPrint: "Includes 2,500 SAM credits each month, shared across all SAM features. One credit covers one piece of SAM's work, like a venue search or a playlist pitch. Add 1,500 extra credits anytime for $15. They never expire. Some opportunities require manual submission.",
   },
 ];
@@ -195,7 +197,7 @@ export default function About() {
           <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="text-center space-y-4">
             <p className="text-xs text-primary uppercase tracking-wider font-bold">{t("Pricing")}</p>
             <h2 className="font-heading text-3xl sm:text-5xl font-black tracking-tight">
-              {t("Your next five songs are free")}<br />
+              {t("Your next three songs are free")}<br />
               <span className="text-primary">{t("Add SAM when you're ready")}</span>
             </h2>
           </motion.div>
@@ -242,7 +244,7 @@ export default function About() {
                   {tier.strike && <span className="text-xs sm:text-sm text-muted-foreground line-through font-semibold">{tier.strike}</span>}
                   <p className="text-xl sm:text-2xl font-black">{tier.price}</p>
                   <span className="text-xs sm:text-sm font-semibold text-muted-foreground">· {t(tier.limit)}</span>
-                  {tier.founding && <span className="px-2 py-0.5 rounded-full bg-primary/15 text-primary text-[9px] lg:text-[10px] font-bold uppercase tracking-wide">First 100 Artists · Discounted Forever</span>}
+                  {tier.founding && <span className="px-2 py-0.5 rounded-full bg-primary/15 text-primary text-[9px] lg:text-[10px] font-bold uppercase tracking-wide">Early Bird Special</span>}
                 </div>
                 <p className="text-xs sm:text-sm text-muted-foreground leading-snug lg:leading-relaxed mb-4 lg:mb-5">{t(tier.desc)}</p>
                 <div className="space-y-1.5 lg:space-y-2 flex-1">
@@ -285,13 +287,13 @@ export default function About() {
               <span className="text-primary">{t("in motion")}</span>
             </h2>
             <p className="text-sm sm:text-base text-muted-foreground max-w-xl mx-auto leading-relaxed">
-              {t("Start with five songs free. Add SAM when you're ready.")}
+              {t("Start with three songs free. Add SAM when you're ready.")}
             </p>
           </div>
           <Button size="lg" className="gap-2 font-heading font-bold text-base px-8 h-12" onClick={handleCTA}>
             {t("Start Free")}
           </Button>
-          <p className="text-xs sm:text-sm text-muted-foreground">{t("Start with 5 songs. No card required.")}</p>
+          <p className="text-xs sm:text-sm text-muted-foreground">{t("Start with 3 songs. No card required.")}</p>
         </motion.div>
       </section>
 

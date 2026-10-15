@@ -73,7 +73,7 @@ export default function ProGate({ children, feature }) {
             Start Pro
           </CheckoutButton>
           <p className="text-center text-xs text-muted-foreground">
-            Card required, charged $39 automatically after 7 days. Cancel before then, pay nothing.
+            Card required, charged $9.99 automatically after 7 days. Cancel before then, pay nothing. Early bird, on sale from $49/month.
           </p>
           <p className="text-center">
             <Link to="/pricing-account" className="text-xs text-muted-foreground hover:text-foreground transition-colors inline-flex items-center gap-1">

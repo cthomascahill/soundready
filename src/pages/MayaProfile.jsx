@@ -154,7 +154,7 @@ export default function MayaProfile() {
           </p>
           <Link to="/pricing-account">
             <Button className="w-full gap-2 font-semibold">
-              <Zap className="h-4 w-4" /> Start Manager, <span className="line-through opacity-60">$79</span> $59/mo
+              <Zap className="h-4 w-4" /> Start Manager, <span className="line-through opacity-60">$89</span> $24.99/mo
             </Button>
           </Link>
           <p className="text-[10px] text-muted-foreground/60">Cancel anytime</p>

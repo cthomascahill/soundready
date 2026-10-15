@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { base44 } from "@/api/base44Client";
 import { useAuth } from "@/lib/AuthContext";
 import { isProOrAbove } from "@/lib/tier";
@@ -13,7 +13,7 @@ import NeedsReviewList from "@/components/vaulthome/NeedsReviewList";
 import SongGroupCard from "@/components/vaulthome/SongGroupCard";
 import SongWorkspaceModal from "@/components/vault/SongWorkspaceModal";
 import PageDropOverlay from "@/components/vault/PageDropOverlay";
-import { AlertCircle, Loader2 } from "lucide-react";
+import { AlertCircle, Loader2, X } from "lucide-react";
 
 const MAX_BATCH = 100;
 const pipeKey = (t) => t?.toLowerCase().trim();
@@ -37,6 +37,8 @@ export default function VaultHome() {
   const [workspace, setWorkspace] = useState(null);
   const [busyReview, setBusyReview] = useState(null);
   const [showReview, setShowReview] = useState(false);
+  // Set when the artist backs out of a running upload
+  const cancelRef = useRef(false);
 
   const isFree = !!user && !isProOrAbove(user);
 
@@ -57,6 +59,14 @@ export default function VaultHome() {
     refreshData().catch(() => setLoading(false));
   }, [user?.id]);
 
+  // Back out of a stuck upload: the intake loop stops at the next file,
+  // whatever finished stays saved, and the vault reloads.
+  const cancelIntake = () => {
+    cancelRef.current = true;
+    setIntake({ phase: "idle" });
+    refreshData().catch(() => {});
+  };
+
   const runIntake = async (fileList) => {
     if (intake.phase === "reading" || intake.phase === "organizing") return;
     const audio = Array.from(fileList).filter(isAudioFile).slice(0, MAX_BATCH);
@@ -64,6 +74,7 @@ export default function VaultHome() {
     const batchId = crypto.randomUUID?.() || String(Date.now());
     setError("");
     setSummary(null);
+    cancelRef.current = false;
     setIntake({ phase: "reading", done: 0, total: audio.length });
 
     try {
@@ -72,6 +83,7 @@ export default function VaultHome() {
       for (let i = 0; i < audio.length; i++) {
         analyzed.push({ file: audio[i], name: audio[i].name, size: audio[i].size, hash: await fingerprintFile(audio[i]) });
         setIntake({ phase: "reading", done: i + 1, total: audio.length });
+        if (cancelRef.current) { setIntake({ phase: "idle" }); return; }
       }
 
       // 2. Organize: groups, exact duplicates, review queue
@@ -104,6 +116,7 @@ export default function VaultHome() {
           const { file_uri } = await base44.integrations.Core.UploadPrivateFile({ file: member.file });
           uploaded.push({ ...member, file_uri });
           bump();
+          if (cancelRef.current) { setIntake({ phase: "idle" }); return; }
         }
         const best = pickBestVersion(uploaded);
         const song = await base44.entities.SongVault.create({
@@ -152,6 +165,7 @@ export default function VaultHome() {
       for (const dup of plan.duplicates) {
         const { file_uri } = await base44.integrations.Core.UploadPrivateFile({ file: dup.file });
         bump();
+        if (cancelRef.current) { setIntake({ phase: "idle" }); return; }
         intakeRecords.push({
           user_id: user.id,
           batch_id: batchId,
@@ -171,6 +185,7 @@ export default function VaultHome() {
       for (const f of plan.review) {
         const { file_uri } = await base44.integrations.Core.UploadPrivateFile({ file: f.file });
         bump();
+        if (cancelRef.current) { setIntake({ phase: "idle" }); return; }
         reviewRecords.push({
           user_id: user.id,
           batch_id: batchId,
@@ -217,6 +232,7 @@ export default function VaultHome() {
       if (reviewRecords.length) await base44.entities.VaultIntakeFile.bulkCreate(reviewRecords);
       if (intakeRecords.length) await base44.entities.VaultIntakeFile.bulkCreate(intakeRecords);
 
+      if (cancelRef.current) { setIntake({ phase: "idle" }); return; }
       setSummary({
         files: audio.length,
         songs: createdSongs.length,
@@ -315,6 +331,10 @@ export default function VaultHome() {
               </p>
               <p className="text-xs text-muted-foreground">{intake.done} of {intake.total}</p>
             </div>
+            <button onClick={cancelIntake} aria-label="Stop the upload" title="Stop the upload"
+              className="text-muted-foreground hover:text-foreground transition-colors shrink-0">
+              <X className="h-5 w-5" />
+            </button>
           </div>
         )}
 

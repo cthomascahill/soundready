@@ -24,14 +24,14 @@ const TIERS = [
     id: "pro",
     label: "Artist Pro",
     badge: "bg-chart-5/10 text-chart-5 border-chart-5/25",
-    blurb: "The full toolkit: touring, pitching, deals and team tools, $39/mo.",
+    blurb: "The full toolkit: touring, pitching, deals and team tools, $9.99/mo early bird.",
     icon: Zap,
   },
   {
     id: "ai",
     label: "Digital Manager",
     badge: "bg-purple-500/15 text-purple-400 border-purple-500/25",
-    blurb: "Sam works for you: research, drafts, contracts and outreach, $59/mo for the first 100 artists.",
+    blurb: "Sam works for you: research, drafts, contracts and outreach, $24.99/mo early bird.",
     icon: Bot,
   },
 ];

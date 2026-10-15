@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 import { Sparkles, Lock } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
-export const FREE_VAULT_CAP = 5;
+export const FREE_VAULT_CAP = 3;
 
 // Small "X of 5 used" pill shown near the Add button for free-tier users
 export function VaultUsageBadge({ count, label }) {

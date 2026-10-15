@@ -150,7 +150,7 @@ export const VSL_SCENES = [
             Your music<br />
             <span className="text-primary">in motion</span>
           </p>
-          <p className="text-sm sm:text-base text-muted-foreground mt-3">Start free. Your next five songs are on us.</p>
+          <p className="text-sm sm:text-base text-muted-foreground mt-3">Start free. Your next three songs are on us.</p>
         </motion.div>
         <motion.button
           type="button"

@@ -31,17 +31,10 @@ export default async function(req) {
       const tier = body.tier === 'ai_manager' ? 'ai_manager' : 'pro';
       const interval = body.interval === 'yearly' ? 'yearly' : 'monthly';
 
-      // Founding-member pricing: while the founding prices are active in
-      // Stripe, AI Manager checkouts use them. Deactivate those prices in
-      // Stripe to end the founding offer — no code change needed.
-      let lookupKey;
-      if (tier === 'pro') {
-        lookupKey = interval === 'yearly' ? 'artist_pro_yearly_v2' : 'artist_pro_monthly_v2';
-      } else {
-        const foundingKey = interval === 'yearly' ? 'ai_manager_founding_yearly' : 'ai_manager_founding_monthly';
-        const founding = await stripeRequest('GET', `/prices?lookup_keys[]=${foundingKey}&active=true&limit=1`);
-        lookupKey = founding.data?.[0] ? foundingKey : (interval === 'yearly' ? 'ai_manager_yearly_v2' : 'ai_manager_monthly_v2');
-      }
+      // Early Bird Special: monthly-only pricing while the early bird
+      // prices are active in Stripe. Deactivate them there to end the
+      // offer, no code change needed.
+      const lookupKey = tier === 'pro' ? 'artist_pro_early_bird_monthly' : 'ai_manager_early_bird_monthly';
 
       const priceData = await stripeRequest('GET', `/prices?lookup_keys[]=${lookupKey}&active=true&limit=1`);
       const priceId = priceData.data?.[0]?.id;

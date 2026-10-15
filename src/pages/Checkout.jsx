@@ -11,7 +11,6 @@ import CheckoutButton from "@/components/billing/CheckoutButton";
 import { useAuth } from "@/lib/AuthContext";
 import { getTier } from "@/lib/tier";
 import { PLANS } from "@/lib/plans";
-import BillingToggle from "@/components/billing/BillingToggle";
 
 // Shown right after Stripe redirects back from a successful payment.
 function CheckoutSuccess() {
@@ -62,8 +61,6 @@ export default function Checkout() {
   const { plan } = useParams();
   const [searchParams] = useSearchParams();
   const { user, isLoadingAuth } = useAuth();
-  // Billing period chosen on the pricing page is carried in the URL
-  const [interval, setInterval] = useState(searchParams.get("billing") === "yearly" ? "yearly" : "monthly");
 
   if (plan === "success") return <CheckoutSuccess />;
 
@@ -74,14 +71,11 @@ export default function Checkout() {
   const tier = getTier(user);
   const cancelled = searchParams.get("cancelled") === "1";
 
-  const isSub = meta.tierKey === "pro" || meta.tierKey === "ai_manager";
-  const yearly = isSub && interval === "yearly";
-  // Carry the billing period into the signup/login return links so the
-  // customer lands back on the exact plan and period they selected.
-  const returnTo = encodeURIComponent(`/checkout/${plan}${yearly ? "?billing=yearly" : ""}`);
-  const price = yearly ? meta.priceYearly : meta.price;
-  const period = yearly ? meta.periodYearly : meta.period;
-  const note = yearly ? (meta.noteYearly || meta.note) : meta.note;
+  // The customer lands back on the exact plan they selected after login.
+  const returnTo = encodeURIComponent(`/checkout/${plan}`);
+  const price = meta.price;
+  const period = meta.period;
+  const note = meta.note;
 
   const hasThisOrBetter =
     meta.tierKey === "pro" || meta.tierKey === "ai_manager"
@@ -118,27 +112,14 @@ export default function Checkout() {
                 <p className="text-xs text-muted-foreground mt-0.5">{meta.tagline}</p>
               </div>
               <p className="font-heading text-3xl font-black shrink-0 flex items-baseline gap-1.5">
-                {meta.founding && (
-                  <span className="text-base text-muted-foreground line-through font-medium">{yearly ? meta.strikeYearly : meta.strikePrice}</span>
+                {meta.strikePrice && (
+                  <span className="text-base text-muted-foreground line-through font-medium">{meta.strikePrice}</span>
                 )}
                 {price}<span className="text-sm text-muted-foreground font-medium">{period}</span>
               </p>
             </div>
 
             <div className="h-px bg-border" />
-
-            {isSub && (
-              <div className="space-y-2">
-                <div className="flex justify-center">
-                  <BillingToggle value={interval} onChange={setInterval} yearlyNote="Save ~20%" />
-                </div>
-                {yearly && (
-                  <p className="text-xs text-muted-foreground text-center">
-                    {meta.yearlyMonthly} a month, billed {meta.priceYearly} once a year.
-                  </p>
-                )}
-              </div>
-            )}
 
             <div className="grid grid-cols-1 gap-y-2">
               {meta.items.map((item) => (
@@ -195,7 +176,7 @@ export default function Checkout() {
               ) : (
                 <CheckoutButton
                   tier={meta.tierKey}
-                  interval={interval}
+                  interval="monthly"
                   className={`h-12 font-heading font-bold text-base ${meta.tierKey === "pro" ? "bg-chart-5 hover:bg-chart-5/90 text-black" : "gap-2"}`}
                 >
                   {meta.tierKey === "ai_manager" && <Sparkles className="h-4 w-4" />}

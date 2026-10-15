@@ -13,7 +13,6 @@ import PublicFooter from "@/components/public/PublicFooter";
 import SEO from "@/components/SEO";
 import ManagerCostSlider from "@/components/home/ManagerCostSlider";
 import FullToolkitSection from "@/components/pricing/FullToolkitSection";
-import BillingToggle from "@/components/billing/BillingToggle";
 import { CARD_FREE_ITEMS, CARD_PRO_ITEMS, CARD_AI_ITEMS } from "@/lib/plans";
 
 
@@ -32,7 +31,7 @@ const TierItems = ({ items, check = "text-primary" }) => (
 const FAQ = [
   {
     q: "How does the 7-day free trial work?",
-    a: "Start Artist Pro with a card on file and everything is unlocked free for 7 days. Nothing is charged until day 7, when your plan begins at $39/month or $374/year. Cancel anytime before day 7 and you pay nothing at all. The Free plan never asks for a card.",
+    a: "Start Artist Pro with a card on file and everything is unlocked free for 7 days. Nothing is charged until day 7, when your plan begins at $9.99/month, the early bird price (on sale from $49/month). Cancel anytime before day 7 and you pay nothing at all. The Free plan never asks for a card.",
   },
   {
     q: "What exactly does SAM do?",
@@ -44,19 +43,19 @@ const FAQ = [
   },
   {
     q: "Does SoundReady take a percentage of my income?",
-    a: "Never. A traditional manager typically takes a 15 to 20% commission on everything you earn. Digital Manager is $59/month flat while you're in the first 100 artists ($79/month after), or $569/year ($47.42 a month), and you keep 100% of your royalties, always.",
+    a: "Never. A traditional manager typically takes a 15 to 20% commission on everything you earn. Digital Manager is $24.99/month flat during the early bird (regular price $89/month), and you keep 100% of your royalties, always.",
   },
   {
     q: "Which plan do I actually need?",
-    a: "Free keeps your music organized forever, no card needed, and it starts with the free Release Starter Kit in your welcome email: the playlist pitch template that has landed songs on Spotify editorial playlists, a filled-in example, a week-by-week release timeline and the metadata checklist most artists miss. Artist Pro adds the full career toolkit: unlimited Vault, release planning, playlist discovery, venues, touring and team tools, $39/month after the trial. Digital Manager adds SAM on top of all of that, $59/month while the founding offer lasts.",
+    a: "Free keeps your music organized forever, no card needed, and it starts with the free Release Starter Kit in your welcome email: the playlist pitch template that has landed songs on Spotify editorial playlists, a filled-in example, a week-by-week release timeline and the metadata checklist most artists miss. Artist Pro adds the full career toolkit: unlimited Vault, release planning, playlist discovery, venues, touring and team tools, $9.99/month after the trial. Digital Manager adds SAM on top of all of that, $24.99/month while the early bird lasts.",
   },
   {
     q: "What happens when I cancel?",
     a: "Cancel in one click from your plan page. No email, no phone call. During the trial you're never charged. After that you keep access until the period you already paid for ends, then your account simply moves to the Free plan. Your songs and data stay yours.",
   },
   {
-    q: "Is the founding price really locked forever?",
-    a: "Yes. Join the first 100 artists and your $59/month (or $569/year) stays locked for as long as you stay subscribed, even after new artists pay $79/month. Cancel and return later, and the then-current price applies.",
+    q: "Is the early bird price really locked forever?",
+    a: "Yes. Join during the early bird and your $9.99/month Artist Pro (or $24.99/month Digital Manager) price stays locked for as long as you stay subscribed, even after the sale ends and regular prices return. Cancel and return later, and the then-current price applies.",
   },
   {
     q: "Is my music private?",
@@ -71,7 +70,6 @@ export default function Pricing() {
   const checkoutStatus = searchParams.get("checkout");
   const [canceling, setCanceling] = useState(false);
   const [planMsg, setPlanMsg] = useState("");
-  const [billing, setBilling] = useState("monthly");
   const [openFaq, setOpenFaq] = useState(0);
 
   useEffect(() => {
@@ -103,7 +101,7 @@ export default function Pricing() {
     <div className="min-h-screen bg-background font-body">
       <SEO
         title="SoundReady Pricing"
-        description="Start free forever. Artist Pro unlocks the full toolkit for $39/mo or $374/yr with a 7-day free trial. Digital Manager adds SAM for $59/mo or $569/yr for the first 100 artists ($79/mo after). No percentage cuts, ever."
+        description="Start free with 3 songs. Artist Pro unlocks the full toolkit for $9.99/mo early bird, on sale from $49/mo, with a 7-day free trial. Digital Manager adds SAM for $24.99/mo early bird, on sale from $89/mo. No percentage cuts, ever."
       />
 
       <PublicNav />
@@ -177,10 +175,7 @@ export default function Pricing() {
             </div>
           )}
 
-          <div className="space-y-3 text-center">
-            <BillingToggle value={billing} onChange={setBilling} yearlyNote="Save ~20%" />
-            <p className="text-xs text-primary font-bold tracking-wider uppercase">First 100 artists · discounted forever. $79/mo for everyone after.</p>
-          </div>
+          <p className="text-xs text-primary font-bold tracking-wider uppercase text-center pb-2">Early Bird Special · sale prices locked in while you stay subscribed</p>
 
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-5">
             {/* FREE */}
@@ -192,7 +187,7 @@ export default function Pricing() {
                 <Zap className="h-5 w-5 text-chart-5" />
               </div>
               <p className="font-heading font-black text-2xl">Free</p>
-              <p className="text-sm font-semibold mt-0.5 mb-2 text-chart-5">Your next five songs, free.</p>
+              <p className="text-sm font-semibold mt-0.5 mb-2 text-chart-5">Your next three songs, free.</p>
               <p className="text-2xl font-black mb-1">$0</p>
               <p className="text-sm font-semibold text-chart-5 mb-3">Free forever</p>
               <p className="text-sm text-muted-foreground leading-relaxed mb-5">
@@ -224,9 +219,10 @@ export default function Pricing() {
               <p className="font-heading font-black text-2xl">Artist Pro</p>
               <p className="text-sm font-semibold mt-0.5 mb-2 text-chart-5">Workspace tools. SAM not included.</p>
               <p className="text-2xl font-black mb-1">
-                {billing === "yearly" ? "$31.17" : "$39"}<span className="text-sm text-muted-foreground font-medium">/month</span>
+                <span className="text-sm text-muted-foreground line-through font-semibold mr-1.5">$49</span>
+                $9.99<span className="text-sm text-muted-foreground font-medium">/month</span>
               </p>
-              <p className="text-xs font-semibold text-muted-foreground mb-1">{billing === "yearly" ? "billed $374/year" : "or $31.17/month, billed $374/year"}</p>
+              <p className="text-xs font-semibold text-primary mb-1">Early Bird Special · on sale from $49/month</p>
               <p className="text-sm font-semibold text-chart-5 mb-3">7-day free trial</p>
               <p className="text-sm text-muted-foreground leading-relaxed mb-5">
                 Plan releases, find opportunities, and work with your team in one workspace.
@@ -235,11 +231,11 @@ export default function Pricing() {
                 <TierItems items={CARD_PRO_ITEMS} check="text-chart-5" />
               </div>
               <div className="mt-6">
-                <Link to={`/checkout/artist-pro${billing === "yearly" ? "?billing=yearly" : ""}`}>
+                <Link to="/checkout/artist-pro">
                   <Button className="w-full font-semibold bg-chart-5 hover:bg-chart-5/90 text-black">Start Pro Free Trial</Button>
                 </Link>
               </div>
-              <p className="text-center text-xs text-muted-foreground mt-2">Card required. {billing === "yearly" ? "$374/year ($31.17/month)" : "$39/month"} after 7 days unless canceled.</p>
+              <p className="text-center text-xs text-muted-foreground mt-2">Card required. $9.99/month after 7 days unless canceled. Early bird, on sale from $49/month.</p>
             </motion.div>
             </div>
 
@@ -249,7 +245,7 @@ export default function Pricing() {
               <motion.div initial={{ opacity: 0, y: 24 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: 0.12 }}
               className="relative h-full rounded-2xl border border-primary/30 bg-card p-6 flex flex-col ring-2 ring-primary/60 shadow-2xl shadow-primary/10">
               <div className="absolute -top-3 left-1/2 -translate-x-1/2 px-3 py-1 rounded-full text-xs font-bold whitespace-nowrap bg-primary text-primary-foreground">
-                Recommended · Founding Artist Offer
+                Recommended · Early Bird Special
               </div>
               <motion.img
                 src="https://media.base44.com/images/public/69dcf0ecc907e43a438a626b/b7f9a17dc_generated_f31f1bbd.png"
@@ -268,10 +264,9 @@ export default function Pricing() {
               <p className="font-heading font-black text-2xl">Digital Manager</p>
               <p className="text-sm font-semibold mt-0.5 mb-2 text-primary">A team behind your releases.</p>
               <div className="mb-3 flex items-baseline gap-2 flex-wrap">
-                <span className="text-base text-muted-foreground line-through font-semibold">{billing === "yearly" ? "$699" : "$79"}</span>
-                <p className="text-2xl font-black">{billing === "yearly" ? "$47.42" : "$59"}<span className="text-sm text-muted-foreground font-medium">/month</span></p>
-                <span className="text-xs font-semibold text-muted-foreground">{billing === "yearly" ? "billed $569/year" : "or $47.42/month, billed $569/year"}</span>
-                <span className="px-2 py-0.5 rounded-full bg-primary/15 text-primary text-[10px] font-bold uppercase tracking-wide">First 100 Artists · Regular price {billing === "yearly" ? "$699/yr" : "$79/mo"}</span>
+                <span className="text-base text-muted-foreground line-through font-semibold">$89</span>
+                <p className="text-2xl font-black">$24.99<span className="text-sm text-muted-foreground font-medium">/month</span></p>
+                <span className="px-2 py-0.5 rounded-full bg-primary/15 text-primary text-[10px] font-bold uppercase tracking-wide">Early Bird Special · On sale from $89/month</span>
               </div>
               <p className="text-sm text-muted-foreground leading-relaxed mb-5">
                 You get your music workspace, personalized release plans, promotion targets that fit your sound, pitches ready to approve, and outreach tracking. SAM works from your music, stats, and goals. You stay in control.
@@ -280,11 +275,11 @@ export default function Pricing() {
                 <TierItems items={CARD_AI_ITEMS} />
               </div>
               <div className="mt-6 relative">
-                <Link to={`/checkout/ai-manager${billing === "yearly" ? "?billing=yearly" : ""}`}>
+                <Link to="/checkout/ai-manager">
                   <Button className="w-full font-semibold gap-2"><Sparkles className="h-4 w-4" /> Start Digital Manager</Button>
                 </Link>
               </div>
-              <p className="text-center text-xs text-muted-foreground mt-2">No percentage cuts. Cancel anytime. Founding price stays locked while subscribed.</p>
+              <p className="text-center text-xs text-muted-foreground mt-2">No percentage cuts. Cancel anytime. Early bird price stays locked while subscribed.</p>
               <p className="text-center text-[11px] text-muted-foreground mt-1 leading-relaxed">Includes 2,500 SAM credits each month, shared across all SAM features. Add 1,500 extra credits anytime for $15, they never expire. Some opportunities require manual submission.</p>
             </motion.div>
             </div>
@@ -309,11 +304,11 @@ export default function Pricing() {
                 <p className="text-xs text-muted-foreground">A traditional manager's typical commission on your earnings</p>
               </div>
               <div className="space-y-1">
-                <p className="font-heading text-2xl font-black text-primary">{billing === "yearly" ? "$569/year flat" : "$59 flat"}</p>
+                <p className="font-heading text-2xl font-black text-primary">$24.99 flat</p>
                 <p className="text-xs text-muted-foreground">SAM: pitches and outreach every week, zero cuts</p>
               </div>
             </div>
-            <ManagerCostSlider billing={billing} />
+            <ManagerCostSlider />
           </motion.div>
           </div>
           <div className="pt-8 flex justify-center">

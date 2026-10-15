@@ -50,11 +50,11 @@ export default function AiManagerGate({ children, feature }) {
             ))}
           </div>
           <div className="flex items-baseline gap-2">
-            <span className="text-base text-muted-foreground line-through font-semibold">$79</span>
-            <span className="font-heading text-3xl font-black text-primary">$59<span className="text-sm text-muted-foreground font-medium">/mo</span></span>
+            <span className="text-base text-muted-foreground line-through font-semibold">$89</span>
+            <span className="font-heading text-3xl font-black text-primary">$24.99<span className="text-sm text-muted-foreground font-medium">/mo</span></span>
           </div>
           <CheckoutButton tier="ai_manager">
-            Start Digital Manager, $59/mo, first 100 artists
+            Start Digital Manager, $24.99/mo early bird
           </CheckoutButton>
           <p className="text-center text-xs text-muted-foreground">
             First-100 price locked for life while you stay subscribed. Everything in Artist Pro included. Cancel anytime.
