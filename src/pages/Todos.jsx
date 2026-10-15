@@ -6,6 +6,7 @@ import { awardPoints } from "@/lib/awardPoints";
 import { CheckCircle2 } from "lucide-react";
 import TodoForm from "@/components/todos/TodoForm";
 import TodoItem from "@/components/todos/TodoItem";
+import TodoPriorityBadge, { priorityOf } from "@/components/todos/TodoPriorityBadge";
 import RewardsCard from "@/components/todos/RewardsCard";
 import CadenceCard from "@/components/todos/CadenceCard";
 
@@ -16,14 +17,19 @@ const mondayOfThisWeek = () => {
   return d.toISOString().slice(0, 10);
 };
 
+const PRIORITIES = ["high", "medium", "low"];
+
 /**
  * "This Week", the artist's to-do list for Sam. Everything added here goes
  * into Sam's daily morning reminder email until it's checked off. Open items
- * can be dragged up and down, and the order is what Sam's email uses too.
+ * are organized into High / Medium / Low groups, drag within a group to
+ * reorder, drag into another group to change its priority, or filter to one
+ * group with the chips above the list.
  */
 export default function Todos() {
   const { user } = useAuth();
   const [todos, setTodos] = useState(null);
+  const [filter, setFilter] = useState("all");
 
   const load = () =>
     base44.entities.ArtistTodo.list("-created_date", 200)
@@ -46,16 +52,17 @@ export default function Todos() {
     if (user) load();
   }, [user]);
 
-  const addTodo = async (title, notes) => {
-    const openItems = (todos || []).filter((t) => !t.done);
-    // New to-dos go to the top of the list, like they always did.
-    const minOrder = openItems.length
-      ? Math.min(...openItems.map((t) => t.sort_order ?? 0))
+  const addTodo = async (title, notes, priority) => {
+    const sameGroup = (todos || []).filter((t) => !t.done && priorityOf(t.priority) === priority);
+    // New to-dos go to the top of their priority group.
+    const minOrder = sameGroup.length
+      ? Math.min(...sameGroup.map((t) => t.sort_order ?? 0))
       : 0;
     const created = await base44.entities.ArtistTodo.create({
       user_id: user.id,
       title,
       notes,
+      priority,
       done: false,
       week_of: mondayOfThisWeek(),
       sort_order: minOrder - 1,
@@ -78,9 +85,9 @@ export default function Todos() {
     await base44.entities.ArtistTodo.delete(id);
   };
 
-  const edit = async (id, title, notes) => {
-    setTodos((prev) => prev.map((t) => (t.id === id ? { ...t, title, notes } : t)));
-    await base44.entities.ArtistTodo.update(id, { title, notes });
+  const edit = async (id, title, notes, priority) => {
+    setTodos((prev) => prev.map((t) => (t.id === id ? { ...t, title, notes, priority } : t)));
+    await base44.entities.ArtistTodo.update(id, { title, notes, priority });
   };
 
   const open = (todos || [])
@@ -89,15 +96,31 @@ export default function Todos() {
   const done = (todos || []).filter((t) => t.done);
   const pct = todos?.length ? Math.round((done.length / todos.length) * 100) : 0;
 
-  const onDragEnd = (result) => {
-    const { destination, source } = result;
-    if (!destination || destination.index === source.index) return;
-    const reordered = [...open];
-    const [moved] = reordered.splice(source.index, 1);
-    reordered.splice(destination.index, 0, moved);
-    const updates = reordered.map((t, i) => ({ id: t.id, sort_order: i }));
-    const byId = new Map(updates.map((u) => [u.id, u.sort_order]));
-    setTodos((prev) => prev.map((t) => (byId.has(t.id) ? { ...t, sort_order: byId.get(t.id) } : t)));
+  // High group first, then Medium, then Low; the filter chips narrow to one.
+  const sections = PRIORITIES
+    .filter((p) => filter === "all" || filter === p)
+    .map((p) => ({ priority: p, items: open.filter((t) => priorityOf(t.priority) === p) }));
+
+  const onDragEnd = ({ source, destination }) => {
+    if (!destination) return;
+    const srcP = source.droppableId;
+    const dstP = destination.droppableId;
+    const byP = Object.fromEntries(PRIORITIES.map((p) => [p, open.filter((t) => priorityOf(t.priority) === p)]));
+    const moved = byP[srcP]?.[source.index];
+    if (!moved) return;
+    if (srcP === dstP && destination.index === source.index) return;
+    // Dragging into another group changes the to-do's priority.
+    const rest = byP[srcP].filter((t) => t.id !== moved.id);
+    const target = srcP === dstP ? rest : byP[dstP].filter((t) => t.id !== moved.id);
+    target.splice(destination.index, 0, moved);
+    const updates = target.map((t, i) => ({
+      id: t.id,
+      sort_order: i,
+      ...(srcP !== dstP && t.id === moved.id ? { priority: dstP } : {}),
+    }));
+    if (srcP !== dstP) updates.push(...rest.map((t, i) => ({ id: t.id, sort_order: i })));
+    const byId = new Map(updates.map((u) => [u.id, u]));
+    setTodos((prev) => prev.map((t) => (byId.has(t.id) ? { ...t, ...byId.get(t.id) } : t)));
     base44.entities.ArtistTodo.bulkUpdate(updates).catch(() => {});
   };
 
@@ -128,7 +151,7 @@ export default function Todos() {
       {todos === null ? (
         <div className="h-24 rounded-xl bg-card border border-border animate-pulse" />
       ) : (
-        <div className="space-y-2.5">
+        <div className="space-y-5">
           {todos.length === 0 && (
             <div className="rounded-2xl bg-card border border-dashed border-border p-10 text-center space-y-2">
               <CheckCircle2 className="h-8 w-8 text-muted-foreground/30 mx-auto" />
@@ -138,40 +161,89 @@ export default function Todos() {
               </p>
             </div>
           )}
-          {open.length > 0 && (
-            <DragDropContext onDragEnd={onDragEnd}>
-              <Droppable droppableId="open-todos">
-                {(dropProvided) => (
-                  <div ref={dropProvided.innerRef} {...dropProvided.droppableProps} className="space-y-2.5">
-                    {open.map((t, i) => (
-                      <Draggable key={t.id} draggableId={t.id} index={i}>
-                        {(dragProvided) => (
-                          <div ref={dragProvided.innerRef} {...dragProvided.draggableProps}>
-                            <TodoItem
-                              todo={t}
-                              onToggle={toggle}
-                              onDelete={remove}
-                              onEdit={edit}
-                              handleProps={dragProvided.dragHandleProps}
-                            />
+          {todos.length > 0 && (
+            <>
+              <div className="flex items-center gap-2 flex-wrap">
+                <button
+                  onClick={() => setFilter("all")}
+                  className={`px-3 py-1 rounded-full border text-[11px] font-bold uppercase tracking-wide transition-colors ${
+                    filter === "all"
+                      ? "bg-primary/10 border-primary/40 text-primary"
+                      : "border-border text-muted-foreground/60 hover:text-foreground"
+                  }`}
+                >
+                  All
+                </button>
+                {PRIORITIES.map((p) => {
+                  const count = open.filter((t) => priorityOf(t.priority) === p).length;
+                  return (
+                    <button
+                      key={p}
+                      onClick={() => setFilter(filter === p ? "all" : p)}
+                      className={`px-3 py-1 rounded-full border text-[11px] font-bold uppercase tracking-wide transition-colors ${
+                        filter === p
+                          ? "bg-primary/10 border-primary/40 text-primary"
+                          : "border-border text-muted-foreground/60 hover:text-foreground"
+                      }`}
+                    >
+                      {p} ({count})
+                    </button>
+                  );
+                })}
+              </div>
+
+              <DragDropContext onDragEnd={onDragEnd}>
+                {sections.map(({ priority, items }) => (
+                  <div key={priority} className="space-y-2.5">
+                    <div className="flex items-center gap-3">
+                      <TodoPriorityBadge priority={priority} />
+                      <div className="flex-1 h-px bg-border" />
+                      <p className="text-[11px] font-semibold text-muted-foreground/60">
+                        {items.length === 1 ? "1 task" : `${items.length} tasks`}
+                      </p>
+                    </div>
+                    {items.length === 0 ? (
+                      <p className="rounded-xl border border-dashed border-border px-4 py-3 text-sm text-muted-foreground/60">
+                        Nothing {priority} priority right now.
+                      </p>
+                    ) : (
+                      <Droppable droppableId={priority}>
+                        {(dropProvided) => (
+                          <div ref={dropProvided.innerRef} {...dropProvided.droppableProps} className="space-y-2.5">
+                            {items.map((t, i) => (
+                              <Draggable key={t.id} draggableId={t.id} index={i}>
+                                {(dragProvided) => (
+                                  <div ref={dragProvided.innerRef} {...dragProvided.draggableProps}>
+                                    <TodoItem
+                                      todo={t}
+                                      onToggle={toggle}
+                                      onDelete={remove}
+                                      onEdit={edit}
+                                      handleProps={dragProvided.dragHandleProps}
+                                    />
+                                  </div>
+                                )}
+                              </Draggable>
+                            ))}
+                            {dropProvided.placeholder}
                           </div>
                         )}
-                      </Draggable>
-                    ))}
-                    {dropProvided.placeholder}
+                      </Droppable>
+                    )}
                   </div>
-                )}
-              </Droppable>
-            </DragDropContext>
-          )}
-          {done.length > 0 && (
-            <>
-              <p className="text-xs font-bold uppercase tracking-widest text-muted-foreground/60 pt-2">
-                Checked off
-              </p>
-              {done.map((t) => (
-                <TodoItem key={t.id} todo={t} onToggle={toggle} onDelete={remove} onEdit={edit} />
-              ))}
+                ))}
+              </DragDropContext>
+
+              {done.length > 0 && (
+                <div className="space-y-2.5 pt-1">
+                  <p className="text-xs font-bold uppercase tracking-widest text-muted-foreground/60">
+                    Checked off
+                  </p>
+                  {done.map((t) => (
+                    <TodoItem key={t.id} todo={t} onToggle={toggle} onDelete={remove} onEdit={edit} />
+                  ))}
+                </div>
+              )}
             </>
           )}
         </div>

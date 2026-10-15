@@ -15,6 +15,16 @@
       "type": "string",
       "description": "Optional details, links or context"
     },
+    "priority": {
+      "type": "string",
+      "enum": [
+        "high",
+        "medium",
+        "low"
+      ],
+      "default": "medium",
+      "description": "How urgent this to-do is; the list is organized and filtered by it"
+    },
     "done": {
       "type": "boolean",
       "default": false,
@@ -35,7 +45,7 @@
     },
     "sort_order": {
       "type": "number",
-      "description": "Manual position of this to-do in the artist's list, lower = higher up. Set by dragging."
+      "description": "Manual position of this to-do within its priority group, lower = higher up. Set by dragging."
     }
   },
   "required": [
