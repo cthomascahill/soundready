@@ -3,6 +3,7 @@ import { useParams } from "react-router-dom";
 import { base44 } from "@/api/base44Client";
 import SoundReadyLogo from "@/components/SoundReadyLogo";
 import { resolvePlayableAudioUrl } from "@/lib/audioPlayback";
+import SEO from "@/components/SEO";
 import { Play, Pause, Loader2, Music2, Headphones, AlertTriangle, Disc3 } from "lucide-react";
 
 const fmt = (s) => {
@@ -120,9 +121,16 @@ export default function DemoPlayer() {
 
   const audioDur = duration || meta?.duration || 0;
   const currentTrack = tracks.find(t => t.id === currentTrackId);
+  const shareName = meta ? `${meta.title}${meta.artist ? ` by ${meta.artist}` : ""}` : "";
 
   return (
     <div className="min-h-screen bg-[#0a0a0a] text-zinc-100 relative overflow-hidden flex flex-col">
+      {meta && (
+        <SEO
+          title={`${shareName} | Private demo`}
+          description={`Listen to ${shareName}, a private demo shared via SoundReady.`}
+        />
+      )}
       {/* Green glow backdrop */}
       <div className="pointer-events-none absolute -top-40 left-1/2 -translate-x-1/2 h-[420px] w-[720px] rounded-full bg-primary/15 blur-[120px]" />
       <div className="pointer-events-none absolute bottom-0 right-0 h-[300px] w-[500px] rounded-full bg-primary/8 blur-[100px]" />
