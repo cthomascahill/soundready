@@ -78,6 +78,11 @@ export default function Todos() {
     await base44.entities.ArtistTodo.delete(id);
   };
 
+  const edit = async (id, title, notes) => {
+    setTodos((prev) => prev.map((t) => (t.id === id ? { ...t, title, notes } : t)));
+    await base44.entities.ArtistTodo.update(id, { title, notes });
+  };
+
   const open = (todos || [])
     .filter((t) => !t.done)
     .sort((a, b) => (a.sort_order ?? 0) - (b.sort_order ?? 0));
@@ -146,6 +151,7 @@ export default function Todos() {
                               todo={t}
                               onToggle={toggle}
                               onDelete={remove}
+                              onEdit={edit}
                               handleProps={dragProvided.dragHandleProps}
                             />
                           </div>
@@ -164,7 +170,7 @@ export default function Todos() {
                 Checked off
               </p>
               {done.map((t) => (
-                <TodoItem key={t.id} todo={t} onToggle={toggle} onDelete={remove} />
+                <TodoItem key={t.id} todo={t} onToggle={toggle} onDelete={remove} onEdit={edit} />
               ))}
             </>
           )}
