@@ -10,8 +10,6 @@ import { useLang } from "@/lib/i18n/LanguageContext";
 const WITHOUT = [
   "You're making great music, but nobody's hearing it.",
   "You release songs that barely get any attention.",
-  "You're constantly wondering how other artists are growing.",
-  "You struggle to get booked, reach playlists, and find new fans.",
   "You're overwhelmed doing everything yourself.",
   "Music still feels like a dream you're chasing.",
 ];
@@ -19,10 +17,8 @@ const WITHOUT = [
 const WITH = [
   "You're a professional musician building a real career.",
   "Your songs are reaching new listeners and growing your fanbase.",
-  "Every release has a strategy designed to build momentum.",
   "You're getting playlist opportunities, booking shows, and making industry connections.",
   "You have a digital manager working behind the scenes while you focus on creating.",
-  "You're no longer just making music. You're building the career you've always imagined.",
 ];
 
 export default function WithWithoutSection() {
@@ -75,22 +71,22 @@ export default function WithWithoutSection() {
             initial={{ opacity: 0, y: 24 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            className="rounded-2xl border border-border bg-card/60 p-5 sm:p-8 flex flex-col"
+            className="rounded-2xl border border-border bg-card/60 overflow-hidden flex flex-col"
           >
-            <p className="text-xs font-bold uppercase tracking-widest text-muted-foreground mb-4">
-              {t("Without SoundReady")}
-            </p>
-            <div className="rounded-xl overflow-hidden border border-border mb-6 bg-background/40">
-              <img
-                src="https://media.base44.com/images/public/69dcf0ecc907e43a438a626b/64502b47c_generated_image.png"
-                alt="An overwhelmed independent artist surrounded by folders, unanswered emails, and unfinished releases"
-                className="w-full aspect-[16/9] object-cover opacity-80 saturate-[0.6]"
-                loading="lazy"
-              />
+            <img
+              src="https://media.base44.com/images/public/69dcf0ecc907e43a438a626b/64502b47c_generated_image.png"
+              alt="An overwhelmed independent artist surrounded by folders, unanswered emails, and unfinished releases"
+              className="w-full aspect-[16/10] sm:aspect-[16/9] object-cover opacity-80 saturate-[0.6]"
+              loading="lazy"
+            />
+            <div className="p-5 sm:p-8 flex flex-col flex-1">
+              <p className="text-xs font-bold uppercase tracking-widest text-muted-foreground mb-4">
+                {t("Without SoundReady")}
+              </p>
+              <ul className="space-y-3 sm:space-y-3.5 text-muted-foreground">
+                {WITHOUT.map((line, i) => item(line, i, false))}
+              </ul>
             </div>
-            <ul className="space-y-3 sm:space-y-3.5 text-muted-foreground">
-              {WITHOUT.map((line, i) => item(line, i, false))}
-            </ul>
           </motion.div>
 
           {/* RIGHT: with SoundReady */}
@@ -99,24 +95,24 @@ export default function WithWithoutSection() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ delay: 0.1 }}
-            className="relative rounded-2xl border border-primary/40 bg-card p-5 sm:p-8 flex flex-col shadow-[0_0_50px_-10px_rgba(74,222,128,0.35)]"
+            className="relative rounded-2xl border border-primary/40 bg-card overflow-hidden flex flex-col shadow-[0_0_50px_-10px_rgba(74,222,128,0.35)]"
           >
             <div className="absolute -inset-1.5 rounded-3xl bg-primary/15 blur-2xl pointer-events-none" />
-            <div className="relative flex flex-col h-full">
-              <p className="text-xs font-bold uppercase tracking-widest text-primary mb-4">
-                {t("With SoundReady")}
-              </p>
-              <div className="rounded-xl overflow-hidden border border-primary/30 mb-6 bg-background/40">
-                <img
-                  src="https://media.base44.com/images/public/69dcf0ecc907e43a438a626b/f0c3bafd3_generated_image.png"
-                  alt="The same artist as a successful musician: growing streams, booked shows, new fans, and opportunities rolling in while SoundReady handles the work"
-                  className="w-full aspect-[16/9] object-cover"
-                  loading="lazy"
-                />
+            <div className="relative flex flex-col h-full overflow-hidden rounded-2xl">
+              <img
+                src="https://media.base44.com/images/public/69dcf0ecc907e43a438a626b/f0c3bafd3_generated_image.png"
+                alt="The same artist as a successful musician: growing streams, booked shows, new fans, and opportunities rolling in while SoundReady handles the work"
+                className="w-full aspect-[16/10] sm:aspect-[16/9] object-cover"
+                loading="lazy"
+              />
+              <div className="p-5 sm:p-8 flex flex-col flex-1">
+                <p className="text-xs font-bold uppercase tracking-widest text-primary mb-4">
+                  {t("With SoundReady")}
+                </p>
+                <ul className="space-y-3 sm:space-y-3.5 text-foreground">
+                  {WITH.map((line, i) => item(line, i, true))}
+                </ul>
               </div>
-              <ul className="space-y-3 sm:space-y-3.5 text-foreground">
-                {WITH.map((line, i) => item(line, i, true))}
-              </ul>
             </div>
           </motion.div>
         </div>
