@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
-import { Check, Sparkles, X } from "lucide-react";
+import { Check, X } from "lucide-react";
 import { base44 } from "@/api/base44Client";
 import { Button } from "@/components/ui/button";
 import { useLang } from "@/lib/i18n/LanguageContext";
@@ -139,7 +139,6 @@ export default function WithWithoutSection() {
             className="gap-2 font-heading font-bold text-sm sm:text-base px-6 sm:px-8 h-12"
             onClick={() => { window.location.href = isAuth ? "/dashboard" : "/register"; }}
           >
-            <Sparkles className="h-4 w-4" />
             {t("Start Free")}
           </Button>
           <p className="text-xs sm:text-sm text-muted-foreground">

@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import { ArrowRight, Sparkles } from "lucide-react";
+import { ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useLang } from "@/lib/i18n/LanguageContext";
 
@@ -45,8 +45,7 @@ export default function SuccessPanel({ onStart }) {
             onClick={onStart}
             className="w-full sm:w-auto h-12 sm:h-14 px-6 sm:px-8 font-heading font-black text-sm sm:text-base gap-2"
           >
-            <Sparkles className="h-4 w-4 sm:h-5 sm:w-5" />
-            {t("Start Building My Music Career - Free")}
+            {t("Start Free")}
             <ArrowRight className="h-4 w-4 sm:h-5 sm:w-5" />
           </Button>
         </div>
