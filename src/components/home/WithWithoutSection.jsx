@@ -71,15 +71,15 @@ export default function WithWithoutSection() {
             initial={{ opacity: 0, y: 24 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            className="rounded-2xl border border-border bg-card/60 overflow-hidden flex flex-col"
+            className="flex flex-col"
           >
             <img
               src="https://media.base44.com/images/public/69dcf0ecc907e43a438a626b/a20293f7c_generated_image.png"
               alt="A struggling independent artist at night: a landlord text about missed rent, an empty inbox, a declining streams graph and a post with zero likes"
-              className="w-full aspect-[16/11] sm:aspect-[16/10] object-cover"
+              className="w-full aspect-[16/11] sm:aspect-[16/10] object-cover rounded-xl"
               loading="lazy"
             />
-            <div className="p-5 sm:p-8 flex flex-col flex-1">
+            <div className="pt-5 sm:pt-8 flex flex-col flex-1">
               <p className="text-xs font-bold uppercase tracking-widest text-muted-foreground mb-4">
                 {t("Without SoundReady")}
               </p>
@@ -95,24 +95,21 @@ export default function WithWithoutSection() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ delay: 0.1 }}
-            className="relative rounded-2xl border border-primary/40 bg-card overflow-hidden flex flex-col shadow-[0_0_50px_-10px_rgba(74,222,128,0.35)]"
+            className="relative flex flex-col"
           >
-            <div className="absolute -inset-1.5 rounded-3xl bg-primary/15 blur-2xl pointer-events-none" />
-            <div className="relative flex flex-col h-full overflow-hidden rounded-2xl">
-              <img
-                src="https://media.base44.com/images/public/69dcf0ecc907e43a438a626b/9474ac2b9_generated_image.png"
-                alt="The same artist transformed and winning: cash in hand, a tour inquiry email, a label signing offer, a SAM text about streams up 150% and a post flooded with likes"
-                className="w-full aspect-[16/11] sm:aspect-[16/10] object-cover"
-                loading="lazy"
-              />
-              <div className="p-5 sm:p-8 flex flex-col flex-1">
-                <p className="text-xs font-bold uppercase tracking-widest text-primary mb-4">
-                  {t("With SoundReady")}
-                </p>
-                <ul className="space-y-3 sm:space-y-3.5 text-foreground">
-                  {WITH.map((line, i) => item(line, i, true))}
-                </ul>
-              </div>
+            <img
+              src="https://media.base44.com/images/public/69dcf0ecc907e43a438a626b/9474ac2b9_generated_image.png"
+              alt="The same artist transformed and winning: cash in hand, a tour inquiry email, a label signing offer, a SAM text about streams up 150% and a post flooded with likes"
+              className="w-full aspect-[16/11] sm:aspect-[16/10] object-cover rounded-xl"
+              loading="lazy"
+            />
+            <div className="pt-5 sm:pt-8 flex flex-col flex-1">
+              <p className="text-xs font-bold uppercase tracking-widest text-primary mb-4">
+                {t("With SoundReady")}
+              </p>
+              <ul className="space-y-3 sm:space-y-3.5 text-foreground">
+                {WITH.map((line, i) => item(line, i, true))}
+              </ul>
             </div>
           </motion.div>
         </div>
