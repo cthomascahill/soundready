@@ -281,27 +281,20 @@ export default function About() {
         </div>
       </section>
 
-      {/* FAQ */}
-      <FaqSection />
+      {/* FAQ + FINAL CTA share one ambient gradient backdrop */}
+      <div className="relative overflow-hidden">
+        <div className="absolute -top-40 -right-56 h-[620px] w-[620px] rounded-full bg-primary/15 blur-[150px] pointer-events-none" />
+        <div className="absolute -bottom-48 -left-64 h-[560px] w-[560px] rounded-full bg-chart-2/10 blur-[160px] pointer-events-none" />
+
+        <FaqSection />
 
       {/* FINAL CTA */}
-      <section className="px-4 py-24 text-center bg-gradient-to-t from-primary/8 via-background to-background border-t border-border">
+      <section className="relative px-4 py-24 text-center bg-gradient-to-t from-primary/8 via-background to-background">
         <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="max-w-4xl mx-auto space-y-6">
-          <div className="space-y-4">
-            <h2 className="font-heading text-4xl sm:text-5xl lg:text-6xl font-black tracking-tight">
-              {t("Your music")}<br />
-              <span className="text-primary">{t("in motion")}</span>
-            </h2>
-            <p className="text-sm sm:text-base text-muted-foreground max-w-xl mx-auto leading-relaxed">
-              {t("Start with three songs free. Add SAM when you're ready.")}
-            </p>
-          </div>
-          <Button size="lg" className="gap-2 font-heading font-bold text-base px-8 h-12" onClick={handleCTA}>
-            {t("Start Free")}
-          </Button>
-          <p className="text-xs sm:text-sm text-muted-foreground">{t("Start with 3 songs. No card required.")}</p>
+...
         </motion.div>
       </section>
+      </div>
 
       <PublicFooter />
     </div>

@@ -63,8 +63,11 @@ export default function MattCormanSection() {
   );
 
   return (
-    <section className="px-4 py-16">
-      <div className="max-w-6xl mx-auto space-y-12 text-center">
+    <section className="relative px-4 py-16 overflow-hidden">
+      {/* Soft ambient gradient glows, same as the hero */}
+      <div className="absolute -top-48 -left-48 h-[640px] w-[640px] rounded-full bg-primary/15 blur-[140px] pointer-events-none" />
+      <div className="absolute -bottom-40 -right-56 h-[560px] w-[560px] rounded-full bg-chart-2/10 blur-[160px] pointer-events-none" />
+      <div className="relative max-w-6xl mx-auto space-y-12 text-center">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}

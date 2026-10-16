@@ -25,7 +25,7 @@ export default function VsRestSection() {
   const { t } = useLang();
 
   return (
-    <section id="vs-the-rest" className="px-4 py-24 sm:py-32 scroll-mt-20 border-t border-border">
+    <section id="vs-the-rest" className="px-4 py-24 sm:py-32 scroll-mt-20">
       <div className="max-w-6xl mx-auto space-y-12 sm:space-y-16">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
