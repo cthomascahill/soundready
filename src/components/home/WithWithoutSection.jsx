@@ -1,5 +1,8 @@
+import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
-import { Check, X } from "lucide-react";
+import { Check, Sparkles, X } from "lucide-react";
+import { base44 } from "@/api/base44Client";
+import { Button } from "@/components/ui/button";
 import { useLang } from "@/lib/i18n/LanguageContext";
 
 // The emotional before/after: the same artist, stuck alone vs. building a
@@ -24,6 +27,11 @@ const WITH = [
 
 export default function WithWithoutSection() {
   const { t } = useLang();
+  const [isAuth, setIsAuth] = useState(false);
+
+  useEffect(() => {
+    base44.auth.isAuthenticated().then(setIsAuth);
+  }, []);
 
   const item = (text, i, good) => (
     <motion.li
@@ -100,8 +108,8 @@ export default function WithWithoutSection() {
               </p>
               <div className="rounded-xl overflow-hidden border border-primary/30 mb-6 bg-background/40">
                 <img
-                  src="https://media.base44.com/images/public/69dcf0ecc907e43a438a626b/e6c6e9b63_generated_image.png"
-                  alt="The same artist confidently creating music while SoundReady handles the work"
+                  src="https://media.base44.com/images/public/69dcf0ecc907e43a438a626b/f0c3bafd3_generated_image.png"
+                  alt="The same artist as a successful musician: growing streams, booked shows, new fans, and opportunities rolling in while SoundReady handles the work"
                   className="w-full aspect-[16/9] object-cover"
                   loading="lazy"
                 />
@@ -112,6 +120,26 @@ export default function WithWithoutSection() {
             </div>
           </motion.div>
         </div>
+
+        {/* CTA: start the transformation */}
+        <motion.div
+          initial={{ opacity: 0, y: 16 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          className="text-center space-y-3 pt-2"
+        >
+          <Button
+            size="lg"
+            className="gap-2 font-heading font-bold text-sm sm:text-base px-6 sm:px-8 h-12"
+            onClick={() => { window.location.href = isAuth ? "/dashboard" : "/register"; }}
+          >
+            <Sparkles className="h-4 w-4" />
+            {t("Start Your Music Career Transformation, Free")}
+          </Button>
+          <p className="text-xs sm:text-sm text-muted-foreground">
+            {t("Start with 3 songs. No card required.")}
+          </p>
+        </motion.div>
       </div>
     </section>
   );
