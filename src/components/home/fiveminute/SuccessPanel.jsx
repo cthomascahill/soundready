@@ -24,7 +24,7 @@ export default function SuccessPanel({ onStart }) {
         <motion.img
           src={SAM_IMG}
           alt="SAM, the SoundReady Artist Manager"
-          className="h-36 sm:h-48 lg:h-56 w-auto mx-auto drop-shadow-2xl"
+          className="h-36 sm:h-48 lg:h-56 w-auto max-w-none aspect-[2/3] object-contain mx-auto drop-shadow-2xl"
           initial={{ opacity: 0, y: 24, scale: 0.9 }}
           animate={{ opacity: 1, y: 0, scale: 1 }}
           transition={{ type: "spring", stiffness: 160, damping: 18, delay: 0.15 }}
