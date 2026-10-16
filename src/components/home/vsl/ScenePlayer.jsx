@@ -34,15 +34,20 @@ export default function ScenePlayer({ scenes, title, logo, playLabel }) {
     timerRef.current = setInterval(() => {
       setElapsed((e) => {
         const next = e + 0.1;
+        // While the narration is still speaking, hold the slide (including the
+        // final one) just short of its end instead of cutting the voice off
+        // (capped so a stuck voice can't freeze the tour).
+        const speaking = narration && typeof window !== "undefined" && !!window.speechSynthesis?.speaking;
+        if (!speaking) holdRef.current = 0;
         if (next >= TOTAL) {
+          if (speaking) {
+            holdRef.current += 1;
+            if (holdRef.current < 120) return TOTAL - 0.05;
+            holdRef.current = 0;
+          }
           setPlaying(false);
           return TOTAL;
         }
-        // While the narration is still speaking, hold the slide just short of
-        // its end instead of cutting the voice off (capped so a stuck voice
-        // can't freeze the tour).
-        const speaking = narration && typeof window !== "undefined" && !!window.speechSynthesis?.speaking;
-        if (!speaking) holdRef.current = 0;
         if (speaking) {
           const idx = Math.min(BOUNDS.findLastIndex((b) => e >= b), scenes.length - 1);
           const sceneEnd = BOUNDS[idx] + scenes[idx].duration;
@@ -73,10 +78,13 @@ export default function ScenePlayer({ scenes, title, logo, playLabel }) {
   }, [playing, narration, scene]);
 
   useEffect(() => {
-    if (!playing && typeof window !== "undefined" && window.speechSynthesis) {
+    // Don't cancel on a natural finish: the last line of narration is still
+    // speaking. Only a pause or a mute stops the voice mid-line.
+    if (typeof window === "undefined" || !window.speechSynthesis) return;
+    if (!narration || (!playing && !finished)) {
       window.speechSynthesis.cancel();
     }
-  }, [playing, narration]);
+  }, [playing, narration, finished]);
 
   const toggle = () => {
     if (finished) {

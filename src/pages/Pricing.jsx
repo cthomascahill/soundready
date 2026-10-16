@@ -115,14 +115,17 @@ export default function Pricing() {
         <div className="absolute inset-0 bg-gradient-to-b from-transparent via-background/60 to-background pointer-events-none" />
         <motion.div initial={{ opacity: 0, y: 24 }} animate={{ opacity: 1, y: 0 }} className="relative max-w-4xl mx-auto">
           <h1 className="font-heading text-4xl sm:text-5xl font-black tracking-tight leading-[0.95]">
-            Your music<br />
-            <span className="text-primary">in motion</span>
+            Which SoundReady plan is<br />
+            <span className="text-primary">right for you?</span>
           </h1>
           <p className="mt-4 text-sm sm:text-base text-muted-foreground max-w-2xl mx-auto leading-relaxed">
-            Keep your songs, mixes, and releases together. Use SAM to find opportunities and handle outreach with your approval.
+            Watch what Free, Artist Pro, and Digital Manager each actually cover, then choose your plan.
           </p>
         </motion.div>
       </section>
+
+      {/* WHICH PLAN IS RIGHT FOR YOU: the plan-by-plan VSL, the new hero video */}
+      <PlanVslSection />
 
       {/* PLANS, three tiles, mirroring the homepage */}
       <section id="plans" className="px-4 pb-16 scroll-mt-20">
@@ -287,9 +290,6 @@ export default function Pricing() {
           </div>
         </div>
       </section>
-
-      {/* WHICH PLAN IS RIGHT FOR YOU: the plan-by-plan VSL */}
-      <PlanVslSection />
 
       {/* FULL TOOLKIT */}
       <FullToolkitSection />
