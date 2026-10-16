@@ -2,6 +2,7 @@ import { motion } from "framer-motion";
 import { ArrowRight } from "lucide-react";
 import { useLang } from "@/lib/i18n/LanguageContext";
 import BrandLogo from "@/components/home/BrandLogo";
+import { MixesWindow, TrackerWindow, VaultWindow } from "@/components/home/FeatureMockWindows";
 
 // The stack of tools artists juggle today vs. the one place that does it all.
 // Left: the real brands they're patching together. Right: the SoundReady
@@ -25,17 +26,17 @@ const FEATURES = [
   {
     name: "Vault",
     desc: "Every song, version, and duplicate organized for you",
-    img: "https://media.base44.com/images/public/69dcf0ecc907e43a438a626b/91038c761_generated_image.png",
+    Window: VaultWindow,
   },
   {
     name: "Mixes & Feedback",
     desc: "Collaborator notes kept with the song they belong to",
-    img: "https://media.base44.com/images/public/69dcf0ecc907e43a438a626b/2e8f29733_generated_image.png",
+    Window: MixesWindow,
   },
   {
     name: "Song Tracker",
     desc: "Release progress you can see at a glance, song by song",
-    img: "https://media.base44.com/images/public/69dcf0ecc907e43a438a626b/e4a871783_generated_image.png",
+    Window: TrackerWindow,
   },
   {
     name: "SAM",
@@ -108,12 +109,16 @@ export default function VsRestSection() {
             <div className="space-y-4">
               {FEATURES.map((f) => (
                 <div key={f.name} className="flex items-center gap-4">
-                  <img
-                    src={f.img}
-                    alt={f.name}
-                    loading="lazy"
-                    className="h-16 w-16 sm:h-20 sm:w-20 shrink-0 rounded-xl object-cover border border-primary/30"
-                  />
+                  {f.Window ? (
+                    <f.Window />
+                  ) : (
+                    <img
+                      src={f.img}
+                      alt={f.name}
+                      loading="lazy"
+                      className="h-16 w-16 sm:h-20 sm:w-20 shrink-0 rounded-xl object-cover border border-primary/30"
+                    />
+                  )}
                   <div className="space-y-0.5">
                     <p className="font-heading font-bold text-base sm:text-lg">{t(f.name)}</p>
                     <p className="text-xs sm:text-sm text-muted-foreground leading-snug">{t(f.desc)}</p>
