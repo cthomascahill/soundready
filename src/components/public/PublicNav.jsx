@@ -20,39 +20,61 @@ export default function PublicNav({ showHome = true }) {
       pathname === path ? "text-foreground font-semibold" : "text-muted-foreground hover:text-foreground"
     }`;
 
+  const earlyBirdText = (
+    <>
+      Early Bird Special · Digital Manager, just $24.99/month{" "}
+      <span className="line-through text-red-400">$89/month</span>
+    </>
+  );
+
   return (
     <header className="sticky top-0 z-40 bg-background/90 backdrop-blur-xl">
-      <div className="max-w-6xl mx-auto px-4 h-14 flex items-center justify-between gap-4 relative">
-        <Link to="/" className="shrink-0 z-10"><SoundReadyLogo size={28} /></Link>
-        <div className="absolute inset-x-0 flex justify-center pointer-events-none">
+      <div className="max-w-6xl mx-auto px-4">
+        <div className="h-14 flex items-center justify-between gap-4 relative">
+          <Link to="/" className="shrink-0 z-10"><SoundReadyLogo size={28} /></Link>
+
+          {/* Centered banner on wide screens; its own row below the nav on tablet and mobile */}
+          <div className="absolute inset-x-0 hidden lg:flex justify-center pointer-events-none">
+            <Link
+              to="/pricing"
+              className="max-w-md text-center text-sm font-bold tracking-wide text-primary hover:opacity-80 transition-opacity pointer-events-auto"
+            >
+              {earlyBirdText}
+            </Link>
+          </div>
+
+          <div className="flex items-center gap-3 shrink-0 z-10">
+            {pathname === "/pricing" ? (
+              <Link to="/" className={linkClass("/")}>{t("Home")}</Link>
+            ) : (
+              <>
+                {showHome && <Link to="/" className={linkClass("/")}>{t("Home")}</Link>}
+                <Link to="/pricing" className={linkClass("/pricing")}>{t("Pricing")}</Link>
+              </>
+            )}
+            <Button size="sm" variant="ghost" className="font-semibold hidden sm:inline-flex" onClick={() => base44.auth.redirectToLogin()}>
+              {t("Log In")}
+            </Button>
+            <Button size="sm" variant="outline" className="font-semibold" onClick={() => base44.auth.redirectToLogin()}>
+              {t("Sign Up")}
+            </Button>
+            {user && (
+              <Link to="/history">
+                <Button size="sm" className="font-semibold">{t("Dashboard")}</Button>
+              </Link>
+            )}
+          </div>
+        </div>
+
+        {/* Early bird banner sits on its own centered row on tablet and mobile,
+            so it never merges into the nav buttons */}
+        <div className="lg:hidden pb-2 flex justify-center">
           <Link
             to="/pricing"
-            className="hidden sm:block max-w-sm md:max-w-md text-center text-xs lg:text-sm font-bold tracking-wide text-primary hover:opacity-80 transition-opacity pointer-events-auto"
+            className="text-center text-xs font-bold tracking-wide text-primary hover:opacity-80 transition-opacity"
           >
-            Early Bird Special · Digital Manager, just $24.99/month{" "}
-            <span className="line-through text-red-400">$89/month</span>
+            {earlyBirdText}
           </Link>
-        </div>
-        <div className="flex items-center gap-3 shrink-0 z-10">
-          {pathname === "/pricing" ? (
-            <Link to="/" className={linkClass("/")}>{t("Home")}</Link>
-          ) : (
-            <>
-              {showHome && <Link to="/" className={linkClass("/")}>{t("Home")}</Link>}
-              <Link to="/pricing" className={linkClass("/pricing")}>{t("Pricing")}</Link>
-            </>
-          )}
-          <Button size="sm" variant="ghost" className="font-semibold hidden sm:inline-flex" onClick={() => base44.auth.redirectToLogin()}>
-            {t("Log In")}
-          </Button>
-          <Button size="sm" variant="outline" className="font-semibold" onClick={() => base44.auth.redirectToLogin()}>
-            {t("Sign Up")}
-          </Button>
-          {user && (
-            <Link to="/history">
-              <Button size="sm" className="font-semibold">{t("Dashboard")}</Button>
-            </Link>
-          )}
         </div>
       </div>
     </header>
