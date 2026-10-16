@@ -12,7 +12,6 @@ import MeetSamSection from "@/components/home/MeetSamSection";
 import MattCormanSection from "@/components/home/MattCormanSection";
 import HeroArtistSearch from "@/components/home/HeroArtistSearch";
 import VslSection from "@/components/home/VslSection";
-import RealDemoSection from "@/components/home/RealDemoSection";
 import VsRestSection from "@/components/home/VsRestSection";
 import WithWithoutSection from "@/components/home/WithWithoutSection";
 import FiveMinuteSection from "@/components/home/FiveMinuteSection";
@@ -99,9 +98,6 @@ export default function About() {
 
       {/* THE VSL: one artist's whole journey, right after Start Free */}
       <VslSection />
-
-      {/* REAL DEMO: actual product output, right after the animation */}
-      <RealDemoSection />
 
       {/* WITHOUT SOUNDREADY VS. WITH SOUNDREADY */}
       <WithWithoutSection />
