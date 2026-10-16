@@ -10,7 +10,7 @@ export const FREE_ITEMS = [
   "Royalties: see what every release actually earns",
   "Spotify editorial playlist pitch template: the same exact template used to get on thousands of Spotify editorial playlists, for free",
   "Release checklist",
-  "Music Academy: a step-by-step guide on how to create and scale your music business",
+  "Music Academy: a step by step guide on how to create and scale your music business, from zero to one million",
 ];
 
 export const PRO_ITEMS = [
@@ -52,11 +52,11 @@ export const CARD_FREE_ITEMS = [
   "Streaming royalty calculator",
   "Spotify editorial playlist pitch template: the same exact template used to get on thousands of Spotify editorial playlists, for free",
   "Release checklist",
-  "Music Academy: a step-by-step guide on how to create and scale your music business",
+  "Music Academy: a step by step guide on how to create and scale your music business, from zero to one million",
 ];
 
 export const CARD_PRO_ITEMS = [
-  "Everything in Free, unlocked",
+  { bold: true, text: "Everything in Free, unlocked" },
   "Unlimited songs in your Vault",
   "EPK Builder: a personalized press kit made in under 5 minutes",
   "Analytics: track your Spotify and YouTube analytics",
