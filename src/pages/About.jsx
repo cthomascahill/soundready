@@ -14,6 +14,7 @@ import HeroArtistSearch from "@/components/home/HeroArtistSearch";
 import VslSection from "@/components/home/VslSection";
 import VsRestSection from "@/components/home/VsRestSection";
 import WithWithoutSection from "@/components/home/WithWithoutSection";
+import FiveMinuteSection from "@/components/home/FiveMinuteSection";
 import FaqSection from "@/components/home/FaqSection";
 import { useLang } from "@/lib/i18n/LanguageContext";
 
@@ -183,11 +184,14 @@ export default function About() {
 
 
 
-      {/* FOUNDER STORY */}
-      <MattCormanSection />
-
       {/* WITHOUT SOUNDREADY VS. WITH SOUNDREADY */}
       <WithWithoutSection />
+
+      {/* IN JUST 5 MINUTES */}
+      <FiveMinuteSection />
+
+      {/* FOUNDER STORY */}
+      <MattCormanSection />
 
       {/* TODAY VS. SOUNDREADY */}
       <VsRestSection />
