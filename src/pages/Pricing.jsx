@@ -119,7 +119,9 @@ export default function Pricing() {
             <span className="text-primary">right for you?</span>
           </h1>
           <p className="mt-4 text-sm sm:text-base text-muted-foreground max-w-2xl mx-auto leading-relaxed">
-            Watch what Free, Artist Pro, and Digital Manager each actually cover, then choose your plan.
+            Watch what Free, Artist Pro, and Digital Manager each actually cover
+            <br />
+            <span className="font-semibold text-foreground">then choose your plan</span>
           </p>
         </motion.div>
       </section>
