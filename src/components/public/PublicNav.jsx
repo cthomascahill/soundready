@@ -31,8 +31,14 @@ export default function PublicNav({ showHome = true }) {
           Early Bird Special · Artist Pro, just $9.99/month
         </Link>
         <div className="flex items-center gap-3 shrink-0">
-          {showHome && <Link to="/" className={linkClass("/")}>{t("Home")}</Link>}
-          <Link to="/pricing" className={linkClass("/pricing")}>{t("Pricing")}</Link>
+          {pathname === "/pricing" ? (
+            <Link to="/" className={linkClass("/")}>{t("Home")}</Link>
+          ) : (
+            <>
+              {showHome && <Link to="/" className={linkClass("/")}>{t("Home")}</Link>}
+              <Link to="/pricing" className={linkClass("/pricing")}>{t("Pricing")}</Link>
+            </>
+          )}
           <Button size="sm" variant="ghost" className="font-semibold hidden sm:inline-flex" onClick={() => base44.auth.redirectToLogin()}>
             {t("Log In")}
           </Button>
