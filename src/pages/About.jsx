@@ -12,6 +12,7 @@ import MeetSamSection from "@/components/home/MeetSamSection";
 import MattCormanSection from "@/components/home/MattCormanSection";
 import HeroArtistSearch from "@/components/home/HeroArtistSearch";
 import VslSection from "@/components/home/VslSection";
+import RealDemoSection from "@/components/home/RealDemoSection";
 import VsRestSection from "@/components/home/VsRestSection";
 import WithWithoutSection from "@/components/home/WithWithoutSection";
 import FiveMinuteSection from "@/components/home/FiveMinuteSection";
@@ -63,6 +64,7 @@ export default function About() {
               <Button size="lg" className="gap-2 font-heading font-bold text-sm sm:text-base px-6 sm:px-8 h-12" onClick={handleCTA}>
                 {t("Start Free")}
               </Button>
+              <p className="pt-2 text-xs sm:text-sm text-muted-foreground">{t("Start with 3 songs. No card required.")}</p>
             </div>
             <div className="pt-2">
               <HeroArtistSearch />
@@ -97,6 +99,9 @@ export default function About() {
 
       {/* THE VSL: one artist's whole journey, right after Start Free */}
       <VslSection />
+
+      {/* REAL DEMO: actual product output, right after the animation */}
+      <RealDemoSection />
 
       {/* WITHOUT SOUNDREADY VS. WITH SOUNDREADY */}
       <WithWithoutSection />
