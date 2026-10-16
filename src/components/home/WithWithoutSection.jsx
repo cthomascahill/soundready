@@ -100,8 +100,8 @@ export default function WithWithoutSection() {
             <div className="absolute -inset-1.5 rounded-3xl bg-primary/15 blur-2xl pointer-events-none" />
             <div className="relative flex flex-col h-full overflow-hidden rounded-2xl">
               <img
-                src="https://media.base44.com/images/public/69dcf0ecc907e43a438a626b/db8611efc_generated_image.png"
-                alt="SAM the robot manager holding dollar bills beside a rising streams graph, playlist cards and booked show tickets"
+                src="https://media.base44.com/images/public/69dcf0ecc907e43a438a626b/5ec9fe9fe_generated_image.png"
+                alt="The same artist transformed and winning: cash in hand, streams graph rising, bank balance growing and a post flooded with likes"
                 className="w-full aspect-[16/10] sm:aspect-[16/9] object-cover"
                 loading="lazy"
               />
