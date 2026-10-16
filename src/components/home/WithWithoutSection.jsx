@@ -58,9 +58,9 @@ export default function WithWithoutSection() {
           className="text-center space-y-4"
         >
           <h2 className="font-heading text-4xl sm:text-6xl font-black tracking-tight leading-[1.02]">
-            {t("It only takes 5 minutes to change your career")}
+            {t("From struggling independent artist")}
             <br />
-            <span className="text-primary">{t("change your life")}</span>
+            <span className="text-primary">{t("to professional musician")}</span>
           </h2>
         </motion.div>
 
