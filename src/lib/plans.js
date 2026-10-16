@@ -83,7 +83,7 @@ export const CARD_AI_ITEMS = [
   "EPK Builder: SAM builds and refreshes your press kit with your real numbers",
   "SAM remembers your goals, preferences and feedback, and gets better every week",
   "Weekly career digests and daily intel briefs",
-  "2,500 SAM credits a month: a full month of a manager's work",
+  "2,500 SAM credits a month: research, pitch drafts, and career updates throughout the month",
   "No percentage cuts, ever. Your music stays yours",
 ];
 

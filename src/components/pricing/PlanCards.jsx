@@ -1,6 +1,7 @@
+import { useState } from "react";
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
-import { Bot, CheckCircle2, Sparkles, Users, Zap } from "lucide-react";
+import { Bot, CheckCircle2, ChevronDown, Sparkles, Users, Zap } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { CARD_FREE_ITEMS, CARD_PRO_ITEMS, CARD_AI_ITEMS } from "@/lib/plans";
 
@@ -20,6 +21,30 @@ export const TierItems = ({ items, check = "text-primary" }) => (
     })}
   </div>
 );
+
+/** Five strongest benefits up front; the full list behind one tap, so the
+    buy button stays close to the top of the card on first view. */
+const TierList = ({ items, check = "text-primary" }) => {
+  const [expanded, setExpanded] = useState(false);
+  const visible = expanded ? items : items.slice(0, 5);
+  const hiddenCount = items.length - visible.length;
+  return (
+    <div>
+      <TierItems items={visible} check={check} />
+      {hiddenCount > 0 && (
+        <button
+          type="button"
+          onClick={() => setExpanded((e) => !e)}
+          aria-expanded={expanded}
+          className="mt-2.5 inline-flex items-center gap-1 text-xs font-bold text-primary hover:opacity-80 transition-opacity"
+        >
+          See everything included (+{hiddenCount})
+          <ChevronDown className={`h-3.5 w-3.5 transition-transform ${expanded ? "rotate-180" : ""}`} />
+        </button>
+      )}
+    </div>
+  );
+};
 
 /** The three pricing cards, shared verbatim by the Pricing page and the homepage. */
 export default function PlanCards() {
@@ -41,7 +66,7 @@ export default function PlanCards() {
           Sign up free and your Release Starter Kit lands in your inbox the moment you join: Spotify editorial playlist pitch template, filled-in example, release timeline, metadata checklist.
         </p>
         <div className="flex-1">
-          <TierItems items={CARD_FREE_ITEMS} check="text-chart-5" />
+          <TierList items={CARD_FREE_ITEMS} check="text-chart-5" />
         </div>
         <div className="mt-6">
           <Link to="/checkout/free">
@@ -75,7 +100,7 @@ export default function PlanCards() {
           Your full music workspace: press kit, analytics, tour opportunities, career roadmap, The Wall, Music News, and more.
         </p>
         <div className="flex-1">
-          <TierItems items={CARD_PRO_ITEMS} check="text-chart-5" />
+          <TierList items={CARD_PRO_ITEMS} check="text-chart-5" />
         </div>
         <div className="mt-6">
           <Link to="/checkout/artist-pro">
@@ -119,7 +144,7 @@ export default function PlanCards() {
           Your full workspace, plus SAM, your digital artist manager. SAM researches your opportunities, writes your pitches, and tracks your outreach. You approve every send.
         </p>
         <div className="flex-1">
-          <TierItems items={CARD_AI_ITEMS} />
+          <TierList items={CARD_AI_ITEMS} />
         </div>
         <div className="mt-6 relative">
           <Link to="/checkout/ai-manager">

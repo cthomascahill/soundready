@@ -119,14 +119,17 @@ export default function ScenePlayer({ scenes, title, logo, playLabel }) {
 
         {/* Stage */}
         <div className="relative aspect-video bg-background">
-          <AnimatePresence mode="wait">
+          {/* Crossfade (not mode="wait"): the new scene mounts immediately on a
+              chapter skip, so a queued exit can never leave the old visual on
+              stage while the caption has already moved on. */}
+          <AnimatePresence>
             <motion.div
               key={scene.id}
               className="absolute inset-0"
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
-              transition={{ duration: 0.4 }}
+              transition={{ duration: 0.25 }}
             >
               {scene.render()}
             </motion.div>

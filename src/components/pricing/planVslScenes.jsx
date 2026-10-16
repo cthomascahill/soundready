@@ -206,16 +206,16 @@ const CreditsMock = () => (
           <p className="text-[10px] text-muted-foreground hidden sm:block">{sub}</p>
         </motion.div>
       ))}
-      <motion.p {...rise(1.9)} className="text-[11px] font-bold text-primary text-center">A full month of a manager's work, with credits to spare.</motion.p>
+      <motion.p {...rise(1.9)} className="text-[11px] font-bold text-primary text-center">Research, pitch drafts, and career updates throughout the month, with credits to spare.</motion.p>
     </div>
   </Frame>
 );
 
-// 8 · Why it's a grand slam offer
+// 8 · Your music stays yours
 const GrandSlamMock = () => (
   <Frame>
     <div className="rounded-2xl border border-primary/30 bg-card p-5 space-y-3">
-      <p className="font-heading text-base font-black text-center">Why artists call it <span className="text-primary">a grand slam offer</span></p>
+      <p className="font-heading text-base font-black text-center">Your music stays <span className="text-primary">yours</span></p>
       <div className="grid grid-cols-2 gap-2">
         <motion.div {...rise(0.3)} className="rounded-xl border border-border bg-background/40 p-3 text-center">
           <p className="font-heading text-lg font-black text-destructive">15–20%</p>
@@ -263,7 +263,7 @@ export const PLAN_VSL_SCENES = [
     id: "free",
     label: "Free",
     duration: 8,
-    narration: "Want to try it first? Start Free. Upload your first three songs, track them from idea to release, see your analytics, and keep more of your streaming money with the royalty calculator. Real value for your career, completely free. No card required at all.",
+    narration: "Want to try it first? Start Free. Upload your first three songs, track them from idea to release, see your analytics, and estimate what your streams pay with the royalty calculator. Real value for your career, completely free. No card required at all.",
     render: () => <FreePlanMock />,
   },
   {
@@ -304,15 +304,15 @@ export const PLAN_VSL_SCENES = [
   {
     id: "credits",
     label: "2,500 credits",
-    duration: 8,
-    narration: "Your plan includes 2,500 SAM credits each month. In a real month, that covers ten research tasks, thirty personalized pitch drafts, four weekly digests, thirty daily intel briefs, and an EPK refresh. A full month of a manager's work, with credits to spare. Extra credits are there if you ever need them.",
+    duration: 10,
+    narration: "Your plan includes 2,500 SAM credits each month. In a real month, that covers ten research tasks, thirty personalized pitch drafts, four weekly digests, and an EPK refresh. Research, pitch drafts, and career updates throughout the month, with credits to spare.",
     render: () => <CreditsMock />,
   },
   {
     id: "grand-slam",
-    label: "Why it's a grand slam",
+    label: "Your music stays yours",
     duration: 7,
-    narration: "And here's why it's a grand slam offer. Your music stays yours. SoundReady takes no percentage of your income. Cancel anytime, and your early bird price stays locked while you stay subscribed.",
+    narration: "Your music stays yours. SoundReady takes no percentage of your income. Cancel anytime, in one click. And your early bird price stays locked while you stay subscribed.",
     render: () => <GrandSlamMock />,
   },
   {
