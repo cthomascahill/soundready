@@ -9,7 +9,6 @@ import { base44 } from "@/api/base44Client";
 import { useAuth } from "@/lib/AuthContext";
 import { getTier, trialDaysLeft } from "@/lib/tier";
 import PublicNav from "@/components/public/PublicNav";
-import EarlyBirdBanner from "@/components/public/EarlyBirdBanner";
 import PublicFooter from "@/components/public/PublicFooter";
 import SEO from "@/components/SEO";
 import ManagerCostSlider from "@/components/home/ManagerCostSlider";
@@ -31,8 +30,8 @@ const TierItems = ({ items, check = "text-primary" }) => (
 
 const FAQ = [
   {
-    q: "How does the 7-day free trial work?",
-    a: "Start Artist Pro with a card on file and everything is unlocked free for 7 days. Nothing is charged until day 7, when your plan begins at $9.99/month, the early bird price (on sale from $49/month). Cancel anytime before day 7 and you pay nothing at all. The Free plan never asks for a card.",
+    q: "How does Artist Pro billing work?",
+    a: "Start Artist Pro with a card on file and your plan begins right away at $9.99/month, the early bird price (on sale from $49/month). Cancel anytime. The Free plan never asks for a card.",
   },
   {
     q: "What exactly does SAM do?",
@@ -48,11 +47,11 @@ const FAQ = [
   },
   {
     q: "Which plan do I actually need?",
-    a: "Free keeps your music organized forever, no card needed, and it starts with the free Release Starter Kit in your welcome email: the playlist pitch template that has landed songs on Spotify editorial playlists, a filled-in example, a week-by-week release timeline and the metadata checklist most artists miss. Artist Pro adds the full career toolkit: unlimited Vault, release planning, playlist discovery, venues, touring and team tools, $9.99/month after the trial. Digital Manager adds SAM on top of all of that, $24.99/month while the early bird lasts.",
+    a: "Free keeps your music organized forever, no card needed, and it starts with the free Release Starter Kit in your welcome email: the playlist pitch template that has landed songs on Spotify editorial playlists, a filled-in example, a week-by-week release timeline and the metadata checklist most artists miss. Artist Pro adds the full career toolkit: unlimited Vault, release planning, playlist discovery, venues, touring and team tools, $9.99/month. Digital Manager adds SAM on top of all of that, $24.99/month while the early bird lasts.",
   },
   {
     q: "What happens when I cancel?",
-    a: "Cancel in one click from your plan page. No email, no phone call. During the trial you're never charged. After that you keep access until the period you already paid for ends, then your account simply moves to the Free plan. Your songs and data stay yours.",
+    a: "Cancel in one click from your plan page. No email, no phone call. You keep access until the period you already paid for ends, then your account simply moves to the Free plan. Your songs and data stay yours.",
   },
   {
     q: "Is the early bird price really locked forever?",
@@ -102,10 +101,9 @@ export default function Pricing() {
     <div className="min-h-screen bg-background font-body">
       <SEO
         title="SoundReady Pricing"
-        description="Start free with 3 songs. Artist Pro unlocks the full toolkit for $9.99/mo early bird, on sale from $49/mo, with a 7-day free trial. Digital Manager adds SAM for $24.99/mo early bird, on sale from $89/mo. No percentage cuts, ever."
+        description="Start free with 3 songs. Artist Pro unlocks the full toolkit for $9.99/mo early bird, on sale from $49/mo. Digital Manager adds SAM for $24.99/mo early bird, on sale from $89/mo. No percentage cuts, ever."
       />
 
-      <EarlyBirdBanner to="/checkout/artist-pro" />
       <PublicNav />
 
       {/* HERO, the artist journey */}
@@ -213,7 +211,7 @@ export default function Pricing() {
               <motion.div initial={{ opacity: 0, y: 24 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: 0.06 }}
               className="relative h-full rounded-2xl border border-chart-5/20 bg-card p-6 flex flex-col ring-2 ring-chart-5/40 shadow-xl">
               <div className="absolute -top-3 left-1/2 -translate-x-1/2 px-3 py-1 rounded-full text-xs font-bold whitespace-nowrap bg-chart-5 text-black">
-                7-Day Free Trial
+                Early Bird Special
               </div>
               <div className="h-11 w-11 rounded-xl bg-chart-5/10 border border-chart-5/20 flex items-center justify-center mb-4">
                 <Users className="h-5 w-5 text-chart-5" />
@@ -225,7 +223,7 @@ export default function Pricing() {
                 $9.99<span className="text-sm text-muted-foreground font-medium">/month</span>
               </p>
               <p className="text-xs font-semibold text-primary mb-1">Early Bird Special · on sale from $49/month</p>
-              <p className="text-sm font-semibold text-chart-5 mb-3">7-day free trial</p>
+              <p className="text-sm font-semibold text-chart-5 mb-3">Just $9.99/month to start</p>
               <p className="text-sm text-muted-foreground leading-relaxed mb-5">
                 Plan releases, find opportunities, and work with your team in one workspace.
               </p>
@@ -234,10 +232,10 @@ export default function Pricing() {
               </div>
               <div className="mt-6">
                 <Link to="/checkout/artist-pro">
-                  <Button className="w-full font-semibold bg-chart-5 hover:bg-chart-5/90 text-black">Start Pro Free Trial</Button>
+                  <Button className="w-full font-semibold bg-chart-5 hover:bg-chart-5/90 text-black">Start Artist Pro</Button>
                 </Link>
               </div>
-              <p className="text-center text-xs text-muted-foreground mt-2">Card required. $9.99/month after 7 days unless canceled. Early bird, on sale from $49/month.</p>
+              <p className="text-center text-xs text-muted-foreground mt-2">Card required. $9.99/month. Early bird, on sale from $49/month.</p>
             </motion.div>
             </div>
 

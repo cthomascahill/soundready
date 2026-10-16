@@ -113,7 +113,7 @@ export const PLANS = {
     strikePrice: "$49",
     period: "/mo",
     items: PRO_ITEMS,
-    note: "7-day free trial. Card required, charged $9.99 automatically on day 7. Cancel before then, pay nothing. Early bird price, on sale from $49/month.",
+    note: "Card required, billed $9.99/month starting right away. Early bird price, on sale from $49/month. Cancel anytime.",
   },
   "ai-manager": {
     slug: "ai-manager",

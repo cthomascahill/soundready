@@ -60,9 +60,6 @@ export default async function(req) {
         'subscription_data[metadata][user_id]': user.id,
         'subscription_data[metadata][tier]': tier,
       };
-      // 7-day free trial for Artist Pro — card is auto-charged on day 7 unless cancelled
-      if (tier === 'pro') params['subscription_data[trial_period_days]'] = '7';
-
       const session = await stripeRequest('POST', '/checkout/sessions', params);
       console.log(`stripeCheckout: session created for user ${user.id} (tier: ${tier}, interval: ${interval}, price: ${priceId})`);
       return Response.json({ url: session.url });

@@ -5,7 +5,6 @@ import { base44 } from "@/api/base44Client";
 import { Bot, CheckCircle2, ShieldCheck, Sparkles, Users, Zap } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import PublicNav from "@/components/public/PublicNav";
-import EarlyBirdBanner from "@/components/public/EarlyBirdBanner";
 import PublicFooter from "@/components/public/PublicFooter";
 import SEO from "@/components/SEO";
 
@@ -56,7 +55,7 @@ const TIERS = [
     price: "$9.99/month",
     strike: "$49/month",
     founding: true,
-    badge: "Early Bird Special · 7-Day Free Trial",
+    badge: "Early Bird Special",
     desc: "Plan releases, find opportunities, and work with your team in one workspace.",
     items: [
       "Everything in Free, unlocked",
@@ -69,7 +68,7 @@ const TIERS = [
     ],
     cta: "Start Pro",
     checkout: "/checkout/artist-pro",
-    subtext: "Card required. $9.99/month after 7 days unless canceled. Early bird, on sale from $49/month.",
+    subtext: "Card required. $9.99/month. Early bird, on sale from $49/month.",
   },
   {
     icon: Bot,
@@ -123,7 +122,6 @@ export default function About() {
         description="SoundReady keeps your songs, mixes, feedback, and release progress together in one workspace, with SAM, an AI manager, to help you take the next step. Start free."
       />
 
-      <EarlyBirdBanner />
       <PublicNav showHome={false} />
 
       {/* HERO: your career in motion, SAM big right beside it */}

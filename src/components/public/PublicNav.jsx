@@ -22,9 +22,15 @@ export default function PublicNav({ showHome = true }) {
 
   return (
     <header className="sticky top-0 z-40 bg-background/90 backdrop-blur-xl">
-      <div className="max-w-6xl mx-auto px-4 h-14 flex items-center justify-between">
-        <Link to="/"><SoundReadyLogo size={28} /></Link>
-        <div className="flex items-center gap-3">
+      <div className="max-w-6xl mx-auto px-4 h-14 flex items-center justify-between gap-4">
+        <Link to="/" className="shrink-0"><SoundReadyLogo size={28} /></Link>
+        <Link
+          to="/pricing"
+          className="hidden sm:block flex-1 text-center text-[11px] lg:text-xs font-bold tracking-wide text-primary hover:opacity-80 transition-opacity"
+        >
+          Early Bird Special · Artist Pro, just $9.99/month
+        </Link>
+        <div className="flex items-center gap-3 shrink-0">
           {showHome && <Link to="/" className={linkClass("/")}>{t("Home")}</Link>}
           <Link to="/pricing" className={linkClass("/pricing")}>{t("Pricing")}</Link>
           <Button size="sm" variant="ghost" className="font-semibold hidden sm:inline-flex" onClick={() => base44.auth.redirectToLogin()}>
