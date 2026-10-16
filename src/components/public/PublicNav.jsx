@@ -26,9 +26,10 @@ export default function PublicNav({ showHome = true }) {
         <Link to="/" className="shrink-0"><SoundReadyLogo size={28} /></Link>
         <Link
           to="/pricing"
-          className="hidden sm:block flex-1 text-center text-[11px] lg:text-xs font-bold tracking-wide text-primary hover:opacity-80 transition-opacity"
+          className="hidden sm:block flex-1 text-center text-sm lg:text-base font-bold tracking-wide text-primary hover:opacity-80 transition-opacity"
         >
-          Early Bird Special · Artist Pro, just $9.99/month
+          Early Bird Special · Artist Pro, just $9.99/month{" "}
+          <span className="line-through opacity-70">$49/month</span>
         </Link>
         <div className="flex items-center gap-3 shrink-0">
           {pathname === "/pricing" ? (
