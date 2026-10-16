@@ -179,9 +179,6 @@ export default function About() {
       {/* THE VSL: one artist's whole journey, right after Start Free */}
       <VslSection />
 
-      {/* MEET SAM: SAM does the work, you approve */}
-      <MeetSamSection />
-
       {/* WITHOUT SOUNDREADY VS. WITH SOUNDREADY */}
       <WithWithoutSection />
 
@@ -190,6 +187,9 @@ export default function About() {
 
       {/* IN JUST 5 MINUTES */}
       <FiveMinuteSection />
+
+      {/* MEET SAM: SAM does the work, you approve */}
+      <MeetSamSection />
 
       {/* TODAY VS. SOUNDREADY */}
       <VsRestSection />
