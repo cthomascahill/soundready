@@ -110,8 +110,8 @@ export default function WithWithoutSection() {
             >
               <div className="absolute -inset-10 bg-primary/15 blur-3xl rounded-full pointer-events-none" />
               <img
-                src="https://media.base44.com/images/public/69dcf0ecc907e43a438a626b/6d44bdd52_generated_image.png"
-                alt="The same artist in a bright tidy studio: a Streams are up 150% this month! message above his head, a playlist pitch approved notification, and SAM the robot manager holding up a New Tour Opportunity paper"
+                src="https://media.base44.com/images/public/69dcf0ecc907e43a438a626b/160e60635_generated_image.png"
+                alt="The same artist in a bright tidy studio: message bubbles above his head reading Finally hit 100k subscribers! and Streams are up 150% this month!, plus SAM the robot manager holding up a New Tour Opportunity paper"
                 className="relative w-full h-auto block"
                 loading="lazy"
               />
