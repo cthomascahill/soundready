@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { motion } from "framer-motion";
-import { FastForward, Play, RotateCcw } from "lucide-react";
+import { FastForward, RotateCcw } from "lucide-react";
 import { base44 } from "@/api/base44Client";
 import { Button } from "@/components/ui/button";
 import { useLang } from "@/lib/i18n/LanguageContext";
@@ -18,6 +18,7 @@ export default function FiveMinuteSection() {
   const { t } = useLang();
   const sectionRef = useRef(null);
   const elapsedRef = useRef(0);
+  const startedRef = useRef(false);
   const [phase, setPhase] = useState("idle"); // idle | running | paused | done
   const [, setTick] = useState(0);
   const [panelIn, setPanelIn] = useState(false);
@@ -47,12 +48,36 @@ export default function FiveMinuteSection() {
     return () => cancelAnimationFrame(raf);
   }, [phase]);
 
-  // The countdown waits at 5:00 until the artist presses Start.
+  // The countdown starts on its own the first time the section scrolls into view.
   const start = () => {
     elapsedRef.current = 0;
     setPanelIn(false);
     setPhase(reducedMotion ? "done" : "running");
   };
+
+  useEffect(() => {
+    const el = sectionRef.current;
+    if (!el || typeof IntersectionObserver === "undefined") {
+      if (!startedRef.current) {
+        startedRef.current = true;
+        start();
+      }
+      return;
+    }
+    const observer = new IntersectionObserver(
+      (entries) => {
+        if (entries.some((e) => e.isIntersecting) && !startedRef.current) {
+          startedRef.current = true;
+          observer.disconnect();
+          start();
+        }
+      },
+      { threshold: 0.3 }
+    );
+    observer.observe(el);
+    return () => observer.disconnect();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [reducedMotion]);
 
   // After 00:00, let the completed timeline breathe, then swap in the finale.
   useEffect(() => {
@@ -108,12 +133,6 @@ export default function FiveMinuteSection() {
             <CountdownClock remainingSec={remainingSec} progress={progress} done={done} />
             {phase !== "idle" && (
               <div className="mt-6 flex items-center justify-center gap-2">
-                {phase === "idle" && (
-                  <Button size="lg" className="gap-2 font-heading font-bold" onClick={start}>
-                    <Play className="h-4 w-4" />
-                    {t("Start the 5 minutes")}
-                  </Button>
-                )}
                 {phase === "running" && !reducedMotion && (
                   <Button variant="ghost" size="sm" className="text-muted-foreground" onClick={skip}>
                     <FastForward className="h-3.5 w-3.5" />
