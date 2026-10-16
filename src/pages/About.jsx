@@ -15,6 +15,7 @@ import VslSection from "@/components/home/VslSection";
 import VsRestSection from "@/components/home/VsRestSection";
 import WithWithoutSection from "@/components/home/WithWithoutSection";
 import FiveMinuteSection from "@/components/home/FiveMinuteSection";
+import JobSplitSection from "@/components/home/JobSplitSection";
 import FaqSection from "@/components/home/FaqSection";
 import { useLang } from "@/lib/i18n/LanguageContext";
 
@@ -189,6 +190,9 @@ export default function About() {
 
       {/* IN JUST 5 MINUTES */}
       <FiveMinuteSection />
+
+      {/* YOUR JOB VS SOUNDREADY'S JOB */}
+      <JobSplitSection />
 
       {/* FOUNDER STORY */}
       <MattCormanSection />
