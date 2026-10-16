@@ -30,7 +30,7 @@ export default function PublicNav({ showHome = true }) {
             className="hidden sm:block max-w-sm md:max-w-md text-center text-xs lg:text-sm font-bold tracking-wide text-primary hover:opacity-80 transition-opacity pointer-events-auto"
           >
             Early Bird Special · Digital Manager, just $24.99/month{" "}
-            <span className="line-through opacity-70">$89/month</span>
+            <span className="line-through text-red-400">$89/month</span>
           </Link>
         </div>
         <div className="flex items-center gap-3 shrink-0 z-10">
