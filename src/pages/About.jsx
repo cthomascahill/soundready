@@ -179,19 +179,17 @@ export default function About() {
       {/* THE VSL: one artist's whole journey, right after Start Free */}
       <VslSection />
 
-      {/* MEET SAM */}
-      <MeetSamSection />
-
-
-
       {/* WITHOUT SOUNDREADY VS. WITH SOUNDREADY */}
       <WithWithoutSection />
+
+      {/* FOUNDER STORY */}
+      <MattCormanSection />
 
       {/* IN JUST 5 MINUTES */}
       <FiveMinuteSection />
 
-      {/* FOUNDER STORY */}
-      <MattCormanSection />
+      {/* MEET SAM: SAM does the work, you approve */}
+      <MeetSamSection />
 
       {/* TODAY VS. SOUNDREADY */}
       <VsRestSection />
