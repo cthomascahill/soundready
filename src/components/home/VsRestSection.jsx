@@ -1,24 +1,45 @@
 import { motion } from "framer-motion";
-import { ArrowRight, Check, X } from "lucide-react";
+import { ArrowRight } from "lucide-react";
 import { useLang } from "@/lib/i18n/LanguageContext";
 
 // The stack of tools artists juggle today vs. the one place that does it all.
-const ROWS = [
+// Left: the real brands they're patching together. Right: the SoundReady
+// features that replace them, each with its own picture.
+const TOOLS = [
+  { name: "Dropbox", logo: "https://cdn.simple-icons.org/dropbox/0061FE" },
+  { name: "Google Drive", logo: "https://cdn.simple-icons.org/googledrive/4285F4" },
+  { name: "WeTransfer", logo: "https://cdn.simple-icons.org/wetransfer/ffffff" },
+  { name: "Gmail", logo: "https://cdn.simple-icons.org/gmail/EA4335" },
+  { name: "Google Sheets", logo: "https://cdn.simple-icons.org/googlesheets/0F9D58" },
+  { name: "Notion", logo: "https://cdn.simple-icons.org/notion/ffffff" },
+  { name: "Trello", logo: "https://cdn.simple-icons.org/trello/0079BF" },
+  { name: "Google Keep", logo: "https://cdn.simple-icons.org/googlekeep/FFBB00" },
+  { name: "Evernote", logo: "https://cdn.simple-icons.org/evernote/00A82D" },
+  { name: "Slack", logo: "https://cdn.simple-icons.org/slack/ffffff" },
+  { name: "Google", logo: "https://cdn.simple-icons.org/google/4285F4" },
+  { name: "Instagram DMs", logo: "https://cdn.simple-icons.org/instagram/E1306C" },
+];
+
+const FEATURES = [
   {
-    tools: ["Dropbox", "Google Drive", "WeTransfer"],
-    now: "One Vault: every song, version, and duplicate organized for you",
+    name: "Vault",
+    desc: "Every song, version, and duplicate organized for you",
+    img: "https://media.base44.com/images/public/69dcf0ecc907e43a438a626b/91038c761_generated_image.png",
   },
   {
-    tools: ["Gmail threads", "Voice memos", "iMessage"],
-    now: "Mixes and collaborator feedback kept with the song",
+    name: "Mixes & Feedback",
+    desc: "Collaborator notes kept with the song they belong to",
+    img: "https://media.base44.com/images/public/69dcf0ecc907e43a438a626b/2e8f29733_generated_image.png",
   },
   {
-    tools: ["Google Sheets", "Notes app", "Sticky notes"],
-    now: "Release progress you can see at a glance, song by song",
+    name: "Song Tracker",
+    desc: "Release progress you can see at a glance, song by song",
+    img: "https://media.base44.com/images/public/69dcf0ecc907e43a438a626b/e4a871783_generated_image.png",
   },
   {
-    tools: ["Late-night Googling", "Expired demo links", "Cold DMs"],
-    now: "SAM researches opportunities and drafts personalized pitches",
+    name: "SAM",
+    desc: "Researches opportunities and drafts personalized pitches",
+    img: "https://media.base44.com/images/public/69dcf0ecc907e43a438a626b/b7f9a17dc_generated_f31f1bbd.png",
   },
 ];
 
@@ -44,39 +65,62 @@ export default function VsRestSection() {
           </p>
         </motion.div>
 
-        <div className="space-y-6 sm:space-y-8">
-          {ROWS.map((row, i) => (
-            <motion.div
-              key={row.now}
-              initial={{ opacity: 0, y: 12 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: i * 0.04 }}
-              className="relative group"
-            >
-              {/* Green glow aura behind each card */}
-              <div className="absolute -inset-1.5 rounded-3xl bg-primary/20 blur-2xl opacity-60 group-hover:opacity-100 transition-opacity pointer-events-none" />
-              <div className="relative rounded-2xl border border-primary/30 bg-card p-7 sm:p-9 grid grid-cols-1 md:grid-cols-[1fr_auto_1.2fr] gap-4 md:gap-8 items-center shadow-[0_0_40px_-5px_rgba(74,222,128,0.25)]">
-                {/* Today: the tools */}
-                <div className="flex flex-wrap items-center gap-2">
-                  {row.tools.map((tool) => (
-                    <span key={tool} className="inline-flex items-center gap-2 rounded-full border border-border bg-muted px-4 py-2 text-sm sm:text-base text-muted-foreground line-through decoration-muted-foreground/60">
-                      <X className="h-4 w-4 text-destructive" />
-                      {tool}
-                    </span>
-                  ))}
+        <div className="grid grid-cols-1 lg:grid-cols-[1.15fr_auto_1fr] gap-8 lg:gap-10 items-center">
+          {/* LEFT: the 12 tools, real logos with names underneath */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            className="rounded-2xl border border-border bg-card p-5 sm:p-7"
+          >
+            <p className="text-xs font-bold uppercase tracking-[0.2em] text-muted-foreground mb-5">
+              {t("What you're juggling now")}
+            </p>
+            <div className="grid grid-cols-3 sm:grid-cols-4 gap-3">
+              {TOOLS.map((tool) => (
+                <div
+                  key={tool.name}
+                  className="flex flex-col items-center gap-2 rounded-xl border border-border bg-secondary/30 px-2 py-4"
+                >
+                  <img src={tool.logo} alt={`${tool.name} logo`} loading="lazy" className="h-7 w-7 object-contain" />
+                  <span className="text-[11px] sm:text-xs font-medium text-muted-foreground text-center leading-tight">
+                    {tool.name}
+                  </span>
                 </div>
+              ))}
+            </div>
+          </motion.div>
 
-                <ArrowRight className="hidden md:block h-7 w-7 text-primary shrink-0" />
+          <ArrowRight className="hidden lg:block h-9 w-9 text-primary shrink-0" />
 
-                {/* SoundReady: the one place */}
-                <div className="flex items-center gap-3">
-                  <Check className="h-6 w-6 shrink-0 text-primary" />
-                  <p className="text-lg sm:text-xl text-foreground font-semibold">{t(row.now)}</p>
+          {/* RIGHT: the SoundReady features that replace them, each with its picture */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ delay: 0.1 }}
+            className="relative rounded-2xl border border-primary/40 bg-card p-5 sm:p-7 shadow-[0_0_50px_-10px_rgba(74,222,128,0.35)]"
+          >
+            <p className="text-xs font-bold uppercase tracking-[0.2em] text-primary mb-5">
+              {t("SoundReady")}
+            </p>
+            <div className="space-y-4">
+              {FEATURES.map((f) => (
+                <div key={f.name} className="flex items-center gap-4">
+                  <img
+                    src={f.img}
+                    alt={f.name}
+                    loading="lazy"
+                    className="h-16 w-16 sm:h-20 sm:w-20 shrink-0 rounded-xl object-cover border border-primary/30"
+                  />
+                  <div className="space-y-0.5">
+                    <p className="font-heading font-bold text-base sm:text-lg">{t(f.name)}</p>
+                    <p className="text-xs sm:text-sm text-muted-foreground leading-snug">{t(f.desc)}</p>
+                  </div>
                 </div>
-              </div>
-            </motion.div>
-          ))}
+              ))}
+            </div>
+          </motion.div>
         </div>
 
       </div>
