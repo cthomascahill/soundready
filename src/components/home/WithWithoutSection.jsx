@@ -79,7 +79,7 @@ export default function WithWithoutSection() {
               transition={{ duration: 14, repeat: Infinity, ease: "easeInOut" }}
             >
               <img
-                src="https://media.base44.com/images/public/69dcf0ecc907e43a438a626b/0936f3718_generated_image.png"
+                src="https://media.base44.com/images/public/69dcf0ecc907e43a438a626b/45cb80875_generated_image.png"
                 alt="A struggling independent artist at night: message bubbles above his head reading did we even get 1000 streams? and we aren't growing, plus a text saying Yoo I can't find mix #2"
                 className="w-full h-auto block"
                 loading="lazy"
