@@ -73,12 +73,18 @@ export default function WithWithoutSection() {
             viewport={{ once: true }}
             className="flex flex-col"
           >
-            <img
-              src="https://media.base44.com/images/public/69dcf0ecc907e43a438a626b/a20293f7c_generated_image.png"
-              alt="A struggling independent artist at night: a landlord text about missed rent, an empty inbox, a declining streams graph and a post with zero likes"
-              className="w-full aspect-[16/11] sm:aspect-[16/10] object-cover rounded-xl"
-              loading="lazy"
-            />
+            <motion.div
+              className="relative w-full aspect-[16/11] sm:aspect-[16/10] rounded-xl overflow-hidden"
+              animate={{ scale: [1, 1.04, 1], y: [0, 6, 0] }}
+              transition={{ duration: 14, repeat: Infinity, ease: "easeInOut" }}
+            >
+              <img
+                src="https://media.base44.com/images/public/69dcf0ecc907e43a438a626b/a20293f7c_generated_image.png"
+                alt="A struggling independent artist at night: a landlord text about missed rent, an empty inbox, a declining streams graph and a post with zero likes"
+                className="w-full h-full object-cover"
+                loading="lazy"
+              />
+            </motion.div>
             <div className="pt-5 sm:pt-8 flex flex-col flex-1">
               <p className="text-xs font-bold uppercase tracking-widest text-muted-foreground mb-4">
                 {t("Without SoundReady")}
@@ -97,12 +103,19 @@ export default function WithWithoutSection() {
             transition={{ delay: 0.1 }}
             className="relative flex flex-col"
           >
-            <img
-              src="https://media.base44.com/images/public/69dcf0ecc907e43a438a626b/9474ac2b9_generated_image.png"
-              alt="The same artist transformed and winning: cash in hand, a tour inquiry email, a label signing offer, a SAM text about streams up 150% and a post flooded with likes"
-              className="w-full aspect-[16/11] sm:aspect-[16/10] object-cover rounded-xl"
-              loading="lazy"
-            />
+            <motion.div
+              className="relative w-full aspect-[16/11] sm:aspect-[16/10] rounded-xl overflow-hidden ring-1 ring-primary/20"
+              animate={{ scale: [1, 1.05, 1], y: [0, -8, 0] }}
+              transition={{ duration: 10, repeat: Infinity, ease: "easeInOut" }}
+            >
+              <div className="absolute -inset-10 bg-primary/15 blur-3xl rounded-full pointer-events-none" />
+              <img
+                src="https://media.base44.com/images/public/69dcf0ecc907e43a438a626b/9474ac2b9_generated_image.png"
+                alt="The same artist transformed and winning: cash in hand, a tour inquiry email, a label signing offer, a SAM text about streams up 150% and a post flooded with likes"
+                className="relative w-full h-full object-cover"
+                loading="lazy"
+              />
+            </motion.div>
             <div className="pt-5 sm:pt-8 flex flex-col flex-1">
               <p className="text-xs font-bold uppercase tracking-widest text-primary mb-4">
                 {t("With SoundReady")}
