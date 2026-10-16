@@ -79,8 +79,8 @@ export default function WithWithoutSection() {
               transition={{ duration: 14, repeat: Infinity, ease: "easeInOut" }}
             >
               <img
-                src="https://media.base44.com/images/public/69dcf0ecc907e43a438a626b/e1c62f8d1_generated_image.png"
-                alt="A struggling independent artist at night: texts reading Yoo I can't find mix #2 and we need more playlists, a chaotic laptop full of jumbled files and a declining streams graph"
+                src="https://media.base44.com/images/public/69dcf0ecc907e43a438a626b/13a19a31d_generated_image.png"
+                alt="A struggling independent artist at night: message bubbles above his head reading did we even get 1000 streams? and we need more playlists, plus a text saying Yoo I can't find mix #2"
                 className="w-full h-auto block"
                 loading="lazy"
               />
@@ -110,8 +110,8 @@ export default function WithWithoutSection() {
             >
               <div className="absolute -inset-10 bg-primary/15 blur-3xl rounded-full pointer-events-none" />
               <img
-                src="https://media.base44.com/images/public/69dcf0ecc907e43a438a626b/0dd8d6fb2_generated_image.png"
-                alt="The same artist in a bright tidy studio: a playlist pitch approved notification, an organized song catalog on the laptop, and SAM the robot manager holding a completed checklist"
+                src="https://media.base44.com/images/public/69dcf0ecc907e43a438a626b/6d44bdd52_generated_image.png"
+                alt="The same artist in a bright tidy studio: a Streams are up 150% this month! message above his head, a playlist pitch approved notification, and SAM the robot manager holding up a New Tour Opportunity paper"
                 className="relative w-full h-auto block"
                 loading="lazy"
               />
