@@ -140,7 +140,7 @@ export default function WithWithoutSection() {
             onClick={() => { window.location.href = isAuth ? "/dashboard" : "/register"; }}
           >
             <Sparkles className="h-4 w-4" />
-            {t("Start Your Music Career Transformation, Free")}
+            {t("Start Free")}
           </Button>
           <p className="text-xs sm:text-sm text-muted-foreground">
             {t("Start with 3 songs. No card required.")}
