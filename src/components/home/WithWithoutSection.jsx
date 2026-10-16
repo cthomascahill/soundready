@@ -9,7 +9,7 @@ import { useLang } from "@/lib/i18n/LanguageContext";
 // real career with SoundReady handling the work behind the scenes.
 const WITHOUT = [
   "You're making great music, but nobody's hearing it.",
-  "You release songs that barely get any attention.",
+  "You aren't making enough money off music.",
   "You're overwhelmed doing everything yourself.",
   "Music still feels like a dream you're chasing.",
 ];
