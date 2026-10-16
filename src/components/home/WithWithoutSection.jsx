@@ -74,8 +74,8 @@ export default function WithWithoutSection() {
             className="rounded-2xl border border-border bg-card/60 overflow-hidden flex flex-col"
           >
             <img
-              src="https://media.base44.com/images/public/69dcf0ecc907e43a438a626b/473f483ee_generated_image.png"
-              alt="A struggling independent artist at night: streams graph declining, bank balance draining, and a social post with zero likes"
+              src="https://media.base44.com/images/public/69dcf0ecc907e43a438a626b/a20293f7c_generated_image.png"
+              alt="A struggling independent artist at night: a landlord text about missed rent, an empty inbox, a declining streams graph and a post with zero likes"
               className="w-full aspect-[16/10] sm:aspect-[16/9] object-cover"
               loading="lazy"
             />
@@ -100,8 +100,8 @@ export default function WithWithoutSection() {
             <div className="absolute -inset-1.5 rounded-3xl bg-primary/15 blur-2xl pointer-events-none" />
             <div className="relative flex flex-col h-full overflow-hidden rounded-2xl">
               <img
-                src="https://media.base44.com/images/public/69dcf0ecc907e43a438a626b/5ec9fe9fe_generated_image.png"
-                alt="The same artist transformed and winning: cash in hand, streams graph rising, bank balance growing and a post flooded with likes"
+                src="https://media.base44.com/images/public/69dcf0ecc907e43a438a626b/58aa23112_generated_image.png"
+                alt="The same artist transformed and winning: cash in hand, a tour inquiry email, a label signing offer, a SAM text about streams up 150% and a post flooded with likes"
                 className="w-full aspect-[16/10] sm:aspect-[16/9] object-cover"
                 loading="lazy"
               />
