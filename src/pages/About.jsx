@@ -208,16 +208,25 @@ export default function About() {
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-5">
             {TIERS.map((tier, i) => (
               <div className="relative h-full">
+                <div className={`absolute -inset-4 rounded-3xl blur-3xl pointer-events-none ${
+                  tier.name === "Digital Manager" ? "bg-primary/25" : tier.name === "Artist Pro" ? "bg-chart-5/20" : "bg-chart-2/15"
+                }`} />
                 <motion.div key={tier.name}
                 initial={{ opacity: 0, y: 24 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}
                 transition={{ delay: i * 0.12 }}
-                className="relative h-full p-4 sm:p-6 flex flex-col">
+                className={`relative h-full rounded-2xl border p-4 sm:p-6 flex flex-col bg-card ${
+                  tier.name === "Digital Manager" ? "ring-2 ring-primary/60 shadow-2xl shadow-primary/10" :
+                  tier.name === "Artist Pro" ? "ring-2 ring-chart-5/40 shadow-xl" : ""
+                } ${tier.border}`}>
                 {tier.badge && (
                   <div className={`absolute -top-3 left-1/2 -translate-x-1/2 px-2 sm:px-3 py-0.5 sm:py-1 rounded-full text-[10px] sm:text-xs font-bold whitespace-nowrap ${tier.badgeStyle || "bg-primary text-primary-foreground"}`}>
                     {tier.badge}
                   </div>
                 )}
 
+                {tier.glow && (
+                  <div className="absolute inset-0 rounded-2xl bg-primary/5 pointer-events-none" />
+                )}
                 {tier.name === "Digital Manager" && (
                   <motion.img
                     src="https://media.base44.com/images/public/69dcf0ecc907e43a438a626b/b7f9a17dc_generated_f31f1bbd.png"
