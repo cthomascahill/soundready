@@ -9,6 +9,7 @@ import { base44 } from "@/api/base44Client";
 import { useAuth } from "@/lib/AuthContext";
 import { getTier, trialDaysLeft } from "@/lib/tier";
 import PublicNav from "@/components/public/PublicNav";
+import EarlyBirdBanner from "@/components/public/EarlyBirdBanner";
 import PublicFooter from "@/components/public/PublicFooter";
 import SEO from "@/components/SEO";
 import ManagerCostSlider from "@/components/home/ManagerCostSlider";
@@ -104,6 +105,7 @@ export default function Pricing() {
         description="Start free with 3 songs. Artist Pro unlocks the full toolkit for $9.99/mo early bird, on sale from $49/mo, with a 7-day free trial. Digital Manager adds SAM for $24.99/mo early bird, on sale from $89/mo. No percentage cuts, ever."
       />
 
+      <EarlyBirdBanner to="/checkout/artist-pro" />
       <PublicNav />
 
       {/* HERO, the artist journey */}

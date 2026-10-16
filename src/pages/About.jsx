@@ -5,6 +5,7 @@ import { base44 } from "@/api/base44Client";
 import { Bot, CheckCircle2, ShieldCheck, Sparkles, Users, Zap } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import PublicNav from "@/components/public/PublicNav";
+import EarlyBirdBanner from "@/components/public/EarlyBirdBanner";
 import PublicFooter from "@/components/public/PublicFooter";
 import SEO from "@/components/SEO";
 
@@ -122,6 +123,7 @@ export default function About() {
         description="SoundReady keeps your songs, mixes, feedback, and release progress together in one workspace, with SAM, an AI manager, to help you take the next step. Start free."
       />
 
+      <EarlyBirdBanner />
       <PublicNav showHome={false} />
 
       {/* HERO: your career in motion, SAM big right beside it */}
