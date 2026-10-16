@@ -2,7 +2,6 @@ import { Link, useLocation } from "react-router-dom";
 import { base44 } from "@/api/base44Client";
 import { Button } from "@/components/ui/button";
 import SoundReadyLogo from "@/components/SoundReadyLogo";
-import LanguagePicker from "@/components/LanguagePicker";
 import { useAuth } from "@/lib/AuthContext";
 import { useLang } from "@/lib/i18n/LanguageContext";
 
@@ -26,7 +25,6 @@ export default function PublicNav({ showHome = true }) {
       <div className="max-w-6xl mx-auto px-4 h-14 flex items-center justify-between">
         <Link to="/"><SoundReadyLogo size={28} /></Link>
         <div className="flex items-center gap-3">
-          <LanguagePicker />
           {showHome && <Link to="/" className={linkClass("/")}>{t("Home")}</Link>}
           <Link to="/pricing" className={linkClass("/pricing")}>{t("Pricing")}</Link>
           <Button size="sm" variant="ghost" className="font-semibold hidden sm:inline-flex" onClick={() => base44.auth.redirectToLogin()}>
