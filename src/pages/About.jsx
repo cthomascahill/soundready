@@ -195,11 +195,8 @@ export default function About() {
       <VsRestSection />
 
       {/* PRICING, 3 tiers */}
-      <section id="pricing" className="relative px-4 py-16 overflow-hidden scroll-mt-20">
-        {/* Soft ambient gradient glows */}
-        <div className="absolute -top-48 -right-56 h-[620px] w-[620px] rounded-full bg-primary/15 blur-[150px] pointer-events-none" />
-        <div className="absolute -bottom-40 -left-64 h-[560px] w-[560px] rounded-full bg-chart-2/10 blur-[160px] pointer-events-none" />
-        <div className="relative max-w-5xl mx-auto space-y-14">
+      <section id="pricing" className="px-4 py-16 scroll-mt-20">
+        <div className="max-w-5xl mx-auto space-y-14">
           <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="text-center space-y-4">
             <p className="text-xs text-primary uppercase tracking-wider font-bold">{t("Pricing")}</p>
             <h2 className="font-heading text-3xl sm:text-5xl font-black tracking-tight">
@@ -211,24 +208,16 @@ export default function About() {
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-5">
             {TIERS.map((tier, i) => (
               <div className="relative h-full">
-                <div className={`absolute -inset-4 rounded-3xl blur-3xl pointer-events-none ${
-                  tier.name === "Digital Manager" ? "bg-primary/25" : tier.name === "Artist Pro" ? "bg-chart-5/20" : "bg-chart-2/15"
-                }`} />
                 <motion.div key={tier.name}
                 initial={{ opacity: 0, y: 24 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}
                 transition={{ delay: i * 0.12 }}
-                className={`relative h-full rounded-2xl border p-4 sm:p-6 flex flex-col bg-card ${
-                  tier.name === "Digital Manager" ? "ring-2 ring-primary/60 shadow-2xl shadow-primary/10" :
-                  tier.name === "Artist Pro" ? "ring-2 ring-chart-5/40 shadow-xl" : ""
-                } ${tier.border}`}>
+                className="relative h-full p-4 sm:p-6 flex flex-col">
                 {tier.badge && (
                   <div className={`absolute -top-3 left-1/2 -translate-x-1/2 px-2 sm:px-3 py-0.5 sm:py-1 rounded-full text-[10px] sm:text-xs font-bold whitespace-nowrap ${tier.badgeStyle || "bg-primary text-primary-foreground"}`}>
                     {tier.badge}
                   </div>
                 )}
-                {tier.glow && (
-                  <div className="absolute inset-0 rounded-2xl bg-primary/5 pointer-events-none" />
-                )}
+
                 {tier.name === "Digital Manager" && (
                   <motion.img
                     src="https://media.base44.com/images/public/69dcf0ecc907e43a438a626b/b7f9a17dc_generated_f31f1bbd.png"
