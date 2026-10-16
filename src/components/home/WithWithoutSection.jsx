@@ -74,9 +74,9 @@ export default function WithWithoutSection() {
             className="rounded-2xl border border-border bg-card/60 overflow-hidden flex flex-col"
           >
             <img
-              src="https://media.base44.com/images/public/69dcf0ecc907e43a438a626b/64502b47c_generated_image.png"
-              alt="An overwhelmed independent artist surrounded by folders, unanswered emails, and unfinished releases"
-              className="w-full aspect-[16/10] sm:aspect-[16/9] object-cover opacity-80 saturate-[0.6]"
+              src="https://media.base44.com/images/public/69dcf0ecc907e43a438a626b/473f483ee_generated_image.png"
+              alt="A struggling independent artist at night: streams graph declining, bank balance draining, and a social post with zero likes"
+              className="w-full aspect-[16/10] sm:aspect-[16/9] object-cover"
               loading="lazy"
             />
             <div className="p-5 sm:p-8 flex flex-col flex-1">
@@ -100,8 +100,8 @@ export default function WithWithoutSection() {
             <div className="absolute -inset-1.5 rounded-3xl bg-primary/15 blur-2xl pointer-events-none" />
             <div className="relative flex flex-col h-full overflow-hidden rounded-2xl">
               <img
-                src="https://media.base44.com/images/public/69dcf0ecc907e43a438a626b/f0c3bafd3_generated_image.png"
-                alt="The same artist as a successful musician: growing streams, booked shows, new fans, and opportunities rolling in while SoundReady handles the work"
+                src="https://media.base44.com/images/public/69dcf0ecc907e43a438a626b/db8611efc_generated_image.png"
+                alt="SAM the robot manager holding dollar bills beside a rising streams graph, playlist cards and booked show tickets"
                 className="w-full aspect-[16/10] sm:aspect-[16/9] object-cover"
                 loading="lazy"
               />
