@@ -13,7 +13,7 @@ export default function VslSection() {
   const { t } = useLang();
 
   return (
-    <section className="px-4 py-16 border-t border-border scroll-mt-20" id="vsl">
+    <section className="px-4 py-16 scroll-mt-20" id="vsl">
       <div className="max-w-5xl mx-auto space-y-10">
         <motion.div
           initial={{ opacity: 0, y: 20 }}

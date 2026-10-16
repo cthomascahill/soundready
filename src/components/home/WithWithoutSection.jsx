@@ -48,7 +48,7 @@ export default function WithWithoutSection() {
   );
 
   return (
-    <section className="px-4 py-20 sm:py-28 border-t border-border overflow-hidden">
+    <section className="px-4 py-20 sm:py-28 overflow-hidden">
       <div className="max-w-6xl mx-auto space-y-12 sm:space-y-16">
         {/* Headline: the transformation */}
         <motion.div

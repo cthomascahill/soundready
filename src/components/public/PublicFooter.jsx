@@ -5,7 +5,7 @@ import SoundReadyLogo from "@/components/SoundReadyLogo";
 /** Shared footer for public pages: brand, key links, legal, and trust signals. */
 export default function PublicFooter() {
   return (
-    <footer className="border-t border-border/50 px-4 py-8">
+    <footer className="px-4 py-8">
       <div className="max-w-6xl mx-auto flex flex-col items-center gap-4">
         <div className="w-full flex flex-col sm:flex-row items-center justify-between gap-4">
           <Link to="/"><SoundReadyLogo size={20} /></Link>
