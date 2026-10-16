@@ -74,14 +74,14 @@ export default function WithWithoutSection() {
             className="flex flex-col"
           >
             <motion.div
-              className="relative w-full aspect-[16/11] sm:aspect-[16/10] rounded-xl overflow-hidden"
-              animate={{ scale: [1, 1.04, 1], y: [0, 6, 0] }}
+              className="relative w-full rounded-xl overflow-hidden"
+              animate={{ y: [0, 6, 0] }}
               transition={{ duration: 14, repeat: Infinity, ease: "easeInOut" }}
             >
               <img
-                src="https://media.base44.com/images/public/69dcf0ecc907e43a438a626b/a20293f7c_generated_image.png"
-                alt="A struggling independent artist at night: a landlord text about missed rent, an empty inbox, a declining streams graph and a post with zero likes"
-                className="w-full h-full object-cover"
+                src="https://media.base44.com/images/public/69dcf0ecc907e43a438a626b/e1c62f8d1_generated_image.png"
+                alt="A struggling independent artist at night: texts reading Yoo I can't find mix #2 and we need more playlists, a chaotic laptop full of jumbled files and a declining streams graph"
+                className="w-full h-auto block"
                 loading="lazy"
               />
             </motion.div>
@@ -104,15 +104,15 @@ export default function WithWithoutSection() {
             className="relative flex flex-col"
           >
             <motion.div
-              className="relative w-full aspect-[16/11] sm:aspect-[16/10] rounded-xl overflow-hidden ring-1 ring-primary/20"
-              animate={{ scale: [1, 1.05, 1], y: [0, -8, 0] }}
+              className="relative w-full rounded-xl overflow-hidden ring-1 ring-primary/20"
+              animate={{ y: [0, -8, 0] }}
               transition={{ duration: 10, repeat: Infinity, ease: "easeInOut" }}
             >
               <div className="absolute -inset-10 bg-primary/15 blur-3xl rounded-full pointer-events-none" />
               <img
-                src="https://media.base44.com/images/public/69dcf0ecc907e43a438a626b/91dd6a891_generated_image.png"
-                alt="The same artist with tangible progress: an organized song catalog, a completed release plan, and SAM pitch drafts awaiting their approval"
-                className="relative w-full h-full object-cover"
+                src="https://media.base44.com/images/public/69dcf0ecc907e43a438a626b/0dd8d6fb2_generated_image.png"
+                alt="The same artist in a bright tidy studio: a playlist pitch approved notification, an organized song catalog on the laptop, and SAM the robot manager holding a completed checklist"
+                className="relative w-full h-auto block"
                 loading="lazy"
               />
             </motion.div>
