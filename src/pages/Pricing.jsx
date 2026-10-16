@@ -13,6 +13,7 @@ import PublicFooter from "@/components/public/PublicFooter";
 import SEO from "@/components/SEO";
 import ManagerCostSlider from "@/components/home/ManagerCostSlider";
 import FullToolkitSection from "@/components/pricing/FullToolkitSection";
+import PlanVslSection from "@/components/pricing/PlanVslSection";
 import { CARD_FREE_ITEMS, CARD_PRO_ITEMS, CARD_AI_ITEMS } from "@/lib/plans";
 
 
@@ -39,7 +40,7 @@ const FAQ = [
   },
   {
     q: "What are SAM credits?",
-    a: "SAM's research and writing runs on credits. Digital Manager includes 2,500 credits a month, which covers a full month of research, pitches and weekly digests for most artists. Need more? Add 1,500 credits for $15, one time, and they never expire. Extra credits are only used after your monthly balance runs out.",
+    a: "SAM's research and writing runs on credits. Digital Manager includes 2,500 credits a month. In a real month, that covers about 10 research tasks, 30 personalized pitch drafts, 4 weekly career digests, 30 daily intel briefs, and an EPK refresh, with credits to spare. Need more? Add 1,500 credits for $15, one time, and they never expire. Extra credits are only used after your monthly balance runs out.",
   },
   {
     q: "Does SoundReady take a percentage of my income?",
@@ -280,12 +281,15 @@ export default function Pricing() {
                 </Link>
               </div>
               <p className="text-center text-xs text-muted-foreground mt-2">No percentage cuts. Cancel anytime. Early bird price stays locked while subscribed.</p>
-              <p className="text-center text-[11px] text-muted-foreground mt-1 leading-relaxed">Includes 2,500 SAM credits each month, shared across all SAM features. Add 1,500 extra credits anytime for $15, they never expire. Some opportunities require manual submission.</p>
+              <p className="text-center text-[11px] text-muted-foreground mt-1 leading-relaxed">Includes 2,500 SAM credits each month: in a real month that covers about 10 research tasks, 30 personalized pitch drafts, 4 weekly digests, 30 daily intel briefs and an EPK refresh, with credits to spare. Add 1,500 extra credits anytime for $15, they never expire. Some opportunities require manual submission.</p>
             </motion.div>
             </div>
           </div>
         </div>
       </section>
+
+      {/* WHICH PLAN IS RIGHT FOR YOU: the plan-by-plan VSL */}
+      <PlanVslSection />
 
       {/* FULL TOOLKIT */}
       <FullToolkitSection />

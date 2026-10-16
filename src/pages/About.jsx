@@ -98,7 +98,7 @@ const TIERS = [
     cta: "Start Digital Manager",
     checkout: "/checkout/ai-manager",
     subtext: "No percentage cuts. Cancel anytime. Early bird price stays locked while subscribed.",
-    smallPrint: "Includes 2,500 SAM credits each month, shared across all SAM features. One credit covers one piece of SAM's work, like a venue search or a playlist pitch. Add 1,500 extra credits anytime for $15. They never expire. Some opportunities require manual submission.",
+    smallPrint: "Includes 2,500 SAM credits each month: in a real month that covers about 10 research tasks, 30 personalized pitch drafts, 4 weekly digests, 30 daily intel briefs and an EPK refresh, with credits to spare. Add 1,500 extra credits anytime for $15. They never expire. Some opportunities require manual submission.",
   },
 ];
 

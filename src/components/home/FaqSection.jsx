@@ -10,7 +10,7 @@ const FAQS = [
   },
   {
     q: "What do credits cover?",
-    a: "One credit covers one piece of SAM's work, like a venue search, a playlist pitch, or a drafted email. Digital Manager includes 2,500 credits each month. Extra packs of 1,500 cost $15 and never expire.",
+    a: "Digital Manager includes 2,500 credits each month. In a real month, that covers about 10 research tasks, 30 personalized pitch drafts, 4 weekly career digests, 30 daily intel briefs, and an EPK refresh, with credits to spare. Extra packs of 1,500 cost $15 and never expire.",
   },
   {
     q: "Does SAM guarantee placements?",
