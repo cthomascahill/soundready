@@ -95,7 +95,7 @@ export default function PlanCards() {
           $9.99<span className="text-sm text-muted-foreground font-medium">/month</span>
         </p>
         <p className="text-xs font-semibold text-primary mb-1">Early Bird Special · on sale from $49/month</p>
-        <p className="text-sm font-semibold text-chart-5 mb-3">Just $9.99/month to start</p>
+        <p className="text-sm font-semibold text-chart-5 mb-3">$9.99/month while subscribed</p>
         <p className="text-sm text-muted-foreground leading-relaxed mb-5">
           Your full music workspace: press kit, analytics, tour opportunities, career roadmap, The Wall, Music News, and more.
         </p>

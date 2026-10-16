@@ -61,7 +61,7 @@ const TemplateMock = () => (
       </div>
       <div className="p-4 space-y-2.5 font-mono">
         <motion.p {...rise(0.3)} className="text-[11px] text-foreground">
-          <span className="text-muted-foreground">Subject:</span> Playlist pitch: <span className="text-primary font-semibold">[Song Title]</span> by [Artist Name]
+          Playlist pitch: <span className="text-primary font-semibold">[Song Title]</span> by [Artist Name]
         </motion.p>
         {["[One-line hook: what makes this song hit]", "[Your numbers: streams, listeners, press]", "[Why it fits this playlist, in one sentence]", "[Streaming link]"].map((line, i) => (
           <motion.p key={line} {...rise(0.6 + i * 0.3)} className="text-[11px] text-muted-foreground">{line}</motion.p>
