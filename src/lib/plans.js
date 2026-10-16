@@ -15,17 +15,19 @@ export const FREE_ITEMS = [
 
 export const PRO_ITEMS = [
   "Everything in Free, unlocked",
-  "Analytics: streams, followers and growth",
+  "Unlimited songs in your Vault",
+  "EPK Builder: a personalized press kit made in under 5 minutes",
+  "Analytics: track your Spotify and YouTube analytics",
+  "Tour Opportunities: find real tour opportunities to open for",
+  "Career Roadmap: your personalized career growth plan",
+  "The Wall: openly talk, collaborate and network with other artists",
+  "Music News: daily updates on what's happening in the music industry",
   "Release Plan: an AI plan for your next release",
-  "EPK Builder: an electronic press kit that books shows",
-  "Contracts: templates and guides",
-  "Career Roadmap: your personalized growth plan",
-  "Studio: write and sketch with your beats",
   "Playlist Pitcher: find and pitch matching playlists",
   "Gig Finder: 1,341+ venues ready to pitch",
   "Tour Planner, Tour Finance & Venue Contracts",
-  "Music News: daily industry briefings",
-  "The Wall: the artist community",
+  "Contracts: templates and guides",
+  "Studio: write and sketch with your beats",
   "Team Chat: your team's messages and org chart",
   "Invoices, Revenue Splits & Royalty Dashboard",
 ];
@@ -56,8 +58,13 @@ export const CARD_FREE_ITEMS = [
 export const CARD_PRO_ITEMS = [
   "Everything in Free, unlocked",
   "Unlimited songs in your Vault",
-  "Release planning and career tools",
-  "Playlist discovery and venue search",
+  "EPK Builder: a personalized press kit made in under 5 minutes",
+  "Analytics: track your Spotify and YouTube analytics",
+  "Tour Opportunities: find real tour opportunities to open for",
+  "Career Roadmap: your personalized career growth plan",
+  "The Wall: openly talk, collaborate and network with other artists",
+  "Music News: daily updates on what's happening in the music industry",
+  "Playlist discovery and venue search: 1,341+ venues ready to pitch",
   "Tour planning, finances, and contracts",
   "Team chat and collaboration",
   "Studio: write and sketch with your beats",
@@ -65,13 +72,12 @@ export const CARD_PRO_ITEMS = [
 
 export const CARD_AI_ITEMS = [
   "Everything in Artist Pro",
-  "Ask SAM to research venues, playlists, labels, press, and sync opportunities",
-  "Get personalized outreach drafts ready to review",
-  "Approve, edit, or deny pitches. SAM sends supported emails after approval",
+  "SAM researches venues, playlists, labels, press and sync for you",
+  "Personalized pitch drafts, ready to approve, edit or deny",
   "Nothing sends without your approval",
-  "Weekly career recommendations and digests",
-  "Analyze attached files and reports",
-  "Build on saved preferences and track outreach outcomes",
+  "Weekly career digests and daily intel briefs",
+  "2,500 SAM credits a month: a full month of a manager's work",
+  "No percentage cuts, ever. Your music stays yours",
 ];
 
 export const BOOST_ITEMS = [

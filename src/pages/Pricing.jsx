@@ -229,7 +229,7 @@ export default function Pricing() {
               <p className="text-xs font-semibold text-primary mb-1">Early Bird Special · on sale from $49/month</p>
               <p className="text-sm font-semibold text-chart-5 mb-3">Just $9.99/month to start</p>
               <p className="text-sm text-muted-foreground leading-relaxed mb-5">
-                Plan releases, find opportunities, and work with your team in one workspace.
+                Your full music workspace: press kit, analytics, tour opportunities, career roadmap, The Wall, Music News, and more.
               </p>
               <div className="flex-1">
                 <TierItems items={CARD_PRO_ITEMS} check="text-chart-5" />
@@ -273,7 +273,7 @@ export default function Pricing() {
                 <span className="px-2 py-0.5 rounded-full bg-primary/15 text-primary text-[10px] font-bold uppercase tracking-wide">Early Bird Special · On sale from $89/month</span>
               </div>
               <p className="text-sm text-muted-foreground leading-relaxed mb-5">
-                You get your music workspace, personalized release plans, promotion targets that fit your sound, pitches ready to approve, and outreach tracking. SAM works from your music, stats, and goals. You stay in control.
+                Your full workspace, plus SAM, your digital artist manager. SAM researches your opportunities, writes your pitches, and tracks your outreach. You approve every send.
               </p>
               <div className="flex-1">
                 <TierItems items={CARD_AI_ITEMS} />
