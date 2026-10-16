@@ -1,23 +1,24 @@
 import { motion } from "framer-motion";
 import { ArrowRight } from "lucide-react";
 import { useLang } from "@/lib/i18n/LanguageContext";
+import BrandLogo from "@/components/home/BrandLogo";
 
 // The stack of tools artists juggle today vs. the one place that does it all.
 // Left: the real brands they're patching together. Right: the SoundReady
 // features that replace them, each with its own picture.
 const TOOLS = [
-  { name: "Dropbox", logo: "https://cdn.simple-icons.org/dropbox/0061FE" },
-  { name: "Google Drive", logo: "https://cdn.simple-icons.org/googledrive/4285F4" },
-  { name: "WeTransfer", logo: "https://cdn.simple-icons.org/wetransfer/ffffff" },
-  { name: "Gmail", logo: "https://cdn.simple-icons.org/gmail/EA4335" },
-  { name: "Google Sheets", logo: "https://cdn.simple-icons.org/googlesheets/0F9D58" },
-  { name: "Notion", logo: "https://cdn.simple-icons.org/notion/ffffff" },
-  { name: "Trello", logo: "https://cdn.simple-icons.org/trello/0079BF" },
-  { name: "Google Keep", logo: "https://cdn.simple-icons.org/googlekeep/FFBB00" },
-  { name: "Evernote", logo: "https://cdn.simple-icons.org/evernote/00A82D" },
-  { name: "Slack", logo: "https://cdn.simple-icons.org/slack/ffffff" },
-  { name: "Google", logo: "https://cdn.simple-icons.org/google/4285F4" },
-  { name: "Instagram DMs", logo: "https://cdn.simple-icons.org/instagram/E1306C" },
+  "Dropbox",
+  "Google Drive",
+  "WeTransfer",
+  "Gmail",
+  "Google Sheets",
+  "Google Keep",
+  "Notion",
+  "Trello",
+  "Voice Memos",
+  "Slack",
+  "Google",
+  "Instagram DMs",
 ];
 
 const FEATURES = [
@@ -79,12 +80,12 @@ export default function VsRestSection() {
             <div className="grid grid-cols-3 sm:grid-cols-4 gap-3">
               {TOOLS.map((tool) => (
                 <div
-                  key={tool.name}
+                  key={tool}
                   className="flex flex-col items-center gap-2 rounded-xl border border-border bg-secondary/30 px-2 py-4"
                 >
-                  <img src={tool.logo} alt={`${tool.name} logo`} loading="lazy" className="h-7 w-7 object-contain" />
+                  <BrandLogo name={tool} className="h-7 w-7" />
                   <span className="text-[11px] sm:text-xs font-medium text-muted-foreground text-center leading-tight">
-                    {tool.name}
+                    {tool}
                   </span>
                 </div>
               ))}
