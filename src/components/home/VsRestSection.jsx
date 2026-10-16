@@ -50,9 +50,6 @@ export default function VsRestSection() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
           >
-            <p className="text-xs font-bold uppercase tracking-[0.2em] text-muted-foreground mb-5">
-              {t("What you're juggling now")}
-            </p>
             <div className="grid grid-cols-3 sm:grid-cols-4 gap-x-3 gap-y-6">
               {TOOLS.map((tool) => (
                 <div key={tool} className="flex flex-col items-center gap-2">
