@@ -8,7 +8,7 @@ export const FREE_ITEMS = [
   "Artist Profile: connect Spotify & YouTube",
   "Streaming Royalty Calculator: estimate what your streams pay",
   "Royalties: see what every release actually earns",
-  "Spotify Playlist Pitch template: the same exact template used to get on thousands of Spotify playlists, for free",
+  "Spotify editorial playlist pitch template: the same exact template used to get on thousands of Spotify editorial playlists, for free",
   "Release checklist",
   "Music Academy: a step-by-step guide on how to create and scale your music business",
 ];
@@ -48,7 +48,7 @@ export const CARD_FREE_ITEMS = [
   "Track songs from idea to release",
   "Connect Spotify and YouTube to your artist profile",
   "Streaming royalty calculator",
-  "Spotify Playlist Pitch template: the same exact template used to get on thousands of Spotify playlists, for free",
+  "Spotify editorial playlist pitch template: the same exact template used to get on thousands of Spotify editorial playlists, for free",
   "Release checklist",
   "Music Academy: a step-by-step guide on how to create and scale your music business",
 ];
