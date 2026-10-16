@@ -71,7 +71,7 @@ export const CARD_PRO_ITEMS = [
 ];
 
 export const CARD_AI_ITEMS = [
-  "Everything in Artist Pro",
+  { bold: true, text: "Everything in Artist Pro, unlocked" },
   "SAM researches venues, playlists, labels, press and sync for you",
   "Personalized pitch drafts, ready to approve, edit or deny",
   "Nothing sends without your approval",

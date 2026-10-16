@@ -20,12 +20,16 @@ import { CARD_FREE_ITEMS, CARD_PRO_ITEMS, CARD_AI_ITEMS } from "@/lib/plans";
 
 const TierItems = ({ items, check = "text-primary" }) => (
   <div className="grid grid-cols-1 gap-y-2">
-    {items.map((item) => (
-      <div key={item} className="flex items-start gap-2.5">
-        <CheckCircle2 className={`h-4 w-4 shrink-0 mt-0.5 ${check}`} />
-        <span className="text-xs text-foreground">{item}</span>
-      </div>
-    ))}
+    {items.map((item, i) => {
+      const text = typeof item === "string" ? item : item.text;
+      const bold = typeof item === "object" && item.bold;
+      return (
+        <div key={i} className="flex items-start gap-2.5">
+          <CheckCircle2 className={`h-4 w-4 shrink-0 mt-0.5 ${check}`} />
+          <span className={`text-xs text-foreground ${bold ? "font-black text-sm" : ""}`}>{text}</span>
+        </div>
+      );
+    })}
   </div>
 );
 
