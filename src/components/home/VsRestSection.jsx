@@ -2,12 +2,10 @@ import { motion } from "framer-motion";
 import { ArrowRight } from "lucide-react";
 import { useLang } from "@/lib/i18n/LanguageContext";
 import BrandLogo from "@/components/home/BrandLogo";
-import { MixesWindow, TrackerWindow, VaultWindow } from "@/components/home/FeatureMockWindows";
 import SoundReadyLogo from "@/components/SoundReadyLogo";
 
 // The stack of tools artists juggle today vs. the one place that does it all.
-// Left: the real brands they're patching together. Right: the SoundReady
-// features that replace them, each with its own picture.
+// Left: the real brands they're patching together. Right: SoundReady itself.
 const TOOLS = [
   "Dropbox",
   "Google Drive",
@@ -21,29 +19,6 @@ const TOOLS = [
   "Slack",
   "Google",
   "Instagram DMs",
-];
-
-const FEATURES = [
-  {
-    name: "Vault",
-    desc: "Every song, version, and duplicate organized for you",
-    Window: VaultWindow,
-  },
-  {
-    name: "Mixes & Feedback",
-    desc: "Collaborator notes kept with the song they belong to",
-    Window: MixesWindow,
-  },
-  {
-    name: "Song Tracker",
-    desc: "Release progress you can see at a glance, song by song",
-    Window: TrackerWindow,
-  },
-  {
-    name: "SAM",
-    desc: "Researches opportunities and drafts personalized pitches",
-    img: "https://media.base44.com/images/public/69dcf0ecc907e43a438a626b/b7f9a17dc_generated_f31f1bbd.png",
-  },
 ];
 
 export default function VsRestSection() {
@@ -68,24 +43,20 @@ export default function VsRestSection() {
           </p>
         </motion.div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-[1.15fr_auto_1fr] gap-8 lg:gap-10 items-start">
-          {/* LEFT: the 12 tools, real logos with names underneath */}
+        <div className="grid grid-cols-1 lg:grid-cols-[1.15fr_auto_1fr] gap-10 lg:gap-10 items-center">
+          {/* LEFT: the 12 tools, real logos with names underneath, no boxes */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            className="rounded-2xl border border-border bg-card p-5 sm:p-7"
           >
             <p className="text-xs font-bold uppercase tracking-[0.2em] text-muted-foreground mb-5">
               {t("What you're juggling now")}
             </p>
-            <div className="grid grid-cols-3 sm:grid-cols-4 gap-3">
+            <div className="grid grid-cols-3 sm:grid-cols-4 gap-x-3 gap-y-6">
               {TOOLS.map((tool) => (
-                <div
-                  key={tool}
-                  className="flex flex-col items-center gap-2 rounded-xl border border-border bg-secondary/30 px-2 py-4"
-                >
-                  <BrandLogo name={tool} className="h-7 w-7" />
+                <div key={tool} className="flex flex-col items-center gap-2">
+                  <BrandLogo name={tool} className="h-9 w-9" />
                   <span className="text-[11px] sm:text-xs font-medium text-muted-foreground text-center leading-tight">
                     {tool}
                   </span>
@@ -94,38 +65,21 @@ export default function VsRestSection() {
             </div>
           </motion.div>
 
-          <ArrowRight className="hidden lg:block h-9 w-9 text-primary shrink-0" />
+          <ArrowRight className="hidden lg:block h-10 w-10 text-primary shrink-0" />
 
-          {/* RIGHT: the SoundReady features that replace them, each with its picture */}
+          {/* RIGHT: just the SoundReady logo, massive */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ delay: 0.1 }}
-            className="relative rounded-2xl border border-primary/40 bg-card p-5 sm:p-7 shadow-[0_0_50px_-10px_rgba(74,222,128,0.35)]"
+            className="flex justify-center lg:justify-center"
           >
-            <div className="mb-5">
-              <SoundReadyLogo size={36} />
+            <div className="lg:hidden">
+              <SoundReadyLogo size={48} />
             </div>
-            <div className="space-y-4">
-              {FEATURES.map((f) => (
-                <div key={f.name} className="flex items-center gap-4">
-                  {f.Window ? (
-                    <f.Window />
-                  ) : (
-                    <img
-                      src={f.img}
-                      alt={f.name}
-                      loading="lazy"
-                      className="h-16 w-16 sm:h-20 sm:w-20 shrink-0 rounded-xl object-cover border border-primary/30"
-                    />
-                  )}
-                  <div className="space-y-0.5">
-                    <p className="font-heading font-bold text-base sm:text-lg">{t(f.name)}</p>
-                    <p className="text-xs sm:text-sm text-muted-foreground leading-snug">{t(f.desc)}</p>
-                  </div>
-                </div>
-              ))}
+            <div className="hidden lg:block">
+              <SoundReadyLogo size={110} />
             </div>
           </motion.div>
         </div>
