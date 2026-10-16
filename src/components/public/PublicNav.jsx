@@ -29,8 +29,8 @@ export default function PublicNav({ showHome = true }) {
             to="/pricing"
             className="hidden sm:block text-center text-sm lg:text-base font-bold tracking-wide text-primary hover:opacity-80 transition-opacity pointer-events-auto"
           >
-            Early Bird Special · Artist Pro, just $9.99/month{" "}
-            <span className="line-through opacity-70">$49/month</span>
+            Early Bird Special · Digital Manager, just $24.99/month{" "}
+            <span className="line-through opacity-70">$89/month</span>
           </Link>
         </div>
         <div className="flex items-center gap-3 shrink-0 z-10">
