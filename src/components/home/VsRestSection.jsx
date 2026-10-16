@@ -3,6 +3,7 @@ import { ArrowRight } from "lucide-react";
 import { useLang } from "@/lib/i18n/LanguageContext";
 import BrandLogo from "@/components/home/BrandLogo";
 import { MixesWindow, TrackerWindow, VaultWindow } from "@/components/home/FeatureMockWindows";
+import SoundReadyLogo from "@/components/SoundReadyLogo";
 
 // The stack of tools artists juggle today vs. the one place that does it all.
 // Left: the real brands they're patching together. Right: the SoundReady
@@ -67,7 +68,7 @@ export default function VsRestSection() {
           </p>
         </motion.div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-[1.15fr_auto_1fr] gap-8 lg:gap-10 items-center">
+        <div className="grid grid-cols-1 lg:grid-cols-[1.15fr_auto_1fr] gap-8 lg:gap-10 items-start">
           {/* LEFT: the 12 tools, real logos with names underneath */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -103,9 +104,9 @@ export default function VsRestSection() {
             transition={{ delay: 0.1 }}
             className="relative rounded-2xl border border-primary/40 bg-card p-5 sm:p-7 shadow-[0_0_50px_-10px_rgba(74,222,128,0.35)]"
           >
-            <p className="text-xs font-bold uppercase tracking-[0.2em] text-primary mb-5">
-              {t("SoundReady")}
-            </p>
+            <div className="mb-5">
+              <SoundReadyLogo size={36} />
+            </div>
             <div className="space-y-4">
               {FEATURES.map((f) => (
                 <div key={f.name} className="flex items-center gap-4">
