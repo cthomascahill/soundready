@@ -123,7 +123,8 @@ export default function FiveMinuteSection() {
           className="text-center space-y-4 max-w-3xl mx-auto"
         >
           <h2 className="font-heading text-4xl sm:text-5xl lg:text-6xl font-black tracking-tight leading-[1.02]">
-            {t("It only takes 5 minutes to change your career")}
+            {t("It only takes 5 minutes to")}{" "}
+            <span className="text-primary">{t("change your career")}</span>
           </h2>
         </motion.div>
 
