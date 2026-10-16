@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import { AnimatePresence, motion } from "framer-motion";
+import { motion } from "framer-motion";
 import { FastForward, RotateCcw } from "lucide-react";
 import { base44 } from "@/api/base44Client";
 import { Button } from "@/components/ui/button";
@@ -151,25 +151,15 @@ export default function FiveMinuteSection() {
             )}
           </div>
 
-          {reducedMotion ? (
-            <div className="space-y-6">
-              {timeline}
-              <SuccessPanel onStart={handleStart} />
-            </div>
-          ) : (
-            <AnimatePresence mode="wait">
-              {panelIn ? (
-                <motion.div key="panel" exit={{ opacity: 0, y: -12 }}>
-                  <SuccessPanel onStart={handleStart} />
-                </motion.div>
-              ) : (
-                <motion.div key="timeline" exit={{ opacity: 0, y: -12 }}>
-                  {timeline}
-                </motion.div>
-              )}
-            </AnimatePresence>
-          )}
+          {timeline}
         </div>
+
+        {/* Grand finale: appears centered below the completed timeline */}
+        {panelIn && (
+          <div className="max-w-3xl mx-auto">
+            <SuccessPanel onStart={handleStart} />
+          </div>
+        )}
       </div>
     </section>
   );
