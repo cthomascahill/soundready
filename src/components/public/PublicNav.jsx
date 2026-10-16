@@ -22,16 +22,18 @@ export default function PublicNav({ showHome = true }) {
 
   return (
     <header className="sticky top-0 z-40 bg-background/90 backdrop-blur-xl">
-      <div className="max-w-6xl mx-auto px-4 h-14 flex items-center justify-between gap-4">
-        <Link to="/" className="shrink-0"><SoundReadyLogo size={28} /></Link>
-        <Link
-          to="/pricing"
-          className="hidden sm:block flex-1 text-center text-sm lg:text-base font-bold tracking-wide text-primary hover:opacity-80 transition-opacity"
-        >
-          Early Bird Special · Artist Pro, just $9.99/month{" "}
-          <span className="line-through opacity-70">$49/month</span>
-        </Link>
-        <div className="flex items-center gap-3 shrink-0">
+      <div className="max-w-6xl mx-auto px-4 h-14 flex items-center justify-between gap-4 relative">
+        <Link to="/" className="shrink-0 z-10"><SoundReadyLogo size={28} /></Link>
+        <div className="absolute inset-x-0 flex justify-center pointer-events-none">
+          <Link
+            to="/pricing"
+            className="hidden sm:block text-center text-sm lg:text-base font-bold tracking-wide text-primary hover:opacity-80 transition-opacity pointer-events-auto"
+          >
+            Early Bird Special · Artist Pro, just $9.99/month{" "}
+            <span className="line-through opacity-70">$49/month</span>
+          </Link>
+        </div>
+        <div className="flex items-center gap-3 shrink-0 z-10">
           {pathname === "/pricing" ? (
             <Link to="/" className={linkClass("/")}>{t("Home")}</Link>
           ) : (
