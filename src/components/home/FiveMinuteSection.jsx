@@ -114,19 +114,9 @@ export default function FiveMinuteSection() {
           viewport={{ once: true }}
           className="text-center space-y-4 max-w-3xl mx-auto"
         >
-          <p className="text-xs text-primary uppercase tracking-wider font-bold">
-            {t("From independent to professional")}
-          </p>
           <h2 className="font-heading text-4xl sm:text-5xl lg:text-6xl font-black tracking-tight leading-[1.02]">
-            {t("Give us 5 minutes")}
-            <br />
-            <span className="text-primary">{t("Watch your career take shape")}</span>
+            {t("It only takes 5 minutes to change your career")}
           </h2>
-          <p className="text-sm sm:text-base text-muted-foreground leading-relaxed">
-            {t(
-              "See how quickly you can go from making music alone to having the tools, strategy, and digital manager behind your career."
-            )}
-          </p>
         </motion.div>
 
         {/* Clock beside the milestone timeline (stacked on mobile) */}
