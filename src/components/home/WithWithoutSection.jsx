@@ -43,7 +43,7 @@ export default function WithWithoutSection() {
       ) : (
         <X className="h-4 w-4 sm:h-5 sm:w-5 shrink-0 mt-0.5 text-destructive/80" />
       )}
-      <span className="text-sm sm:text-base leading-relaxed">{t(text)}</span>
+      <span className="text-base sm:text-lg font-bold leading-snug">{t(text)}</span>
     </motion.li>
   );
 
@@ -76,7 +76,7 @@ export default function WithWithoutSection() {
             <img
               src="https://media.base44.com/images/public/69dcf0ecc907e43a438a626b/a20293f7c_generated_image.png"
               alt="A struggling independent artist at night: a landlord text about missed rent, an empty inbox, a declining streams graph and a post with zero likes"
-              className="w-full aspect-[16/10] sm:aspect-[16/9] object-cover"
+              className="w-full aspect-[16/11] sm:aspect-[16/10] object-cover"
               loading="lazy"
             />
             <div className="p-5 sm:p-8 flex flex-col flex-1">
@@ -102,7 +102,7 @@ export default function WithWithoutSection() {
               <img
                 src="https://media.base44.com/images/public/69dcf0ecc907e43a438a626b/58aa23112_generated_image.png"
                 alt="The same artist transformed and winning: cash in hand, a tour inquiry email, a label signing offer, a SAM text about streams up 150% and a post flooded with likes"
-                className="w-full aspect-[16/10] sm:aspect-[16/9] object-cover"
+                className="w-full aspect-[16/11] sm:aspect-[16/10] object-cover"
                 loading="lazy"
               />
               <div className="p-5 sm:p-8 flex flex-col flex-1">
