@@ -61,6 +61,22 @@ Deno.serve(async (req) => {
           </tr>
 
           <tr>
+            <td style="padding:28px 24px 0;">
+              <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" bgcolor="#141414" style="background-color:#141414; border:1px solid #282828; border-radius:10px;">
+                <tr>
+                  <td width="132" valign="middle" style="padding:20px 8px 20px 24px;">
+                    <img src="https://media.base44.com/images/public/69dcf0ecc907e43a438a626b/39aebd21a_generated_image.png" alt="Sam, your SoundReady digital manager" width="108" style="width:108px; max-width:108px; height:auto; display:block; border:0; border-radius:10px;" />
+                  </td>
+                  <td valign="middle" style="font-family:'Space Grotesk', Arial, sans-serif; font-size:16px; font-weight:700; color:#fafafa; line-height:1.5; padding:20px 24px 20px 0;">
+                    "Hey, I'm Sam."<br/>
+                    <span style="font-family:Arial, Helvetica, sans-serif; font-size:13px; font-weight:400; color:#bdbdbd; line-height:1.7; display:block; padding-top:6px;">I'll be your digital manager — researching venues, finding opportunities and drafting your outreach. Nothing goes out unless you approve it.</span>
+                  </td>
+                </tr>
+              </table>
+            </td>
+          </tr>
+
+          <tr>
             <td style="padding:28px 24px;">
               <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" bgcolor="#141414" style="background-color:#141414; border:1px solid #282828; border-radius:10px;">
                 <tr>
