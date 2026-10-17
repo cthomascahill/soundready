@@ -1,4 +1,3 @@
-import { useEffect, useRef, useState } from "react";
 import { Link, Navigate, useParams, useSearchParams } from "react-router-dom";
 import { motion } from "framer-motion";
 import {
@@ -8,72 +7,10 @@ import { Button } from "@/components/ui/button";
 import PublicNav from "@/components/public/PublicNav";
 import SEO from "@/components/SEO";
 import CheckoutButton from "@/components/billing/CheckoutButton";
+import CheckoutSuccess from "@/components/checkout/CheckoutSuccess";
 import { useAuth } from "@/lib/AuthContext";
 import { getTier } from "@/lib/tier";
 import { PLANS } from "@/lib/plans";
-
-// Shown right after Stripe redirects back from a successful payment.
-function CheckoutSuccess() {
-  const { user, refreshUser } = useAuth();
-  const [searchParams] = useSearchParams();
-
-  const tier = getTier(user);
-  const boosted = searchParams.get("boosted") === "1";
-  // Latest tier, readable inside the polling loop below without stale closures
-  const tierRef = useRef(tier);
-  tierRef.current = tier;
-
-  useEffect(() => {
-    let cancelled = false;
-    (async () => {
-      // Refresh the account directly instead of the global app-state check,
-      // which blanks the entire app behind the full-screen loading wheel and
-      // leaves the page stuck if that request stalls. The Stripe webhook
-      // usually records the purchase before the redirect lands, but when it
-      // lags, keep re-checking for a little while so the button ends up
-      // pointing at the upgraded destination.
-      await refreshUser();
-      for (let i = 0; i < 5 && !cancelled && !boosted && tierRef.current === "free"; i++) {
-        await new Promise((r) => setTimeout(r, 3000));
-        await refreshUser();
-      }
-    })();
-    return () => { cancelled = true; };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-  const destination = boosted ? "/tell-sam" : tier === "ai_manager" ? "/sam-desk" : "/history";
-
-  return (
-    <div className="min-h-screen bg-background font-body">
-      <SEO title="Welcome aboard, SoundReady" description="Payment received, your SoundReady plan is activating." />
-      <PublicNav />
-      <section className="relative px-4 pt-32 pb-20 flex items-center justify-center overflow-hidden">
-        <div className="pointer-events-none absolute inset-0">
-          <div className="absolute -top-32 right-0 h-96 w-96 rounded-full bg-primary/15 blur-3xl" />
-          <div className="absolute -bottom-40 -left-24 h-96 w-96 rounded-full bg-primary/10 blur-3xl" />
-        </div>
-        <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}
-          className="relative max-w-md w-full rounded-2xl border border-primary/25 bg-card p-8 text-center space-y-5 shadow-xl">
-          <div className="mx-auto h-14 w-14 rounded-2xl bg-primary/10 border border-primary/30 flex items-center justify-center">
-            <CheckCircle2 className="h-7 w-7 text-primary" />
-          </div>
-          <h1 className="font-heading text-3xl font-black tracking-tight">{boosted ? "Extra usage added." : "You're in."}</h1>
-          <p className="text-sm text-muted-foreground leading-relaxed">
-            {boosted
-              ? "Payment received, the extra 1,500 SAM credits are on your balance now. If the meter hasn't updated yet, give it a minute and refresh."
-              : "Payment received, your plan is activating right now. If anything still looks locked, give it a minute and refresh."}
-          </p>
-          <Link to={destination}>
-            <Button size="lg" className="w-full gap-2 font-heading font-bold h-12">
-              {boosted ? "Back to Sam" : tier === "ai_manager" ? "Go to Sam's Desk" : "Go to your Vault"} <ArrowRight className="h-4 w-4" />
-            </Button>
-          </Link>
-          <p className="text-xs text-muted-foreground">No percentage cuts, ever. Cancel anytime from your plan page.</p>
-        </motion.div>
-      </section>
-    </div>
-  );
-}
 
 // Dedicated per-plan checkout page: /checkout/free, /checkout/artist-pro,
 // /checkout/ai-manager, plus /checkout/success after Stripe payment.

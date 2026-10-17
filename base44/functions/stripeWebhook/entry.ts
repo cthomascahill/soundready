@@ -63,8 +63,10 @@ export default async function(req) {
       if (!userId) throw new Error('checkout.session.completed: no user_id in metadata');
       await base44.asServiceRole.entities.User.update(userId, {
         subscription_tier: tier,
-        subscription_status: tier === 'pro' ? 'trialing' : 'active',
-        trial_ends_at: tier === 'pro' ? new Date(Date.now() + 7 * 24 * 60 * 60 * 1000).toISOString() : null,
+        // Trials were removed from the plans: every purchase is paid and
+        // active from the first charge.
+        subscription_status: 'active',
+        trial_ends_at: null,
         stripe_customer_id: session.customer || null,
         stripe_subscription_id: session.subscription || null,
         cancel_at_period_end: false,
