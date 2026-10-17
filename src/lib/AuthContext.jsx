@@ -115,6 +115,26 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
+  // Refreshes the signed-in user without touching the global loading flags,
+  // so a screen can update account state (e.g. after a payment) without
+  // blanking the app behind the full-screen loading wheel. A stalled call
+  // just leaves the previous state on screen.
+  const refreshUser = async () => {
+    try {
+      const isAuthed = await base44.auth.isAuthenticated();
+      if (isAuthed) {
+        const currentUser = await base44.auth.me();
+        setUser(currentUser);
+        setIsAuthenticated(true);
+      } else {
+        setUser(null);
+        setIsAuthenticated(false);
+      }
+    } catch (error) {
+      console.error('User refresh failed:', error);
+    }
+  };
+
   const logout = (shouldRedirect = true) => {
     setUser(null);
     setIsAuthenticated(false);
@@ -143,7 +163,8 @@ export const AuthProvider = ({ children }) => {
       appPublicSettings,
       logout,
       navigateToLogin,
-      checkAppState
+      checkAppState,
+      refreshUser
     }}>
       {children}
     </AuthContext.Provider>

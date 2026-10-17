@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Link, Navigate, useParams, useSearchParams } from "react-router-dom";
 import { motion } from "framer-motion";
 import {
@@ -14,13 +14,33 @@ import { PLANS } from "@/lib/plans";
 
 // Shown right after Stripe redirects back from a successful payment.
 function CheckoutSuccess() {
-  const { user, checkAppState } = useAuth();
+  const { user, refreshUser } = useAuth();
   const [searchParams] = useSearchParams();
-
-  useEffect(() => { checkAppState(); }, []);
 
   const tier = getTier(user);
   const boosted = searchParams.get("boosted") === "1";
+  // Latest tier, readable inside the polling loop below without stale closures
+  const tierRef = useRef(tier);
+  tierRef.current = tier;
+
+  useEffect(() => {
+    let cancelled = false;
+    (async () => {
+      // Refresh the account directly instead of the global app-state check,
+      // which blanks the entire app behind the full-screen loading wheel and
+      // leaves the page stuck if that request stalls. The Stripe webhook
+      // usually records the purchase before the redirect lands, but when it
+      // lags, keep re-checking for a little while so the button ends up
+      // pointing at the upgraded destination.
+      await refreshUser();
+      for (let i = 0; i < 5 && !cancelled && !boosted && tierRef.current === "free"; i++) {
+        await new Promise((r) => setTimeout(r, 3000));
+        await refreshUser();
+      }
+    })();
+    return () => { cancelled = true; };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
   const destination = boosted ? "/tell-sam" : tier === "ai_manager" ? "/sam-desk" : "/history";
 
   return (
