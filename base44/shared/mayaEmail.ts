@@ -21,7 +21,7 @@ async function latestEpkAttachment(base44, user) {
     if (!epk?.file_uri) return null;
     const safe = (epk.artist_name || user.artist_name || 'Artist')
       .replace(/[^\w\s-]/g, '').trim().replace(/\s+/g, '_') || 'Artist';
-    return { filename: `${safe}_EPK.pdf`, file_uri: epk.file_uri };
+    return { filename: `${safe}_EPK.pdf`, file_url: epk.file_uri };
   } catch (e) {
     console.log(`mayaEmail: no EPK attached (${e.message})`);
     return null;
@@ -43,7 +43,7 @@ export async function sendMayaDraft({ base44, user, draft, recipient, fallbackSu
   const atts = (attachments || []).filter(a => a?.filename && a?.file_url);
   // The artist's saved Electronic Press Kit rides along too, room permitting
   const epk = await latestEpkAttachment(base44, user);
-  if (epk && atts.length < 5 && !atts.some(a => a.file_url === epk.file_uri)) atts.push(epk);
+  if (epk && atts.length < 5 && !atts.some(a => a.file_url === epk.file_url)) atts.push(epk);
   if (atts.length) payload.attachments = atts;
   await base44.integrations.Core.SendEmail(payload);
 
