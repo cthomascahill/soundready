@@ -94,6 +94,23 @@
   }
 }
 
+/* Homepage quote ticker: a slow, seamless right-to-left drift.
+   Durations are in seconds; ~80s keeps it calm and readable. */
+@keyframes quote-marquee {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+.quote-marquee-track {
+  animation: quote-marquee 80s linear infinite;
+}
+.quote-marquee:hover .quote-marquee-track {
+  animation-play-state: paused;
+}
+@media (prefers-reduced-motion: reduce) {
+  .quote-marquee { overflow-x: auto; }
+  .quote-marquee-track { animation: none; }
+}
+
 /* Dark mode only: brighten green headings and gray fine print so they
    read clearly on the near-black background. */
 .dark .text-primary { color: hsl(142 84% 68%); }

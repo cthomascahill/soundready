@@ -16,6 +16,7 @@ import VsRestSection from "@/components/home/VsRestSection";
 import WithWithoutSection from "@/components/home/WithWithoutSection";
 import FiveMinuteSection from "@/components/home/FiveMinuteSection";
 import FaqSection from "@/components/home/FaqSection";
+import QuoteTicker from "@/components/home/QuoteTicker";
 import PlanCards from "@/components/pricing/PlanCards";
 import { useLang } from "@/lib/i18n/LanguageContext";
 
@@ -155,6 +156,8 @@ export default function About() {
           <p className="text-xs sm:text-sm text-muted-foreground">{t("Start with 3 songs. No card required.")}</p>
         </motion.div>
       </section>
+
+      <QuoteTicker />
 
       <PublicFooter />
     </div>
