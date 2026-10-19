@@ -1,3 +1,4 @@
+import { useEffect, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { base44 } from "@/api/base44Client";
 import { Button } from "@/components/ui/button";
@@ -14,6 +15,16 @@ export default function PublicNav({ showHome = true }) {
   const { user } = useAuth();
   const { t } = useLang();
   const { pathname } = useLocation();
+
+  // The auth context's user object can lag or fail to populate on public
+  // pages, so confirm sign-in directly against the saved token before
+  // ever showing Log In / Sign Up to a signed-in visitor.
+  const [authed, setAuthed] = useState(false);
+  useEffect(() => {
+    let alive = true;
+    base44.auth.isAuthenticated().then((v) => { if (alive) setAuthed(v); }).catch(() => {});
+    return () => { alive = false; };
+  }, []);
 
   const linkClass = (path) =>
     `text-sm transition-colors hidden sm:block ${
@@ -52,7 +63,7 @@ export default function PublicNav({ showHome = true }) {
                 <Link to="/pricing" className={linkClass("/pricing")}>{t("Pricing")}</Link>
               </>
             )}
-            {!user && (
+            {!user && !authed && (
               <>
                 <Button size="sm" variant="ghost" className="font-semibold hidden sm:inline-flex" onClick={() => base44.auth.redirectToLogin()}>
                   {t("Log In")}
@@ -62,7 +73,7 @@ export default function PublicNav({ showHome = true }) {
                 </Button>
               </>
             )}
-            {user && (
+            {(user || authed) && (
               <Link to="/history">
                 <Button size="sm" className="font-semibold">{t("Dashboard")}</Button>
               </Link>
