@@ -1,0 +1,57 @@
+<mjml>
+  <mj-head>
+    <mj-title>Your Monday Check-In from SAM</mj-title>
+    <mj-preview>Your weekly SoundReady check-in is ready.</mj-preview>
+    <mj-attributes>
+      <mj-all font-family="Inter, Helvetica, Arial, sans-serif" />
+      <mj-section background-color="#121212" padding="0 24px" />
+      <mj-text color="#f5f5f5" font-size="15px" line-height="1.6" padding="0" />
+      <mj-button background-color="#21c45d" color="#000000" border-radius="24px" font-weight="700" inner-padding="14px 28px" align="left" />
+    </mj-attributes>
+  </mj-head>
+  <mj-body background-color="#121212">
+    <!-- Header band: logo + brand name -->
+    <mj-section background-color="#21c45d" padding="20px 24px">
+      <mj-column>
+        <mj-image src="https://media.base44.com/images/public/69dcf0ecc907e43a438a626b/03373af61_logo.png" alt="SoundReady" align="left" width="120px" padding="0" />
+        <mj-text color="#000000" font-size="13px" padding="6px 0 0 0" font-weight="600">SOUNREADY</mj-text>
+      </mj-column>
+    </mj-section>
+
+    <!-- Headline + subheadline -->
+    <mj-section padding="36px 24px 8px 24px">
+      <mj-column>
+        <mj-text font-family="Space Grotesk, Arial, sans-serif" font-size="30px" font-weight="700" line-height="1.1" color="#f5f5f5">Your Monday Check-In</mj-text>
+        <mj-text color="#bdbdbd" font-size="15px" padding="8px 0 0 0">SAM checked your week so you don't have to. Here's where things stand and what to do next.</mj-text>
+      </mj-column>
+    </mj-section>
+
+    <!-- AI-generated body card -->
+    <mj-section padding="16px 24px 28px 24px">
+      <mj-column background-color="#121212" border="1px solid #e5e7eb" border-radius="24px" padding="24px">
+        <mj-text color="#f5f5f5" font-size="15px" line-height="1.65" css-class="checkin-body" padding="0">
+          {{body}}
+        </mj-text>
+      </mj-column>
+    </mj-section>
+
+    <!-- CTA -->
+    <mj-section padding="0 24px 28px 24px">
+      <mj-column>
+        <mj-button href="https://soundready.ai/dashboard">Open my dashboard</mj-button>
+      </mj-column>
+    </mj-section>
+
+    <!-- Footer band -->
+    <mj-section background-color="#121212" padding="24px 24px 32px 24px" border-top="1px solid #e5e7eb">
+      <mj-column>
+        <mj-text color="#bdbdbd" font-size="12px" line-height="1.5">
+          You're receiving this because you're a SoundReady artist. Your SoundReady Manager, SAM.
+        </mj-text>
+        <mj-text color="#bdbdbd" font-size="12px" padding="8px 0 0 0">
+          <a href="https://soundready.ai" style="color:#21c45d; text-decoration:none;">soundready.ai</a>
+        </mj-text>
+      </mj-column>
+    </mj-section>
+  </mj-body>
+</mjml>

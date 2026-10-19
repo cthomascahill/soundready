@@ -68,7 +68,8 @@ Format as plain text email. Subject line included. Sign off as "Your SoundReady 
         await base44.asServiceRole.integrations.Core.SendEmail({
           to: user.email,
           subject: emailContent.subject,
-          body: emailContent.body,
+          template_name: "MondayCheckIn",
+          variables: { body: String(emailContent.body || "").replace(/\r\n/g, "\n").replace(/\n{2,}/g, "<br><br>").replace(/\n/g, "<br>") },
           from_name: "SoundReady",
         });
 
