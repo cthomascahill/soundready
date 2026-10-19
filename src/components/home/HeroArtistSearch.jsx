@@ -115,7 +115,7 @@ export default function HeroArtistSearch() {
           {loading ? <Loader2 className="h-4 w-4 animate-spin" /> : t("Analyze My Artist Profile")}
         </Button>
       </form>
-      <p className="text-xs text-muted-foreground text-center">{t("Find your Spotify numbers and see your 12-month projection.")}</p>
+      <p className="text-xs text-muted-foreground text-center">{t("Find your Spotify numbers and see your 12-month projection with SoundReady.")}</p>
 
       {error && !loading && (
         <p className="text-sm text-red-400 text-center">{error}</p>
