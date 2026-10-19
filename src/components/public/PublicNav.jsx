@@ -7,8 +7,8 @@ import { useLang } from "@/lib/i18n/LanguageContext";
 
 /**
  * Shared header for the public pages (Home, How It Works, Pricing).
- * Logged-out visitors get Log In + Sign Up; logged-in visitors keep those
- * and also see a Dashboard button.
+ * Logged-out visitors get Log In + Sign Up; logged-in visitors get a
+ * Dashboard button instead.
  */
 export default function PublicNav({ showHome = true }) {
   const { user } = useAuth();
@@ -52,12 +52,16 @@ export default function PublicNav({ showHome = true }) {
                 <Link to="/pricing" className={linkClass("/pricing")}>{t("Pricing")}</Link>
               </>
             )}
-            <Button size="sm" variant="ghost" className="font-semibold hidden sm:inline-flex" onClick={() => base44.auth.redirectToLogin()}>
-              {t("Log In")}
-            </Button>
-            <Button size="sm" variant="outline" className="font-semibold" onClick={() => base44.auth.redirectToLogin()}>
-              {t("Sign Up")}
-            </Button>
+            {!user && (
+              <>
+                <Button size="sm" variant="ghost" className="font-semibold hidden sm:inline-flex" onClick={() => base44.auth.redirectToLogin()}>
+                  {t("Log In")}
+                </Button>
+                <Button size="sm" variant="outline" className="font-semibold" onClick={() => base44.auth.redirectToLogin()}>
+                  {t("Sign Up")}
+                </Button>
+              </>
+            )}
             {user && (
               <Link to="/history">
                 <Button size="sm" className="font-semibold">{t("Dashboard")}</Button>

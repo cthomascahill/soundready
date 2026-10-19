@@ -24,16 +24,20 @@ export default function AppLayout() {
   const [cmdOpen, setCmdOpen] = useState(false);
   const [drawerOpen, setDrawerOpen] = useState(false);
   const [tourOpen, setTourOpen] = useState(false);
+  const [tourDismissed, setTourDismissed] = useState(false);
 
   // New accounts see the guided tour once, automatically. Marking it seen
   // (on exit or finish) stops it from starting again, replay stays
   // available from the sidebar. Accounts older than a week skip the
-  // auto-start so existing artists are never interrupted.
+  // auto-start so existing artists are never interrupted. tourDismissed
+  // guards this session: the "seen" flag is saved to the account in the
+  // background, but the user object in memory is stale until it refreshes,
+  // which would otherwise instantly reopen the tour after exit.
   useEffect(() => {
-    if (!user || tourOpen || user.guided_tour_seen === true) return;
+    if (!user || tourOpen || tourDismissed || user.guided_tour_seen === true) return;
     const created = user.created_date ? new Date(user.created_date).getTime() : 0;
     if (created && Date.now() - created < 7 * 24 * 60 * 60 * 1000) setTourOpen(true);
-  }, [user, tourOpen]);
+  }, [user, tourOpen, tourDismissed]);
 
   // Cmd+K / Ctrl+K listener
   useEffect(() => {
@@ -144,7 +148,7 @@ export default function AppLayout() {
 
       <CommandPalette open={cmdOpen} onClose={() => setCmdOpen(false)} />
       <MayaAssistant />
-      <GuidedTour open={tourOpen} onClose={() => setTourOpen(false)} />
+      <GuidedTour open={tourOpen} onClose={() => { setTourOpen(false); setTourDismissed(true); }} />
       </div>
   );
 }
