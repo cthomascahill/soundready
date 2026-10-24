@@ -20,21 +20,13 @@ export default function PublicNav({ showHome = true }) {
     }`;
 
   const earlyBirdText = (
-    <>
-      <span className="inline-flex items-center gap-1.5">
-        <span className="relative flex h-2.5 w-2.5">
-          <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary opacity-75" />
-          <span className="relative inline-flex h-2.5 w-2.5 rounded-full bg-primary" />
-        </span>
-        Early Bird Special
+    <span className="inline-flex items-center gap-1.5">
+      <span className="relative flex h-2.5 w-2.5">
+        <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary opacity-75" />
+        <span className="relative inline-flex h-2.5 w-2.5 rounded-full bg-primary" />
       </span>
-      <span className="mx-2 opacity-50">·</span>
-      Digital Manager{" "}
-      <span className="rounded-full bg-primary px-2.5 py-0.5 text-primary-foreground">LIFETIME ACCESS</span>{" "}
-      just{" "}
-      <span className="rounded-full bg-primary/15 px-2 py-0.5 text-primary">$37</span>{" "}
-      <span className="line-through text-red-400">$89/month</span>
-    </>
+      $37 ONE TIME PAYMENT
+    </span>
   );
 
   return (
