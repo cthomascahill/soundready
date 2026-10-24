@@ -20,12 +20,17 @@ export default function PublicNav({ showHome = true }) {
     }`;
 
   const earlyBirdText = (
-    <span className="inline-flex items-center gap-1.5">
-      <span className="relative flex h-2.5 w-2.5">
+    <span className="inline-flex items-center gap-2 text-center">
+      <span className="relative flex h-2.5 w-2.5 shrink-0">
         <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary opacity-75" />
         <span className="relative inline-flex h-2.5 w-2.5 rounded-full bg-primary" />
       </span>
-      $37 ONE TIME PAYMENT
+      <span className="flex flex-col leading-tight">
+        <span>EARLY BIRD SPECIAL LIFETIME ACCESS</span>
+        <span className="font-extrabold">
+          $37 ONE TIME PAYMENT <span className="line-through text-red-400 font-semibold">$89/month</span>
+        </span>
+      </span>
     </span>
   );
 
