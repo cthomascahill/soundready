@@ -97,7 +97,10 @@ export default function About() {
         </div>
       </section>
 
-      {/* THE VSL: one artist's whole journey, right after Start Free */}
+      {/* MEET SAM: SAM does the work, you approve */}
+      <MeetSamSection />
+
+      {/* THE VSL: one artist's whole journey */}
       <VslSection />
 
       {/* WITHOUT SOUNDREADY VS. WITH SOUNDREADY */}
@@ -108,9 +111,6 @@ export default function About() {
 
       {/* IN JUST 5 MINUTES */}
       <FiveMinuteSection />
-
-      {/* MEET SAM: SAM does the work, you approve */}
-      <MeetSamSection />
 
       {/* TODAY VS. SOUNDREADY */}
       <VsRestSection />

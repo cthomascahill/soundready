@@ -74,7 +74,7 @@ export default function WithWithoutSection() {
             className="flex flex-col"
           >
             <motion.div
-              className="relative w-full rounded-xl overflow-hidden"
+              className="relative w-full max-w-sm mx-auto rounded-xl overflow-hidden"
               animate={{ y: [0, 6, 0] }}
               transition={{ duration: 14, repeat: Infinity, ease: "easeInOut" }}
             >
@@ -104,7 +104,7 @@ export default function WithWithoutSection() {
             className="relative flex flex-col"
           >
             <motion.div
-              className="relative w-full rounded-xl overflow-hidden ring-1 ring-primary/20"
+              className="relative w-full max-w-sm mx-auto rounded-xl overflow-hidden ring-1 ring-primary/20"
               animate={{ y: [0, -8, 0] }}
               transition={{ duration: 10, repeat: Infinity, ease: "easeInOut" }}
             >

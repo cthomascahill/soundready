@@ -59,10 +59,12 @@ export default function PlanCards() {
           <Zap className="h-5 w-5 text-chart-5" />
         </div>
         <p className="font-heading font-black text-2xl">Free</p>
-        <p className="text-sm font-semibold mt-0.5 mb-2 text-chart-5">Your next three songs, free.</p>
-        <p className="text-2xl font-black mb-1">$0</p>
-        <p className="text-sm font-semibold text-chart-5 mb-3">Free forever</p>
-        <p className="text-sm text-muted-foreground leading-relaxed mb-5">
+        <p className="text-sm font-semibold mt-0.5 mb-3 text-chart-5">Your next three songs, free.</p>
+        <div className="mb-3 min-h-[84px]">
+          <p className="text-4xl font-black tracking-tight">$0</p>
+          <p className="text-sm font-semibold text-chart-5 mt-1">Free forever</p>
+        </div>
+        <p className="text-sm text-muted-foreground leading-relaxed mb-5 min-h-[60px]">
           Sign up free and your Release Starter Kit lands in your inbox the moment you join: Spotify editorial playlist pitch template, filled-in example, release timeline, metadata checklist.
         </p>
         <div className="flex-1">
@@ -70,7 +72,7 @@ export default function PlanCards() {
         </div>
         <div className="mt-6">
           <Link to="/checkout/free">
-            <Button className="w-full font-semibold">Start Free</Button>
+            <Button variant="outline" className="w-full font-semibold">Start Free</Button>
           </Link>
         </div>
         <p className="text-center text-xs text-muted-foreground mt-2">No card required.</p>
@@ -81,7 +83,7 @@ export default function PlanCards() {
       <div className="relative">
         <div className="absolute -inset-4 rounded-3xl bg-chart-5/20 blur-3xl pointer-events-none" />
         <motion.div initial={{ opacity: 0, y: 24 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: 0.06 }}
-        className="relative h-full rounded-2xl border border-chart-5/20 bg-card p-6 flex flex-col ring-2 ring-chart-5/40 shadow-xl">
+        className="relative h-full rounded-2xl border border-chart-5/10 bg-card p-6 flex flex-col ring-1 ring-chart-5/20 shadow-md">
         <div className="absolute -top-3 left-1/2 -translate-x-1/2 px-3 py-1 rounded-full text-xs font-bold whitespace-nowrap bg-chart-5 text-black">
           Early Bird Special · Lifetime Access
         </div>
@@ -89,15 +91,14 @@ export default function PlanCards() {
           <Users className="h-5 w-5 text-chart-5" />
         </div>
         <p className="font-heading font-black text-2xl">Artist Pro</p>
-        <p className="text-sm font-semibold mt-0.5 mb-2 text-chart-5">Workspace tools. SAM not included.</p>
-        <div className="mb-3 flex items-baseline gap-2 flex-wrap">
-          <span className="text-base text-red-400 line-through font-semibold">$49/mo</span>
-          <p className="text-2xl font-black">$25<span className="text-sm text-muted-foreground font-medium"> one time payment</span></p>
+        <p className="text-sm font-semibold mt-0.5 mb-3 text-chart-5">Workspace tools. SAM not included.</p>
+        <div className="mb-3 min-h-[84px]">
+          <p className="text-4xl font-black tracking-tight">$25</p>
+          <p className="text-sm font-semibold text-muted-foreground mt-1">one time payment</p>
+          <p className="text-sm font-semibold text-red-400 mt-1">vs <span className="line-through">$49/mo</span></p>
         </div>
-        <p className="text-sm font-bold uppercase tracking-wide text-foreground">Early Bird Special</p>
-        <p className="text-sm font-semibold text-chart-5 mb-3">Lifetime access. No subscription, ever.</p>
-        <p className="text-sm text-muted-foreground leading-relaxed mb-5">
-          Your full music workspace: press kit, analytics, tour opportunities, career roadmap, The Wall, Music News, and more.
+        <p className="text-sm text-muted-foreground leading-relaxed mb-5 min-h-[60px]">
+          Your full music workspace: press kit, analytics, tour opportunities, career roadmap, The Wall, Music News, and more. Lifetime access, no subscription ever.
         </p>
         <div className="flex-1">
           <TierList items={CARD_PRO_ITEMS} check="text-chart-5" />
@@ -139,15 +140,14 @@ export default function PlanCards() {
           <Bot className="h-5 w-5 text-primary" />
         </div>
         <p className="font-heading font-black text-2xl">Digital Manager</p>
-        <p className="text-sm font-semibold mt-0.5 mb-2 text-primary">A team behind your releases.</p>
-        <div className="mb-3 flex items-baseline gap-2 flex-wrap">
-          <span className="text-base text-red-400 line-through font-semibold">$89/mo</span>
-          <p className="text-2xl font-black">$37<span className="text-sm text-muted-foreground font-medium"> one time payment</span></p>
+        <p className="text-sm font-semibold mt-0.5 mb-3 text-primary">A team behind your releases.</p>
+        <div className="mb-3 min-h-[84px]">
+          <p className="text-4xl font-black tracking-tight">$37</p>
+          <p className="text-sm font-semibold text-muted-foreground mt-1">one time payment</p>
+          <p className="text-sm font-semibold text-red-400 mt-1">vs <span className="line-through">$89/mo</span></p>
         </div>
-        <p className="text-sm font-bold uppercase tracking-wide text-foreground">Early Bird Special</p>
-        <p className="text-sm font-semibold text-primary mb-3">Sam for life. No subscription, ever.</p>
-        <p className="text-sm text-muted-foreground leading-relaxed mb-5">
-          Your full workspace, plus SAM, your digital artist manager. SAM researches your opportunities, writes your pitches, and tracks your outreach. You approve every send.
+        <p className="text-sm text-muted-foreground leading-relaxed mb-5 min-h-[60px]">
+          Your full workspace, plus SAM, your digital artist manager. SAM researches your opportunities, writes your pitches, and tracks your outreach. You approve every send. Sam for life, no subscription ever.
         </p>
         <div className="flex-1">
           <TierList items={CARD_AI_ITEMS} />
