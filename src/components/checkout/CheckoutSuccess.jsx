@@ -81,6 +81,7 @@ export default function CheckoutSuccess() {
   const [timedOut, setTimedOut] = useState(false);
 
   const boosted = searchParams.get("boosted") === "1";
+  const lifetime = searchParams.get("lifetime") === "1";
   const tierParam = searchParams.get("tier");
   const tier = getTier(user);
 
@@ -91,7 +92,19 @@ export default function CheckoutSuccess() {
     : tierParam === "ai_manager" || tierParam === "pro" ? tierParam
     : tier === "ai_manager" ? "ai_manager"
     : "pro";
-  const content = CONTENT[purchase];
+  const content = lifetime && purchase === "ai_manager"
+    ? {
+        ...CONTENT.ai_manager,
+        plan: "Digital Manager · Lifetime",
+        title: "You're in. Sam is on your team for life.",
+        highlights: [
+          "Lifetime access to Digital Manager: one payment, no subscription, ever.",
+          "2,500 SAM credits a month for research and pitch drafts, included for life.",
+          "Sam's Desk: SAM finds opportunities and drafts pitches for you weekly. You approve or deny.",
+          "Everything in Artist Pro, unlocked.",
+        ],
+      }
+    : CONTENT[purchase];
   const activated = reached(purchase, tier);
 
   // Latest values for the polling loop, without stale closures
@@ -192,6 +205,8 @@ export default function CheckoutSuccess() {
           <p className="text-center text-xs text-muted-foreground">
             {timedOut && !activated
               ? "Your plan is still activating. If anything looks locked, give it a minute and refresh."
+              : lifetime
+              ? "No percentage cuts, ever. One payment, access for life."
               : "No percentage cuts, ever. Cancel anytime from your plan page."}
           </p>
         </motion.div>

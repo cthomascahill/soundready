@@ -55,10 +55,10 @@ export default function MayaUpsellPopover({ onClose }) {
             className="mt-5 w-full flex items-center justify-center gap-2 px-4 py-3 rounded-xl bg-primary text-black font-semibold text-sm hover:bg-primary/90 transition-colors"
           >
             <Sparkles className="h-4 w-4" />
-            Upgrade to Digital Manager, <span className="line-through opacity-60">$89</span> $24.99/mo
+            Upgrade to Digital Manager, <span className="line-through opacity-60">$89/mo</span> $37 lifetime
           </Link>
 
-          <p className="text-[10px] text-muted-foreground mt-2">First 100 artists · Cancel anytime · Unlimited Sam access</p>
+          <p className="text-[10px] text-muted-foreground mt-2">First 100 artists · One payment · Lifetime Sam access</p>
         </div>
       </motion.div>
     </AnimatePresence>

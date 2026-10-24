@@ -58,6 +58,45 @@ export default async function(req) {
         return Response.json({ received: true });
       }
 
+      // One-time Digital Manager lifetime purchase — grant access forever.
+      if (session.metadata?.lifetime === '1') {
+        const lifetimeUserId = session.metadata?.user_id || session.client_reference_id;
+        if (!lifetimeUserId) throw new Error('lifetime checkout: no user_id in metadata');
+
+        // If they were paying monthly, stop that subscription; lifetime replaces it.
+        try {
+          const existing = await base44.asServiceRole.entities.User.filter({ id: lifetimeUserId }, '', 1);
+          const subId = existing[0]?.stripe_subscription_id;
+          const stripeKey = secrets.get('STRIPE_SECRET_KEY');
+          if (subId && stripeKey) {
+            await fetch(`https://api.stripe.com/v1/subscriptions/${encodeURIComponent(subId)}`, {
+              method: 'POST',
+              headers: {
+                'Authorization': `Bearer ${stripeKey}`,
+                'Content-Type': 'application/x-www-form-urlencoded',
+                'Stripe-Version': '2025-10-29.clover',
+                'Idempotency-Key': crypto.randomUUID(),
+              },
+              body: 'cancel_at_period_end=true',
+            });
+          }
+        } catch (err) {
+          console.error(`stripeWebhook: could not stop old subscription for user ${lifetimeUserId}: ${err.message}`);
+        }
+
+        await base44.asServiceRole.entities.User.update(lifetimeUserId, {
+          subscription_tier: 'ai_manager',
+          subscription_status: 'active',
+          trial_ends_at: null,
+          stripe_customer_id: session.customer || null,
+          stripe_subscription_id: null,
+          cancel_at_period_end: false,
+          lifetime_access: true,
+        });
+        console.log(`stripeWebhook: lifetime Digital Manager granted to user ${lifetimeUserId}`);
+        return Response.json({ received: true });
+      }
+
       const userId = session.metadata?.user_id || session.client_reference_id;
       const tier = session.metadata?.tier || 'pro';
       if (!userId) throw new Error('checkout.session.completed: no user_id in metadata');

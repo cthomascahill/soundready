@@ -2,18 +2,18 @@ import { useState } from "react";
 import { Slider } from "@/components/ui/slider";
 
 const MANAGER_RATE = 0.175; // midpoint of the typical 15–20% commission
-// Digital Manager early bird monthly price while the special runs
-const SAM_PRICE = { fee: 24.99, strike: "$89", suffix: "/mo" };
+// Digital Manager early bird lifetime price while the special runs
+const SAM_PRICE = { fee: 37, strike: "$89/mo", suffix: " once" };
 const fmt = (n) => `$${(Math.round(n * 100) / 100).toLocaleString()}`;
 
 export default function ManagerCostSlider() {
   const [income, setIncome] = useState(3000);
   const managerMonthly = income * MANAGER_RATE;
   const managerYearly = managerMonthly * 12;
-  const samYearly = SAM_PRICE.fee * 12;
-  const savings = managerYearly - samYearly;
-  // Income level where a manager's 17.5% commission equals SAM's price
-  const feeBreak = samYearly / (MANAGER_RATE * 12);
+  const samOnce = SAM_PRICE.fee;
+  const savings = managerYearly - samOnce;
+  // Income level where a manager's 17.5% yearly commission equals SAM's one-time price
+  const feeBreak = samOnce / (MANAGER_RATE * 12);
 
   return (
     <div className="pt-6 mt-2 border-t border-border/60 text-left space-y-5">
@@ -35,13 +35,13 @@ export default function ManagerCostSlider() {
         <div className="space-y-1.5">
           <p className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground">SoundReady Digital Manager</p>
           <p className="font-heading text-2xl font-black text-primary"><span className="text-xs line-through opacity-60 font-bold text-muted-foreground mr-1">{SAM_PRICE.strike}</span>{fmt(SAM_PRICE.fee)}<span className="text-xs font-bold text-muted-foreground">{SAM_PRICE.suffix}</span></p>
-          <p className="text-xs text-muted-foreground">{fmt(samYearly)} every year, flat, forever, paying monthly</p>
+          <p className="text-xs text-muted-foreground">$37 once, for life. No monthly payments, ever</p>
         </div>
       </div>
 
       <p className="text-center text-sm font-semibold">
         {savings > 0 ? (
-          <span className="text-foreground">A traditional manager's fee on that income would be <span className="text-primary">{fmt(managerYearly)}/year</span>. Digital Manager is <span className="text-primary">{fmt(samYearly)}/year</span>, <span className="text-primary">{fmt(savings)} less in fees</span>.</span>
+          <span className="text-foreground">A traditional manager's fee on that income would be <span className="text-primary">{fmt(managerYearly)}/year</span>. Digital Manager is <span className="text-primary">$37, once, for life</span>, <span className="text-primary">{fmt(savings)} less in fees</span>.</span>
         ) : (
           <span className="text-muted-foreground">Earning under {fmt(feeBreak)}/mo? Then your problem isn't the fee, it's revenue. SAM is built to fix exactly that, working your career every week until you clear it. And above that, SAM costs less than a manager's fee, forever.</span>
         )}

@@ -140,7 +140,7 @@ const AiIntroMock = () => (
   <Frame>
     <div className="relative rounded-2xl border border-primary/30 bg-card p-5 space-y-3.5 overflow-hidden">
       <div className="absolute inset-0 bg-primary/5 pointer-events-none" />
-      <PlanChip icon={Bot} tone="bg-primary/10 border-primary/30 text-primary" label="Digital Manager · $24.99/mo early bird" price="Everything in Artist Pro, plus SAM" />
+      <PlanChip icon={Bot} tone="bg-primary/10 border-primary/30 text-primary" label="Digital Manager · $37 lifetime early bird" price="Everything in Artist Pro, plus SAM" />
       <div className="flex items-center gap-4">
         <img src={SAM_IMG} alt="SAM, your SoundReady Artist Manager" className="h-28 w-auto drop-shadow-xl shrink-0" />
         <div className="space-y-1.5 min-w-0">
@@ -291,7 +291,7 @@ export const PLAN_VSL_SCENES = [
     id: "ai",
     label: "Digital Manager",
     duration: 7,
-    narration: "Want help getting the work done? Choose Digital Manager. For $24.99 a month, you get everything in Artist Pro, plus SAM, your digital artist manager.",
+    narration: "Want help getting the work done? Choose Digital Manager. For $37, one time, you get everything in Artist Pro, plus SAM, your digital artist manager, for life.",
     render: () => <AiIntroMock />,
   },
   {
@@ -319,7 +319,7 @@ export const PLAN_VSL_SCENES = [
     id: "outro",
     label: "Start today",
     duration: 6,
-    narration: "Start with three songs free, or get your workspace and digital manager together for $24.99 a month. Either way, your music gets moving.",
+    narration: "Start with three songs free, or get the workspace and SAM together for $37, once, for life. Either way, your music gets moving.",
     render: () => (
       <div className="h-full flex flex-col items-center justify-center gap-5 text-center px-6">
         <motion.p initial={{ opacity: 0, scale: 0.94 }} animate={{ opacity: 1, scale: 1 }} transition={{ duration: 0.5 }} className="font-heading text-xl sm:text-3xl font-black tracking-tight leading-tight">
@@ -338,10 +338,10 @@ export const PLAN_VSL_SCENES = [
           </motion.button>
           <motion.button
             type="button"
-            onClick={() => (window.location.href = "/checkout/ai-manager")}
+            onClick={() => (window.location.href = "/checkout/digital-manager-lifetime")}
             className="font-heading font-bold text-sm px-6 h-11 rounded-md border border-primary/40 text-primary bg-primary/5"
           >
-            Start Digital Manager · $24.99/mo
+            Get Digital Manager for Life · $37
           </motion.button>
         </div>
       </div>

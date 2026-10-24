@@ -117,7 +117,7 @@ export default function PlanCards() {
         <motion.div initial={{ opacity: 0, y: 24 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: 0.12 }}
         className="relative h-full rounded-2xl border border-primary/30 bg-card p-6 flex flex-col ring-2 ring-primary/60 shadow-2xl shadow-primary/10">
         <div className="absolute -top-3 left-1/2 -translate-x-1/2 px-3 py-1 rounded-full text-xs font-bold whitespace-nowrap bg-primary text-primary-foreground">
-          Recommended · Early Bird Special
+          Early Bird Special · Lifetime Access
         </div>
         <motion.img
           src={SAM_IMG}
@@ -136,10 +136,11 @@ export default function PlanCards() {
         <p className="font-heading font-black text-2xl">Digital Manager</p>
         <p className="text-sm font-semibold mt-0.5 mb-2 text-primary">A team behind your releases.</p>
         <div className="mb-3 flex items-baseline gap-2 flex-wrap">
-          <span className="text-base text-muted-foreground line-through font-semibold">$89</span>
-          <p className="text-2xl font-black">$24.99<span className="text-sm text-muted-foreground font-medium">/month</span></p>
-          <span className="px-2 py-0.5 rounded-full bg-primary/15 text-primary text-[10px] font-bold uppercase tracking-wide">Early Bird Special · On sale from $89/month</span>
+          <span className="text-base text-muted-foreground line-through font-semibold">$89/mo</span>
+          <p className="text-2xl font-black">$37<span className="text-sm text-muted-foreground font-medium"> once</span></p>
+          <span className="px-2 py-0.5 rounded-full bg-primary/15 text-primary text-[10px] font-bold uppercase tracking-wide">Early Bird Special · Lifetime access, one payment</span>
         </div>
+        <p className="text-sm font-semibold text-primary mb-3">Sam for life. No subscription, ever.</p>
         <p className="text-sm text-muted-foreground leading-relaxed mb-5">
           Your full workspace, plus SAM, your digital artist manager. SAM researches your opportunities, writes your pitches, and tracks your outreach. You approve every send.
         </p>
@@ -147,11 +148,16 @@ export default function PlanCards() {
           <TierList items={CARD_AI_ITEMS} />
         </div>
         <div className="mt-6 relative">
-          <Link to="/checkout/ai-manager">
-            <Button className="w-full font-semibold gap-2"><Sparkles className="h-4 w-4" /> Start Digital Manager</Button>
+          <Link to="/checkout/digital-manager-lifetime">
+            <Button className="w-full font-semibold gap-2"><Sparkles className="h-4 w-4" /> Get Lifetime Access · $37</Button>
           </Link>
+          <p className="text-center mt-2">
+            <Link to="/checkout/ai-manager" className="text-xs text-muted-foreground hover:text-foreground transition-colors underline underline-offset-2">
+              Prefer monthly? $24.99/mo subscription
+            </Link>
+          </p>
         </div>
-        <p className="text-center text-xs text-muted-foreground mt-2">No percentage cuts. Cancel anytime. Early bird price stays locked while subscribed.</p>
+        <p className="text-center text-xs text-muted-foreground mt-2">One-time payment. 2,500 SAM credits included monthly, top up anytime. No percentage cuts, ever.</p>
       </motion.div>
       </div>
     </div>

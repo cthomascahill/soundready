@@ -35,9 +35,11 @@ export default function Checkout() {
   const note = meta.note;
 
   const hasThisOrBetter =
-    meta.tierKey === "pro" || meta.tierKey === "ai_manager"
-      ? tier === meta.tierKey || (meta.tierKey === "pro" && tier === "ai_manager")
-      : false;
+    meta.tierKey === "ai_manager_lifetime"
+      ? !!user?.lifetime_access
+      : meta.tierKey === "pro" || meta.tierKey === "ai_manager"
+        ? tier === meta.tierKey || (meta.tierKey === "pro" && tier === "ai_manager")
+        : false;
 
   return (
     <div className="min-h-screen bg-background font-body">
@@ -136,7 +138,7 @@ export default function Checkout() {
                   interval="monthly"
                   className={`h-12 font-heading font-bold text-base ${meta.tierKey === "pro" ? "bg-chart-5 hover:bg-chart-5/90 text-black" : "gap-2"}`}
                 >
-                  {meta.tierKey === "ai_manager" && <Sparkles className="h-4 w-4" />}
+                  {(meta.tierKey === "ai_manager" || meta.tierKey === "ai_manager_lifetime") && <Sparkles className="h-4 w-4" />}
                   {meta.checkoutLabel || `Start ${meta.name}`}
                 </CheckoutButton>
               )}

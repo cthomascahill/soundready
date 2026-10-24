@@ -21,7 +21,7 @@ export default function PublicNav({ showHome = true }) {
 
   const earlyBirdText = (
     <>
-      Early Bird Special · Digital Manager, just $24.99/month{" "}
+      Early Bird Special · Digital Manager for life, just $37{" "}
       <span className="line-through text-red-400">$89/month</span>
     </>
   );

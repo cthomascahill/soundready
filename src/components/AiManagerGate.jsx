@@ -28,7 +28,7 @@ export default function AiManagerGate({ children, feature }) {
       <motion.div initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} className="max-w-lg w-full">
         <div className="rounded-2xl border border-primary/30 bg-card p-8 space-y-6 relative pt-10">
           <div className="absolute -top-3 left-1/2 -translate-x-1/2 px-3 py-1 rounded-full text-xs font-bold whitespace-nowrap bg-primary text-primary-foreground">
-            First 100 Artists, Price Locked For Life
+            Early Bird Special · $37 Lifetime Access
           </div>
           <div className="h-12 w-12 rounded-xl bg-primary/10 border border-primary/30 flex items-center justify-center">
             <Lock className="h-5 w-5 text-primary" />
@@ -51,13 +51,13 @@ export default function AiManagerGate({ children, feature }) {
           </div>
           <div className="flex items-baseline gap-2">
             <span className="text-base text-muted-foreground line-through font-semibold">$89</span>
-            <span className="font-heading text-3xl font-black text-primary">$24.99<span className="text-sm text-muted-foreground font-medium">/mo</span></span>
+            <span className="font-heading text-3xl font-black text-primary">$37<span className="text-sm text-muted-foreground font-medium"> once, for life</span></span>
           </div>
-          <CheckoutButton tier="ai_manager">
-            Start Digital Manager, $24.99/mo early bird
+          <CheckoutButton tier="ai_manager_lifetime">
+            Get Lifetime Access, $37 early bird
           </CheckoutButton>
           <p className="text-center text-xs text-muted-foreground">
-            First-100 price locked for life while you stay subscribed. Everything in Artist Pro included. Cancel anytime.
+            One-time payment, lifetime access. Everything in Artist Pro included. 2,500 SAM credits included monthly, top up anytime.
           </p>
           <p className="text-center">
             <Link to="/pricing-account" className="text-xs text-muted-foreground hover:text-foreground transition-colors inline-flex items-center gap-1">

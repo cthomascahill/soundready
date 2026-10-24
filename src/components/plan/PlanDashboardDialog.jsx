@@ -11,7 +11,7 @@ import CancelSubscriptionButton from "@/components/plan/CancelSubscriptionButton
 const PLANS = {
   free: { icon: Zap, name: "Free", price: "$0", color: "text-muted-foreground", desc: "Your music, organized." },
   pro: { icon: Users, name: "Artist Pro", price: "$9.99/month", color: "text-chart-5", desc: "Your career toolkit." },
-  ai_manager: { icon: Bot, name: "Digital Manager", price: "$24.99/month", color: "text-primary", desc: "For artists who want help doing the work." },
+  ai_manager: { icon: Bot, name: "Digital Manager", price: "Lifetime · $37 early bird", color: "text-primary", desc: "For artists who want help doing the work." },
 };
 
 /**
@@ -29,7 +29,9 @@ export default function PlanDashboardDialog({ open, onOpenChange }) {
   const isAIManager = tier === "ai_manager";
 
   const statusText =
-    user?.subscription_status === "trialing" || (trialDays > 0 && isAIManager)
+    user?.lifetime_access
+      ? "Lifetime access"
+      : user?.subscription_status === "trialing" || (trialDays > 0 && isAIManager)
       ? `Free trial · ${trialDays} day${trialDays === 1 ? "" : "s"} left`
       : user?.subscription_status === "active"
         ? "Active"
@@ -89,7 +91,7 @@ export default function PlanDashboardDialog({ open, onOpenChange }) {
                 {isAIManager ? "Change plan" : "View plans & upgrade"} <ArrowRight className="h-4 w-4" />
               </Button>
             </Link>
-            {tier !== "free" && !user?.cancel_at_period_end && (
+            {tier !== "free" && !user?.cancel_at_period_end && !user?.lifetime_access && (
               <CancelSubscriptionButton small hasStripeSub={!!user?.stripe_subscription_id} />
             )}
             <p className="text-center text-[10px] text-muted-foreground/70 flex items-center justify-center gap-1">

@@ -31,11 +31,11 @@ const FAQ = [
   },
   {
     q: "Does SoundReady take a percentage of my income?",
-    a: "Never. A traditional manager typically takes a 15 to 20% commission on everything you earn. Digital Manager is $24.99/month flat during the early bird (regular price $89/month), and you keep 100% of your royalties, always.",
+    a: "Never. A traditional manager typically takes a 15 to 20% commission on everything you earn. During the early bird, Digital Manager is $37, one time, for lifetime access (regular price $89/month), and you keep 100% of your royalties, always.",
   },
   {
     q: "Which plan do I actually need?",
-    a: "Free keeps your music organized forever, no card needed, and it starts with the free Release Starter Kit in your welcome email: the Spotify editorial playlist pitch template, the same exact template used to get on thousands of Spotify editorial playlists, a filled-in example, a week-by-week release timeline and the metadata checklist most artists miss. Artist Pro adds the full career toolkit: unlimited Vault, release planning, playlist discovery, venues, touring and team tools, $9.99/month. Digital Manager adds SAM on top of all of that, $24.99/month while the early bird lasts.",
+    a: "Free keeps your music organized forever, no card needed, and it starts with the free Release Starter Kit in your welcome email: the Spotify editorial playlist pitch template, the same exact template used to get on thousands of Spotify editorial playlists, a filled-in example, a week-by-week release timeline and the metadata checklist most artists miss. Artist Pro adds the full career toolkit: unlimited Vault, release planning, playlist discovery, venues, touring and team tools, $9.99/month. Digital Manager adds SAM on top of all of that: $37 once for lifetime access during the early bird, or $24.99/month if you prefer a subscription.",
   },
   {
     q: "What happens when I cancel?",
@@ -43,7 +43,7 @@ const FAQ = [
   },
   {
     q: "Is the early bird price really locked forever?",
-    a: "Yes. Join during the early bird and your $9.99/month Artist Pro (or $24.99/month Digital Manager) price stays locked for as long as you stay subscribed, even after the sale ends and regular prices return. Cancel and return later, and the then-current price applies.",
+    a: "Yes. Join during the early bird and your $9.99/month Artist Pro price stays locked for as long as you stay subscribed, even after the sale ends and regular prices return. The Digital Manager early bird is even simpler: $37 once, and it is yours for life. Cancel a subscription and return later, and the then-current price applies.",
   },
   {
     q: "Is my music private?",
@@ -89,7 +89,7 @@ export default function Pricing() {
     <div className="min-h-screen bg-background font-body">
       <SEO
         title="SoundReady Pricing"
-        description="Start free with 3 songs. Artist Pro unlocks the full toolkit for $9.99/mo early bird, on sale from $49/mo. Digital Manager adds SAM for $24.99/mo early bird, on sale from $89/mo. No percentage cuts, ever."
+        description="Start free with 3 songs. Artist Pro unlocks the full toolkit for $9.99/mo early bird, on sale from $49/mo. Digital Manager: $37 once for lifetime access with SAM, on sale from $89/mo. No percentage cuts, ever."
       />
 
       <PublicNav />
@@ -147,7 +147,9 @@ export default function Pricing() {
                       {tier === "pro" ? "Artist Pro" : "Digital Manager"}
                     </span>
                     <span className="text-muted-foreground">
-                      {user?.subscription_status === "trialing"
+                      {user?.lifetime_access
+                        ? " · lifetime access"
+                        : user?.subscription_status === "trialing"
                         ? ` · free trial, ${daysLeft} ${daysLeft === 1 ? "day" : "days"} left`
                         : user?.subscription_status === "canceled"
                         ? " · ended"
@@ -156,7 +158,7 @@ export default function Pricing() {
                         : " · active"}
                     </span>
                   </p>
-                  {(user?.subscription_status === "active" || user?.subscription_status === "trialing") && !user?.cancel_at_period_end && (
+                  {(user?.subscription_status === "active" || user?.subscription_status === "trialing") && !user?.cancel_at_period_end && !user?.lifetime_access && (
                     <Button size="sm" variant="outline" onClick={handleCancel} disabled={canceling} className="gap-1.5 shrink-0">
                       {canceling ? <Zap className="h-3.5 w-3.5 animate-pulse" /> : null}
                       {user?.subscription_status === "trialing" ? "Cancel trial (pay nothing)" : "Cancel plan"}
@@ -168,7 +170,7 @@ export default function Pricing() {
             </div>
           )}
 
-          <p className="text-xs text-primary font-bold tracking-wider uppercase text-center pb-2">Early Bird Special · sale prices locked in while you stay subscribed</p>
+          <p className="text-xs text-primary font-bold tracking-wider uppercase text-center pb-2">Early Bird Special · $37 for lifetime Digital Manager access, while it lasts</p>
 
           <PlanCards />
         </div>
@@ -191,7 +193,7 @@ export default function Pricing() {
                 <p className="text-xs text-muted-foreground">A traditional manager's typical commission on your earnings</p>
               </div>
               <div className="space-y-1">
-                <p className="font-heading text-2xl font-black text-primary">$24.99 flat</p>
+                <p className="font-heading text-2xl font-black text-primary">$37 once</p>
                 <p className="text-xs text-muted-foreground">SAM: pitches and outreach every week, zero cuts</p>
               </div>
             </div>

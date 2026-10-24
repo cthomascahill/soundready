@@ -31,7 +31,7 @@ const TIERS = [
     id: "ai",
     label: "Digital Manager",
     badge: "bg-purple-500/15 text-purple-400 border-purple-500/25",
-    blurb: "Sam works for you: research, drafts, contracts and outreach, $24.99/mo early bird.",
+    blurb: "Sam works for you: research, drafts, contracts and outreach, $37 lifetime early bird.",
     icon: Bot,
   },
 ];

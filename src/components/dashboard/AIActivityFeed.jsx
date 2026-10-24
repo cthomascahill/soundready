@@ -380,7 +380,7 @@ export default function AIActivityFeed({ user }) {
               </p>
               <Link to="/pricing-account">
                 <Button size="sm" className="gap-2 font-semibold">
-                  <Zap className="h-3.5 w-3.5" />Upgrade to Digital Manager · <span className="line-through opacity-60">$89</span> $24.99/mo
+                  <Zap className="h-3.5 w-3.5" />Upgrade to Digital Manager · <span className="line-through opacity-60">$89/mo</span> $37 lifetime
                 </Button>
               </Link>
             </div>

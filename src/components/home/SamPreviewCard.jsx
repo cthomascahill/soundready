@@ -68,7 +68,7 @@ export default function SamPreviewCard({ artist }) {
                 Get your next moves with SAM <ArrowRight className="h-3.5 w-3.5" />
               </Link>
             </Button>
-            <p className="text-xs text-muted-foreground">$24.99/month early bird price · Cancel anytime</p>
+            <p className="text-xs text-muted-foreground">$37 lifetime early bird · One payment, Sam for life</p>
           </div>
         </div>
       </div>

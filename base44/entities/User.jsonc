@@ -96,6 +96,11 @@
       "type": "boolean",
       "default": false,
       "description": "Whether the subscription is set to cancel at period end"
+    },
+    "lifetime_access": {
+      "type": "boolean",
+      "default": false,
+      "description": "Whether this account bought Digital Manager lifetime access with the one-time early bird purchase"
     }
   },
   "required": [

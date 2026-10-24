@@ -91,8 +91,37 @@ export default async function(req) {
       return Response.json({ url: session.url });
     }
 
+    // ── Start the $37 one-time Digital Manager lifetime checkout ───────────
+    if (action === 'create_lifetime_checkout') {
+      const priceData = await stripeRequest('GET', '/prices?lookup_keys[]=ai_manager_lifetime_v1&active=true&limit=1');
+      const priceId = priceData.data?.[0]?.id;
+      if (!priceId) return Response.json({ error: 'Lifetime price not found (ai_manager_lifetime_v1)' }, { status: 500 });
+
+      let appUrl = body.app_url || 'https://soundready.base44.app';
+      if (!/^https?:\/\//.test(appUrl)) appUrl = 'https://soundready.base44.app';
+
+      const appId = secrets.get('BASE44_APP_ID') || '';
+      const session = await stripeRequest('POST', '/checkout/sessions', {
+        mode: 'payment',
+        'line_items[0][price]': priceId,
+        'line_items[0][quantity]': '1',
+        customer_email: user.email,
+        client_reference_id: user.id,
+        success_url: `${appUrl}/checkout/success?tier=ai_manager&lifetime=1`,
+        cancel_url: `${appUrl}/checkout/digital-manager-lifetime?cancelled=1`,
+        'metadata[base44_app_id]': appId,
+        'metadata[user_id]': user.id,
+        'metadata[tier]': 'ai_manager',
+        'metadata[lifetime]': '1',
+      });
+      console.log(`stripeCheckout: lifetime session created for user ${user.id} (price: ${priceId})`);
+      return Response.json({ url: session.url });
+    }
+
     // ── Cancel subscription at period end (during trial: no charge) ────────
     if (action === 'cancel') {
+      // Lifetime buyers keep access forever: there is nothing to cancel.
+      if (user.lifetime_access) return Response.json({ success: true, lifetime: true });
       const subId = user.stripe_subscription_id;
       if (!subId) {
         // No Stripe subscription exists behind this account (the plan was
