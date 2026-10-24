@@ -34,7 +34,7 @@ export default function CheckoutButton({ tier, interval, children, className = "
       const res = await base44.functions.invoke("stripeCheckout", {
         action:
           tier === "sam_extra_usage" ? "create_usage_checkout"
-          : tier === "ai_manager_lifetime" ? "create_lifetime_checkout"
+          : tier === "ai_manager_lifetime" || tier === "pro_lifetime" ? "create_lifetime_checkout"
           : "create_checkout",
         tier,
         interval,

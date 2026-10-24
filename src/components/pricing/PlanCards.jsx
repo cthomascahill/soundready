@@ -83,31 +83,36 @@ export default function PlanCards() {
         <motion.div initial={{ opacity: 0, y: 24 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: 0.06 }}
         className="relative h-full rounded-2xl border border-chart-5/20 bg-card p-6 flex flex-col ring-2 ring-chart-5/40 shadow-xl">
         <div className="absolute -top-3 left-1/2 -translate-x-1/2 px-3 py-1 rounded-full text-xs font-bold whitespace-nowrap bg-chart-5 text-black">
-          Early Bird Special
+          Early Bird Special · Lifetime Access
         </div>
         <div className="h-11 w-11 rounded-xl bg-chart-5/10 border border-chart-5/20 flex items-center justify-center mb-4">
           <Users className="h-5 w-5 text-chart-5" />
         </div>
         <p className="font-heading font-black text-2xl">Artist Pro</p>
         <p className="text-sm font-semibold mt-0.5 mb-2 text-chart-5">Workspace tools. SAM not included.</p>
-        <p className="text-2xl font-black mb-1">
-          <span className="text-sm text-muted-foreground line-through font-semibold mr-1.5">$49</span>
-          $9.99<span className="text-sm text-muted-foreground font-medium">/month</span>
-        </p>
-        <p className="text-xs font-semibold text-primary mb-1">Early Bird Special · on sale from $49/month</p>
-        <p className="text-sm font-semibold text-chart-5 mb-3">$9.99/month while subscribed</p>
+        <div className="mb-3 flex items-baseline gap-2 flex-wrap">
+          <span className="text-base text-red-400 line-through font-semibold">$49/mo</span>
+          <p className="text-2xl font-black">$25<span className="text-sm text-muted-foreground font-medium"> once</span></p>
+          <span className="px-2 py-0.5 rounded-full bg-chart-5/15 text-chart-5 text-[10px] font-bold uppercase tracking-wide">Early Bird Special · Lifetime access, one payment</span>
+        </div>
+        <p className="text-sm font-semibold text-chart-5 mb-3">Lifetime access. No subscription, ever.</p>
         <p className="text-sm text-muted-foreground leading-relaxed mb-5">
           Your full music workspace: press kit, analytics, tour opportunities, career roadmap, The Wall, Music News, and more.
         </p>
         <div className="flex-1">
           <TierList items={CARD_PRO_ITEMS} check="text-chart-5" />
         </div>
-        <div className="mt-6">
-          <Link to="/checkout/artist-pro">
-            <Button className="w-full font-semibold bg-chart-5 hover:bg-chart-5/90 text-black">Start Artist Pro</Button>
+        <div className="mt-6 relative">
+          <Link to="/checkout/artist-pro-lifetime">
+            <Button className="w-full font-semibold bg-chart-5 hover:bg-chart-5/90 text-black">Get Lifetime Access · $25</Button>
           </Link>
+          <p className="text-center mt-2">
+            <Link to="/checkout/artist-pro" className="text-xs text-muted-foreground hover:text-foreground transition-colors underline underline-offset-2">
+              Prefer monthly? $9.99/mo subscription
+            </Link>
+          </p>
         </div>
-        <p className="text-center text-xs text-muted-foreground mt-2">Card required. $9.99/month. Early bird, on sale from $49/month.</p>
+        <p className="text-center text-xs text-muted-foreground mt-2">One-time payment. No percentage cuts, ever.</p>
       </motion.div>
       </div>
 
@@ -136,7 +141,7 @@ export default function PlanCards() {
         <p className="font-heading font-black text-2xl">Digital Manager</p>
         <p className="text-sm font-semibold mt-0.5 mb-2 text-primary">A team behind your releases.</p>
         <div className="mb-3 flex items-baseline gap-2 flex-wrap">
-          <span className="text-base text-muted-foreground line-through font-semibold">$89/mo</span>
+          <span className="text-base text-red-400 line-through font-semibold">$89/mo</span>
           <p className="text-2xl font-black">$37<span className="text-sm text-muted-foreground font-medium"> once</span></p>
           <span className="px-2 py-0.5 rounded-full bg-primary/15 text-primary text-[10px] font-bold uppercase tracking-wide">Early Bird Special · Lifetime access, one payment</span>
         </div>

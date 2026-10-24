@@ -19,7 +19,7 @@ import PlanCards from "@/components/pricing/PlanCards";
 const FAQ = [
   {
     q: "How does Artist Pro billing work?",
-    a: "Start Artist Pro with a card on file and your plan begins right away at $9.99/month, the early bird price (on sale from $49/month). Cancel anytime. The Free plan never asks for a card.",
+    a: "Get Artist Pro for $25 once during the early bird and it is yours for life, one payment, no subscription. Prefer a subscription? Start with a card on file at $9.99/month, the early bird price (on sale from $49/month), cancel anytime. The Free plan never asks for a card.",
   },
   {
     q: "What exactly does SAM do?",
@@ -35,7 +35,7 @@ const FAQ = [
   },
   {
     q: "Which plan do I actually need?",
-    a: "Free keeps your music organized forever, no card needed, and it starts with the free Release Starter Kit in your welcome email: the Spotify editorial playlist pitch template, the same exact template used to get on thousands of Spotify editorial playlists, a filled-in example, a week-by-week release timeline and the metadata checklist most artists miss. Artist Pro adds the full career toolkit: unlimited Vault, release planning, playlist discovery, venues, touring and team tools, $9.99/month. Digital Manager adds SAM on top of all of that: $37 once for lifetime access during the early bird, or $24.99/month if you prefer a subscription.",
+    a: "Free keeps your music organized forever, no card needed, and it starts with the free Release Starter Kit in your welcome email: the Spotify editorial playlist pitch template, the same exact template used to get on thousands of Spotify editorial playlists, a filled-in example, a week-by-week release timeline and the metadata checklist most artists miss. Artist Pro adds the full career toolkit: unlimited Vault, release planning, playlist discovery, venues, touring and team tools: $25 once for lifetime access during the early bird, or $9.99/month if you prefer a subscription. Digital Manager adds SAM on top of all of that: $37 once for lifetime access during the early bird, or $24.99/month if you prefer a subscription.",
   },
   {
     q: "What happens when I cancel?",
@@ -43,7 +43,7 @@ const FAQ = [
   },
   {
     q: "Is the early bird price really locked forever?",
-    a: "Yes. Join during the early bird and your $9.99/month Artist Pro price stays locked for as long as you stay subscribed, even after the sale ends and regular prices return. The Digital Manager early bird is even simpler: $37 once, and it is yours for life. Cancel a subscription and return later, and the then-current price applies.",
+    a: "Yes. Join during the early bird and your prices stay locked, even after the sale ends and regular prices return. Artist Pro is $25 once for lifetime access, or $9.99/month locked while you stay subscribed. The Digital Manager early bird is even simpler: $37 once, and it is yours for life. Cancel a subscription and return later, and the then-current price applies.",
   },
   {
     q: "Is my music private?",
@@ -89,7 +89,7 @@ export default function Pricing() {
     <div className="min-h-screen bg-background font-body">
       <SEO
         title="SoundReady Pricing"
-        description="Start free with 3 songs. Artist Pro unlocks the full toolkit for $9.99/mo early bird, on sale from $49/mo. Digital Manager: $37 once for lifetime access with SAM, on sale from $89/mo. No percentage cuts, ever."
+        description="Start free with 3 songs. Artist Pro unlocks the full toolkit: $25 once for lifetime access during the early bird, or $9.99/mo. Digital Manager: $37 once for lifetime access with SAM, on sale from $89/mo. No percentage cuts, ever."
       />
 
       <PublicNav />

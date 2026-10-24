@@ -104,6 +104,16 @@ export default function CheckoutSuccess() {
           "Everything in Artist Pro, unlocked.",
         ],
       }
+    : lifetime && purchase === "pro"
+    ? {
+        ...CONTENT.pro,
+        plan: "Artist Pro · Lifetime",
+        title: "You're in. Artist Pro is unlocked for life.",
+        highlights: [
+          "Lifetime access to Artist Pro: one payment, no subscription, ever.",
+          ...CONTENT.pro.highlights,
+        ],
+      }
     : CONTENT[purchase];
   const activated = reached(purchase, tier);
 

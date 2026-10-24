@@ -91,11 +91,13 @@ export default async function(req) {
       return Response.json({ url: session.url });
     }
 
-    // ── Start the $37 one-time Digital Manager lifetime checkout ───────────
+    // ── Start a one-time lifetime checkout ($37 Digital Manager, $25 Artist Pro)
     if (action === 'create_lifetime_checkout') {
-      const priceData = await stripeRequest('GET', '/prices?lookup_keys[]=ai_manager_lifetime_v1&active=true&limit=1');
+      const which = body.tier === 'pro_lifetime' ? 'pro' : 'ai_manager';
+      const lookupKey = which === 'pro' ? 'artist_pro_lifetime_v1' : 'ai_manager_lifetime_v1';
+      const priceData = await stripeRequest('GET', `/prices?lookup_keys[]=${lookupKey}&active=true&limit=1`);
       const priceId = priceData.data?.[0]?.id;
-      if (!priceId) return Response.json({ error: 'Lifetime price not found (ai_manager_lifetime_v1)' }, { status: 500 });
+      if (!priceId) return Response.json({ error: `Lifetime price not found (${lookupKey})` }, { status: 500 });
 
       let appUrl = body.app_url || 'https://soundready.base44.app';
       if (!/^https?:\/\//.test(appUrl)) appUrl = 'https://soundready.base44.app';
@@ -107,11 +109,11 @@ export default async function(req) {
         'line_items[0][quantity]': '1',
         customer_email: user.email,
         client_reference_id: user.id,
-        success_url: `${appUrl}/checkout/success?tier=ai_manager&lifetime=1`,
-        cancel_url: `${appUrl}/checkout/digital-manager-lifetime?cancelled=1`,
+        success_url: `${appUrl}/checkout/success?tier=${which}&lifetime=1`,
+        cancel_url: `${appUrl}/checkout/${which === 'pro' ? 'artist-pro-lifetime' : 'digital-manager-lifetime'}?cancelled=1`,
         'metadata[base44_app_id]': appId,
         'metadata[user_id]': user.id,
-        'metadata[tier]': 'ai_manager',
+        'metadata[tier]': which,
         'metadata[lifetime]': '1',
       });
       console.log(`stripeCheckout: lifetime session created for user ${user.id} (price: ${priceId})`);

@@ -58,10 +58,11 @@ export default async function(req) {
         return Response.json({ received: true });
       }
 
-      // One-time Digital Manager lifetime purchase — grant access forever.
+      // One-time lifetime purchase (Artist Pro or Digital Manager) — grant access forever.
       if (session.metadata?.lifetime === '1') {
         const lifetimeUserId = session.metadata?.user_id || session.client_reference_id;
         if (!lifetimeUserId) throw new Error('lifetime checkout: no user_id in metadata');
+        const lifetimeTier = session.metadata?.tier === 'pro' ? 'pro' : 'ai_manager';
 
         // If they were paying monthly, stop that subscription; lifetime replaces it.
         try {
@@ -85,7 +86,7 @@ export default async function(req) {
         }
 
         await base44.asServiceRole.entities.User.update(lifetimeUserId, {
-          subscription_tier: 'ai_manager',
+          subscription_tier: lifetimeTier,
           subscription_status: 'active',
           trial_ends_at: null,
           stripe_customer_id: session.customer || null,
@@ -125,6 +126,12 @@ export default async function(req) {
         update.trial_ends_at = new Date(sub.trial_end * 1000).toISOString();
       }
       if (sub.status === 'canceled') {
+        // Lifetime buyers keep access even when a replaced monthly plan lapses.
+        const existing = await base44.asServiceRole.entities.User.filter({ id: userId }, '', 1);
+        if (existing[0]?.lifetime_access) {
+          console.log(`stripeWebhook: skipped downgrade for lifetime user ${userId}`);
+          return Response.json({ received: true });
+        }
         update.subscription_tier = 'free';
         update.stripe_subscription_id = null;
       }
@@ -136,6 +143,11 @@ export default async function(req) {
       const sub = event.data.object;
       const userId = sub.metadata?.user_id;
       if (!userId) return Response.json({ received: true });
+      const existing = await base44.asServiceRole.entities.User.filter({ id: userId }, '', 1);
+      if (existing[0]?.lifetime_access) {
+        console.log(`stripeWebhook: skipped downgrade for lifetime user ${userId}`);
+        return Response.json({ received: true });
+      }
       await base44.asServiceRole.entities.User.update(userId, {
         subscription_tier: 'free',
         subscription_status: 'canceled',
