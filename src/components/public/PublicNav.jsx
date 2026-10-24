@@ -24,7 +24,7 @@ export default function PublicNav({ showHome = true }) {
       <span className="text-[10px] font-bold tracking-widest text-muted-foreground">EARLY BIRD SPECIAL · LIFETIME ACCESS</span>
       <span className="font-extrabold text-lg">
         <span className="text-primary">$37 ONE TIME PAYMENT</span>{" "}
-        <span className="font-semibold text-sm text-red-400 line-through">vs $89/month</span>
+        <span className="font-semibold text-sm text-red-400">vs <span className="line-through">$89/month</span></span>
       </span>
     </span>
   );
