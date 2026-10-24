@@ -92,9 +92,9 @@ export default function PlanCards() {
         <p className="text-sm font-semibold mt-0.5 mb-2 text-chart-5">Workspace tools. SAM not included.</p>
         <div className="mb-3 flex items-baseline gap-2 flex-wrap">
           <span className="text-base text-red-400 line-through font-semibold">$49/mo</span>
-          <p className="text-2xl font-black">$25<span className="text-sm text-muted-foreground font-medium"> one-time payment</span></p>
+          <p className="text-2xl font-black">$25<span className="text-sm text-muted-foreground font-medium"> one time payment</span></p>
         </div>
-        <p className="text-sm font-bold uppercase tracking-wide text-chart-5">Early Bird Special</p>
+        <p className="text-sm font-bold uppercase tracking-wide text-foreground">Early Bird Special</p>
         <p className="text-sm font-semibold text-chart-5 mb-3">Lifetime access. No subscription, ever.</p>
         <p className="text-sm text-muted-foreground leading-relaxed mb-5">
           Your full music workspace: press kit, analytics, tour opportunities, career roadmap, The Wall, Music News, and more.
@@ -142,9 +142,9 @@ export default function PlanCards() {
         <p className="text-sm font-semibold mt-0.5 mb-2 text-primary">A team behind your releases.</p>
         <div className="mb-3 flex items-baseline gap-2 flex-wrap">
           <span className="text-base text-red-400 line-through font-semibold">$89/mo</span>
-          <p className="text-2xl font-black">$37<span className="text-sm text-muted-foreground font-medium"> one-time payment</span></p>
+          <p className="text-2xl font-black">$37<span className="text-sm text-muted-foreground font-medium"> one time payment</span></p>
         </div>
-        <p className="text-sm font-bold uppercase tracking-wide text-primary">Early Bird Special</p>
+        <p className="text-sm font-bold uppercase tracking-wide text-foreground">Early Bird Special</p>
         <p className="text-sm font-semibold text-primary mb-3">Sam for life. No subscription, ever.</p>
         <p className="text-sm text-muted-foreground leading-relaxed mb-5">
           Your full workspace, plus SAM, your digital artist manager. SAM researches your opportunities, writes your pitches, and tracks your outreach. You approve every send.
