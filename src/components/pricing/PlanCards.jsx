@@ -92,8 +92,8 @@ export default function PlanCards() {
         <p className="text-sm font-semibold mt-0.5 mb-2 text-chart-5">Workspace tools. SAM not included.</p>
         <div className="mb-3 flex items-baseline gap-2 flex-wrap">
           <span className="text-base text-red-400 line-through font-semibold">$49/mo</span>
-          <p className="text-2xl font-black">$25<span className="text-sm text-muted-foreground font-medium"> once</span></p>
-          <span className="px-2 py-0.5 rounded-full bg-chart-5/15 text-chart-5 text-[10px] font-bold uppercase tracking-wide">Early Bird Special · Lifetime access, one payment</span>
+          <p className="text-2xl font-black">$25<span className="text-sm text-muted-foreground font-medium"> one-time payment</span></p>
+          <span className="px-2 py-0.5 rounded-full bg-chart-5/15 text-chart-5 text-[10px] font-bold uppercase tracking-wide">Early Bird Special · Lifetime access, one-time payment</span>
         </div>
         <p className="text-sm font-semibold text-chart-5 mb-3">Lifetime access. No subscription, ever.</p>
         <p className="text-sm text-muted-foreground leading-relaxed mb-5">
@@ -142,8 +142,8 @@ export default function PlanCards() {
         <p className="text-sm font-semibold mt-0.5 mb-2 text-primary">A team behind your releases.</p>
         <div className="mb-3 flex items-baseline gap-2 flex-wrap">
           <span className="text-base text-red-400 line-through font-semibold">$89/mo</span>
-          <p className="text-2xl font-black">$37<span className="text-sm text-muted-foreground font-medium"> once</span></p>
-          <span className="px-2 py-0.5 rounded-full bg-primary/15 text-primary text-[10px] font-bold uppercase tracking-wide">Early Bird Special · Lifetime access, one payment</span>
+          <p className="text-2xl font-black">$37<span className="text-sm text-muted-foreground font-medium"> one-time payment</span></p>
+          <span className="px-2 py-0.5 rounded-full bg-primary/15 text-primary text-[10px] font-bold uppercase tracking-wide">Early Bird Special · Lifetime access, one-time payment</span>
         </div>
         <p className="text-sm font-semibold text-primary mb-3">Sam for life. No subscription, ever.</p>
         <p className="text-sm text-muted-foreground leading-relaxed mb-5">
