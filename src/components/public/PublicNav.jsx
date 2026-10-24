@@ -20,17 +20,11 @@ export default function PublicNav({ showHome = true }) {
     }`;
 
   const earlyBirdText = (
-    <span className="inline-flex items-center gap-2 text-center">
-      <span className="relative flex h-2.5 w-2.5 shrink-0">
-        <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary opacity-75" />
-        <span className="relative inline-flex h-2.5 w-2.5 rounded-full bg-primary" />
-      </span>
-      <span className="flex flex-col leading-tight">
-        <span className="text-[10px] font-bold tracking-widest text-muted-foreground">EARLY BIRD SPECIAL · LIFETIME ACCESS</span>
-        <span className="font-extrabold text-lg">
-          <span className="text-primary">$37 ONE TIME PAYMENT</span>{" "}
-          <span className="font-semibold text-sm text-red-400 line-through">vs $89/month</span>
-        </span>
+    <span className="flex flex-col leading-tight text-center">
+      <span className="text-[10px] font-bold tracking-widest text-muted-foreground">EARLY BIRD SPECIAL · LIFETIME ACCESS</span>
+      <span className="font-extrabold text-lg">
+        <span className="text-primary">$37 ONE TIME PAYMENT</span>{" "}
+        <span className="font-semibold text-sm text-red-400 line-through">vs $89/month</span>
       </span>
     </span>
   );
@@ -82,7 +76,7 @@ export default function PublicNav({ showHome = true }) {
         <div className="lg:hidden pb-2 flex justify-center">
           <Link
             to="/pricing"
-            className="text-center text-sm font-extrabold tracking-wide text-foreground hover:opacity-80 transition-opacity"
+            className="text-center text-base font-extrabold tracking-wide text-foreground hover:opacity-80 transition-opacity"
           >
             {earlyBirdText}
           </Link>
