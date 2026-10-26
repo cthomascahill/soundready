@@ -16,7 +16,7 @@ const NAV_SECTIONS = (isAdmin) => [
     id: "home",
     label: "Home",
     items: [
-      { to: "/", icon: Home, label: "Home" },
+      { to: "/home", icon: Home, label: "Home" },
       { to: "/tools", icon: LayoutGrid, label: "Tool Library" },
       { to: "/storage", icon: FolderOpen, label: "Storage" },
       ...(isAdmin ? [{ to: "/buyout-leads", icon: Building2, label: "Buyout Leads" }] : []),
