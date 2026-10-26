@@ -17,6 +17,7 @@ const BLOCKS = [
       ["Vault", "/history"],
       ["Tracker", "/song-tracker"],
       ["Artist Profile", "/artist-profile"],
+      ["Storage", "/storage"],
     ],
   },
   {
@@ -54,6 +55,7 @@ const BLOCKS = [
     links: [
       ["Your Plan", "/pricing-account"],
       ["Profile", "/profile"],
+      ["All Tools", "/tools"],
     ],
   },
 ];

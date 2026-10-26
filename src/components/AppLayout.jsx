@@ -83,7 +83,7 @@ export default function AppLayout() {
         {/* Desktop sidebar */}
         <aside className="hidden lg:flex flex-col w-60 shrink-0 border-r border-sidebar-border bg-sidebar sticky top-0 h-screen">
           <div className="h-14 flex items-center px-5 border-b border-border">
-            <Link to="/history"><SoundReadyLogo size={28} /></Link>
+            <Link to="/home"><SoundReadyLogo size={28} /></Link>
           </div>
           <div className="px-4 py-3 border-b border-border">
             <WorkspaceToggle mode="workspace" />

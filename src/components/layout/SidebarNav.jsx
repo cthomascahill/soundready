@@ -13,22 +13,13 @@ import {
 
 const NAV_SECTIONS = (isAdmin) => [
   {
-    id: "home",
-    label: "Home",
-    items: [
-      { to: "/home", icon: Home, label: "Home" },
-      { to: "/tools", icon: LayoutGrid, label: "Tool Library" },
-      { to: "/storage", icon: FolderOpen, label: "Storage" },
-      ...(isAdmin ? [{ to: "/buyout-leads", icon: Building2, label: "Buyout Leads" }] : []),
-    ],
-  },
-  {
     id: "music",
     label: "Music",
     items: [
       { to: "/history", icon: Music2, label: "Vault" },
       { to: "/song-tracker", icon: ListChecks, label: "Tracker" },
       { to: "/artist-profile", icon: Mic, label: "Artist Profile" },
+      { to: "/storage", icon: FolderOpen, label: "Storage" },
     ],
   },
   {
@@ -63,12 +54,13 @@ const NAV_SECTIONS = (isAdmin) => [
     items: [
       { to: "/pricing-account", icon: CreditCard, label: "Your Plan" },
       { to: "/profile", icon: UserCircle, label: "Profile" },
+      { to: "/tools", icon: LayoutGrid, label: "All Tools" },
+      ...(isAdmin ? [{ to: "/buyout-leads", icon: Building2, label: "Buyout Leads" }] : []),
     ],
   },
 ];
 
 const GROUP_ICONS = {
-  home: LayoutGrid,
   music: Music2,
   career: Map,
   "ai-manager": Bot,
@@ -93,6 +85,7 @@ const AI_ONLY = new Set([
 
 const isItemActive = (to, activePath) =>
   activePath === to ||
+  activePath.startsWith(to + "/") ||
   (to === "/history" && activePath.startsWith("/music"));
 
 export default function SidebarNav({ activePath, onNavigate }) {
@@ -121,6 +114,20 @@ export default function SidebarNav({ activePath, onNavigate }) {
 
   return (
     <div className="flex-1 overflow-y-auto px-3 py-4 space-y-1.5">
+      {/* Home: the four-section hub, always one tap away */}
+      <Link
+        to="/home"
+        onClick={onNavigate}
+        className={`flex w-full items-center gap-3 px-3 py-2 rounded-lg text-sm font-semibold tracking-wide transition-colors ${
+          activePath === "/home"
+            ? "text-primary bg-primary/10"
+            : "text-muted-foreground hover:text-foreground hover:bg-secondary"
+        }`}
+      >
+        <Home className="h-4 w-4 shrink-0" />
+        <span className="flex-1 text-left">{t("Home")}</span>
+      </Link>
+
       {sections.map((section) => {
         const GroupIcon = GROUP_ICONS[section.id] || Home;
         const open = !!openSections[section.id];
