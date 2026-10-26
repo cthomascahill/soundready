@@ -40,6 +40,7 @@ const NAV_SECTIONS = (isAdmin) => [
       { to: "/release-kit", icon: ClipboardCheck, label: "Release Kit" },
       { to: "/release-plan", icon: Calendar, label: "Release Plan" },
       { to: "/legal", icon: Scale, label: "Contracts" },
+      { to: "/team-chat", icon: Users, label: "Team Chat" },
     ],
   },
   {
@@ -57,13 +58,6 @@ const NAV_SECTIONS = (isAdmin) => [
     ],
   },
   {
-    id: "team",
-    label: "Team",
-    items: [
-      { to: "/team-chat", icon: Users, label: "Team Chat" },
-    ],
-  },
-  {
     id: "account",
     label: "Account",
     items: [
@@ -78,7 +72,6 @@ const GROUP_ICONS = {
   music: Music2,
   career: Map,
   "ai-manager": Bot,
-  team: Users,
   account: UserCircle,
 };
 
