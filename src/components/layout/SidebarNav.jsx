@@ -13,16 +13,6 @@ import {
 
 const NAV_SECTIONS = (isAdmin) => [
   {
-    id: "music",
-    label: "Music",
-    items: [
-      { to: "/history", icon: Music2, label: "Vault" },
-      { to: "/song-tracker", icon: ListChecks, label: "Tracker" },
-      { to: "/artist-profile", icon: Mic, label: "Artist Profile" },
-      { to: "/storage", icon: FolderOpen, label: "Storage" },
-    ],
-  },
-  {
     id: "career",
     label: "Career",
     items: [
@@ -32,6 +22,16 @@ const NAV_SECTIONS = (isAdmin) => [
       { to: "/release-plan", icon: Calendar, label: "Release Plan" },
       { to: "/legal", icon: Scale, label: "Contracts" },
       { to: "/team-chat", icon: Users, label: "Team Chat" },
+    ],
+  },
+  {
+    id: "music",
+    label: "Music",
+    items: [
+      { to: "/history", icon: Music2, label: "Vault" },
+      { to: "/song-tracker", icon: ListChecks, label: "Tracker" },
+      { to: "/artist-profile", icon: Mic, label: "Artist Profile" },
+      { to: "/storage", icon: FolderOpen, label: "Storage" },
     ],
   },
   {
@@ -118,13 +118,13 @@ export default function SidebarNav({ activePath, onNavigate }) {
       <Link
         to="/home"
         onClick={onNavigate}
-        className={`flex w-full items-center gap-3 px-3 py-2 rounded-lg text-sm font-semibold tracking-wide transition-colors ${
+        className={`flex w-full items-center gap-3 px-3 py-2.5 rounded-lg text-base font-bold tracking-wide transition-colors ${
           activePath === "/home"
             ? "text-primary bg-primary/10"
-            : "text-muted-foreground hover:text-foreground hover:bg-secondary"
+            : "text-foreground hover:bg-secondary"
         }`}
       >
-        <Home className="h-4 w-4 shrink-0" />
+        <Home className="h-5 w-5 shrink-0" />
         <span className="flex-1 text-left">{t("Home")}</span>
       </Link>
 
@@ -137,13 +137,13 @@ export default function SidebarNav({ activePath, onNavigate }) {
           <div key={section.id}>
             <button
               onClick={() => toggleSection(section.id)}
-              className={`flex w-full items-center gap-3 px-3 py-2 rounded-lg text-sm font-semibold tracking-wide transition-colors ${
+              className={`flex w-full items-center gap-3 px-3 py-2.5 rounded-lg text-base font-bold tracking-wide transition-colors ${
                 groupActive
                   ? "text-primary bg-primary/10"
-                  : "text-muted-foreground hover:text-foreground hover:bg-secondary"
+                  : "text-foreground hover:bg-secondary"
               }`}
             >
-              <GroupIcon className="h-4 w-4 shrink-0" />
+              <GroupIcon className="h-5 w-5 shrink-0" />
               <span className="flex-1 text-left">{t(section.label)}</span>
               <ChevronDown
                 className={`h-3.5 w-3.5 shrink-0 text-muted-foreground transition-transform ${open ? "rotate-180" : ""}`}

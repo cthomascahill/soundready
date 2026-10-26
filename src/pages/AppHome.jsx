@@ -8,19 +8,6 @@ import { useLang } from "@/lib/i18n/LanguageContext";
 // its section's main page, with the section's tools one tap below.
 const BLOCKS = [
   {
-    icon: Music2,
-    title: "Music",
-    desc: "Your songs, versions and releases",
-    to: "/history",
-    tone: "bg-primary/10 border-primary/25 text-primary",
-    links: [
-      ["Vault", "/history"],
-      ["Tracker", "/song-tracker"],
-      ["Artist Profile", "/artist-profile"],
-      ["Storage", "/storage"],
-    ],
-  },
-  {
     icon: Map,
     title: "Career",
     desc: "Roadmaps, releases, contracts and your team",
@@ -31,6 +18,19 @@ const BLOCKS = [
       ["Release Kit", "/release-kit"],
       ["Release Plan", "/release-plan"],
       ["Team Chat", "/team-chat"],
+    ],
+  },
+  {
+    icon: Music2,
+    title: "Music",
+    desc: "Your songs, versions and releases",
+    to: "/history",
+    tone: "bg-primary/10 border-primary/25 text-primary",
+    links: [
+      ["Vault", "/history"],
+      ["Tracker", "/song-tracker"],
+      ["Artist Profile", "/artist-profile"],
+      ["Storage", "/storage"],
     ],
   },
   {

@@ -4,7 +4,6 @@ import { useAuth } from "@/lib/AuthContext";
 import { Search, Menu, X, GraduationCap } from "lucide-react";
 import SoundReadyLogo from "@/components/SoundReadyLogo";
 import SidebarNav from "@/components/layout/SidebarNav";
-import WorkspaceToggle from "@/components/asksam/WorkspaceToggle";
 import CommandPalette from "@/components/CommandPalette";
 import NotificationCenter from "@/components/NotificationCenter";
 import MayaAssistant from "@/components/MayaAssistant";
@@ -85,9 +84,6 @@ export default function AppLayout() {
           <div className="h-14 flex items-center px-5 border-b border-border">
             <Link to="/home"><SoundReadyLogo size={28} /></Link>
           </div>
-          <div className="px-4 py-3 border-b border-border">
-            <WorkspaceToggle mode="workspace" />
-          </div>
           <SidebarNav activePath={location.pathname} />
           <PreviewTierSwitcher />
           <div className="border-t border-border p-3 space-y-1">
@@ -118,9 +114,6 @@ export default function AppLayout() {
                   className="h-9 w-9 rounded-lg flex items-center justify-center text-muted-foreground hover:text-foreground hover:bg-secondary transition-colors">
                   <X className="h-5 w-5" />
                 </button>
-              </div>
-              <div className="px-4 py-3 border-b border-border">
-                <WorkspaceToggle mode="workspace" />
               </div>
               <SidebarNav activePath={location.pathname} onNavigate={closeDrawer} />
               <div className="border-t border-border p-3 space-y-1">

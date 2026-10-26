@@ -13,6 +13,7 @@ export default function GuidedTour({ open, onClose }) {
   const navigate = useNavigate();
   const location = useLocation();
   const [index, setIndex] = useState(0);
+  const [spotRect, setSpotRect] = useState(null);
   const startPathRef = useRef(null);
 
   useEffect(() => {
@@ -27,6 +28,38 @@ export default function GuidedTour({ open, onClose }) {
     const route = TOUR_STEPS[index]?.route;
     if (route && location.pathname !== route) navigate(route);
   }, [open, index]);
+
+  // Spotlight: measure the step's target (the page's main content by
+  // default, or the step's own selector) so the tour can dim everything
+  // around it and show exactly what the step is talking about.
+  useEffect(() => {
+    if (!open) return undefined;
+    const selector = TOUR_STEPS[index]?.highlight || "main";
+    let attempts = 0;
+    let timer = null;
+    const measure = () => {
+      const el = document.querySelector(selector);
+      if (!el) return false;
+      const r = el.getBoundingClientRect();
+      setSpotRect({ top: r.top, left: r.left, width: r.width, height: r.height });
+      return true;
+    };
+    // The step's page may render a beat after the navigation lands
+    if (!measure()) {
+      timer = setInterval(() => {
+        attempts += 1;
+        if (measure() || attempts > 20) clearInterval(timer);
+      }, 150);
+    }
+    // Keep the spotlight glued to its target through resizes and scrolls
+    window.addEventListener("resize", measure);
+    window.addEventListener("scroll", measure, true);
+    return () => {
+      if (timer) clearInterval(timer);
+      window.removeEventListener("resize", measure);
+      window.removeEventListener("scroll", measure, true);
+    };
+  }, [open, index, location.pathname]);
 
   if (!open) return null;
 
@@ -43,7 +76,25 @@ export default function GuidedTour({ open, onClose }) {
   };
 
   return (
-    <div className="fixed bottom-20 sm:bottom-6 left-1/2 -translate-x-1/2 z-[60] w-[min(94vw,760px)]">
+    <>
+      {/* Spotlight: everything outside the target dims to gray so the
+          step's subject is the only bright thing on screen */}
+      {spotRect && (
+        <div aria-hidden className="fixed inset-0 z-[55] pointer-events-none">
+          <div
+            className="absolute rounded-2xl border-2 border-primary transition-all duration-300"
+            style={{
+              top: spotRect.top - 8,
+              left: spotRect.left - 8,
+              width: spotRect.width + 16,
+              height: spotRect.height + 16,
+              boxShadow: "0 0 0 200vmax rgba(0,0,0,0.72)",
+            }}
+          />
+        </div>
+      )}
+
+      <div className="fixed bottom-20 sm:bottom-6 left-1/2 -translate-x-1/2 z-[60] w-[min(94vw,760px)]">
       <div className="rounded-2xl border border-primary/25 bg-card shadow-2xl overflow-hidden">
         <div className="h-1.5 bg-primary/80 transition-all duration-300" style={{ width: `${((index + 1) / TOUR_STEPS.length) * 100}%` }} />
         <div className="p-6 sm:p-8">
@@ -93,6 +144,7 @@ export default function GuidedTour({ open, onClose }) {
           </div>
         </div>
       </div>
-    </div>
+      </div>
+    </>
   );
 }
