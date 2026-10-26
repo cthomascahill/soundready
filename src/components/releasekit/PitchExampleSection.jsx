@@ -23,9 +23,7 @@ export default function PitchExampleSection() {
     <section className="rounded-2xl border border-border bg-card p-5 sm:p-6 space-y-3">
       <h2 className="font-heading font-bold text-lg">A filled-in example</h2>
       <p className="text-sm text-muted-foreground leading-relaxed">
-        Same template, made specific. Real numbers, a real venue, a real date, and a reason that playlist's
-        listeners need this song. Names and details here are an example artist, but this is the level of
-        detail that gets read. It's the format that has landed songs on Spotify editorial playlists.
+        Same template, made specific. This level of detail is what gets read.
       </p>
       <pre className="rounded-xl bg-secondary/50 border border-border p-4 text-xs sm:text-sm text-foreground whitespace-pre-wrap leading-relaxed font-body">
         {EXAMPLE_PITCH}

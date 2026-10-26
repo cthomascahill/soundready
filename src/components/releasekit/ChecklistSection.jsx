@@ -11,7 +11,7 @@ export default function ChecklistSection({ items, onToggle }) {
         <div>
           <h2 className="font-heading font-bold text-lg">Release Checklist</h2>
           <p className="text-sm text-muted-foreground mt-0.5">
-            Every step of your next release, in order. Check things off as you go.
+            In order. Check things off as you go.
           </p>
         </div>
         <span className="text-sm font-bold text-primary whitespace-nowrap">

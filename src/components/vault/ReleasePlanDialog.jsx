@@ -40,7 +40,7 @@ ${details}
 
 The song is currently at the "${song.status}" stage (lifecycle in order: ${STAGE_ORDER.join(" → ")}).
 
-Write a personalized release plan telling them EXACTLY what to do next, starting from their current stage and ending with the song out on streaming platforms and promoted. Be concrete and specific to this song's genre, moods and situation, not generic advice. Each step should be an action they can actually take.
+Write a personalized release plan telling them EXACTLY what to do next, starting from their current stage. Be concrete and specific to this song's genre, moods and situation, not generic advice. Keep it scannable: at most 6 steps, each with a short action title (max 6 words) and a detail of 1-2 sentences, no filler.
 
 If the song is already "Released", focus the plan on post-release promotion and growing the song instead.`,
           response_json_schema: {
@@ -48,7 +48,7 @@ If the song is already "Released", focus the plan on post-release promotion and 
             properties: {
               summary: {
                 type: "string",
-                description: "2-3 sentence overview of where the song is and the path to release",
+                description: "One sentence: where the song is and the next move",
               },
               steps: {
                 type: "array",

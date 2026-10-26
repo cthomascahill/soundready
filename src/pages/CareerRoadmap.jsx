@@ -50,7 +50,7 @@ Artist Profile: ${profileSnippet}
 Recent Songs: ${songSnippet}
 
 Return a JSON object with:
-- summary: ONE punchy sentence, max 16 words, framing the year ahead as a win in progress
+- summary: ONE punchy sentence, max 12 words, framing the year ahead as a win in progress
 - quarters: array of 4 objects, each with:
   - label: e.g. "Q1 2026 · Spark"
   - theme: exciting quarter theme, max 4 words

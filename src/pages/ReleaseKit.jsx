@@ -51,7 +51,7 @@ export default function ReleaseKit() {
           <p className="text-xs text-primary uppercase tracking-widest font-medium">Free, forever</p>
           <h1 className="font-heading text-4xl font-bold">Release Kit</h1>
           <p className="text-muted-foreground text-sm mt-1">
-            Your next release, step by step, plus the pitch template that gets songs heard.
+            A checklist and a pitch template. That's it.
           </p>
         </div>
 

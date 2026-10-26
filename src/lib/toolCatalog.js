@@ -24,7 +24,6 @@ export const TOOL_CATEGORIES = [
       { name: "Sam's Desk", to: "/sam-desk", desc: "Sam's drafted emails, ready to approve", icon: Bot, tier: "ai" },
       { name: "EPK Builder", to: "/pitch-deck", desc: "An electronic press kit that books shows", icon: FileSignature, tier: "pro" },
       { name: "Analytics", to: "/analytics", desc: "Streams, followers and growth", icon: BarChart2, tier: "pro" },
-      { name: "Contract Analyzer", to: "/contract-analyzer", desc: "AI review of any deal you're offered", icon: Shield, tier: "ai" },
     ],
   },
 
@@ -44,6 +43,7 @@ export const TOOL_CATEGORIES = [
       { name: "Release Kit", to: "/release-kit", desc: "Free release checklist and playlist pitch template", icon: ClipboardCheck, tier: "free" },
       { name: "Release Plan", to: "/release-plan", desc: "An AI plan for your next release", icon: Calendar, tier: "pro" },
       { name: "Contracts", to: "/legal", desc: "Contract templates and guides", icon: Scale, tier: "pro" },
+      { name: "Contract Analyzer", to: "/contract-analyzer", desc: "AI review of any deal you're offered", icon: Shield, tier: "ai" },
       { name: "Artist Profile", to: "/artist-profile", desc: "Your full career intake", icon: UserCircle, tier: "free" },
       { name: "Music Academy", to: "/music-academy", desc: "Learn the business of music", icon: GraduationCap, tier: "free" },
       { name: "Music News", to: "/music-news", desc: "Daily industry briefings", icon: Newspaper, tier: "pro" },

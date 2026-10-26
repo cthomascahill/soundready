@@ -80,7 +80,7 @@ export default function PitchTemplateSection() {
         <div>
           <h2 className="font-heading font-bold text-lg">Spotify Playlist Pitch Template</h2>
           <p className="text-sm text-muted-foreground mt-0.5">
-            The exact pitch format that has landed songs on Spotify editorial playlists. Fill it in, copy it, send it.
+            Fill it in, copy, send.
           </p>
         </div>
         <Button size="sm" onClick={copy} className="gap-1.5 shrink-0">
