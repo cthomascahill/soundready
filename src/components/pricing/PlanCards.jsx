@@ -98,7 +98,7 @@ export default function PlanCards() {
           <p className="text-sm font-semibold text-red-400 mt-1">vs <span className="line-through">$49/mo</span></p>
         </div>
         <p className="text-sm text-muted-foreground leading-relaxed mb-5 min-h-[60px]">
-          Your full music workspace: press kit, analytics, tour opportunities, career roadmap, The Wall, Music News, and more. Lifetime access, no subscription ever.
+          Your full music workspace: press kit, analytics, career roadmap, Music News, and more. Lifetime access, no subscription ever.
         </p>
         <div className="flex-1">
           <TierList items={CARD_PRO_ITEMS} check="text-chart-5" />

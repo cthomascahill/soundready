@@ -35,7 +35,7 @@ const FAQ = [
   },
   {
     q: "Which plan do I actually need?",
-    a: "Free keeps your music organized forever, no card needed, and it starts with the free Release Starter Kit in your welcome email: the Spotify editorial playlist pitch template, the same exact template used to get on thousands of Spotify editorial playlists, a filled-in example, a week-by-week release timeline and the metadata checklist most artists miss. Artist Pro adds the full career toolkit: unlimited Vault, release planning, playlist discovery, venues, touring and team tools: $25 once for lifetime access during the early bird, or $9.99/month if you prefer a subscription. Digital Manager adds SAM on top of all of that: $37 once for lifetime access during the early bird, or $24.99/month if you prefer a subscription.",
+    a: "Free keeps your music organized forever, no card needed, and it starts with the free Release Starter Kit in your welcome email: the Spotify editorial playlist pitch template, the same exact template used to get on thousands of Spotify editorial playlists, a filled-in example, a week-by-week release timeline and the metadata checklist most artists miss. Artist Pro adds the full career toolkit: unlimited Vault, release planning, playlist discovery and team tools: $25 once for lifetime access during the early bird, or $9.99/month if you prefer a subscription. Digital Manager adds SAM on top of all of that: $37 once for lifetime access during the early bird, or $24.99/month if you prefer a subscription.",
   },
   {
     q: "What happens when I cancel?",

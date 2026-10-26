@@ -24,7 +24,7 @@ const TIERS = [
     id: "pro",
     label: "Artist Pro",
     badge: "bg-chart-5/10 text-chart-5 border-chart-5/25",
-    blurb: "The full toolkit: touring, pitching, deals and team tools, $9.99/mo early bird.",
+    blurb: "The full toolkit: pitching, deals and team tools, $9.99/mo early bird.",
     icon: Zap,
   },
   {

@@ -16,9 +16,8 @@ const CONTENT = {
     title: "You're in. Artist Pro is unlocked.",
     highlights: [
       "Unlimited songs in your Vault",
-      "EPK Builder, Analytics and Tour Opportunities",
-      "Gig Finder: 1,341+ venues ready to pitch",
-      "The Wall, Music News, Studio, Team Chat and more",
+      "EPK Builder and Analytics",
+      "Music News, Studio, Team Chat and more",
     ],
     inbox: [
       "Your Stripe receipt is on its way to your inbox.",

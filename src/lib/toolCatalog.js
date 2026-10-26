@@ -1,7 +1,7 @@
 import {
   Music2, ListChecks, Calendar, BarChart2, Scale, Handshake,
-  MapPin, Megaphone, Route, PiggyBank, FileSignature, Map, UserCircle,
-  Newspaper, Radar, TrendingUp, Flame, Bot, MessagesSquare, Shield, DollarSign,
+  FileSignature, Map, UserCircle,
+  Newspaper, Radar, TrendingUp, Bot, MessagesSquare, Shield, DollarSign,
   GraduationCap, AudioLines, Sparkles, PenLine, Receipt, ClipboardCheck,
 } from "lucide-react";
 
@@ -38,17 +38,6 @@ export const TOOL_CATEGORIES = [
     ],
   },
   {
-    label: "Touring",
-    tools: [
-      { name: "Touring", to: "/touring", desc: "Gigs, routes and tour money in one hub", icon: Route, tier: "pro" },
-      { name: "Gig Finder", to: "/gig-finder", desc: "1,341+ venues that book indie artists", icon: MapPin, tier: "pro" },
-      { name: "Tour Opportunities", to: "/tour-opportunities", desc: "Shows looking for opening acts", icon: Megaphone, tier: "pro" },
-      { name: "Tour Planner", to: "/tour-planner", desc: "Routes, dates and logistics", icon: Route, tier: "pro" },
-      { name: "Tour Finance", to: "/tour-finance", desc: "Tour budgets, payouts and taxes", icon: PiggyBank, tier: "pro" },
-      { name: "Venue Contracts", to: "/contracts", desc: "Send contracts venues actually sign", icon: FileSignature, tier: "pro" },
-    ],
-  },
-  {
     label: "Career",
     tools: [
       { name: "Career Roadmap", to: "/career-roadmap", desc: "Your personalized growth plan", icon: Map, tier: "pro" },
@@ -60,7 +49,6 @@ export const TOOL_CATEGORIES = [
       { name: "Music News", to: "/music-news", desc: "Daily industry briefings", icon: Newspaper, tier: "pro" },
       { name: "Industry Intel", to: "/industry-intel", desc: "Signings, playlists, trends, grants and tour intel", icon: Radar, tier: "ai" },
       { name: "A&R Intelligence", to: "/ar-intelligence", desc: "What labels are looking for", icon: TrendingUp, tier: "ai" },
-      { name: "The Wall", to: "/artist-feed", desc: "Chat with other artists", icon: Flame, tier: "pro" },
     ],
   },
   {

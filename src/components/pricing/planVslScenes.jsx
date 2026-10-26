@@ -1,7 +1,7 @@
 import { motion } from "framer-motion";
 import {
   BarChart3, Bot, Calculator, CheckCircle2, FileText, GraduationCap, Lock,
-  MapPin, Music2, Search, Send, Sparkles, Users, Zap,
+  Music2, Search, Send, Sparkles, Users, Zap,
 } from "lucide-react";
 
 const rise = (delay) => ({ initial: { opacity: 0, y: 16 }, animate: { opacity: 1, y: 0 }, transition: { duration: 0.45, delay } });
@@ -84,8 +84,6 @@ const ProPlanMock = () => (
           ["Unlimited songs in your Vault", Music2],
           ["Release planning", FileText],
           ["Playlist discovery", Music2],
-          ["Venue search: 1,341+ venues", MapPin],
-          ["Tour planning & finances", MapPin],
           ["EPK Builder", FileText],
           ["Team chat & collaboration", Users],
           ["Contracts & career tools", FileText],
@@ -97,40 +95,6 @@ const ProPlanMock = () => (
         ))}
       </div>
       <motion.p {...rise(1.9)} className="text-[11px] text-muted-foreground text-center">You run the process. SAM isn't included.</motion.p>
-    </div>
-  </Frame>
-);
-
-// 4 · Pro close-up: the touring database, ready to pitch
-const TouringMock = () => (
-  <Frame>
-    <div className="rounded-2xl border border-border bg-card p-5 space-y-3">
-      <div>
-        <p className="text-sm font-bold">The touring database</p>
-        <p className="text-xs text-muted-foreground">1,341+ venues, with verified booking contacts</p>
-      </div>
-      {[
-        ["The Echo", "Los Angeles, CA", "350 cap"],
-        ["The Foundry", "Philadelphia, PA", "450 cap"],
-        ["The Hideout", "Chicago, IL", "150 cap"],
-      ].map(([name, city, cap], i) => (
-        <motion.div key={name} {...rise(0.4 + i * 0.35)} className="flex items-center gap-2.5 rounded-xl border border-border bg-background/40 p-2.5">
-          <MapPin className="h-4 w-4 text-chart-5 shrink-0" />
-          <div className="min-w-0 flex-1">
-            <p className="text-xs font-semibold truncate">{name}</p>
-            <p className="text-[10px] text-muted-foreground">{city}</p>
-          </div>
-          <span className="text-[10px] text-muted-foreground shrink-0">{cap}</span>
-          <span className="text-[9px] font-bold uppercase text-chart-5 bg-chart-5/10 border border-chart-5/20 rounded-full px-2 py-0.5 shrink-0">Verified</span>
-        </motion.div>
-      ))}
-      <motion.div {...rise(1.7)} className="flex items-center gap-2 rounded-xl border border-border bg-background/40 p-2.5">
-        <div className="flex -space-x-1.5 shrink-0">
-          <span className="h-4 w-4 rounded-full bg-chart-5 text-primary-foreground text-[8px] font-bold flex items-center justify-center ring-2 ring-card">J</span>
-          <span className="h-4 w-4 rounded-full bg-primary text-primary-foreground text-[8px] font-bold flex items-center justify-center ring-2 ring-card">A</span>
-        </div>
-        <p className="text-[11px] text-muted-foreground">Run the whole tour with your team in Team Chat.</p>
-      </motion.div>
     </div>
   </Frame>
 );
@@ -277,15 +241,8 @@ export const PLAN_VSL_SCENES = [
     id: "pro",
     label: "Artist Pro",
     duration: 8,
-    narration: "Need a home for your whole catalog? Choose Artist Pro. For $9.99 a month at our early bird price, you get unlimited songs, release planning, collaboration, and tools to find playlists and venues. You run the process. SAM isn't included.",
+    narration: "Need a home for your whole catalog? Choose Artist Pro. For $9.99 a month at our early bird price, you get unlimited songs, release planning, collaboration, and tools to find and pitch playlists. You run the process. SAM isn't included.",
     render: () => <ProPlanMock />,
-  },
-  {
-    id: "pro-touring",
-    label: "The full workspace",
-    duration: 7,
-    narration: "This is the entire workspace: a touring database with over 1,300 venues ready to pitch, tour routes and finances, the EPK Builder, and Team Chat to run it all with your collaborators.",
-    render: () => <TouringMock />,
   },
   {
     id: "ai",

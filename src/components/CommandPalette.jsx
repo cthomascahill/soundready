@@ -1,6 +1,6 @@
 import { useState, useEffect, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
-import { Search, X, Home, Music2, Users, ListChecks, Sparkles, Flame, Map, Newspaper, CreditCard, UserCircle, Mic2, Megaphone, Route, Wallet, FileText } from "lucide-react";
+import { Search, X, Home, Music2, Users, ListChecks, Sparkles, Map, Newspaper, CreditCard, UserCircle } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 
 const ALL_ROUTES = [
@@ -8,14 +8,7 @@ const ALL_ROUTES = [
   { label: "Vault", path: "/history", icon: Music2, category: "Core" },
   { label: "Tracker", path: "/song-tracker", icon: ListChecks, category: "Core" },
   { label: "The Studio", path: "/studio", icon: Sparkles, category: "Core" },
-  { label: "The Wall", path: "/artist-feed", icon: Flame, category: "Core" },
   { label: "Team Chat", path: "/team-chat", icon: Users, category: "Team" },
-  { label: "Touring", path: "/touring", icon: Route, category: "Touring" },
-  { label: "Gig Finder", path: "/gig-finder", icon: Mic2, category: "Touring" },
-  { label: "Tour Opportunities", path: "/tour-opportunities", icon: Megaphone, category: "Touring" },
-  { label: "Tour Planner", path: "/tour-planner", icon: Route, category: "Touring" },
-  { label: "Tour Finance", path: "/tour-finance", icon: Wallet, category: "Touring" },
-  { label: "Venue Contracts", path: "/contracts", icon: FileText, category: "Touring" },
   { label: "Artist Profile", path: "/artist-profile", icon: UserCircle, category: "Core" },
   { label: "Career Roadmap", path: "/career-roadmap", icon: Map, category: "Core" },
   { label: "Music News", path: "/music-news", icon: Newspaper, category: "Core" },

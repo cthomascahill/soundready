@@ -7,8 +7,8 @@ import { useLang } from "@/lib/i18n/LanguageContext";
 import {
   Home, Music2, Users, ListChecks, LayoutGrid, FolderOpen,
   Map, Newspaper, CreditCard, UserCircle,
-  Route, Mic, Building2, Bot, Sparkles, Handshake, Wand2, ListTodo, Shield,
-  Flame, Calendar, Scale, Calculator, ChevronDown, UserCog, ClipboardCheck,
+  Mic, Building2, Bot, Sparkles, Handshake, Wand2, ListTodo, Shield,
+  Calendar, Scale, Calculator, ChevronDown, UserCog, ClipboardCheck,
 } from "lucide-react";
 
 const NAV_SECTIONS = (isAdmin) => [
@@ -29,13 +29,6 @@ const NAV_SECTIONS = (isAdmin) => [
       { to: "/history", icon: Music2, label: "Vault" },
       { to: "/song-tracker", icon: ListChecks, label: "Tracker" },
       { to: "/artist-profile", icon: Mic, label: "Artist Profile" },
-    ],
-  },
-  {
-    id: "wall",
-    label: "The Wall",
-    items: [
-      { to: "/artist-feed", icon: Flame, label: "The Wall" },
     ],
   },
   {
@@ -64,13 +57,6 @@ const NAV_SECTIONS = (isAdmin) => [
     ],
   },
   {
-    id: "touring",
-    label: "Touring",
-    items: [
-      { to: "/touring", icon: Route, label: "Touring" },
-    ],
-  },
-  {
     id: "team",
     label: "Team",
     items: [
@@ -90,10 +76,8 @@ const NAV_SECTIONS = (isAdmin) => [
 const GROUP_ICONS = {
   home: LayoutGrid,
   music: Music2,
-  wall: Flame,
   career: Map,
   "ai-manager": Bot,
-  touring: Route,
   team: Users,
   account: UserCircle,
 };
@@ -116,9 +100,7 @@ const AI_ONLY = new Set([
 
 const isItemActive = (to, activePath) =>
   activePath === to ||
-  (to === "/history" && activePath.startsWith("/music")) ||
-  (to === "/touring" &&
-    (activePath.startsWith("/gig-finder") || activePath.startsWith("/tour-") || activePath.startsWith("/contracts")));
+  (to === "/history" && activePath.startsWith("/music"));
 
 export default function SidebarNav({ activePath, onNavigate }) {
   const { user } = useAuth();

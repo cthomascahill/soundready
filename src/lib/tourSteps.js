@@ -1,6 +1,6 @@
 import {
   Sparkles, Mic, Upload, Headphones, ListChecks, CalendarRange, Wand2,
-  ClipboardList, Bot, Handshake, Users, Map, Coins, LayoutGrid,
+  ClipboardList, Bot, Handshake, Coins, LayoutGrid,
 } from "lucide-react";
 
 // The first-run guided tour of SoundReady. Steps with a `route` navigate the
@@ -69,20 +69,6 @@ export const TOUR_STEPS = [
     title: "Deals",
     body: "When a label or distributor bites, track the deal from first conversation to signature, with me researching terms along the way.",
     note: "Included with the Digital Manager plan.",
-  },
-  {
-    icon: Users,
-    route: "/artist-feed",
-    title: "The Wall",
-    body: "SoundReady's artist community. Share wins, find collaborators, and see what other independent artists are doing.",
-    note: "Included with the Artist Pro plan.",
-  },
-  {
-    icon: Map,
-    route: "/touring",
-    title: "Go on tour",
-    body: "Plan routes, find gigs, run settlements, track merch and share show-day run sheets with your band.",
-    note: "Included with the Artist Pro plan.",
   },
   {
     icon: Coins,
