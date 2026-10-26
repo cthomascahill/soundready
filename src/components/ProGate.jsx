@@ -44,24 +44,26 @@ export default function ProGate({ children, feature }) {
   }
 
   return (
-    <div className="min-h-[70vh] flex items-center justify-center px-4 py-16">
-      <motion.div initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} className="max-w-lg w-full">
-        <div className="rounded-2xl border border-chart-5/20 bg-card p-8 space-y-6 relative pt-10">
+    <div className="min-h-[70vh] flex items-center justify-center px-4 py-10">
+      <motion.div initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} className="max-w-xl w-full">
+        <div className="rounded-2xl border border-chart-5/20 bg-card p-6 sm:p-7 space-y-5 relative pt-9">
           <div className="absolute -top-3 left-1/2 -translate-x-1/2 px-3 py-1 rounded-full text-xs font-bold whitespace-nowrap bg-chart-5 text-black">
             7-Day Free Trial
           </div>
-          <div className="h-12 w-12 rounded-xl bg-chart-5/10 border border-chart-5/20 flex items-center justify-center">
-            <Lock className="h-5 w-5 text-chart-5" />
+          <div className="flex items-start gap-4">
+            <div className="h-11 w-11 rounded-xl bg-chart-5/10 border border-chart-5/20 flex items-center justify-center shrink-0">
+              <Lock className="h-5 w-5 text-chart-5" />
+            </div>
+            <div className="space-y-1 min-w-0">
+              <h1 className="font-heading text-xl sm:text-2xl font-black leading-tight">
+                {feature ? `${feature} is part of Artist Pro` : "This is part of Artist Pro"}
+              </h1>
+              <p className="text-sm text-muted-foreground leading-snug">
+                Your Vault and Tracker are free forever. Artist Pro unlocks the full toolkit, and it's free for 7 days.
+              </p>
+            </div>
           </div>
-          <div className="space-y-1">
-            <h1 className="font-heading text-2xl font-black">
-              {feature ? `${feature} is part of Artist Pro` : "This is part of Artist Pro"}
-            </h1>
-            <p className="text-sm text-muted-foreground leading-relaxed">
-              Your Vault and Tracker are free forever. Artist Pro unlocks the full toolkit, and it's free for 7 days.
-            </p>
-          </div>
-          <div className="space-y-2">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-2">
             {UNLOCKS.map((item) => (
               <div key={item} className="flex items-start gap-2.5">
                 <CheckCircle2 className="h-4 w-4 shrink-0 mt-0.5 text-chart-5" />
