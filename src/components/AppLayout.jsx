@@ -7,6 +7,7 @@ import SidebarNav from "@/components/layout/SidebarNav";
 import CommandPalette from "@/components/CommandPalette";
 import NotificationCenter from "@/components/NotificationCenter";
 import MayaAssistant from "@/components/MayaAssistant";
+import SamCornerTip from "@/components/sam/SamCornerTip";
 import GuidedTour from "@/components/tour/GuidedTour";
 import TrialBanner from "@/components/billing/TrialBanner";
 import PointsBadge from "@/components/PointsBadge";
@@ -141,6 +142,7 @@ export default function AppLayout() {
 
       <CommandPalette open={cmdOpen} onClose={() => setCmdOpen(false)} />
       <MayaAssistant />
+      <SamCornerTip />
       <GuidedTour open={tourOpen} onClose={() => { setTourOpen(false); setTourDismissed(true); }} />
       </div>
   );
