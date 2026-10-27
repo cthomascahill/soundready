@@ -40,7 +40,7 @@ ${details}
 
 The song is currently at the "${song.status}" stage (lifecycle in order: ${STAGE_ORDER.join(" → ")}).
 
-Write a personalized release plan telling them EXACTLY what to do next, starting from their current stage. Be concrete and specific to this song's genre, moods and situation, not generic advice. Keep it scannable: at most 6 steps, each with a short action title (max 6 words) and a detail of 1-2 sentences, no filler.
+Write a personalized release plan telling them EXACTLY what to do next, starting from their current stage. Be concrete and specific to this song's genre, moods and situation, not generic advice. Keep it scannable: at most 6 steps, each with a short action title (max 6 words) and a detail made of 2-3 short bullet points, one per line, each starting with a verb and max 12 words. No filler, no paragraphs.
 
 If the song is already "Released", focus the plan on post-release promotion and growing the song instead.`,
           response_json_schema: {
@@ -56,7 +56,7 @@ If the song is already "Released", focus the plan on post-release promotion and 
                   type: "object",
                   properties: {
                     title: { type: "string", description: "Short action title" },
-                    detail: { type: "string", description: "Exactly what to do, concretely, 1-3 sentences" },
+                    detail: { type: "string", description: "2-3 short bullet points, one per line, each starting with a verb, max 12 words each" },
                     timeframe: { type: "string", description: "When to do it, e.g. 'This week', '2 weeks before release'" },
                   },
                   required: ["title", "detail", "timeframe"],
@@ -129,7 +129,14 @@ If the song is already "Released", focus the plan on post-release promotion and 
                           </span>
                         )}
                       </div>
-                      <p className="text-xs text-muted-foreground leading-relaxed">{step.detail}</p>
+                      <div className="space-y-1.5">
+                        {step.detail?.split("\n").map(String).filter((b) => b.trim()).map((b, k) => (
+                          <div key={k} className="flex items-start gap-2">
+                            <span className="mt-1.5 h-1.5 w-1.5 rounded-full bg-primary shrink-0" />
+                            <p className="text-xs text-muted-foreground leading-relaxed">{b.replace(/^[-•*]\s*/, "")}</p>
+                          </div>
+                        ))}
+                      </div>
                     </div>
                   </div>
                 ))}

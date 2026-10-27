@@ -10,7 +10,10 @@ The song is an upbeat, high-energy hip-hop record built on a driving 808 and a s
 
 I think it would sit perfectly on Beast Mode and similar workout playlists because the tempo and energy match the pacing people want mid-set.
 
-A little context: I've grown from 8,000 to 41,000 monthly listeners in six months, opened for Big Ghost at the Bluebird Theater in September, and "Midnight Drive" leads my February EP.
+Quick facts:
+- Grown from 8,000 to 41,000 monthly listeners in six months
+- Opened for Big Ghost at the Bluebird Theater in September
+- "Midnight Drive" leads my February EP
 
 You can hear the track here: [private streaming link].
 

@@ -20,7 +20,8 @@ export default function PitchTemplateSection() {
     sound: "",
     soundsLike: "",
     fit: "",
-    context: "",
+    fact1: "",
+    fact2: "",
     link: "",
   });
   const [copied, setCopied] = useState(false);
@@ -39,7 +40,9 @@ export default function PitchTemplateSection() {
       "",
       `I think it would sit perfectly on ${v("playlist", "[playlist name]")} and similar playlists. ${v("fit", "For example, it's an upbeat, high-energy record that belongs in workout playlists such as Beast Mode, because [why the song fits the moment the playlist is made for]")}.`,
       "",
-      `A little context: ${v("context", "[your one or two strongest facts: past placements, sync, press, monthly listeners, momentum]")}.`,
+      "Quick facts:",
+      `- ${v("fact1", "[strongest fact: placement, sync or press]")}`,
+      `- ${v("fact2", "[momentum stat, e.g. monthly listeners growth]")}`,
       "",
       `You can hear the track here: ${v("link", "[private streaming link]")}.`,
       "",
@@ -109,9 +112,14 @@ export default function PitchTemplateSection() {
             placeholder="J. Cole, Jack Harlow and Cordae" className="h-9 text-sm" />
         </div>
         <div className="space-y-1.5">
-          <Label htmlFor="context" className="text-xs font-semibold">Strongest context</Label>
-          <Input id="context" value={f.context} onChange={set("context")}
-            placeholder="opened for Big Ghost at the Bluebird, 40k monthly listeners" className="h-9 text-sm" />
+          <Label htmlFor="fact1" className="text-xs font-semibold">Strongest fact</Label>
+          <Input id="fact1" value={f.fact1} onChange={set("fact1")}
+            placeholder="opened for Big Ghost at the Bluebird" className="h-9 text-sm" />
+        </div>
+        <div className="space-y-1.5">
+          <Label htmlFor="fact2" className="text-xs font-semibold">Momentum stat</Label>
+          <Input id="fact2" value={f.fact2} onChange={set("fact2")}
+            placeholder="8k to 41k monthly listeners in 6 months" className="h-9 text-sm" />
         </div>
         <div className="space-y-1.5 sm:col-span-2">
           <Label htmlFor="fit" className="text-xs font-semibold">Why it fits that playlist</Label>

@@ -60,7 +60,11 @@ export default function RoadmapTimeline({ quarters }) {
                         <span className={`h-6 w-6 shrink-0 rounded-full border ${a.chip} ${a.text} text-[11px] font-bold flex items-center justify-center`}>
                           {j + 1}
                         </span>
-                        <span className="flex-1 text-sm text-foreground">{action}</span>
+                        <span className="flex-1 text-sm text-foreground">
+                          {(() => { const [lead, ...rest] = action.split(" "); return (
+                            <><span className={`font-bold ${a.text}`}>{lead}</span>{rest.length ? ` ${rest.join(" ")}` : ""}</>
+                          ); })()}
+                        </span>
                         {link && (
                           <Link to={link} className={`shrink-0 ${a.text} hover:underline text-xs flex items-center gap-0.5 font-semibold`}>
                             Go <ChevronRight className="h-3 w-3" />
