@@ -42,7 +42,7 @@ const BLOCKS = [
     links: [
       ["Tell Sam", "/tell-sam"],
       ["Sam's Desk", "/sam-desk"],
-      ["This Week", "/todos"],
+      ["To Do List", "/todos"],
       ["Deals", "/deals"],
     ],
   },

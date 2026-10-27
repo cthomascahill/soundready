@@ -52,7 +52,7 @@ export const TOUR_STEPS = [
   {
     icon: ClipboardList,
     route: "/todos",
-    title: "Your weekly to-dos",
+    title: "Your to-do list",
     body: "Keep your to-do list here. I email you what's left every morning until it's done.",
     note: "Included with the Digital Manager plan.",
   },

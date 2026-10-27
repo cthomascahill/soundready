@@ -36,7 +36,7 @@ export const AI_ITEMS = [
   "Opportunities: signings, grants, playlists & tour intel",
   "A&R Intelligence: what labels are looking for",
   "Deals: catalog valuation and buyout interest",
-  "This Week: your to-dos, with Sam's morning reminders",
+  "To Do List: your to-dos, with Sam's morning reminders",
 ];
 
 // Concise card lists for the pricing-page cards. The full lists above stay
@@ -68,7 +68,7 @@ export const CARD_AI_ITEMS = [
   "SAM researches venues, playlists, labels, press and sync for you",
   "Personalized pitch drafts, ready to approve, edit or deny",
   "Nothing sends without your approval",
-  "This Week: your personalized to-do list, and SAM emails it to you every morning so nothing slips",
+  "To Do List: your personalized to-dos, and SAM emails them to you every morning so nothing slips",
   "Deals: find out what your catalog is worth and get offers, like an advance on your royalties, through SoundReady",
   "Contract Analyzer: SAM reads any deal before you sign",
   "Industry Intel & A&R Intelligence: signings, grants, and what labels are looking for",

@@ -40,7 +40,7 @@ const NAV_SECTIONS = (isAdmin) => [
     label: "Digital Manager",
     items: [
       { to: "/tell-sam", icon: Wand2, label: "Tell Sam" },
-      { to: "/todos", icon: ListTodo, label: "This Week" },
+      { to: "/todos", icon: ListTodo, label: "To Do List" },
       { to: "/sam-desk", icon: Bot, label: "Sam's Desk" },
       { to: "/sam-profile", icon: UserCog, label: "Sam's Profile" },
       { to: "/deals", icon: Handshake, label: "Deals" },

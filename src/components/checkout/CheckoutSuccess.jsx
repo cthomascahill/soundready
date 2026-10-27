@@ -36,14 +36,14 @@ const CONTENT = {
     title: "You're in. Sam is on your team.",
     highlights: [
       "Sam's Desk: SAM finds opportunities and drafts pitches for you weekly. You approve or deny.",
-      "This Week: your to-dos, with Sam's morning email reminders.",
+      "To Do List: your to-dos, with Sam's morning email reminders.",
       "2,500 SAM credits a month for research and pitch drafts.",
       "Everything in Artist Pro, unlocked.",
     ],
     inbox: [
       "Your Stripe receipt is on its way to your inbox.",
       "Your welcome email has the free Release Starter Kit PDF: the Spotify editorial pitch template, a release timeline and the metadata checklist.",
-      "Sam emails you every morning with This Week, your personalized to-do list.",
+      "Sam emails you every morning with your personalized to-do list.",
     ],
     next: [
       "Watch the guided tour of SoundReady. It starts automatically your first time in the app, and you can replay it anytime from the sidebar.",

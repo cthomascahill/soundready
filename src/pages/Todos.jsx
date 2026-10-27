@@ -197,7 +197,7 @@ export default function Todos() {
   return (
     <div className="max-w-3xl mx-auto px-4 py-10 space-y-6">
       <div className="space-y-2">
-        <p className="text-xs font-bold uppercase tracking-widest text-primary">This Week</p>
+        <p className="text-xs font-bold uppercase tracking-widest text-primary">To Do List</p>
         <h1 className="font-heading text-4xl font-bold">Tell Sam what needs to get done</h1>
         <p className="text-sm text-muted-foreground max-w-xl">
           Load up your week here. Sam emails you what's left until it's all checked off, as
