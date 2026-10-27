@@ -19,7 +19,6 @@ const NAV_SECTIONS = (isAdmin) => [
       { to: "/career-roadmap", icon: Map, label: "Career Roadmap" },
       { to: "/royalty-calculator", icon: Calculator, label: "Royalty Calculator" },
       { to: "/release-kit", icon: ClipboardCheck, label: "Release Kit" },
-      { to: "/release-plan", icon: Calendar, label: "Release Plan" },
       { to: "/legal", icon: Scale, label: "Contracts" },
       { to: "/contract-analyzer", icon: Shield, label: "Contract Analyzer" },
       { to: "/team-chat", icon: Users, label: "Team Chat" },

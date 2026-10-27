@@ -16,7 +16,6 @@ const BLOCKS = [
     links: [
       ["Career Roadmap", "/career-roadmap"],
       ["Release Kit", "/release-kit"],
-      ["Release Plan", "/release-plan"],
       ["Team Chat", "/team-chat"],
     ],
   },
