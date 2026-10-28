@@ -1,18 +1,11 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
-import { Loader2, CheckCircle2, Mail, Bot, ListChecks, Music2 } from "lucide-react";
+import { Loader2, CheckCircle2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import SoundReadyLogo from "@/components/SoundReadyLogo";
 import SEO from "@/components/SEO";
 import { base44 } from "@/api/base44Client";
-
-const PERKS = [
-  { icon: Bot, label: "SAM finds venues, playlists and deals for you" },
-  { icon: ListChecks, label: "Your whole release pipeline in one place" },
-  { icon: Music2, label: "Built for independent artists, not labels" },
-];
 
 export default function Waitlist() {
   const [email, setEmail] = useState("");
@@ -58,52 +51,41 @@ export default function Waitlist() {
       <motion.div
         initial={{ opacity: 0, y: 16 }}
         animate={{ opacity: 1, y: 0 }}
-        className="relative w-full max-w-xl text-center"
+        className="relative w-full max-w-md text-center"
       >
-        <Link to="/" className="inline-flex mb-8">
+        <div className="mb-8 flex justify-center">
           <SoundReadyLogo size={44} />
-        </Link>
+        </div>
 
-        <p className="text-xs font-bold uppercase tracking-[0.25em] text-primary mb-4">
-          Launching soon
-        </p>
-        <h1 className="font-heading text-4xl sm:text-5xl font-black tracking-tight leading-tight">
-          SoundReady is almost here.
-        </h1>
-        <p className="mt-4 text-muted-foreground text-base sm:text-lg leading-relaxed max-w-md mx-auto">
-          The digital music manager that finds opportunities, drafts outreach and
-          plans your releases while you focus on the music. Get in line before
-          everyone else.
+        <p className="font-heading text-2xl sm:text-3xl font-black tracking-[0.2em] uppercase">
+          Launching Soon
         </p>
 
         {status === "joined" || status === "already" ? (
           <motion.div
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
-            className="mt-10 rounded-2xl border border-primary/25 bg-primary/10 px-6 py-8"
+            className="mt-10"
           >
             <CheckCircle2 className="h-10 w-10 text-primary mx-auto mb-3" />
             <p className="font-heading text-xl font-bold">
               {status === "already" ? "You're already on the list." : "You're on the list!"}
             </p>
             <p className="mt-2 text-sm text-muted-foreground">
-              We'll email you the moment SoundReady launches. No spam, ever.
+              We'll email you the moment SoundReady launches.
             </p>
           </motion.div>
         ) : (
           <form onSubmit={join} className="mt-10 flex flex-col sm:flex-row gap-3">
-            <div className="relative flex-1">
-              <Mail className="absolute left-3.5 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground pointer-events-none" />
-              <Input
-                type="email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                placeholder="you@artist.com"
-                aria-label="Email address"
-                className="h-12 pl-10 text-base rounded-xl bg-card border-border"
-                disabled={status === "joining"}
-              />
-            </div>
+            <Input
+              type="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              placeholder="you@artist.com"
+              aria-label="Email address"
+              className="flex-1 h-12 px-4 text-base rounded-xl bg-card border-border"
+              disabled={status === "joining"}
+            />
             <Button
               type="submit"
               size="lg"
@@ -122,29 +104,6 @@ export default function Waitlist() {
         {status === "error" && (
           <p className="mt-3 text-sm text-red-400">{error}</p>
         )}
-
-        <div className="mt-12 grid gap-3 text-left">
-          {PERKS.map((perk) => (
-            <div
-              key={perk.label}
-              className="flex items-center gap-3 rounded-xl border border-border bg-card/60 px-4 py-3"
-            >
-              <perk.icon className="h-5 w-5 text-primary shrink-0" />
-              <p className="text-sm text-foreground/90">{perk.label}</p>
-            </div>
-          ))}
-        </div>
-
-        <p className="mt-10 text-sm text-muted-foreground">
-          Already have an account?{" "}
-          <Link to="/login" className="text-primary font-semibold hover:underline">
-            Log in
-          </Link>
-          <span className="mx-2 text-border">·</span>
-          <Link to="/about" className="text-primary font-semibold hover:underline">
-            Explore the platform
-          </Link>
-        </p>
       </motion.div>
     </div>
   );
