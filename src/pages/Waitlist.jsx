@@ -24,7 +24,8 @@ export default function Waitlist() {
     setError("");
     try {
       const res = await base44.functions.invoke("waitlistSignup", { email: trimmed });
-      setStatus(res.data.status === "already_joined" ? "already" : "joined");
+      const data = res?.data ?? res;
+      setStatus(data?.status === "already_joined" ? "already" : "joined");
     } catch (err) {
       setError(
         err?.response?.data?.error ||
@@ -69,7 +70,7 @@ export default function Waitlist() {
           >
             <CheckCircle2 className="h-10 w-10 text-primary mx-auto mb-3" />
             <p className="font-heading text-xl font-bold">
-              {status === "already" ? "You're already on the list." : "You're on the list!"}
+              {status === "already" ? "You're already on the list." : "Thanks for joining!"}
             </p>
             <p className="mt-2 text-sm text-muted-foreground">
               We'll email you the moment SoundReady launches.
