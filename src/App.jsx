@@ -28,6 +28,7 @@ import BudgetTracker from './pages/BudgetTracker';
 import PitchDeck from './pages/PitchDeck';
 import SpotifyConnect from './pages/SpotifyConnect';
 import About from './pages/About';
+import Waitlist from './pages/Waitlist';
 import ReleasePlanInput from './pages/ReleasePlanInput';
 import ReleaseKit from './pages/ReleaseKit';
 import LinkInBio from './pages/LinkInBio';
@@ -116,7 +117,8 @@ const AuthenticatedApp = () => {
   return (
     <Routes>
       {/* Public marketing pages */}
-      <Route path="/" element={<About />} />
+      <Route path="/" element={<Waitlist />} />
+      <Route path="/about" element={<About />} />
       <Route path="/pricing" element={<Pricing />} />
       <Route path="/privacy" element={<Privacy />} />
       <Route path="/terms" element={<Terms />} />

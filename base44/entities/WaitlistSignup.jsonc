@@ -1,0 +1,36 @@
+{
+  "name": "WaitlistSignup",
+  "type": "object",
+  "description": "One email joined the SoundReady launch waitlist from the public homepage.",
+  "properties": {
+    "email": {
+      "type": "string",
+      "description": "Waitlist email, stored lowercase"
+    }
+  },
+  "required": [
+    "email"
+  ],
+  "rls": {
+    "read": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "create": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "update": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "delete": {
+      "user_condition": {
+        "role": "admin"
+      }
+    }
+  }
+}

@@ -310,7 +310,7 @@ export default function AlgorithmGuide() {
           <Star className="h-8 w-8 text-primary mx-auto" />
           <p className="font-heading font-bold text-xl">Ready to apply all of this?</p>
           <p className="text-muted-foreground text-sm">Generate a full AI release plan for your song and put this guide into action.</p>
-          <Link to="/"><Button className="gap-2"><Zap className="h-4 w-4" /> Generate My Release Plan <ArrowRight className="h-4 w-4" /></Button></Link>
+          <Link to="/about"><Button className="gap-2"><Zap className="h-4 w-4" /> Generate My Release Plan <ArrowRight className="h-4 w-4" /></Button></Link>
         </div>
       </div>
     </div>

@@ -47,10 +47,10 @@ export default function PublicNav({ showHome = true }) {
 
           <div className="flex items-center gap-3 shrink-0 z-10">
             {pathname === "/pricing" ? (
-              <Link to="/" className={linkClass("/")}>{t("Home")}</Link>
+              <Link to="/about" className={linkClass("/about")}>{t("Home")}</Link>
             ) : (
               <>
-                {showHome && <Link to="/" className={linkClass("/")}>{t("Home")}</Link>}
+                {showHome && <Link to="/about" className={linkClass("/about")}>{t("Home")}</Link>}
                 <Link to="/pricing" className={linkClass("/pricing")}>{t("Pricing")}</Link>
               </>
             )}
