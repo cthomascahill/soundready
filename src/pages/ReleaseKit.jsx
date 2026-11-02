@@ -3,6 +3,7 @@ import { base44 } from "@/api/base44Client";
 import { useAuth } from "@/lib/AuthContext";
 import SEO from "@/components/SEO";
 import ChecklistSection from "@/components/releasekit/ChecklistSection";
+import ChecklistDownloadButtons from "@/components/releasekit/ChecklistDownloadButtons";
 import PitchTemplateSection from "@/components/releasekit/PitchTemplateSection";
 import PitchExampleSection from "@/components/releasekit/PitchExampleSection";
 import { DEFAULT_CHECKLIST } from "@/lib/releaseChecklistDefaults";
@@ -62,6 +63,8 @@ export default function ReleaseKit() {
         ) : (
           <ChecklistSection items={items} onToggle={toggle} />
         )}
+
+        <ChecklistDownloadButtons />
 
         <PitchTemplateSection />
         <PitchExampleSection />
